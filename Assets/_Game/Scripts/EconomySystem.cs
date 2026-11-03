@@ -11,6 +11,7 @@ public class EconomySystem:MonoBehaviour {
  public void Configure(PlayerStats model){if(stats!=null)stats.MoneyChanged-=OnCash;stats=model;if(stats!=null)stats.MoneyChanged+=OnCash;}
  void OnDestroy(){if(stats!=null)stats.MoneyChanged-=OnCash;}
  void OnCash(int value){Changed?.Invoke();}
+ public bool HasTransaction(string id)=>state.processedIds.Contains(id);
  public EconomySnapshot Capture()=>new EconomySnapshot{debt=Debt,otherAssets=OtherAssets,processedIds=new List<string>(state.processedIds)};
  public void Restore(EconomySnapshot value){if(value==null)return;state=new EconomySnapshot{debt=Math.Max(0,value.debt),otherAssets=Math.Max(0,value.otherAssets),processedIds=value.processedIds==null?new List<string>():new List<string>(value.processedIds)};Changed?.Invoke();}
  public void ResetLife(bool newborn){Restore(new EconomySnapshot{debt=newborn?InitialLifeSettings.NewbornDebt:0});}

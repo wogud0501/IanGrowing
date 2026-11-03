@@ -15,3 +15,10 @@ Architecture:
 - Save v4 stores mission/counter/unlock/receipt data and migrates v3 without resetting stats, money, debt or age. Separate manual/automatic channels remain intact.
 - Tests: catalog/refs/cycles, actual UI actions M001–M020 with survival care, editor-only fake provider M021–M060, AND/OR, dedup, milestones, v3 migration, restart and save/load rollback, Phase2.1 regressions.
 Balance choices not specified by user remain editable provisional data. No final art or complete job/stock/gacha/housing/ending services.
+
+
+## Multi-scene steering
+Target scene IDs: Bootstrap, MainMenu, Home, School, Workplace, City, Battle, StockMarket, Gacha, Shop, Housing, Ending. Only the first four are created now.
+Bootstrap owns one persistent GameContext containing existing GameManager/stats/economy/mission/save modules. Scene presenters bind to that context; no scene-local copies.
+Central SceneTransitionService owns async loading, overlay, validation/errors and duplicate transition guard. Home and School are separate content scenes. School actions require School in the routed game; standalone legacy scene remains a regression harness.
+MainMenu -> Home -> School -> Home, context uniqueness, mission progress, save/load and profile scene registration are required tests. Preserve MainGame2D.

@@ -10,7 +10,7 @@ public static class Phase2Verification {
  string suite="phase2-suite-"+Guid.NewGuid().ToString("N")+".json";slot.SetValue(g.saves,suite);
  var balance=g.balance;var cfg=balance.survival;string oldCfg=JsonUtility.ToJson(cfg),oldBalance=JsonUtility.ToJson(balance);
  bool auto=g.autoSaveAfterAction,lifecycle=g.autoSaveOnLifecycle,realtime=g.clock.realtimeEnabled;
- var start=new SaveData{day=g.clock.Day,stats=g.stats.Capture(),progression=g.growth.Capture(),economy=g.economy.Capture(),survival=g.survival.Capture(),time=g.clock.Capture(),gameOver=g.State==GameState.GameOver,runId="restore-test-session",settledDay=g.clock.Day,lastSeenUtcTicks=DateTime.UtcNow.Ticks};
+ var start=new SaveData{day=g.clock.Day,stats=g.stats.Capture(),progression=g.growth.Capture(),economy=g.economy.Capture(),survival=g.survival.Capture(),time=g.clock.Capture(),gameOver=g.State==GameState.GameOver,missions=g.missions.Capture(),runId="restore-test-session",settledDay=g.clock.Day,lastSeenUtcTicks=DateTime.UtcNow.Ticks};
  var random=UnityEngine.Random.state;var results=new List<string>();
  Action<bool,string> check=(ok,name)=>{if(!ok)throw new Exception("FAIL: "+name);results.Add("PASS: "+name);};
  Action reset=()=>{g.NewGame();g.clock.realtimeEnabled=false;balance.eventChance=0;};
@@ -44,7 +44,7 @@ public static class Phase2Verification {
  check(g.economy.TryTransaction("debt",TransactionKind.DebtIncrease,500,"test")&&s.Money==75&&g.economy.Debt==1000500,"Debt increase does not spend or grant cash");
  check(g.economy.NetWorth==75-1000500,"Net worth assets minus debt");
  s.ApplyCore(new StatDelta{hunger=-100,health=-90,mental=-90});g.clock.AdvanceSimulation(123.5);g.growth.TryAdvanceAgeForMission("test-save-stage",7);g.Save();
- SaveData saved;string msg;check(g.saves.TryRead(out saved,out msg)&&saved.version==3,"V3 save readable");
+ SaveData saved;string msg;check(g.saves.TryRead(out saved,out msg)&&saved.version==4,"V4 save readable");
  s.ApplyCore(new StatDelta{hunger=60,health=80,mental=80});g.economy.Earn(1000);g.clock.AdvanceSimulation(400);g.Load();
  check(JsonUtility.ToJson(s.Capture())==JsonUtility.ToJson(saved.stats)&&g.clock.Day==saved.day&&Math.Abs(g.clock.SubDaySeconds-saved.time.subDaySeconds)<.00001,"Eight stats and fractional time round trip");
  check(JsonUtility.ToJson(g.economy.Capture())==JsonUtility.ToJson(saved.economy)&&!g.economy.TryTransaction("income",TransactionKind.Income,100,"duplicate after load"),"Debt/assets/transaction ledger round trip");
@@ -59,7 +59,7 @@ public static class Phase2Verification {
  string legacyName="phase2-legacy-v"+version+"-"+Guid.NewGuid().ToString("N")+".json";slot.SetValue(g.saves,legacyName);
  var legacy=new SaveData{version=version,day=17,stats=new StatSnapshot{happiness=55,stress=66,energy=44,money=321}};string legacyPath=g.saves.SavePath;string json=JsonUtility.ToJson(legacy);File.WriteAllText(legacyPath,json);g.Load();
  check(g.saves.WasMigrated&&s.Money==321&&s.Health==44&&s.Stress==66&&s.Mental==34&&g.clock.Day==17&&g.economy.Debt==0&&g.growth.Age==19,"Legacy v"+version+" preserves recorded stats/day and infers compatibility age");
- g.Save();check(File.ReadAllText(legacyPath)==json&&g.saves.SavePath!=legacyPath&&File.Exists(legacyPath+".pre-phase2.bak"),"Legacy v"+version+" original never overwritten");
+ g.Save();check(File.ReadAllText(legacyPath)==json&&g.saves.SavePath!=legacyPath&&File.Exists(legacyPath+".pre-phase22.bak"),"Legacy v"+version+" original never overwritten");
  }
  slot.SetValue(g.saves,suite);reset();balance.eventChance=1;int events=0;Action<LifeEvent> applied=e=>events++;g.lifeEvents.EventApplied+=applied;g.clock.AdvanceDays(1);
  typeof(GameManager).GetMethod("OnDay",BindingFlags.Instance|BindingFlags.NonPublic).Invoke(g,new object[]{g.clock.Day});g.lifeEvents.EventApplied-=applied;
@@ -70,7 +70,7 @@ public static class Phase2Verification {
  check(ui.coreLabels.Length==8&&ui.coreLabels.All(label=>label!=null)&&ui.economyLabel.text.Contains("1,000,000")&&ui.header.text.Contains("0세"),"Temporary UI displays eight stats, age, cash and debt");
  ui.Bind(g);ui.Bind(g);int d=g.clock.Day;ui.drinkButton.onClick.Invoke();check(g.clock.Day==d+1,"Care button binding does not duplicate");
  var character=UnityEngine.Object.FindAnyObjectByType<Character2DPresentation>();check(character.spriteRenderer.sprite==character.visuals.identity.baseSprite,"Official Ian sprite unchanged");
- check(AssetDatabase.FindAssets("t:MissionGrowthDefinition",new[]{"Assets/_Game"}).Length==0,"No arbitrary mission campaign authored");
+ check(g.missions.catalog.missions.Length==60,"Explicit 60-mission catalog connected");
  return results.ToArray();
  }finally{
  g.Logged-=log;slot.SetValue(g.saves,suite);JsonUtility.FromJsonOverwrite(oldCfg,cfg);JsonUtility.FromJsonOverwrite(oldBalance,balance);

@@ -5,7 +5,7 @@ public class UIManager:MonoBehaviour {
  public TMP_Text[] coreLabels;public Image[] coreFills;public TMP_Text growthLabel,economyLabel,survivalLabel;public Button mealButton,drinkButton,sleepButton,hospitalButton;
  public Image happinessFill,stressFill,energyFill;public Button workButton,restButton,playButton,saveButton,loadButton,pauseButton,newGameButton;
  readonly Queue<string> logs=new Queue<string>();bool subscribed;
- public void Bind(GameManager model){Detach();game=model;if(isActiveAndEnabled)Attach();Refresh();}
+ public void Bind(GameManager model){Detach();game=model;if(isActiveAndEnabled)Attach();logs.Clear();if(game!=null){var entries=game.RecentLogs;for(int i=Mathf.Max(0,entries.Length-4);i<entries.Length;i++)logs.Enqueue(entries[i]);if(logText!=null)logText.text=string.Join("\n\n",logs.ToArray());}Refresh();}
  void OnEnable(){Attach();Wire(true);Refresh();}
  void Start(){Refresh();}
  void OnDisable(){Detach();Wire(false);}

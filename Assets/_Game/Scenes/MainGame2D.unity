@@ -807,6 +807,7 @@ MonoBehaviour:
   game: {fileID: 279599329}
   hud: {fileID: 394262573}
   character: {fileID: 825541797047341426}
+  missionUI: {fileID: 6030827829232786855}
 --- !u!4 &230105796
 Transform:
   m_ObjectHideFlags: 0
@@ -1360,6 +1361,7 @@ GameObject:
   - component: {fileID: 279599339}
   - component: {fileID: 279599338}
   - component: {fileID: 279599337}
+  - component: {fileID: 279599340}
   m_Layer: 0
   m_Name: Game Systems
   m_TagString: Untagged
@@ -1384,6 +1386,9 @@ MonoBehaviour:
   clock: {fileID: 279599332}
   lifeEvents: {fileID: 279599331}
   saves: {fileID: 279599330}
+  missions: {fileID: 279599340}
+  missionCatalog: {fileID: 11400000, guid: 915316d7fc4a8104b9c667070ca809d1, type: 2}
+  activityCatalog: {fileID: 11400000, guid: 69221797909804f47bd66a7056c02529, type: 2}
   actions: {fileID: 279599336}
   economy: {fileID: 279599335}
   growth: {fileID: 279599339}
@@ -1405,7 +1410,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 680874fac44ab1b46841589f343e1ab5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::IanGame.SaveManager
-  fileName: ian-black-comedy-v3.json
+  fileName: ian-black-comedy-v4.json
 --- !u!114 &279599331
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1577,6 +1582,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 536e758df0459864d98d308a8dc67798, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::IanGame.LifeProgression
+--- !u!114 &279599340
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 279599328}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7dcc2fb6a42c174c9970c7084690bee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IanGame.MissionService
+  catalog: {fileID: 11400000, guid: 915316d7fc4a8104b9c667070ca809d1, type: 2}
 --- !u!1 &289007107
 GameObject:
   m_ObjectHideFlags: 0
@@ -9310,6 +9328,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 11423254df728db4c976b0f4806b036c, type: 3}
+--- !u!114 &6030827829232786855 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2034204558532805193, guid: 11423254df728db4c976b0f4806b036c, type: 3}
+  m_PrefabInstance: {fileID: 6030827829232786854}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3d65ff227fbb764dbc94d2cc2c41965, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IanGame.MissionUI
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

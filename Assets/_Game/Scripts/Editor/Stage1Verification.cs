@@ -8,7 +8,7 @@ public static class Stage1Verification {
  if(!g.LifeMode)return RunLegacy();
  var initial=g.balance.initialLife;var cfg=g.balance.survival;bool realtime=g.clock.realtimeEnabled,lifecycle=g.autoSaveOnLifecycle;bool paused=g.State==GameState.Paused;
  var slot=typeof(SaveManager).GetField("fileName",BindingFlags.Instance|BindingFlags.NonPublic);string original=(string)slot.GetValue(g.saves);string temp="phase1-compat-"+Guid.NewGuid().ToString("N")+".json";
- var snapshot=new SaveData{day=g.clock.Day,stats=g.stats.Capture(),progression=g.growth.Capture(),economy=g.economy.Capture(),survival=g.survival.Capture(),time=g.clock.Capture(),gameOver=g.State==GameState.GameOver,runId=(string)typeof(GameManager).GetField("runId",BindingFlags.Instance|BindingFlags.NonPublic).GetValue(g),settledDay=g.clock.Day,lastSeenUtcTicks=DateTime.UtcNow.Ticks};
+ var snapshot=new SaveData{day=g.clock.Day,stats=g.stats.Capture(),progression=g.growth.Capture(),economy=g.economy.Capture(),survival=g.survival.Capture(),time=g.clock.Capture(),gameOver=g.State==GameState.GameOver,missions=g.missions.Capture(),runId=(string)typeof(GameManager).GetField("runId",BindingFlags.Instance|BindingFlags.NonPublic).GetValue(g),settledDay=g.clock.Day,lastSeenUtcTicks=DateTime.UtcNow.Ticks};
  slot.SetValue(g.saves,temp);g.autoSaveOnLifecycle=false;
  try{g.balance.initialLife=null;g.balance.survival=null;g.NewGame();return RunLegacy();}
  finally{g.balance.initialLife=initial;g.balance.survival=cfg;g.NewGame();g.clock.realtimeEnabled=false;FileRestore(g,snapshot);if(paused)g.Pause();g.clock.realtimeEnabled=realtime;g.autoSaveOnLifecycle=lifecycle;slot.SetValue(g.saves,original);}
