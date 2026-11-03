@@ -1,0 +1,899 @@
+{
+    "version": 4,
+    "day": 39,
+    "missions": {
+        "activeMissionId": "M021",
+        "startDay": 1,
+        "eventSequence": 36,
+        "growthPoints": 20,
+        "counters": [
+            {
+                "counter": 1,
+                "value": 11
+            },
+            {
+                "counter": 2,
+                "value": 8
+            },
+            {
+                "counter": 3,
+                "value": 1
+            },
+            {
+                "counter": 4,
+                "value": 1
+            },
+            {
+                "counter": 10,
+                "value": 1
+            },
+            {
+                "counter": 11,
+                "value": 3
+            },
+            {
+                "counter": 12,
+                "value": 3
+            },
+            {
+                "counter": 13,
+                "value": 5
+            },
+            {
+                "counter": 14,
+                "value": 1
+            },
+            {
+                "counter": 15,
+                "value": 1
+            },
+            {
+                "counter": 16,
+                "value": 1
+            }
+        ],
+        "seenEventIds": [
+            "b78cfbe6b6c14404bd51aec1c5d19f3d/activity/1",
+            "b78cfbe6b6c14404bd51aec1c5d19f3d/activity/2",
+            "b78cfbe6b6c14404bd51aec1c5d19f3d/activity/3",
+            "b78cfbe6b6c14404bd51aec1c5d19f3d/activity/4",
+            "b78cfbe6b6c14404bd51aec1c5d19f3d/activity/5",
+            "b78cfbe6b6c14404bd51aec1c5d19f3d/activity/6",
+            "b78cfbe6b6c14404bd51aec1c5d19f3d/activity/7",
+            "b78cfbe6b6c14404bd51aec1c5d19f3d/activity/8",
+            "b78cfbe6b6c14404bd51aec1c5d19f3d/activity/9",
+            "b78cfbe6b6c14404bd51aec1c5d19f3d/activity/10",
+            "b78cfbe6b6c14404bd51aec1c5d19f3d/activity/11",
+            "b78cfbe6b6c14404bd51aec1c5d19f3d/activity/12",
+            "b78cfbe6b6c14404bd51aec1c5d19f3d/activity/13",
+            "b78cfbe6b6c14404bd51aec1c5d19f3d/activity/14",
+            "b78cfbe6b6c14404bd51aec1c5d19f3d/activity/15",
+            "b78cfbe6b6c14404bd51aec1c5d19f3d/activity/16",
+            "b78cfbe6b6c14404bd51aec1c5d19f3d/activity/17",
+            "b78cfbe6b6c14404bd51aec1c5d19f3d/activity/18",
+            "b78cfbe6b6c14404bd51aec1c5d19f3d/activity/19",
+            "b78cfbe6b6c14404bd51aec1c5d19f3d/activity/20",
+            "b78cfbe6b6c14404bd51aec1c5d19f3d/activity/21",
+            "b78cfbe6b6c14404bd51aec1c5d19f3d/activity/22",
+            "b78cfbe6b6c14404bd51aec1c5d19f3d/activity/23",
+            "b78cfbe6b6c14404bd51aec1c5d19f3d/activity/24",
+            "b78cfbe6b6c14404bd51aec1c5d19f3d/activity/25",
+            "b78cfbe6b6c14404bd51aec1c5d19f3d/activity/26",
+            "b78cfbe6b6c14404bd51aec1c5d19f3d/activity/27",
+            "b78cfbe6b6c14404bd51aec1c5d19f3d/activity/28",
+            "b78cfbe6b6c14404bd51aec1c5d19f3d/activity/29",
+            "b78cfbe6b6c14404bd51aec1c5d19f3d/activity/30",
+            "b78cfbe6b6c14404bd51aec1c5d19f3d/activity/31",
+            "b78cfbe6b6c14404bd51aec1c5d19f3d/activity/32",
+            "b78cfbe6b6c14404bd51aec1c5d19f3d/activity/33",
+            "b78cfbe6b6c14404bd51aec1c5d19f3d/activity/34",
+            "b78cfbe6b6c14404bd51aec1c5d19f3d/activity/35",
+            "b78cfbe6b6c14404bd51aec1c5d19f3d/activity/36"
+        ],
+        "completedMissionIds": [
+            "M001",
+            "M002",
+            "M003",
+            "M004",
+            "M005",
+            "M006",
+            "M007",
+            "M008",
+            "M009",
+            "M010",
+            "M011",
+            "M012",
+            "M013",
+            "M014",
+            "M015",
+            "M016",
+            "M017",
+            "M018",
+            "M019",
+            "M020"
+        ],
+        "claimedMissionIds": [
+            "M001",
+            "M002",
+            "M003",
+            "M004",
+            "M005",
+            "M006",
+            "M007",
+            "M008",
+            "M009",
+            "M010",
+            "M011",
+            "M012",
+            "M013",
+            "M014",
+            "M015",
+            "M016",
+            "M017",
+            "M018",
+            "M019",
+            "M020"
+        ],
+        "walletReceiptIds": [
+            "mission-reward:M001",
+            "mission-reward:M002",
+            "mission-reward:M003",
+            "mission-reward:M004",
+            "mission-reward:M005",
+            "mission-reward:M006",
+            "mission-reward:M007",
+            "mission-reward:M008",
+            "mission-reward:M009",
+            "mission-reward:M010",
+            "mission-reward:M011",
+            "mission-reward:M012",
+            "mission-reward:M013",
+            "mission-reward:M014",
+            "mission-reward:M015",
+            "mission-reward:M016",
+            "mission-reward:M017",
+            "mission-reward:M018",
+            "mission-reward:M019",
+            "mission-reward:M020"
+        ],
+        "milestoneIds": [
+            "M001",
+            "M002",
+            "M003",
+            "M004",
+            "M005",
+            "M006",
+            "M007",
+            "M008",
+            "M009",
+            "M010",
+            "M011",
+            "M012",
+            "M013",
+            "M014",
+            "M015",
+            "M016",
+            "M017",
+            "M018",
+            "M019",
+            "M020"
+        ],
+        "unlocks": [
+            1,
+            2,
+            3
+        ],
+        "pendingRewards": [
+            {
+                "id": "mission-reward:M020:tickets",
+                "kind": 0,
+                "item": 0,
+                "amount": 1,
+                "delivered": false
+            }
+        ],
+        "progress": [
+            {
+                "missionId": "M001",
+                "state": 4,
+                "current": 1.0,
+                "target": 1.0,
+                "eventCount": 11,
+                "prerequisiteIds": []
+            },
+            {
+                "missionId": "M002",
+                "state": 4,
+                "current": 1.0,
+                "target": 1.0,
+                "eventCount": 8,
+                "prerequisiteIds": [
+                    "M001"
+                ]
+            },
+            {
+                "missionId": "M003",
+                "state": 4,
+                "current": 1.0,
+                "target": 1.0,
+                "eventCount": 1,
+                "prerequisiteIds": [
+                    "M002"
+                ]
+            },
+            {
+                "missionId": "M004",
+                "state": 4,
+                "current": 70.0,
+                "target": 70.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M003"
+                ]
+            },
+            {
+                "missionId": "M005",
+                "state": 4,
+                "current": 70.0,
+                "target": 70.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M004"
+                ]
+            },
+            {
+                "missionId": "M006",
+                "state": 4,
+                "current": 1.0,
+                "target": 1.0,
+                "eventCount": 1,
+                "prerequisiteIds": [
+                    "M005"
+                ]
+            },
+            {
+                "missionId": "M007",
+                "state": 4,
+                "current": 80.0,
+                "target": 80.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M006"
+                ]
+            },
+            {
+                "missionId": "M008",
+                "state": 4,
+                "current": 50.0,
+                "target": 50.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M007"
+                ]
+            },
+            {
+                "missionId": "M009",
+                "state": 4,
+                "current": 4.0,
+                "target": 4.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M008"
+                ]
+            },
+            {
+                "missionId": "M010",
+                "state": 4,
+                "current": 9.0,
+                "target": 9.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M009"
+                ]
+            },
+            {
+                "missionId": "M011",
+                "state": 4,
+                "current": 1.0,
+                "target": 1.0,
+                "eventCount": 1,
+                "prerequisiteIds": [
+                    "M010"
+                ]
+            },
+            {
+                "missionId": "M012",
+                "state": 4,
+                "current": 3.0,
+                "target": 3.0,
+                "eventCount": 3,
+                "prerequisiteIds": [
+                    "M011"
+                ]
+            },
+            {
+                "missionId": "M013",
+                "state": 4,
+                "current": 20.0,
+                "target": 20.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M012"
+                ]
+            },
+            {
+                "missionId": "M014",
+                "state": 4,
+                "current": 1.0,
+                "target": 1.0,
+                "eventCount": 3,
+                "prerequisiteIds": [
+                    "M013"
+                ]
+            },
+            {
+                "missionId": "M015",
+                "state": 4,
+                "current": 15.0,
+                "target": 15.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M014"
+                ]
+            },
+            {
+                "missionId": "M016",
+                "state": 4,
+                "current": 5.0,
+                "target": 5.0,
+                "eventCount": 5,
+                "prerequisiteIds": [
+                    "M015"
+                ]
+            },
+            {
+                "missionId": "M017",
+                "state": 4,
+                "current": 1.0,
+                "target": 1.0,
+                "eventCount": 1,
+                "prerequisiteIds": [
+                    "M016"
+                ]
+            },
+            {
+                "missionId": "M018",
+                "state": 4,
+                "current": 1.0,
+                "target": 1.0,
+                "eventCount": 1,
+                "prerequisiteIds": [
+                    "M017"
+                ]
+            },
+            {
+                "missionId": "M019",
+                "state": 4,
+                "current": 1.0,
+                "target": 1.0,
+                "eventCount": 1,
+                "prerequisiteIds": [
+                    "M018"
+                ]
+            },
+            {
+                "missionId": "M020",
+                "state": 4,
+                "current": 12.0,
+                "target": 12.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M019"
+                ]
+            },
+            {
+                "missionId": "M021",
+                "state": 5,
+                "current": 0.0,
+                "target": 1.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M020"
+                ]
+            },
+            {
+                "missionId": "M022",
+                "state": 5,
+                "current": 0.0,
+                "target": 10.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M021"
+                ]
+            },
+            {
+                "missionId": "M023",
+                "state": 5,
+                "current": 35.0,
+                "target": 35.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M022"
+                ]
+            },
+            {
+                "missionId": "M024",
+                "state": 5,
+                "current": 0.0,
+                "target": 1.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M023"
+                ]
+            },
+            {
+                "missionId": "M025",
+                "state": 5,
+                "current": 0.0,
+                "target": 1.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M024"
+                ]
+            },
+            {
+                "missionId": "M026",
+                "state": 5,
+                "current": 15.0,
+                "target": 25.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M025"
+                ]
+            },
+            {
+                "missionId": "M027",
+                "state": 5,
+                "current": 1.0,
+                "target": 2.0,
+                "eventCount": 1,
+                "prerequisiteIds": [
+                    "M026"
+                ]
+            },
+            {
+                "missionId": "M028",
+                "state": 5,
+                "current": 0.0,
+                "target": 1.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M027"
+                ]
+            },
+            {
+                "missionId": "M029",
+                "state": 5,
+                "current": 40.0,
+                "target": 40.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M028"
+                ]
+            },
+            {
+                "missionId": "M030",
+                "state": 5,
+                "current": 0.0,
+                "target": 9.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M029"
+                ]
+            },
+            {
+                "missionId": "M031",
+                "state": 5,
+                "current": 0.0,
+                "target": 1.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M030"
+                ]
+            },
+            {
+                "missionId": "M032",
+                "state": 5,
+                "current": 0.0,
+                "target": 1.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M031"
+                ]
+            },
+            {
+                "missionId": "M033",
+                "state": 5,
+                "current": 0.0,
+                "target": 1.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M032"
+                ]
+            },
+            {
+                "missionId": "M034",
+                "state": 5,
+                "current": 0.0,
+                "target": 1.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M033"
+                ]
+            },
+            {
+                "missionId": "M035",
+                "state": 5,
+                "current": 0.0,
+                "target": 1.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M034"
+                ]
+            },
+            {
+                "missionId": "M036",
+                "state": 5,
+                "current": 0.0,
+                "target": 1.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M035"
+                ]
+            },
+            {
+                "missionId": "M037",
+                "state": 5,
+                "current": 0.0,
+                "target": 3.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M036"
+                ]
+            },
+            {
+                "missionId": "M038",
+                "state": 5,
+                "current": 0.0,
+                "target": 1.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M037"
+                ]
+            },
+            {
+                "missionId": "M039",
+                "state": 5,
+                "current": 0.0,
+                "target": 3.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M038"
+                ]
+            },
+            {
+                "missionId": "M040",
+                "state": 5,
+                "current": 0.0,
+                "target": 9.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M039"
+                ]
+            },
+            {
+                "missionId": "M041",
+                "state": 5,
+                "current": 0.0,
+                "target": 1.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M040"
+                ]
+            },
+            {
+                "missionId": "M042",
+                "state": 5,
+                "current": 1050.0,
+                "target": 10000.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M041"
+                ]
+            },
+            {
+                "missionId": "M043",
+                "state": 5,
+                "current": 50.0,
+                "target": 60.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M042"
+                ]
+            },
+            {
+                "missionId": "M044",
+                "state": 5,
+                "current": 0.0,
+                "target": 1.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M043"
+                ]
+            },
+            {
+                "missionId": "M045",
+                "state": 5,
+                "current": 0.0,
+                "target": 1.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M044"
+                ]
+            },
+            {
+                "missionId": "M046",
+                "state": 5,
+                "current": 0.0,
+                "target": 1.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M045"
+                ]
+            },
+            {
+                "missionId": "M047",
+                "state": 5,
+                "current": 0.0,
+                "target": 1.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M046"
+                ]
+            },
+            {
+                "missionId": "M048",
+                "state": 5,
+                "current": 0.0,
+                "target": 1.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M047"
+                ]
+            },
+            {
+                "missionId": "M049",
+                "state": 5,
+                "current": 0.0,
+                "target": 1000.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M048"
+                ]
+            },
+            {
+                "missionId": "M050",
+                "state": 5,
+                "current": 0.0,
+                "target": 9.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M049"
+                ]
+            },
+            {
+                "missionId": "M051",
+                "state": 5,
+                "current": 13.0,
+                "target": 60.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M050"
+                ]
+            },
+            {
+                "missionId": "M052",
+                "state": 5,
+                "current": 0.0,
+                "target": 1.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M051"
+                ]
+            },
+            {
+                "missionId": "M053",
+                "state": 5,
+                "current": 209.0,
+                "target": 260.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M052"
+                ]
+            },
+            {
+                "missionId": "M054",
+                "state": 5,
+                "current": 0.0,
+                "target": 1.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M053"
+                ]
+            },
+            {
+                "missionId": "M055",
+                "state": 5,
+                "current": 0.0,
+                "target": 1.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M054"
+                ]
+            },
+            {
+                "missionId": "M056",
+                "state": 5,
+                "current": 15.0,
+                "target": 50.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M055"
+                ]
+            },
+            {
+                "missionId": "M057",
+                "state": 5,
+                "current": 0.0,
+                "target": 5.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M056"
+                ]
+            },
+            {
+                "missionId": "M058",
+                "state": 5,
+                "current": 0.0,
+                "target": 1.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M057"
+                ]
+            },
+            {
+                "missionId": "M059",
+                "state": 5,
+                "current": 0.0,
+                "target": 1.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M058"
+                ]
+            },
+            {
+                "missionId": "M060",
+                "state": 5,
+                "current": 0.0,
+                "target": 1.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M059"
+                ]
+            }
+        ],
+        "finalReviewRequested": false
+    },
+    "stats": {
+        "happiness": 50,
+        "stress": 18,
+        "energy": 71,
+        "money": 1050,
+        "hunger": 49,
+        "thirst": 40,
+        "knowledge": 36,
+        "mental": 82,
+        "social": 15,
+        "credit": 50
+    },
+    "gameOver": false,
+    "progression": {
+        "age": 13,
+        "level": 5,
+        "experience": 400,
+        "socialStanding": "없음",
+        "completedGrowthIds": [
+            "mission-age:M001",
+            "mission-xp:M001",
+            "mission-age:M002",
+            "mission-xp:M002",
+            "mission-age:M003",
+            "mission-xp:M003",
+            "mission-age:M004",
+            "mission-xp:M004",
+            "mission-age:M005",
+            "mission-xp:M005",
+            "mission-age:M006",
+            "mission-xp:M006",
+            "mission-age:M007",
+            "mission-xp:M007",
+            "mission-age:M008",
+            "mission-xp:M008",
+            "mission-age:M009",
+            "mission-xp:M009",
+            "mission-age:M010",
+            "mission-xp:M010",
+            "mission-age:M011",
+            "mission-xp:M011",
+            "mission-age:M012",
+            "mission-xp:M012",
+            "mission-age:M013",
+            "mission-xp:M013",
+            "mission-age:M014",
+            "mission-xp:M014",
+            "mission-age:M015",
+            "mission-xp:M015",
+            "mission-age:M016",
+            "mission-xp:M016",
+            "mission-age:M017",
+            "mission-xp:M017",
+            "mission-age:M018",
+            "mission-xp:M018",
+            "mission-age:M019",
+            "mission-xp:M019",
+            "mission-age:M020",
+            "mission-xp:M020"
+        ]
+    },
+    "economy": {
+        "debt": 1000000,
+        "otherAssets": 0,
+        "processedIds": [
+            "mission-reward:M001",
+            "mission-reward:M002",
+            "mission-reward:M003",
+            "mission-reward:M004",
+            "mission-reward:M005",
+            "mission-reward:M006",
+            "mission-reward:M007",
+            "mission-reward:M008",
+            "mission-reward:M009",
+            "mission-reward:M010",
+            "mission-reward:M011",
+            "mission-reward:M012",
+            "mission-reward:M013",
+            "mission-reward:M014",
+            "mission-reward:M015",
+            "mission-reward:M016",
+            "mission-reward:M017",
+            "mission-reward:M018",
+            "mission-reward:M019",
+            "mission-reward:M020"
+        ]
+    },
+    "survival": {
+        "hungerRemainder": 0.0,
+        "thirstRemainder": 0.0,
+        "hungerDangerSeconds": 0.0,
+        "thirstDangerSeconds": 0.0,
+        "failed": false,
+        "statuses": []
+    },
+    "time": {
+        "subDaySeconds": 0.0,
+        "elapsedSeconds": 3283200.0
+    },
+    "lastSeenUtcTicks": 639293210845148591,
+    "runId": "b78cfbe6b6c14404bd51aec1c5d19f3d",
+    "settledDay": 39
+}

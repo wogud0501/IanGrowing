@@ -1,40 +1,12 @@
+#if UNITY_EDITOR
 using System;using System.Collections;using System.Collections.Generic;using System.Linq;using System.IO;using System.Reflection;using UnityEngine;using UnityEngine.SceneManagement;using UnityEngine.UI;using UnityEditor;
 namespace IanGame.Editor {
-public static class Phase22Verification {
- public static readonly List<string> Passed=new List<string>();public static string Failure,Progress;public static bool Running,Finished;
- [MenuItem("Ian/Verify Phase 2.2 Multi Scene (Play Mode)")]public static void Begin(){
- if(!Application.isPlaying)throw new InvalidOperationException("Start Bootstrap Play Mode.");
- if(Running)throw new InvalidOperationException("Test already running");
- Passed.Clear();Failure=null;Progress="Starting";Running=true;Finished=false;
- var go=new GameObject("Editor-only Phase22 Verification");UnityEngine.Object.DontDestroyOnLoad(go);go.AddComponent<Phase22Runner>().StartChecks();
- }
- public static object Status()=>new {running=Running,finished=Finished,progress=Progress,passed=Passed.ToArray(),failure=Failure};
-}
-class FakeMissionProvider:IMissionStateProvider {
- readonly MissionService service;readonly GameManager game;readonly Dictionary<CoreStat,int> stats=new Dictionary<CoreStat,int>();readonly HashSet<MissionItemKey> items=new HashSet<MissionItemKey>();long? cash;
- public FakeMissionProvider(MissionService s,GameManager g){service=s;game=g;}
- public int Stat(CoreStat stat)=>stats.ContainsKey(stat)?stats[stat]:game.stats.Get(stat);public long Counter(MissionCounter c)=>service.Counter(c);public int Age=>game.growth.Age;public LifeStage Stage=>game.growth.Stage;public int DaysSurvived=>100;public long Cash=>cash??game.economy.Cash;public bool Alive=>true;
- public bool HasItem(MissionItemKey item)=>items.Contains(item);public bool Claimed(string id)=>service.Claimed(id);public bool Unlocked(ContentUnlock value)=>service.State.unlocks.Contains(value);public bool Supports(MissionFeature features)=>true;
- public void SetStat(CoreStat stat,int value){stats[stat]=value;}
- public void Satisfy(MissionCondition condition,string id){
- switch(condition.kind){
- case MissionConditionKind.All:foreach(var child in condition.children)Satisfy(child,id);break;
- case MissionConditionKind.Any:Satisfy(condition.children[0],id);break;
- case MissionConditionKind.StatAtLeast:stats[condition.stat]=(int)condition.target;break;
- case MissionConditionKind.CounterAtLeast:long needed=condition.target-Counter(condition.counter);if(needed>0)service.RecordSignal(new MissionActivityEvent{id=id+"/"+condition.counter,counter=condition.counter,amount=needed});break;
- case MissionConditionKind.ItemOwned:items.Add(condition.item);break;
- case MissionConditionKind.CashAtLeast:cash=condition.target;break;
- }
- service.Refresh();
- }
-}
-class FakePendingGateway:IPendingMissionRewardGateway {public int calls;public bool TryDeliver(PendingMissionReward value){calls++;return true;}}
 public class Phase22Runner:MonoBehaviour {
- GameManager game;string balanceJson;bool oldRealtime,oldLifecycle;Dictionary<string,int> milestoneAges=new Dictionary<string,int>();int contextId,gameId,missionId;
+ GameManager game;string balanceJson;bool oldRealtime,oldLifecycle;Dictionary<string,int> milestoneAges=new Dictionary<string,int>();GameContext originalContext;MissionService originalMissions;
  public void StartChecks(){StartCoroutine(Safe());}
  IEnumerator Safe(){
  var steps=Scenario();for(int frame=0;frame<20000;frame++){bool next;object current=null;try{next=steps.MoveNext();if(next)current=steps.Current;}catch(Exception e){Phase22Verification.Failure=e.ToString();break;}if(!next)break;yield return current;}
- if(game!=null){game.missions.Completed-=OnComplete;game.missions.Configure(game);if(balanceJson!=null)JsonUtility.FromJsonOverwrite(balanceJson,game.balance);game.realtimeLifeEnabled=oldRealtime;game.autoSaveOnLifecycle=oldLifecycle;}
+ if(game!=null){game.missions.Completed-=OnComplete;game.missions.Configure(game);if(balanceJson!=null)JsonUtility.FromJsonOverwrite(balanceJson,game.balance);typeof(SaveManager).GetField("fileName",BindingFlags.Instance|BindingFlags.NonPublic).SetValue(game.saves,Phase22Verification.SandboxSlot);game.saves.AllowExplicitNewGame();File.WriteAllText(game.saves.SavePath,Phase22Verification.OriginalStateJson);game.Load();if(Phase22Verification.OriginalPaused)game.Pause();typeof(SaveManager).GetField("fileName",BindingFlags.Instance|BindingFlags.NonPublic).SetValue(game.saves,Phase22Verification.OriginalSlot);game.realtimeLifeEnabled=oldRealtime;game.autoSaveOnLifecycle=oldLifecycle;}
  Phase22Verification.Running=false;Phase22Verification.Finished=true;UnityEngine.Object.Destroy(gameObject);
  }
  void Check(bool value,string label){if(!value)throw new Exception("FAIL "+label);Phase22Verification.Passed.Add("PASS "+label);}
@@ -44,7 +16,7 @@ public class Phase22Runner:MonoBehaviour {
  MissionUI MissionView()=>UnityEngine.Object.FindAnyObjectByType<MissionUI>();
  void Click(Button button){if(button==null||!button.gameObject.activeInHierarchy||!button.interactable)throw new Exception("UI button not usable: "+(button==null?"null":button.name));button.onClick.Invoke();}
  void OnComplete(MissionData data){milestoneAges[data.Id]=game.growth.Age;}
- void ContextInvariant(string label){Check(GameContext.Instance.GetInstanceID()==contextId&&game.GetInstanceID()==gameId&&game.missions.GetInstanceID()==missionId&&UnityEngine.Object.FindObjectsByType<GameContext>(FindObjectsInactive.Include,FindObjectsSortMode.None).Length==1&&UnityEngine.Object.FindObjectsByType<GameManager>(FindObjectsInactive.Include,FindObjectsSortMode.None).Length==1&&UnityEngine.Object.FindObjectsByType<SaveManager>(FindObjectsInactive.Include,FindObjectsSortMode.None).Length==1,label);}
+ void ContextInvariant(string label){Check(GameContext.Instance==originalContext&&GameContext.Instance.game==game&&game.missions==originalMissions&&UnityEngine.Object.FindObjectsByType<GameContext>(FindObjectsInactive.Include).Length==1&&UnityEngine.Object.FindObjectsByType<GameManager>(FindObjectsInactive.Include).Length==1&&UnityEngine.Object.FindObjectsByType<SaveManager>(FindObjectsInactive.Include).Length==1,label);}
  void Care(){
  var ui=MissionView();ui.CloseEducation();ui.CloseList();
  for(int i=0;i<8&&(game.stats.Hunger<60||game.stats.Thirst<60||game.stats.Health<60||game.stats.Mental<60);i++){
@@ -55,7 +27,7 @@ public class Phase22Runner:MonoBehaviour {
  void Education(int action){Care();var ui=MissionView();ui.OpenEducation();Click(ui.activityButtons[action-7]);ui.CloseEducation();}
  IEnumerator Scenario(){
  int wait=0;while(!Ready("MainMenu")){WaitLimit(++wait,"MainMenu");yield return null;}
- game=GameContext.Instance.game;contextId=GameContext.Instance.GetInstanceID();gameId=game.GetInstanceID();missionId=game.missions.GetInstanceID();balanceJson=JsonUtility.ToJson(game.balance);oldRealtime=game.realtimeLifeEnabled;oldLifecycle=game.autoSaveOnLifecycle;game.realtimeLifeEnabled=false;game.clock.realtimeEnabled=false;game.autoSaveOnLifecycle=false;game.balance.eventChance=0;game.missions.Completed+=OnComplete;
+ game=GameContext.Instance.game;originalContext=GameContext.Instance;originalMissions=game.missions;balanceJson=JsonUtility.ToJson(game.balance);oldRealtime=game.realtimeLifeEnabled;oldLifecycle=game.autoSaveOnLifecycle;game.realtimeLifeEnabled=false;game.clock.realtimeEnabled=false;game.autoSaveOnLifecycle=false;game.balance.eventChance=0;game.missions.Completed+=OnComplete;
  Phase22Verification.Progress="Catalog/validator checks";
  var catalog=game.missions.catalog;Check(catalog.missions.Length==60&&catalog.missions.Select(m=>m.Id).Distinct().Count()==60,"60 registered missions and unique stable IDs");
  Check(MissionCatalogValidator.Validate(catalog).Count==0,"Catalog conditions/rewards/prerequisites valid");
@@ -119,7 +91,7 @@ public class Phase22Runner:MonoBehaviour {
  }
  Check(milestoneAges["M030"]==19&&milestoneAges["M040"]==30&&milestoneAges["M050"]==60,"Future milestones age19/30/60");
  Check(game.missions.State.finalReviewRequested&&game.missions.State.unlocks.Contains(ContentUnlock.LifeReview)&&SceneManager.GetActiveScene().name!="Ending","M060 creates final-review handoff, not an invented ending system");
- var ticket=game.missions.State.pendingRewards.First();var gateway=new FakePendingGateway();Check(game.missions.DeliverPending(ticket.id,gateway)&&!game.missions.DeliverPending(ticket.id,gateway)&&gateway.calls==1,"Deferred reward delivery interface is idempotent");
+ var ticket=game.missions.State.pendingRewards.First();var gateway=new FakePendingGateway{reenter=game.missions};Check(game.missions.DeliverPending(ticket.id,gateway)&&!game.missions.DeliverPending(ticket.id,gateway)&&gateway.calls==1&&!gateway.reentryAccepted,"Deferred reward delivery rejects duplicates and re-entrancy");
  game.missions.Configure(game);File.WriteAllText(game.saves.SavePath,manual);Click(HUD().loadButton);
  Check(game.growth.Age==13&&game.missions.Claimed("M020")&&!game.missions.Claimed("M021")&&game.missions.GetProgress(catalog.missions[20]).state==MissionState.Planned,"Restoring actual progress removes all test-only future state");
  TestV3Migration();
@@ -138,6 +110,7 @@ public class Phase22Runner:MonoBehaviour {
  void TestComposite(FakeMissionProvider fake){
  var a=new MissionCondition{kind=MissionConditionKind.All,children=new[]{new MissionCondition{kind=MissionConditionKind.StatAtLeast,stat=CoreStat.Knowledge,target=99},new MissionCondition{kind=MissionConditionKind.CounterAtLeast,counter=MissionCounter.Study,target=999}}};
  fake.SetStat(CoreStat.Knowledge,0);Check(!MissionConditionEvaluator.Evaluate(a,fake).satisfied,"AND rejects partial conditions");fake.Satisfy(a,"and-fixture");Check(MissionConditionEvaluator.Evaluate(a,fake).satisfied,"AND accepts all conditions");
+ var owned=new MissionCondition{kind=MissionConditionKind.ItemOwned,item=MissionItemKey.StarterHeadphones};Check(!MissionConditionEvaluator.Evaluate(owned,fake).satisfied,"Item ownership is queried explicitly");fake.Satisfy(owned,"item-fixture");Check(MissionConditionEvaluator.Evaluate(owned,fake).satisfied,"Editor-only item provider condition");var choice=new MissionCondition{kind=MissionConditionKind.EventChoiceOutcome,choice=MissionChoiceOutcome.AcceptedOffer};fake.Satisfy(choice,"choice-fixture");Check(MissionConditionEvaluator.Evaluate(choice,fake).satisfied&&!game.missions.RecordChoice("choice-fixture/choice",MissionChoiceOutcome.AcceptedOffer),"Choice outcome and event deduplication");var draw=new MissionCondition{kind=MissionConditionKind.CounterAtLeast,counter=MissionCounter.GachaDraws,target=2};fake.Satisfy(draw,"gacha-fixture");Check(MissionConditionEvaluator.Evaluate(draw,fake).satisfied,"Gacha condition via editor-only signals, no gacha gameplay");
  var any=new MissionCondition{kind=MissionConditionKind.Any,children=new[]{new MissionCondition{kind=MissionConditionKind.StatAtLeast,stat=CoreStat.Knowledge,target=99},new MissionCondition{kind=MissionConditionKind.CounterAtLeast,counter=MissionCounter.StockBuys,target=9999}}};Check(MissionConditionEvaluator.Evaluate(any,fake).satisfied,"OR accepts one satisfied branch");
  }
  void ValidateBadCatalog(){
@@ -164,3 +137,5 @@ public class Phase22Runner:MonoBehaviour {
  }
 }
 }
+
+#endif

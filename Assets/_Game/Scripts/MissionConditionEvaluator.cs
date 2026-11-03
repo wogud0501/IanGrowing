@@ -17,6 +17,7 @@ public static class MissionConditionEvaluator {
  case MissionConditionKind.DaysSurvived:var days=Result(provider.DaysSurvived,c.target);days.satisfied&=provider.Alive;return days;
  case MissionConditionKind.CashAtLeast:return Result(provider.Cash,c.target);
  case MissionConditionKind.Alive:return Result(provider.Alive?1:0,1);
+ case MissionConditionKind.EventChoiceOutcome:return Result(provider.ChoiceOutcome(c.choice)?1:0,1);
  case MissionConditionKind.ItemOwned:return Result(provider.HasItem(c.item)?1:0,1);
  case MissionConditionKind.MissionClaimed:return Result(provider.Claimed(c.missionId)?1:0,1);
  case MissionConditionKind.ContentUnlocked:return Result(provider.Unlocked(c.unlock)?1:0,1);

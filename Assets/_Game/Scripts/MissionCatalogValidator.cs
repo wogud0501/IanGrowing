@@ -23,6 +23,7 @@ public static class MissionCatalogValidator {
  if(c.kind==MissionConditionKind.StatAtLeast&&!Enum.IsDefined(typeof(CoreStat),c.stat))errors.Add("Invalid stat");
  if(c.kind==MissionConditionKind.CounterAtLeast&&(!Enum.IsDefined(typeof(MissionCounter),c.counter)||c.counter==MissionCounter.None))errors.Add("Invalid counter");
  if(c.kind==MissionConditionKind.MissionClaimed&&!map.ContainsKey(c.missionId??""))errors.Add("Missing condition mission");
+ if(c.kind==MissionConditionKind.EventChoiceOutcome&&(!Enum.IsDefined(typeof(MissionChoiceOutcome),c.choice)||c.choice==MissionChoiceOutcome.None))errors.Add("Invalid choice outcome");
  if(c.kind==MissionConditionKind.ItemOwned&&(!Enum.IsDefined(typeof(MissionItemKey),c.item)||c.item==MissionItemKey.None))errors.Add("Invalid item condition");
  if(c.kind==MissionConditionKind.All||c.kind==MissionConditionKind.Any){if(c.children==null||c.children.Length==0)errors.Add("Empty composite");else foreach(var child in c.children)ValidateCondition(child,map,errors,path,depth+1);}path.Remove(c);
  }

@@ -1,6 +1,13 @@
 using System;using System.Linq;using System.Collections.Generic;using UnityEngine;
 namespace IanGame {
 public class MissionService:MonoBehaviour {
+ readonly List<IMissionFeatureSource> sources=new List<IMissionFeatureSource>();
+ public MissionFeature SupportedFeatures{get{var value=MissionFeature.Core|MissionFeature.BasicEducation;foreach(var source in sources)if(source.IsAvailable)value|=source.Features;return value;}}
+ public bool RegisterSource(IMissionFeatureSource source){if(source==null||sources.Contains(source))return false;sources.Add(source);source.ActivityProduced+=OnSourceSignal;Refresh();return true;}
+ public bool UnregisterSource(IMissionFeatureSource source){if(source==null||!sources.Remove(source))return false;source.ActivityProduced-=OnSourceSignal;Refresh();return true;}
+ void OnSourceSignal(MissionActivityEvent value){RecordSignal(value);}
+ public bool HasChoice(MissionChoiceOutcome outcome)=>state.choiceOutcomes.Contains(outcome);
+ public bool RecordChoice(string id,MissionChoiceOutcome outcome){if(!Ready||!EnabledForLife||suspended||outcome==MissionChoiceOutcome.None||!Enum.IsDefined(typeof(MissionChoiceOutcome),outcome)||state.seenEventIds.Contains(id)||!provider.Supports(MissionFeature.EventChoices))return false;bool added=!state.choiceOutcomes.Contains(outcome);if(added)state.choiceOutcomes.Add(outcome);bool result=RecordSignal(new MissionActivityEvent{id=id,counter=MissionCounter.EventChoices,amount=1});if(!result&&added)state.choiceOutcomes.Remove(outcome);return result;}
  public MissionCatalog catalog;AgeProgressionService ageProgression;GameManager game;IMissionStateProvider provider;MissionSnapshot state=new MissionSnapshot();bool busy,suspended;
  public bool IsBusy=>busy||suspended;public bool Ready=>provider!=null&&catalog!=null;public bool EnabledForLife=>game!=null&&game.LifeMode&&catalog!=null;
  public MissionData ActiveMission=>!Ready?null:catalog.missions.FirstOrDefault(m=>m!=null&&!state.claimedMissionIds.Contains(m.Id));
@@ -11,7 +18,7 @@ public class MissionService:MonoBehaviour {
  if(game!=null){game.stats.Changed+=Refresh;game.clock.DayChanged+=OnDay;game.growth.Changed+=Refresh;game.growth.AgeChanged+=OnAge;game.economy.Changed+=Refresh;}
  }
  void Detach(){if(game==null)return;game.stats.Changed-=Refresh;game.clock.DayChanged-=OnDay;game.growth.Changed-=Refresh;game.growth.AgeChanged-=OnAge;game.economy.Changed-=Refresh;}
- void OnDestroy(){Detach();}
+ void OnDestroy(){Detach();foreach(var source in sources)source.ActivityProduced-=OnSourceSignal;}
  void OnDay(int day){Refresh();}
  void OnAge(int age,LifeStage stage){UnlockForAge(age);CharacterStageRequested?.Invoke(age,stage);}
  void UnlockForAge(int age){if(age>=7){Unlock(ContentUnlock.School);Unlock(ContentUnlock.Education);}if(age>=13)Unlock(ContentUnlock.Equipment);if(age>=19){Unlock(ContentUnlock.Employment);Unlock(ContentUnlock.Finance);}if(age>=30)Unlock(ContentUnlock.Housing);if(age>=60)Unlock(ContentUnlock.Retirement);}
@@ -29,10 +36,10 @@ public class MissionService:MonoBehaviour {
  clone.progress=Ready?catalog.missions.Where(m=>m!=null).Select(GetProgress).ToList():new List<MissionProgress>();return clone;
  }
  public long Counter(MissionCounter counter){var value=state.counters.FirstOrDefault(v=>v.counter==counter);return value==null?0:value.value;}
- public bool Claimed(string id)=>state.claimedMissionIds.Contains(id);
+ public bool Claimed(string id)=>state.claimedMissionIds.Contains(id);public bool HasUnlock(ContentUnlock value)=>state.unlocks.Contains(value);
  public string NextEventId(string runId){if(state.eventSequence==long.MaxValue)throw new InvalidOperationException("Activity ID exhausted");state.eventSequence++;return runId+"/activity/"+state.eventSequence;}
  public static MissionFeature FeatureForCounter(MissionCounter counter){
- int n=(int)counter;if(n<10||counter==MissionCounter.Work)return MissionFeature.Core;if(n<100)return MissionFeature.BasicEducation;
+ if(counter==MissionCounter.GachaDraws)return MissionFeature.Gacha;int n=(int)counter;if(n<10||counter==MissionCounter.Work)return MissionFeature.Core;if(n<100)return MissionFeature.BasicEducation;
  switch(counter){case MissionCounter.MiddleSchool:case MissionCounter.CareerChosen:return MissionFeature.AdvancedEducation;case MissionCounter.HeadphonesEquipped:case MissionCounter.EquipmentEquipped:return MissionFeature.Equipment;case MissionCounter.ResumeWritten:case MissionCounter.Interviews:case MissionCounter.Employment:case MissionCounter.Salary:case MissionCounter.TaxesPaid:case MissionCounter.Promotions:return MissionFeature.Jobs;case MissionCounter.DebtRepaid:case MissionCounter.StockBuys:case MissionCounter.StockSells:case MissionCounter.PnLReviews:return MissionFeature.Investments;case MissionCounter.FurnitureBought:case MissionCounter.RentPaid:case MissionCounter.InsuranceLearned:return MissionFeature.Housing;case MissionCounter.EventChoices:case MissionCounter.LifeEventRecollections:return MissionFeature.EventChoices;case MissionCounter.MajorAchievements:return MissionFeature.Achievements;default:return MissionFeature.Endings;}
  }
  public bool RecordSignal(MissionActivityEvent signal){
@@ -77,9 +84,9 @@ public class MissionService:MonoBehaviour {
  busy=true;try{string error;if(!MissionRewardService.TryGrant(mission,state,game.economy,game.growth,catalog.experiencePerLevel,out error)){game.Log(error);return false;}state.claimedMissionIds.Add(id);}
  finally{busy=false;}RewardClaimed?.Invoke(mission);Refresh();CheckpointRequested?.Invoke();return true;
  }
- public bool DeliverPending(string id,IPendingMissionRewardGateway gateway){if(IsBusy)return false;bool result=MissionRewardService.TryDeliver(state,id,gateway);if(result){Changed?.Invoke();CheckpointRequested?.Invoke();}return result;}
+ public bool DeliverPending(string id,IPendingMissionRewardGateway gateway){if(IsBusy)return false;bool result;busy=true;try{result=MissionRewardService.TryDeliver(state,id,gateway);}finally{busy=false;}if(result){Changed?.Invoke();CheckpointRequested?.Invoke();}return result;}
  public static bool ValidSnapshot(MissionSnapshot s){
- if(s==null||s.startDay<1||s.eventSequence<0||s.growthPoints<0||s.counters==null||s.seenEventIds==null||s.completedMissionIds==null||s.claimedMissionIds==null||s.walletReceiptIds==null||s.milestoneIds==null||s.unlocks==null||s.pendingRewards==null||s.progress==null)return false;
+ if(s==null||s.startDay<1||s.eventSequence<0||s.growthPoints<0||s.counters==null||s.seenEventIds==null||s.completedMissionIds==null||s.claimedMissionIds==null||s.walletReceiptIds==null||s.milestoneIds==null||s.unlocks==null||s.pendingRewards==null||s.progress==null||s.choiceOutcomes==null||s.choiceOutcomes.Any(v=>v==MissionChoiceOutcome.None||!Enum.IsDefined(typeof(MissionChoiceOutcome),v))||s.choiceOutcomes.Distinct().Count()!=s.choiceOutcomes.Count)return false;
  foreach(var list in new[]{s.seenEventIds,s.completedMissionIds,s.claimedMissionIds,s.walletReceiptIds,s.milestoneIds})if(list.Any(string.IsNullOrEmpty)||list.Distinct().Count()!=list.Count)return false;
  if(s.claimedMissionIds.Any(id=>!s.completedMissionIds.Contains(id))||s.counters.Any(v=>v==null||v.value<0||!Enum.IsDefined(typeof(MissionCounter),v.counter))||s.counters.Select(v=>v.counter).Distinct().Count()!=s.counters.Count)return false;
  if(s.unlocks.Any(v=>!Enum.IsDefined(typeof(ContentUnlock),v))||s.pendingRewards.Any(v=>v==null||string.IsNullOrEmpty(v.id)||v.amount<=0||!Enum.IsDefined(typeof(PendingMissionRewardKind),v.kind)||v.kind==PendingMissionRewardKind.Item&&(v.item==MissionItemKey.None||!Enum.IsDefined(typeof(MissionItemKey),v.item))))return false;
@@ -89,8 +96,8 @@ public class MissionService:MonoBehaviour {
  class RuntimeMissionStateProvider:IMissionStateProvider {
  readonly MissionService owner;readonly GameManager game;public RuntimeMissionStateProvider(MissionService s,GameManager g){owner=s;game=g;}
  public int Stat(CoreStat stat)=>game.stats.Get(stat);public long Counter(MissionCounter counter)=>owner.Counter(counter);public int Age=>game.growth.Age;public LifeStage Stage=>game.growth.Stage;public int DaysSurvived=>Math.Max(0,game.clock.Day-owner.state.startDay);public long Cash=>game.economy.Cash;public bool Alive=>(game.State==GameState.Playing||game.State==GameState.Resolving)&&!game.survival.Failed;
- public bool HasItem(MissionItemKey item)=>false;public bool Claimed(string id)=>owner.Claimed(id);public bool Unlocked(ContentUnlock value)=>owner.state.unlocks.Contains(value);
- public bool Supports(MissionFeature features)=>(features&~(MissionFeature.Core|MissionFeature.BasicEducation))==0;
+ public bool HasItem(MissionItemKey item)=>owner.sources.Any(s=>s.IsAvailable&&s.HasItem(item));public bool ChoiceOutcome(MissionChoiceOutcome outcome)=>owner.HasChoice(outcome);public bool Claimed(string id)=>owner.Claimed(id);public bool Unlocked(ContentUnlock value)=>owner.state.unlocks.Contains(value);
+ public bool Supports(MissionFeature features)=>(features&~owner.SupportedFeatures)==0;
  }
 }
 

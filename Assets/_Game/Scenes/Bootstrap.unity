@@ -219,6 +219,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3087685043488383444, guid: 5f11f2e116cde6b46930b693a2bebffa, type: 3}
+      propertyPath: fileName
+      value: ian-black-comedy-v4.json
+      objectReference: {fileID: 0}
     - target: {fileID: 4556160830399811232, guid: 5f11f2e116cde6b46930b693a2bebffa, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -262,6 +266,14 @@ PrefabInstance:
     - target: {fileID: 5789705955195748206, guid: 5f11f2e116cde6b46930b693a2bebffa, type: 3}
       propertyPath: m_Name
       value: GameContext
+      objectReference: {fileID: 0}
+    - target: {fileID: 8112064303200937579, guid: 5f11f2e116cde6b46930b693a2bebffa, type: 3}
+      propertyPath: autoSaveOnLifecycle
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8112064303200937579, guid: 5f11f2e116cde6b46930b693a2bebffa, type: 3}
+      propertyPath: realtimeLifeEnabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
