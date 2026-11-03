@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f891063be3f51424a85f8485201f2721, type: 3}
   m_Name: DefaultBalance
   m_EditorClassIdentifier: Assembly-CSharp::IanGame.GameBalance
+  initialLife: {fileID: 11400000, guid: 5b0609e315a1ecc4bae383ead22f323c, type: 2}
+  survival: {fileID: 11400000, guid: 4279d5aa6657650429b495eccaadc5f6, type: 2}
   initialHappiness: 50
   initialStress: 20
   initialEnergy: 70

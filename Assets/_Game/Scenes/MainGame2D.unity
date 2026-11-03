@@ -1357,6 +1357,9 @@ GameObject:
   - component: {fileID: 279599329}
   - component: {fileID: 279599335}
   - component: {fileID: 279599336}
+  - component: {fileID: 279599339}
+  - component: {fileID: 279599338}
+  - component: {fileID: 279599337}
   m_Layer: 0
   m_Name: Game Systems
   m_TagString: Untagged
@@ -1383,8 +1386,12 @@ MonoBehaviour:
   saves: {fileID: 279599330}
   actions: {fileID: 279599336}
   economy: {fileID: 279599335}
+  growth: {fileID: 279599339}
+  survival: {fileID: 279599338}
+  statuses: {fileID: 279599337}
   autoLoadOnStart: 1
   autoSaveAfterAction: 1
+  autoSaveOnLifecycle: 1
 --- !u!114 &279599330
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1397,7 +1404,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 680874fac44ab1b46841589f343e1ab5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::IanGame.SaveManager
-  fileName: ian-black-comedy-v1.json
+  fileName: ian-black-comedy-v3.json
 --- !u!114 &279599331
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1461,6 +1468,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::IanGame.TimeManager
   day: 1
+  realtimeEnabled: 0
+  realSecondsPerGameDay: 300
 --- !u!114 &279599333
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1476,6 +1485,12 @@ MonoBehaviour:
   happiness: 50
   stress: 20
   energy: 70
+  hunger: 100
+  thirst: 100
+  knowledge: 0
+  mental: 80
+  social: 0
+  credit: 50
   money: 50
 --- !u!4 &279599334
 Transform:
@@ -1522,6 +1537,45 @@ MonoBehaviour:
   stats: {fileID: 279599333}
   clock: {fileID: 279599332}
   economy: {fileID: 279599335}
+--- !u!114 &279599337
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 279599328}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f896149e960308641a0875ccd7938639, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IanGame.StatusEffectSystem
+  definitions:
+  - {fileID: 11400000, guid: 1d2fc17da988cb04c8b8b716dae8aa01, type: 2}
+  - {fileID: 11400000, guid: 55a943d23d0993643940ece84706bf61, type: 2}
+--- !u!114 &279599338
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 279599328}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f8f26482602a1e48b6b57ec12288f0e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IanGame.SurvivalSystem
+--- !u!114 &279599339
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 279599328}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 536e758df0459864d98d308a8dc67798, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IanGame.LifeProgression
 --- !u!1 &289007107
 GameObject:
   m_ObjectHideFlags: 0
