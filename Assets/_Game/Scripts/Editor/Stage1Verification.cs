@@ -1,9 +1,23 @@
 using System;using System.Linq;using System.Collections.Generic;using System.Reflection;using UnityEngine;using UnityEngine.UI;using UnityEngine.EventSystems;using UnityEditor;
 namespace IanGame.Editor {
 public static class Stage1Verification {
+
+ public static string[] Run(){
+ if(!Application.isPlaying)throw new InvalidOperationException("Enter Play Mode first.");
+ var g=UnityEngine.Object.FindAnyObjectByType<GameManager>();if(g==null)throw new InvalidOperationException("Missing scene GameManager.");
+ if(!g.LifeMode)return RunLegacy();
+ var initial=g.balance.initialLife;var cfg=g.balance.survival;bool realtime=g.clock.realtimeEnabled,lifecycle=g.autoSaveOnLifecycle;bool paused=g.State==GameState.Paused;
+ var slot=typeof(SaveManager).GetField("fileName",BindingFlags.Instance|BindingFlags.NonPublic);string original=(string)slot.GetValue(g.saves);string temp="phase1-compat-"+Guid.NewGuid().ToString("N")+".json";
+ var snapshot=new SaveData{day=g.clock.Day,stats=g.stats.Capture(),progression=g.growth.Capture(),economy=g.economy.Capture(),survival=g.survival.Capture(),time=g.clock.Capture(),gameOver=g.State==GameState.GameOver,runId=(string)typeof(GameManager).GetField("runId",BindingFlags.Instance|BindingFlags.NonPublic).GetValue(g),settledDay=g.clock.Day,lastSeenUtcTicks=DateTime.UtcNow.Ticks};
+ slot.SetValue(g.saves,temp);g.autoSaveOnLifecycle=false;
+ try{g.balance.initialLife=null;g.balance.survival=null;g.NewGame();return RunLegacy();}
+ finally{g.balance.initialLife=initial;g.balance.survival=cfg;g.NewGame();g.clock.realtimeEnabled=false;FileRestore(g,snapshot);if(paused)g.Pause();g.clock.realtimeEnabled=realtime;g.autoSaveOnLifecycle=lifecycle;slot.SetValue(g.saves,original);}
+ }
+ static void FileRestore(GameManager game,SaveData snapshot){System.IO.File.WriteAllText(game.saves.SavePath,JsonUtility.ToJson(snapshot));game.Load();}
+
  [MenuItem("Ian/Verify Stage 1 Core (Play Mode)")]
  public static void RunMenu(){foreach(var item in Run())Debug.Log(item);}
- public static string[] Run(){
+ static string[] RunLegacy(){
  if(!Application.isPlaying)throw new InvalidOperationException("Enter MainGame2D Play Mode and wait for the first rendered frame.");
  var game=UnityEngine.Object.FindAnyObjectByType<GameManager>();var ui=UnityEngine.Object.FindAnyObjectByType<UIManager>();var character=UnityEngine.Object.FindAnyObjectByType<Character2DPresentation>();
  if(game==null||ui==null||game.State==GameState.Starting)throw new InvalidOperationException("The scene has not finished starting.");
@@ -42,7 +56,7 @@ public static class Stage1Verification {
  check(game.State==GameState.GameOver&&!game.clock.IsRunning&&!ui.workButton.interactable&&!ui.pauseButton.interactable,"Burnout game over and UI");
  d=game.clock.Day;check(!game.TryAction(1)&&game.clock.Day==d,"Game over blocks actions");click(ui.newGameButton);check(game.State==GameState.Playing&&game.clock.Day==1&&s.Money==b.initialMoney,"New life button");
  s.Restore(new StatSnapshot{happiness=73,stress=18,energy=42,money=5432});game.clock.SetDay(19);click(ui.saveButton);s.Apply(-30,20,-10,-4000);game.clock.SetDay(20);click(ui.loadButton);
- check(s.Money==5432&&s.Happiness==73&&game.clock.Day==19&&game.State==GameState.Playing,"Save/load buttons V2 round trip");
+ check(s.Money==5432&&s.Happiness==73&&game.clock.Day==19&&game.State==GameState.Playing,"Existing save/load button flow");
  game.EndGame();game.Save();game.Load();check(game.State==GameState.GameOver,"Game over persists");
  var v1=new SaveData{version=1,day=7,stats=new StatSnapshot{happiness=50,stress=20,energy=70,money=99}};System.IO.File.WriteAllText(game.saves.SavePath,JsonUtility.ToJson(v1));game.Load();check(game.State==GameState.Playing&&game.clock.Day==7&&s.Money==99,"V1 save compatibility");
  System.IO.File.WriteAllText(game.saves.SavePath,"{broken");game.Load();check(game.saves.LastLoadStatus==SaveLoadStatus.Corrupt&&game.clock.Day==7&&s.Money==99&&game.State==GameState.Playing&&System.IO.File.Exists(game.saves.LastRecoveryCopy),"Corrupt save preserved without resetting current life");

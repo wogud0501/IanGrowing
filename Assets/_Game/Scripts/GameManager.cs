@@ -4,7 +4,7 @@ public enum GameState {Starting,Playing,Paused,GameOver,Resolving,Ready=Playing}
 public class GameManager:MonoBehaviour {
  public GameBalance balance;public PlayerStats stats;public TimeManager clock;public EventManager lifeEvents;public SaveManager saves;
  public ActionSystem actions;public EconomySystem economy;public LifeProgression growth;public SurvivalSystem survival;public StatusEffectSystem statuses;
- public bool autoLoadOnStart=true,autoSaveAfterAction=true,autoSaveOnLifecycle=true;
+ public bool autoLoadOnStart=true,autoSaveAfterAction=true,autoSaveOnLifecycle=true,realtimeLifeEnabled=true;
  public GameState State{get;private set;}=GameState.Starting;public bool LifeMode=>balance!=null&&balance.initialLife!=null&&balance.survival!=null;
  string runId;int settledDay=1;bool checkpointPending,appSuspended,wasRealtime;long connectionStamp;
  public event Action<string> Logged;public event Action<int> ActionPerformed;public event Action<GameState> StateChanged;
@@ -17,7 +17,7 @@ public class GameManager:MonoBehaviour {
  }
  void Start(){if(enabled)StartGame();}
  void OnDestroy(){if(clock!=null){clock.DayAdvanced-=OnDay;clock.SimulationAdvanced-=OnSimulation;}if(survival!=null)survival.Failure-=OnFailure;}
- void ConfigureMode(){clock.realtimeEnabled=LifeMode;if(LifeMode)clock.realSecondsPerGameDay=Math.Max(1,balance.survival.realSecondsPerGameDay);survival.Configure(stats,LifeMode?balance.survival:null,statuses);}
+ void ConfigureMode(){clock.realtimeEnabled=LifeMode&&realtimeLifeEnabled;if(LifeMode)clock.realSecondsPerGameDay=Math.Max(1,balance.survival.realSecondsPerGameDay);survival.Configure(stats,LifeMode?balance.survival:null,statuses);}
  void ResetModel(){
  ConfigureMode();if(LifeMode)stats.ResetLife(balance.initialLife);else stats.ResetStats(balance);
  economy.ResetLife(LifeMode);growth.Restore(new ProgressSnapshot{age=LifeMode?0:19});survival.ResetLife();clock.Restore(1,new TimeSnapshot());runId=Guid.NewGuid().ToString("N");settledDay=1;connectionStamp=DateTime.UtcNow.Ticks;

@@ -5,7 +5,7 @@ public class Character2DPresentation:MonoBehaviour {
  public SpriteRenderer spriteRenderer;public Character2DVisuals visuals;
  [SerializeField,Min(.1f)]float reactionDuration=1.6f;
  GameManager game;int action=-1;float elapsed;Vector3 origin;
- public string CurrentAction=>action<0?"Idle":action==0?"Work":action==1?"Rest":"Play";
+ public string CurrentAction=>action<0?"Idle":action==0?"Work":action==1?"Rest":action==2?"Play":action==3?"Meal":action==4?"Drink":action==5?"Sleep":"Hospital";
  void Awake(){origin=transform.localPosition;}
  public void Bind(GameManager model){if(game!=null)game.ActionPerformed-=React;game=model;if(isActiveAndEnabled&&game!=null)game.ActionPerformed+=React;}
  void OnEnable(){if(game!=null){game.ActionPerformed-=React;game.ActionPerformed+=React;}}

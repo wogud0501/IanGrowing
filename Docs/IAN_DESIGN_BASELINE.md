@@ -42,3 +42,6 @@ v3 records all eight stats, progress, debt/assets, transaction ids, danger timer
 v1/v2 are read-only migration sources; new writes go to a separate v3 path. Preserve source + backup. No forced reset on failed manual load.
 Money remains nonnegative; explicit stable transaction ids are persisted for deduplication. Debt transactions never masquerade as consumption.
 Desktop File.Replace has a non-destructive backup fallback for platform support; no platform-specific runtime dependencies.
+
+## Final audit note
+Existing v2 source differed from the initial checkpoint (day21 vs day103). Cause not established; neither state was discarded. Original checkpoint and final-observed copy are both preserved. Current legacy source matches its read-only migration backup. See PHASE2_PROGRESS.md. Official artwork hashes match exactly.

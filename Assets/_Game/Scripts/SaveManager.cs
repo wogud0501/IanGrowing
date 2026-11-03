@@ -32,6 +32,7 @@ public class SaveManager:MonoBehaviour {
  string target=SavePath;
  if(File.Exists(target)){SaveHeader header=null;try{header=JsonUtility.FromJson<SaveHeader>(File.ReadAllText(target));}catch{}
  if(header==null||header.version!=3){target=MigratedPath(BasePath);writePath=target;}}
+ if(File.Exists(target)){SaveHeader targetHeader=null;try{targetHeader=JsonUtility.FromJson<SaveHeader>(File.ReadAllText(target));}catch{}if(targetHeader!=null&&(targetHeader.version==1||targetHeader.version==2))throw new InvalidDataException("마이그레이션 대상에도 구버전 저장이 있습니다. 원본을 보존하고 새 슬롯을 선택하세요.");}
  Directory.CreateDirectory(Application.persistentDataPath);string temp=target+".tmp";File.WriteAllText(temp,JsonUtility.ToJson(d,true));
  if(File.Exists(target)){
  try{File.Replace(temp,target,target+".bak");}
@@ -62,7 +63,7 @@ public class SaveManager:MonoBehaviour {
  value=Migrate(value);WasMigrated=true;
  string backup=path+".pre-phase2.bak";if(!File.Exists(backup))File.Copy(path,backup,false);LastRecoveryCopy=backup;
  writePath=Path.GetFileName(fileName)==CurrentSlot&&Path.GetFileName(path)==LegacySlot?BasePath:MigratedPath(BasePath);
- }else Require(json,new[]{"hunger","thirst","knowledge","mental","social","credit","progression","economy","survival","time","runId","settledDay","lastSeenUtcTicks"});
+ }else Require(json,new[]{"hunger","thirst","knowledge","mental","social","credit","progression","economy","survival","time","runId","settledDay","lastSeenUtcTicks","age","level","experience","socialStanding","completedGrowthIds","debt","otherAssets","processedIds","hungerRemainder","thirstRemainder","hungerDangerSeconds","thirstDangerSeconds","failed","statuses","subDaySeconds","elapsedSeconds"});
  if(!Valid(value))throw new InvalidDataException("저장 범위/구조 오류");
  data=value;WritesBlocked=false;LastLoadStatus=SaveLoadStatus.Loaded;message=WasMigrated?"기존 인생을 보존해 v3로 읽었습니다. 다음 저장은 별도 파일입니다.":"불러오기 완료. 부채도 함께 돌아왔습니다.";return true;
  }catch(UnauthorizedAccessException e){WritesBlocked=true;LastLoadStatus=SaveLoadStatus.IOError;message="저장 접근 실패: "+e.Message;return false;}
@@ -88,6 +89,7 @@ public class SaveManager:MonoBehaviour {
  if(!ValidLegacy(d)||!Range(d.stats.hunger)||!Range(d.stats.thirst)||!Range(d.stats.knowledge)||!Range(d.stats.mental)||!Range(d.stats.social)||!Range(d.stats.credit)||d.stats.stress!=100-d.stats.mental)return false;
  if(d.progression==null||d.progression.age<0||d.progression.level<1||d.progression.experience<0||d.economy==null||d.economy.debt<0||d.economy.otherAssets<0||d.survival==null||d.time==null||string.IsNullOrEmpty(d.runId)||d.settledDay<1||d.settledDay>d.day)return false;
  if(d.lastSeenUtcTicks<0||d.lastSeenUtcTicks>DateTime.MaxValue.Ticks||!Finite(d.time.subDaySeconds)||d.time.subDaySeconds>=TimeManager.SecondsPerDay||!Finite(d.time.elapsedSeconds))return false;
+ if(d.economy.processedIds==null||d.progression.completedGrowthIds==null||d.survival.statuses==null)return false;var seen=new System.Collections.Generic.HashSet<string>();foreach(var id in d.economy.processedIds)if(string.IsNullOrWhiteSpace(id)||!seen.Add(id))return false;
  var s=d.survival;if(!Finite(s.hungerRemainder)||s.hungerRemainder>=1||!Finite(s.thirstRemainder)||s.thirstRemainder>=1||!Finite(s.hungerDangerSeconds)||!Finite(s.thirstDangerSeconds))return false;
  if(s.statuses!=null)foreach(var a in s.statuses)if(a==null||string.IsNullOrEmpty(a.id)||!Finite(a.remainingSeconds)||double.IsNaN(a.healthRemainder)||double.IsInfinity(a.healthRemainder)||double.IsNaN(a.mentalRemainder)||double.IsInfinity(a.mentalRemainder))return false;
  return true;
