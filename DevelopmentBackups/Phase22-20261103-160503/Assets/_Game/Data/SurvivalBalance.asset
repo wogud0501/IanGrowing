@@ -1,0 +1,64 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d6cacc41998c484c9d95a535cbac158, type: 3}
+  m_Name: SurvivalBalance
+  m_EditorClassIdentifier: Assembly-CSharp::IanGame.SurvivalSettings
+  realSecondsPerGameDay: 300
+  hungerLossPerDay: 8
+  thirstLossPerDay: 12
+  dangerGraceHours: 48
+  lowHealthThreshold: 25
+  lowMentalThreshold: 25
+  lowHealthEfficiency: 0.5
+  lowMentalEventMultiplier: 1.5
+  meal:
+    hunger: 35
+    thirst: 0
+    knowledge: 0
+    health: 0
+    mental: 0
+    social: 0
+    credit: 0
+    happiness: 0
+  drink:
+    hunger: 0
+    thirst: 40
+    knowledge: 0
+    health: 0
+    mental: 0
+    social: 0
+    credit: 0
+    happiness: 0
+  sleep:
+    hunger: 0
+    thirst: 0
+    knowledge: 0
+    health: 35
+    mental: 25
+    social: 0
+    credit: 0
+    happiness: 0
+  hospital:
+    hunger: 0
+    thirst: 0
+    knowledge: 0
+    health: 40
+    mental: 40
+    social: 0
+    credit: 0
+    happiness: 0
+  mealCost: 0
+  drinkCost: 0
+  sleepCost: 0
+  hospitalCost: 0
+  careActionDays: 1
+  maxOfflineInspectionSeconds: 28800

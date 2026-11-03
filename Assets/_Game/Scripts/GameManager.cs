@@ -52,15 +52,17 @@ public class GameManager:MonoBehaviour {
  if(day<=settledDay)return;settledDay=day;if(State!=GameState.Playing&&State!=GameState.Resolving)return;
  float chance=balance.eventChance*(LifeMode?survival.EventChanceMultiplier:1);var result=lifeEvents.TryEvent(stats,chance);if(result!=null)Log(result);
  }
- void SaveQuietly(){if(saves==null||State==GameState.Starting)return;string message;if(!saves.Save(stats,clock,State==GameState.GameOver,runId,settledDay,out message))Log(message);else connectionStamp=saves.LastSavedUtcTicks;}
- public void Save(){if(!enabled||State==GameState.Starting||State==GameState.Resolving)return;string message;saves.Save(stats,clock,State==GameState.GameOver,runId,settledDay,out message);connectionStamp=saves.LastSavedUtcTicks;Log(message);}
+ void SaveQuietly(){if(saves==null||State==GameState.Starting)return;string message;if(!saves.SaveAutomatic(stats,clock,State==GameState.GameOver,runId,settledDay,out message))Log(message);else connectionStamp=saves.LastSavedUtcTicks;}
+ public void Save(){if(!enabled||State==GameState.Starting||State==GameState.Resolving)return;string message;if(saves.Save(stats,clock,State==GameState.GameOver,runId,settledDay,out message)){connectionStamp=saves.LastSavedUtcTicks;SaveQuietly();}Log(message);}
  public void Load(){if(enabled&&State!=GameState.Resolving)RestoreSave(true);}
  void RestoreSave(bool preserve){
- SaveData data;string message;
- if(saves.TryRead(out data,out message)){
+ SaveData data=null;string message=null;
+ bool loaded=!preserve&&saves.TryReadAutomatic(out data,out message);
+ if(!loaded)loaded=saves.TryRead(out data,out message);
+ if(loaded){
  SetState(GameState.Starting);saves.ApplyToModels(data,stats,clock);runId=data.runId;settledDay=data.settledDay;connectionStamp=data.lastSeenUtcTicks;
  clock.RecordConnection(data.lastSeenUtcTicks,LifeMode?balance.survival.maxOfflineInspectionSeconds:28800);
- SetState(data.gameOver||survival.Failed?GameState.GameOver:GameState.Playing);Log(message);return;
+ SetState(data.gameOver||survival.Failed?GameState.GameOver:GameState.Playing);if(preserve)SaveQuietly();Log(message);return;
  }
  if(!preserve){SetState(GameState.Playing);if(saves.LastLoadStatus==SaveLoadStatus.Missing)BirthMessage();else Log(message+" / 저장을 보호하는 임시 세션입니다.");}else Log(message);
  }

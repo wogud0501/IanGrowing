@@ -1,0 +1,98 @@
+using System;using System.IO;using System.Text.RegularExpressions;using UnityEngine;
+namespace IanGame {
+[Serializable]public class SaveData {
+ public int version=3,day;public StatSnapshot stats;public bool gameOver;
+ public ProgressSnapshot progression;public EconomySnapshot economy;public SurvivalSnapshot survival;public TimeSnapshot time;
+ public long lastSeenUtcTicks;public string runId;public int settledDay;
+}
+[Serializable]class SaveHeader {public int version;}
+public enum SaveLoadStatus {None,Loaded,Missing,Corrupt,UnsupportedVersion,IOError}
+public class SaveManager:MonoBehaviour {
+ public const string CurrentSlot="ian-black-comedy-v3.json",LegacySlot="ian-black-comedy-v1.json";
+ [SerializeField]string fileName=CurrentSlot;string activeBase,writePath;
+ LifeProgression progression;EconomySystem economy;SurvivalSystem survival;
+ public string BasePath=>Path.Combine(Application.persistentDataPath,Path.GetFileName(fileName));
+ public string SavePath{get{EnsureSlot();return writePath??BasePath;}}
+ public string LastSourcePath{get;private set;}public int LastSourceVersion{get;private set;}public bool WasMigrated{get;private set;}
+ public SaveLoadStatus LastLoadStatus{get;private set;}public string LastRecoveryCopy{get;private set;}public long LastSavedUtcTicks{get;private set;}
+ public bool WritesBlocked{get;private set;}
+ void EnsureSlot(){if(activeBase==BasePath)return;activeBase=BasePath;writePath=null;WritesBlocked=false;}
+ static string MigratedPath(string source)=>Path.Combine(Path.GetDirectoryName(source),Path.GetFileNameWithoutExtension(source)+".phase2-v3.json");
+ public void Configure(LifeProgression p,EconomySystem e,SurvivalSystem s){progression=p;economy=e;survival=s;}
+ public void AllowExplicitNewGame(){EnsureSlot();WritesBlocked=false;}
+ public bool Save(PlayerStats stats,TimeManager clock,out string message)=>Save(stats,clock,false,out message);
+ public bool Save(PlayerStats stats,TimeManager clock,bool gameOver,out string message)=>Save(stats,clock,gameOver,Guid.NewGuid().ToString("N"),clock==null?1:clock.Day,out message);
+ public bool Save(PlayerStats stats,TimeManager clock,bool gameOver,string runId,int settledDay,out string message){
+ EnsureSlot();
+ if(WritesBlocked){message="원본 저장 보호 중입니다. 새 인생을 명시적으로 시작하거나 저장 파일을 복구해 주세요.";return false;}
+ try{
+ if(stats==null||clock==null)throw new InvalidOperationException("시스템 연결 누락");
+ var d=new SaveData{stats=stats.Capture(),day=clock.Day,gameOver=gameOver,progression=progression==null?new ProgressSnapshot{age=19}:progression.Capture(),economy=economy==null?new EconomySnapshot():economy.Capture(),survival=survival==null?new SurvivalSnapshot():survival.Capture(),time=clock.Capture(),lastSeenUtcTicks=DateTime.UtcNow.Ticks,runId=runId,settledDay=Mathf.Clamp(settledDay,1,clock.Day)};
+ if(!Valid(d))throw new InvalidDataException("유효하지 않은 게임 상태");
+ string target=SavePath;
+ if(File.Exists(target)){SaveHeader header=null;try{header=JsonUtility.FromJson<SaveHeader>(File.ReadAllText(target));}catch{}
+ if(header==null||header.version!=3){target=MigratedPath(BasePath);writePath=target;}}
+ if(File.Exists(target)){SaveHeader targetHeader=null;try{targetHeader=JsonUtility.FromJson<SaveHeader>(File.ReadAllText(target));}catch{}if(targetHeader!=null&&(targetHeader.version==1||targetHeader.version==2))throw new InvalidDataException("마이그레이션 대상에도 구버전 저장이 있습니다. 원본을 보존하고 새 슬롯을 선택하세요.");}
+ Directory.CreateDirectory(Application.persistentDataPath);string temp=target+".tmp";File.WriteAllText(temp,JsonUtility.ToJson(d,true));
+ if(File.Exists(target)){
+ try{File.Replace(temp,target,target+".bak");}
+ catch(PlatformNotSupportedException){File.Copy(target,target+".bak",true);File.Copy(temp,target,true);}
+ }else File.Move(temp,target);
+ LastSavedUtcTicks=d.lastSeenUtcTicks;message="저장 완료. 부채도 빠짐없이 보관했습니다.";return true;
+ }catch(Exception e){message="저장 실패: "+e.Message;return false;}
+ }
+ string ResolveReadPath(){
+ EnsureSlot();if(writePath!=null&&File.Exists(writePath))return writePath;
+ string migrated=MigratedPath(BasePath);if(File.Exists(migrated)){writePath=migrated;return migrated;}
+ if(File.Exists(BasePath))return BasePath;
+ if(Path.GetFileName(fileName)==CurrentSlot){string legacy=Path.Combine(Application.persistentDataPath,LegacySlot);if(File.Exists(legacy))return legacy;}
+ return BasePath;
+ }
+ public bool TryRead(out SaveData data,out string message){
+ data=null;LastRecoveryCopy=null;WasMigrated=false;LastSourceVersion=0;string path=ResolveReadPath();LastSourcePath=path;
+ try{
+ if(!File.Exists(path)){LastLoadStatus=SaveLoadStatus.Missing;message="저장된 인생이 없습니다.";return false;}
+ if(new FileInfo(path).Length>8*1024*1024)throw new InvalidDataException("저장 크기 오류");
+ string json=File.ReadAllText(path);Require(json,new[]{"version","day","stats","happiness","stress","energy","money"});
+ var header=JsonUtility.FromJson<SaveHeader>(json);if(header==null)throw new InvalidDataException("저장 헤더 오류");
+ LastSourceVersion=header.version;
+ if(header.version<1||header.version>3){WritesBlocked=true;LastLoadStatus=SaveLoadStatus.UnsupportedVersion;message="지원하지 않는 저장 버전입니다. 원본과 현재 상태를 보존합니다.";return false;}
+ var value=JsonUtility.FromJson<SaveData>(json);if(value==null)throw new InvalidDataException("빈 데이터");
+ if(header.version<3){
+ if(!ValidLegacy(value))throw new InvalidDataException("구버전 저장 범위 오류");
+ value=Migrate(value);WasMigrated=true;
+ string backup=path+".pre-phase2.bak";if(!File.Exists(backup))File.Copy(path,backup,false);LastRecoveryCopy=backup;
+ writePath=Path.GetFileName(fileName)==CurrentSlot&&Path.GetFileName(path)==LegacySlot?BasePath:MigratedPath(BasePath);
+ }else Require(json,new[]{"hunger","thirst","knowledge","mental","social","credit","progression","economy","survival","time","runId","settledDay","lastSeenUtcTicks","age","level","experience","socialStanding","completedGrowthIds","debt","otherAssets","processedIds","hungerRemainder","thirstRemainder","hungerDangerSeconds","thirstDangerSeconds","failed","statuses","subDaySeconds","elapsedSeconds"});
+ if(!Valid(value))throw new InvalidDataException("저장 범위/구조 오류");
+ data=value;WritesBlocked=false;LastLoadStatus=SaveLoadStatus.Loaded;message=WasMigrated?"기존 인생을 보존해 v3로 읽었습니다. 다음 저장은 별도 파일입니다.":"불러오기 완료. 부채도 함께 돌아왔습니다.";return true;
+ }catch(UnauthorizedAccessException e){WritesBlocked=true;LastLoadStatus=SaveLoadStatus.IOError;message="저장 접근 실패: "+e.Message;return false;}
+ catch(InvalidDataException e){return Corrupt(path,e,out message);}
+ catch(IOException e){WritesBlocked=true;LastLoadStatus=SaveLoadStatus.IOError;message="저장 읽기 실패: "+e.Message;return false;}
+ catch(Exception e){return Corrupt(path,e,out message);}
+ }
+ static void Require(string json,string[] fields){foreach(string field in fields)if(!Regex.IsMatch(json,"\\\""+field+"\\\"\\s*:"))throw new InvalidDataException("필수 저장 필드 누락: "+field);}
+ static SaveData Migrate(SaveData old){
+ var s=old.stats;s.hunger=100;s.thirst=100;s.knowledge=0;s.mental=100-s.stress;s.social=0;s.credit=50;
+ return new SaveData{day=old.day,stats=s,gameOver=old.gameOver,progression=new ProgressSnapshot{age=19},economy=new EconomySnapshot(),survival=new SurvivalSnapshot(),time=new TimeSnapshot{elapsedSeconds=(old.day-1)*TimeManager.SecondsPerDay},lastSeenUtcTicks=0,runId="legacy-"+Guid.NewGuid().ToString("N"),settledDay=old.day};
+ }
+ bool Corrupt(string path,Exception e,out string message){
+ LastLoadStatus=SaveLoadStatus.Corrupt;WritesBlocked=true;message="저장 손상: "+e.Message+" / 현재 인생과 원본은 초기화하지 않습니다.";
+ try{string copy=path+".corrupt-"+DateTime.UtcNow.Ticks;File.Copy(path,copy,false);LastRecoveryCopy=copy;}catch(Exception backup){message+=" / 보존 복사 실패: "+backup.Message;}return false;
+ }
+ public void ApplyToModels(SaveData value,PlayerStats stats,TimeManager clock){stats.Restore(value.stats);progression?.Restore(value.progression);economy?.Restore(value.economy);survival?.Restore(value.survival);clock.Restore(value.day,value.time);}
+ public bool Load(PlayerStats stats,TimeManager clock,out string message){if(stats==null||clock==null){message="시스템 연결 누락";return false;}SaveData d;if(!TryRead(out d,out message))return false;ApplyToModels(d,stats,clock);return true;}
+ static bool Range(int v)=>v>=0&&v<=100;
+ static bool Finite(double v)=>!double.IsNaN(v)&&!double.IsInfinity(v)&&v>=0;
+ static bool ValidLegacy(SaveData d)=>d!=null&&d.stats!=null&&d.day>=1&&d.day<=TimeManager.MaximumDay&&Range(d.stats.happiness)&&Range(d.stats.stress)&&Range(d.stats.energy)&&d.stats.money>=0;
+ static bool Valid(SaveData d){
+ if(!ValidLegacy(d)||!Range(d.stats.hunger)||!Range(d.stats.thirst)||!Range(d.stats.knowledge)||!Range(d.stats.mental)||!Range(d.stats.social)||!Range(d.stats.credit)||d.stats.stress!=100-d.stats.mental)return false;
+ if(d.progression==null||d.progression.age<0||d.progression.level<1||d.progression.experience<0||d.economy==null||d.economy.debt<0||d.economy.otherAssets<0||d.survival==null||d.time==null||string.IsNullOrEmpty(d.runId)||d.settledDay<1||d.settledDay>d.day)return false;
+ if(d.lastSeenUtcTicks<0||d.lastSeenUtcTicks>DateTime.MaxValue.Ticks||!Finite(d.time.subDaySeconds)||d.time.subDaySeconds>=TimeManager.SecondsPerDay||!Finite(d.time.elapsedSeconds))return false;
+ if(d.economy.processedIds==null||d.progression.completedGrowthIds==null||d.survival.statuses==null)return false;var seen=new System.Collections.Generic.HashSet<string>();foreach(var id in d.economy.processedIds)if(string.IsNullOrWhiteSpace(id)||!seen.Add(id))return false;
+ var s=d.survival;if(!Finite(s.hungerRemainder)||s.hungerRemainder>=1||!Finite(s.thirstRemainder)||s.thirstRemainder>=1||!Finite(s.hungerDangerSeconds)||!Finite(s.thirstDangerSeconds))return false;
+ if(s.statuses!=null)foreach(var a in s.statuses)if(a==null||string.IsNullOrEmpty(a.id)||!Finite(a.remainingSeconds)||double.IsNaN(a.healthRemainder)||double.IsInfinity(a.healthRemainder)||double.IsNaN(a.mentalRemainder)||double.IsInfinity(a.mentalRemainder))return false;
+ return true;
+ }
+}
+}

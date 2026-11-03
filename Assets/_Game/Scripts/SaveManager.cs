@@ -18,6 +18,21 @@ public class SaveManager:MonoBehaviour {
  public bool WritesBlocked{get;private set;}
  void EnsureSlot(){if(activeBase==BasePath)return;activeBase=BasePath;writePath=null;WritesBlocked=false;}
  static string MigratedPath(string source)=>Path.Combine(Path.GetDirectoryName(source),Path.GetFileNameWithoutExtension(source)+".phase2-v3.json");
+ 
+ public string AutomaticSavePath=>Path.Combine(Application.persistentDataPath,Path.GetFileNameWithoutExtension(fileName)+".autosave.json");
+ struct ChannelState {public string slot,active,path;public bool blocked;}
+ ChannelState EnterAutomatic(){
+ var old=new ChannelState{slot=fileName,active=activeBase,path=writePath,blocked=WritesBlocked};
+ fileName=Path.GetFileNameWithoutExtension(fileName)+".autosave.json";activeBase=null;writePath=null;WritesBlocked=false;return old;
+ }
+ void LeaveAutomatic(ChannelState old){fileName=old.slot;activeBase=old.active;writePath=old.path;WritesBlocked=old.blocked;}
+ public bool SaveAutomatic(PlayerStats stats,TimeManager clock,bool gameOver,string runId,int settledDay,out string message){
+ var original=EnterAutomatic();try{return Save(stats,clock,gameOver,runId,settledDay,out message);}finally{LeaveAutomatic(original);}
+ }
+ public bool TryReadAutomatic(out SaveData data,out string message){
+ var original=EnterAutomatic();try{return TryRead(out data,out message);}finally{LeaveAutomatic(original);}
+ }
+
  public void Configure(LifeProgression p,EconomySystem e,SurvivalSystem s){progression=p;economy=e;survival=s;}
  public void AllowExplicitNewGame(){EnsureSlot();WritesBlocked=false;}
  public bool Save(PlayerStats stats,TimeManager clock,out string message)=>Save(stats,clock,false,out message);

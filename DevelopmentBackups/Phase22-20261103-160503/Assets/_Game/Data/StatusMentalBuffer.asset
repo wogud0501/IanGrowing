@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c22b6f136c8c37a41a7f771134c5ac1d, type: 3}
+  m_Name: StatusMentalBuffer
+  m_EditorClassIdentifier: Assembly-CSharp::IanGame.StatusEffectDefinition
+  id: mind-buffer
+  displayName: "\uB9C8\uC74C \uBC84\uD37C\uB9C1"
+  triggerStat: 4
+  triggerAtOrBelow: 25
+  recoverAtOrAbove: 40
+  durationSeconds: 86400
+  healthPerDay: 0
+  mentalPerDay: 0
+  efficiencyMultiplier: 0.8
+  description: "\uAC10\uC815\uC744 \uBD88\uB7EC\uC624\uB294 \uC911\uC785\uB2C8\uB2E4. \uC2E4\uC81C \uC9C8\uBCD1\uC758 \uC9C4\uB2E8\uBA85\uC774 \uC544\uB2D9\uB2C8\uB2E4."
