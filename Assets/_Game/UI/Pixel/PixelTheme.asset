@@ -1,0 +1,50 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 369d1385ebe72d24984004fc569d22ec, type: 3}
+  m_Name: PixelTheme
+  m_EditorClassIdentifier: Assembly-CSharp::IanGame.PixelUITheme
+  ink: {r: 0.10980392, g: 0.14901961, b: 0.22745098, a: 1}
+  cream: {r: 1, g: 0.94509804, b: 0.8117647, a: 1}
+  gold: {r: 0.9411765, g: 0.7372549, b: 0.3882353, a: 1}
+  coral: {r: 0.8627451, g: 0.46666667, b: 0.35686275, a: 1}
+  mint: {r: 0.49803922, g: 0.7137255, b: 0.5882353, a: 1}
+  blue: {r: 0.41568628, g: 0.6, b: 0.6784314, a: 1}
+  lilac: {r: 0.6666667, g: 0.6156863, b: 0.77254903, a: 1}
+  panel: {fileID: 21300000, guid: 5b31b1f1cfc0245439f188a290d97893, type: 3}
+  panelDark: {fileID: 21300000, guid: 66a9dc158d7556c4d89d9e850b50ed6b, type: 3}
+  panelBlue: {fileID: 21300000, guid: 0de902432596c7444b93438360682167, type: 3}
+  button: {fileID: 21300000, guid: 9033bca6019116a4faf2a787770848f1, type: 3}
+  hover: {fileID: 21300000, guid: 487e739e5a032b54e8fcac0aa21c61db, type: 3}
+  pressed: {fileID: 21300000, guid: ffdad3b09f434ec409f561f430479ed7, type: 3}
+  disabled: {fileID: 21300000, guid: d196704dcee125649a05db8b95dfd23a, type: 3}
+  tab: {fileID: 21300000, guid: 96ed2edcc52ba44498c671af15d09d48, type: 3}
+  track: {fileID: 21300000, guid: 97f577605e4c2d04dab129d7108cfbb9, type: 3}
+  fill: {fileID: 21300000, guid: 9cb99d082b109b844b0aae8b9c5fde9f, type: 3}
+  icons:
+  - {fileID: 21300000, guid: 2c22fe79eb48eb54c8c9622991754b70, type: 3}
+  - {fileID: 21300000, guid: 0b03908e71b8b6b4e8629c5643fe8663, type: 3}
+  - {fileID: 21300000, guid: 14ab27de1bbbf6d4a90edc36cd50eabb, type: 3}
+  - {fileID: 21300000, guid: 6616985234a0f604292bcfa0372b3d48, type: 3}
+  - {fileID: 21300000, guid: 9f00dcd7e601bf748a7d53eaaa0f86f9, type: 3}
+  - {fileID: 21300000, guid: d58f0ac147a4e0f4081d2206244b185b, type: 3}
+  - {fileID: 21300000, guid: f380e4948a2ae9844ab3c51ed31cac36, type: 3}
+  - {fileID: 21300000, guid: 4fa65f7f915e3ac479465574e6c43a04, type: 3}
+  - {fileID: 21300000, guid: c190fbcce3a07f7439d1cd58f65949dc, type: 3}
+  - {fileID: 21300000, guid: 51aeed96fb6a98448a61fa1be86a7b6e, type: 3}
+  - {fileID: 21300000, guid: 45ca1b35878ccff43889a70dcafa7c23, type: 3}
+  - {fileID: 21300000, guid: df767c7508174834698713d4d981ee88, type: 3}
+  - {fileID: 21300000, guid: b991e3f8744fab44697e20d679bd9211, type: 3}
+  - {fileID: 21300000, guid: c83620ed0c753274192a56a6a8806b19, type: 3}
+  - {fileID: 21300000, guid: 228ec3e95aa9ba649b1fa1bb7f1a8d0f, type: 3}
+  - {fileID: 21300000, guid: 1ac7c135341bba54695c6d02bb669024, type: 3}
+  font: {fileID: 11400000, guid: 3c6553f0a0742564b8cf6cca8ed24f63, type: 2}
+  pixelsPerUnit: 100

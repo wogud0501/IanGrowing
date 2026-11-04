@@ -14,7 +14,7 @@ public class Phase22Runner:MonoBehaviour {
  void WaitLimit(int count,string scene){if(count>900)throw new Exception("Scene transition timed out: "+scene);}
  UIManager HUD()=>UnityEngine.Object.FindAnyObjectByType<UIManager>();
  MissionUI MissionView()=>UnityEngine.Object.FindAnyObjectByType<MissionUI>();
- void Click(Button button){if(button==null||!button.gameObject.activeInHierarchy||!button.interactable)throw new Exception("UI button not usable: "+(button==null?"null":button.name));button.onClick.Invoke();}
+ void Click(Button button){var revealed=button==null?null:PixelUIRunner.RevealForRegression(button);if(button==null||!button.gameObject.activeInHierarchy||!button.interactable)throw new Exception("UI button not usable: "+(button==null?"null":button.name));button.onClick.Invoke();if(revealed!=null)UIShell.For(button).Close(revealed);}
  void OnComplete(MissionData data){milestoneAges[data.Id]=game.growth.Age;}
  void ContextInvariant(string label){Check(GameContext.Instance==originalContext&&GameContext.Instance.game==game&&game.missions==originalMissions&&UnityEngine.Object.FindObjectsByType<GameContext>(FindObjectsInactive.Include).Length==1&&UnityEngine.Object.FindObjectsByType<GameManager>(FindObjectsInactive.Include).Length==1&&UnityEngine.Object.FindObjectsByType<SaveManager>(FindObjectsInactive.Include).Length==1,label);}
  void Care(){

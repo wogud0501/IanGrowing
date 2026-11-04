@@ -5,7 +5,7 @@ public class UIShell:MonoBehaviour,ICancelHandler {
  readonly List<ScreenEntry> stack=new List<ScreenEntry>();
  public CanvasGroup baseGroup;public RectTransform overlayRoot;public GameObject pausePanel,settingsPanel,statusPanel,confirmPanel;public Button motionButton,textSizeButton;public bool mainMenu;
  public static bool ReducedMotion=>PlayerPrefs.GetInt("ian.ui.reduceMotion",0)==1;
- public int Depth=>stack.Count;public GameObject Top=>stack.Count==0?null:stack[stack.Count-1].view;
+ public event Action Changed;public int Depth=>stack.Count;public GameObject Top=>stack.Count==0?null:stack[stack.Count-1].view;
  GameManager game;int lastBackFrame=-1;readonly Dictionary<GameObject,Coroutine> animations=new Dictionary<GameObject,Coroutine>();
  public static UIShell For(Component target){if(target==null)return UnityEngine.Object.FindFirstObjectByType<UIShell>();var canvas=target.GetComponentInParent<Canvas>();var all=UnityEngine.Object.FindObjectsByType<UIShell>(FindObjectsSortMode.None);return all.FirstOrDefault(s=>canvas!=null&&s.GetComponentInParent<Canvas>()==canvas)??all.FirstOrDefault();}
  void Start(){game=GameContext.Instance==null?null:GameContext.Instance.game;Focus(baseGroup.gameObject);RefreshSettings();}
@@ -15,7 +15,7 @@ public class UIShell:MonoBehaviour,ICancelHandler {
  }
  public void Close(GameObject panel){int index=stack.FindIndex(s=>s.view==panel);if(index<0){if(panel!=null)panel.SetActive(false);return;}while(stack.Count>index)Pop();}
  public void Pop(){if(stack.Count==0)return;var entry=stack[stack.Count-1];stack.RemoveAt(stack.Count-1);Animate(entry.view,false);Sync();if(entry.resume&&game!=null&&game.State==GameState.Paused)game.Resume();if(EventSystem.current!=null&&entry.previousFocus!=null&&entry.previousFocus.activeInHierarchy&&entry.previousFocus.GetComponent<Selectable>()!=null&&entry.previousFocus.GetComponent<Selectable>().IsInteractable())EventSystem.current.SetSelectedGameObject(entry.previousFocus);else Focus(Top==null?baseGroup.gameObject:Top);}
- void Sync(){if(baseGroup!=null){baseGroup.interactable=stack.Count==0;baseGroup.blocksRaycasts=stack.Count==0;}foreach(var entry in stack){var group=Group(entry.view);group.interactable=entry==stack.Last();group.blocksRaycasts=group.interactable;}}
+ void Sync(){if(baseGroup!=null){baseGroup.interactable=stack.Count==0;baseGroup.blocksRaycasts=stack.Count==0;}foreach(var entry in stack){var group=Group(entry.view);group.interactable=entry==stack.Last();group.blocksRaycasts=group.interactable;}Changed?.Invoke();}
  static CanvasGroup Group(GameObject view){var group=view.GetComponent<CanvasGroup>();return group!=null?group:view.AddComponent<CanvasGroup>();}
  void Animate(GameObject view,bool show){if(view==null)return;Coroutine current;if(animations.TryGetValue(view,out current)&&current!=null)StopCoroutine(current);if(!isActiveAndEnabled||ReducedMotion){Group(view).alpha=show?1:0;view.SetActive(show);return;}animations[view]=StartCoroutine(Fade(view,show));}
  IEnumerator Fade(GameObject view,bool show){var group=Group(view);group.interactable=show;group.blocksRaycasts=show;float start=show?0:group.alpha;for(float t=0;t<1;t+=Time.unscaledDeltaTime/.15f){group.alpha=Mathf.Lerp(start,show?1:0,1-(1-t)*(1-t));yield return null;}group.alpha=show?1:0;if(!show)view.SetActive(false);animations.Remove(view);}
