@@ -42,7 +42,7 @@ public static class MissionGuidance {
  if(progress!=null&&progress.state==MissionState.Completed)return "달성했습니다! ‘보상 수령’을 눌러 다음 미션으로 진행하세요.";
  if(m.suggestedAction<0)return "선행 미션의 보상을 모두 수령하고 위 조건을 충족하세요. 시간 경과만으로 나이가 오르지 않습니다.";
  string name=ActionName(m.suggestedAction,g);string place=m.suggestedAction<7?"생활 행동":g!=null&&g.phase23!=null&&g.phase23.catalog!=null?Place(g.phase23.Destination(m.suggestedAction)):"School · 학교";
- string text=place+" → ‘"+name+"’을 실행하세요.";
+ string text=place+" → ‘"+name+"’ 선택 후 실행하세요.";
  if(m.suggestedAction==9)text+=" 친구 만들기에 성공해야 집계됩니다. 대화만으로는 친구가 생기지 않습니다.";
  if(m.suggestedAction==12)text+=" 먼저 시험을 보고, 아직 받지 않은 성적표를 수령하세요.";
  if(m.suggestedAction==16&&g!=null&&g.phase23!=null&&g.phase23.catalog!=null){var e=g.phase23.Education.Available;if(e!=null)text+=$" 공부 {e.graduationStudies}회, 숙제 {e.graduationHomework}회, {e.graduationScore}점 이상 성적표가 필요합니다.";}

@@ -13,8 +13,8 @@ public class Phase22Runner:MonoBehaviour {
  bool Ready(string name)=>SceneManager.GetActiveScene().name==name&&GameContext.Instance!=null&&!GameContext.Instance.transitions.IsTransitioning;
  void WaitLimit(int count,string scene){if(count>900)throw new Exception("Scene transition timed out: "+scene);}
  UIManager HUD()=>UnityEngine.Object.FindAnyObjectByType<UIManager>();
- MissionUI MissionView()=>UnityEngine.Object.FindAnyObjectByType<MissionUI>();
- void Click(Button button){var revealed=button==null?null:PixelUIRunner.RevealForRegression(button);if(button==null||!button.gameObject.activeInHierarchy||!button.interactable)throw new Exception("UI button not usable: "+(button==null?"null":button.name));button.onClick.Invoke();if(revealed!=null)UIShell.For(button).Close(revealed);}
+ MissionUI MissionView()=>UnityEngine.Object.FindObjectsByType<MissionUI>(FindObjectsInactive.Include,FindObjectsSortMode.None).First();
+ void Click(Button button){var revealed=button==null?null:PixelUIRunner.RevealForRegression(button);if(button==null||!button.gameObject.activeInHierarchy||!button.interactable)throw new Exception("UI button not usable: "+(button==null?"null":button.name));button.onClick.Invoke();var shell=UIShell.For(button);if(shell!=null&&shell.Top==shell.confirmPanel)shell.AcceptNewLife();if(revealed!=null)UIShell.For(button).Close(revealed);}
  void OnComplete(MissionData data){milestoneAges[data.Id]=game.growth.Age;}
  void ContextInvariant(string label){Check(GameContext.Instance==originalContext&&GameContext.Instance.game==game&&game.missions==originalMissions&&UnityEngine.Object.FindObjectsByType<GameContext>(FindObjectsInactive.Include).Length==1&&UnityEngine.Object.FindObjectsByType<GameManager>(FindObjectsInactive.Include).Length==1&&UnityEngine.Object.FindObjectsByType<SaveManager>(FindObjectsInactive.Include).Length==1,label);}
  void Care(){
@@ -40,17 +40,17 @@ public class Phase22Runner:MonoBehaviour {
  wait=0;while(!Ready("Home")){WaitLimit(++wait,"Home");yield return null;}yield return null;
  ContextInvariant("MainMenu -> Home keeps one shared context");
  string before=JsonUtility.ToJson(game.stats.Capture());int initialAge=game.growth.Age;long debt=game.economy.Debt;
- Click(UnityEngine.Object.FindAnyObjectByType<LocationPresenter>().schoolButton);
+ Click(PixelUIRunner.LocationForRegression(SceneId.School));
  wait=0;while(!Ready("School")){WaitLimit(++wait,"School");yield return null;}yield return null;
  Check(JsonUtility.ToJson(game.stats.Capture())==before&&game.growth.Age==initialAge&&game.economy.Debt==debt,"Home -> School preserves player/financial state");ContextInvariant("School has no duplicate managers");
- Click(UnityEngine.Object.FindAnyObjectByType<LocationPresenter>().homeButton);
+ Click(PixelUIRunner.LocationForRegression(SceneId.Home));
  wait=0;while(!Ready("Home")){WaitLimit(++wait,"Home");yield return null;}yield return null;
  ContextInvariant("School -> Home keeps same manager and mission service");
  Click(HUD().newGameButton);game.clock.realtimeEnabled=false;
  Check(game.growth.Age==0&&game.stats.Money==0&&game.economy.Debt==1000000,"New mission life starts age0 cash0 debt1000000");
  for(int n=1;n<=20;n++){
  string id="M"+n.ToString("000");Phase22Verification.Progress="Actual UI play "+id;
- if(n==11){Click(UnityEngine.Object.FindAnyObjectByType<LocationPresenter>().schoolButton);wait=0;while(!Ready("School")){WaitLimit(++wait,"School");yield return null;}yield return null;}
+ if(n==11){Click(PixelUIRunner.LocationForRegression(SceneId.School));wait=0;while(!Ready("School")){WaitLimit(++wait,"School");yield return null;}yield return null;}
  Check(game.missions.ActiveMission!=null&&game.missions.ActiveMission.Id==id,"Sequential active mission "+id);
  if(n==16){
  Education(10);Education(10);Click(HUD().saveButton);SaveData saved;string message;if(!game.saves.TryRead(out saved,out message))throw new Exception(message);
@@ -78,7 +78,7 @@ public class Phase22Runner:MonoBehaviour {
  Care();int age=game.growth.Age;game.clock.AdvanceDays(2);Check(game.growth.Age==age&&game.growth.Level!=age,"Days do not change age / level independent");
  Click(HUD().saveButton);string manual=File.ReadAllText(game.saves.SavePath);
  string missionState=JsonUtility.ToJson(game.missions.Capture());string pending=JsonUtility.ToJson(game.economy.Capture());
- Click(UnityEngine.Object.FindAnyObjectByType<LocationPresenter>().homeButton);wait=0;while(!Ready("Home")){WaitLimit(++wait,"Home");yield return null;}yield return null;
+ Click(PixelUIRunner.LocationForRegression(SceneId.Home));wait=0;while(!Ready("Home")){WaitLimit(++wait,"Home");yield return null;}yield return null;
  Check(JsonUtility.ToJson(game.missions.Capture())==missionState&&JsonUtility.ToJson(game.economy.Capture())==pending,"School actions/mission rewards/entitlements visible immediately in Home");
  ContextInvariant("Full Home-School-Home path shares one service container");
  Phase22Verification.Progress="Editor-only future condition providers M021-M060";

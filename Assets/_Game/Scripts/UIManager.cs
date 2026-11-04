@@ -14,7 +14,7 @@ public class UIManager:MonoBehaviour {
  void Wire(bool add){Hook(workButton,Work,add);Hook(restButton,Rest,add);Hook(playButton,Play,add);Hook(saveButton,Save,add);Hook(loadButton,Load,add);Hook(pauseButton,Pause,add);Hook(newGameButton,NewGame,add);Hook(mealButton,Eat,add);Hook(drinkButton,Drink,add);Hook(sleepButton,Sleep,add);Hook(hospitalButton,Hospital,add);}
  void Hook(Button b,UnityEngine.Events.UnityAction action,bool add){if(b==null)return;b.onClick.RemoveListener(action);if(add&&b.onClick.GetPersistentEventCount()==0)b.onClick.AddListener(action);}
  public void Work(){if(game!=null)game.Work();}public void Rest(){if(game!=null)game.Rest();}public void Play(){if(game!=null)game.Play();}
- public void Save(){if(game!=null)game.Save();}public void Load(){if(game!=null)game.Load();}public void Pause(){var shell=UIShell.For(this);if(shell!=null){if(shell.Top==shell.pausePanel)shell.Pop();else shell.OpenPause();}else if(game!=null)game.TogglePause();}public void NewGame(){if(game!=null)game.NewGame();}
+ public void Save(){if(game!=null)game.Save();}public void Load(){if(game!=null)game.Load();}public void Pause(){var shell=UIShell.For(this);if(shell!=null){if(shell.Top==shell.pausePanel)shell.Pop();else shell.OpenPause();}else if(game!=null)game.TogglePause();}public void NewGame(){var shell=UIShell.For(this);if(shell!=null)shell.ConfirmNewLife();else if(game!=null)game.NewGame();}
  public void Eat(){if(game!=null)game.Eat();}public void Drink(){if(game!=null)game.Drink();}public void Sleep(){if(game!=null)game.Sleep();}public void Hospital(){if(game!=null)game.VisitHospital();}
  void OnDay(int day){Refresh();}void OnState(GameState state){Refresh();}
  public void Refresh(){
@@ -30,9 +30,9 @@ public class UIManager:MonoBehaviour {
  if(pauseButton!=null){pauseButton.interactable=game.State==GameState.Playing||game.State==GameState.Paused;Label(pauseButton,game.State==GameState.Paused?"계속":"일시정지");}
  bool stable=game.State!=GameState.Starting&&game.State!=GameState.Resolving;
  if(saveButton!=null)saveButton.interactable=stable;if(loadButton!=null)loadButton.interactable=stable;if(newGameButton!=null)newGameButton.interactable=stable;
- ActionLabel(workButton,"일하기",0);ActionLabel(restButton,"쉬기",1);ActionLabel(playButton,"놀기",2);
+ ActionLabel(workButton,"일하기",0);ActionLabel(restButton,"휴식",1);ActionLabel(playButton,"놀기",2);
  if(mealButton!=null)mealButton.interactable=game.CanPerformAction(3,out reason);if(drinkButton!=null)drinkButton.interactable=game.CanPerformAction(4,out reason);if(sleepButton!=null)sleepButton.interactable=game.CanPerformAction(5,out reason);if(hospitalButton!=null)hospitalButton.interactable=game.CanPerformAction(6,out reason);
- ActionLabel(mealButton,"식사",3);ActionLabel(drinkButton,"음료",4);ActionLabel(sleepButton,"수면",5);ActionLabel(hospitalButton,"병원",6);
+ ActionLabel(mealButton,"식사",3);ActionLabel(drinkButton,"물 마시기",4);ActionLabel(sleepButton,"수면",5);ActionLabel(hospitalButton,"병원",6);
  RefreshLife();Refreshed?.Invoke();
  }
  
