@@ -4,7 +4,7 @@ public class Phase23Presenter:MonoBehaviour {
  public GameObject panel;public TMP_Text status,details,result;public Button[] activityButtons;public int[] actionIds;public Button[] navigationButtons;
  public Button openButton,closeButton,npcButton,jobButton,careerButton;GameManager game;
  void Start(){if(GameContext.Instance==null)return;game=GameContext.Instance.game;
- openButton.onClick.AddListener(()=>{panel.SetActive(true);Refresh();});closeButton.onClick.AddListener(()=>panel.SetActive(false));
+ openButton.onClick.AddListener(()=>{var shell=UIShell.For(this);if(shell!=null)shell.Push(panel);else panel.SetActive(true);Refresh();});closeButton.onClick.AddListener(()=>{var shell=UIShell.For(this);if(shell!=null)shell.Close(panel);else panel.SetActive(false);});
  for(int i=0;i<activityButtons.Length;i++){int id=actionIds[i];activityButtons[i].onClick.AddListener(()=>{game.TryAction(id);Refresh();});}
  var routes=new[]{SceneId.Home,SceneId.School,SceneId.City,SceneId.Workplace};for(int i=0;i<navigationButtons.Length;i++){var id=routes[i];navigationButtons[i].onClick.AddListener(()=>GameContext.Instance.transitions.Navigate(id));}
  npcButton.onClick.AddListener(()=>{var p=game.phase23;var list=p.catalog.npcs.Where(n=>game.growth.Age>=n.minAge&&game.growth.Age<=n.maxAge).ToArray();if(list.Length>0)p.SelectedNpcId=list[(Array.FindIndex(list,n=>n.npcId==p.SelectedNpcId)+1)%list.Length].npcId;Refresh();});

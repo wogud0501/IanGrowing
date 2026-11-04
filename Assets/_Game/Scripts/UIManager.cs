@@ -4,7 +4,7 @@ public class UIManager:MonoBehaviour {
  public GameManager game;public TMP_Text header,happinessLabel,stressLabel,energyLabel,logText,moodText,stateLabel;
  public TMP_Text[] coreLabels;public Image[] coreFills;public TMP_Text growthLabel,economyLabel,survivalLabel;public Button mealButton,drinkButton,sleepButton,hospitalButton;
  public Image happinessFill,stressFill,energyFill;public Button workButton,restButton,playButton,saveButton,loadButton,pauseButton,newGameButton;
- readonly Queue<string> logs=new Queue<string>();bool subscribed;
+ public event System.Action Refreshed;readonly Queue<string> logs=new Queue<string>();bool subscribed;
  public void Bind(GameManager model){Detach();game=model;if(isActiveAndEnabled)Attach();logs.Clear();if(game!=null){var entries=game.RecentLogs;for(int i=Mathf.Max(0,entries.Length-4);i<entries.Length;i++)logs.Enqueue(entries[i]);if(logText!=null)logText.text=string.Join("\n\n",logs.ToArray());}Refresh();}
  void OnEnable(){Attach();Wire(true);Refresh();}
  void Start(){Refresh();}
@@ -14,7 +14,7 @@ public class UIManager:MonoBehaviour {
  void Wire(bool add){Hook(workButton,Work,add);Hook(restButton,Rest,add);Hook(playButton,Play,add);Hook(saveButton,Save,add);Hook(loadButton,Load,add);Hook(pauseButton,Pause,add);Hook(newGameButton,NewGame,add);Hook(mealButton,Eat,add);Hook(drinkButton,Drink,add);Hook(sleepButton,Sleep,add);Hook(hospitalButton,Hospital,add);}
  void Hook(Button b,UnityEngine.Events.UnityAction action,bool add){if(b==null)return;b.onClick.RemoveListener(action);if(add&&b.onClick.GetPersistentEventCount()==0)b.onClick.AddListener(action);}
  public void Work(){if(game!=null)game.Work();}public void Rest(){if(game!=null)game.Rest();}public void Play(){if(game!=null)game.Play();}
- public void Save(){if(game!=null)game.Save();}public void Load(){if(game!=null)game.Load();}public void Pause(){if(game!=null)game.TogglePause();}public void NewGame(){if(game!=null)game.NewGame();}
+ public void Save(){if(game!=null)game.Save();}public void Load(){if(game!=null)game.Load();}public void Pause(){var shell=UIShell.For(this);if(shell!=null){if(shell.Top==shell.pausePanel)shell.Pop();else shell.OpenPause();}else if(game!=null)game.TogglePause();}public void NewGame(){if(game!=null)game.NewGame();}
  public void Eat(){if(game!=null)game.Eat();}public void Drink(){if(game!=null)game.Drink();}public void Sleep(){if(game!=null)game.Sleep();}public void Hospital(){if(game!=null)game.VisitHospital();}
  void OnDay(int day){Refresh();}void OnState(GameState state){Refresh();}
  public void Refresh(){
@@ -33,7 +33,7 @@ public class UIManager:MonoBehaviour {
  ActionLabel(workButton,"일하기",0);ActionLabel(restButton,"쉬기",1);ActionLabel(playButton,"놀기",2);
  if(mealButton!=null)mealButton.interactable=game.CanPerformAction(3,out reason);if(drinkButton!=null)drinkButton.interactable=game.CanPerformAction(4,out reason);if(sleepButton!=null)sleepButton.interactable=game.CanPerformAction(5,out reason);if(hospitalButton!=null)hospitalButton.interactable=game.CanPerformAction(6,out reason);
  ActionLabel(mealButton,"식사",3);ActionLabel(drinkButton,"음료",4);ActionLabel(sleepButton,"수면",5);ActionLabel(hospitalButton,"병원",6);
- RefreshLife();
+ RefreshLife();Refreshed?.Invoke();
  }
  
  void RefreshLife(){
