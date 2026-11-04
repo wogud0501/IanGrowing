@@ -1,0 +1,51 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff4053cb19b881f4ab86e5fdd3b601ba, type: 3}
+  m_Name: SceneRoutes
+  m_EditorClassIdentifier: Assembly-CSharp::IanGame.SceneCatalog
+  routes:
+  - id: 0
+    sceneName: Bootstrap
+    implemented: 1
+  - id: 1
+    sceneName: MainMenu
+    implemented: 1
+  - id: 2
+    sceneName: Home
+    implemented: 1
+  - id: 3
+    sceneName: School
+    implemented: 1
+  - id: 4
+    sceneName: Workplace
+    implemented: 0
+  - id: 5
+    sceneName: City
+    implemented: 0
+  - id: 6
+    sceneName: Battle
+    implemented: 0
+  - id: 7
+    sceneName: StockMarket
+    implemented: 0
+  - id: 8
+    sceneName: Gacha
+    implemented: 0
+  - id: 9
+    sceneName: Shop
+    implemented: 0
+  - id: 10
+    sceneName: Housing
+    implemented: 0
+  - id: 11
+    sceneName: Ending
+    implemented: 0

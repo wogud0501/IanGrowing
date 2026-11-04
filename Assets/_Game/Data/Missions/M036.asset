@@ -15,7 +15,7 @@ MonoBehaviour:
   stableId: M036
   number: 36
   chapter: 4
-  suggestedAction: -1
+  suggestedAction: 26
   title: "\uBD80\uCC44 \uC77C\uBD80 \uC0C1\uD658"
   description: "\uBD80\uCC44 \uC77C\uBD80 \uC0C1\uD658\uC758 \uBA85\uC2DC\uB41C \uC870\uAC74\uC744 \uB2EC\uC131\uD558\uC138\uC694."
   source: 0
@@ -23,6 +23,7 @@ MonoBehaviour:
   - M035
   condition:
     kind: 3
+    choice: 0
     stat: 0
     counter: 115
     item: 0
@@ -37,8 +38,8 @@ MonoBehaviour:
     gachaTickets: 0
     items: []
     unlocks: 
-  requiredFeatures: 32
-  futurePhase: Phase 2.5
+  requiredFeatures: 2048
+  futurePhase: 
   completionMessage: "\uCD95\uD558\uD569\uB2C8\uB2E4. \uBD80\uCC44 \uC77C\uBD80 \uC0C1\uD658 \uD56D\uBAA9\uC774 \uC778\uC0DD \uBA85\uC138\uC11C\uC5D0 \uCD94\uAC00\uB418\uC5C8\uC2B5\uB2C8\uB2E4."
   targetAge: 25
   enterLifeReview: 0

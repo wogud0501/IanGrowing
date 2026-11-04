@@ -15,7 +15,7 @@ MonoBehaviour:
   stableId: M030
   number: 30
   chapter: 3
-  suggestedAction: -1
+  suggestedAction: 16
   title: "\uCCAD\uC18C\uB144\uAE30 \uC878\uC5C5"
   description: "\uCCAD\uC18C\uB144\uAE30 \uC878\uC5C5\uC758 \uBA85\uC2DC\uB41C \uC870\uAC74\uC744 \uB2EC\uC131\uD558\uC138\uC694."
   source: 0
@@ -23,6 +23,7 @@ MonoBehaviour:
   - M029
   condition:
     kind: 0
+    choice: 0
     stat: 0
     counter: 0
     item: 0
@@ -31,6 +32,7 @@ MonoBehaviour:
     missionId: 
     children:
     - kind: 10
+      choice: 0
       stat: 0
       counter: 0
       item: 0
@@ -39,6 +41,7 @@ MonoBehaviour:
       missionId: M021
       children: []
     - kind: 10
+      choice: 0
       stat: 0
       counter: 0
       item: 0
@@ -47,6 +50,7 @@ MonoBehaviour:
       missionId: M022
       children: []
     - kind: 10
+      choice: 0
       stat: 0
       counter: 0
       item: 0
@@ -55,6 +59,7 @@ MonoBehaviour:
       missionId: M023
       children: []
     - kind: 10
+      choice: 0
       stat: 0
       counter: 0
       item: 0
@@ -63,6 +68,7 @@ MonoBehaviour:
       missionId: M024
       children: []
     - kind: 10
+      choice: 0
       stat: 0
       counter: 0
       item: 0
@@ -71,6 +77,7 @@ MonoBehaviour:
       missionId: M025
       children: []
     - kind: 10
+      choice: 0
       stat: 0
       counter: 0
       item: 0
@@ -79,6 +86,7 @@ MonoBehaviour:
       missionId: M026
       children: []
     - kind: 10
+      choice: 0
       stat: 0
       counter: 0
       item: 0
@@ -87,6 +95,7 @@ MonoBehaviour:
       missionId: M027
       children: []
     - kind: 10
+      choice: 0
       stat: 0
       counter: 0
       item: 0
@@ -95,12 +104,22 @@ MonoBehaviour:
       missionId: M028
       children: []
     - kind: 10
+      choice: 0
       stat: 0
       counter: 0
       item: 0
       unlock: 0
       target: 1
       missionId: M029
+      children: []
+    - kind: 3
+      choice: 0
+      stat: 0
+      counter: 104
+      item: 0
+      unlock: 0
+      target: 1
+      missionId: 
       children: []
   rewards:
     gold: 300
@@ -110,7 +129,7 @@ MonoBehaviour:
     items: []
     unlocks: 0400000005000000i
   requiredFeatures: 4
-  futurePhase: Phase 2.3
+  futurePhase: 
   completionMessage: "\uC131\uC778\uC774 \uB418\uAE30 \uC704\uD55C \uC900\uBE44\uAC00 \uC644\uB8CC\uB418\uC5C8\uC2B5\uB2C8\uB2E4. \uD658\uBD88\uC740 \uBD88\uAC00\uB2A5\uD569\uB2C8\uB2E4."
   targetAge: 19
   enterLifeReview: 0

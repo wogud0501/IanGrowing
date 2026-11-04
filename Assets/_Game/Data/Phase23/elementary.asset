@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1d5ddd9dab5aab4b97498b7e7dfbbd3, type: 3}
+  m_Name: elementary
+  m_EditorClassIdentifier: Assembly-CSharp::IanGame.EducationData
+  educationId: elementary
+  displayName: "\uCD08\uB4F1\uAD50\uC721"
+  prerequisiteMission: M010
+  minAge: 7
+  maxAge: 12
+  requiredStage: 1
+  graduationStudies: 1
+  graduationHomework: 5
+  graduationScore: 40
+  enrollmentEvent: 10

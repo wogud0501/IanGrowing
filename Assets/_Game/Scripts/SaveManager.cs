@@ -1,7 +1,7 @@
 using System;using System.IO;using System.Text.RegularExpressions;using UnityEngine;
 namespace IanGame {
 [Serializable]public class SaveData {
- public int version=4,day;public MissionSnapshot missions=new MissionSnapshot();public StatSnapshot stats;public bool gameOver;
+ public Phase23Snapshot phase23=new Phase23Snapshot();public int version=4,day;public MissionSnapshot missions=new MissionSnapshot();public StatSnapshot stats;public bool gameOver;
  public ProgressSnapshot progression;public EconomySnapshot economy;public SurvivalSnapshot survival;public TimeSnapshot time;
  public long lastSeenUtcTicks;public string runId;public int settledDay;
 }
@@ -10,7 +10,7 @@ public enum SaveLoadStatus {None,Loaded,Missing,Corrupt,UnsupportedVersion,IOErr
 public class SaveManager:MonoBehaviour {
  public const string CurrentSlot="ian-black-comedy-v4.json",PreviousSlot="ian-black-comedy-v3.json",LegacySlot="ian-black-comedy-v1.json";
  [SerializeField]string fileName=CurrentSlot;string activeBase,writePath;
- MissionService missions;public void ConfigureMissions(MissionService service){missions=service;}
+ Phase23Services phase23;public void ConfigurePhase23(Phase23Services value){phase23=value;} MissionService missions;public void ConfigureMissions(MissionService service){missions=service;}
  LifeProgression progression;EconomySystem economy;SurvivalSystem survival;
  public string BasePath=>Path.Combine(Application.persistentDataPath,Path.GetFileName(fileName));
  public string SavePath{get{EnsureSlot();return writePath??BasePath;}}
@@ -43,7 +43,7 @@ public class SaveManager:MonoBehaviour {
  if(WritesBlocked){message="원본 저장 보호 중입니다. 새 인생을 명시적으로 시작하거나 저장 파일을 복구해 주세요.";return false;}
  try{
  if(stats==null||clock==null)throw new InvalidOperationException("시스템 연결 누락");
- var d=new SaveData{stats=stats.Capture(),day=clock.Day,gameOver=gameOver,progression=progression==null?new ProgressSnapshot{age=19}:progression.Capture(),economy=economy==null?new EconomySnapshot():economy.Capture(),survival=survival==null?new SurvivalSnapshot():survival.Capture(),time=clock.Capture(),lastSeenUtcTicks=DateTime.UtcNow.Ticks,runId=runId,settledDay=Mathf.Clamp(settledDay,1,clock.Day),missions=missions==null?new MissionSnapshot{startDay=clock.Day}:missions.Capture()};
+ var d=new SaveData{phase23=phase23==null?new Phase23Snapshot():phase23.Capture(),stats=stats.Capture(),day=clock.Day,gameOver=gameOver,progression=progression==null?new ProgressSnapshot{age=19}:progression.Capture(),economy=economy==null?new EconomySnapshot():economy.Capture(),survival=survival==null?new SurvivalSnapshot():survival.Capture(),time=clock.Capture(),lastSeenUtcTicks=DateTime.UtcNow.Ticks,runId=runId,settledDay=Mathf.Clamp(settledDay,1,clock.Day),missions=missions==null?new MissionSnapshot{startDay=clock.Day}:missions.Capture()};
  if(!Valid(d))throw new InvalidDataException("유효하지 않은 게임 상태");
  string target=SavePath;
  if(File.Exists(target)){SaveHeader header=null;try{header=JsonUtility.FromJson<SaveHeader>(File.ReadAllText(target));}catch{}
@@ -82,7 +82,7 @@ public class SaveManager:MonoBehaviour {
  bool defaultSlot=Path.GetFileName(fileName)==CurrentSlot||Path.GetFileName(fileName)==Path.GetFileNameWithoutExtension(CurrentSlot)+".autosave.json";
  writePath=defaultSlot&&path!=BasePath?BasePath:MigratedPath(BasePath);
  }
- if(!Valid(value))throw new InvalidDataException("저장 범위/구조 오류");
+ if(!Regex.IsMatch(json,"\"phase23\"\\s*:"))value.phase23=new Phase23Snapshot();if(!Valid(value))throw new InvalidDataException("저장 범위/구조 오류");
  data=value;WritesBlocked=false;LastLoadStatus=SaveLoadStatus.Loaded;message=WasMigrated?"기존 인생을 보존해 v4로 읽었습니다. 다음 저장은 별도 파일입니다.":"불러오기 완료. 부채도 함께 돌아왔습니다.";return true;
  }catch(UnauthorizedAccessException e){WritesBlocked=true;LastLoadStatus=SaveLoadStatus.IOError;message="저장 접근 실패: "+e.Message;return false;}
  catch(InvalidDataException e){return Corrupt(path,e,out message);}
@@ -98,13 +98,13 @@ public class SaveManager:MonoBehaviour {
  LastLoadStatus=SaveLoadStatus.Corrupt;WritesBlocked=true;message="저장 손상: "+e.Message+" / 현재 인생과 원본은 초기화하지 않습니다.";
  try{string copy=path+".corrupt-"+DateTime.UtcNow.Ticks;File.Copy(path,copy,false);LastRecoveryCopy=copy;}catch(Exception backup){message+=" / 보존 복사 실패: "+backup.Message;}return false;
  }
- public void ApplyToModels(SaveData value,PlayerStats stats,TimeManager clock){missions?.BeginRestore();try{stats.Restore(value.stats);progression?.Restore(value.progression);economy?.Restore(value.economy);survival?.Restore(value.survival);clock.Restore(value.day,value.time);missions?.Restore(value.missions,value.day);}finally{missions?.EndRestore();}}
+ public void ApplyToModels(SaveData value,PlayerStats stats,TimeManager clock){missions?.BeginRestore();try{stats.Restore(value.stats);progression?.Restore(value.progression);economy?.Restore(value.economy);survival?.Restore(value.survival);clock.Restore(value.day,value.time);phase23?.Restore(value.phase23);missions?.Restore(value.missions,value.day);}finally{missions?.EndRestore();}}
  public bool Load(PlayerStats stats,TimeManager clock,out string message){if(stats==null||clock==null){message="시스템 연결 누락";return false;}SaveData d;if(!TryRead(out d,out message))return false;ApplyToModels(d,stats,clock);return true;}
  static bool Range(int v)=>v>=0&&v<=100;
  static bool Finite(double v)=>!double.IsNaN(v)&&!double.IsInfinity(v)&&v>=0;
  static bool ValidLegacy(SaveData d)=>d!=null&&d.stats!=null&&d.day>=1&&d.day<=TimeManager.MaximumDay&&Range(d.stats.happiness)&&Range(d.stats.stress)&&Range(d.stats.energy)&&d.stats.money>=0;
  static bool Valid(SaveData d){
- if(!MissionService.ValidSnapshot(d.missions)||!ValidLegacy(d)||!Range(d.stats.hunger)||!Range(d.stats.thirst)||!Range(d.stats.knowledge)||!Range(d.stats.mental)||!Range(d.stats.social)||!Range(d.stats.credit)||d.stats.stress!=100-d.stats.mental)return false;
+ if(!Phase23Services.Valid(d.phase23)||!MissionService.ValidSnapshot(d.missions)||!ValidLegacy(d)||!Range(d.stats.hunger)||!Range(d.stats.thirst)||!Range(d.stats.knowledge)||!Range(d.stats.mental)||!Range(d.stats.social)||!Range(d.stats.credit)||d.stats.stress!=100-d.stats.mental)return false;
  if(d.progression==null||d.progression.age<0||d.progression.level<1||d.progression.experience<0||d.economy==null||d.economy.debt<0||d.economy.otherAssets<0||d.survival==null||d.time==null||string.IsNullOrEmpty(d.runId)||d.settledDay<1||d.settledDay>d.day)return false;
  if(d.lastSeenUtcTicks<0||d.lastSeenUtcTicks>DateTime.MaxValue.Ticks||!Finite(d.time.subDaySeconds)||d.time.subDaySeconds>=TimeManager.SecondsPerDay||!Finite(d.time.elapsedSeconds))return false;
  if(d.economy.processedIds==null||d.progression.completedGrowthIds==null||d.survival.statuses==null)return false;var seen=new System.Collections.Generic.HashSet<string>();foreach(var id in d.economy.processedIds)if(string.IsNullOrWhiteSpace(id)||!seen.Add(id))return false;

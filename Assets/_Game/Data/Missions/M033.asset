@@ -15,7 +15,7 @@ MonoBehaviour:
   stableId: M033
   number: 33
   chapter: 4
-  suggestedAction: -1
+  suggestedAction: 21
   title: "\uCCAB \uC544\uB974\uBC14\uC774\uD2B8 \uCDE8\uC5C5"
   description: "\uCCAB \uC544\uB974\uBC14\uC774\uD2B8 \uCDE8\uC5C5\uC758 \uBA85\uC2DC\uB41C \uC870\uAC74\uC744 \uB2EC\uC131\uD558\uC138\uC694."
   source: 0
@@ -23,6 +23,7 @@ MonoBehaviour:
   - M032
   condition:
     kind: 3
+    choice: 0
     stat: 0
     counter: 112
     item: 0
@@ -38,7 +39,7 @@ MonoBehaviour:
     items: []
     unlocks: 
   requiredFeatures: 16
-  futurePhase: Phase 2.3
+  futurePhase: 
   completionMessage: "\uC774\uC548\uC758 \uB178\uB3D9\uB825\uC774 \uC2DC\uC7A5\uC5D0 \uB4F1\uB85D\uB418\uC5C8\uC2B5\uB2C8\uB2E4."
   targetAge: 22
   enterLifeReview: 0

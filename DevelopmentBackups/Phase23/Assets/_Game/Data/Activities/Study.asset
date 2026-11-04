@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa50b7f8cb4190b48bb76ed4fee0c3ea, type: 3}
+  m_Name: Study
+  m_EditorClassIdentifier: Assembly-CSharp::IanGame.ActivityData
+  action: 14
+  displayName: "\uACF5\uBD80"
+  message: "\uACF5\uBD80 \uD65C\uB3D9\uC744 \uC218\uD589\uD588\uC2B5\uB2C8\uB2E4. \uAD50\uC721\uC740 \uBB34\uB8CC, \uD53C\uB85C\uB294 \uBCC4\uB3C4\uC785\uB2C8\uB2E4."
+  minAge: 7
+  maxAge: 18
+  days: 1
+  cost: 0
+  delta:
+    hunger: 0
+    thirst: 0
+    knowledge: 5
+    health: -3
+    mental: 0
+    social: 0
+    credit: 0
+    happiness: 0
+  producedCounter: 17
+  requiredCounter: 10
+  requiredCount: 1
+  onceOnly: 0
+  schoolOnly: 1

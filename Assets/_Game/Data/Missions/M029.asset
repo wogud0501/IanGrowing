@@ -15,7 +15,7 @@ MonoBehaviour:
   stableId: M029
   number: 29
   chapter: 3
-  suggestedAction: -1
+  suggestedAction: 5
   title: "\uBA58\uD0C8 40 \uC774\uC0C1 \uC720\uC9C0"
   description: "\uBA58\uD0C8 40 \uC774\uC0C1 \uC720\uC9C0\uC758 \uBA85\uC2DC\uB41C \uC870\uAC74\uC744 \uB2EC\uC131\uD558\uC138\uC694."
   source: 0
@@ -23,6 +23,7 @@ MonoBehaviour:
   - M028
   condition:
     kind: 2
+    choice: 0
     stat: 4
     counter: 0
     item: 0
@@ -38,7 +39,7 @@ MonoBehaviour:
     items: []
     unlocks: 
   requiredFeatures: 4
-  futurePhase: Phase 2.3
+  futurePhase: 
   completionMessage: "\uCD95\uD558\uD569\uB2C8\uB2E4. \uBA58\uD0C8 40 \uC774\uC0C1 \uC720\uC9C0 \uD56D\uBAA9\uC774 \uC778\uC0DD \uBA85\uC138\uC11C\uC5D0 \uCD94\uAC00\uB418\uC5C8\uC2B5\uB2C8\uB2E4."
   targetAge: 18
   enterLifeReview: 0

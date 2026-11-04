@@ -19,7 +19,7 @@ public class SceneTransitionService:MonoBehaviour {
  while(!operation.isDone){if(loadingText!=null)loadingText.text="이동 중... "+Mathf.RoundToInt(operation.progress*100)+"%";yield return null;}
  CurrentScene=route.id;Finish(game,route.id,true);SceneChanged?.Invoke(route.id);
  }
- void Finish(GameManager game,SceneId target,bool success){IsTransitioning=false;if(loadingOverlay!=null)loadingOverlay.SetActive(false);if(game!=null)game.clock.SetRunning((success?target==SceneId.Home||target==SceneId.School:CurrentScene==SceneId.Home||CurrentScene==SceneId.School)&&game.State==GameState.Playing);if(game!=null)game.RefreshAvailability();}
+ void Finish(GameManager game,SceneId target,bool success){IsTransitioning=false;if(loadingOverlay!=null)loadingOverlay.SetActive(false);if(game!=null)game.clock.SetRunning((success?target==SceneId.Home||target==SceneId.School||target==SceneId.City||target==SceneId.Workplace:CurrentScene==SceneId.Home||CurrentScene==SceneId.School||CurrentScene==SceneId.City||CurrentScene==SceneId.Workplace)&&game.State==GameState.Playing);if(game!=null)game.RefreshAvailability();}
  void Fail(string error){LastError=error;var game=GameContext.Instance==null?null:GameContext.Instance.game;if(game!=null)game.Log(error);if(loadingText!=null)loadingText.text=error;}
 }
 }

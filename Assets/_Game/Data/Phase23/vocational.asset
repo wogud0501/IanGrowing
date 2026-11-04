@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1d5ddd9dab5aab4b97498b7e7dfbbd3, type: 3}
+  m_Name: vocational
+  m_EditorClassIdentifier: Assembly-CSharp::IanGame.EducationData
+  educationId: vocational
+  displayName: "\uC9C1\uC5C5 \uAD50\uC721\xB7\uC790\uAE30\uACC4\uBC1C"
+  prerequisiteMission: 
+  minAge: 19
+  maxAge: 29
+  requiredStage: 3
+  graduationStudies: 3
+  graduationHomework: 5
+  graduationScore: 40
+  enrollmentEvent: 10

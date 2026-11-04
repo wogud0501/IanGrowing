@@ -3,7 +3,7 @@ namespace IanGame {
 public enum GameState {Starting,Playing,Paused,GameOver,Resolving,Ready=Playing}
 public class GameManager:MonoBehaviour {
  public GameBalance balance;public PlayerStats stats;public TimeManager clock;public EventManager lifeEvents;public SaveManager saves;
- public MissionService missions;public MissionCatalog missionCatalog;public ActivityCatalog activityCatalog;
+ public Phase23Services phase23;public MissionService missions;public MissionCatalog missionCatalog;public ActivityCatalog activityCatalog;
  bool missionCheckpointPending;
  public ActionSystem actions;public EconomySystem economy;public LifeProgression growth;public SurvivalSystem survival;public StatusEffectSystem statuses;
  public bool autoLoadOnStart=true,autoSaveAfterAction=true,autoSaveOnLifecycle=true,realtimeLifeEnabled=true;
@@ -16,7 +16,7 @@ public class GameManager:MonoBehaviour {
  if(balance==null||stats==null||clock==null||lifeEvents==null||saves==null){Debug.LogError("Ian: 시스템 연결을 확인하세요.",this);enabled=false;return;}
  missions=Module(missions);missions.catalog=missionCatalog;economy=Module(economy);actions=Module(actions);growth=Module(growth);survival=Module(survival);statuses=Module(statuses);
  economy.Configure(stats);statuses.Configure(stats);survival.Configure(stats,LifeMode?balance.survival:null,statuses);actions.Configure(balance,stats,clock,economy);actions.ConfigureLife(growth,survival);lifeEvents.Configure(economy);saves.Configure(growth,economy,survival);
- missions.Configure(this);actions.ConfigureEducation(activityCatalog,missions,()=>GameContext.Instance==null||GameContext.Instance.transitions.CurrentScene==SceneId.School);saves.ConfigureMissions(missions);missions.Completed+=OnMissionCompleted;missions.CheckpointRequested+=OnMissionCheckpoint;
+ missions.Configure(this);actions.ConfigureEducation(activityCatalog,missions,()=>GameContext.Instance==null||GameContext.Instance.transitions.CurrentScene==SceneId.School);saves.ConfigureMissions(missions);phase23=Module(phase23);phase23.Configure(this);actions.ConfigurePhase23(phase23);saves.ConfigurePhase23(phase23);missions.Completed+=OnMissionCompleted;missions.CheckpointRequested+=OnMissionCheckpoint;
  clock.SetRunning(false);clock.DayAdvanced+=OnDay;clock.SimulationAdvanced+=OnSimulation;survival.Failure+=OnFailure;
  }
  void Start(){if(enabled)StartGame();}
@@ -25,7 +25,7 @@ public class GameManager:MonoBehaviour {
  void OnDestroy(){if(missions!=null){missions.Completed-=OnMissionCompleted;missions.CheckpointRequested-=OnMissionCheckpoint;}if(clock!=null){clock.DayAdvanced-=OnDay;clock.SimulationAdvanced-=OnSimulation;}if(survival!=null)survival.Failure-=OnFailure;}
  void ConfigureMode(){clock.realtimeEnabled=LifeMode&&realtimeLifeEnabled;if(LifeMode)clock.realSecondsPerGameDay=Math.Max(1,balance.survival.realSecondsPerGameDay);survival.Configure(stats,LifeMode?balance.survival:null,statuses);}
  void ResetModel(){
- recentLogs.Clear();missions.BeginRestore();ConfigureMode();if(LifeMode)stats.ResetLife(balance.initialLife);else stats.ResetStats(balance);
+ recentLogs.Clear();phase23.ResetLife();missions.BeginRestore();ConfigureMode();if(LifeMode)stats.ResetLife(balance.initialLife);else stats.ResetStats(balance);
  economy.ResetLife(LifeMode);growth.Restore(new ProgressSnapshot{age=LifeMode?0:19});survival.ResetLife();clock.Restore(1,new TimeSnapshot());runId=Guid.NewGuid().ToString("N");settledDay=1;connectionStamp=DateTime.UtcNow.Ticks;missions.ResetLife(1);missions.EndRestore();missionCheckpointPending=false;
  }
  public void StartGame(){
@@ -50,7 +50,7 @@ public class GameManager:MonoBehaviour {
  public bool TryAction(int action)=>Act(action);
  bool Act(int action){
  string message;if(!CanPerformAction(action,out message)){Log(message);return false;}SetState(GameState.Resolving);bool completed=false;
- try{completed=actions.Execute(action,out message);if(completed){Log(message);if(missions!=null)missions.RecordAction(missions.NextEventId(runId),action);ActionPerformed?.Invoke(action);}else Log(message);}
+ try{completed=actions.Execute(action,out message);if(completed){Log(message);if(missions!=null&&(phase23==null||!phase23.Handles(action)))missions.RecordAction(missions.NextEventId(runId),action);ActionPerformed?.Invoke(action);}else Log(message);}
  finally{if(State!=GameState.GameOver){if(LifeMode?survival.Failed:balance.IsGameOver(stats))EndGame();else SetState(GameState.Playing);}}
  if(completed&&autoSaveAfterAction){checkpointPending=false;SaveQuietly();}return completed;
  }

@@ -15,7 +15,7 @@ MonoBehaviour:
   stableId: M022
   number: 22
   chapter: 3
-  suggestedAction: -1
+  suggestedAction: 14
   title: "\uACF5\uBD80 10\uD68C \uC218\uD589"
   description: "\uACF5\uBD80 10\uD68C \uC218\uD589\uC758 \uBA85\uC2DC\uB41C \uC870\uAC74\uC744 \uB2EC\uC131\uD558\uC138\uC694."
   source: 0
@@ -23,6 +23,7 @@ MonoBehaviour:
   - M021
   condition:
     kind: 3
+    choice: 0
     stat: 0
     counter: 17
     item: 0
@@ -38,7 +39,7 @@ MonoBehaviour:
     items: []
     unlocks: 
   requiredFeatures: 4
-  futurePhase: Phase 2.3
+  futurePhase: 
   completionMessage: "\uCD95\uD558\uD569\uB2C8\uB2E4. \uACF5\uBD80 10\uD68C \uC218\uD589 \uD56D\uBAA9\uC774 \uC778\uC0DD \uBA85\uC138\uC11C\uC5D0 \uCD94\uAC00\uB418\uC5C8\uC2B5\uB2C8\uB2E4."
   targetAge: 14
   enterLifeReview: 0

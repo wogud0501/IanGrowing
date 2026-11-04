@@ -425,6 +425,7 @@ GameObject:
   - component: {fileID: 4063913523375501159}
   - component: {fileID: 4645711912799737632}
   - component: {fileID: 8401135206503269079}
+  - component: {fileID: 3021524215811705813}
   m_Layer: 0
   m_Name: GameContext
   m_TagString: Untagged
@@ -566,6 +567,7 @@ MonoBehaviour:
   clock: {fileID: 7647108898493205611}
   lifeEvents: {fileID: 5419243865187783692}
   saves: {fileID: 3087685043488383444}
+  phase23: {fileID: 3021524215811705813}
   missions: {fileID: 4063913523375501159}
   missionCatalog: {fileID: 11400000, guid: 915316d7fc4a8104b9c667070ca809d1, type: 2}
   activityCatalog: {fileID: 11400000, guid: 69221797909804f47bd66a7056c02529, type: 2}
@@ -688,3 +690,18 @@ MonoBehaviour:
   catalog: {fileID: 11400000, guid: fbf3a02914745554898955b0b46deea6, type: 2}
   loadingOverlay: {fileID: 1700316442283377947}
   loadingText: {fileID: 4703389370419182981}
+--- !u!114 &3021524215811705813
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5789705955195748206}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5f1c01fe7456234e83138e8e1f1a87d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IanGame.Phase23Services
+  catalog: {fileID: 11400000, guid: 394e112cad8b9954ca98670a011e074f, type: 2}
+  SelectedNpcId: classmate
+  SelectedCareerId: vocational
