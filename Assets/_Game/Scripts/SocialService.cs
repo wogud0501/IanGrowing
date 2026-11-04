@@ -14,7 +14,7 @@ public class SocialService {
  public void Complete(int action,string id,SocialActivityData data){
  var npc=owner.catalog.NPC(owner.SelectedNpcId);int day=owner.Game.clock.Day;var r=Relationship(npc.npcId);
  if(r==null){r=new RelationshipProgress{npcId=npc.npcId,lastDecayDay=day};Progress.relationships.Add(r);}
- float chance=Mathf.Clamp01(data.successWeight+npc.responseModifier+owner.Game.stats.Social*.002f+owner.Game.stats.Mental*.001f);
+ float chance=Mathf.Clamp(data.successWeight+npc.responseModifier+owner.Game.stats.Social*.002f+owner.Game.stats.Mental*.001f,.05f,.95f);
  bool success=owner.Roll()<chance;
  r.lastInteractionDay=day;r.lastDecayDay=day;r.affinity=Mathf.Clamp(r.affinity+(success?data.affinityGain:-data.affinityLoss),0,100);
  if(success&&action==9&&!r.friend){r.friend=true;owner.Signal(id,MissionCounter.FriendsMade);}

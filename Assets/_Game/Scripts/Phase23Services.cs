@@ -21,7 +21,7 @@ public class Phase23Services:MonoBehaviour,IMissionFeatureSource,IPendingMission
  if(a.maxCount>0&&Progress.activities.Count(r=>r.action==action)>=a.maxCount){reason="수행 횟수 제한에 도달했습니다.";return false;}
  if(action==9||action==18||action==19)return Social.Can(action,out reason);
  if(action==0||action>=20&&action<=23)return Employment.Can(action,out reason);
- if(action==24||action==25){var item=action==24?MissionItemKey.StarterHeadphones:MissionItemKey.StarterEquipment;DeliverStarterRewards();if(!HasItem(item)||Progress.equipped.Contains(item)){reason="해당 스타터 아이템이 없거나 이미 장착했습니다.";return false;}return true;}
+ if(action==24||action==25){var item=action==24?MissionItemKey.StarterHeadphones:MissionItemKey.StarterEquipment;if((!HasItem(item)&&!Game.missions.Claimed("M020"))||Progress.equipped.Contains(item)){reason="해당 스타터 아이템이 없거나 이미 장착했습니다.";return false;}return true;}
  if(action==26){if(Game.growth.Age<19||Game.economy.Debt<1){reason="상환할 부채가 없거나 아직 미성년입니다.";return false;}return true;}
  return Education.Can(action,out reason);
  }
@@ -33,7 +33,7 @@ public class Phase23Services:MonoBehaviour,IMissionFeatureSource,IPendingMission
  if(action==9||action==18||action==19)Social.Complete(action,id,(SocialActivityData)a);
  else if(action==0)Work.Complete(id);
  else if(action>=20&&action<=23)Employment.Complete(action,id);
- else if(action==24||action==25){var item=action==24?MissionItemKey.StarterHeadphones:MissionItemKey.StarterEquipment;Progress.equipped.Add(item);Signal(id,a.missionEvent);}
+ else if(action==24||action==25){var item=action==24?MissionItemKey.StarterHeadphones:MissionItemKey.StarterEquipment;DeliverStarterRewards();if(!HasItem(item))TryDeliver(new PendingMissionReward{id="phase23/starter/"+item,kind=PendingMissionRewardKind.Item,item=item,amount=1});Progress.equipped.Add(item);Signal(id,a.missionEvent);}
  else if(action==26){long amount=Math.Min(a.cost,Game.economy.Debt);if(Game.economy.TryTransaction(id+"/repay",TransactionKind.DebtRepayment,amount,"부채 원금 상환"))Signal(id,MissionCounter.DebtRepaid,amount);}
  else Education.Complete(action,id,a);
  Game.missions.Refresh();Game.RefreshAvailability();
@@ -48,7 +48,10 @@ public class Phase23Services:MonoBehaviour,IMissionFeatureSource,IPendingMission
  if(p==null||p.education==null||p.social==null||p.employment==null||p.owned==null||p.equipped==null||p.deliveryIds==null||p.activities==null)return false;
  var e=p.education;var s=p.social;var j=p.employment;
  if(e.enrollments==null||e.exams==null||s.relationships==null||s.history==null||j.work==null||j.history==null||e.books<0||e.studies<0||e.homework<0||e.experience<0||e.preparation<0||e.preparation>100||s.experience<0||j.experience<0||j.workCount<0||j.rank<0||j.strikes<0||string.IsNullOrEmpty(j.currentJobId))return false;
- if(e.enrollments.Any(r=>r==null||string.IsNullOrEmpty(r.educationId)||r.studies<0||r.homework<0)||e.exams.Any(r=>r==null||string.IsNullOrEmpty(r.id)||r.score<0||r.score>100)||s.relationships.Any(r=>r==null||string.IsNullOrEmpty(r.npcId)||r.affinity<0||r.affinity>100)||j.work.Any(r=>r==null||string.IsNullOrEmpty(r.id)||r.wage<0))return false;
+ if(e.enrollments.Any(r=>r==null||string.IsNullOrEmpty(r.educationId)||r.studies<0||r.homework<0)||e.exams.Any(r=>r==null||string.IsNullOrEmpty(r.id)||string.IsNullOrEmpty(r.educationId)||r.day<1||r.score<0||r.score>100)||s.relationships.Any(r=>r==null||string.IsNullOrEmpty(r.npcId)||r.affinity<0||r.affinity>100||!Enum.IsDefined(typeof(RelationshipState),r.state))||j.work.Any(r=>r==null||string.IsNullOrEmpty(r.id)||string.IsNullOrEmpty(r.jobId)||r.day<1||r.wage<0))return false;
+ if(s.history.Any(r=>r==null||string.IsNullOrEmpty(r.id)||string.IsNullOrEmpty(r.npcId)||r.day<1)||j.history.Any(r=>r==null||string.IsNullOrEmpty(r.id)||string.IsNullOrEmpty(r.jobId)||string.IsNullOrEmpty(r.kind)||r.day<1))return false;
+ if(e.enrollments.Select(r=>r.educationId).Distinct().Count()!=e.enrollments.Count||e.exams.Select(r=>r.id).Distinct().Count()!=e.exams.Count||s.history.Select(r=>r.id).Distinct().Count()!=s.history.Count||j.history.Select(r=>r.id).Distinct().Count()!=j.history.Count)return false;
+ if(p.owned.Concat(p.equipped).Any(i=>i==MissionItemKey.None||!Enum.IsDefined(typeof(MissionItemKey),i))||p.owned.Distinct().Count()!=p.owned.Count||p.equipped.Distinct().Count()!=p.equipped.Count||p.equipped.Any(i=>!p.owned.Contains(i))||p.deliveryIds.Any(string.IsNullOrEmpty)||p.deliveryIds.Distinct().Count()!=p.deliveryIds.Count)return false;
  return s.relationships.Select(r=>r.npcId).Distinct().Count()==s.relationships.Count&&j.work.Select(r=>r.id).Distinct().Count()==j.work.Count&&p.activities.All(r=>r!=null&&!string.IsNullOrEmpty(r.id))&&p.activities.Select(r=>r.id).Distinct().Count()==p.activities.Count;
  }
 }

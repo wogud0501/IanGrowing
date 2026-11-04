@@ -35,7 +35,7 @@ public class Phase22Runner:MonoBehaviour {
  Check(catalog.missions.Skip(10).Take(10).Select(m=>m.title).SequenceEqual(confirmed)&&catalog.missions.Skip(10).Take(10).All(m=>m.source==MissionSource.ConfirmedV1),"Original M011-M020 names/provenance retained");
  ValidateBadCatalog();
  Check(EditorBuildSettings.scenes.Take(4).Select(s=>Path.GetFileNameWithoutExtension(s.path)).SequenceEqual(new[]{"Bootstrap","MainMenu","Home","School"})&&EditorBuildSettings.scenes.Take(4).All(s=>s.enabled),"Four scenes registered in Build Profiles global Scene List");
- Check(new[]{"Workplace","City","Battle","StockMarket","Gacha","Shop","Housing","Ending"}.All(s=>!File.Exists("Assets/_Game/Scenes/"+s+".unity")),"Future scene names defined without premature content scenes");
+ Check(new[]{"Battle","StockMarket","Gacha","Shop","Housing","Ending"}.All(s=>!File.Exists("Assets/_Game/Scenes/"+s+".unity"))&&new[]{"Workplace","City"}.All(s=>File.Exists("Assets/_Game/Scenes/"+s+".unity")),"Phase23 School/City/Workplace implemented; later phase scenes remain absent");
  var menu=UnityEngine.Object.FindAnyObjectByType<MainMenuPresenter>();Click(menu.continueButton);
  wait=0;while(!Ready("Home")){WaitLimit(++wait,"Home");yield return null;}yield return null;
  ContextInvariant("MainMenu -> Home keeps one shared context");
