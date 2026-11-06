@@ -336,8 +336,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\uC774\uB3D9 \uC900\uBE44"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 0a319b27018355645808a4181205e856, type: 2}
-  m_sharedMaterial: {fileID: -3821180512050550142, guid: 0a319b27018355645808a4181205e856, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 44e6c40b297eaf34d90c1bdba278497a, type: 2}
+  m_sharedMaterial: {fileID: 4899963302746500961, guid: 44e6c40b297eaf34d90c1bdba278497a, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -577,8 +577,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\uC774\uB3D9 \uC900\uBE44 \uC911..."
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 0a319b27018355645808a4181205e856, type: 2}
-  m_sharedMaterial: {fileID: -3821180512050550142, guid: 0a319b27018355645808a4181205e856, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 44e6c40b297eaf34d90c1bdba278497a, type: 2}
+  m_sharedMaterial: {fileID: 4899963302746500961, guid: 44e6c40b297eaf34d90c1bdba278497a, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -608,7 +608,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 1
+  m_fontStyle: 0
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
   m_textAlignment: 65535
@@ -968,7 +968,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::IanGame.Commercial.TransitionController
   profiles:
   - {fileID: 11400000, guid: 88a31368bf20f2a4a8d1eea3ba372a13, type: 2}
+  - {fileID: 11400000, guid: e24209566eaecbb45b1c5f02b5ff8fc8, type: 2}
+  - {fileID: 11400000, guid: 6da561af6c9b9e04085b8a5d3247e1e4, type: 2}
   - {fileID: 11400000, guid: daf24fa22bf40ed4ebb0adf0b9420355, type: 2}
+  - {fileID: 11400000, guid: bf6500ca75a544946ac4759ef0a6b78e, type: 2}
+  - {fileID: 11400000, guid: 30a98eb05190a3d41a712405cc90eeae, type: 2}
+  - {fileID: 11400000, guid: 78ad822377c49f44387b288b5af35c94, type: 2}
+  - {fileID: 11400000, guid: 63568105940802d43afb17e9e65534ae, type: 2}
+  - {fileID: 11400000, guid: 74cc76bebd7ab2f46920535e278502e1, type: 2}
+  - {fileID: 11400000, guid: b251a577f93ec0b42a0a011d84bef721, type: 2}
+  - {fileID: 11400000, guid: 14eca2f0117155b4d8d3d9110cf0748d, type: 2}
+  - {fileID: 11400000, guid: 931cab7852c11324c8a16cd763820012, type: 2}
   overlay: {fileID: 28668529042780358}
   loader: {fileID: 4588972206225634702}
   audioService: {fileID: 5856906065788425969}
@@ -984,6 +994,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4faf7da4653db4545b646cd5d89ca122, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::IanGame.Commercial.SceneLoadingService
+  FailNextLoad: 0
 --- !u!114 &5856906065788425969
 MonoBehaviour:
   m_ObjectHideFlags: 0

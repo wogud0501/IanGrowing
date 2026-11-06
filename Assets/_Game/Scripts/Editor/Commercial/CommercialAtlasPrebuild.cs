@@ -13,6 +13,7 @@ public sealed class CommercialAtlasPrebuild:IPreprocessBuildWithReport {
  public static void Configure(){
   EditorSettings.spritePackerMode=SpritePackerMode.SpriteAtlasV2;
   var asset=new SpriteAtlasAsset();asset.Add(new UnityEngine.Object[]{AssetDatabase.LoadAssetAtPath<DefaultAsset>("Assets/_Game/UI/Pixel"),AssetDatabase.LoadAssetAtPath<DefaultAsset>("Assets/_Game/Art/Commercial/UI")});
+  var animationSprites=System.Array.FindAll(AssetDatabase.LoadAllAssetsAtPath("Assets/_Game/Data/Commercial/CityOfficeSprites.asset"),o=>o is Sprite);if(animationSprites.Length>0)asset.Add(animationSprites);
   SpriteAtlasAsset.Save(asset,Path);AssetDatabase.ImportAsset(Path);
   var importer=(SpriteAtlasImporter)AssetImporter.GetAtPath(Path);importer.includeInBuild=true;
   var pack=importer.packingSettings;pack.padding=4;pack.enableRotation=false;pack.enableTightPacking=false;importer.packingSettings=pack;

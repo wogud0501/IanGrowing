@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 148693c15d4901241a3579aee82e1432, type: 3}
+  m_Name: CityToHome
+  m_EditorClassIdentifier: Assembly-CSharp::IanGame.Commercial.TransitionProfile
+  from: 5
+  to: 2
+  exitSeconds: 0.32
+  coveredSeconds: 0.15
+  entrySeconds: 0.38
+  departure: "\uC774\uB3D9 \uC911 \xB7 \uBAA9\uC801\uC9C0\uB294 \uC788\uC9C0\uB9CC \uC5EC\uC720\uB294 \uC5C6\uC2B5\uB2C8\uB2E4."
+  arrival: "\uADC0\uAC00 \xB7 \uD604\uC2E4\uC740 \uBB38\uBC16\uC5D0 \uB450\uC138\uC694."
+  curtain: {r: 1, g: 1, b: 1, a: 1}
+  exitSound: {fileID: 0}
+  entrySound: {fileID: 0}

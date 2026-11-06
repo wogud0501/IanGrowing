@@ -47,6 +47,7 @@ public static class CommercialSliceBuilder {
   // Furniture attachments are independent; new props can be placed without repainting the master.
   new GameObject("Furniture / expansion sockets").transform.SetParent(stage.transform);
  }
+ public static void ExtendHUD(string name){theme=AssetDatabase.LoadAssetAtPath<PixelUITheme>("Assets/_Game/UI/Pixel/PixelTheme.asset");panel=AssetDatabase.LoadAssetAtPath<Sprite>(Art+"UI/Panel_64.png");HUD(name);}
  static void HUD(string name){
   var p=UnityEngine.Object.FindFirstObjectByType<PixelHomePresenter>();var root=p.gameObject;
   if(PrefabUtility.IsPartOfPrefabInstance(root))PrefabUtility.UnpackPrefabInstance(PrefabUtility.GetOutermostPrefabInstanceRoot(root),PrefabUnpackMode.Completely,InteractionMode.AutomatedAction);
@@ -56,7 +57,7 @@ public static class CommercialSliceBuilder {
   var scaler=root.GetComponent<CanvasScaler>();scaler.uiScaleMode=CanvasScaler.ScaleMode.ConstantPixelSize;scaler.scaleFactor=1;
   var safe=Rect(root.transform,"Commercial HUD safe area");Place(safe,root.transform,Vector2.zero,Vector2.one);var group=safe.gameObject.AddComponent<CanvasGroup>();p.navigation.stack.baseGroup=group;
   var commercial=root.AddComponent<CommercialHUD>();commercial.safeRoot=safe;
-  var identity=Window(safe,"Identity / day and currency",new Vector2(.018f,.87f),new Vector2(.47f,.985f));commercial.title=Text(identity.transform,"Place",name=="Home"?"이안의 방  /  HOME":"교실  /  SCHOOL",24);Place(commercial.title.rectTransform,identity.transform,new Vector2(0,.42f),Vector2.one);commercial.title.rectTransform.offsetMin=new Vector2(18,0);
+  var identity=Window(safe,"Identity / day and currency",new Vector2(.018f,.87f),new Vector2(.47f,.985f));commercial.title=Text(identity.transform,"Place",name=="Home"?"이안의 방  /  HOME":name=="School"?"교실  /  SCHOOL":name=="City"?"도시  /  CITY":"직장  /  WORKPLACE",24);Place(commercial.title.rectTransform,identity.transform,new Vector2(0,.42f),Vector2.one);commercial.title.rectTransform.offsetMin=new Vector2(18,0);
   Place(p.age.rectTransform,identity.transform,new Vector2(.04f,.08f),new Vector2(.48f,.48f));p.age.color=theme.cream;
   Place(p.cash.rectTransform,identity.transform,new Vector2(.51f,.08f),new Vector2(.96f,.48f));p.cash.color=theme.gold;
   var vital=p.vitalLabels[0].transform.parent.parent.parent.parent as RectTransform;Place(vital,safe,new Vector2(.61f,.88f),new Vector2(.982f,.985f));
@@ -96,3 +97,4 @@ public static class CommercialSliceBuilder {
  public static void Atlas(){CommercialAtlasPrebuild.Configure();}
 }
 }
+

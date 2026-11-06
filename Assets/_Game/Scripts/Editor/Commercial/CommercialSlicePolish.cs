@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,7 +14,7 @@ public static class CommercialSlicePolish {
   var theme=AssetDatabase.LoadAssetAtPath<PixelUITheme>("Assets/_Game/UI/Pixel/PixelTheme.asset");var frame=AssetDatabase.LoadAssetAtPath<Sprite>("Assets/_Game/Art/Commercial/UI/Panel_64.png");
   var path="Assets/_Game/Data/Commercial/IanMotionLibrary.asset";var library=AssetDatabase.LoadAssetAtPath<SpriteMotionLibrary>(path);
   if(library==null){library=ScriptableObject.CreateInstance<SpriteMotionLibrary>();library.fallback=AssetDatabase.LoadAssetAtPath<Sprite>("Assets/_Game/Art/Characters/Ian/Sprites/Ian_Base_Cutout.png");library.clips=Enum.GetValues(typeof(SpriteMotion)).Cast<SpriteMotion>().Select(s=>new SpriteMotionClip{state=s,loop=s==SpriteMotion.Idle,duration=s==SpriteMotion.Blink?.2f:s==SpriteMotion.Sleep?3:2.4f,framesPerSecond=s==SpriteMotion.Blink?10:6,frames=s==SpriteMotion.Idle?new[]{library.fallback}:new Sprite[0]}).ToArray();AssetDatabase.CreateAsset(library,path);}
-  foreach(string name in new[]{"Home","School"}){
+  foreach(string name in new[]{"Home","School","City","Workplace"}){
    var scene=EditorSceneManager.OpenScene("Assets/_Game/Scenes/"+name+".unity");
    var p=UnityEngine.Object.FindFirstObjectByType<PixelHomePresenter>();
    foreach(var b in UnityEngine.Object.FindObjectsByType<UnityEngine.UI.Button>(FindObjectsInactive.Include,FindObjectsSortMode.None)){
@@ -41,3 +41,4 @@ public static class CommercialSlicePolish {
  }
 }
 }
+
