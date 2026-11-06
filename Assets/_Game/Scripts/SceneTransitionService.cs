@@ -1,25 +1,45 @@
-using System;using System.Collections;using TMPro;using UnityEngine;using UnityEngine.SceneManagement;
+﻿using System;
+using System.Collections;
+using TMPro;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using IanGame.Commercial;
 namespace IanGame {
-public class SceneTransitionService:MonoBehaviour {
+public class SceneTransitionService : MonoBehaviour {
  public SceneCatalog catalog;public GameObject loadingOverlay;public TMP_Text loadingText;
+ public TransitionController presentation;
  public bool IsTransitioning{get;private set;}public string LastError{get;private set;}
  public SceneId CurrentScene{get;private set;}=SceneId.Bootstrap;public event Action<SceneId> SceneChanged;
  public bool Navigate(SceneId id){
- if(IsTransitioning)return false;var route=catalog==null?null:catalog.Find(id);
- if(id==SceneId.Bootstrap&&GameContext.Instance!=null&&SceneManager.GetActiveScene().name!="Bootstrap"){Fail("Bootstrap은 공통 시스템의 시작 씬입니다.");return false;}
- if(route==null||!route.implemented||string.IsNullOrEmpty(route.sceneName)||!Application.CanStreamedLevelBeLoaded(route.sceneName)){Fail("아직 준비되지 않은 장소입니다: "+id);return false;}
- var context=GameContext.Instance;if(context!=null&&context.game.State==GameState.Resolving)return false;
- LastError=null;StartCoroutine(Load(route));return true;
+  if(IsTransitioning)return false;
+  if(id==CurrentScene&&SceneManager.GetActiveScene().name==id.ToString())return true;
+  var route=catalog==null?null:catalog.Find(id);
+  if(id==SceneId.Bootstrap&&GameContext.Instance!=null&&SceneManager.GetActiveScene().name!="Bootstrap"){Fail("Bootstrap은 공통 시스템의 시작 씬입니다.");return false;}
+  if(route==null||!route.implemented||string.IsNullOrEmpty(route.sceneName)||!Application.CanStreamedLevelBeLoaded(route.sceneName)){Fail("아직 준비되지 않은 장소입니다. "+id);return false;}
+  var context=GameContext.Instance;if(context!=null&&context.game.State==GameState.Resolving)return false;
+  LastError=null;IsTransitioning=true;StartCoroutine(Load(route));return true;
  }
  IEnumerator Load(SceneRoute route){
- IsTransitioning=true;if(loadingOverlay!=null)loadingOverlay.SetActive(true);
- var game=GameContext.Instance==null?null:GameContext.Instance.game;if(game!=null)game.clock.SetRunning(false);
- AsyncOperation operation=null;try{operation=SceneManager.LoadSceneAsync(route.sceneName,LoadSceneMode.Single);}catch(Exception e){Fail(e.Message);}
- if(operation==null){Finish(game,route.id,false);yield break;}
- while(!operation.isDone){if(loadingText!=null)loadingText.text="이동 중... "+Mathf.RoundToInt(operation.progress*100)+"%";yield return null;}
- CurrentScene=route.id;Finish(game,route.id,true);SceneChanged?.Invoke(route.id);
+  var game=GameContext.Instance==null?null:GameContext.Instance.game;bool running=game!=null&&game.clock.IsRunning;
+  if(game!=null)game.clock.SetRunning(false);
+  var previous=SceneManager.GetActiveScene();var priorId=CurrentScene;
+  var profile=presentation==null?null:presentation.Find(priorId,route.id);
+  if(presentation!=null)yield return presentation.Exit(profile);else if(loadingOverlay!=null)loadingOverlay.SetActive(true);
+  AsyncOperation operation=null;
+  try{operation=presentation==null?SceneManager.LoadSceneAsync(route.sceneName,LoadSceneMode.Additive):presentation.loader.Begin(route.sceneName);}catch(Exception e){Fail(e.Message);}
+  if(operation==null){yield return Recover(game,running,profile);yield break;}
+  while(operation.progress<.9f&&!operation.isDone){if(loadingText!=null)loadingText.text="이동 중 · "+Mathf.RoundToInt(operation.progress/.9f*100)+"%";yield return null;}
+  operation.allowSceneActivation=true;while(!operation.isDone)yield return null;
+  var destination=SceneManager.GetSceneByName(route.sceneName);
+  if(!destination.IsValid()||!destination.isLoaded){Fail("장소를 불러오지 못했습니다. 이전 화면으로 돌아갑니다.");yield return Recover(game,running,profile);yield break;}
+  CurrentScene=route.id;SceneManager.SetActiveScene(destination);
+  if(previous.IsValid()&&previous.isLoaded){var unload=SceneManager.UnloadSceneAsync(previous);if(unload!=null)yield return unload;}
+  yield return null;if(presentation!=null)yield return presentation.Enter(profile);
+  Finish(game,IsGameplay(route.id));SceneChanged?.Invoke(route.id);
  }
- void Finish(GameManager game,SceneId target,bool success){IsTransitioning=false;if(loadingOverlay!=null)loadingOverlay.SetActive(false);if(game!=null)game.clock.SetRunning((success?target==SceneId.Home||target==SceneId.School||target==SceneId.City||target==SceneId.Workplace:CurrentScene==SceneId.Home||CurrentScene==SceneId.School||CurrentScene==SceneId.City||CurrentScene==SceneId.Workplace)&&game.State==GameState.Playing);if(game!=null)game.RefreshAvailability();}
+ IEnumerator Recover(GameManager game,bool running,TransitionProfile profile){if(presentation!=null)yield return presentation.Enter(profile);Finish(game,running);}
+ void Finish(GameManager game,bool running){IsTransitioning=false;if(loadingOverlay!=null)loadingOverlay.SetActive(false);if(game!=null){game.clock.SetRunning(running&&game.State==GameState.Playing);game.RefreshAvailability();}}
+ static bool IsGameplay(SceneId id)=>id==SceneId.Home||id==SceneId.School||id==SceneId.City||id==SceneId.Workplace;
  void Fail(string error){LastError=error;var game=GameContext.Instance==null?null:GameContext.Instance.game;if(game!=null)game.Log(error);if(loadingText!=null)loadingText.text=error;}
 }
 }
