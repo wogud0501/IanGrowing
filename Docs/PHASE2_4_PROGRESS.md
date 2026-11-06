@@ -51,7 +51,7 @@ Home은 자동 활동 요약/설정 진입만 추가했다. School에서 자동 
 
 | 검증 | 결과 / 증거 |
 |---|---|
-| Phase2.4 | **116 통과**, [IDLE_TEST_RESULTS.json](Phase24/IDLE_TEST_RESULTS.json) |
+| Phase2.4 | **124 통과**, [IDLE_TEST_RESULTS.json](Phase24/IDLE_TEST_RESULTS.json) |
 | 출생/폰트 | **48 통과**, [BIRTH_FONT_TESTS.json](Phase24/BIRTH_FONT_TESTS.json) |
 | Phase2.3 통합 후 재검 | **506 통과**, [PHASE23_AUDIT_TESTS.json](Phase24/PHASE23_AUDIT_TESTS.json) |
 | 기존 Phase2.1 / 2.2 | **45 / 169 통과**, [2.1](Phase24/PHASE21_REGRESSION.txt), [2.2](Phase24/PHASE22_REGRESSION.txt) |
@@ -63,6 +63,8 @@ Home은 자동 활동 요약/설정 진입만 추가했다. School에서 자동 
 테스트 슬롯은 GUID로 격리하며 모델·슬롯·플래그를 복원한다. 기존 Phase2.1/2.2는 선택 모듈을 끈 원래 계약으로 실행한다. 출생 로그 기대는 새 팝업 계약으로, 미구현 장소 기대는 이제 구현된 Battle 대신 StockMarket으로 갱신했다. 실제 기존 미션 조건·경제·생존 결과 검사는 유지했다. 구형 Stage1 일렬 Work 버튼 화면 계약은 이 감사 범위 밖이며, 그 검사를 통과했다고 보고하지 않는다.
 
 ## 실제 화면
+
+실제 Bootstrap 자동 불러오기 → MainMenu 대기 → Home 이어하기도 별도 GUID 슬롯으로 검증했다. 메뉴에서는 정지된 게임 시간을 활동 실패로 해석하지 않으며 선택된 자동 활동을 유지한다. 재접속 오프라인 구간은 한 번 정산되고, Home 진입 시 미확인 결과창이 열린다. [실제 시작 경로 결과](Phase24/TRUE_BOOT_MAINMENU_RESULTS.txt).
 
 [출생 팝업](Phase24/Screenshots/Birth-1920x1080.png) · [빠른 행동 서체](Phase24/Screenshots/Quick-action-font.png) · [전투](Phase24/Screenshots/Battle-1920x1080.png) · [오프라인 정산서](Phase24/Screenshots/Offline-1920x1080.png)
 
@@ -79,3 +81,11 @@ Fixture 화면의 나이/직업/능력치/경과 시간은 검증용으로 설�
 주요 수정: GameManager, SaveManager, TimeManager, JobData/JobService, Phase23Services, MissionData/MissionService, SceneTransitionService, UIShell/UINavigationService, UITypeScale/PixelNotificationLayout, 기존 다섯 주요 UI 씬/prefab과 TMP 설정. 전체 경로는 [변경 파일 목록](Phase24/CHANGED_FILES.txt)에 기록한다.
 
 임포트 시 기존 Unity AI 서비스의 NoSubscription 오류와 기존 obsolete API 경고가 별도로 발생할 수 있다. 이번 작업에 그 이미지 서비스를 사용하지 않았다. 최종 Play 검증의 Console 결과와 플랫폼 빌드 결과를 분리해서 기록한다.
+
+## 플랫폼 빌드와 남은 검증
+
+Android 최종 소스 빌드: **Succeeded / errors 0**, `E:/Projects/Build/Phase24/Android-20261106-080958/IanGrowing.apk` (APK 92,723,830 bytes). 원래 빈 Additional IL2CPP Args 상태에서 최종 빌드했다. 최초 LLVM 메모리 할당 실패는 기존 Bee 그래프를 직렬 컴파일해 네이티브 캐시를 만든 후 복구했다. [복구 기록](Phase24/ANDROID_NATIVE_RECOVERY.txt), [최종 BuildReport](Phase24/BUILD_Android.json).
+
+Android BuildReport에는 **1174 warnings**가 있다. 기존 MissionCondition의 재귀 직렬화 depth10 경고와 설치된 Unity AI/Sentis 패키지 셰이더 경고 등이 반복된다. 최종 Play Console 0 errors/0 warnings와 빌드 경고 수를 구분한다. [Android 경고](Phase24/BUILD_Android_FINAL_WARNINGS.txt). 미션 저장 스키마나 설치된 AI 패키지를 경고 숨김 목적으로 변경하지 않았다.
+
+Windows 최종 빌드 상태/출력 경로는 [BuildReport](Phase24/BUILD_StandaloneWindows64.json)에 기록한다. Windows 실행 파일 직접 플레이, Android APK 설치·실기기 터치/노치/메모리·프레임 측정은 **미검증**이다. Editor의 세 해상도 검사는 기기 테스트를 대신하지 않는다.
