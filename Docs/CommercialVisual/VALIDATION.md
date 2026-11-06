@@ -30,6 +30,7 @@ Stage A 감사와 Home ↔ School 버티컬 슬라이스를 구현했다. 상업
 ## 콘솔 및 성능
 - 최종 42개 검증 후 C# compilation 실패 플래그 false, 해당 실행 구간 Console error/warning **0건**을 확인했다.
 - 중간 점검에서 additive 활성화 순간 EventSystem 중복 경고를 발견했다. 이전 씬의 입력 모듈/EventSystem/Camera/AudioListener를 목적지 활성화 직전 중지하고, 실패 복귀 시 복원하도록 수정했다.
+- Play Mode 종료 때 기존 Phase23Presenter가 파괴 중인 버튼을 갱신하는 오류도 발견했다. 표현 계층의 OnDisable 구독 해제와 파괴 참조 방어를 추가했다. 모델/행동/저장 규칙은 바꾸지 않았다.
 - 별도 기존 Unity AI 서비스에서 generators.ai.unity.com `NoSubscription` 오류가 관측됐다. 이번 아트 생성에는 그 서비스를 사용하지 않았다.
 - 작업 전 MissionCondition 재귀 직렬화 깊이 경고를 관측했다. 게임 데이터 스키마를 바꾸지 않았다.
 - Editor 정지 장면 표본: Atlas 적용 전 22 draw calls, 적용 후 Home 14 draw calls / 1084 triangles. 기기 성능 벤치마크가 아니며 GPU/열/배터리 개선 수치로 해석하지 않는다.

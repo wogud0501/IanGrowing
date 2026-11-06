@@ -24,7 +24,7 @@ Masters are generated via the built-in imagegen tool, with no downloaded third-p
 ## Required separate art production
 | Filename proposal | Size / frame plan | Layers / use | Status |
 |---|---|---|---|
-| Ian_Idle.png | 128×192 per frame ×6, 6fps, 1s loop | body/head/headphones, consistent feet pivot | pending approved redraw against official reference |
+| Ian_Idle.png | 256×384 per frame ×6, 100 PPU, 6fps, 1s loop | body/head/headphones, consistent feet pivot and 3.84-unit source height, matched to original actor scale | pending approved redraw against official reference |
 | Ian_Blink.png | same ×3, 10fps, .3s | eyes only, preserve tired expression | pending |
 | Ian_Sleep.png | same ×6, 4fps | sleep pose + breathing, bed alignment | pending |
 | Ian_Eat.png / Ian_Drink.png | same ×8 each, 8fps | hands + bowl/cup | pending |
