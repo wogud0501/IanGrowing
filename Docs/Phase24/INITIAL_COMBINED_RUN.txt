@@ -1,0 +1,96 @@
+﻿Phase24 107 passed
+Birth/font 48 passed
+Phase23 506 passed after idle integration
+Phase2.1 45 passed
+Phase2.2 169 passed
+Glyphs LifePanel/Title
+Glyphs LifePanel/Label
+Glyphs LifePanel/Intro
+Glyphs LifePanel/Label
+Glyphs LifePanel/Label
+Glyphs LifePanel/Label
+Glyphs LifePanel/Label
+Glyphs LifePanel/Label
+Glyphs GrowthPanel/Title
+Glyphs GrowthPanel/Label
+Glyphs GrowthPanel/Label
+Glyphs GrowthPanel/Label
+Glyphs GrowthPanel/Label
+Glyphs GrowthPanel/Label
+Glyphs GrowthPanel/Label
+Glyphs GrowthPanel/Live full status
+Glyphs GrowthPanel/Label
+Glyphs ActivityPanel/Title
+Glyphs ActivityPanel/Label
+Glyphs ActivityPanel/Location intro
+Glyphs ActivityPanel/Label
+Glyphs ActivityPanel/Label
+Glyphs ActivityPanel/Label
+Glyphs ActivityPanel/Label
+Glyphs ActivityPanel/Future places
+Glyphs InventoryPanel/Title
+Glyphs InventoryPanel/Label
+Glyphs InventoryPanel/Inventory summary
+Glyphs InventoryPanel/Future collection
+Glyphs InventoryPanel/Label
+Glyphs InventoryPanel/Label
+Glyphs MenuPanel/Title
+Glyphs MenuPanel/Label
+Glyphs MenuPanel/Label
+Glyphs MenuPanel/Label
+Glyphs MenuPanel/Label
+Glyphs MenuPanel/Label
+Glyphs MenuPanel/Label
+Glyphs MissionPanel/Title
+Glyphs MissionPanel/Label
+Glyphs MissionPanel/Chapter
+Glyphs MissionPanel/Mission Title
+Glyphs MissionPanel/Progress
+Glyphs MissionPanel/Exact mission guidance
+Glyphs MissionPanel/Rewards
+Glyphs MissionPanel/Label
+Glyphs MissionPanel/Label
+Glyphs MissionPanel/Label
+Glyphs MissionPanel/Label
+Glyphs MissionPanel/Next
+Glyphs Settings/Title
+Glyphs Settings/Label
+Glyphs Settings/Intro
+Glyphs Settings/Label
+Glyphs Settings/Label
+Glyphs Settings/Input
+Glyphs Settings/Label
+Glyphs Settings/Label
+Glyphs Settings/Label
+Glyphs Settings/Label
+Glyphs Detailed status/Title
+Glyphs Detailed status/Label
+Glyphs Detailed status/Vitals heading
+Glyphs Detailed status/Core Hunger Label
+Glyphs Detailed status/Value
+Glyphs Detailed status/Core Thirst Label
+Glyphs Detailed status/Value
+Glyphs Detailed status/Core Knowledge Label
+Glyphs Detailed status/Value
+Glyphs Detailed status/Energy Label
+Glyphs Detailed status/Value
+Glyphs Detailed status/Core Mental Label
+Glyphs Detailed status/Value
+Glyphs Detailed status/Core Social Label
+Glyphs Detailed status/Value
+Glyphs Detailed status/Core Credit Label
+Glyphs Detailed status/Value
+Glyphs Detailed status/Happiness Label
+Glyphs Detailed status/Value
+Glyphs Detailed status/Debt
+Glyphs Detailed status/Label
+Failure: UnityEngine.UnassignedReferenceException: The variable locationPanel of UINavigationService has not been assigned.
+You probably need to assign the locationPanel variable of the UINavigationService script in the inspector.
+  at UnityEngine.Object+MarshalledUnityObject.TryThrowEditorNullExceptionObject (UnityEngine.Object unityObj, System.String parameterName) [0x000b4] in <2a0aacfdb6844320ae79174c32157248>:0 
+  at UnityEngine.Bindings.ThrowHelper.ThrowNullReferenceException (System.Object obj) [0x0000a] in <2a0aacfdb6844320ae79174c32157248>:0 
+  at UnityEngine.GameObject.GetComponentsInternal (System.Type type, System.Boolean useSearchTypeAsArrayReturnType, System.Boolean recursive, System.Boolean includeInactive, System.Boolean reverse, System.Object resultList) [0x00006] in <2a0aacfdb6844320ae79174c32157248>:0 
+  at UnityEngine.GameObject.GetComponentsInternal[T] (System.Boolean useSearchTypeAsArrayReturnType, System.Boolean recursive, System.Boolean includeInactive, System.Boolean reverse, System.Collections.Generic.List`1[T] resultList) [0x00017] in <2a0aacfdb6844320ae79174c32157248>:0 
+  at UnityEngine.GameObject.GetComponentsInChildren[T] (System.Boolean includeInactive) [0x00000] in <2a0aacfdb6844320ae79174c32157248>:0 
+  at UnityEngine.GameObject.GetComponentsInChildren[T] () [0x00000] in <2a0aacfdb6844320ae79174c32157248>:0 
+  at IanGame.Editor.FinalIntegrationVerification+<Scenario>d__10.MoveNext () [0x005cf] in E:\Projects\IanGrowing\Assets\_Game\Scripts\Development\FinalIntegrationVerification.cs:16 
+  at IanGame.Editor.FinalIntegrationVerification+<Run>d__7.MoveNext () [0x00059] in E:\Projects\IanGrowing\Assets\_Game\Scripts\Development\FinalIntegrationVerification.cs:7 

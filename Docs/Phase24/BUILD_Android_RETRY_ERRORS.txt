@@ -1,0 +1,548 @@
+Building Library\Bee\artifacts\Android\d8kzr\1v1s7i3kdq7g.o failed with output:
+LLVM ERROR: out of memory
+Allocation failed
+PLEASE submit a bug report to https://github.com/android-ndk/ndk/issues and include the crash backtrace, preprocessed source, and associated run script.
+Stack dump:
+0.	Program arguments: E:/Unity/Editor/6000.6.7f1/Editor/Data/PlaybackEngines/AndroidPlayer/NDK/toolchains/llvm/prebuilt/windows-x86_64/bin/clang++ -march=armv8-a -D__ANDROID_UNAVAILABLE_SYMBOLS_ARE_WEAK__ -faddrsig -DANDROID -DHAVE_INTTYPES_H -no-canonical-prefixes -fomit-frame-pointer -std=c++17 -Wswitch -Wno-trigraphs -Wno-tautological-compare -Wno-invalid-offsetof -Wno-implicitly-unsigned-literal -Wno-integer-overflow -Wno-shift-negative-value -Wno-unknown-attributes -Wno-implicit-function-declaration -Wno-null-conversion -Wno-missing-declarations -Wno-unused-value -Wno-pragma-once-outside-header -fvisibility=hidden -fexceptions -fno-rtti -funwind-tables -g -Os -fPIC -fno-strict-aliasing -fno-strict-overflow -ffunction-sections -fdata-sections -fstack-protector -fmessage-length=0 -pipe -DHAVE_BDWGC_GC -DBASELIB_INLINE_NAMESPACE=il2cpp_baselib -DFORCE_PINVOKE_libSystem_Security_Cryptography_Native_Android_INTERNAL -DIL2CPP_MONO_DEBUGGER_DISABLED -DRUNTIME_IL2CPP -DTARGET_ARM64 -DIL2CPP_ENABLE_WRITE_BARRIERS=1 -DIL2CPP_INCREMENTAL_TIME_SLICE=3 -DNDEBUG -I. -IE:/Projects/IanGrowing/Library/Bee/artifacts/Android/il2cppOutput/cpp -IE:/Unity/Editor/6000.6.7f1/Editor/Data/il2cpp/libil2cpp/pch -IE:/Unity/Editor/6000.6.7f1/Editor/Data/il2cpp/libil2cpp -IE:/Unity/Editor/6000.6.7f1/Editor/Data/il2cpp/external/baselib/Include -IE:/Unity/Editor/6000.6.7f1/Editor/Data/il2cpp/libil2cpp/os/ClassLibraryPAL/brotli/include -IE:/Unity/Editor/6000.6.7f1/Editor/Data/il2cpp/external/baselib/Platforms/Android/Include -IE:/Unity/Editor/6000.6.7f1/Editor/Data/il2cpp/Platforms/Android/il2cpp/libil2cpp -o Library/Bee/artifacts/Android/d8kzr/1v1s7i3kdq7g.o -fcolor-diagnostics -fdiagnostics-absolute-paths -target aarch64-linux-android25 -fdiagnostics-format=msvc -fno-strict-float-cast-overflow -fno-strict-float-cast-overflow -c -x c++ E:/Projects/IanGrowing/Library/Bee/artifacts/Android/il2cppOutput/cpp/Generics__112.cpp
+1.	E:/Projects/IanGrowing/Library/Bee/artifacts/Android/il2cppOutput/cpp/Generics__112.cpp:7296:1 <Spelling=E:/Unity/Editor/6000.6.7f1/Editor/Data/il2cpp/libil2cpp/il2cpp-config.h:47:25>: current parser token 'extern'
+2.	E:/Projects/IanGrowing/Library/Bee/artifacts/Android/il2cppOutput/cpp/Generics__112.cpp:7273:1 <Spelling=E:/Unity/Editor/6000.6.7f1/Editor/Data/il2cpp/libil2cpp/il2cpp-config.h:47:32>: LLVM IR generation of declaration
+3.	E:/Projects/IanGrowing/Library/Bee/artifacts/Android/il2cppOutput/cpp/Generics__112.cpp:7273:58: Generating code for declaration 'List_1_AddWithResize_mA6DFDBC2B22D6318212C6989A34784BD8303AF33_fshared'
+Exception Code: 0xC000001D
+ #0 0x00007ff7628c9d76 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x639d76)
+ #1 0x00007ffbc8f5e5f5 (C:\Windows\System32\ucrtbase.dll+0x7e5f5)
+ #2 0x00007ffbc8f5f601 (C:\Windows\System32\ucrtbase.dll+0x7f601)
+ #3 0x00007ff76288c92b (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x5fc92b)
+ #4 0x00007ff76288c942 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x5fc942)
+ #5 0x00007ff7622977b9 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x77b9)
+ #6 0x00007ff764c1df08 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x298df08)
+ #7 0x00007ff764c1aacf (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x298aacf)
+ #8 0x00007ff764b63dfb (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x28d3dfb)
+ #9 0x00007ff764a8c5cf (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x27fc5cf)
+#10 0x00007ff764a8dfe3 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x27fdfe3)
+#11 0x00007ff76374e7dd (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x14be7dd)
+#12 0x00007ff763742d7a (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x14b2d7a)
+#13 0x00007ff76374a63d (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x14ba63d)
+#14 0x00007ff76374180a (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x14b180a)
+#15 0x00007ff76375692b (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x14c692b)
+#16 0x00007ff765bda85c (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x394a85c)
+#17 0x00007ff763cac785 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x1a1c785)
+#18 0x00007ff765a83959 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x37f3959)
+#19 0x00007ff763be91fe (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x19591fe)
+#20 0x00007ff7629ad000 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x71d000)
+#21 0x00007ff762a43c05 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x7b3c05)
+#22 0x00007ff7623ce070 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x13e070)
+#23 0x00007ff7623cb180 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x13b180)
+#24 0x00007ff76396a31d (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x16da31d)
+#25 0x00007ff76288affd (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x5faffd)
+#26 0x00007ff763969d45 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x16d9d45)
+#27 0x00007ff76295c463 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x6cc463)
+#28 0x00007ff76297f96d (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x6ef96d)
+#29 0x00007ff7623ca2e2 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x13a2e2)
+#30 0x00007ff7623db027 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x14b027)
+#31 0x00007ff762291395 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x1395)
+#32 0x00007ff7622914c8 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x14c8)
+#33 0x00007ffbcb05257d (C:\Windows\System32\KERNEL32.DLL+0x1257d)
+#34 0x00007ffbcbbcaa58 (C:\Windows\SYSTEM32\ntdll.dll+0x5aa58)
+clang++: error: clang frontend command failed due to signal (use -v to see invocation)
+Android (12470979, based on r522817c) clang version 18.0.3 (https://android.googlesource.com/toolchain/llvm-project d8003a456d14a3deb8054cdaa529ffbf02d9b262)
+Target: aarch64-unknown-linux-android25
+Thread model: posix
+InstalledDir: E:/Unity/Editor/6000.6.7f1/Editor/Data/PlaybackEngines/AndroidPlayer/NDK/toolchains/llvm/prebuilt/windows-x86_64/bin
+clang++: note: diagnostic msg: Error generating preprocessed source(s).
+
+Building Library\Bee\artifacts\Android\d8kzr\l7k7cpwwvgji.o failed with output:
+LLVM ERROR: out of memory
+Allocation failed
+PLEASE submit a bug report to https://github.com/android-ndk/ndk/issues and include the crash backtrace, preprocessed source, and associated run script.
+Stack dump:
+0.	Program arguments: E:/Unity/Editor/6000.6.7f1/Editor/Data/PlaybackEngines/AndroidPlayer/NDK/toolchains/llvm/prebuilt/windows-x86_64/bin/clang++ -march=armv8-a -D__ANDROID_UNAVAILABLE_SYMBOLS_ARE_WEAK__ -faddrsig -DANDROID -DHAVE_INTTYPES_H -no-canonical-prefixes -fomit-frame-pointer -std=c++17 -Wswitch -Wno-trigraphs -Wno-tautological-compare -Wno-invalid-offsetof -Wno-implicitly-unsigned-literal -Wno-integer-overflow -Wno-shift-negative-value -Wno-unknown-attributes -Wno-implicit-function-declaration -Wno-null-conversion -Wno-missing-declarations -Wno-unused-value -Wno-pragma-once-outside-header -fvisibility=hidden -fexceptions -fno-rtti -funwind-tables -g -Os -fPIC -fno-strict-aliasing -fno-strict-overflow -ffunction-sections -fdata-sections -fstack-protector -fmessage-length=0 -pipe -DHAVE_BDWGC_GC -DBASELIB_INLINE_NAMESPACE=il2cpp_baselib -DFORCE_PINVOKE_libSystem_Security_Cryptography_Native_Android_INTERNAL -DIL2CPP_MONO_DEBUGGER_DISABLED -DRUNTIME_IL2CPP -DTARGET_ARM64 -DIL2CPP_ENABLE_WRITE_BARRIERS=1 -DIL2CPP_INCREMENTAL_TIME_SLICE=3 -DNDEBUG -I. -IE:/Projects/IanGrowing/Library/Bee/artifacts/Android/il2cppOutput/cpp -IE:/Unity/Editor/6000.6.7f1/Editor/Data/il2cpp/libil2cpp/pch -IE:/Unity/Editor/6000.6.7f1/Editor/Data/il2cpp/libil2cpp -IE:/Unity/Editor/6000.6.7f1/Editor/Data/il2cpp/external/baselib/Include -IE:/Unity/Editor/6000.6.7f1/Editor/Data/il2cpp/libil2cpp/os/ClassLibraryPAL/brotli/include -IE:/Unity/Editor/6000.6.7f1/Editor/Data/il2cpp/external/baselib/Platforms/Android/Include -IE:/Unity/Editor/6000.6.7f1/Editor/Data/il2cpp/Platforms/Android/il2cpp/libil2cpp -o Library/Bee/artifacts/Android/d8kzr/l7k7cpwwvgji.o -fcolor-diagnostics -fdiagnostics-absolute-paths -target aarch64-linux-android25 -fdiagnostics-format=msvc -fno-strict-float-cast-overflow -fno-strict-float-cast-overflow -c -x c++ E:/Projects/IanGrowing/Library/Bee/artifacts/Android/il2cppOutput/cpp/GenericMethods__36.cpp
+1.	E:/Unity/Editor/6000.6.7f1/Editor/Data/PlaybackEngines/AndroidPlayer/NDK/toolchains/llvm/prebuilt/windows-x86_64/bin/../sysroot/usr/include/c++/v1/__algorithm/rotate.h:47:51: current parser token '('
+2.	E:/Unity/Editor/6000.6.7f1/Editor/Data/PlaybackEngines/AndroidPlayer/NDK/toolchains/llvm/prebuilt/windows-x86_64/bin/../sysroot/usr/include/c++/v1/__algorithm/rotate.h:26:1 <Spelling=E:/Unity/Editor/6000.6.7f1/Editor/Data/PlaybackEngines/AndroidPlayer/NDK/toolchains/llvm/prebuilt/windows-x86_64/bin/../sysroot/usr/include/c++/v1/__config:825:39>: parsing namespace 'std'
+3.	E:/Unity/Editor/6000.6.7f1/Editor/Data/PlaybackEngines/AndroidPlayer/NDK/toolchains/llvm/prebuilt/windows-x86_64/bin/../sysroot/usr/include/c++/v1/__algorithm/rotate.h:26:1 <Spelling=E:/Unity/Editor/6000.6.7f1/Editor/Data/PlaybackEngines/AndroidPlayer/NDK/toolchains/llvm/prebuilt/windows-x86_64/bin/../sysroot/usr/include/c++/v1/__config:826:39>: parsing namespace 'std::__ndk1'
+4.	E:/Unity/Editor/6000.6.7f1/Editor/Data/PlaybackEngines/AndroidPlayer/NDK/toolchains/llvm/prebuilt/windows-x86_64/bin/../sysroot/usr/include/c++/v1/__algorithm/rotate.h:42:79: parsing function body 'std::__rotate_right'
+5.	E:/Unity/Editor/6000.6.7f1/Editor/Data/PlaybackEngines/AndroidPlayer/NDK/toolchains/llvm/prebuilt/windows-x86_64/bin/../sysroot/usr/include/c++/v1/__algorithm/rotate.h:42:79: in compound statement ('{}')
+Exception Code: 0xC000001D
+ #0 0x00007ff7628c9d76 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x639d76)
+ #1 0x00007ffbc8f5e5f5 (C:\Windows\System32\ucrtbase.dll+0x7e5f5)
+ #2 0x00007ffbc8f5f601 (C:\Windows\System32\ucrtbase.dll+0x7f601)
+ #3 0x00007ff76288c92b (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x5fc92b)
+ #4 0x00007ff76288c942 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x5fc942)
+ #5 0x00007ff7622977b9 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x77b9)
+ #6 0x00007ff762604f9e (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x374f9e)
+ #7 0x00007ff766bfb595 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x496b595)
+ #8 0x00007ff7657e7017 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x3557017)
+ #9 0x00007ff767a24956 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x5794956)
+#10 0x00007ff767a26070 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x5796070)
+#11 0x00007ff767a14356 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x5784356)
+#12 0x00007ff767a130ad (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x57830ad)
+#13 0x00007ff767a093b7 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x57793b7)
+#14 0x00007ff7679d6a32 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x5746a32)
+#15 0x00007ff7679d31b1 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x57431b1)
+#16 0x00007ff7679d256e (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x574256e)
+#17 0x00007ff7679d1b26 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x5741b26)
+#18 0x00007ff7679f3efe (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x5763efe)
+#19 0x00007ff7679f2b0a (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x5762b0a)
+#20 0x00007ff7679fe683 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x576e683)
+#21 0x00007ff7679ff792 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x576f792)
+#22 0x00007ff76701394e (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x4d8394e)
+#23 0x00007ff76796f6bc (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x56df6bc)
+#24 0x00007ff76796afd9 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x56dafd9)
+#25 0x00007ff76796a808 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x56da808)
+#26 0x00007ff7679d1ae1 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x5741ae1)
+#27 0x00007ff76700f3eb (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x4d7f3eb)
+#28 0x00007ff7679a7cde (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x5717cde)
+#29 0x00007ff7679a754f (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x571754f)
+#30 0x00007ff7679d1f24 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x5741f24)
+#31 0x00007ff76700f3eb (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x4d7f3eb)
+#32 0x00007ff7679a7cde (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x5717cde)
+#33 0x00007ff7679a754f (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x571754f)
+#34 0x00007ff7679d1f24 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x5741f24)
+#35 0x00007ff76700f3eb (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x4d7f3eb)
+#36 0x00007ff76700d8ca (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x4d7d8ca)
+#37 0x00007ff765a8393e (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x37f393e)
+#38 0x00007ff763be91fe (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x19591fe)
+#39 0x00007ff7629ad000 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x71d000)
+#40 0x00007ff762a43c05 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x7b3c05)
+#41 0x00007ff7623ce070 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x13e070)
+#42 0x00007ff7623cb180 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x13b180)
+#43 0x00007ff76396a31d (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x16da31d)
+#44 0x00007ff76288affd (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x5faffd)
+#45 0x00007ff763969d45 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x16d9d45)
+#46 0x00007ff76295c463 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x6cc463)
+#47 0x00007ff76297f96d (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x6ef96d)
+#48 0x00007ff7623ca2e2 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x13a2e2)
+#49 0x00007ff7623db027 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x14b027)
+#50 0x00007ff762291395 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x1395)
+#51 0x00007ff7622914c8 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x14c8)
+#52 0x00007ffbcb05257d (C:\Windows\System32\KERNEL32.DLL+0x1257d)
+#53 0x00007ffbcbbcaa58 (C:\Windows\SYSTEM32\ntdll.dll+0x5aa58)
+clang++: error: clang frontend command failed due to signal (use -v to see invocation)
+Android (12470979, based on r522817c) clang version 18.0.3 (https://android.googlesource.com/toolchain/llvm-project d8003a456d14a3deb8054cdaa529ffbf02d9b262)
+Target: aarch64-unknown-linux-android25
+Thread model: posix
+InstalledDir: E:/Unity/Editor/6000.6.7f1/Editor/Data/PlaybackEngines/AndroidPlayer/NDK/toolchains/llvm/prebuilt/windows-x86_64/bin
+clang++: note: diagnostic msg: Error generating preprocessed source(s).
+
+Building Library\Bee\artifacts\Android\d8kzr\uadg9i3a6bnn.o failed with output:
+LLVM ERROR: out of memory
+Allocation failed
+PLEASE submit a bug report to https://github.com/android-ndk/ndk/issues and include the crash backtrace, preprocessed source, and associated run script.
+Stack dump:
+0.	Program arguments: E:/Unity/Editor/6000.6.7f1/Editor/Data/PlaybackEngines/AndroidPlayer/NDK/toolchains/llvm/prebuilt/windows-x86_64/bin/clang++ -march=armv8-a -D__ANDROID_UNAVAILABLE_SYMBOLS_ARE_WEAK__ -faddrsig -DANDROID -DHAVE_INTTYPES_H -no-canonical-prefixes -fomit-frame-pointer -std=c++17 -Wswitch -Wno-trigraphs -Wno-tautological-compare -Wno-invalid-offsetof -Wno-implicitly-unsigned-literal -Wno-integer-overflow -Wno-shift-negative-value -Wno-unknown-attributes -Wno-implicit-function-declaration -Wno-null-conversion -Wno-missing-declarations -Wno-unused-value -Wno-pragma-once-outside-header -fvisibility=hidden -fexceptions -fno-rtti -funwind-tables -g -Os -fPIC -fno-strict-aliasing -fno-strict-overflow -ffunction-sections -fdata-sections -fstack-protector -fmessage-length=0 -pipe -DHAVE_BDWGC_GC -DBASELIB_INLINE_NAMESPACE=il2cpp_baselib -DFORCE_PINVOKE_libSystem_Security_Cryptography_Native_Android_INTERNAL -DIL2CPP_MONO_DEBUGGER_DISABLED -DRUNTIME_IL2CPP -DTARGET_ARM64 -DIL2CPP_ENABLE_WRITE_BARRIERS=1 -DIL2CPP_INCREMENTAL_TIME_SLICE=3 -DNDEBUG -I. -IE:/Projects/IanGrowing/Library/Bee/artifacts/Android/il2cppOutput/cpp -IE:/Unity/Editor/6000.6.7f1/Editor/Data/il2cpp/libil2cpp/pch -IE:/Unity/Editor/6000.6.7f1/Editor/Data/il2cpp/libil2cpp -IE:/Unity/Editor/6000.6.7f1/Editor/Data/il2cpp/external/baselib/Include -IE:/Unity/Editor/6000.6.7f1/Editor/Data/il2cpp/libil2cpp/os/ClassLibraryPAL/brotli/include -IE:/Unity/Editor/6000.6.7f1/Editor/Data/il2cpp/external/baselib/Platforms/Android/Include -IE:/Unity/Editor/6000.6.7f1/Editor/Data/il2cpp/Platforms/Android/il2cpp/libil2cpp -o Library/Bee/artifacts/Android/d8kzr/uadg9i3a6bnn.o -fcolor-diagnostics -fdiagnostics-absolute-paths -target aarch64-linux-android25 -fdiagnostics-format=msvc -fno-strict-float-cast-overflow -fno-strict-float-cast-overflow -c -x c++ E:/Projects/IanGrowing/Library/Bee/artifacts/Android/il2cppOutput/cpp/Unity.RenderPipelines.GPUDriven.Runtime__1.cpp
+1.	E:/Unity/Editor/6000.6.7f1/Editor/Data/PlaybackEngines/AndroidPlayer/NDK/toolchains/llvm/prebuilt/windows-x86_64/bin/../sysroot/usr/include/c++/v1/tuple:1017:3 <Spelling=E:/Unity/Editor/6000.6.7f1/Editor/Data/PlaybackEngines/AndroidPlayer/NDK/toolchains/llvm/prebuilt/windows-x86_64/bin/../sysroot/usr/include/c++/v1/__config:798:38>: current parser token '_LIBCPP_TOSTRING'
+2.	E:/Unity/Editor/6000.6.7f1/Editor/Data/PlaybackEngines/AndroidPlayer/NDK/toolchains/llvm/prebuilt/windows-x86_64/bin/../sysroot/usr/include/c++/v1/tuple:281:1 <Spelling=E:/Unity/Editor/6000.6.7f1/Editor/Data/PlaybackEngines/AndroidPlayer/NDK/toolchains/llvm/prebuilt/windows-x86_64/bin/../sysroot/usr/include/c++/v1/__config:825:39>: parsing namespace 'std'
+3.	E:/Unity/Editor/6000.6.7f1/Editor/Data/PlaybackEngines/AndroidPlayer/NDK/toolchains/llvm/prebuilt/windows-x86_64/bin/../sysroot/usr/include/c++/v1/tuple:281:1 <Spelling=E:/Unity/Editor/6000.6.7f1/Editor/Data/PlaybackEngines/AndroidPlayer/NDK/toolchains/llvm/prebuilt/windows-x86_64/bin/../sysroot/usr/include/c++/v1/__config:826:39>: parsing namespace 'std::__ndk1'
+4.	E:/Unity/Editor/6000.6.7f1/Editor/Data/PlaybackEngines/AndroidPlayer/NDK/toolchains/llvm/prebuilt/windows-x86_64/bin/../sysroot/usr/include/c++/v1/tuple:1007:1: parsing struct/union/class body 'std::tuple<>'
+Exception Code: 0xC000001D
+ #0 0x00007ff7628c9d76 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x639d76)
+ #1 0x00007ffbc8f5e5f5 (C:\Windows\System32\ucrtbase.dll+0x7e5f5)
+ #2 0x00007ffbc8f5f601 (C:\Windows\System32\ucrtbase.dll+0x7f601)
+ #3 0x00007ff76288c92b (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x5fc92b)
+ #4 0x00007ff7628997ff (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x6097ff)
+ #5 0x00007ff76371f1fb (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x148f1fb)
+ #6 0x00007ff7651cd990 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x2f3d990)
+ #7 0x00007ff7651cbf75 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x2f3bf75)
+ #8 0x00007ff7651b969d (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x2f2969d)
+ #9 0x00007ff763c38964 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x19a8964)
+#10 0x00007ff763addee1 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x184dee1)
+#11 0x00007ff763addf3c (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x184df3c)
+#12 0x00007ff7651b820e (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x2f2820e)
+#13 0x00007ff7651cbe16 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x2f3be16)
+#14 0x00007ff7651b969d (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x2f2969d)
+#15 0x00007ff763c38964 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x19a8964)
+#16 0x00007ff763addee1 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x184dee1)
+#17 0x00007ff763addf3c (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x184df3c)
+#18 0x00007ff7679c5da8 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x5735da8)
+#19 0x00007ff7679c586d (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x573586d)
+#20 0x00007ff7679c49de (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x57349de)
+#21 0x00007ff7679d95f3 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x57495f3)
+#22 0x00007ff7679b8513 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x5728513)
+#23 0x00007ff76796e2e1 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x56de2e1)
+#24 0x00007ff76796afd9 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x56dafd9)
+#25 0x00007ff7679b7bff (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x5727bff)
+#26 0x00007ff7679bb38a (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x572b38a)
+#27 0x00007ff7679b29ec (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x57229ec)
+#28 0x00007ff7679d912b (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x574912b)
+#29 0x00007ff76796e733 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x56de733)
+#30 0x00007ff76796afd9 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x56dafd9)
+#31 0x00007ff76796a808 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x56da808)
+#32 0x00007ff7679d1ae1 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x5741ae1)
+#33 0x00007ff76700f3eb (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x4d7f3eb)
+#34 0x00007ff7679a7cde (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x5717cde)
+#35 0x00007ff7679a754f (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x571754f)
+#36 0x00007ff7679d1f24 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x5741f24)
+#37 0x00007ff76700f3eb (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x4d7f3eb)
+#38 0x00007ff7679a7cde (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x5717cde)
+#39 0x00007ff7679a754f (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x571754f)
+#40 0x00007ff7679d1f24 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x5741f24)
+#41 0x00007ff76700f3eb (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x4d7f3eb)
+#42 0x00007ff76700d8ca (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x4d7d8ca)
+#43 0x00007ff765a8393e (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x37f393e)
+#44 0x00007ff763be91fe (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x19591fe)
+#45 0x00007ff7629ad000 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x71d000)
+#46 0x00007ff762a43c05 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x7b3c05)
+#47 0x00007ff7623ce070 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x13e070)
+#48 0x00007ff7623cb180 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x13b180)
+#49 0x00007ff76396a31d (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x16da31d)
+#50 0x00007ff76288affd (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x5faffd)
+#51 0x00007ff763969d45 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x16d9d45)
+#52 0x00007ff76295c463 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x6cc463)
+#53 0x00007ff76297f96d (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x6ef96d)
+#54 0x00007ff7623ca2e2 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x13a2e2)
+#55 0x00007ff7623db027 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x14b027)
+#56 0x00007ff762291395 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x1395)
+#57 0x00007ff7622914c8 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x14c8)
+#58 0x00007ffbcb05257d (C:\Windows\System32\KERNEL32.DLL+0x1257d)
+#59 0x00007ffbcbbcaa58 (C:\Windows\SYSTEM32\ntdll.dll+0x5aa58)
+clang++: error: clang frontend command failed due to signal (use -v to see invocation)
+Android (12470979, based on r522817c) clang version 18.0.3 (https://android.googlesource.com/toolchain/llvm-project d8003a456d14a3deb8054cdaa529ffbf02d9b262)
+Target: aarch64-unknown-linux-android25
+Thread model: posix
+InstalledDir: E:/Unity/Editor/6000.6.7f1/Editor/Data/PlaybackEngines/AndroidPlayer/NDK/toolchains/llvm/prebuilt/windows-x86_64/bin
+clang++: note: diagnostic msg: Error generating preprocessed source(s).
+
+Building Library\Bee\artifacts\Android\d8kzr\fk1rclq7ycxp.o failed with output:
+LLVM ERROR: out of memory
+Allocation failed
+PLEASE submit a bug report to https://github.com/android-ndk/ndk/issues and include the crash backtrace, preprocessed source, and associated run script.
+Stack dump:
+0.	Program arguments: E:/Unity/Editor/6000.6.7f1/Editor/Data/PlaybackEngines/AndroidPlayer/NDK/toolchains/llvm/prebuilt/windows-x86_64/bin/clang++ -march=armv8-a -D__ANDROID_UNAVAILABLE_SYMBOLS_ARE_WEAK__ -faddrsig -DANDROID -DHAVE_INTTYPES_H -no-canonical-prefixes -fomit-frame-pointer -std=c++17 -Wswitch -Wno-trigraphs -Wno-tautological-compare -Wno-invalid-offsetof -Wno-implicitly-unsigned-literal -Wno-integer-overflow -Wno-shift-negative-value -Wno-unknown-attributes -Wno-implicit-function-declaration -Wno-null-conversion -Wno-missing-declarations -Wno-unused-value -Wno-pragma-once-outside-header -fvisibility=hidden -fexceptions -fno-rtti -funwind-tables -g -Os -fPIC -fno-strict-aliasing -fno-strict-overflow -ffunction-sections -fdata-sections -fstack-protector -fmessage-length=0 -pipe -DHAVE_BDWGC_GC -DBASELIB_INLINE_NAMESPACE=il2cpp_baselib -DFORCE_PINVOKE_libSystem_Security_Cryptography_Native_Android_INTERNAL -DIL2CPP_MONO_DEBUGGER_DISABLED -DRUNTIME_IL2CPP -DTARGET_ARM64 -DIL2CPP_ENABLE_WRITE_BARRIERS=1 -DIL2CPP_INCREMENTAL_TIME_SLICE=3 -DNDEBUG -I. -IE:/Projects/IanGrowing/Library/Bee/artifacts/Android/il2cppOutput/cpp -IE:/Unity/Editor/6000.6.7f1/Editor/Data/il2cpp/libil2cpp/pch -IE:/Unity/Editor/6000.6.7f1/Editor/Data/il2cpp/libil2cpp -IE:/Unity/Editor/6000.6.7f1/Editor/Data/il2cpp/external/baselib/Include -IE:/Unity/Editor/6000.6.7f1/Editor/Data/il2cpp/libil2cpp/os/ClassLibraryPAL/brotli/include -IE:/Unity/Editor/6000.6.7f1/Editor/Data/il2cpp/external/baselib/Platforms/Android/Include -IE:/Unity/Editor/6000.6.7f1/Editor/Data/il2cpp/Platforms/Android/il2cpp/libil2cpp -o Library/Bee/artifacts/Android/d8kzr/fk1rclq7ycxp.o -fcolor-diagnostics -fdiagnostics-absolute-paths -target aarch64-linux-android25 -fdiagnostics-format=msvc -fno-strict-float-cast-overflow -fno-strict-float-cast-overflow -c -x c++ E:/Projects/IanGrowing/Library/Bee/artifacts/Android/il2cppOutput/cpp/Generics__11.cpp
+1.	E:/Unity/Editor/6000.6.7f1/Editor/Data/PlaybackEngines/AndroidPlayer/NDK/toolchains/llvm/prebuilt/windows-x86_64/bin/../sysroot/usr/include/c++/v1/__functional/function.h:844:46: current parser token '{'
+2.	E:/Unity/Editor/6000.6.7f1/Editor/Data/PlaybackEngines/AndroidPlayer/NDK/toolchains/llvm/prebuilt/windows-x86_64/bin/../sysroot/usr/include/c++/v1/__functional/function.h:50:1 <Spelling=E:/Unity/Editor/6000.6.7f1/Editor/Data/PlaybackEngines/AndroidPlayer/NDK/toolchains/llvm/prebuilt/windows-x86_64/bin/../sysroot/usr/include/c++/v1/__config:825:39>: parsing namespace 'std'
+3.	E:/Unity/Editor/6000.6.7f1/Editor/Data/PlaybackEngines/AndroidPlayer/NDK/toolchains/llvm/prebuilt/windows-x86_64/bin/../sysroot/usr/include/c++/v1/__functional/function.h:50:1 <Spelling=E:/Unity/Editor/6000.6.7f1/Editor/Data/PlaybackEngines/AndroidPlayer/NDK/toolchains/llvm/prebuilt/windows-x86_64/bin/../sysroot/usr/include/c++/v1/__config:826:39>: parsing namespace 'std::__ndk1'
+4.	E:/Unity/Editor/6000.6.7f1/Editor/Data/PlaybackEngines/AndroidPlayer/NDK/toolchains/llvm/prebuilt/windows-x86_64/bin/../sysroot/usr/include/c++/v1/__functional/function.h:813:1: parsing struct/union/class body 'std::function<_Rp (_ArgTypes...)>'
+Exception Code: 0xC000001D
+ #0 0x00007ff7628c9d76 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x639d76)
+ #1 0x00007ffbc8f5e5f5 (C:\Windows\System32\ucrtbase.dll+0x7e5f5)
+ #2 0x00007ffbc8f5f601 (C:\Windows\System32\ucrtbase.dll+0x7f601)
+ #3 0x00007ff76288c92b (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x5fc92b)
+ #4 0x00007ff76288c942 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x5fc942)
+ #5 0x00007ff7622977b9 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x77b9)
+ #6 0x00007ff762604f9e (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x374f9e)
+ #7 0x00007ff765981a4a (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x36f1a4a)
+ #8 0x00007ff765976c5b (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x36e6c5b)
+ #9 0x00007ff7653297f7 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x30997f7)
+#10 0x00007ff76554cd91 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x32bcd91)
+#11 0x00007ff767a01437 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x5771437)
+#12 0x00007ff7679ba297 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x572a297)
+#13 0x00007ff7679bb38a (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x572b38a)
+#14 0x00007ff7679b29ec (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x57229ec)
+#15 0x00007ff7679d912b (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x574912b)
+#16 0x00007ff76796e733 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x56de733)
+#17 0x00007ff76796afd9 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x56dafd9)
+#18 0x00007ff76796a808 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x56da808)
+#19 0x00007ff7679d1ae1 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x5741ae1)
+#20 0x00007ff76700f3eb (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x4d7f3eb)
+#21 0x00007ff7679a7cde (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x5717cde)
+#22 0x00007ff7679a754f (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x571754f)
+#23 0x00007ff7679d1f24 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x5741f24)
+#24 0x00007ff76700f3eb (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x4d7f3eb)
+#25 0x00007ff7679a7cde (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x5717cde)
+#26 0x00007ff7679a754f (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x571754f)
+#27 0x00007ff7679d1f24 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x5741f24)
+#28 0x00007ff76700f3eb (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x4d7f3eb)
+#29 0x00007ff76700d8ca (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x4d7d8ca)
+#30 0x00007ff765a8393e (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x37f393e)
+#31 0x00007ff763be91fe (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x19591fe)
+#32 0x00007ff7629ad000 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x71d000)
+#33 0x00007ff762a43c05 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x7b3c05)
+#34 0x00007ff7623ce070 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x13e070)
+#35 0x00007ff7623cb180 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x13b180)
+#36 0x00007ff76396a31d (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x16da31d)
+#37 0x00007ff76288affd (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x5faffd)
+#38 0x00007ff763969d45 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x16d9d45)
+#39 0x00007ff76295c463 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x6cc463)
+#40 0x00007ff76297f96d (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x6ef96d)
+#41 0x00007ff7623ca2e2 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x13a2e2)
+#42 0x00007ff7623db027 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x14b027)
+#43 0x00007ff762291395 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x1395)
+#44 0x00007ff7622914c8 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x14c8)
+#45 0x00007ffbcb05257d (C:\Windows\System32\KERNEL32.DLL+0x1257d)
+#46 0x00007ffbcbbcaa58 (C:\Windows\SYSTEM32\ntdll.dll+0x5aa58)
+clang++: error: clang frontend command failed due to signal (use -v to see invocation)
+Android (12470979, based on r522817c) clang version 18.0.3 (https://android.googlesource.com/toolchain/llvm-project d8003a456d14a3deb8054cdaa529ffbf02d9b262)
+Target: aarch64-unknown-linux-android25
+Thread model: posix
+InstalledDir: E:/Unity/Editor/6000.6.7f1/Editor/Data/PlaybackEngines/AndroidPlayer/NDK/toolchains/llvm/prebuilt/windows-x86_64/bin
+clang++: note: diagnostic msg: Error generating preprocessed source(s).
+
+Building Library\Bee\artifacts\Android\d8kzr\zqtxsjciaqlx.o failed with output:
+LLVM ERROR: out of memory
+Allocation failed
+PLEASE submit a bug report to https://github.com/android-ndk/ndk/issues and include the crash backtrace, preprocessed source, and associated run script.
+Stack dump:
+0.	Program arguments: E:/Unity/Editor/6000.6.7f1/Editor/Data/PlaybackEngines/AndroidPlayer/NDK/toolchains/llvm/prebuilt/windows-x86_64/bin/clang++ -march=armv8-a -D__ANDROID_UNAVAILABLE_SYMBOLS_ARE_WEAK__ -faddrsig -DANDROID -DHAVE_INTTYPES_H -no-canonical-prefixes -fomit-frame-pointer -std=c++17 -Wswitch -Wno-trigraphs -Wno-tautological-compare -Wno-invalid-offsetof -Wno-implicitly-unsigned-literal -Wno-integer-overflow -Wno-shift-negative-value -Wno-unknown-attributes -Wno-implicit-function-declaration -Wno-null-conversion -Wno-missing-declarations -Wno-unused-value -Wno-pragma-once-outside-header -fvisibility=hidden -fexceptions -fno-rtti -funwind-tables -g -Os -fPIC -fno-strict-aliasing -fno-strict-overflow -ffunction-sections -fdata-sections -fstack-protector -fmessage-length=0 -pipe -DHAVE_BDWGC_GC -DBASELIB_INLINE_NAMESPACE=il2cpp_baselib -DFORCE_PINVOKE_libSystem_Security_Cryptography_Native_Android_INTERNAL -DIL2CPP_MONO_DEBUGGER_DISABLED -DRUNTIME_IL2CPP -DTARGET_ARM64 -DIL2CPP_ENABLE_WRITE_BARRIERS=1 -DIL2CPP_INCREMENTAL_TIME_SLICE=3 -DNDEBUG -I. -IE:/Projects/IanGrowing/Library/Bee/artifacts/Android/il2cppOutput/cpp -IE:/Unity/Editor/6000.6.7f1/Editor/Data/il2cpp/libil2cpp/pch -IE:/Unity/Editor/6000.6.7f1/Editor/Data/il2cpp/libil2cpp -IE:/Unity/Editor/6000.6.7f1/Editor/Data/il2cpp/external/baselib/Include -IE:/Unity/Editor/6000.6.7f1/Editor/Data/il2cpp/libil2cpp/os/ClassLibraryPAL/brotli/include -IE:/Unity/Editor/6000.6.7f1/Editor/Data/il2cpp/external/baselib/Platforms/Android/Include -IE:/Unity/Editor/6000.6.7f1/Editor/Data/il2cpp/Platforms/Android/il2cpp/libil2cpp -o Library/Bee/artifacts/Android/d8kzr/zqtxsjciaqlx.o -fcolor-diagnostics -fdiagnostics-absolute-paths -target aarch64-linux-android25 -fdiagnostics-format=msvc -fno-strict-float-cast-overflow -fno-strict-float-cast-overflow -c -x c++ E:/Projects/IanGrowing/Library/Bee/artifacts/Android/il2cppOutput/cpp/mscorlib__5.cpp
+1.	<eof> parser at end of file
+2.	Code generation
+3.	Running pass 'Function Pass Manager' on module 'E:/Projects/IanGrowing/Library/Bee/artifacts/Android/il2cppOutput/cpp/mscorlib__5.cpp'.
+4.	Running pass 'AArch64 Assembly Printer' on function '@Type_GetEnumData_mE7D2EFDDFC359C924F6A47CBF25BB6357BD2F29D'
+Exception Code: 0xC000001D
+ #0 0x00007ff7628c9d76 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x639d76)
+ #1 0x00007ffbc8f5e5f5 (C:\Windows\System32\ucrtbase.dll+0x7e5f5)
+ #2 0x00007ffbc8f5f601 (C:\Windows\System32\ucrtbase.dll+0x7f601)
+ #3 0x00007ff76288c92b (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x5fc92b)
+ #4 0x00007ff76288c942 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x5fc942)
+ #5 0x00007ff762297659 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x7659)
+ #6 0x00007ff7635b1bc2 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x1321bc2)
+ #7 0x00007ff7635cf260 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x133f260)
+ #8 0x00007ff76270e511 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x47e511)
+ #9 0x00007ff7635b56da (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x13256da)
+#10 0x00007ff7635d011b (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x134011b)
+#11 0x00007ff7635d0024 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x1340024)
+#12 0x00007ff762dd4cee (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0xb44cee)
+#13 0x00007ff7623df197 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x14f197)
+#14 0x00007ff762a4ba1e (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x7bba1e)
+#15 0x00007ff7623db535 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x14b535)
+#16 0x00007ff762a68b28 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x7d8b28)
+#17 0x00007ff7626b10e8 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x4210e8)
+#18 0x00007ff7626badf3 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x42adf3)
+#19 0x00007ff7626b1f4a (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x421f4a)
+#20 0x00007ff763950a72 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x16c0a72)
+#21 0x00007ff763cad8e7 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x1a1d8e7)
+#22 0x00007ff765a83874 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x37f3874)
+#23 0x00007ff763be91fe (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x19591fe)
+#24 0x00007ff7629ad000 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x71d000)
+#25 0x00007ff762a43c05 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x7b3c05)
+#26 0x00007ff7623ce070 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x13e070)
+#27 0x00007ff7623cb180 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x13b180)
+#28 0x00007ff76396a31d (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x16da31d)
+#29 0x00007ff76288affd (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x5faffd)
+#30 0x00007ff763969d45 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x16d9d45)
+#31 0x00007ff76295c463 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x6cc463)
+#32 0x00007ff76297f96d (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x6ef96d)
+#33 0x00007ff7623ca2e2 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x13a2e2)
+#34 0x00007ff7623db027 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x14b027)
+#35 0x00007ff762291395 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x1395)
+#36 0x00007ff7622914c8 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x14c8)
+#37 0x00007ffbcb05257d (C:\Windows\System32\KERNEL32.DLL+0x1257d)
+#38 0x00007ffbcbbcaa58 (C:\Windows\SYSTEM32\ntdll.dll+0x5aa58)
+clang++: error: clang frontend command failed due to signal (use -v to see invocation)
+Android (12470979, based on r522817c) clang version 18.0.3 (https://android.googlesource.com/toolchain/llvm-project d8003a456d14a3deb8054cdaa529ffbf02d9b262)
+Target: aarch64-unknown-linux-android25
+Thread model: posix
+InstalledDir: E:/Unity/Editor/6000.6.7f1/Editor/Data/PlaybackEngines/AndroidPlayer/NDK/toolchains/llvm/prebuilt/windows-x86_64/bin
+clang++: note: diagnostic msg: Error generating preprocessed source(s).
+
+Building Library\Bee\artifacts\Android\d8kzr\cvlc8e1nzxbj.o failed with output:
+LLVM ERROR: out of memory
+Allocation failed
+PLEASE submit a bug report to https://github.com/android-ndk/ndk/issues and include the crash backtrace, preprocessed source, and associated run script.
+Stack dump:
+0.	Program arguments: E:/Unity/Editor/6000.6.7f1/Editor/Data/PlaybackEngines/AndroidPlayer/NDK/toolchains/llvm/prebuilt/windows-x86_64/bin/clang++ -march=armv8-a -D__ANDROID_UNAVAILABLE_SYMBOLS_ARE_WEAK__ -faddrsig -DANDROID -DHAVE_INTTYPES_H -no-canonical-prefixes -fomit-frame-pointer -std=c++17 -Wswitch -Wno-trigraphs -Wno-tautological-compare -Wno-invalid-offsetof -Wno-implicitly-unsigned-literal -Wno-integer-overflow -Wno-shift-negative-value -Wno-unknown-attributes -Wno-implicit-function-declaration -Wno-null-conversion -Wno-missing-declarations -Wno-unused-value -Wno-pragma-once-outside-header -fvisibility=hidden -fexceptions -fno-rtti -funwind-tables -g -Os -fPIC -fno-strict-aliasing -fno-strict-overflow -ffunction-sections -fdata-sections -fstack-protector -fmessage-length=0 -pipe -DHAVE_BDWGC_GC -DBASELIB_INLINE_NAMESPACE=il2cpp_baselib -DFORCE_PINVOKE_libSystem_Security_Cryptography_Native_Android_INTERNAL -DIL2CPP_MONO_DEBUGGER_DISABLED -DRUNTIME_IL2CPP -DTARGET_ARM64 -DIL2CPP_ENABLE_WRITE_BARRIERS=1 -DIL2CPP_INCREMENTAL_TIME_SLICE=3 -DNDEBUG -I. -IE:/Projects/IanGrowing/Library/Bee/artifacts/Android/il2cppOutput/cpp -IE:/Unity/Editor/6000.6.7f1/Editor/Data/il2cpp/libil2cpp/pch -IE:/Unity/Editor/6000.6.7f1/Editor/Data/il2cpp/libil2cpp -IE:/Unity/Editor/6000.6.7f1/Editor/Data/il2cpp/external/baselib/Include -IE:/Unity/Editor/6000.6.7f1/Editor/Data/il2cpp/libil2cpp/os/ClassLibraryPAL/brotli/include -IE:/Unity/Editor/6000.6.7f1/Editor/Data/il2cpp/external/baselib/Platforms/Android/Include -IE:/Unity/Editor/6000.6.7f1/Editor/Data/il2cpp/Platforms/Android/il2cpp/libil2cpp -o Library/Bee/artifacts/Android/d8kzr/cvlc8e1nzxbj.o -fcolor-diagnostics -fdiagnostics-absolute-paths -target aarch64-linux-android25 -fdiagnostics-format=msvc -fno-strict-float-cast-overflow -fno-strict-float-cast-overflow -c -x c++ E:/Projects/IanGrowing/Library/Bee/artifacts/Android/il2cppOutput/cpp/mscorlib__2.cpp
+1.	E:/Projects/IanGrowing/Library/Bee/artifacts/Android/il2cppOutput/cpp/mscorlib__2.cpp:16607:233: current parser token '('
+2.	E:/Projects/IanGrowing/Library/Bee/artifacts/Android/il2cppOutput/cpp/mscorlib__2.cpp:16578:1: parsing function body 'TransitionTime_System_Runtime_Serialization_IDeserializationCallback_OnDeserialization_mC0BA25E7364D621D11F85E1E551B50CB68E2621C'
+3.	E:/Projects/IanGrowing/Library/Bee/artifacts/Android/il2cppOutput/cpp/mscorlib__2.cpp:16578:1: in compound statement ('{}')
+4.	E:/Projects/IanGrowing/Library/Bee/artifacts/Android/il2cppOutput/cpp/mscorlib__2.cpp:16603:2: in compound statement ('{}')
+Exception Code: 0xC000001D
+ #0 0x00007ff7628c9d76 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x639d76)
+ #1 0x00007ffbc8f5e5f5 (C:\Windows\System32\ucrtbase.dll+0x7e5f5)
+ #2 0x00007ffbc8f5f601 (C:\Windows\System32\ucrtbase.dll+0x7f601)
+ #3 0x00007ff76288c92b (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x5fc92b)
+ #4 0x00007ff76288c942 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x5fc942)
+ #5 0x00007ff7622977b9 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x77b9)
+ #6 0x00007ff762604f9e (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x374f9e)
+ #7 0x00007ff7657f20b4 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x35620b4)
+ #8 0x00007ff7657e76a8 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x35576a8)
+ #9 0x00007ff767a149aa (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x57849aa)
+#10 0x00007ff767a0bf17 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x577bf17)
+#11 0x00007ff767a16f1b (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x5786f1b)
+#12 0x00007ff767a12a51 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x5782a51)
+#13 0x00007ff767a093b7 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x57793b7)
+#14 0x00007ff767a16778 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x5786778)
+#15 0x00007ff767a12a51 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x5782a51)
+#16 0x00007ff767a093b7 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x57793b7)
+#17 0x00007ff767a199ea (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x57899ea)
+#18 0x00007ff767a0d4a8 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x577d4a8)
+#19 0x00007ff767a141b0 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x57841b0)
+#20 0x00007ff767a0bf17 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x577bf17)
+#21 0x00007ff767a16f1b (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x5786f1b)
+#22 0x00007ff767a12a51 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x5782a51)
+#23 0x00007ff767a093b7 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x57793b7)
+#24 0x00007ff7679d6a32 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x5746a32)
+#25 0x00007ff7679d31b1 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x57431b1)
+#26 0x00007ff7679d256e (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x574256e)
+#27 0x00007ff7679d1b26 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x5741b26)
+#28 0x00007ff7679f3efe (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x5763efe)
+#29 0x00007ff7679f2b0a (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x5762b0a)
+#30 0x00007ff7679fe683 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x576e683)
+#31 0x00007ff7679f4662 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x5764662)
+#32 0x00007ff7679f2b0a (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x5762b0a)
+#33 0x00007ff7679f5f21 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x5765f21)
+#34 0x00007ff7679f2b0a (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x5762b0a)
+#35 0x00007ff7679fe683 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x576e683)
+#36 0x00007ff7679ff792 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x576f792)
+#37 0x00007ff76701394e (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x4d8394e)
+#38 0x00007ff7679d4615 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x5744615)
+#39 0x00007ff767010ed9 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x4d80ed9)
+#40 0x00007ff7670107e6 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x4d807e6)
+#41 0x00007ff76700fb3f (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x4d7fb3f)
+#42 0x00007ff7679a858a (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x571858a)
+#43 0x00007ff767010ebe (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x4d80ebe)
+#44 0x00007ff7670109d1 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x4d809d1)
+#45 0x00007ff76700fb3f (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x4d7fb3f)
+#46 0x00007ff76700d8ca (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x4d7d8ca)
+#47 0x00007ff765a8393e (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x37f393e)
+#48 0x00007ff763be91fe (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x19591fe)
+#49 0x00007ff7629ad000 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x71d000)
+#50 0x00007ff762a43c05 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x7b3c05)
+#51 0x00007ff7623ce070 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x13e070)
+#52 0x00007ff7623cb180 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x13b180)
+#53 0x00007ff76396a31d (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x16da31d)
+#54 0x00007ff76288affd (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x5faffd)
+#55 0x00007ff763969d45 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x16d9d45)
+#56 0x00007ff76295c463 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x6cc463)
+#57 0x00007ff76297f96d (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x6ef96d)
+#58 0x00007ff7623ca2e2 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x13a2e2)
+#59 0x00007ff7623db027 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x14b027)
+#60 0x00007ff762291395 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x1395)
+#61 0x00007ff7622914c8 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x14c8)
+#62 0x00007ffbcb05257d (C:\Windows\System32\KERNEL32.DLL+0x1257d)
+#63 0x00007ffbcbbcaa58 (C:\Windows\SYSTEM32\ntdll.dll+0x5aa58)
+clang++: error: clang frontend command failed due to signal (use -v to see invocation)
+Android (12470979, based on r522817c) clang version 18.0.3 (https://android.googlesource.com/toolchain/llvm-project d8003a456d14a3deb8054cdaa529ffbf02d9b262)
+Target: aarch64-unknown-linux-android25
+Thread model: posix
+InstalledDir: E:/Unity/Editor/6000.6.7f1/Editor/Data/PlaybackEngines/AndroidPlayer/NDK/toolchains/llvm/prebuilt/windows-x86_64/bin
+clang++: note: diagnostic msg: Error generating preprocessed source(s).
+
+Building Library\Bee\artifacts\Android\d8kzr\xbcm3uicnl9w.o failed with output:
+LLVM ERROR: out of memory
+Allocation failed
+PLEASE submit a bug report to https://github.com/android-ndk/ndk/issues and include the crash backtrace, preprocessed source, and associated run script.
+Stack dump:
+0.	Program arguments: E:/Unity/Editor/6000.6.7f1/Editor/Data/PlaybackEngines/AndroidPlayer/NDK/toolchains/llvm/prebuilt/windows-x86_64/bin/clang++ -march=armv8-a -D__ANDROID_UNAVAILABLE_SYMBOLS_ARE_WEAK__ -faddrsig -DANDROID -DHAVE_INTTYPES_H -no-canonical-prefixes -fomit-frame-pointer -std=c++17 -Wswitch -Wno-trigraphs -Wno-tautological-compare -Wno-invalid-offsetof -Wno-implicitly-unsigned-literal -Wno-integer-overflow -Wno-shift-negative-value -Wno-unknown-attributes -Wno-implicit-function-declaration -Wno-null-conversion -Wno-missing-declarations -Wno-unused-value -Wno-pragma-once-outside-header -fvisibility=hidden -fexceptions -fno-rtti -funwind-tables -g -Os -fPIC -fno-strict-aliasing -fno-strict-overflow -ffunction-sections -fdata-sections -fstack-protector -fmessage-length=0 -pipe -DHAVE_BDWGC_GC -DBASELIB_INLINE_NAMESPACE=il2cpp_baselib -DFORCE_PINVOKE_libSystem_Security_Cryptography_Native_Android_INTERNAL -DIL2CPP_MONO_DEBUGGER_DISABLED -DRUNTIME_IL2CPP -DTARGET_ARM64 -DIL2CPP_ENABLE_WRITE_BARRIERS=1 -DIL2CPP_INCREMENTAL_TIME_SLICE=3 -DNDEBUG -I. -IE:/Projects/IanGrowing/Library/Bee/artifacts/Android/il2cppOutput/cpp -IE:/Unity/Editor/6000.6.7f1/Editor/Data/il2cpp/libil2cpp/pch -IE:/Unity/Editor/6000.6.7f1/Editor/Data/il2cpp/libil2cpp -IE:/Unity/Editor/6000.6.7f1/Editor/Data/il2cpp/external/baselib/Include -IE:/Unity/Editor/6000.6.7f1/Editor/Data/il2cpp/libil2cpp/os/ClassLibraryPAL/brotli/include -IE:/Unity/Editor/6000.6.7f1/Editor/Data/il2cpp/external/baselib/Platforms/Android/Include -IE:/Unity/Editor/6000.6.7f1/Editor/Data/il2cpp/Platforms/Android/il2cpp/libil2cpp -o Library/Bee/artifacts/Android/d8kzr/xbcm3uicnl9w.o -fcolor-diagnostics -fdiagnostics-absolute-paths -target aarch64-linux-android25 -fdiagnostics-format=msvc -fno-strict-float-cast-overflow -fno-strict-float-cast-overflow -c -x c++ E:/Projects/IanGrowing/Library/Bee/artifacts/Android/il2cppOutput/cpp/System__1.cpp
+1.	E:/Projects/IanGrowing/Library/Bee/artifacts/Android/il2cppOutput/cpp/System__1.cpp:17663:1 <Spelling=E:/Unity/Editor/6000.6.7f1/Editor/Data/il2cpp/libil2cpp/il2cpp-config.h:47:25>: current parser token 'extern'
+2.	E:/Projects/IanGrowing/Library/Bee/artifacts/Android/il2cppOutput/cpp/System__1.cpp:17411:1 <Spelling=E:/Unity/Editor/6000.6.7f1/Editor/Data/il2cpp/libil2cpp/il2cpp-config.h:47:32>: LLVM IR generation of declaration
+3.	E:/Projects/IanGrowing/Library/Bee/artifacts/Android/il2cppOutput/cpp/System__1.cpp:17411:41: Generating code for declaration 'Uri_CheckAuthorityHelperHandleAnyHostIri_mE38845CEFA41AB52AB949CAE2A43D77FB397C08D'
+4.	E:/Projects/IanGrowing/Library/Bee/artifacts/Android/il2cppOutput/cpp/System__1.cpp:17583:2: LLVM IR generation of compound statement ('{}')
+Exception Code: 0xC000001D
+ #0 0x00007ff7628c9d76 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x639d76)
+ #1 0x00007ffbc8f5e5f5 (C:\Windows\System32\ucrtbase.dll+0x7e5f5)
+ #2 0x00007ffbc8f5f601 (C:\Windows\System32\ucrtbase.dll+0x7f601)
+ #3 0x00007ff76288c92b (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x5fc92b)
+ #4 0x00007ff76288c942 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x5fc942)
+ #5 0x00007ff7622977b9 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x77b9)
+ #6 0x00007ff762aabd0a (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x81bd0a)
+ #7 0x00007ff762aabc8a (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x81bc8a)
+ #8 0x00007ff763434831 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x11a4831)
+ #9 0x00007ff7638768c2 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x15e68c2)
+#10 0x00007ff764cdce10 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x2a4ce10)
+#11 0x00007ff764cdcd08 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x2a4cd08)
+#12 0x00007ff764cec555 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x2a5c555)
+#13 0x00007ff764a8e308 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x27fe308)
+#14 0x00007ff76374e7dd (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x14be7dd)
+#15 0x00007ff763742d7a (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x14b2d7a)
+#16 0x00007ff76374a63d (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x14ba63d)
+#17 0x00007ff76374180a (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x14b180a)
+#18 0x00007ff76375692b (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x14c692b)
+#19 0x00007ff765bda85c (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x394a85c)
+#20 0x00007ff763cac785 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x1a1c785)
+#21 0x00007ff765a83959 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x37f3959)
+#22 0x00007ff763be91fe (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x19591fe)
+#23 0x00007ff7629ad000 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x71d000)
+#24 0x00007ff762a43c05 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x7b3c05)
+#25 0x00007ff7623ce070 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x13e070)
+#26 0x00007ff7623cb180 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x13b180)
+#27 0x00007ff76396a31d (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x16da31d)
+#28 0x00007ff76288affd (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x5faffd)
+#29 0x00007ff763969d45 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x16d9d45)
+#30 0x00007ff76295c463 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x6cc463)
+#31 0x00007ff76297f96d (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x6ef96d)
+#32 0x00007ff7623ca2e2 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x13a2e2)
+#33 0x00007ff7623db027 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x14b027)
+#34 0x00007ff762291395 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x1395)
+#35 0x00007ff7622914c8 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x14c8)
+#36 0x00007ffbcb05257d (C:\Windows\System32\KERNEL32.DLL+0x1257d)
+#37 0x00007ffbcbbcaa58 (C:\Windows\SYSTEM32\ntdll.dll+0x5aa58)
+clang++: error: clang frontend command failed due to signal (use -v to see invocation)
+Android (12470979, based on r522817c) clang version 18.0.3 (https://android.googlesource.com/toolchain/llvm-project d8003a456d14a3deb8054cdaa529ffbf02d9b262)
+Target: aarch64-unknown-linux-android25
+Thread model: posix
+InstalledDir: E:/Unity/Editor/6000.6.7f1/Editor/Data/PlaybackEngines/AndroidPlayer/NDK/toolchains/llvm/prebuilt/windows-x86_64/bin
+clang++: note: diagnostic msg: Error generating preprocessed source(s).
+
+Building Library\Bee\artifacts\Android\d8kzr\lf8373i24oks.o failed with output:
+LLVM ERROR: out of memory
+Allocation failed
+PLEASE submit a bug report to https://github.com/android-ndk/ndk/issues and include the crash backtrace, preprocessed source, and associated run script.
+Stack dump:
+0.	Program arguments: E:/Unity/Editor/6000.6.7f1/Editor/Data/PlaybackEngines/AndroidPlayer/NDK/toolchains/llvm/prebuilt/windows-x86_64/bin/clang++ -march=armv8-a -D__ANDROID_UNAVAILABLE_SYMBOLS_ARE_WEAK__ -faddrsig -DANDROID -DHAVE_INTTYPES_H -no-canonical-prefixes -fomit-frame-pointer -std=c++17 -Wswitch -Wno-trigraphs -Wno-tautological-compare -Wno-invalid-offsetof -Wno-implicitly-unsigned-literal -Wno-integer-overflow -Wno-shift-negative-value -Wno-unknown-attributes -Wno-implicit-function-declaration -Wno-null-conversion -Wno-missing-declarations -Wno-unused-value -Wno-pragma-once-outside-header -fvisibility=hidden -fexceptions -fno-rtti -funwind-tables -g -Os -fPIC -fno-strict-aliasing -fno-strict-overflow -ffunction-sections -fdata-sections -fstack-protector -fmessage-length=0 -pipe -DHAVE_BDWGC_GC -DBASELIB_INLINE_NAMESPACE=il2cpp_baselib -DFORCE_PINVOKE_libSystem_Security_Cryptography_Native_Android_INTERNAL -DIL2CPP_MONO_DEBUGGER_DISABLED -DRUNTIME_IL2CPP -DTARGET_ARM64 -DIL2CPP_ENABLE_WRITE_BARRIERS=1 -DIL2CPP_INCREMENTAL_TIME_SLICE=3 -DNDEBUG -I. -IE:/Projects/IanGrowing/Library/Bee/artifacts/Android/il2cppOutput/cpp -IE:/Unity/Editor/6000.6.7f1/Editor/Data/il2cpp/libil2cpp/pch -IE:/Unity/Editor/6000.6.7f1/Editor/Data/il2cpp/libil2cpp -IE:/Unity/Editor/6000.6.7f1/Editor/Data/il2cpp/external/baselib/Include -IE:/Unity/Editor/6000.6.7f1/Editor/Data/il2cpp/libil2cpp/os/ClassLibraryPAL/brotli/include -IE:/Unity/Editor/6000.6.7f1/Editor/Data/il2cpp/external/baselib/Platforms/Android/Include -IE:/Unity/Editor/6000.6.7f1/Editor/Data/il2cpp/Platforms/Android/il2cpp/libil2cpp -o Library/Bee/artifacts/Android/d8kzr/lf8373i24oks.o -fcolor-diagnostics -fdiagnostics-absolute-paths -target aarch64-linux-android25 -fdiagnostics-format=msvc -fno-strict-float-cast-overflow -fno-strict-float-cast-overflow -c -x c++ E:/Projects/IanGrowing/Library/Bee/artifacts/Android/il2cppOutput/cpp/Generics__13.cpp
+1.	E:/Projects/IanGrowing/Library/Bee/artifacts/Android/il2cppOutput/cpp/Generics__13.cpp:27555:41: current parser token ')'
+2.	E:/Projects/IanGrowing/Library/Bee/artifacts/Android/il2cppOutput/cpp/Generics__13.cpp:27532:1: parsing function body 'ArraySortHelper_1_IntroSort_m6602AEA78B3954520DFA3B50189E59231EFDC1E8'
+3.	E:/Projects/IanGrowing/Library/Bee/artifacts/Android/il2cppOutput/cpp/Generics__13.cpp:27532:1: in compound statement ('{}')
+4.	E:/Projects/IanGrowing/Library/Bee/artifacts/Android/il2cppOutput/cpp/Generics__13.cpp:27553:2: in compound statement ('{}')
+Exception Code: 0xC000001D
+ #0 0x00007ff7628c9d76 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x639d76)
+ #1 0x00007ffbc8f5e5f5 (C:\Windows\System32\ucrtbase.dll+0x7e5f5)
+ #2 0x00007ffbc8f5f601 (C:\Windows\System32\ucrtbase.dll+0x7f601)
+ #3 0x00007ff76288c92b (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x5fc92b)
+ #4 0x00007ff76288c942 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x5fc942)
+ #5 0x00007ff7622977b9 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x77b9)
+ #6 0x00007ff762604f9e (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x374f9e)
+ #7 0x00007ff764b8156b (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x28f156b)
+ #8 0x00007ff763bc8e53 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x1938e53)
+ #9 0x00007ff7656ab102 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x341b102)
+#10 0x00007ff7656a98a2 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x34198a2)
+#11 0x00007ff7655179c7 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x32879c7)
+#12 0x00007ff766f3c66c (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x4cac66c)
+#13 0x00007ff766f371e2 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x4ca71e2)
+#14 0x00007ff766f351a7 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x4ca51a7)
+#15 0x00007ff76581003c (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x358003c)
+#16 0x00007ff767a16f68 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x5786f68)
+#17 0x00007ff767a12a51 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x5782a51)
+#18 0x00007ff767a093b7 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x57793b7)
+#19 0x00007ff767a16778 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x5786778)
+#20 0x00007ff767a12a51 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x5782a51)
+#21 0x00007ff767a0a3f6 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x577a3f6)
+#22 0x00007ff767a094cc (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x57794cc)
+#23 0x00007ff767a16778 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x5786778)
+#24 0x00007ff767a12a51 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x5782a51)
+#25 0x00007ff767a0f298 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x577f298)
+#26 0x00007ff767a093b7 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x57793b7)
+#27 0x00007ff767a16778 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x5786778)
+#28 0x00007ff767a12a51 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x5782a51)
+#29 0x00007ff767a093b7 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x57793b7)
+#30 0x00007ff767a2d0de (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x579d0de)
+#31 0x00007ff7679ff02b (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x576f02b)
+#32 0x00007ff7679f84d8 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x57684d8)
+#33 0x00007ff7679f43e3 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x57643e3)
+#34 0x00007ff7679f2b0a (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x5762b0a)
+#35 0x00007ff7679fe683 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x576e683)
+#36 0x00007ff7679f4662 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x5764662)
+#37 0x00007ff7679f2b0a (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x5762b0a)
+#38 0x00007ff7679fe683 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x576e683)
+#39 0x00007ff7679ff792 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x576f792)
+#40 0x00007ff76701394e (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x4d8394e)
+#41 0x00007ff7679d4615 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x5744615)
+#42 0x00007ff767010ed9 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x4d80ed9)
+#43 0x00007ff7670107e6 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x4d807e6)
+#44 0x00007ff76700fb3f (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x4d7fb3f)
+#45 0x00007ff7679a858a (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x571858a)
+#46 0x00007ff767010ebe (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x4d80ebe)
+#47 0x00007ff7670109d1 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x4d809d1)
+#48 0x00007ff76700fb3f (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x4d7fb3f)
+#49 0x00007ff76700d8ca (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x4d7d8ca)
+#50 0x00007ff765a8393e (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x37f393e)
+#51 0x00007ff763be91fe (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x19591fe)
+#52 0x00007ff7629ad000 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x71d000)
+#53 0x00007ff762a43c05 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x7b3c05)
+#54 0x00007ff7623ce070 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x13e070)
+#55 0x00007ff7623cb180 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x13b180)
+#56 0x00007ff76396a31d (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x16da31d)
+#57 0x00007ff76288affd (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x5faffd)
+#58 0x00007ff763969d45 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x16d9d45)
+#59 0x00007ff76295c463 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x6cc463)
+#60 0x00007ff76297f96d (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x6ef96d)
+#61 0x00007ff7623ca2e2 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x13a2e2)
+#62 0x00007ff7623db027 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x14b027)
+#63 0x00007ff762291395 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x1395)
+#64 0x00007ff7622914c8 (E:\Unity\Editor\6000.6.7f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe+0x14c8)
+#65 0x00007ffbcb05257d (C:\Windows\System32\KERNEL32.DLL+0x1257d)
+#66 0x00007ffbcbbcaa58 (C:\Windows\SYSTEM32\ntdll.dll+0x5aa58)
+clang++: error: clang frontend command failed due to signal (use -v to see invocation)
+Android (12470979, based on r522817c) clang version 18.0.3 (https://android.googlesource.com/toolchain/llvm-project d8003a456d14a3deb8054cdaa529ffbf02d9b262)
+Target: aarch64-unknown-linux-android25
+Thread model: posix
+InstalledDir: E:/Unity/Editor/6000.6.7f1/Editor/Data/PlaybackEngines/AndroidPlayer/NDK/toolchains/llvm/prebuilt/windows-x86_64/bin
+clang++: note: diagnostic msg: Error generating preprocessed source(s).
+

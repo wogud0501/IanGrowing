@@ -5,7 +5,7 @@ public sealed class IdleActivityService:MonoBehaviour,IMissionFeatureSource {
  public bool HasItem(MissionItemKey item)=>false;
  public IdleActivitySettings settings;public EnemyData enemy;
  public IdleProgressSnapshot State{get;private set;}=new IdleProgressSnapshot();public CombatService Combat{get;private set;}
- GameManager game;bool processing,suspended;double lastCheckpoint;public event Action Changed;
+ GameManager game;bool processing,suspended;double lastCheckpoint;public event Action Changed,OfflineReportReady;
  public void Configure(GameManager value){game=value;Combat=new CombatService(game);game.missions.RegisterSource(this);StartCoroutine(Online());}
  void OnDestroy(){if(game!=null)game.missions.UnregisterSource(this);}
  internal void RecordVictory(string id){ActivityProduced?.Invoke(new MissionActivityEvent{id=id+"/victory",counter=MissionCounter.BattleWins,amount=1});}
@@ -65,7 +65,7 @@ public sealed class IdleActivityService:MonoBehaviour,IMissionFeatureSource {
    if(offline&&(report.elapsedSeconds>0||reversed))MergeReport(report);
    bool commit=offline||report.cycles>0||!State.active||Time.realtimeSinceStartupAsDouble-lastCheckpoint>=30;
    if(commit&&!Checkpoint()){game.RestoreState(rollback);suspended=true;game.Log("자동 활동 저장 실패. 정산 전 상태로 복구했습니다. 다시 시도하세요.");Changed?.Invoke();return false;}
-   if(report.cycles>0||offline||!State.active)Changed?.Invoke();return true;
+   if(report.cycles>0||offline||!State.active)Changed?.Invoke();if(offline&&State.report!=null&&!State.report.acknowledged)OfflineReportReady?.Invoke();return true;
   }catch(Exception e){game.RestoreState(rollback);suspended=true;game.Log("자동 활동 복구: "+e.Message);Changed?.Invoke();return false;}finally{game.autoSaveAfterAction=auto;processing=false;SyncClock();}
  }
  void MergeReport(OfflineProgressReport r){var old=State.report;if(old==null||old.acknowledged){State.report=r;return;}checked{old.toUtcTicks=r.toUtcTicks;old.elapsedSeconds+=r.elapsedSeconds;old.eligibleSeconds+=r.eligibleSeconds;old.activitySeconds+=r.activitySeconds;old.gold+=r.gold;old.experience+=r.experience;old.cycles+=r.cycles;old.workCycles+=r.workCycles;old.studyCycles+=r.studyCycles;old.battleWins+=r.battleWins;old.battleLosses+=r.battleLosses;old.educationExperience+=r.educationExperience;old.knowledge+=r.knowledge;old.hunger+=r.hunger;old.thirst+=r.thirst;old.health+=r.health;old.mental+=r.mental;old.capped|=r.capped;old.clockReversed|=r.clockReversed;old.stopReason=r.stopReason;}}
@@ -75,9 +75,11 @@ public sealed class IdleActivityService:MonoBehaviour,IMissionFeatureSource {
  public bool IsPersistenceSuspended=>suspended;
  public void SetOfflineEnabled(bool value){bool old=State.offlineEnabled;State.offlineEnabled=value;if(!Checkpoint())State.offlineEnabled=old;Changed?.Invoke();}
  bool Checkpoint(){string message;bool saved=game.SaveAutomaticCheckpoint(out message);if(saved)lastCheckpoint=Time.realtimeSinceStartupAsDouble;return saved;}
- public void PrepareBackground(){if(State.active&&!suspended)SettleToUtc(DateTime.UtcNow.Ticks,false);suspended=true;}
- public void ResumeBackground(){suspended=false;if(State.active)SettleToUtc(DateTime.UtcNow.Ticks,true);}
- public void Loaded(bool manual,long oldWatermark){suspended=false;if(manual){State.accountedUtcTicks=Math.Max(Math.Max(State.accountedUtcTicks,oldWatermark),DateTime.UtcNow.Ticks);if(State.active)StopInternal("불러오기로 자동 활동을 중지했습니다. 다시 설정하세요.");SyncClock();}else if(State.active)SettleToUtc(DateTime.UtcNow.Ticks,true);Changed?.Invoke();}
+ bool Transitioning=>GameContext.Instance!=null&&GameContext.Instance.transitions.IsTransitioning;
+ public void PrepareBackground(){if(State.active&&!suspended){if(game.State==GameState.Playing&&!Transitioning)SettleToUtc(DateTime.UtcNow.Ticks,false);else State.accountedUtcTicks=Math.Max(State.accountedUtcTicks,DateTime.UtcNow.Ticks);}suspended=true;}
+ public void ResumeBackground(){suspended=false;if(!State.active)return;if(game.State!=GameState.Playing){State.accountedUtcTicks=Math.Max(State.accountedUtcTicks,DateTime.UtcNow.Ticks);return;}if(Transitioning){suspended=true;StartCoroutine(ResumeAfterTransition(State.sessionId));return;}SettleToUtc(DateTime.UtcNow.Ticks,true);}
+ IEnumerator ResumeAfterTransition(string session){while(Transitioning)yield return null;if(State.sessionId!=session)yield break;suspended=false;if(State.active){if(game.State==GameState.Playing)SettleToUtc(DateTime.UtcNow.Ticks,true);else State.accountedUtcTicks=Math.Max(State.accountedUtcTicks,DateTime.UtcNow.Ticks);}}
+ public void Loaded(bool manual,long oldWatermark){suspended=false;if(manual){State.accountedUtcTicks=Math.Max(Math.Max(State.accountedUtcTicks,oldWatermark),DateTime.UtcNow.Ticks);if(State.active)StopInternal("불러오기로 자동 활동을 중지했습니다. 다시 설정하세요.");SyncClock();}else if(State.active)ResumeBackground();Changed?.Invoke();}
  public static bool Valid(IdleProgressSnapshot s){if(s==null||s.schema!=1||s.sequence<0||s.sessionCycles<0||s.accountedUtcTicks<0||s.accountedUtcTicks>DateTime.MaxValue.Ticks||double.IsNaN(s.cycleProgressSeconds)||double.IsInfinity(s.cycleProgressSeconds)||s.cycleProgressSeconds<0||s.cycleProgressSeconds>1e9||s.ledgers==null||s.battles==null||s.battles.Count>128)return false;if(s.active&&(string.IsNullOrEmpty(s.activityId)||string.IsNullOrEmpty(s.sessionId)))return false;return s.ledgers.All(l=>l!=null&&l.completedCycles>=0&&l.lastSettledUtcTicks>=0&&l.elapsedSeconds>=0&&!double.IsNaN(l.elapsedSeconds)&&!double.IsInfinity(l.elapsedSeconds))&&s.battles.All(b=>b!=null&&!string.IsNullOrEmpty(b.id)&&b.turns!=null&&b.turns.Count<=128&&b.gold>=0&&b.experience>=0);}
 }
 }

@@ -51,14 +51,14 @@ Home은 자동 활동 요약/설정 진입만 추가했다. School에서 자동 
 
 | 검증 | 결과 / 증거 |
 |---|---|
-| Phase2.4 | **107 통과**, [IDLE_TEST_RESULTS.json](Phase24/IDLE_TEST_RESULTS.json) |
+| Phase2.4 | **116 통과**, [IDLE_TEST_RESULTS.json](Phase24/IDLE_TEST_RESULTS.json) |
 | 출생/폰트 | **48 통과**, [BIRTH_FONT_TESTS.json](Phase24/BIRTH_FONT_TESTS.json) |
 | Phase2.3 통합 후 재검 | **506 통과**, [PHASE23_AUDIT_TESTS.json](Phase24/PHASE23_AUDIT_TESTS.json) |
 | 기존 Phase2.1 / 2.2 | **45 / 169 통과**, [2.1](Phase24/PHASE21_REGRESSION.txt), [2.2](Phase24/PHASE22_REGRESSION.txt) |
 | 새 컨텍스트 재시작 | 실제 Play stop/start 후 활동/부분 주기/급여/미확인 보고서 복원, [결과](Phase24/IDLE_FRESH_PLAY_RESULTS.txt) |
 | 주요 창 | 글리프와 텍스트 컨테이너 높이 검사, [UI 결과](Phase24/UI_FINAL_INTEGRATION.txt), [잘림 목록](Phase24/UI_OVERFLOW_AUDIT.txt) |
 
-정산 테스트는 10분/1시간/8시간/10시간, 같은 구간 재정산, 시각 역행, 오프라인 끄기, 무직/자원 부족/직업 변경/과정 변경, 씬 이동, 수동 로드 재정산 방지, 실제 파일 IO 실패 후 전체 복구/정확히1회 재시도, 승리/패배/골드·EXP·sequence 한도, 실제 touch raycast와 버튼 실행, 실제 pause/resume callback을 포함한다. 8시간의 경우 생존 자원이 먼저 부족하면 8시간 내내 보상을 지급하지 않고 실제 완료한 주기만 기록한다.
+정산 테스트는 10분/1시간/8시간/10시간, 같은 구간 재정산, 시각 역행, 오프라인 끄기, 무직/자원 부족/직업 변경/과정 변경, 씬 이동, 수동 로드 재정산 방지, 실제 파일 IO 실패 후 전체 복구/정확히1회 재시도, 승리/패배/골드·EXP·sequence 한도, 실제 touch raycast와 버튼 실행, 실제 pause/resume callback을 포함한다. 씬 로딩 중 백그라운드 전환/복귀는 도착 후 정산을 재개하며, 일시정지 상태의 복귀는 활동 선택을 유지한 채 진행하지 않는다. 저장 완료 뒤 OfflineReportReady 이벤트로 같은 장소에 복귀해도 정산서를 자동 표시한다. 8시간의 경우 생존 자원이 먼저 부족하면 8시간 내내 보상을 지급하지 않고 실제 완료한 주기만 기록한다.
 
 테스트 슬롯은 GUID로 격리하며 모델·슬롯·플래그를 복원한다. 기존 Phase2.1/2.2는 선택 모듈을 끈 원래 계약으로 실행한다. 출생 로그 기대는 새 팝업 계약으로, 미구현 장소 기대는 이제 구현된 Battle 대신 StockMarket으로 갱신했다. 실제 기존 미션 조건·경제·생존 결과 검사는 유지했다. 구형 Stage1 일렬 Work 버튼 화면 계약은 이 감사 범위 밖이며, 그 검사를 통과했다고 보고하지 않는다.
 

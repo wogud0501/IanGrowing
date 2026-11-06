@@ -1,0 +1,36 @@
+﻿
+bee_backend, based on Tundra Build Processor 2.0
+Copyright (C) 2010-2018 Andreas Fredriksson
+
+This program comes with ABSOLUTELY NO WARRANTY.
+Usage: bee_backend [options...] [targets...]
+
+Options:
+  -j, --threads=<integer>                            Specify number of build threads
+  -t, --show-targets                                 Show available targets and exit
+  -v, --verbose                                      Enable verbose build messages
+  -Q, --silence-if-possible                          If no actions taken, don't display a conclusion message
+  -N, --dont-print-noderesults-to-stdout             If set the backend doesn't print node results to the stdout
+  -Y, --dont-print-to-structured-log                 (NO LONGER USED)
+      --identifactioncolor=<integer>                 Color used to identify progress messages
+  -m, --visualmaxnodes=<integer>                     How much nodes to keep space for in the progress notification message
+  -l,                                                (NO LONGER USED)
+  -w, --spammy-verbose                               Enable spammy verbose build messages
+  -D, --debug                                        Enable debug messages
+  -k, --continue-on-failure                          Build as much as possible after the first error
+  -S, --debug-signing                                Generate an extensive log of signature generation
+  -e, --just-print-leafinput-signature=<string>      Print to the specified file the leaf input signature ingredients of the requested node
+  -c, --beedriver-listener                           Connect to host Bee Driver to listen for commands
+      --stdin-canary                                 (DEPRECATED) synonym for --beedriver-listener
+  -i, --ipc                                          Use IPC to communicate to host
+  -d, --defer-dag-verification                       Wait for an s character on stdin to start dag verification
+  -s, --stats                                        Display stats
+  -p, --profile=<string>                             Output build profile
+  -C, --working-dir=<string>                         Set working directory before building
+  -R, --dagfile=<string>                             filename of where tundra should store the mmapped dag file
+  -O, --dagfilejson=<string>                         Filename of the json to bake (only used in explicit baking mode)
+  -b, --binlog=<string>                              Filename of the a binary structured log to produce
+  -I, --report-includes=<string>                     Output included files into a json file and exit
+  -h, --help                                         Show help
+  -U, --unprotected                                  Run unprotected (same process group - for debugging)
+  -X, --inspect                                      Inspect the following data files, then exit.
