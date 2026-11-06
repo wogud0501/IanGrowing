@@ -1,5 +1,7 @@
 # Home ↔ School visual review
 
+최신 추가 작업: [v1.1 — 한글 픽셀 폰트, City/Workplace 실제 아트 및 네 장소 검증](V11/README.md). 아래 문서는 최초 Stage A/B 당시 기록이며 City/Workplace의 현재 상태는 v1.1 문서를 기준으로 한다.
+
 실제 Unity Game View 캡처다. Stage A 감사 및 Stage B 기능 슬라이스를 구현했다. 전체 상업용 그래픽 완성이나 Stage C/D 완료를 의미하지 않는다.
 
 | 작업 전 Home | 작업 후 Home |
