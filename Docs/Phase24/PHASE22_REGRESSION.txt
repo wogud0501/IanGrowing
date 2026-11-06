@@ -162,3 +162,8 @@ PASS Restoring actual progress removes all test-only future state
 PASS V3 migration preserves money/debt/age/XP/level
 PASS V3 without missions gets safe empty mission state
 PASS V3 original never overwritten by V4 save
+PASS Unimplemented route safely rejected
+PASS Concurrent transitions rejected
+PASS Repeated location transitions retain unique context
+PASS Repeated Bootstrap cannot duplicate GameContext/GameManager/SaveManager
+PASS Save/load after scene cycling restores claimed missions and growth

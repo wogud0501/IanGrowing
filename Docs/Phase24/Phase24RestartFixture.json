@@ -4,33 +4,34 @@
         "active": true,
         "offlineEnabled": true,
         "activityId": "work",
-        "sessionId": "b44fa656518c46159e638c92831fdcc2",
+        "sessionId": "dab219c96d8d41efb392c5d9ac42ee50",
         "educationId": "vocational",
         "jobId": "convenience",
         "stopReason": "",
         "cycleProgressSeconds": 120.0,
-        "accountedUtcTicks": 639295437512913166,
+        "accountedUtcTicks": 639295443179393705,
         "sequence": 1,
         "sessionCycles": 1,
         "ledgers": [
             {
                 "activityId": "work",
                 "completedCycles": 1,
-                "lastSettledUtcTicks": 639295437512053007,
+                "lastSettledUtcTicks": 639295443179257792,
                 "elapsedSeconds": 300.0
             }
         ],
         "battles": [],
         "report": {
-            "id": "30dacdb2f7df493ca1ec1aae82c16950",
+            "id": "432f79d306b94a5fb9fc3a5c03ea301e",
             "activityId": "work",
             "stopReason": "",
-            "fromUtcTicks": 639295433312053007,
-            "toUtcTicks": 639295437512053007,
+            "fromUtcTicks": 639295438979257792,
+            "toUtcTicks": 639295443179257792,
             "gold": 1000,
             "experience": 0,
             "elapsedSeconds": 420.0,
             "eligibleSeconds": 420.0,
+            "activitySeconds": 300.0,
             "cycles": 1,
             "workCycles": 1,
             "studyCycles": 0,
@@ -83,7 +84,7 @@
             "strikes": 0,
             "work": [
                 {
-                    "id": "1d6ac8ae43af48eaaf462a783b3c80cb",
+                    "id": "9a07ee649d4a406c9f678b6276cd37ad",
                     "jobId": "convenience",
                     "day": 2,
                     "wage": 1000,
@@ -97,7 +98,7 @@
         "deliveryIds": [],
         "activities": [
             {
-                "id": "1d6ac8ae43af48eaaf462a783b3c80cb",
+                "id": "9a07ee649d4a406c9f678b6276cd37ad",
                 "action": 0,
                 "day": 2
             }
@@ -121,8 +122,8 @@
             }
         ],
         "seenEventIds": [
-            "1d6ac8ae43af48eaaf462a783b3c80cb/work",
-            "1d6ac8ae43af48eaaf462a783b3c80cb/salary-event"
+            "9a07ee649d4a406c9f678b6276cd37ad/work",
+            "9a07ee649d4a406c9f678b6276cd37ad/salary-event"
         ],
         "completedMissionIds": [],
         "claimedMissionIds": [],
@@ -763,7 +764,7 @@
         "debt": 1000000,
         "otherAssets": 0,
         "processedIds": [
-            "1d6ac8ae43af48eaaf462a783b3c80cb/salary"
+            "9a07ee649d4a406c9f678b6276cd37ad/salary"
         ]
     },
     "survival": {
@@ -778,7 +779,7 @@
         "subDaySeconds": 0.0,
         "elapsedSeconds": 86400.0
     },
-    "lastSeenUtcTicks": 639295437512490380,
-    "runId": "8754849e60d74bfa9fe38a317a5d5ed3",
+    "lastSeenUtcTicks": 639295443179363420,
+    "runId": "c41839609f484999bfbd93b1fcdb1619",
     "settledDay": 2
 }

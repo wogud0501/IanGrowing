@@ -2,7 +2,7 @@
 
 2026-11-06 · Unity 6000.6.7f1 / URP · checkpoint `ui-phase24-start` (`d642276`). Official design source and job pay comparison: [source notes](Phase24/OFFICIAL_SOURCE.md).
 
-Verdict: **COMPLETE** for Phase 2.3 mandatory scope. **504 checks passed**, including all four ordinary career interview/work/wage paths, actual interview failure, future career exclusions, and the full original 440 feature checks. Phase 2.4 implementation begins after this result and the fresh Play restart gate below.
+Verdict: **COMPLETE** for Phase 2.3 mandatory scope. The pre-Phase2.4 gate passed **504 checks**, including all four ordinary career interview/work/wage paths, actual interview failure, future career exclusions, and the full original 440 feature checks. After Phase2.4 integration the same feature audit was rerun with **506 passing assertions** (the action/care count varies with the live path), failure empty. Phase 2.4 implementation began only after the original gate and fresh Play restart proof below.
 
 | Feature | Real call path and data | Verified behavior |
 |---|---|---|
