@@ -1,4 +1,4 @@
-#if UNITY_EDITOR
+﻿#if UNITY_EDITOR
 using System;
 using System.IO;
 using System.Linq;
@@ -57,10 +57,11 @@ public sealed class AddendumVisualVerification:MonoBehaviour {
   }
   Progress="Job themes and payroll fixture";var workplace=UnityEngine.Object.FindAnyObjectByType<WorkplaceThemePresenter>();foreach(string job in new[]{"office","developer","analyst","convenience"}){game.phase23.Progress.employment.currentJobId=job;workplace.Apply();yield return new WaitForSecondsRealtime(.2f);Check(workplace.AppliedJob==job,"Existing job selects theme "+job);if(job=="convenience")Check(workplace.room.background.sprite.name.Contains("Convenience"),"Convenience uses separate authored interior");Shot("Workplace-"+job+"-Fixture");yield return Frames();}
   game.growth.Restore(new ProgressSnapshot{age=19});game.stats.ApplyCore(new StatDelta{health=100,mental=100,hunger=100,thirst=100,knowledge=100});long cash=game.economy.Cash;Check(game.TryAction(0),"Actual work action succeeds in employed fixture");var record=game.phase23.Progress.employment.work.Last();Check(record.paid&&game.economy.Cash-cash==record.wage,"Actual payroll credited once");Check(!game.phase23.Work.Pay(record.id),"Salary deduplication preserved");var hud=UnityEngine.Object.FindAnyObjectByType<CommercialHUD>();Check(hud.receipt.gameObject.activeSelf&&hud.feedback.text.Contains(record.wage.ToString("N0")),"Pixel payslip displays recorded wage");Check(hud.rewardCoins.Length==8&&hud.rewardCoins.Any(c=>c.gameObject.activeSelf),"Pooled coin feedback plays");Shot("Workplace-Payroll-Fixture");yield return Frames();
-  game.Save();string checkpoint=State();game.TryAction(4);game.Load();Check(State()==checkpoint,"Explicit save/load preserves full model and payroll receipts");
+  game.Save();string checkpoint=State();game.TryAction(4);game.Load();File.WriteAllText("Docs/CommercialVisual/V11/Save-Expected.json",checkpoint);File.WriteAllText("Docs/CommercialVisual/V11/Save-Actual.json",State());Check(State()==checkpoint,"Explicit save/load preserves full model and payroll receipts");
   foreach(var size in new[]{new[]{1280,720},new[]{2400,1080}}){CommercialSliceVerification.SetSize(size[0],size[1]);yield return Frames(10);Check(Screen.width==size[0]&&Screen.height==size[1],"Actual Game View "+size[0]+"x"+size[1]);foreach(var id in new[]{SceneId.Home,SceneId.School,SceneId.City,SceneId.Workplace}){yield return Route(id);Fonts(id+" "+size[0]);var p=UnityEngine.Object.FindAnyObjectByType<PixelHomePresenter>();var corners=new Vector3[4];p.navigation.navigation.GetComponent<RectTransform>().GetWorldCorners(corners);Check(corners.All(c=>c.x>=0&&c.x<=Screen.width&&c.y>=0&&c.y<=Screen.height),"Navigation stays inside screen "+id+" "+size[0]);Shot(id+"-"+size[0]+"x"+size[1]);yield return Frames();}}
   CommercialSliceVerification.SetSize(1920,1080);yield return Route(SceneId.Home);Check(game.missionCatalog.missions.Length==60,"60 mission definitions retained");
  }
 }
 }
 #endif
+
