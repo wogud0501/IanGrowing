@@ -2,7 +2,7 @@ using System;using System.Linq;using UnityEngine;
 namespace IanGame {
 public class JobService {
  readonly Phase23Services owner;public JobService(Phase23Services value){owner=value;}
- public JobData Current=>owner.catalog.Job(owner.Progress.employment.currentJobId);
+ public JobData Current=>owner.catalog==null?null:owner.catalog.Job(owner.Progress.employment.currentJobId);
  public bool Eligible(JobData job)=>job!=null&&!job.specialUnlock&&!job.businessIncome&&job.BaseDailyWage>0&&owner.Game.growth.Age>=Math.Max(19,job.RequiredAge)&&owner.Game.stats.Knowledge>=job.RequiredKnowledge&&owner.Game.stats.Social>=job.RequiredSocial&&owner.Game.stats.Health>=job.RequiredHealth&&owner.Progress.employment.experience>=job.RequiredExperience;
  public JobData[] Search()=>owner.catalog.jobs.Where(Eligible).ToArray();
 }

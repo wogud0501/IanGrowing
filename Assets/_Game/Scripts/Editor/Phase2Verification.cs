@@ -13,13 +13,13 @@ public static class Phase2Verification {
  var start=new SaveData{day=g.clock.Day,stats=g.stats.Capture(),progression=g.growth.Capture(),economy=g.economy.Capture(),survival=g.survival.Capture(),time=g.clock.Capture(),gameOver=g.State==GameState.GameOver,missions=g.missions.Capture(),runId="restore-test-session",settledDay=g.clock.Day,lastSeenUtcTicks=DateTime.UtcNow.Ticks};
  var random=UnityEngine.Random.state;var results=new List<string>();
  Action<bool,string> check=(ok,name)=>{if(!ok)throw new Exception("FAIL: "+name);results.Add("PASS: "+name);};
- Action reset=()=>{g.NewGame();g.clock.realtimeEnabled=false;balance.eventChance=0;};
+ Action reset=()=>{g.NewGame();g.CompleteBirthIntroduction();g.clock.realtimeEnabled=false;balance.eventChance=0;};
  var s=g.stats;string birth=null;Action<string> log=text=>birth=text;
  g.autoSaveAfterAction=false;g.autoSaveOnLifecycle=false;
  try{
  g.Logged+=log;reset();g.Logged-=log;
  check(g.growth.Age==0&&s.Money==0&&g.economy.Debt==1000000&&g.economy.NetWorth==-1000000&&g.growth.SocialStanding=="없음","Newborn age/cash/debt/standing/net worth");
- check(birth!=null&&birth.Contains("태어났습니다"),"Birth system message");
+ check(birth==null&&!g.BirthIntroductionPending,"Birth introduction is separate from ordinary log");
  check(!g.CanPerformAction(0,out birth)&&!ui.workButton.interactable,"Employment locked before adulthood");
  int before=g.growth.Age;g.clock.AdvanceDays(3);check(g.growth.Age==before,"Date alone never increases age");
  check(LifeProgression.StageAtAge(6)==LifeStage.Infancy&&LifeProgression.StageAtAge(7)==LifeStage.Childhood&&LifeProgression.StageAtAge(12)==LifeStage.Childhood&&LifeProgression.StageAtAge(13)==LifeStage.Adolescence&&LifeProgression.StageAtAge(18)==LifeStage.Adolescence&&LifeProgression.StageAtAge(19)==LifeStage.YoungAdult&&LifeProgression.StageAtAge(29)==LifeStage.YoungAdult&&LifeProgression.StageAtAge(30)==LifeStage.MiddleAge&&LifeProgression.StageAtAge(59)==LifeStage.MiddleAge&&LifeProgression.StageAtAge(60)==LifeStage.OldAge,"All life-stage boundaries");

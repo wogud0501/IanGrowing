@@ -12,7 +12,7 @@ public class UINavigationService:MonoBehaviour {
  public void Life(){Major(lifePanel);}public void Growth(){Major(growthPanel);}public void Activity(){Major(activityPanel);}public void Menu(){stack.Push(menuPanel);}public void Inventory(){stack.Push(inventoryPanel);}public void Mission(){stack.Push(missionPanel);}
  public void GrowthTab(int tab){Major(growthPanel);growthTabs.Select(tab);}
  void Major(GameObject panel){if(GameContext.Instance!=null&&GameContext.Instance.transitions.IsTransitioning)return;if(stack.Top==panel)return;CloseAll();stack.Push(panel);RefreshNavigation();}
- public void CloseAll(){while(stack.Depth>0)stack.Pop();}
+ public void CloseAll(){while(stack.Depth>0){int before=stack.Depth;stack.Pop();if(stack.Depth==before)break;}}
  public void Location(SceneId id){if(GameContext.Instance!=null&&GameContext.Instance.transitions.IsTransitioning)return;CloseAll();if(GameContext.Instance==null)return;if(GameContext.Instance.transitions.CurrentScene==id){if(locationPanel!=null)stack.Push(locationPanel);}else{openLocationAfterTransition=id!=SceneId.Home;if(!GameContext.Instance.transitions.Navigate(id))openLocationAfterTransition=false;}}
 }
 }

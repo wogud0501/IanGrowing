@@ -1,0 +1,1770 @@
+{
+    "idle": {
+        "schema": 1,
+        "active": false,
+        "offlineEnabled": true,
+        "activityId": "",
+        "sessionId": "",
+        "educationId": "",
+        "jobId": "",
+        "stopReason": "",
+        "cycleProgressSeconds": 0.0,
+        "accountedUtcTicks": 0,
+        "sequence": 0,
+        "sessionCycles": 0,
+        "ledgers": [],
+        "battles": [],
+        "report": {
+            "id": "",
+            "activityId": "",
+            "stopReason": "",
+            "fromUtcTicks": 0,
+            "toUtcTicks": 0,
+            "gold": 0,
+            "experience": 0,
+            "elapsedSeconds": 0.0,
+            "eligibleSeconds": 0.0,
+            "cycles": 0,
+            "workCycles": 0,
+            "studyCycles": 0,
+            "battleWins": 0,
+            "battleLosses": 0,
+            "educationExperience": 0,
+            "knowledge": 0,
+            "hunger": 0,
+            "thirst": 0,
+            "health": 0,
+            "mental": 0,
+            "capped": false,
+            "clockReversed": false,
+            "acknowledged": false
+        }
+    },
+    "birthIntroVersion": 1,
+    "birthIntroCompleted": true,
+    "phase23": {
+        "education": {
+            "currentEducationId": "secondary",
+            "careerId": "vocational",
+            "books": 3,
+            "studies": 11,
+            "homework": 10,
+            "experience": 160,
+            "preparation": 100,
+            "enrollments": [
+                {
+                    "educationId": "elementary",
+                    "studies": 1,
+                    "homework": 5,
+                    "graduated": false
+                },
+                {
+                    "educationId": "secondary",
+                    "studies": 10,
+                    "homework": 5,
+                    "graduated": true
+                }
+            ],
+            "exams": [
+                {
+                    "id": "d4aa01d6a1ba4225ae2af3bfcc37fb05",
+                    "educationId": "elementary",
+                    "day": 32,
+                    "score": 50,
+                    "passed": true,
+                    "reportReceived": true
+                },
+                {
+                    "id": "988624ca3cf34fc480799a0ae6b22784",
+                    "educationId": "secondary",
+                    "day": 72,
+                    "score": 85,
+                    "passed": true,
+                    "reportReceived": true
+                }
+            ]
+        },
+        "social": {
+            "experience": 40,
+            "relationships": [
+                {
+                    "npcId": "classmate",
+                    "affinity": 60,
+                    "lastInteractionDay": 125,
+                    "lastDecayDay": 139,
+                    "friend": true,
+                    "state": 1
+                },
+                {
+                    "npcId": "colleague",
+                    "affinity": 4,
+                    "lastInteractionDay": 130,
+                    "lastDecayDay": 137,
+                    "friend": false,
+                    "state": 0
+                }
+            ],
+            "history": [
+                {
+                    "id": "1e2e3a6eac594177b5bb254138b86d79",
+                    "npcId": "classmate",
+                    "action": 9,
+                    "day": 15,
+                    "success": true
+                },
+                {
+                    "id": "6aae54c1de3a46ae8190911017bb8157",
+                    "npcId": "classmate",
+                    "action": 9,
+                    "day": 17,
+                    "success": true
+                },
+                {
+                    "id": "9525964d9b814f118a59f590e7286a46",
+                    "npcId": "classmate",
+                    "action": 9,
+                    "day": 20,
+                    "success": true
+                },
+                {
+                    "id": "dea903dd3403408081ada5967087cb98",
+                    "npcId": "classmate",
+                    "action": 18,
+                    "day": 68,
+                    "success": true
+                },
+                {
+                    "id": "936e6d98bba542c9a31ecf9185ec0305",
+                    "npcId": "classmate",
+                    "action": 18,
+                    "day": 71,
+                    "success": true
+                },
+                {
+                    "id": "37696aacec8544a8afd4b1fd90b646f8",
+                    "npcId": "colleague",
+                    "action": 18,
+                    "day": 121,
+                    "success": true
+                },
+                {
+                    "id": "86f879edc9e54a0eb06294c37abaa76a",
+                    "npcId": "classmate",
+                    "action": 19,
+                    "day": 125,
+                    "success": true
+                },
+                {
+                    "id": "dbb8c13e159b43faab8e4cb94d95c2a9",
+                    "npcId": "colleague",
+                    "action": 18,
+                    "day": 130,
+                    "success": false
+                }
+            ]
+        },
+        "employment": {
+            "resumeWritten": true,
+            "currentJobId": "unemployed",
+            "selectedJobId": "convenience",
+            "workCount": 9,
+            "experience": 90,
+            "rank": 0,
+            "strikes": 0,
+            "work": [
+                {
+                    "id": "6f6044c56f264a52aa24b8c27fc01555",
+                    "jobId": "convenience",
+                    "day": 98,
+                    "wage": 1000,
+                    "paid": true
+                },
+                {
+                    "id": "1a0017f0c51749c6bced1aaa9e7a93bd",
+                    "jobId": "convenience",
+                    "day": 100,
+                    "wage": 1000,
+                    "paid": true
+                },
+                {
+                    "id": "8be8e52a80a346d288f18c74909d3760",
+                    "jobId": "convenience",
+                    "day": 102,
+                    "wage": 1000,
+                    "paid": true
+                },
+                {
+                    "id": "515e716d2b884bd58508a5d5a5c725ba",
+                    "jobId": "convenience",
+                    "day": 107,
+                    "wage": 1000,
+                    "paid": true
+                },
+                {
+                    "id": "c891272d1ebc46549bdbffd68d59f69e",
+                    "jobId": "convenience",
+                    "day": 117,
+                    "wage": 1000,
+                    "paid": true
+                },
+                {
+                    "id": "c938d1d40c404b508407eeede7dc2a85",
+                    "jobId": "convenience",
+                    "day": 132,
+                    "wage": 1000,
+                    "paid": true
+                },
+                {
+                    "id": "e8f03307135b4bb7a7cfedcab3dfaf1f",
+                    "jobId": "office",
+                    "day": 134,
+                    "wage": 3000,
+                    "paid": true
+                },
+                {
+                    "id": "79f06506936c4976a169956878a8c2e3",
+                    "jobId": "developer",
+                    "day": 136,
+                    "wage": 7000,
+                    "paid": true
+                },
+                {
+                    "id": "d368bdde66e14308bbd662b6b6d10a68",
+                    "jobId": "analyst",
+                    "day": 138,
+                    "wage": 10000,
+                    "paid": true
+                }
+            ],
+            "history": [
+                {
+                    "id": "73737126d82c43e09bbb3baef09e7e49",
+                    "jobId": "unemployed",
+                    "kind": "resume",
+                    "day": 94,
+                    "success": true
+                },
+                {
+                    "id": "b927a2628fe8423083607bc09d1b5f46",
+                    "jobId": "convenience",
+                    "kind": "interview",
+                    "day": 95,
+                    "success": true
+                },
+                {
+                    "id": "b2d235883fd44291bdade38f9a3ebabb",
+                    "jobId": "convenience",
+                    "kind": "promotion",
+                    "day": 108,
+                    "success": true
+                },
+                {
+                    "id": "d485aa3947084674848bba7844bbf62d",
+                    "jobId": "convenience",
+                    "kind": "resigned",
+                    "day": 111,
+                    "success": true
+                },
+                {
+                    "id": "8462450f03c4475c81106cd1f256e667",
+                    "jobId": "convenience",
+                    "kind": "interview",
+                    "day": 112,
+                    "success": true
+                },
+                {
+                    "id": "c891272d1ebc46549bdbffd68d59f69e/dismissed",
+                    "jobId": "convenience",
+                    "kind": "dismissed",
+                    "day": 117,
+                    "success": true
+                },
+                {
+                    "id": "ab73f7add3c74680908fbfd102b74337",
+                    "jobId": "convenience",
+                    "kind": "interview",
+                    "day": 118,
+                    "success": true
+                },
+                {
+                    "id": "7659fff2b353477c93d893a19656b28e",
+                    "jobId": "convenience",
+                    "kind": "interview",
+                    "day": 131,
+                    "success": true
+                },
+                {
+                    "id": "4385d9f417be4a45aa1a40654adff2ef",
+                    "jobId": "office",
+                    "kind": "interview",
+                    "day": 133,
+                    "success": true
+                },
+                {
+                    "id": "c58b392b7cfa49f98e2291c1c3115825",
+                    "jobId": "developer",
+                    "kind": "interview",
+                    "day": 135,
+                    "success": true
+                },
+                {
+                    "id": "628adfa2d83947b983d378b02b72d579",
+                    "jobId": "analyst",
+                    "kind": "interview",
+                    "day": 137,
+                    "success": true
+                },
+                {
+                    "id": "cfc3e3d0a34b4468b5350b9668458135",
+                    "jobId": "convenience",
+                    "kind": "interview",
+                    "day": 140,
+                    "success": false
+                }
+            ]
+        },
+        "owned": [
+            1,
+            2
+        ],
+        "equipped": [
+            1,
+            2
+        ],
+        "deliveryIds": [
+            "phase23/starter/StarterHeadphones",
+            "phase23/starter/StarterEquipment"
+        ],
+        "activities": [
+            {
+                "id": "61dc0791f463424495cd86fea0319f85",
+                "action": 7,
+                "day": 7
+            },
+            {
+                "id": "7f6c19caab3d430c8789bfe8844c4be3",
+                "action": 8,
+                "day": 8
+            },
+            {
+                "id": "a207932f5b8741e99a8e910cb5754a05",
+                "action": 8,
+                "day": 11
+            },
+            {
+                "id": "b9afafea6e8c417ca4b158a1130d0f79",
+                "action": 8,
+                "day": 12
+            },
+            {
+                "id": "1e2e3a6eac594177b5bb254138b86d79",
+                "action": 9,
+                "day": 15
+            },
+            {
+                "id": "6aae54c1de3a46ae8190911017bb8157",
+                "action": 9,
+                "day": 17
+            },
+            {
+                "id": "9525964d9b814f118a59f590e7286a46",
+                "action": 9,
+                "day": 20
+            },
+            {
+                "id": "83db04dc120847cf8e7605795b94e4f4",
+                "action": 10,
+                "day": 21
+            },
+            {
+                "id": "7c0c827798d64f21a44867fd12770150",
+                "action": 10,
+                "day": 24
+            },
+            {
+                "id": "9b79052a9928434484b394501c3cfed3",
+                "action": 10,
+                "day": 25
+            },
+            {
+                "id": "62bab4b28af7457abdf039d2534e30ed",
+                "action": 10,
+                "day": 28
+            },
+            {
+                "id": "61407b60f43c4bba8e8fc1dc02db686d",
+                "action": 10,
+                "day": 30
+            },
+            {
+                "id": "d4aa01d6a1ba4225ae2af3bfcc37fb05",
+                "action": 11,
+                "day": 32
+            },
+            {
+                "id": "e86c5ee9a7624f91b8bf83e932accaeb",
+                "action": 12,
+                "day": 34
+            },
+            {
+                "id": "b033a426f3ff4df5ac897d2bce161106",
+                "action": 13,
+                "day": 37
+            },
+            {
+                "id": "a665a73d56504e23989fcc6422b5c2a5",
+                "action": 7,
+                "day": 38
+            },
+            {
+                "id": "645fd6942b7a4804ae8dcde06abf1c3a",
+                "action": 14,
+                "day": 41
+            },
+            {
+                "id": "b3498447f79745778d2fa61a74e04999",
+                "action": 14,
+                "day": 42
+            },
+            {
+                "id": "a5fa95d3922b42a1942e9bbec4c8c3f4",
+                "action": 14,
+                "day": 47
+            },
+            {
+                "id": "e9c29aac558c4f33af9197a19c513821",
+                "action": 14,
+                "day": 48
+            },
+            {
+                "id": "f0cdfc57cb29497988e270ecfc47b3e5",
+                "action": 14,
+                "day": 51
+            },
+            {
+                "id": "92da547d8d9d4ca19e4249cb4abf9b22",
+                "action": 14,
+                "day": 52
+            },
+            {
+                "id": "34bef3d4069f43ed9a43b59a238acad9",
+                "action": 14,
+                "day": 55
+            },
+            {
+                "id": "ab5cd6d219b8418ba355d22ffc06e733",
+                "action": 14,
+                "day": 58
+            },
+            {
+                "id": "d58177066c3147bbad6560b722bf3f5b",
+                "action": 14,
+                "day": 60
+            },
+            {
+                "id": "52cb5342599941feaa41f551d9e578c7",
+                "action": 14,
+                "day": 61
+            },
+            {
+                "id": "a52a593f720a403ba4d169379db2c532",
+                "action": 24,
+                "day": 64
+            },
+            {
+                "id": "dcfe94a4c1e643f49a6763fc69073b5a",
+                "action": 25,
+                "day": 65
+            },
+            {
+                "id": "dea903dd3403408081ada5967087cb98",
+                "action": 18,
+                "day": 68
+            },
+            {
+                "id": "936e6d98bba542c9a31ecf9185ec0305",
+                "action": 18,
+                "day": 71
+            },
+            {
+                "id": "988624ca3cf34fc480799a0ae6b22784",
+                "action": 11,
+                "day": 72
+            },
+            {
+                "id": "adeef2d8ec3440ae9000dea9dd26a0a2",
+                "action": 15,
+                "day": 74
+            },
+            {
+                "id": "7880fce306c74b16ab232473d1227039",
+                "action": 10,
+                "day": 77
+            },
+            {
+                "id": "cd95ae37ef9f4e3eaa461f2058573018",
+                "action": 10,
+                "day": 81
+            },
+            {
+                "id": "5906a480b4e245ba84147cb63297335f",
+                "action": 10,
+                "day": 82
+            },
+            {
+                "id": "1f29c08121594216ac24f7cbed9e93d7",
+                "action": 10,
+                "day": 85
+            },
+            {
+                "id": "455132d9d35e4d38a7848da06ebf99ed",
+                "action": 10,
+                "day": 87
+            },
+            {
+                "id": "5f3a5cfebdff4348b225bdbfec3d66dd",
+                "action": 12,
+                "day": 90
+            },
+            {
+                "id": "c98efeb18d9d4940bb99e39a58a3c5ff",
+                "action": 16,
+                "day": 91
+            },
+            {
+                "id": "73737126d82c43e09bbb3baef09e7e49",
+                "action": 20,
+                "day": 94
+            },
+            {
+                "id": "b927a2628fe8423083607bc09d1b5f46",
+                "action": 21,
+                "day": 95
+            },
+            {
+                "id": "6f6044c56f264a52aa24b8c27fc01555",
+                "action": 0,
+                "day": 98
+            },
+            {
+                "id": "1a0017f0c51749c6bced1aaa9e7a93bd",
+                "action": 0,
+                "day": 100
+            },
+            {
+                "id": "8be8e52a80a346d288f18c74909d3760",
+                "action": 0,
+                "day": 102
+            },
+            {
+                "id": "515e716d2b884bd58508a5d5a5c725ba",
+                "action": 0,
+                "day": 107
+            },
+            {
+                "id": "b2d235883fd44291bdade38f9a3ebabb",
+                "action": 22,
+                "day": 108
+            },
+            {
+                "id": "d485aa3947084674848bba7844bbf62d",
+                "action": 23,
+                "day": 111
+            },
+            {
+                "id": "8462450f03c4475c81106cd1f256e667",
+                "action": 21,
+                "day": 112
+            },
+            {
+                "id": "e56fa4a5b26c4c208f7c459d91038a25",
+                "action": 26,
+                "day": 115
+            },
+            {
+                "id": "c891272d1ebc46549bdbffd68d59f69e",
+                "action": 0,
+                "day": 117
+            },
+            {
+                "id": "ab73f7add3c74680908fbfd102b74337",
+                "action": 21,
+                "day": 118
+            },
+            {
+                "id": "37696aacec8544a8afd4b1fd90b646f8",
+                "action": 18,
+                "day": 121
+            },
+            {
+                "id": "86f879edc9e54a0eb06294c37abaa76a",
+                "action": 19,
+                "day": 125
+            },
+            {
+                "id": "dbb8c13e159b43faab8e4cb94d95c2a9",
+                "action": 18,
+                "day": 130
+            },
+            {
+                "id": "7659fff2b353477c93d893a19656b28e",
+                "action": 21,
+                "day": 131
+            },
+            {
+                "id": "c938d1d40c404b508407eeede7dc2a85",
+                "action": 0,
+                "day": 132
+            },
+            {
+                "id": "4385d9f417be4a45aa1a40654adff2ef",
+                "action": 21,
+                "day": 133
+            },
+            {
+                "id": "e8f03307135b4bb7a7cfedcab3dfaf1f",
+                "action": 0,
+                "day": 134
+            },
+            {
+                "id": "c58b392b7cfa49f98e2291c1c3115825",
+                "action": 21,
+                "day": 135
+            },
+            {
+                "id": "79f06506936c4976a169956878a8c2e3",
+                "action": 0,
+                "day": 136
+            },
+            {
+                "id": "628adfa2d83947b983d378b02b72d579",
+                "action": 21,
+                "day": 137
+            },
+            {
+                "id": "d368bdde66e14308bbd662b6b6d10a68",
+                "action": 0,
+                "day": 138
+            },
+            {
+                "id": "cfc3e3d0a34b4468b5350b9668458135",
+                "action": 21,
+                "day": 140
+            }
+        ]
+    },
+    "version": 4,
+    "day": 140,
+    "missions": {
+        "activeMissionId": "M035",
+        "startDay": 1,
+        "eventSequence": 76,
+        "growthPoints": 34,
+        "counters": [
+            {
+                "counter": 1,
+                "value": 39
+            },
+            {
+                "counter": 2,
+                "value": 29
+            },
+            {
+                "counter": 3,
+                "value": 4
+            },
+            {
+                "counter": 4,
+                "value": 4
+            },
+            {
+                "counter": 10,
+                "value": 1
+            },
+            {
+                "counter": 11,
+                "value": 3
+            },
+            {
+                "counter": 12,
+                "value": 1
+            },
+            {
+                "counter": 13,
+                "value": 10
+            },
+            {
+                "counter": 14,
+                "value": 2
+            },
+            {
+                "counter": 15,
+                "value": 2
+            },
+            {
+                "counter": 16,
+                "value": 1
+            },
+            {
+                "counter": 100,
+                "value": 1
+            },
+            {
+                "counter": 17,
+                "value": 10
+            },
+            {
+                "counter": 101,
+                "value": 1
+            },
+            {
+                "counter": 102,
+                "value": 1
+            },
+            {
+                "counter": 103,
+                "value": 1
+            },
+            {
+                "counter": 104,
+                "value": 1
+            },
+            {
+                "counter": 19,
+                "value": 1
+            },
+            {
+                "counter": 110,
+                "value": 1
+            },
+            {
+                "counter": 111,
+                "value": 8
+            },
+            {
+                "counter": 112,
+                "value": 7
+            },
+            {
+                "counter": 18,
+                "value": 9
+            },
+            {
+                "counter": 113,
+                "value": 9
+            },
+            {
+                "counter": 130,
+                "value": 1
+            },
+            {
+                "counter": 115,
+                "value": 100
+            }
+        ],
+        "seenEventIds": [
+            "976633fa1d9f4e0096b69f2daafed313/activity/1",
+            "976633fa1d9f4e0096b69f2daafed313/activity/2",
+            "976633fa1d9f4e0096b69f2daafed313/activity/3",
+            "976633fa1d9f4e0096b69f2daafed313/activity/4",
+            "976633fa1d9f4e0096b69f2daafed313/activity/5",
+            "61dc0791f463424495cd86fea0319f85",
+            "7f6c19caab3d430c8789bfe8844c4be3",
+            "976633fa1d9f4e0096b69f2daafed313/activity/6",
+            "976633fa1d9f4e0096b69f2daafed313/activity/7",
+            "a207932f5b8741e99a8e910cb5754a05",
+            "b9afafea6e8c417ca4b158a1130d0f79",
+            "976633fa1d9f4e0096b69f2daafed313/activity/8",
+            "976633fa1d9f4e0096b69f2daafed313/activity/9",
+            "1e2e3a6eac594177b5bb254138b86d79",
+            "976633fa1d9f4e0096b69f2daafed313/activity/10",
+            "976633fa1d9f4e0096b69f2daafed313/activity/11",
+            "976633fa1d9f4e0096b69f2daafed313/activity/12",
+            "83db04dc120847cf8e7605795b94e4f4",
+            "976633fa1d9f4e0096b69f2daafed313/activity/13",
+            "976633fa1d9f4e0096b69f2daafed313/activity/14",
+            "7c0c827798d64f21a44867fd12770150",
+            "9b79052a9928434484b394501c3cfed3",
+            "976633fa1d9f4e0096b69f2daafed313/activity/15",
+            "976633fa1d9f4e0096b69f2daafed313/activity/16",
+            "62bab4b28af7457abdf039d2534e30ed",
+            "976633fa1d9f4e0096b69f2daafed313/activity/17",
+            "61407b60f43c4bba8e8fc1dc02db686d",
+            "976633fa1d9f4e0096b69f2daafed313/activity/18",
+            "d4aa01d6a1ba4225ae2af3bfcc37fb05",
+            "976633fa1d9f4e0096b69f2daafed313/activity/19",
+            "e86c5ee9a7624f91b8bf83e932accaeb",
+            "976633fa1d9f4e0096b69f2daafed313/activity/20",
+            "976633fa1d9f4e0096b69f2daafed313/activity/21",
+            "b033a426f3ff4df5ac897d2bce161106",
+            "a665a73d56504e23989fcc6422b5c2a5",
+            "976633fa1d9f4e0096b69f2daafed313/activity/22",
+            "976633fa1d9f4e0096b69f2daafed313/activity/23",
+            "645fd6942b7a4804ae8dcde06abf1c3a",
+            "b3498447f79745778d2fa61a74e04999",
+            "976633fa1d9f4e0096b69f2daafed313/activity/24",
+            "976633fa1d9f4e0096b69f2daafed313/activity/25",
+            "976633fa1d9f4e0096b69f2daafed313/activity/26",
+            "976633fa1d9f4e0096b69f2daafed313/activity/27",
+            "a5fa95d3922b42a1942e9bbec4c8c3f4",
+            "e9c29aac558c4f33af9197a19c513821",
+            "976633fa1d9f4e0096b69f2daafed313/activity/28",
+            "976633fa1d9f4e0096b69f2daafed313/activity/29",
+            "f0cdfc57cb29497988e270ecfc47b3e5",
+            "92da547d8d9d4ca19e4249cb4abf9b22",
+            "976633fa1d9f4e0096b69f2daafed313/activity/30",
+            "976633fa1d9f4e0096b69f2daafed313/activity/31",
+            "34bef3d4069f43ed9a43b59a238acad9",
+            "976633fa1d9f4e0096b69f2daafed313/activity/32",
+            "976633fa1d9f4e0096b69f2daafed313/activity/33",
+            "ab5cd6d219b8418ba355d22ffc06e733",
+            "976633fa1d9f4e0096b69f2daafed313/activity/34",
+            "d58177066c3147bbad6560b722bf3f5b",
+            "52cb5342599941feaa41f551d9e578c7",
+            "976633fa1d9f4e0096b69f2daafed313/activity/35",
+            "976633fa1d9f4e0096b69f2daafed313/activity/36",
+            "a52a593f720a403ba4d169379db2c532",
+            "dcfe94a4c1e643f49a6763fc69073b5a",
+            "976633fa1d9f4e0096b69f2daafed313/activity/37",
+            "976633fa1d9f4e0096b69f2daafed313/activity/38",
+            "976633fa1d9f4e0096b69f2daafed313/activity/39",
+            "976633fa1d9f4e0096b69f2daafed313/activity/40",
+            "988624ca3cf34fc480799a0ae6b22784",
+            "976633fa1d9f4e0096b69f2daafed313/activity/41",
+            "adeef2d8ec3440ae9000dea9dd26a0a2",
+            "976633fa1d9f4e0096b69f2daafed313/activity/42",
+            "976633fa1d9f4e0096b69f2daafed313/activity/43",
+            "7880fce306c74b16ab232473d1227039",
+            "976633fa1d9f4e0096b69f2daafed313/activity/44",
+            "976633fa1d9f4e0096b69f2daafed313/activity/45",
+            "976633fa1d9f4e0096b69f2daafed313/activity/46",
+            "cd95ae37ef9f4e3eaa461f2058573018",
+            "5906a480b4e245ba84147cb63297335f",
+            "976633fa1d9f4e0096b69f2daafed313/activity/47",
+            "976633fa1d9f4e0096b69f2daafed313/activity/48",
+            "1f29c08121594216ac24f7cbed9e93d7",
+            "976633fa1d9f4e0096b69f2daafed313/activity/49",
+            "455132d9d35e4d38a7848da06ebf99ed",
+            "976633fa1d9f4e0096b69f2daafed313/activity/50",
+            "976633fa1d9f4e0096b69f2daafed313/activity/51",
+            "5f3a5cfebdff4348b225bdbfec3d66dd",
+            "c98efeb18d9d4940bb99e39a58a3c5ff/secondary",
+            "c98efeb18d9d4940bb99e39a58a3c5ff",
+            "976633fa1d9f4e0096b69f2daafed313/activity/52",
+            "976633fa1d9f4e0096b69f2daafed313/activity/53",
+            "73737126d82c43e09bbb3baef09e7e49",
+            "b927a2628fe8423083607bc09d1b5f46/interview",
+            "b927a2628fe8423083607bc09d1b5f46/hired",
+            "976633fa1d9f4e0096b69f2daafed313/activity/54",
+            "976633fa1d9f4e0096b69f2daafed313/activity/55",
+            "6f6044c56f264a52aa24b8c27fc01555/work",
+            "6f6044c56f264a52aa24b8c27fc01555/salary-event",
+            "976633fa1d9f4e0096b69f2daafed313/activity/56",
+            "1a0017f0c51749c6bced1aaa9e7a93bd/work",
+            "1a0017f0c51749c6bced1aaa9e7a93bd/salary-event",
+            "976633fa1d9f4e0096b69f2daafed313/activity/57",
+            "8be8e52a80a346d288f18c74909d3760/work",
+            "8be8e52a80a346d288f18c74909d3760/salary-event",
+            "976633fa1d9f4e0096b69f2daafed313/activity/58",
+            "976633fa1d9f4e0096b69f2daafed313/activity/59",
+            "976633fa1d9f4e0096b69f2daafed313/activity/60",
+            "976633fa1d9f4e0096b69f2daafed313/activity/61",
+            "515e716d2b884bd58508a5d5a5c725ba/work",
+            "515e716d2b884bd58508a5d5a5c725ba/salary-event",
+            "b2d235883fd44291bdade38f9a3ebabb",
+            "976633fa1d9f4e0096b69f2daafed313/activity/62",
+            "976633fa1d9f4e0096b69f2daafed313/activity/63",
+            "8462450f03c4475c81106cd1f256e667/interview",
+            "8462450f03c4475c81106cd1f256e667/hired",
+            "976633fa1d9f4e0096b69f2daafed313/activity/64",
+            "976633fa1d9f4e0096b69f2daafed313/activity/65",
+            "e56fa4a5b26c4c208f7c459d91038a25",
+            "976633fa1d9f4e0096b69f2daafed313/activity/66",
+            "c891272d1ebc46549bdbffd68d59f69e/work",
+            "c891272d1ebc46549bdbffd68d59f69e/salary-event",
+            "ab73f7add3c74680908fbfd102b74337/interview",
+            "ab73f7add3c74680908fbfd102b74337/hired",
+            "976633fa1d9f4e0096b69f2daafed313/activity/67",
+            "976633fa1d9f4e0096b69f2daafed313/activity/68",
+            "976633fa1d9f4e0096b69f2daafed313/activity/69",
+            "976633fa1d9f4e0096b69f2daafed313/activity/70",
+            "976633fa1d9f4e0096b69f2daafed313/activity/71",
+            "976633fa1d9f4e0096b69f2daafed313/activity/72",
+            "976633fa1d9f4e0096b69f2daafed313/activity/73",
+            "976633fa1d9f4e0096b69f2daafed313/activity/74",
+            "976633fa1d9f4e0096b69f2daafed313/activity/75",
+            "7659fff2b353477c93d893a19656b28e/interview",
+            "7659fff2b353477c93d893a19656b28e/hired",
+            "c938d1d40c404b508407eeede7dc2a85/work",
+            "c938d1d40c404b508407eeede7dc2a85/salary-event",
+            "4385d9f417be4a45aa1a40654adff2ef/interview",
+            "4385d9f417be4a45aa1a40654adff2ef/hired",
+            "e8f03307135b4bb7a7cfedcab3dfaf1f/work",
+            "e8f03307135b4bb7a7cfedcab3dfaf1f/salary-event",
+            "c58b392b7cfa49f98e2291c1c3115825/interview",
+            "c58b392b7cfa49f98e2291c1c3115825/hired",
+            "79f06506936c4976a169956878a8c2e3/work",
+            "79f06506936c4976a169956878a8c2e3/salary-event",
+            "628adfa2d83947b983d378b02b72d579/interview",
+            "628adfa2d83947b983d378b02b72d579/hired",
+            "d368bdde66e14308bbd662b6b6d10a68/work",
+            "d368bdde66e14308bbd662b6b6d10a68/salary-event",
+            "976633fa1d9f4e0096b69f2daafed313/activity/76",
+            "cfc3e3d0a34b4468b5350b9668458135/interview"
+        ],
+        "completedMissionIds": [
+            "M001",
+            "M002",
+            "M003",
+            "M004",
+            "M005",
+            "M006",
+            "M007",
+            "M008",
+            "M009",
+            "M010",
+            "M011",
+            "M012",
+            "M013",
+            "M014",
+            "M015",
+            "M016",
+            "M017",
+            "M018",
+            "M019",
+            "M020",
+            "M021",
+            "M022",
+            "M023",
+            "M024",
+            "M025",
+            "M026",
+            "M027",
+            "M028",
+            "M029",
+            "M030",
+            "M031",
+            "M032",
+            "M033",
+            "M034"
+        ],
+        "claimedMissionIds": [
+            "M001",
+            "M002",
+            "M003",
+            "M004",
+            "M005",
+            "M006",
+            "M007",
+            "M008",
+            "M009",
+            "M010",
+            "M011",
+            "M012",
+            "M013",
+            "M014",
+            "M015",
+            "M016",
+            "M017",
+            "M018",
+            "M019",
+            "M020",
+            "M021",
+            "M022",
+            "M023",
+            "M024",
+            "M025",
+            "M026",
+            "M027",
+            "M028",
+            "M029",
+            "M030",
+            "M031",
+            "M032",
+            "M033",
+            "M034"
+        ],
+        "walletReceiptIds": [
+            "mission-reward:M001",
+            "mission-reward:M002",
+            "mission-reward:M003",
+            "mission-reward:M004",
+            "mission-reward:M005",
+            "mission-reward:M006",
+            "mission-reward:M007",
+            "mission-reward:M008",
+            "mission-reward:M009",
+            "mission-reward:M010",
+            "mission-reward:M011",
+            "mission-reward:M012",
+            "mission-reward:M013",
+            "mission-reward:M014",
+            "mission-reward:M015",
+            "mission-reward:M016",
+            "mission-reward:M017",
+            "mission-reward:M018",
+            "mission-reward:M019",
+            "mission-reward:M020",
+            "mission-reward:M021",
+            "mission-reward:M022",
+            "mission-reward:M023",
+            "mission-reward:M024",
+            "mission-reward:M025",
+            "mission-reward:M026",
+            "mission-reward:M027",
+            "mission-reward:M028",
+            "mission-reward:M029",
+            "mission-reward:M030",
+            "mission-reward:M031",
+            "mission-reward:M032",
+            "mission-reward:M033",
+            "mission-reward:M034"
+        ],
+        "milestoneIds": [
+            "M001",
+            "M002",
+            "M003",
+            "M004",
+            "M005",
+            "M006",
+            "M007",
+            "M008",
+            "M009",
+            "M010",
+            "M011",
+            "M012",
+            "M013",
+            "M014",
+            "M015",
+            "M016",
+            "M017",
+            "M018",
+            "M019",
+            "M020",
+            "M021",
+            "M022",
+            "M023",
+            "M024",
+            "M025",
+            "M026",
+            "M027",
+            "M028",
+            "M029",
+            "M030",
+            "M031",
+            "M032",
+            "M033",
+            "M034"
+        ],
+        "unlocks": [
+            1,
+            2,
+            3,
+            4,
+            5
+        ],
+        "pendingRewards": [
+            {
+                "id": "mission-reward:M020:tickets",
+                "kind": 0,
+                "item": 0,
+                "amount": 1,
+                "delivered": false
+            },
+            {
+                "id": "mission-reward:M030:tickets",
+                "kind": 0,
+                "item": 0,
+                "amount": 1,
+                "delivered": false
+            }
+        ],
+        "progress": [
+            {
+                "missionId": "M001",
+                "state": 4,
+                "current": 1.0,
+                "target": 1.0,
+                "eventCount": 39,
+                "prerequisiteIds": []
+            },
+            {
+                "missionId": "M002",
+                "state": 4,
+                "current": 1.0,
+                "target": 1.0,
+                "eventCount": 29,
+                "prerequisiteIds": [
+                    "M001"
+                ]
+            },
+            {
+                "missionId": "M003",
+                "state": 4,
+                "current": 1.0,
+                "target": 1.0,
+                "eventCount": 4,
+                "prerequisiteIds": [
+                    "M002"
+                ]
+            },
+            {
+                "missionId": "M004",
+                "state": 4,
+                "current": 70.0,
+                "target": 70.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M003"
+                ]
+            },
+            {
+                "missionId": "M005",
+                "state": 4,
+                "current": 70.0,
+                "target": 70.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M004"
+                ]
+            },
+            {
+                "missionId": "M006",
+                "state": 4,
+                "current": 1.0,
+                "target": 1.0,
+                "eventCount": 4,
+                "prerequisiteIds": [
+                    "M005"
+                ]
+            },
+            {
+                "missionId": "M007",
+                "state": 4,
+                "current": 80.0,
+                "target": 80.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M006"
+                ]
+            },
+            {
+                "missionId": "M008",
+                "state": 4,
+                "current": 50.0,
+                "target": 50.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M007"
+                ]
+            },
+            {
+                "missionId": "M009",
+                "state": 4,
+                "current": 4.0,
+                "target": 4.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M008"
+                ]
+            },
+            {
+                "missionId": "M010",
+                "state": 4,
+                "current": 9.0,
+                "target": 9.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M009"
+                ]
+            },
+            {
+                "missionId": "M011",
+                "state": 4,
+                "current": 1.0,
+                "target": 1.0,
+                "eventCount": 1,
+                "prerequisiteIds": [
+                    "M010"
+                ]
+            },
+            {
+                "missionId": "M012",
+                "state": 4,
+                "current": 3.0,
+                "target": 3.0,
+                "eventCount": 3,
+                "prerequisiteIds": [
+                    "M011"
+                ]
+            },
+            {
+                "missionId": "M013",
+                "state": 4,
+                "current": 20.0,
+                "target": 20.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M012"
+                ]
+            },
+            {
+                "missionId": "M014",
+                "state": 4,
+                "current": 1.0,
+                "target": 1.0,
+                "eventCount": 1,
+                "prerequisiteIds": [
+                    "M013"
+                ]
+            },
+            {
+                "missionId": "M015",
+                "state": 4,
+                "current": 15.0,
+                "target": 15.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M014"
+                ]
+            },
+            {
+                "missionId": "M016",
+                "state": 4,
+                "current": 5.0,
+                "target": 5.0,
+                "eventCount": 10,
+                "prerequisiteIds": [
+                    "M015"
+                ]
+            },
+            {
+                "missionId": "M017",
+                "state": 4,
+                "current": 1.0,
+                "target": 1.0,
+                "eventCount": 2,
+                "prerequisiteIds": [
+                    "M016"
+                ]
+            },
+            {
+                "missionId": "M018",
+                "state": 4,
+                "current": 1.0,
+                "target": 1.0,
+                "eventCount": 2,
+                "prerequisiteIds": [
+                    "M017"
+                ]
+            },
+            {
+                "missionId": "M019",
+                "state": 4,
+                "current": 1.0,
+                "target": 1.0,
+                "eventCount": 1,
+                "prerequisiteIds": [
+                    "M018"
+                ]
+            },
+            {
+                "missionId": "M020",
+                "state": 4,
+                "current": 12.0,
+                "target": 12.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M019"
+                ]
+            },
+            {
+                "missionId": "M021",
+                "state": 4,
+                "current": 1.0,
+                "target": 1.0,
+                "eventCount": 1,
+                "prerequisiteIds": [
+                    "M020"
+                ]
+            },
+            {
+                "missionId": "M022",
+                "state": 4,
+                "current": 10.0,
+                "target": 10.0,
+                "eventCount": 10,
+                "prerequisiteIds": [
+                    "M021"
+                ]
+            },
+            {
+                "missionId": "M023",
+                "state": 4,
+                "current": 35.0,
+                "target": 35.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M022"
+                ]
+            },
+            {
+                "missionId": "M024",
+                "state": 4,
+                "current": 1.0,
+                "target": 1.0,
+                "eventCount": 1,
+                "prerequisiteIds": [
+                    "M023"
+                ]
+            },
+            {
+                "missionId": "M025",
+                "state": 4,
+                "current": 1.0,
+                "target": 1.0,
+                "eventCount": 1,
+                "prerequisiteIds": [
+                    "M024"
+                ]
+            },
+            {
+                "missionId": "M026",
+                "state": 4,
+                "current": 25.0,
+                "target": 25.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M025"
+                ]
+            },
+            {
+                "missionId": "M027",
+                "state": 4,
+                "current": 2.0,
+                "target": 2.0,
+                "eventCount": 2,
+                "prerequisiteIds": [
+                    "M026"
+                ]
+            },
+            {
+                "missionId": "M028",
+                "state": 4,
+                "current": 1.0,
+                "target": 1.0,
+                "eventCount": 1,
+                "prerequisiteIds": [
+                    "M027"
+                ]
+            },
+            {
+                "missionId": "M029",
+                "state": 4,
+                "current": 40.0,
+                "target": 40.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M028"
+                ]
+            },
+            {
+                "missionId": "M030",
+                "state": 4,
+                "current": 10.0,
+                "target": 10.0,
+                "eventCount": 1,
+                "prerequisiteIds": [
+                    "M029"
+                ]
+            },
+            {
+                "missionId": "M031",
+                "state": 4,
+                "current": 1.0,
+                "target": 1.0,
+                "eventCount": 1,
+                "prerequisiteIds": [
+                    "M030"
+                ]
+            },
+            {
+                "missionId": "M032",
+                "state": 4,
+                "current": 1.0,
+                "target": 1.0,
+                "eventCount": 8,
+                "prerequisiteIds": [
+                    "M031"
+                ]
+            },
+            {
+                "missionId": "M033",
+                "state": 4,
+                "current": 1.0,
+                "target": 1.0,
+                "eventCount": 7,
+                "prerequisiteIds": [
+                    "M032"
+                ]
+            },
+            {
+                "missionId": "M034",
+                "state": 4,
+                "current": 1.0,
+                "target": 1.0,
+                "eventCount": 9,
+                "prerequisiteIds": [
+                    "M033"
+                ]
+            },
+            {
+                "missionId": "M035",
+                "state": 5,
+                "current": 0.0,
+                "target": 1.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M034"
+                ]
+            },
+            {
+                "missionId": "M036",
+                "state": 0,
+                "current": 1.0,
+                "target": 1.0,
+                "eventCount": 100,
+                "prerequisiteIds": [
+                    "M035"
+                ]
+            },
+            {
+                "missionId": "M037",
+                "state": 0,
+                "current": 3.0,
+                "target": 3.0,
+                "eventCount": 9,
+                "prerequisiteIds": [
+                    "M036"
+                ]
+            },
+            {
+                "missionId": "M038",
+                "state": 5,
+                "current": 0.0,
+                "target": 1.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M037"
+                ]
+            },
+            {
+                "missionId": "M039",
+                "state": 5,
+                "current": 0.0,
+                "target": 3.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M038"
+                ]
+            },
+            {
+                "missionId": "M040",
+                "state": 0,
+                "current": 4.0,
+                "target": 9.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M039"
+                ]
+            },
+            {
+                "missionId": "M041",
+                "state": 0,
+                "current": 1.0,
+                "target": 1.0,
+                "eventCount": 1,
+                "prerequisiteIds": [
+                    "M040"
+                ]
+            },
+            {
+                "missionId": "M042",
+                "state": 5,
+                "current": 10000.0,
+                "target": 10000.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M041"
+                ]
+            },
+            {
+                "missionId": "M043",
+                "state": 5,
+                "current": 50.0,
+                "target": 60.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M042"
+                ]
+            },
+            {
+                "missionId": "M044",
+                "state": 5,
+                "current": 0.0,
+                "target": 1.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M043"
+                ]
+            },
+            {
+                "missionId": "M045",
+                "state": 5,
+                "current": 0.0,
+                "target": 1.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M044"
+                ]
+            },
+            {
+                "missionId": "M046",
+                "state": 5,
+                "current": 0.0,
+                "target": 1.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M045"
+                ]
+            },
+            {
+                "missionId": "M047",
+                "state": 5,
+                "current": 0.0,
+                "target": 1.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M046"
+                ]
+            },
+            {
+                "missionId": "M048",
+                "state": 5,
+                "current": 0.0,
+                "target": 1.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M047"
+                ]
+            },
+            {
+                "missionId": "M049",
+                "state": 5,
+                "current": 100.0,
+                "target": 1000.0,
+                "eventCount": 100,
+                "prerequisiteIds": [
+                    "M048"
+                ]
+            },
+            {
+                "missionId": "M050",
+                "state": 5,
+                "current": 0.0,
+                "target": 9.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M049"
+                ]
+            },
+            {
+                "missionId": "M051",
+                "state": 5,
+                "current": 19.0,
+                "target": 60.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M050"
+                ]
+            },
+            {
+                "missionId": "M052",
+                "state": 5,
+                "current": 0.0,
+                "target": 1.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M051"
+                ]
+            },
+            {
+                "missionId": "M053",
+                "state": 5,
+                "current": 240.0,
+                "target": 260.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M052"
+                ]
+            },
+            {
+                "missionId": "M054",
+                "state": 5,
+                "current": 0.0,
+                "target": 1.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M053"
+                ]
+            },
+            {
+                "missionId": "M055",
+                "state": 5,
+                "current": 0.0,
+                "target": 1.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M054"
+                ]
+            },
+            {
+                "missionId": "M056",
+                "state": 5,
+                "current": 0.0,
+                "target": 50.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M055"
+                ]
+            },
+            {
+                "missionId": "M057",
+                "state": 5,
+                "current": 0.0,
+                "target": 5.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M056"
+                ]
+            },
+            {
+                "missionId": "M058",
+                "state": 5,
+                "current": 0.0,
+                "target": 1.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M057"
+                ]
+            },
+            {
+                "missionId": "M059",
+                "state": 5,
+                "current": 0.0,
+                "target": 1.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M058"
+                ]
+            },
+            {
+                "missionId": "M060",
+                "state": 5,
+                "current": 0.0,
+                "target": 1.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M059"
+                ]
+            }
+        ],
+        "choiceOutcomes": [],
+        "finalReviewRequested": false
+    },
+    "stats": {
+        "happiness": 64,
+        "stress": 0,
+        "energy": 100,
+        "money": 31540,
+        "hunger": 68,
+        "thirst": 52,
+        "knowledge": 10,
+        "mental": 100,
+        "social": 0,
+        "credit": 50
+    },
+    "gameOver": false,
+    "progression": {
+        "age": 19,
+        "level": 1,
+        "experience": 0,
+        "socialStanding": "없음",
+        "completedGrowthIds": []
+    },
+    "economy": {
+        "debt": 999900,
+        "otherAssets": 0,
+        "processedIds": [
+            "mission-reward:M001",
+            "mission-reward:M002",
+            "mission-reward:M003",
+            "mission-reward:M004",
+            "mission-reward:M005",
+            "mission-reward:M006",
+            "mission-reward:M007",
+            "mission-reward:M008",
+            "mission-reward:M009",
+            "mission-reward:M010",
+            "mission-reward:M011",
+            "mission-reward:M012",
+            "mission-reward:M013",
+            "mission-reward:M014",
+            "mission-reward:M015",
+            "mission-reward:M016",
+            "mission-reward:M017",
+            "mission-reward:M018",
+            "mission-reward:M019",
+            "mission-reward:M020",
+            "mission-reward:M021",
+            "mission-reward:M022",
+            "mission-reward:M023",
+            "mission-reward:M024",
+            "mission-reward:M025",
+            "mission-reward:M026",
+            "mission-reward:M027",
+            "mission-reward:M028",
+            "mission-reward:M029",
+            "mission-reward:M030",
+            "mission-reward:M031",
+            "mission-reward:M032",
+            "mission-reward:M033",
+            "6f6044c56f264a52aa24b8c27fc01555/salary",
+            "mission-reward:M034",
+            "1a0017f0c51749c6bced1aaa9e7a93bd/salary",
+            "8be8e52a80a346d288f18c74909d3760/salary",
+            "515e716d2b884bd58508a5d5a5c725ba/salary",
+            "e56fa4a5b26c4c208f7c459d91038a25/repay",
+            "c891272d1ebc46549bdbffd68d59f69e/salary",
+            "c938d1d40c404b508407eeede7dc2a85/salary",
+            "e8f03307135b4bb7a7cfedcab3dfaf1f/salary",
+            "79f06506936c4976a169956878a8c2e3/salary",
+            "d368bdde66e14308bbd662b6b6d10a68/salary"
+        ]
+    },
+    "survival": {
+        "hungerRemainder": 0.0,
+        "thirstRemainder": 0.0,
+        "hungerDangerSeconds": 0.0,
+        "thirstDangerSeconds": 0.0,
+        "failed": false,
+        "statuses": []
+    },
+    "time": {
+        "subDaySeconds": 0.0,
+        "elapsedSeconds": 12009600.0
+    },
+    "lastSeenUtcTicks": 639295437804899111,
+    "runId": "976633fa1d9f4e0096b69f2daafed313",
+    "settledDay": 140
+}

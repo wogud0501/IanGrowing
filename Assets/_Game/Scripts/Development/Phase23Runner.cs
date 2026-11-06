@@ -5,7 +5,7 @@ public class Phase23Runner:MonoBehaviour {
  public static List<string> Passed=new List<string>();public static string Failure,Progress;public static bool Finished;
  GameManager g;SaveData original;string originalSlot,balanceJson;bool auto,lifecycle,realtime;UnityEngine.Random.State random;
  FieldInfo Slot=>typeof(SaveManager).GetField("fileName",BindingFlags.Instance|BindingFlags.NonPublic);
- public void Begin(){StartCoroutine(Run());}
+ public static bool FeaturesOnly; public void BeginFeatureAudit(){FeaturesOnly=true;Begin();} public void Begin(){StartCoroutine(Run());}
  public static object Status()=>new{finished=Finished,progress=Progress,passed=Passed.ToArray(),failure=Failure};
  void Check(bool ok,string name){if(!ok)throw new Exception("FAIL "+name);Passed.Add("PASS "+name);}
  SaveData Capture()=>new SaveData{day=g.clock.Day,stats=g.stats.Capture(),progression=g.growth.Capture(),economy=g.economy.Capture(),survival=g.survival.Capture(),time=g.clock.Capture(),missions=g.missions.Capture(),phase23=g.phase23.Capture(),gameOver=g.State==GameState.GameOver,runId=(string)typeof(GameManager).GetField("runId",BindingFlags.Instance|BindingFlags.NonPublic).GetValue(g),settledDay=g.clock.Day,lastSeenUtcTicks=DateTime.UtcNow.Ticks};
@@ -24,7 +24,7 @@ public class Phase23Runner:MonoBehaviour {
  void Act(int id){Care();string reason;Check(g.CanPerformAction(id,out reason),"Available action "+id+" / "+reason);int day=g.clock.Day;Check(g.TryAction(id),"Execute action "+id);Check(g.clock.Day-day==g.actions.Describe(id).days,"Time charged once action "+id);}
  void Click(int id){var ui=UnityEngine.Object.FindAnyObjectByType<Phase23Presenter>();int index=Array.IndexOf(ui.actionIds,id);Check(index>=0&&ui.activityButtons[index].interactable,"Scene UI button "+id);int day=g.clock.Day;ui.activityButtons[index].onClick.Invoke();Check(g.clock.Day>day,"UI executes action "+id);}
  IEnumerator Scenario(){
- g.NewGame();g.clock.realtimeEnabled=false;g.balance.eventChance=0;UnityEngine.Random.InitState(2303);Progress="Newborn to adulthood using real actions";
+ g.NewGame();g.CompleteBirthIntroduction();g.clock.realtimeEnabled=false;g.balance.eventChance=0;UnityEngine.Random.InitState(2303);Progress="Newborn to adulthood using real actions";
  yield return Route(SceneId.MainMenu);yield return Route(SceneId.Home);
  Check(!g.TryAction(20)&&!g.TryAction(0)&&g.economy.Cash==0,"Under-19 employment/work blocked");
  // Real missions and real actions only; no fake provider in the integration path.
@@ -83,6 +83,16 @@ public class Phase23Runner:MonoBehaviour {
  yield return Route(SceneId.School);var beforeExam=Capture();g.growth.Restore(new ProgressSnapshot{age=18});var curriculum=module.Education.Current;curriculum.graduated=false;module.Progress.education.exams.Clear();module.Progress.education.preparation=0;g.stats.ApplyCore(new StatDelta{knowledge=-100,mental=-100});Act(11);Check(!module.Progress.education.exams.Last().passed,"Actual exam failure records a recoverable grade");Act(12);string graduateReason;Check(!module.Education.Can(16,out graduateReason),"Failed grade cannot satisfy graduation");for(int i=0;i<20&&g.stats.Knowledge<80;i++)Act(14);Act(11);Act(12);Check(module.Progress.education.exams.Last().passed&&module.Education.Can(16,out graduateReason),"Study and retake recover from failed exam");g.saves.ApplyToModels(beforeExam,g.stats,g.clock);
  // Test legacy v4 JSON missing the new optional block, not a newly emitted empty block.
  var old=JsonUtility.FromJson<SaveData>(File.ReadAllText("DevelopmentBackups/Phase23/LiveSession.json"));string legacyPath=g.saves.SavePath;string legacyJson=File.ReadAllText("DevelopmentBackups/Phase23/LiveSession.json");File.WriteAllText(legacyPath,legacyJson);Check(g.saves.TryRead(out read,out message)&&read.stats.money==old.stats.money&&read.economy.debt==old.economy.debt&&read.progression.age==old.progression.age&&read.missions.claimedMissionIds.SequenceEqual(old.missions.claimedMissionIds),"Actual pre-Phase23 v4 migrates without resetting money debt age or missions");Check(read.phase23.social.relationships.Count==0&&read.phase23.employment.currentJobId=="unemployed","Missing new data gets safe defaults; no invented relationships");
+ if(FeaturesOnly){
+  Progress="All ordinary careers: actual interview and salary fixtures";
+  foreach(string career in new[]{"convenience","office","developer","analyst"}){
+   yield return Route(SceneId.City);var employment=module.Progress.employment;var data=module.catalog.Job(career);employment.currentJobId="unemployed";employment.selectedJobId=career;employment.resumeWritten=true;employment.experience=Math.Max(employment.experience,data.RequiredExperience);g.growth.Restore(new ProgressSnapshot{age=18});g.stats.ApplyCore(new StatDelta{health=100,mental=100,hunger=100,thirst=100,knowledge=100,social=100});Check(!module.Jobs.Eligible(data),"Age restriction "+career);g.growth.Restore(new ProgressSnapshot{age=19});Check(module.Jobs.Eligible(data),"Required stats and experience permit "+career);
+   for(int attempt=0;attempt<30&&employment.currentJobId=="unemployed";attempt++){if(attempt>0)Act(1);Act(21);}Check(employment.currentJobId==career,"Actual hiring "+career);yield return Route(SceneId.Workplace);cash=g.economy.Cash;Act(0);Check(employment.work.Last().jobId==career&&employment.work.Last().paid&&g.economy.Cash-cash==data.BaseDailyWage,"Actual base wage "+career);
+  }
+  yield return Route(SceneId.City);module.Progress.employment.currentJobId="unemployed";module.Progress.employment.selectedJobId="convenience";g.stats.ApplyCore(new StatDelta{knowledge=10-g.stats.Knowledge,social=-100,mental=100});Act(1);int failureSeed=0;for(;failureSeed<1000;failureSeed++){UnityEngine.Random.InitState(failureSeed);if(UnityEngine.Random.value>.9f)break;}UnityEngine.Random.InitState(failureSeed);Act(21);Check(module.Progress.employment.history.Last().kind=="interview"&&!module.Progress.employment.history.Last().success,"Actual interview failure with low social/knowledge fixture");
+  Check(module.catalog.Job("ceo").specialUnlock&&module.catalog.Job("unemployed-king").specialUnlock,"Future CEO and king excluded from ordinary employment");
+  System.IO.File.WriteAllText("Docs/Phase24/Phase23RestartFixture.json",JsonUtility.ToJson(Capture(),true));yield break;
+ }
  // Existing regression tests run with the new optional module disabled, retaining their original feature contract.
  Progress="Phase 1 / 2.1 / 2.2 regressions";var catalog=module.catalog;module.catalog=null;try{
  foreach(var item in (string[])Type.GetType("IanGame.Editor.Stage1Verification, Assembly-CSharp-Editor").GetMethod("Run").Invoke(null,null))Passed.Add("REGRESSION "+item);

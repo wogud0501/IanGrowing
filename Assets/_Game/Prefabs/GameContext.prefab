@@ -336,8 +336,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\uC774\uB3D9 \uC900\uBE44"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 44e6c40b297eaf34d90c1bdba278497a, type: 2}
-  m_sharedMaterial: {fileID: 4899963302746500961, guid: 44e6c40b297eaf34d90c1bdba278497a, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: bafaafa0ca396b248a02b77eea99a4c7, type: 2}
+  m_sharedMaterial: {fileID: 1909164035370475347, guid: bafaafa0ca396b248a02b77eea99a4c7, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -361,12 +361,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 30
-  m_fontSizeBase: 30
+  m_fontSize: 36
+  m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_fontSizeMax: 36
   m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
@@ -374,9 +374,9 @@ MonoBehaviour:
   m_characterSpacing: 0
   m_characterHorizontalScale: 1
   m_wordSpacing: 0
-  m_lineSpacing: 0
+  m_lineSpacing: 2
   m_lineSpacingMax: 0
-  m_paragraphSpacing: 0
+  m_paragraphSpacing: 6
   m_charWidthMaxAdj: 0
   m_TextWrappingMode: 1
   m_wordWrappingRatios: 0.4
@@ -577,8 +577,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\uC774\uB3D9 \uC900\uBE44 \uC911..."
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 44e6c40b297eaf34d90c1bdba278497a, type: 2}
-  m_sharedMaterial: {fileID: 4899963302746500961, guid: 44e6c40b297eaf34d90c1bdba278497a, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: bafaafa0ca396b248a02b77eea99a4c7, type: 2}
+  m_sharedMaterial: {fileID: 1909164035370475347, guid: bafaafa0ca396b248a02b77eea99a4c7, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -602,12 +602,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 18
+  m_fontSizeBase: 18
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_fontSizeMax: 18
   m_fontStyle: 0
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
@@ -615,9 +615,9 @@ MonoBehaviour:
   m_characterSpacing: 0
   m_characterHorizontalScale: 1
   m_wordSpacing: 0
-  m_lineSpacing: 0
+  m_lineSpacing: 2
   m_lineSpacingMax: 0
-  m_paragraphSpacing: 0
+  m_paragraphSpacing: 6
   m_charWidthMaxAdj: 0
   m_TextWrappingMode: 1
   m_wordWrappingRatios: 0.4
@@ -674,6 +674,7 @@ GameObject:
   - component: {fileID: 4588972206225634702}
   - component: {fileID: 5856906065788425969}
   - component: {fileID: 6603289501643719279}
+  - component: {fileID: 7560408312402481697}
   m_Layer: 0
   m_Name: GameContext
   m_TagString: Untagged
@@ -810,6 +811,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f138b8803778cf04dbc9dc3bf3d9a38f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::IanGame.GameManager
+  idle: {fileID: 7560408312402481697}
   balance: {fileID: 11400000, guid: d40bb3d7069830742905630d5e44c973, type: 2}
   stats: {fileID: 2454634686541892253}
   clock: {fileID: 7647108898493205611}
@@ -979,6 +981,14 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b251a577f93ec0b42a0a011d84bef721, type: 2}
   - {fileID: 11400000, guid: 14eca2f0117155b4d8d3d9110cf0748d, type: 2}
   - {fileID: 11400000, guid: 931cab7852c11324c8a16cd763820012, type: 2}
+  - {fileID: 11400000, guid: 54346905d5b212d4c8f5aec053e1f69e, type: 2}
+  - {fileID: 11400000, guid: 049327bf66e91034ba82058f15e62c78, type: 2}
+  - {fileID: 11400000, guid: 6b46085497917bd48946217a323ed17d, type: 2}
+  - {fileID: 11400000, guid: ed9ddbe389972f24bbae2a70e32564c8, type: 2}
+  - {fileID: 11400000, guid: 047efb23789218c4883c827c680fdc0d, type: 2}
+  - {fileID: 11400000, guid: 4525c4bc9db21ef4f9647cd789efb027, type: 2}
+  - {fileID: 11400000, guid: a5f48e032d8e6fb49afab14a84f9176f, type: 2}
+  - {fileID: 11400000, guid: 5fad054cf75b52340b6839080bda1207, type: 2}
   overlay: {fileID: 28668529042780358}
   loader: {fileID: 4588972206225634702}
   audioService: {fileID: 5856906065788425969}
@@ -1105,6 +1115,20 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &7560408312402481697
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5789705955195748206}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 669d41fbf6be14b4b99cbdc72457a522, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IanGame.IdleActivityService
+  settings: {fileID: 11400000, guid: 44b8a18863f19a342ad0f25f08ddbe58, type: 2}
+  enemy: {fileID: 11400000, guid: 91a9a8786daaeaa4c8dba8a02c100ad0, type: 2}
 --- !u!1 &9207931683556290865
 GameObject:
   m_ObjectHideFlags: 0

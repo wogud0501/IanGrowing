@@ -1,0 +1,8 @@
+Phase24 103 passed
+Birth/font 48 passed
+Phase23 506 passed after idle integration
+Phase2.1 45 passed
+Failure: System.Exception: Phase2.2 164 passed
+  at IanGame.Editor.FinalIntegrationVerification.Check (System.Boolean value, System.String label) [0x00015] in E:\Projects\IanGrowing\Assets\_Game\Scripts\Development\FinalIntegrationVerification.cs:6 
+  at IanGame.Editor.FinalIntegrationVerification+<Scenario>d__10.MoveNext () [0x00410] in E:\Projects\IanGrowing\Assets\_Game\Scripts\Development\FinalIntegrationVerification.cs:15 
+  at IanGame.Editor.FinalIntegrationVerification+<Run>d__7.MoveNext () [0x00059] in E:\Projects\IanGrowing\Assets\_Game\Scripts\Development\FinalIntegrationVerification.cs:7 

@@ -14,7 +14,7 @@ public class Phase22Runner:MonoBehaviour {
  void WaitLimit(int count,string scene){if(count>900)throw new Exception("Scene transition timed out: "+scene);}
  UIManager HUD()=>UnityEngine.Object.FindAnyObjectByType<UIManager>();
  MissionUI MissionView()=>UnityEngine.Object.FindObjectsByType<MissionUI>(FindObjectsInactive.Include,FindObjectsSortMode.None).First();
- void Click(Button button){var revealed=button==null?null:PixelUIRunner.RevealForRegression(button);if(button==null||!button.gameObject.activeInHierarchy||!button.interactable)throw new Exception("UI button not usable: "+(button==null?"null":button.name));button.onClick.Invoke();var shell=UIShell.For(button);if(shell!=null&&shell.Top==shell.confirmPanel)shell.AcceptNewLife();if(revealed!=null)UIShell.For(button).Close(revealed);}
+ void Click(Button button){var revealed=button==null?null:PixelUIRunner.RevealForRegression(button);if(button==null||!button.gameObject.activeInHierarchy||!button.interactable)throw new Exception("UI button not usable: "+(button==null?"null":button.name));button.onClick.Invoke();var shell=UIShell.For(button);if(shell!=null&&shell.Top==shell.confirmPanel)shell.AcceptNewLife();if(game!=null&&game.BirthIntroductionPending)game.CompleteBirthIntroduction();if(revealed!=null)UIShell.For(button).Close(revealed);}
  void OnComplete(MissionData data){milestoneAges[data.Id]=game.growth.Age;}
  void ContextInvariant(string label){Check(GameContext.Instance==originalContext&&GameContext.Instance.game==game&&game.missions==originalMissions&&UnityEngine.Object.FindObjectsByType<GameContext>(FindObjectsInactive.Include).Length==1&&UnityEngine.Object.FindObjectsByType<GameManager>(FindObjectsInactive.Include).Length==1&&UnityEngine.Object.FindObjectsByType<SaveManager>(FindObjectsInactive.Include).Length==1,label);}
  void Care(){
@@ -35,7 +35,7 @@ public class Phase22Runner:MonoBehaviour {
  Check(catalog.missions.Skip(10).Take(10).Select(m=>m.title).SequenceEqual(confirmed)&&catalog.missions.Skip(10).Take(10).All(m=>m.source==MissionSource.ConfirmedV1),"Original M011-M020 names/provenance retained");
  ValidateBadCatalog();
  Check(EditorBuildSettings.scenes.Take(4).Select(s=>Path.GetFileNameWithoutExtension(s.path)).SequenceEqual(new[]{"Bootstrap","MainMenu","Home","School"})&&EditorBuildSettings.scenes.Take(4).All(s=>s.enabled),"Four scenes registered in Build Profiles global Scene List");
- Check(new[]{"Battle","StockMarket","Gacha","Shop","Housing","Ending"}.All(s=>!File.Exists("Assets/_Game/Scenes/"+s+".unity"))&&new[]{"Workplace","City"}.All(s=>File.Exists("Assets/_Game/Scenes/"+s+".unity")),"Phase23 School/City/Workplace implemented; later phase scenes remain absent");
+ Check(new[]{"StockMarket","Gacha","Shop","Housing","Ending"}.All(s=>!File.Exists("Assets/_Game/Scenes/"+s+".unity"))&&new[]{"Workplace","City","Battle"}.All(s=>File.Exists("Assets/_Game/Scenes/"+s+".unity")),"Phase23 School/City/Workplace implemented; later phase scenes remain absent");
  var menu=UnityEngine.Object.FindAnyObjectByType<MainMenuPresenter>();Click(menu.continueButton);
  wait=0;while(!Ready("Home")){WaitLimit(++wait,"Home");yield return null;}yield return null;
  ContextInvariant("MainMenu -> Home keeps one shared context");
@@ -96,7 +96,7 @@ public class Phase22Runner:MonoBehaviour {
  Check(game.growth.Age==13&&game.missions.Claimed("M020")&&!game.missions.Claimed("M021")&&game.missions.GetProgress(catalog.missions[20]).state==MissionState.Planned,"Restoring actual progress removes all test-only future state");
  TestV3Migration();
  var context=GameContext.Instance;string currentScene=SceneManager.GetActiveScene().name;
- Check(!context.transitions.Navigate(SceneId.Battle)&&!string.IsNullOrEmpty(context.transitions.LastError)&&SceneManager.GetActiveScene().name==currentScene,"Unimplemented route safely rejected");
+ Check(!context.transitions.Navigate(SceneId.StockMarket)&&!string.IsNullOrEmpty(context.transitions.LastError)&&SceneManager.GetActiveScene().name==currentScene,"Unimplemented route safely rejected");
  Check(context.transitions.Navigate(SceneId.School)&&!context.transitions.Navigate(SceneId.Home),"Concurrent transitions rejected");
  wait=0;while(!Ready("School")){WaitLimit(++wait,"School");yield return null;}yield return null;
  ContextInvariant("Repeated location transitions retain unique context");

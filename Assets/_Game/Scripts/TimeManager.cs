@@ -6,10 +6,11 @@ public class TimeManager:MonoBehaviour {
  [SerializeField,Min(1)]int day=1;double subDay,elapsed;public bool realtimeEnabled;
  bool skipRealtime;public void SkipNextRealtimeTick(){skipRealtime=true;}
  public float realSecondsPerGameDay=300;public int Day=>day;public double SubDaySeconds=>subDay;public double ElapsedSeconds=>elapsed;public double LastOfflineSeconds{get;private set;}
+ public bool RealtimeSuppressed{get;set;}
  public bool IsRunning{get;private set;}=true;
  public event Action<int> DayChanged,DayAdvanced;public event Action<double> SimulationAdvanced;
  public void SetRunning(bool value){IsRunning=value;}
- void Update(){if(skipRealtime){skipRealtime=false;return;}if(realtimeEnabled&&IsRunning&&realSecondsPerGameDay>0)AdvanceSimulation(Math.Min(.25,Time.unscaledDeltaTime)*SecondsPerDay/realSecondsPerGameDay);}
+ void Update(){if(skipRealtime){skipRealtime=false;return;}if(realtimeEnabled&&!RealtimeSuppressed&&IsRunning&&realSecondsPerGameDay>0)AdvanceSimulation(Math.Min(.25,Time.unscaledDeltaTime)*SecondsPerDay/realSecondsPerGameDay);}
  public bool CanAdvance(int days)=>IsRunning&&days>0&&(long)day+days<=MaximumDay;
  public void AdvanceDay(){AdvanceDays(1);}
  public bool AdvanceDays(int days){if(!CanAdvance(days))return false;AdvanceSimulation(days*SecondsPerDay);return true;}

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Linq;
 using TMPro;
@@ -44,8 +44,8 @@ public class SceneTransitionService : MonoBehaviour {
   Finish(game,IsGameplay(route.id));SceneChanged?.Invoke(route.id);
  }
  IEnumerator Recover(GameManager game,bool running,TransitionProfile profile){if(presentation!=null)yield return presentation.Enter(profile);Finish(game,running);}
- void Finish(GameManager game,bool running){IsTransitioning=false;if(loadingOverlay!=null)loadingOverlay.SetActive(false);if(game!=null){game.clock.SetRunning(running&&game.State==GameState.Playing);game.RefreshAvailability();}}
- static bool IsGameplay(SceneId id)=>id==SceneId.Home||id==SceneId.School||id==SceneId.City||id==SceneId.Workplace;
+ void Finish(GameManager game,bool running){IsTransitioning=false;if(loadingOverlay!=null)loadingOverlay.SetActive(false);if(game!=null){game.clock.SetRunning(running&&game.State==GameState.Playing&&!game.BirthIntroductionPending);game.RefreshAvailability();}}
+ static bool IsGameplay(SceneId id)=>id==SceneId.Home||id==SceneId.School||id==SceneId.City||id==SceneId.Workplace||id==SceneId.Battle;
  void Fail(string error){LastError=error;var game=GameContext.Instance==null?null:GameContext.Instance.game;if(game!=null)game.Log(error);if(loadingText!=null)loadingText.text=error;}
 }
 }
