@@ -6603,6 +6603,7 @@ MonoBehaviour:
     origin: {x: 0, y: -0.3, z: 0}
     span: 3
     phase: 0
+    idleSeconds: 1.2
     seated: 0
   - renderer: {fileID: 708441816}
     frames:
@@ -6615,6 +6616,7 @@ MonoBehaviour:
     origin: {x: -2.25, y: -0.82, z: 0}
     span: 7.4
     phase: 0
+    idleSeconds: 0
     seated: 1
   - renderer: {fileID: 953145237}
     frames:
@@ -6627,6 +6629,7 @@ MonoBehaviour:
     origin: {x: 2.23, y: -0.2, z: 0}
     span: 7.4
     phase: 3
+    idleSeconds: 0
     seated: 0
   rain: []
   flicker:
