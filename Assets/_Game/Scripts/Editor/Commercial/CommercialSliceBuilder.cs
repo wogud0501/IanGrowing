@@ -93,8 +93,6 @@ public static class CommercialSliceBuilder {
    PrefabUtility.SaveAsPrefabAsset(root,path);
   }finally{PrefabUtility.UnloadPrefabContents(root);}
  }
- public static void Atlas(){var path=Art+"CommercialUI.spriteatlas";var atlas=AssetDatabase.LoadAssetAtPath<UnityEngine.U2D.SpriteAtlas>(path);if(atlas==null){atlas=new UnityEngine.U2D.SpriteAtlas();AssetDatabase.CreateAsset(atlas,path);}UnityEditor.U2D.SpriteAtlasExtensions.SetPackingSettings(atlas,new UnityEditor.U2D.SpriteAtlasPackingSettings{padding=4,enableRotation=false,enableTightPacking=false});UnityEditor.U2D.SpriteAtlasExtensions.SetTextureSettings(atlas,new UnityEditor.U2D.SpriteAtlasTextureSettings{filterMode=FilterMode.Point,generateMipMaps=false,readable=false,sRGB=true});UnityEditor.U2D.SpriteAtlasExtensions.Add(atlas,new UnityEngine.Object[]{AssetDatabase.LoadAssetAtPath<DefaultAsset>("Assets/_Game/UI/Pixel"),AssetDatabase.LoadAssetAtPath<DefaultAsset>(Art+"UI")});EditorUtility.SetDirty(atlas);}
+ public static void Atlas(){CommercialAtlasPrebuild.Configure();}
 }
 }
-
-

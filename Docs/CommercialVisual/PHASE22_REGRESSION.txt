@@ -1,0 +1,170 @@
+PASS 60 registered missions and unique stable IDs
+PASS Catalog conditions/rewards/prerequisites valid
+PASS Original M011-M020 names/provenance retained
+PASS Validator rejects duplicate IDs
+PASS Validator rejects prerequisite cycles
+PASS Validator rejects condition-reference cycles
+PASS Validator rejects unknown condition reference
+PASS Validator rejects unknown reward item
+PASS Four scenes registered in Build Profiles global Scene List
+PASS Phase23 School/City/Workplace implemented; later phase scenes remain absent
+PASS MainMenu -> Home keeps one shared context
+PASS Home -> School preserves player/financial state
+PASS School has no duplicate managers
+PASS School -> Home keeps same manager and mission service
+PASS New mission life starts age0 cash0 debt1000000
+PASS Sequential active mission M001
+PASS Actual UI completion/claim M001
+PASS Sequential active mission M002
+PASS Actual UI completion/claim M002
+PASS Sequential active mission M003
+PASS Actual UI completion/claim M003
+PASS Sequential active mission M004
+PASS Actual UI completion/claim M004
+PASS Sequential active mission M005
+PASS Actual UI completion/claim M005
+PASS Sequential active mission M006
+PASS Actual UI completion/claim M006
+PASS Sequential active mission M007
+PASS Actual UI completion/claim M007
+PASS Sequential active mission M008
+PASS Actual UI completion/claim M008
+PASS Sequential active mission M009
+PASS Actual UI completion/claim M009
+PASS Sequential active mission M010
+PASS M010 completion -> age7
+PASS Actual UI completion/claim M010
+PASS Sequential active mission M011
+PASS Actual UI completion/claim M011
+PASS Sequential active mission M012
+PASS Actual UI completion/claim M012
+PASS Sequential active mission M013
+PASS Actual UI completion/claim M013
+PASS Sequential active mission M014
+PASS Actual UI completion/claim M014
+PASS Sequential active mission M015
+PASS Actual UI completion/claim M015
+PASS Sequential active mission M016
+PASS Homework completion from five actual actions
+PASS Mid-mission manual save/load restores homework2, age and reward receipts
+PASS Actual UI completion/claim M016
+PASS Sequential active mission M017
+PASS Actual UI completion/claim M017
+PASS Sequential active mission M018
+PASS Actual UI completion/claim M018
+PASS Sequential active mission M019
+PASS M019 completion -> age12
+PASS Actual UI completion/claim M019
+PASS Sequential active mission M020
+PASS M020 completion -> age13 without circular dependency
+PASS Actual UI completion/claim M020
+PASS M001-M020 rewards/XP/level/growth points exactly once
+PASS Duplicate reward claims rejected
+PASS Duplicate activity event ID rejected
+PASS Production future activities cannot fake M021 completion
+PASS Unavailable gacha reward queued, no fake item spawned
+PASS Scrollable UI exposes 60 mission rows
+PASS New and existing button labels centered
+PASS Days do not change age / level independent
+PASS School actions/mission rewards/entitlements visible immediately in Home
+PASS Full Home-School-Home path shares one service container
+PASS AND rejects partial conditions
+PASS AND accepts all conditions
+PASS Item ownership is queried explicitly
+PASS Editor-only item provider condition
+PASS Choice outcome and event deduplication
+PASS Gacha condition via editor-only signals, no gacha gameplay
+PASS OR accepts one satisfied branch
+PASS Editor fake conditions M021
+PASS Editor fake reward receipt M021
+PASS Editor fake conditions M022
+PASS Editor fake reward receipt M022
+PASS Editor fake conditions M023
+PASS Editor fake reward receipt M023
+PASS Editor fake conditions M024
+PASS Editor fake reward receipt M024
+PASS Editor fake conditions M025
+PASS Editor fake reward receipt M025
+PASS Editor fake conditions M026
+PASS Editor fake reward receipt M026
+PASS Editor fake conditions M027
+PASS Editor fake reward receipt M027
+PASS Editor fake conditions M028
+PASS Editor fake reward receipt M028
+PASS Editor fake conditions M029
+PASS Editor fake reward receipt M029
+PASS Editor fake conditions M030
+PASS Editor fake reward receipt M030
+PASS Editor fake conditions M031
+PASS Editor fake reward receipt M031
+PASS Editor fake conditions M032
+PASS Editor fake reward receipt M032
+PASS Editor fake conditions M033
+PASS Editor fake reward receipt M033
+PASS Editor fake conditions M034
+PASS Editor fake reward receipt M034
+PASS Editor fake conditions M035
+PASS Editor fake reward receipt M035
+PASS Editor fake conditions M036
+PASS Editor fake reward receipt M036
+PASS Editor fake conditions M037
+PASS Editor fake reward receipt M037
+PASS Editor fake conditions M038
+PASS Editor fake reward receipt M038
+PASS Editor fake conditions M039
+PASS Editor fake reward receipt M039
+PASS Editor fake conditions M040
+PASS Editor fake reward receipt M040
+PASS Editor fake conditions M041
+PASS Editor fake reward receipt M041
+PASS Editor fake conditions M042
+PASS Editor fake reward receipt M042
+PASS Editor fake conditions M043
+PASS Editor fake reward receipt M043
+PASS Editor fake conditions M044
+PASS Editor fake reward receipt M044
+PASS Editor fake conditions M045
+PASS Editor fake reward receipt M045
+PASS Editor fake conditions M046
+PASS Editor fake reward receipt M046
+PASS Editor fake conditions M047
+PASS Editor fake reward receipt M047
+PASS Editor fake conditions M048
+PASS Editor fake reward receipt M048
+PASS Editor fake conditions M049
+PASS Editor fake reward receipt M049
+PASS Editor fake conditions M050
+PASS Editor fake reward receipt M050
+PASS Editor fake conditions M051
+PASS Editor fake reward receipt M051
+PASS Editor fake conditions M052
+PASS Editor fake reward receipt M052
+PASS Editor fake conditions M053
+PASS Editor fake reward receipt M053
+PASS Editor fake conditions M054
+PASS Editor fake reward receipt M054
+PASS Editor fake conditions M055
+PASS Editor fake reward receipt M055
+PASS Editor fake conditions M056
+PASS Editor fake reward receipt M056
+PASS Editor fake conditions M057
+PASS Editor fake reward receipt M057
+PASS Editor fake conditions M058
+PASS Editor fake reward receipt M058
+PASS Editor fake conditions M059
+PASS Editor fake reward receipt M059
+PASS Editor fake conditions M060
+PASS Editor fake reward receipt M060
+PASS Future milestones age19/30/60
+PASS M060 creates final-review handoff, not an invented ending system
+PASS Deferred reward delivery rejects duplicates and re-entrancy
+PASS Restoring actual progress removes all test-only future state
+PASS V3 migration preserves money/debt/age/XP/level
+PASS V3 without missions gets safe empty mission state
+PASS V3 original never overwritten by V4 save
+PASS Unimplemented route safely rejected
+PASS Concurrent transitions rejected
+PASS Repeated location transitions retain unique context
+PASS Repeated Bootstrap cannot duplicate GameContext/GameManager/SaveManager
+PASS Save/load after scene cycling restores claimed missions and growth
+Failure: none

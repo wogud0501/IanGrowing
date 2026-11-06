@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -29,9 +30,14 @@ public class SceneTransitionService : MonoBehaviour {
   try{operation=presentation==null?SceneManager.LoadSceneAsync(route.sceneName,LoadSceneMode.Additive):presentation.loader.Begin(route.sceneName);}catch(Exception e){Fail(e.Message);}
   if(operation==null){yield return Recover(game,running,profile);yield break;}
   while(operation.progress<.9f&&!operation.isDone){if(loadingText!=null)loadingText.text="이동 중 · "+Mathf.RoundToInt(operation.progress/.9f*100)+"%";yield return null;}
+  // The incoming scene owns fresh input/audio/camera components. Disable outgoing
+  // owners before activation so additive staging never runs two EventSystems.
+  var suspended=previous.GetRootGameObjects().SelectMany(root=>root.GetComponentsInChildren<Behaviour>(false))
+   .Where(b=>b.enabled&&(b is UnityEngine.EventSystems.EventSystem||b is UnityEngine.EventSystems.BaseInputModule||b is AudioListener||b is Camera)).ToArray();
+  foreach(var component in suspended)component.enabled=false;
   operation.allowSceneActivation=true;while(!operation.isDone)yield return null;
   var destination=SceneManager.GetSceneByName(route.sceneName);
-  if(!destination.IsValid()||!destination.isLoaded){Fail("장소를 불러오지 못했습니다. 이전 화면으로 돌아갑니다.");yield return Recover(game,running,profile);yield break;}
+  if(!destination.IsValid()||!destination.isLoaded){foreach(var component in suspended)if(component!=null)component.enabled=true;Fail("장소를 불러오지 못했습니다. 이전 화면으로 돌아갑니다.");yield return Recover(game,running,profile);yield break;}
   CurrentScene=route.id;SceneManager.SetActiveScene(destination);
   if(previous.IsValid()&&previous.isLoaded){var unload=SceneManager.UnloadSceneAsync(previous);if(unload!=null)yield return unload;}
   yield return null;if(presentation!=null)yield return presentation.Enter(profile);
