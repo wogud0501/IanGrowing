@@ -1,6 +1,6 @@
 using System;using System.IO;using System.Text.RegularExpressions;using UnityEngine;
 namespace IanGame {
-[Serializable]public class SaveData {
+[Serializable]public class SaveData { public LifeWorldSnapshot world;
  public IdleProgressSnapshot idle=new IdleProgressSnapshot();
  public int birthIntroVersion=1;public bool birthIntroCompleted=true;
  public Phase23Snapshot phase23=new Phase23Snapshot();public int version=4,day;public MissionSnapshot missions=new MissionSnapshot();public StatSnapshot stats;public bool gameOver;
@@ -10,7 +10,7 @@ namespace IanGame {
 [Serializable]class SaveHeader {public int version;}
 public enum SaveLoadStatus {None,Loaded,Missing,Corrupt,UnsupportedVersion,IOError}
 public class SaveManager:MonoBehaviour {
- IdleActivityService idle;public void ConfigureIdle(IdleActivityService value){idle=value;}
+ LifeWorldService world;public void ConfigureWorld(LifeWorldService value){world=value;} IdleActivityService idle;public void ConfigureIdle(IdleActivityService value){idle=value;}
  public bool BirthIntroCompleted{get;set;}=true;
  public const string CurrentSlot="ian-black-comedy-v4.json",PreviousSlot="ian-black-comedy-v3.json",LegacySlot="ian-black-comedy-v1.json";
  [SerializeField]string fileName=CurrentSlot;string activeBase,writePath;
@@ -47,7 +47,7 @@ public class SaveManager:MonoBehaviour {
  if(WritesBlocked){message="원본 저장 보호 중입니다. 새 인생을 명시적으로 시작하거나 저장 파일을 복구해 주세요.";return false;}
  try{
  if(stats==null||clock==null)throw new InvalidOperationException("시스템 연결 누락");
- var d=new SaveData{phase23=phase23==null?new Phase23Snapshot():phase23.Capture(),stats=stats.Capture(),day=clock.Day,gameOver=gameOver,progression=progression==null?new ProgressSnapshot{age=19}:progression.Capture(),economy=economy==null?new EconomySnapshot():economy.Capture(),survival=survival==null?new SurvivalSnapshot():survival.Capture(),time=clock.Capture(),lastSeenUtcTicks=DateTime.UtcNow.Ticks,runId=runId,settledDay=Mathf.Clamp(settledDay,1,clock.Day),missions=missions==null?new MissionSnapshot{startDay=clock.Day}:missions.Capture()};
+ var d=new SaveData{world=world?.Capture(),phase23=phase23==null?new Phase23Snapshot():phase23.Capture(),stats=stats.Capture(),day=clock.Day,gameOver=gameOver,progression=progression==null?new ProgressSnapshot{age=19}:progression.Capture(),economy=economy==null?new EconomySnapshot():economy.Capture(),survival=survival==null?new SurvivalSnapshot():survival.Capture(),time=clock.Capture(),lastSeenUtcTicks=DateTime.UtcNow.Ticks,runId=runId,settledDay=Mathf.Clamp(settledDay,1,clock.Day),missions=missions==null?new MissionSnapshot{startDay=clock.Day}:missions.Capture()};
  d.birthIntroVersion=1;d.birthIntroCompleted=BirthIntroCompleted;d.idle=idle==null?new IdleProgressSnapshot():idle.Capture();
  if(!Valid(d))throw new InvalidDataException("유효하지 않은 게임 상태");
  string target=SavePath;
@@ -79,7 +79,7 @@ public class SaveManager:MonoBehaviour {
  var header=JsonUtility.FromJson<SaveHeader>(json);if(header==null)throw new InvalidDataException("저장 헤더 오류");
  LastSourceVersion=header.version;
  if(header.version<1||header.version>4){WritesBlocked=true;LastLoadStatus=SaveLoadStatus.UnsupportedVersion;message="지원하지 않는 저장 버전입니다. 원본과 현재 상태를 보존합니다.";return false;}
- var value=JsonUtility.FromJson<SaveData>(json);if(value==null)throw new InvalidDataException("빈 데이터");if(value.economy!=null&&!Regex.IsMatch(json,"\"housing\"\\s*:"))value.economy.housing=null;
+ var value=JsonUtility.FromJson<SaveData>(json);if(value==null)throw new InvalidDataException("빈 데이터");if(!Regex.IsMatch(json,"\"world\"\\s*:"))value.world=null;if(value.economy!=null&&!Regex.IsMatch(json,"\"housing\"\\s*:"))value.economy.housing=null;
  if(value.economy!=null&&!Regex.IsMatch(json,"\\\"finance\\\"\\s*:"))value.economy.finance=null;
  if(header.version<3){if(!ValidLegacy(value))throw new InvalidDataException("구버전 저장 범위 오류");value=Migrate(value);}
  else {Require(json,new[]{"hunger","thirst","knowledge","mental","social","credit","progression","economy","survival","time","runId","settledDay","lastSeenUtcTicks","age","level","experience","socialStanding","completedGrowthIds","debt","otherAssets","processedIds","hungerRemainder","thirstRemainder","hungerDangerSeconds","thirstDangerSeconds","failed","statuses","subDaySeconds","elapsedSeconds"});if(header.version==3){value.version=4;value.missions=new MissionSnapshot{startDay=value.day};}else Require(json,new[]{"missions","activeMissionId","startDay","eventSequence","counters","seenEventIds","completedMissionIds","claimedMissionIds","walletReceiptIds","milestoneIds","unlocks","pendingRewards","progress"});}
@@ -105,14 +105,14 @@ public class SaveManager:MonoBehaviour {
  LastLoadStatus=SaveLoadStatus.Corrupt;WritesBlocked=true;message="저장 손상: "+e.Message+" / 현재 인생과 원본은 초기화하지 않습니다.";
  try{string copy=path+".corrupt-"+DateTime.UtcNow.Ticks;File.Copy(path,copy,false);LastRecoveryCopy=copy;}catch(Exception backup){message+=" / 보존 복사 실패: "+backup.Message;}return false;
  }
- public void ApplyToModels(SaveData value,PlayerStats stats,TimeManager clock){BirthIntroCompleted=value.birthIntroVersion<1||value.birthIntroCompleted;missions?.BeginRestore();try{stats.Restore(value.stats);progression?.Restore(value.progression);economy?.Restore(value.economy);survival?.Restore(value.survival);clock.Restore(value.day,value.time);phase23?.Restore(value.phase23);missions?.Restore(value.missions,value.day);idle?.Restore(value.idle);}finally{missions?.EndRestore();}}
+ public void ApplyToModels(SaveData value,PlayerStats stats,TimeManager clock){BirthIntroCompleted=value.birthIntroVersion<1||value.birthIntroCompleted;missions?.BeginRestore();try{stats.Restore(value.stats);progression?.Restore(value.progression);economy?.Restore(value.economy);survival?.Restore(value.survival);clock.Restore(value.day,value.time);phase23?.Restore(value.phase23);missions?.Restore(value.missions,value.day);idle?.Restore(value.idle);world?.Restore(value.world);}finally{missions?.EndRestore();}}
  public bool Load(PlayerStats stats,TimeManager clock,out string message){if(stats==null||clock==null){message="시스템 연결 누락";return false;}SaveData d;if(!TryRead(out d,out message))return false;ApplyToModels(d,stats,clock);return true;}
  static bool Range(int v)=>v>=0&&v<=100;
  static bool Finite(double v)=>!double.IsNaN(v)&&!double.IsInfinity(v)&&v>=0;
  static bool ValidLegacy(SaveData d)=>d!=null&&d.stats!=null&&d.day>=1&&d.day<=TimeManager.MaximumDay&&Range(d.stats.happiness)&&Range(d.stats.stress)&&Range(d.stats.energy)&&d.stats.money>=0;
  static bool Valid(SaveData d){
  if(!EconomySystem.ValidFinance(d.economy)||d.economy!=null&&!EconomySystem.ValidHousing(d.economy.housing))return false;
- if(!IdleActivityService.Valid(d.idle))return false;
+ if(!LifeWorldService.Valid(d.world))return false; if(!IdleActivityService.Valid(d.idle))return false;
  if(!Phase23Services.Valid(d.phase23)||!MissionService.ValidSnapshot(d.missions)||!ValidLegacy(d)||!Range(d.stats.hunger)||!Range(d.stats.thirst)||!Range(d.stats.knowledge)||!Range(d.stats.mental)||!Range(d.stats.social)||!Range(d.stats.credit)||d.stats.stress!=100-d.stats.mental)return false;
  if(d.progression==null||d.progression.age<0||d.progression.level<1||d.progression.experience<0||d.economy==null||d.economy.debt<0||d.economy.otherAssets<0||d.survival==null||d.time==null||string.IsNullOrEmpty(d.runId)||d.settledDay<1||d.settledDay>d.day)return false;
  if(d.lastSeenUtcTicks<0||d.lastSeenUtcTicks>DateTime.MaxValue.Ticks||!Finite(d.time.subDaySeconds)||d.time.subDaySeconds>=TimeManager.SecondsPerDay||!Finite(d.time.elapsedSeconds))return false;

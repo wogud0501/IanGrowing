@@ -13,7 +13,9 @@ public class SceneTransitionService : MonoBehaviour {
  public SceneId CurrentScene{get;private set;}=SceneId.Bootstrap;public event Action<SceneId> SceneChanged;
  public bool Navigate(SceneId id){
   if(IsTransitioning)return false;
-  if(id==CurrentScene&&SceneManager.GetActiveScene().name==id.ToString())return true;
+
+  var world=GameContext.Instance==null?null:GameContext.Instance.game.world;if(world!=null&&world.rules!=null&&LifeWorldService.ZoneFor(id)!=null){if(CurrentScene==SceneId.LifeWorld&&world.Host!=null)return world.Host.Travel(LifeWorldService.ZoneFor(id));if(id!=SceneId.Home||CurrentScene!=SceneId.MainMenu)world.SelectDestination(id);id=SceneId.LifeWorld;}
+ if(id==CurrentScene&&SceneManager.GetActiveScene().name==id.ToString())return true;
   var route=catalog==null?null:catalog.Find(id);
   if(id==SceneId.Bootstrap&&GameContext.Instance!=null&&SceneManager.GetActiveScene().name!="Bootstrap"){Fail("Bootstrap은 공통 시스템의 시작 씬입니다.");return false;}
   if(route==null||!route.implemented||string.IsNullOrEmpty(route.sceneName)||!Application.CanStreamedLevelBeLoaded(route.sceneName)){Fail("아직 준비되지 않은 장소입니다. "+id);return false;}
@@ -45,7 +47,7 @@ public class SceneTransitionService : MonoBehaviour {
  }
  IEnumerator Recover(GameManager game,bool running,TransitionProfile profile){if(presentation!=null)yield return presentation.Enter(profile);Finish(game,running);}
  void Finish(GameManager game,bool running){IsTransitioning=false;if(loadingOverlay!=null)loadingOverlay.SetActive(false);if(game!=null){game.clock.SetRunning(running&&game.State==GameState.Playing&&!game.BirthIntroductionPending);game.RefreshAvailability();}}
- static bool IsGameplay(SceneId id)=>id==SceneId.Home||id==SceneId.School||id==SceneId.City||id==SceneId.Workplace||id==SceneId.Battle||id==SceneId.StockMarket;
+ static bool IsGameplay(SceneId id)=>id==SceneId.Home||id==SceneId.School||id==SceneId.City||id==SceneId.Workplace||id==SceneId.Battle||id==SceneId.StockMarket||id==SceneId.LifeWorld;
  void Fail(string error){LastError=error;var game=GameContext.Instance==null?null:GameContext.Instance.game;if(game!=null)game.Log(error);if(loadingText!=null)loadingText.text=error;}
 }
 }

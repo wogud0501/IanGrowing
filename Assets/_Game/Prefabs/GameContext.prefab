@@ -675,6 +675,7 @@ GameObject:
   - component: {fileID: 5856906065788425969}
   - component: {fileID: 6603289501643719279}
   - component: {fileID: 7560408312402481697}
+  - component: {fileID: 3895962658389909101}
   m_Layer: 0
   m_Name: GameContext
   m_TagString: Untagged
@@ -811,6 +812,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f138b8803778cf04dbc9dc3bf3d9a38f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::IanGame.GameManager
+  world: {fileID: 3895962658389909101}
   idle: {fileID: 7560408312402481697}
   balance: {fileID: 11400000, guid: d40bb3d7069830742905630d5e44c973, type: 2}
   stats: {fileID: 2454634686541892253}
@@ -1133,6 +1135,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::IanGame.IdleActivityService
   settings: {fileID: 11400000, guid: 44b8a18863f19a342ad0f25f08ddbe58, type: 2}
   enemy: {fileID: 11400000, guid: 91a9a8786daaeaa4c8dba8a02c100ad0, type: 2}
+--- !u!114 &3895962658389909101
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5789705955195748206}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee7fae1dc06288d4099e7729ddc52306, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IanGame.LifeWorldService
+  rules: {fileID: 11400000, guid: 3f95da0d74d8a764b9f29c8fccdf6464, type: 2}
 --- !u!1 &9207931683556290865
 GameObject:
   m_ObjectHideFlags: 0

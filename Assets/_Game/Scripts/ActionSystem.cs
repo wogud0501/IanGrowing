@@ -37,14 +37,14 @@ public class ActionSystem:MonoBehaviour {
  long cost=d.money<0?-(long)d.money:0;if(phase23!=null&&phase23.Handles(action)&&action==26)cost=System.Math.Min(phase23.catalog.Find(action).cost,economy.Debt);if(phase23!=null&&phase23.Handles(action)&&action==0&&phase23.Work.Wage>int.MaxValue-economy.Cash){reason="현금 보관 한도를 초과합니다.";return false;}if(cost>int.MaxValue||!economy.CanAfford((int)cost)){reason="잔액 부족. 부채로 자동 결제하지 않습니다.";return false;}
  long healthCost=Math.Max(0,-(long)d.energy)+Math.Max(0,-(long)d.core.health);if(stats.Health<healthCost){reason="체력이 부족합니다. 수면이나 병원으로 회복하세요.";return false;}return true;
  }
- internal bool Execute(int action,out string message){
+ internal bool Execute(int action,out string message,double? duration=null){
  if(!CanPerform(action,out message))return false;var d=Describe(action);float efficiency=balance.initialLife==null||survival==null?1:survival.Efficiency;
  if(d.money<0){if(!economy.TrySpend((int)(-(long)d.money),"행동 비용"))return false;}else economy.Earn(Mathf.FloorToInt(d.money*efficiency),"행동 수입");
  // Recovery stays fully effective at low health, avoiding a paid recovery dependency.
  stats.Apply(d.happiness>0?Mathf.FloorToInt(d.happiness*efficiency):d.happiness,d.stress,d.energy,0);var delta=d.core;if(action>=7){if(delta.knowledge>0)delta.knowledge=Mathf.FloorToInt(delta.knowledge*efficiency);if(delta.social>0)delta.social=Mathf.FloorToInt(delta.social*efficiency);}stats.ApplyCore(delta);
- double started=clock.ElapsedSeconds;clock.AdvanceDays(d.days);
+ double started=clock.ElapsedSeconds;double requested=duration??d.days*TimeManager.SecondsPerDay;clock.AdvanceSimulation(requested);
  // Survival failure can interrupt a multi-day action before its promised duration.
- if(phase23!=null&&phase23.Handles(action)){if(clock.ElapsedSeconds-started+.001<d.days*TimeManager.SecondsPerDay){message="활동이 중단되었습니다. 완료 기록과 급여를 지급하지 않습니다.";return false;}phase23.Complete(action,Guid.NewGuid().ToString("N"));}message=d.message;return true;
+ if(phase23!=null&&phase23.Handles(action)){if(clock.ElapsedSeconds-started+.001<requested){message="활동이 중단되었습니다. 완료 기록과 급여를 지급하지 않습니다.";return false;}phase23.Complete(action,Guid.NewGuid().ToString("N"));}message=d.message;return true;
  }
 }
 }

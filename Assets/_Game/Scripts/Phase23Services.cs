@@ -11,14 +11,14 @@ public class Phase23Services:MonoBehaviour,IMissionFeatureSource,IPendingMission
  public float Roll()=>UnityEngine.Random.value;
  public void Signal(string id,MissionCounter counter,long amount=1){if(counter!=MissionCounter.None)ActivityProduced?.Invoke(new MissionActivityEvent{id=id,counter=counter,amount=amount});}
  public bool Handles(int action)=>catalog!=null&&(action==0||action>=7);
- public SceneId Location=>GameContext.Instance==null?SceneId.Home:GameContext.Instance.transitions.CurrentScene;
+ public SceneId Location=>Game.world!=null&&Game.world.Active?Game.world.Location:GameContext.Instance==null?SceneId.Home:GameContext.Instance.transitions.CurrentScene;
  internal bool AutomaticExecution;
  public SceneId Destination(int action){var a=catalog.Find(action);return a!=null&&a.locations!=null&&a.locations.Length>0?a.locations[0]:SceneId.Home;}
  public bool Can(int action,out string reason){
  reason=null;var a=catalog.Find(action);if(a==null){reason="등록되지 않은 활동입니다.";return false;}
  if(GameContext.Instance!=null&&GameContext.Instance.transitions.IsTransitioning){reason="이동 중입니다.";return false;}
  if(Game.growth.Age<a.minAge||Game.growth.Age>a.maxAge||Game.growth.Stage<a.requiredStage){reason="성장 단계 또는 나이 조건을 확인하세요.";return false;}
- if(!AutomaticExecution&&a.locations!=null&&a.locations.Length>0&&!a.locations.Contains(Location)){reason=string.Join(" / ",a.locations.Select(s=>s.ToString()))+"에서 수행하세요.";return false;}
+ if(!AutomaticExecution&&!((action==9||action==18||action==19)&&Game.world!=null&&Game.world.Active&&Game.world.Host.NearbyNPC(SelectedNpcId))&&a.locations!=null&&a.locations.Length>0&&!a.locations.Contains(Location)){reason=string.Join(" / ",a.locations.Select(s=>s.ToString()))+"에서 수행하세요.";return false;}
  if(a.maxCount>0&&Progress.activities.Count(r=>r.action==action)>=a.maxCount){reason="수행 횟수 제한에 도달했습니다.";return false;}
  if(action==9||action==18||action==19)return Social.Can(action,out reason);
  if(action==0||action>=20&&action<=23)return Employment.Can(action,out reason);
