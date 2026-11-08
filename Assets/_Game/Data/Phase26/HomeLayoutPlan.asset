@@ -1,0 +1,192 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a0a4a455c0a8be49828ab02f0d423ae, type: 3}
+  m_Name: HomeLayoutPlan
+  m_EditorClassIdentifier: Assembly-CSharp::IanGame.HomeLayoutPlan
+  version: 2
+  grid: 0.25
+  playerRadius: 0.3
+  floor:
+    serializedVersion: 2
+    x: -7.35
+    y: -4.85
+    width: 14.7
+    height: 7.225
+  entrance: {x: 0, y: -3.8}
+  accessPoints:
+  - {x: -4.3, y: -0.4}
+  - {x: 6.65, y: 0.2}
+  - {x: 4.75, y: 0.2}
+  - {x: 2.85, y: 0.2}
+  - {x: 3, y: -1.45}
+  - {x: 0.2, y: 1.55}
+  - {x: -6.35, y: -3.7}
+  - {x: -1.8, y: -1.05}
+  regions:
+  - title: "\uCE68\uC2E4\xB7\uC0DD\uD65C\xB7\uCC45\uC0C1"
+    area: 7
+    bounds:
+      serializedVersion: 2
+      x: -7.3
+      y: -4.6
+      width: 7.9
+      height: 7
+  - title: "\uC8FC\uBC29\xB7\uC2DD\uC0AC"
+    area: 24
+    bounds:
+      serializedVersion: 2
+      x: 1.6
+      y: -4.5
+      width: 5.7
+      height: 6.9
+  fixedFootprints:
+  - id: bed
+    bounds:
+      serializedVersion: 2
+      x: -6.45
+      y: 0.2
+      width: 1.7
+      height: 1.6
+    improvedOnly: 0
+  - id: closet
+    bounds:
+      serializedVersion: 2
+      x: -7.0499997
+      y: -2.9
+      width: 1.4
+      height: 0.5
+    improvedOnly: 0
+  - id: fridge
+    bounds:
+      serializedVersion: 2
+      x: 6.1
+      y: 1
+      width: 1.1
+      height: 0.6
+    improvedOnly: 0
+  - id: tap-home
+    bounds:
+      serializedVersion: 2
+      x: 3.9
+      y: 1
+      width: 1.7
+      height: 0.65
+    improvedOnly: 0
+  - id: kitchen-prep
+    bounds:
+      serializedVersion: 2
+      x: 1.9999999
+      y: 1
+      width: 1.7
+      height: 0.65
+    improvedOnly: 0
+  - id: meal-table
+    bounds:
+      serializedVersion: 2
+      x: 3.45
+      y: -1.6
+      width: 1.6
+      height: 0.7
+    improvedOnly: 0
+  - id: home-chair
+    bounds:
+      serializedVersion: 2
+      x: 3.9
+      y: -2.8
+      width: 0.7
+      height: 0.55
+    improvedOnly: 0
+  - id: starter-desk
+    bounds:
+      serializedVersion: 2
+      x: -2.6999998
+      y: 1
+      width: 1.8
+      height: 0.6
+    improvedOnly: 0
+  - id: writing-chair
+    bounds:
+      serializedVersion: 2
+      x: -2.125
+      y: -0.25
+      width: 0.65
+      height: 0.5
+    improvedOnly: 0
+  - id: bedside-table
+    bounds:
+      serializedVersion: 2
+      x: -4.4
+      y: 0.4
+      width: 0.9
+      height: 0.5
+    improvedOnly: 0
+  - id: entry-shoes
+    bounds:
+      serializedVersion: 2
+      x: 0.84999996
+      y: -4
+      width: 1.1
+      height: 0.45
+    improvedOnly: 0
+  - id: kitchen-divider
+    bounds:
+      serializedVersion: 2
+      x: 0.75
+      y: 0.5
+      width: 1.5
+      height: 0.35
+    improvedOnly: 0
+  - id: upgrade-storage
+    bounds:
+      serializedVersion: 2
+      x: -4.2999997
+      y: -2.5
+      width: 1.4
+      height: 0.45
+    improvedOnly: 1
+  reserved:
+  - serializedVersion: 2
+    x: -0.6
+    y: -4.4
+    width: 1.2
+    height: 5.8
+  - serializedVersion: 2
+    x: -0.55
+    y: 1.25
+    width: 1.5
+    height: 1.15
+  furniture:
+  - id: bookshelf
+    areas: 5
+    footprint: {x: 1.4, y: 0.45}
+    approach: {x: 0, y: -0.75}
+    height: 2.1
+    slots:
+    - {x: -3.25, y: 1.75}
+    - {x: -6.5, y: -0.75}
+  - id: lamp
+    areas: 3
+    footprint: {x: 0.45, y: 0.4}
+    approach: {x: 0, y: -0.75}
+    height: 1.6
+    slots:
+    - {x: -4, y: -1.25}
+    - {x: -1, y: -2.5}
+  - id: chair
+    areas: 6
+    footprint: {x: 0.8, y: 0.6}
+    approach: {x: 0, y: -0.75}
+    height: 1.3
+    slots:
+    - {x: -2.5, y: -3}
+    - {x: -1.75, y: -2.5}
+    - {x: -4, y: -2.5}

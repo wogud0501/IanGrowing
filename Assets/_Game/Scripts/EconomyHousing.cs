@@ -7,11 +7,12 @@ public partial class EconomySystem {
  public HousingCatalog housingCatalog;
  public HousingSnapshot Housing {get{EnsureHousing();return Clone(state.housing);}}
  void EnsureHousing(){
-  if(state.housing!=null&&state.housing.schema==1)return;
+  if(state.housing!=null&&state.housing.schema==1){housingCatalog?.placementPlan?.Migrate(state.housing);return;}
   state.housing=new HousingSnapshot();
   if(housingCatalog!=null)foreach(var f in housingCatalog.furniture.Where(f=>f.starter))state.housing.owned.Add(f.id);
+  housingCatalog?.placementPlan?.Migrate(state.housing);
  }
- public static bool ValidHousing(HousingSnapshot h)=>h==null||h.schema==0||h.schema==1&&!string.IsNullOrEmpty(h.residenceId)&&!string.IsNullOrEmpty(h.wallpaper)&&!string.IsNullOrEmpty(h.floor)&&!string.IsNullOrEmpty(h.bathroom)&&h.owned!=null&&h.placed!=null&&h.owned.All(id=>!string.IsNullOrWhiteSpace(id))&&h.owned.Distinct().Count()==h.owned.Count&&h.placed.All(p=>p!=null&&h.owned.Contains(p.id)&&float.IsFinite(p.position.x)&&float.IsFinite(p.position.y)&&Math.Abs(p.position.x)<=2.8f&&p.position.y>=-1.3f&&p.position.y<=-.35f)&&h.placed.Select(p=>p.id).Distinct().Count()==h.placed.Count;
+ public static bool ValidHousing(HousingSnapshot h)=>h==null||h.schema==0||h.schema==1&&!string.IsNullOrEmpty(h.residenceId)&&!string.IsNullOrEmpty(h.wallpaper)&&!string.IsNullOrEmpty(h.floor)&&!string.IsNullOrEmpty(h.bathroom)&&h.owned!=null&&h.placed!=null&&h.owned.All(id=>!string.IsNullOrWhiteSpace(id))&&h.owned.Distinct().Count()==h.owned.Count&&h.placed.All(p=>p!=null&&h.owned.Contains(p.id)&&float.IsFinite(p.position.x)&&float.IsFinite(p.position.y)&&Math.Abs(p.position.x)<=3.9f&&p.position.y>=-2.5f&&p.position.y<=1.5f)&&h.placed.Select(p=>p.id).Distinct().Count()==h.placed.Count;
  bool HousingReady=>housingCatalog!=null&&game!=null&&game.State==GameState.Playing&&!game.BirthIntroductionPending&&(GameContext.Instance==null||!GameContext.Instance.transitions.IsTransitioning)&&!game.idle.IsPersistenceSuspended;
  public bool CanBuyFurniture(string id,out string reason){
   EnsureHousing();var f=housingCatalog==null?null:housingCatalog.Furniture(id);
@@ -26,8 +27,11 @@ public partial class EconomySystem {
  // Placement never charges money. Ownership and a bounded room position are mandatory.
  public bool PlaceFurniture(string id,Vector2 position,bool place=true){
   EnsureHousing();var f=housingCatalog==null?null:housingCatalog.Furniture(id);
-  if(!HousingReady||busy||f==null||f.starter||!state.housing.owned.Contains(id)||!float.IsFinite(position.x)||!float.IsFinite(position.y)||Math.Abs(position.x)>2.8f||position.y< -1.3f||position.y>-.35f)return false;
-  state.housing.placed.RemoveAll(p=>p.id==id);if(place)state.housing.placed.Add(new FurniturePlacement{id=id,position=position});Changed?.Invoke();return true;
+  if(!HousingReady||busy||f==null||f.starter||!state.housing.owned.Contains(id)||!float.IsFinite(position.x)||!float.IsFinite(position.y)||Math.Abs(position.x)>3.9f||position.y< -2.5f||position.y>1.5f)return false;
+  if(place){if(housingCatalog.placementPlan!=null)position=housingCatalog.placementPlan.Snap(position*2)/2;if(!CanPlaceFurniture(id,position,out var reason))return false;}
+  state.housing.placed.RemoveAll(p=>p.id==id);if(place)state.housing.placed.Add(new FurniturePlacement{id=id,position=position});state.housing.layoutAdjusted=0;Changed?.Invoke();return true;
  }
+ public bool CanPlaceFurniture(string id,Vector2 position,out string reason){EnsureHousing();reason=null;if(!HousingReady||busy||!state.housing.owned.Contains(id)){reason="보유한 가구를 정상 플레이 중에 배치하세요.";return false;}if(housingCatalog.placementPlan!=null&&!housingCatalog.placementPlan.Validate(id,position*2,state.housing,out reason))return false;if(game.world!=null&&game.world.Active&&!game.world.Host.PlacementClear(id,position*2,out reason))return false;return true;}
+ public bool FindFurniturePlacement(string id,bool change,out Vector2 position,out string reason){EnsureHousing();position=Vector2.zero;reason=null;var plan=housingCatalog.placementPlan;if(plan==null){position=housingCatalog.Furniture(id).position;return CanPlaceFurniture(id,position,out reason);}var current=state.housing.placed.Find(p=>p.id==id);var rule=plan.Rule(id);if(rule?.slots==null){reason="배치 구역이 없습니다.";return false;}foreach(var slot in rule.slots){position=plan.Snap(slot)/2;if(change&&current!=null&&Vector2.Distance(position,current.position)<.02f)continue;if(CanPlaceFurniture(id,position,out reason))return true;}reason="현재 가구와 출입 동선을 유지할 수 있는 다른 위치가 없습니다.";return false;}
 }
 }

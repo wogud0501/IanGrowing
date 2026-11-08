@@ -33,21 +33,21 @@ MonoBehaviour:
     price: 600
     starter: 0
     preview: {fileID: -7212120994256485723, guid: d15f8565257d7fc478493d2e5e0cf44b, type: 3}
-    position: {x: -1.5, y: -0.7}
+    position: {x: -1.625, y: 0.875}
   - id: lamp
     title: "\uC2A4\uD0E0\uB4DC \uC870\uBA85"
     description: "\uB530\uB73B\uD55C \uBE5B\uC758 \uC18C\uBC15\uD55C \uC870\uBA85"
     price: 250
     starter: 0
     preview: {fileID: 21300000, guid: cbe1db1e5aeb35a469706b5010600880, type: 3}
-    position: {x: 1.6, y: -0.7}
+    position: {x: -2, y: -0.625}
   - id: chair
     title: "\uD3B8\uC548\uD55C \uC758\uC790"
     description: "\uD558\uB8E8\uB97C \uB9C8\uCE58\uACE0 \uC26C\uB294 \uC791\uC740 \uC758\uC790"
     price: 450
     starter: 0
     preview: {fileID: 1391849852316778699, guid: d15f8565257d7fc478493d2e5e0cf44b, type: 3}
-    position: {x: 1, y: -1}
+    position: {x: -1.25, y: -1.5}
   residences:
   - id: starter
     title: "\uAE30\uBCF8 \uC9D1"
@@ -64,3 +64,4 @@ MonoBehaviour:
     preview: {fileID: 21300000, guid: 501e8e621ce14474eb8f62164555d50e, type: 3}
     furnishingScale: 1
   bathroom: {fileID: 21300000, guid: e769017e23ef2594b91d1dd4148e5eaa, type: 3}
+  placementPlan: {fileID: 11400000, guid: b73f61e4564d58b4f9945f08bbc8b08b, type: 2}

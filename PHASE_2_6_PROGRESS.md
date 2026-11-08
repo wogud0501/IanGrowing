@@ -165,3 +165,21 @@ UI 비율: 1280×720, 1920×1080, 2400×1080, 1080×1920. 큰 글씨 115%, 소�
 일반 실행: Bootstrap 씬에서 Play → 새 게임/이어하기 → E 상호작용, WASD 이동, Tab 상세 메뉴.
 빌더 재생성이 필요할 때만 `Ian/Life World/Build Connected Life World`를 사용한다. Scene/Rules를 Inspector에서 조정한 뒤 빌더를 다시 실행하면 생성 기본값이 재적용되므로 변경을 먼저 보존한다.
 검사를 재실행할 때는 Phase26EditorBridge의 stageA/cycle/ui/edge/integration/capture 명령을 선택한다. 원인 없이 전체 검사를 반복하지 않는다.
+
+## 2026-11-09 긴급 집 레이아웃 / 카메라 복구
+- 이전 115개 quality 검증은 이전 집/RenderTexture 경로 결과. 이번 변경의 증거로 대체하지 않는다.
+- 카메라 원인: Main Camera 2D가 RenderTexture로만 출력, Overlay RawImage로 월드 표시. Display 1 직접 출력 카메라가 없어 Editor 경고 발생. 동일 카메라의 targetTexture를 해제하고 Display 1 직접 렌더링으로 변경. 카메라 추가 없음.
+- 실제 LifeWorld 씬 저장: 15×10 집, 좌측 침실/책상/옷장, 우측 조리대/캐비닛 싱크/냉장고/식탁. 화장실은 별도 문으로 연결된 7.5×7 옥색 공간. 현관은 낮은 문턱으로 교체.
+- 새 아트: StudioShell/StudioShellNight, HomeFittingsAtlas, EntryThreshold. 원본/이전 화면 유지. DailyActions 생성본은 아직 미연결이며 완료로 분류하지 않음.
+- HomeLayoutPlan: .25 그리드, 공간 구역, 가구 점유영역, 문앞 예약 영역, 접근점, 플레이어 반경을 고려한 BFS 동선 검사. EconomyHousing의 배치 확정 전 순수 데이터 검사 + 실제 Physics2D 검사. 기존 보유권 유지, 구 배치만 안전한 슬롯으로 마이그레이션, 자리가 없으면 보관.
+- HOME_DAY_CYCLE_RESULTS.json: Unity Play Mode 119개 통과, 실패 없음. 새 배치의 침대→샤워→음식 준비/식사→상점/가구 구매→배치→근무/임금→NPC대화→귀가→수면/다음날→저장/복원 확인. 컨트롤러 호출/UI 버튼 기반 통합검증이며 물리 키 입력 자동검증이 아님.
+- 최종 시각 검사에서 칸막이 그림과 물리 점유 영역을 일치하도록 보정. 최종 보정 후 낮/밤/화장실 캡처와 접근성만 재검증 중(하루 전체 중복 실행하지 않음).
+- 수정: Phase26HomeSetup.cs, HomeLayoutPlan.cs, EconomyHousing.cs, HousingCatalog.cs, HomeManagementPresenter.cs, LifeWorldController.cs, WorldPixelViewport.cs, WorldCameraController.cs, Phase26ArtSetup.cs, Phase26Verification.cs, Phase26EditorBridge.cs, LifeWorld 씬/규칙/주거 카탈로그.
+- 남음: 실제 사용자 조작으로 새 집 동선 체감 확인, 미연결 일상 애니메이션 정리, 픽셀 밀도와 원근감의 추가 미술 검토. 상업용 아트 최종 승인/Phase 2.6 전체 완료를 선언하지 않음.
+- Editor Console에는 Unity AI(UERP) ThreadAbort/NoSubscription 오류가 별도로 남아 있음. 게임 스크립트 컴파일 오류와 구분해서 추적.
+### 긴급 집 최종 확인
+- HOME_RESULTS.json: 마지막 칸막이 보정 후 31개 통과, UI issue 0. 1280×720 낮/밤 집 전체 및 옥색 화장실 캡처 확인.
+- 실제 활성 카메라: Main Camera 2D / enabled / MainCamera tag / targetDisplay 0 / cullingMask -1 / targetTexture null / URP Base. 활성 Display 카메라 정확히 1개.
+- 이전 Recovery-Home-Art.png와 Urgent-Home-1280x720.png를 직접 비교: 침실의 냉장고/노출된 세면대/야외 벤치 제거, 주방 가구와 침실 가구 크기 조정, 현관 통로 확보, 상단 HUD 폭 축소 유지.
+- 마지막 테스트 후 Play 종료, 씬과 에셋 저장 완료. 기존 사용자 모델 및 저장 슬롯은 검사기가 원복함. 키보드 물리 입력/사용자 체감은 이번 집 수정 후 미검증.
+- 다음 작업: 새 집에서 실제 WASD 이동/E 문·가구 조작 확인 → 미연결 일상 애니메이션 선별/연결 → 픽셀 밀도/원근감 추가 검토. Phase 2.6 전체 완료 아님.
