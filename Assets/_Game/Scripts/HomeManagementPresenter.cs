@@ -1,0 +1,25 @@
+using System;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
+namespace IanGame {
+public sealed class HomeManagementPresenter:MonoBehaviour {
+ public UIShell shell;public HousingCatalog catalog;public GameObject panel,confirmation;public GameObject[] pages;
+ public Button[] tabs,buy,place,reposition,move;public TMP_Text balance,interior,feedback,confirmationText;public TMP_Text[] furnitureInfo,residenceInfo;
+ public Button accept,cancel;public Image interiorPreview;GameManager game;Func<bool> pending;bool processing;int lastFrame=-1;
+ void Start(){if(GameContext.Instance==null)return;game=GameContext.Instance.game;game.economy.Changed+=Refresh;game.StateChanged+=State;for(int i=0;i<tabs.Length;i++){int n=i;tabs[i].onClick.AddListener(()=>Tab(n));}for(int i=0;i<buy.Length;i++){int n=i;buy[i].onClick.AddListener(()=>RequestFurniture(n));place[i].onClick.AddListener(()=>Placement(n,false));reposition[i].onClick.AddListener(()=>Placement(n,true));}for(int i=0;i<move.Length;i++){int n=i;move[i].onClick.AddListener(()=>RequestMove(n));}accept.onClick.AddListener(Confirm);cancel.onClick.AddListener(()=>{pending=null;shell.Close(confirmation);});Tab(0);Refresh();}
+ void OnDestroy(){if(game!=null){game.economy.Changed-=Refresh;game.StateChanged-=State;}}
+ void State(GameState value){Refresh();} public void Tab(int n){for(int i=0;i<pages.Length;i++){pages[i].SetActive(i==n);tabs[i].GetComponent<Image>().color=i==n?new Color32(192,216,150,255):Color.white;}if(shell.Top==panel)UIShell.Focus(panel);}
+ void RequestFurniture(int n){var f=catalog.furniture[n];string reason;if(!game.economy.CanBuyFurniture(f.id,out reason)){feedback.text=reason;return;}Ask($"{f.title}\n가격 {f.price:N0}G / 소지금 {game.economy.Cash:N0}G\n구매 후 잔액 {game.economy.Cash-f.price:N0}G\n보관함에 추가합니다. 배치는 별도로 무료입니다.",()=>game.economy.BuyFurniture(Guid.NewGuid().ToString("N"),f.id));}
+ void RequestMove(int n){var r=catalog.residences[n];string reason;if(!game.economy.CanMoveResidence(r.id,out reason)){feedback.text=reason;return;}Ask($"{r.title}로 이사할까요?\n이사 비용 {r.movingCost:N0}G / 소지금 {game.economy.Cash:N0}G\n결제 후 {game.economy.Cash-r.movingCost:N0}G\n보유 가구와 배치 기록은 유지됩니다.",()=>game.economy.MoveResidence(Guid.NewGuid().ToString("N"),r.id));}
+ void Ask(string text,Func<bool> command){pending=command;confirmationText.text=text;shell.Push(confirmation);}
+ public void Confirm(){if(pending==null||processing||shell.Top!=confirmation)return;var command=pending;pending=null;shell.Close(confirmation);Durable(command,"결제 완료. 잔액과 집 정보를 저장했습니다.");}
+ void Placement(int n,bool change){var f=catalog.furniture[n];var h=game.economy.Housing;var existing=h.placed.Find(p=>p.id==f.id);Vector2 pos=f.position;if(change){float x=existing==null?f.position.x:existing.position.x;pos=new Vector2(x>=2?-2:x+1,f.position.y);}Durable(()=>game.economy.PlaceFurniture(f.id,pos,change||existing==null),change?"배치 위치 변경 · 무료":"가구 배치 / 회수 · 무료");}
+ public bool Durable(Func<bool> command,string success){if(processing||lastFrame==Time.frameCount)return false;lastFrame=Time.frameCount;processing=true;var before=game.CaptureState();try{if(!command()){feedback.text="처리할 수 없습니다. 잔액과 소유 상태를 확인하세요.";return false;}string error;if(!game.SaveAutomaticCheckpoint(out error)){game.RestoreState(before);feedback.text="저장 실패로 변경을 취소했습니다. "+error;return false;}feedback.text=success;return true;}finally{processing=false;Refresh();}}
+ public void Refresh(){if(game==null)return;var e=game.economy;var h=e.Housing;var home=catalog.Residence(h.residenceId);balance.text=$"집 관리  /  소지금 {e.Cash:N0}G";interior.text=$"현재 집 · {home?.title??h.residenceId}\n바닥 · {Surface(h.floor)}\n벽지 · {Surface(h.wallpaper)}\n화장실 · {Surface(h.bathroom)}\n\n기본 인테리어와 침대·식탁은 입주 시 무료입니다.\n추가 가구는 구매 후 배치하세요. 재배치는 무료입니다.";interiorPreview.sprite=home?.preview;
+  for(int i=0;i<buy.Length;i++){var f=catalog.furniture[i];bool owned=h.owned.Contains(f.id),placed=h.placed.Exists(p=>p.id==f.id);string reason;e.CanBuyFurniture(f.id,out reason);furnitureInfo[i].text=$"{f.title} · {(f.starter?"기본 제공":f.price.ToString("N0")+"G")}\n{f.description}\n{(owned?placed?"보유 · 배치 중":"보유 · 보관 중":reason??"구매 가능")}";buy[i].interactable=!processing&&e.CanBuyFurniture(f.id,out reason);buy[i].GetComponentInChildren<TMP_Text>().text=owned?"보유 중":"구매";place[i].interactable=reposition[i].interactable=!processing&&owned&&!f.starter;place[i].GetComponentInChildren<TMP_Text>().text=f.starter?"기본 설비":placed?"회수 · 무료":"배치 · 무료";}
+  for(int i=0;i<move.Length;i++){var r=catalog.residences[i];string reason;bool can=e.CanMoveResidence(r.id,out reason);residenceInfo[i].text=$"{r.title} · 이사 {r.movingCost:N0}G\n{r.description}\n입주 조건 · {r.minAge}세 이상\n{(can?"이사 가능":reason)}";move[i].interactable=!processing&&can;}
+ }
+ static string Surface(string id)=>id=="wood-linoleum"?"따뜻한 나무 장판":id=="warm-white"?"흰색 벽지":id=="jade-tile"?"옥색 타일":id;
+}
+}

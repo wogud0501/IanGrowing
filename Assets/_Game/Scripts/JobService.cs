@@ -43,7 +43,7 @@ public class WorkActivityService {
  }
  // Callers can only settle an existing completed work record. Economy receipts survive scenes and saves.
  public bool Pay(string workId){var r=owner.Progress.employment.work.FirstOrDefault(w=>w.id==workId);if(r==null||r.paid)return false;
- if(!owner.Game.economy.TryTransaction(r.id+"/salary",TransactionKind.Income,r.wage,"유효 근무 일급"))return false;
+ if(!owner.Game.economy.PaySalary(r.id+"/salary",r.wage,r.jobId))return false;
  r.paid=true;owner.Signal(r.id+"/salary-event",MissionCounter.Salary);owner.Game.Log($"급여 {r.wage:N0}G 수령. 근무 기록 {r.id}");return true;}
 }
 }

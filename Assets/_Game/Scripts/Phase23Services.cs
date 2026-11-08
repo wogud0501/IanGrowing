@@ -35,7 +35,7 @@ public class Phase23Services:MonoBehaviour,IMissionFeatureSource,IPendingMission
  else if(action==0)Work.Complete(id);
  else if(action>=20&&action<=23)Employment.Complete(action,id);
  else if(action==24||action==25){var item=action==24?MissionItemKey.StarterHeadphones:MissionItemKey.StarterEquipment;DeliverStarterRewards();if(!HasItem(item))TryDeliver(new PendingMissionReward{id="phase23/starter/"+item,kind=PendingMissionRewardKind.Item,item=item,amount=1});Progress.equipped.Add(item);Signal(id,a.missionEvent);}
- else if(action==26){long amount=Math.Min(a.cost,Game.economy.Debt);if(Game.economy.TryTransaction(id+"/repay",TransactionKind.DebtRepayment,amount,"부채 원금 상환"))Signal(id,MissionCounter.DebtRepaid,amount);}
+ else if(action==26){long amount=Math.Min(a.cost,Game.economy.Debt);Game.economy.RepayDebt(id+"/repay",amount);}
  else Education.Complete(action,id,a);
  Game.missions.Refresh();Game.RefreshAvailability();
  }

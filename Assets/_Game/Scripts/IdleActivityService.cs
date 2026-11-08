@@ -10,7 +10,7 @@ public sealed class IdleActivityService:MonoBehaviour,IMissionFeatureSource {
  void OnDestroy(){if(game!=null)game.missions.UnregisterSource(this);}
  internal void RecordVictory(string id){ActivityProduced?.Invoke(new MissionActivityEvent{id=id+"/victory",counter=MissionCounter.BattleWins,amount=1});}
  public IdleProgressSnapshot Capture()=>JsonUtility.FromJson<IdleProgressSnapshot>(JsonUtility.ToJson(State));
- public void Restore(IdleProgressSnapshot value){State=value==null?new IdleProgressSnapshot():JsonUtility.FromJson<IdleProgressSnapshot>(JsonUtility.ToJson(value));SyncClock();Changed?.Invoke();}
+ public void Restore(IdleProgressSnapshot value){State=value==null?new IdleProgressSnapshot():JsonUtility.FromJson<IdleProgressSnapshot>(JsonUtility.ToJson(value));if(value?.report==null||string.IsNullOrEmpty(State.report?.id))State.report=null;SyncClock();Changed?.Invoke();}
  public void ResetLife(){suspended=false;State=new IdleProgressSnapshot();SyncClock();Changed?.Invoke();}
  void SyncClock(){if(game!=null)game.clock.RealtimeSuppressed=State.active;}
  public double Period(IdleActivityDefinition a){double value=a.periodSeconds;if(a.kind==IdleActivityKind.Work){var job=game.phase23.Jobs.Current;if(job==null)return double.PositiveInfinity;value=Math.Max(1,game.clock.realSecondsPerGameDay)*Math.Max(1,job.WorkingTime)/Mathf.Clamp(job.AutoWorkEfficiency,.1f,4);}return Math.Max(1,value/Mathf.Clamp(a.efficiency,.1f,4));}

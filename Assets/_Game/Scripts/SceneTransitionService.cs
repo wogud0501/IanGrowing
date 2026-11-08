@@ -45,7 +45,7 @@ public class SceneTransitionService : MonoBehaviour {
  }
  IEnumerator Recover(GameManager game,bool running,TransitionProfile profile){if(presentation!=null)yield return presentation.Enter(profile);Finish(game,running);}
  void Finish(GameManager game,bool running){IsTransitioning=false;if(loadingOverlay!=null)loadingOverlay.SetActive(false);if(game!=null){game.clock.SetRunning(running&&game.State==GameState.Playing&&!game.BirthIntroductionPending);game.RefreshAvailability();}}
- static bool IsGameplay(SceneId id)=>id==SceneId.Home||id==SceneId.School||id==SceneId.City||id==SceneId.Workplace||id==SceneId.Battle;
+ static bool IsGameplay(SceneId id)=>id==SceneId.Home||id==SceneId.School||id==SceneId.City||id==SceneId.Workplace||id==SceneId.Battle||id==SceneId.StockMarket;
  void Fail(string error){LastError=error;var game=GameContext.Instance==null?null:GameContext.Instance.game;if(game!=null)game.Log(error);if(loadingText!=null)loadingText.text=error;}
 }
 }

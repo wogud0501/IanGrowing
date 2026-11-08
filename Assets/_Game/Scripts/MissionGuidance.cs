@@ -40,6 +40,11 @@ public static class MissionGuidance {
  if(progress!=null&&progress.state==MissionState.Planned)return m.futurePhase+" 구현 예정입니다. 현재는 달성하거나 보상을 받을 수 없습니다.";
  if(progress!=null&&progress.state==MissionState.Locked)return "먼저 "+string.Join(", ",(m.prerequisiteIds??new string[0]).Where(id=>!service.Claimed(id)).ToArray())+"의 보상을 수령하세요.";
  if(progress!=null&&progress.state==MissionState.Completed)return "달성했습니다! ‘보상 수령’을 눌러 다음 미션으로 진행하세요.";
+ if(m.Id=="M035")return "상태 → 경제·세금·부채 관리에서 고지서를 납부하세요. 급여 소득은 게임 날짜에 따라 고지됩니다. 부분 납부는 잔액이 0이 될 때 완료됩니다.";
+ if(m.Id=="M038")return "도시 → 증권거래소 → 시장·주문에서 종목과 수량을 선택하고 매수하세요. 현금과 신용도가 필요합니다.";
+ if(m.Id=="M047")return "도시 → 증권거래소 → 시장·주문에서 보유한 주식을 매도하세요.";
+ if(m.Id=="M048")return "실제 주식 매수 후 증권거래소의 보유·손익 탭을 열어 투자 결과를 확인하세요.";
+ if(m.Id=="M043")return "상태 → 경제·세금·부채 관리에서 정상 상환으로 신용도를 높이세요. 연체하면 신용도가 내려갑니다.";
  if(m.suggestedAction<0)return "선행 미션의 보상을 모두 수령하고 위 조건을 충족하세요. 시간 경과만으로 나이가 오르지 않습니다.";
  string name=ActionName(m.suggestedAction,g);string place=m.suggestedAction<7?"생활 행동":g!=null&&g.phase23!=null&&g.phase23.catalog!=null?Place(g.phase23.Destination(m.suggestedAction)):"School · 학교";
  string text=place+" → ‘"+name+"’ 선택 후 실행하세요.";

@@ -79,7 +79,8 @@ public class SaveManager:MonoBehaviour {
  var header=JsonUtility.FromJson<SaveHeader>(json);if(header==null)throw new InvalidDataException("저장 헤더 오류");
  LastSourceVersion=header.version;
  if(header.version<1||header.version>4){WritesBlocked=true;LastLoadStatus=SaveLoadStatus.UnsupportedVersion;message="지원하지 않는 저장 버전입니다. 원본과 현재 상태를 보존합니다.";return false;}
- var value=JsonUtility.FromJson<SaveData>(json);if(value==null)throw new InvalidDataException("빈 데이터");
+ var value=JsonUtility.FromJson<SaveData>(json);if(value.economy!=null&&!Regex.IsMatch(json,"\"housing\"\\s*:"))value.economy.housing=null;if(value==null)throw new InvalidDataException("빈 데이터");
+ if(value.economy!=null&&!Regex.IsMatch(json,"\\\"finance\\\"\\s*:"))value.economy.finance=null;
  if(header.version<3){if(!ValidLegacy(value))throw new InvalidDataException("구버전 저장 범위 오류");value=Migrate(value);}
  else {Require(json,new[]{"hunger","thirst","knowledge","mental","social","credit","progression","economy","survival","time","runId","settledDay","lastSeenUtcTicks","age","level","experience","socialStanding","completedGrowthIds","debt","otherAssets","processedIds","hungerRemainder","thirstRemainder","hungerDangerSeconds","thirstDangerSeconds","failed","statuses","subDaySeconds","elapsedSeconds"});if(header.version==3){value.version=4;value.missions=new MissionSnapshot{startDay=value.day};}else Require(json,new[]{"missions","activeMissionId","startDay","eventSequence","counters","seenEventIds","completedMissionIds","claimedMissionIds","walletReceiptIds","milestoneIds","unlocks","pendingRewards","progress"});}
  if(header.version<4){
@@ -110,6 +111,7 @@ public class SaveManager:MonoBehaviour {
  static bool Finite(double v)=>!double.IsNaN(v)&&!double.IsInfinity(v)&&v>=0;
  static bool ValidLegacy(SaveData d)=>d!=null&&d.stats!=null&&d.day>=1&&d.day<=TimeManager.MaximumDay&&Range(d.stats.happiness)&&Range(d.stats.stress)&&Range(d.stats.energy)&&d.stats.money>=0;
  static bool Valid(SaveData d){
+ if(!EconomySystem.ValidFinance(d.economy)||d.economy!=null&&!EconomySystem.ValidHousing(d.economy.housing))return false;
  if(!IdleActivityService.Valid(d.idle))return false;
  if(!Phase23Services.Valid(d.phase23)||!MissionService.ValidSnapshot(d.missions)||!ValidLegacy(d)||!Range(d.stats.hunger)||!Range(d.stats.thirst)||!Range(d.stats.knowledge)||!Range(d.stats.mental)||!Range(d.stats.social)||!Range(d.stats.credit)||d.stats.stress!=100-d.stats.mental)return false;
  if(d.progression==null||d.progression.age<0||d.progression.level<1||d.progression.experience<0||d.economy==null||d.economy.debt<0||d.economy.otherAssets<0||d.survival==null||d.time==null||string.IsNullOrEmpty(d.runId)||d.settledDay<1||d.settledDay>d.day)return false;

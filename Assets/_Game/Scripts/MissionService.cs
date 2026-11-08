@@ -94,7 +94,8 @@ public class MissionService:MonoBehaviour {
  if(s.progress.Any(p=>p==null||string.IsNullOrEmpty(p.missionId)||!Enum.IsDefined(typeof(MissionState),p.state)||double.IsNaN(p.current)||double.IsInfinity(p.current)||double.IsNaN(p.target)||double.IsInfinity(p.target)||p.current<0||p.target<1))return false;
  return s.pendingRewards.Select(v=>v.id).Distinct().Count()==s.pendingRewards.Count;
  }
- class RuntimeMissionStateProvider:IMissionStateProvider {
+ class RuntimeMissionStateProvider:IMissionStateProvider,IMissionEconomyStateProvider {
+ public long NetWorth=>game.economy.NetWorth;
  readonly MissionService owner;readonly GameManager game;public RuntimeMissionStateProvider(MissionService s,GameManager g){owner=s;game=g;}
  public int Stat(CoreStat stat)=>game.stats.Get(stat);public long Counter(MissionCounter counter)=>owner.Counter(counter);public int Age=>game.growth.Age;public LifeStage Stage=>game.growth.Stage;public int DaysSurvived=>Math.Max(0,game.clock.Day-owner.state.startDay);public long Cash=>game.economy.Cash;public bool Alive=>(game.State==GameState.Playing||game.State==GameState.Resolving)&&!game.survival.Failed;
  public bool HasItem(MissionItemKey item)=>owner.sources.Any(s=>s.IsAvailable&&s.HasItem(item));public bool ChoiceOutcome(MissionChoiceOutcome outcome)=>owner.HasChoice(outcome);public bool Claimed(string id)=>owner.Claimed(id);public bool Unlocked(ContentUnlock value)=>owner.state.unlocks.Contains(value);

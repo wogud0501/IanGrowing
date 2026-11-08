@@ -17,7 +17,7 @@ public class GameManager:MonoBehaviour {
  if(balance==null||stats==null||clock==null||lifeEvents==null||saves==null){Debug.LogError("Ian: 시스템 연결을 확인하세요.",this);enabled=false;return;}
  missions=Module(missions);missions.catalog=missionCatalog;economy=Module(economy);actions=Module(actions);growth=Module(growth);survival=Module(survival);statuses=Module(statuses);
  economy.Configure(stats);statuses.Configure(stats);survival.Configure(stats,LifeMode?balance.survival:null,statuses);actions.Configure(balance,stats,clock,economy);actions.ConfigureLife(growth,survival);lifeEvents.Configure(economy);saves.Configure(growth,economy,survival);
- missions.Configure(this);actions.ConfigureEducation(activityCatalog,missions,()=>GameContext.Instance==null||GameContext.Instance.transitions.CurrentScene==SceneId.School);saves.ConfigureMissions(missions);phase23=Module(phase23);phase23.Configure(this);actions.ConfigurePhase23(phase23);saves.ConfigurePhase23(phase23);missions.Completed+=OnMissionCompleted;missions.CheckpointRequested+=OnMissionCheckpoint;
+ missions.Configure(this);economy.ConfigureGame(this);actions.ConfigureEducation(activityCatalog,missions,()=>GameContext.Instance==null||GameContext.Instance.transitions.CurrentScene==SceneId.School);saves.ConfigureMissions(missions);phase23=Module(phase23);phase23.Configure(this);actions.ConfigurePhase23(phase23);saves.ConfigurePhase23(phase23);missions.Completed+=OnMissionCompleted;missions.CheckpointRequested+=OnMissionCheckpoint;
  idle=Module(idle);idle.Configure(this);saves.ConfigureIdle(idle);clock.SetRunning(false);clock.DayAdvanced+=OnDay;clock.SimulationAdvanced+=OnSimulation;survival.Failure+=OnFailure;
  }
  void Start(){if(enabled)StartGame();}
@@ -69,7 +69,7 @@ public class GameManager:MonoBehaviour {
  void OnSimulation(double seconds){if(LifeMode&&(State==GameState.Playing||State==GameState.Resolving))survival.Tick(seconds);}
  void OnDay(int day){
  if(day<=settledDay)return;settledDay=day;if(State!=GameState.Playing&&State!=GameState.Resolving)return;
- float chance=balance.eventChance*(LifeMode?survival.EventChanceMultiplier:1);var result=lifeEvents.TryEvent(stats,chance);if(result!=null)Log(result);
+ economy.SettleDay(day);float chance=balance.eventChance*(LifeMode?survival.EventChanceMultiplier:1);var result=lifeEvents.TryEvent(stats,chance);if(result!=null)Log(result);
  }
  void SaveQuietly(){if(saves==null||State==GameState.Starting||missions!=null&&missions.IsBusy)return;missionCheckpointPending=false;string message;if(!saves.SaveAutomatic(stats,clock,State==GameState.GameOver,runId,settledDay,out message))Log(message);else connectionStamp=saves.LastSavedUtcTicks;}
  public void Save(){if(!enabled||State==GameState.Starting||State==GameState.Resolving||missions!=null&&missions.IsBusy)return;string message;if(saves.Save(stats,clock,State==GameState.GameOver,runId,settledDay,out message)){connectionStamp=saves.LastSavedUtcTicks;SaveQuietly();}Log(message);}
@@ -79,11 +79,11 @@ public class GameManager:MonoBehaviour {
  bool loaded=!preserve&&saves.TryReadAutomatic(out data,out message);
  if(!loaded)loaded=saves.TryRead(out data,out message);
  if(loaded){
- long previousIdleWatermark=idle==null?0:idle.State.accountedUtcTicks;
+ long previousIdleWatermark=idle==null?0:idle.State.accountedUtcTicks;long previousMarketWatermark=economy.Finance?.marketUtcTicks??0;
  if(data.runId==runId&&saves.BirthIntroCompleted)data.birthIntroCompleted=true;
  SetState(GameState.Starting);saves.ApplyToModels(data,stats,clock);runId=data.runId;settledDay=data.settledDay;connectionStamp=data.lastSeenUtcTicks;
  clock.RecordConnection(data.lastSeenUtcTicks,LifeMode?balance.survival.maxOfflineInspectionSeconds:28800);
- SetState(data.gameOver||survival.Failed?GameState.GameOver:GameState.Playing);idle?.Loaded(preserve,previousIdleWatermark);if(preserve)SaveQuietly();Log(message);return;
+ SetState(data.gameOver||survival.Failed?GameState.GameOver:GameState.Playing);economy.EnsureFinance(clock.Day,DateTime.UtcNow.Ticks);if(preserve)economy.ReanchorMarket(Math.Max(previousMarketWatermark,DateTime.UtcNow.Ticks));idle?.Loaded(preserve,previousIdleWatermark);economy.SettleMarket(DateTime.UtcNow.Ticks);if(preserve)SaveQuietly();Log(message);return;
  }
  if(!preserve){SetState(GameState.Playing);if(saves.LastLoadStatus==SaveLoadStatus.Missing)BirthMessage();else Log(message+" / 저장을 보호하는 임시 세션입니다.");}else Log(message);
  }

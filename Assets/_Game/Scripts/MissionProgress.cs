@@ -19,5 +19,6 @@ public interface IMissionStateProvider {
  int Stat(CoreStat stat);long Counter(MissionCounter counter);int Age{get;}LifeStage Stage{get;}int DaysSurvived{get;}long Cash{get;}bool Alive{get;}
  bool HasItem(MissionItemKey item);bool ChoiceOutcome(MissionChoiceOutcome outcome);bool Claimed(string missionId);bool Unlocked(ContentUnlock unlock);bool Supports(MissionFeature features);
 }
+public interface IMissionEconomyStateProvider {long NetWorth{get;}}
 public interface IPendingMissionRewardGateway {bool TryDeliver(PendingMissionReward reward);}
 }

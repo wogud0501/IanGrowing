@@ -1,6 +1,8 @@
 using System;using UnityEngine;
 namespace IanGame {
 public class EventManager:MonoBehaviour {
+ public event Action<EconomicNewsRecord> EconomicNewsApplied;
+ public void PublishEconomicNews(EconomicNewsRecord news){EconomicNewsApplied?.Invoke(news);}
  public LifeEventCatalog catalog;
  [Tooltip("Legacy scene data retained for compatibility; a catalog takes precedence.")]public LifeEvent[] events=new LifeEvent[0];
  [SerializeField]EconomySystem economy;
