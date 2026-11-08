@@ -79,7 +79,7 @@ public class SaveManager:MonoBehaviour {
  var header=JsonUtility.FromJson<SaveHeader>(json);if(header==null)throw new InvalidDataException("저장 헤더 오류");
  LastSourceVersion=header.version;
  if(header.version<1||header.version>4){WritesBlocked=true;LastLoadStatus=SaveLoadStatus.UnsupportedVersion;message="지원하지 않는 저장 버전입니다. 원본과 현재 상태를 보존합니다.";return false;}
- var value=JsonUtility.FromJson<SaveData>(json);if(value.economy!=null&&!Regex.IsMatch(json,"\"housing\"\\s*:"))value.economy.housing=null;if(value==null)throw new InvalidDataException("빈 데이터");
+ var value=JsonUtility.FromJson<SaveData>(json);if(value==null)throw new InvalidDataException("빈 데이터");if(value.economy!=null&&!Regex.IsMatch(json,"\"housing\"\\s*:"))value.economy.housing=null;
  if(value.economy!=null&&!Regex.IsMatch(json,"\\\"finance\\\"\\s*:"))value.economy.finance=null;
  if(header.version<3){if(!ValidLegacy(value))throw new InvalidDataException("구버전 저장 범위 오류");value=Migrate(value);}
  else {Require(json,new[]{"hunger","thirst","knowledge","mental","social","credit","progression","economy","survival","time","runId","settledDay","lastSeenUtcTicks","age","level","experience","socialStanding","completedGrowthIds","debt","otherAssets","processedIds","hungerRemainder","thirstRemainder","hungerDangerSeconds","thirstDangerSeconds","failed","statuses","subDaySeconds","elapsedSeconds"});if(header.version==3){value.version=4;value.missions=new MissionSnapshot{startDay=value.day};}else Require(json,new[]{"missions","activeMissionId","startDay","eventSequence","counters","seenEventIds","completedMissionIds","claimedMissionIds","walletReceiptIds","milestoneIds","unlocks","pendingRewards","progress"});}

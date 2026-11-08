@@ -11,7 +11,7 @@ public partial class EconomySystem:MonoBehaviour,IMissionFeatureSource {
  public long Principal=>Debt-(state.finance?.outstandingInterest??0);public double UnrealizedPnL=>state.finance==null?0:StockValue-state.finance.holdings.Sum(h=>h.costBasis);
  public double RealizedPnL=>state.finance?.realizedPnL??0;public FinanceSnapshot Finance=>Clone(state.finance);
  public event Action<int,int,string> TransactionCompleted;public event Action Changed;public event Action<MissionActivityEvent> ActivityProduced;
- public MissionFeature Features=>MissionFeature.Taxation|MissionFeature.DebtRepayment|MissionFeature.Investments;
+ public MissionFeature Features=>MissionFeature.Taxation|MissionFeature.DebtRepayment|MissionFeature.Investments|(housingCatalog==null?MissionFeature.None:MissionFeature.FurniturePurchases);
  public bool IsAvailable=>rules!=null;public bool HasItem(MissionItemKey item)=>item==MissionItemKey.FirstFurniture&&Housing.owned.Any(id=>housingCatalog!=null&&housingCatalog.Furniture(id)!=null&&!housingCatalog.Furniture(id).starter);
  static long Add(long a,long b)=>a>long.MaxValue-b?long.MaxValue:a+b;
  static T Clone<T>(T value)where T:class=>value==null?null:JsonUtility.FromJson<T>(JsonUtility.ToJson(value));

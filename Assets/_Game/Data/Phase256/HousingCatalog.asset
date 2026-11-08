@@ -1,0 +1,66 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86a1c71bf70b27242a4caecf0085c5d6, type: 3}
+  m_Name: HousingCatalog
+  m_EditorClassIdentifier: Assembly-CSharp::IanGame.HousingCatalog
+  furniture:
+  - id: basic-bed
+    title: "\uAE30\uBCF8 \uCE68\uB300"
+    description: "\uC2DC\uC791 \uC2DC \uC81C\uACF5 \xB7 \uBC29\uC758 \uAE30\uBCF8 \uC124\uBE44"
+    price: 0
+    starter: 1
+    preview: {fileID: 21300000, guid: 5dfec2aaebe4af040a175b1dd21989d4, type: 3}
+    position: {x: 0, y: 0}
+  - id: basic-table
+    title: "\uAE30\uBCF8 \uC2DD\uD0C1"
+    description: "\uC2DC\uC791 \uC2DC \uC81C\uACF5 \xB7 \uBC29\uC758 \uAE30\uBCF8 \uC124\uBE44"
+    price: 0
+    starter: 1
+    preview: {fileID: 21300000, guid: 5dfec2aaebe4af040a175b1dd21989d4, type: 3}
+    position: {x: 0, y: 0}
+  - id: bookshelf
+    title: "\uC791\uC740 \uCC45\uC7A5"
+    description: "\uC0DD\uD65C \uB3C4\uAD6C\uB97C \uC815\uB9AC\uD558\uB294 \uB098\uBB34 \uCC45\uC7A5"
+    price: 600
+    starter: 0
+    preview: {fileID: 21300000, guid: 7a58f741f25c10e42b56e507f5a42501, type: 3}
+    position: {x: -1.5, y: -0.7}
+  - id: lamp
+    title: "\uC2A4\uD0E0\uB4DC \uC870\uBA85"
+    description: "\uB530\uB73B\uD55C \uBE5B\uC758 \uC18C\uBC15\uD55C \uC870\uBA85"
+    price: 250
+    starter: 0
+    preview: {fileID: 21300000, guid: cbe1db1e5aeb35a469706b5010600880, type: 3}
+    position: {x: 1.6, y: -0.7}
+  - id: chair
+    title: "\uD3B8\uC548\uD55C \uC758\uC790"
+    description: "\uD558\uB8E8\uB97C \uB9C8\uCE58\uACE0 \uC26C\uB294 \uC791\uC740 \uC758\uC790"
+    price: 450
+    starter: 0
+    preview: {fileID: 21300000, guid: 1cab80b55a00f614980a14cd407ac91d, type: 3}
+    position: {x: 1, y: -1}
+  residences:
+  - id: starter
+    title: "\uAE30\uBCF8 \uC9D1"
+    description: "\uC791\uACE0 \uC18C\uBC15\uD55C \uBC29 \xB7 \uB098\uBB34 \uC7A5\uD310\uACFC \uD770 \uBCBD\uC9C0\n\uCCAB \uC785\uC8FC\uB294 \uBB34\uB8CC, \uB3CC\uC544\uC62C \uB54C\uB9CC \uC774\uC0AC \uBE44\uC6A9"
+    movingCost: 500
+    minAge: 0
+    preview: {fileID: 21300000, guid: 5dfec2aaebe4af040a175b1dd21989d4, type: 3}
+    furnishingScale: 1
+  - id: improved
+    title: "\uAC1C\uC120\uB41C \uC18C\uD615 \uC8FC\uAC70\uC9C0"
+    description: "\uC0DD\uD65C \uC124\uBE44\uC640 \uC218\uB0A9\uC744 \uAC16\uCD98 \uBC29 \xB7 \uC791\uC5C5 \uCC45\uC0C1\uACFC \uB109\uB109\uD55C \uC218\uB0A9\n\uAE30\uC874 30\uC138 \uC8FC\uAC70 \uD574\uAE08 \uC870\uAC74 \uC801\uC6A9"
+    movingCost: 10000
+    minAge: 30
+    preview: {fileID: 21300000, guid: 501e8e621ce14474eb8f62164555d50e, type: 3}
+    furnishingScale: 1
+  bathroom: {fileID: 21300000, guid: e769017e23ef2594b91d1dd4148e5eaa, type: 3}
