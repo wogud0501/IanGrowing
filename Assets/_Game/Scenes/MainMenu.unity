@@ -273,9 +273,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.LayoutElement
   m_IgnoreLayout: 0
   m_MinWidth: -1
-  m_MinHeight: 52
+  m_MinHeight: 64
   m_PreferredWidth: -1
-  m_PreferredHeight: 52
+  m_PreferredHeight: 64
   m_FlexibleWidth: 1
   m_FlexibleHeight: 0
   m_LayoutPriority: 1
@@ -357,9 +357,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.LayoutElement
   m_IgnoreLayout: 0
   m_MinWidth: -1
-  m_MinHeight: 48
+  m_MinHeight: 52
   m_PreferredWidth: 180
-  m_PreferredHeight: 48
+  m_PreferredHeight: 52
   m_FlexibleWidth: 0
   m_FlexibleHeight: 0
   m_LayoutPriority: 1
@@ -712,9 +712,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.LayoutElement
   m_IgnoreLayout: 0
   m_MinWidth: 0
-  m_MinHeight: 32
+  m_MinHeight: 52
   m_PreferredWidth: 72
-  m_PreferredHeight: 32
+  m_PreferredHeight: 52
   m_FlexibleWidth: 0
   m_FlexibleHeight: 0
   m_LayoutPriority: 1
@@ -1006,6 +1006,7 @@ GameObject:
   - component: {fileID: 135277107}
   - component: {fileID: 135277106}
   - component: {fileID: 135277105}
+  - component: {fileID: 135277109}
   m_Layer: 0
   m_Name: Intro
   m_TagString: Untagged
@@ -1167,6 +1168,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 135277103}
   m_CullTransparentMesh: 1
+--- !u!114 &135277109
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 135277103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4525a8b8f13188d46ab39438c8d48f01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IanGame.PixelTextFlow
+  minimumHeight: 48
 --- !u!1 &146413921
 GameObject:
   m_ObjectHideFlags: 0
@@ -1334,9 +1348,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.LayoutElement
   m_IgnoreLayout: 0
   m_MinWidth: -1
-  m_MinHeight: 48
+  m_MinHeight: 52
   m_PreferredWidth: 180
-  m_PreferredHeight: 48
+  m_PreferredHeight: 52
   m_FlexibleWidth: 0
   m_FlexibleHeight: 0
   m_LayoutPriority: 1
@@ -1491,6 +1505,7 @@ GameObject:
   - component: {fileID: 157767258}
   - component: {fileID: 157767264}
   - component: {fileID: 157767265}
+  - component: {fileID: 157767266}
   m_Layer: 0
   m_Name: Confirm new life
   m_TagString: Untagged
@@ -1690,6 +1705,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6971c1c47d7ed747af5455852f8ccd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::IanGame.PixelFocusScroll
+--- !u!114 &157767266
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 157767256}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de9834bd9f0732e44abe0c2054e2e353, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IanGame.PixelButtonTextFlow
 --- !u!1 &169972543
 GameObject:
   m_ObjectHideFlags: 0
@@ -2727,7 +2754,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 14, y: 4, z: 8, w: 4}
+  m_margin: {x: 14, y: 4, z: 14, w: 4}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -2794,9 +2821,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.LayoutElement
   m_IgnoreLayout: 0
   m_MinWidth: 0
-  m_MinHeight: 44
+  m_MinHeight: 64
   m_PreferredWidth: -1
-  m_PreferredHeight: 44
+  m_PreferredHeight: 64
   m_FlexibleWidth: 1
   m_FlexibleHeight: 0
   m_LayoutPriority: 1
@@ -3720,7 +3747,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 14, y: 4, z: 8, w: 4}
+  m_margin: {x: 14, y: 4, z: 14, w: 4}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -4661,6 +4688,7 @@ GameObject:
   - component: {fileID: 636805186}
   - component: {fileID: 636805192}
   - component: {fileID: 636805193}
+  - component: {fileID: 636805194}
   m_Layer: 0
   m_Name: Text size
   m_TagString: Untagged
@@ -4860,6 +4888,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6971c1c47d7ed747af5455852f8ccd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::IanGame.PixelFocusScroll
+--- !u!114 &636805194
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 636805184}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de9834bd9f0732e44abe0c2054e2e353, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IanGame.PixelButtonTextFlow
 --- !u!1 &741175723
 GameObject:
   m_ObjectHideFlags: 0
@@ -5026,6 +5066,7 @@ GameObject:
   - component: {fileID: 760010126}
   - component: {fileID: 760010125}
   - component: {fileID: 760010124}
+  - component: {fileID: 760010127}
   m_Layer: 0
   m_Name: Label
   m_TagString: Untagged
@@ -5160,7 +5201,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 14, y: 4, z: 8, w: 4}
+  m_margin: {x: 14, y: 4, z: 14, w: 4}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -5174,6 +5215,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 760010122}
   m_CullTransparentMesh: 1
+--- !u!114 &760010127
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 760010122}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4adfb7fd5d5984a41b1945fce3b17e45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IanGame.UITypeScale
+  baseSize: 18
 --- !u!1 &777098509
 GameObject:
   m_ObjectHideFlags: 0
@@ -5250,9 +5304,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.LayoutElement
   m_IgnoreLayout: 0
   m_MinWidth: -1
-  m_MinHeight: 48
+  m_MinHeight: 52
   m_PreferredWidth: 180
-  m_PreferredHeight: 48
+  m_PreferredHeight: 52
   m_FlexibleWidth: 0
   m_FlexibleHeight: 0
   m_LayoutPriority: 1
@@ -6044,7 +6098,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 14, y: 4, z: 8, w: 4}
+  m_margin: {x: 14, y: 4, z: 14, w: 4}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -6218,7 +6272,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 14, y: 4, z: 8, w: 4}
+  m_margin: {x: 14, y: 4, z: 14, w: 4}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -6326,9 +6380,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.LayoutElement
   m_IgnoreLayout: 0
   m_MinWidth: 0
-  m_MinHeight: 48
+  m_MinHeight: 64
   m_PreferredWidth: -1
-  m_PreferredHeight: 48
+  m_PreferredHeight: 64
   m_FlexibleWidth: 1
   m_FlexibleHeight: 0
   m_LayoutPriority: 1
@@ -6660,7 +6714,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 14, y: 4, z: 8, w: 4}
+  m_margin: {x: 14, y: 4, z: 14, w: 4}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -6834,7 +6888,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 14, y: 4, z: 8, w: 4}
+  m_margin: {x: 14, y: 4, z: 14, w: 4}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -7790,6 +7844,7 @@ GameObject:
   - component: {fileID: 1274773297}
   - component: {fileID: 1274773296}
   - component: {fileID: 1274773295}
+  - component: {fileID: 1274773299}
   m_Layer: 0
   m_Name: Status details
   m_TagString: Untagged
@@ -7951,6 +8006,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1274773293}
   m_CullTransparentMesh: 1
+--- !u!114 &1274773299
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1274773293}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4525a8b8f13188d46ab39438c8d48f01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IanGame.PixelTextFlow
+  minimumHeight: 48
 --- !u!1 &1279059299
 GameObject:
   m_ObjectHideFlags: 0
@@ -8111,7 +8179,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 14, y: 4, z: 8, w: 4}
+  m_margin: {x: 14, y: 4, z: 14, w: 4}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -8360,7 +8428,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 14, y: 4, z: 8, w: 4}
+  m_margin: {x: 14, y: 4, z: 14, w: 4}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -8617,9 +8685,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.LayoutElement
   m_IgnoreLayout: 0
   m_MinWidth: -1
-  m_MinHeight: 48
+  m_MinHeight: 52
   m_PreferredWidth: 180
-  m_PreferredHeight: 48
+  m_PreferredHeight: 52
   m_FlexibleWidth: 0
   m_FlexibleHeight: 0
   m_LayoutPriority: 1
@@ -9002,9 +9070,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.LayoutElement
   m_IgnoreLayout: 0
   m_MinWidth: -1
-  m_MinHeight: 52
+  m_MinHeight: 64
   m_PreferredWidth: -1
-  m_PreferredHeight: 52
+  m_PreferredHeight: 64
   m_FlexibleWidth: 1
   m_FlexibleHeight: 0
   m_LayoutPriority: 1
@@ -9023,6 +9091,7 @@ GameObject:
   - component: {fileID: 1420900855}
   - component: {fileID: 1420900854}
   - component: {fileID: 1420900853}
+  - component: {fileID: 1420900857}
   m_Layer: 0
   m_Name: Warning
   m_TagString: Untagged
@@ -9184,6 +9253,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1420900851}
   m_CullTransparentMesh: 1
+--- !u!114 &1420900857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1420900851}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4525a8b8f13188d46ab39438c8d48f01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IanGame.PixelTextFlow
+  minimumHeight: 48
 --- !u!1 &1430539186
 GameObject:
   m_ObjectHideFlags: 0
@@ -9237,9 +9319,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.LayoutElement
   m_IgnoreLayout: 0
   m_MinWidth: 0
-  m_MinHeight: 36
+  m_MinHeight: 64
   m_PreferredWidth: -1
-  m_PreferredHeight: 36
+  m_PreferredHeight: 64
   m_FlexibleWidth: 1
   m_FlexibleHeight: 0
   m_LayoutPriority: 1
@@ -9283,6 +9365,7 @@ GameObject:
   - component: {fileID: 1432164704}
   - component: {fileID: 1432164703}
   - component: {fileID: 1432164705}
+  - component: {fileID: 1432164706}
   m_Layer: 0
   m_Name: Title
   m_TagString: Untagged
@@ -9431,6 +9514,19 @@ MonoBehaviour:
   m_LayoutPriority: 1
   m_MaxWidth: 3.4028235e+38
   m_MaxHeight: 3.4028235e+38
+--- !u!114 &1432164706
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1432164701}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4adfb7fd5d5984a41b1945fce3b17e45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IanGame.UITypeScale
+  baseSize: 36
 --- !u!1 &1480222402
 GameObject:
   m_ObjectHideFlags: 0
@@ -9679,7 +9775,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 14, y: 4, z: 8, w: 4}
+  m_margin: {x: 14, y: 4, z: 14, w: 4}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -9772,9 +9868,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.LayoutElement
   m_IgnoreLayout: 0
   m_MinWidth: -1
-  m_MinHeight: 52
+  m_MinHeight: 64
   m_PreferredWidth: -1
-  m_PreferredHeight: 52
+  m_PreferredHeight: 64
   m_FlexibleWidth: 1
   m_FlexibleHeight: 0
   m_LayoutPriority: 1
@@ -9797,6 +9893,7 @@ GameObject:
   - component: {fileID: 1506834941}
   - component: {fileID: 1506834947}
   - component: {fileID: 1506834948}
+  - component: {fileID: 1506834949}
   m_Layer: 0
   m_Name: Resume
   m_TagString: Untagged
@@ -9996,6 +10093,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6971c1c47d7ed747af5455852f8ccd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::IanGame.PixelFocusScroll
+--- !u!114 &1506834949
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1506834939}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de9834bd9f0732e44abe0c2054e2e353, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IanGame.PixelButtonTextFlow
 --- !u!114 &1513806766
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10196,6 +10305,7 @@ GameObject:
   - component: {fileID: 1571283283}
   - component: {fileID: 1571283282}
   - component: {fileID: 1571283284}
+  - component: {fileID: 1571283285}
   m_Layer: 0
   m_Name: Edition
   m_TagString: Untagged
@@ -10336,14 +10446,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.LayoutElement
   m_IgnoreLayout: 0
   m_MinWidth: 0
-  m_MinHeight: 24
+  m_MinHeight: 32
   m_PreferredWidth: -1
-  m_PreferredHeight: 24
+  m_PreferredHeight: 32
   m_FlexibleWidth: 1
   m_FlexibleHeight: 0
   m_LayoutPriority: 1
   m_MaxWidth: 3.4028235e+38
   m_MaxHeight: 3.4028235e+38
+--- !u!114 &1571283285
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1571283280}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4adfb7fd5d5984a41b1945fce3b17e45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IanGame.UITypeScale
+  baseSize: 18
 --- !u!1 &1588414817
 GameObject:
   m_ObjectHideFlags: 0
@@ -11080,6 +11203,7 @@ GameObject:
   - component: {fileID: 1611621188}
   - component: {fileID: 1611621187}
   - component: {fileID: 1611621186}
+  - component: {fileID: 1611621189}
   m_Layer: 0
   m_Name: Label
   m_TagString: Untagged
@@ -11214,7 +11338,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 14, y: 4, z: 8, w: 4}
+  m_margin: {x: 14, y: 4, z: 14, w: 4}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -11228,6 +11352,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1611621184}
   m_CullTransparentMesh: 1
+--- !u!114 &1611621189
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1611621184}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4adfb7fd5d5984a41b1945fce3b17e45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IanGame.UITypeScale
+  baseSize: 18
 --- !u!1 &1619277519
 GameObject:
   m_ObjectHideFlags: 0
@@ -11803,6 +11940,7 @@ GameObject:
   - component: {fileID: 1703376241}
   - component: {fileID: 1703376240}
   - component: {fileID: 1703376239}
+  - component: {fileID: 1703376243}
   m_Layer: 0
   m_Name: Pause caption
   m_TagString: Untagged
@@ -11964,6 +12102,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1703376237}
   m_CullTransparentMesh: 1
+--- !u!114 &1703376243
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1703376237}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4525a8b8f13188d46ab39438c8d48f01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IanGame.PixelTextFlow
+  minimumHeight: 48
 --- !u!1 &1707997310
 GameObject:
   m_ObjectHideFlags: 0
@@ -12577,6 +12728,7 @@ GameObject:
   - component: {fileID: 1738152974}
   - component: {fileID: 1738152976}
   - component: {fileID: 1738152975}
+  - component: {fileID: 1738152977}
   m_Layer: 0
   m_Name: Scope
   m_TagString: Untagged
@@ -12703,6 +12855,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1738152973}
   m_CullTransparentMesh: 1
+--- !u!114 &1738152977
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1738152973}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4adfb7fd5d5984a41b1945fce3b17e45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IanGame.UITypeScale
+  baseSize: 18
 --- !u!1 &1770419454
 GameObject:
   m_ObjectHideFlags: 0
@@ -12782,9 +12947,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.LayoutElement
   m_IgnoreLayout: 0
   m_MinWidth: -1
-  m_MinHeight: 52
+  m_MinHeight: 64
   m_PreferredWidth: -1
-  m_PreferredHeight: 52
+  m_PreferredHeight: 64
   m_FlexibleWidth: 1
   m_FlexibleHeight: 0
   m_LayoutPriority: 1
@@ -13041,7 +13206,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 14, y: 4, z: 8, w: 4}
+  m_margin: {x: 14, y: 4, z: 14, w: 4}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -13197,9 +13362,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.LayoutElement
   m_IgnoreLayout: 0
   m_MinWidth: 0
-  m_MinHeight: 24
+  m_MinHeight: 64
   m_PreferredWidth: -1
-  m_PreferredHeight: 24
+  m_PreferredHeight: 64
   m_FlexibleWidth: 1
   m_FlexibleHeight: 0
   m_LayoutPriority: 1
@@ -13600,6 +13765,7 @@ GameObject:
   - component: {fileID: 1831120134}
   - component: {fileID: 1831120140}
   - component: {fileID: 1831120141}
+  - component: {fileID: 1831120142}
   m_Layer: 0
   m_Name: New life
   m_TagString: Untagged
@@ -13799,6 +13965,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6971c1c47d7ed747af5455852f8ccd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::IanGame.PixelFocusScroll
+--- !u!114 &1831120142
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1831120132}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de9834bd9f0732e44abe0c2054e2e353, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IanGame.PixelButtonTextFlow
 --- !u!114 &1856502560
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13865,6 +14043,7 @@ GameObject:
   - component: {fileID: 1869870522}
   - component: {fileID: 1869870521}
   - component: {fileID: 1869870520}
+  - component: {fileID: 1869870523}
   m_Layer: 0
   m_Name: Title
   m_TagString: Untagged
@@ -14013,6 +14192,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1869870518}
   m_CullTransparentMesh: 1
+--- !u!114 &1869870523
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1869870518}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4adfb7fd5d5984a41b1945fce3b17e45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IanGame.UITypeScale
+  baseSize: 18
 --- !u!1 &1880532871
 GameObject:
   m_ObjectHideFlags: 0
@@ -14272,6 +14464,7 @@ GameObject:
   - component: {fileID: 1994403781}
   - component: {fileID: 1994403780}
   - component: {fileID: 1994403779}
+  - component: {fileID: 1994403783}
   m_Layer: 0
   m_Name: Input
   m_TagString: Untagged
@@ -14433,6 +14626,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1994403777}
   m_CullTransparentMesh: 1
+--- !u!114 &1994403783
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1994403777}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4525a8b8f13188d46ab39438c8d48f01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IanGame.PixelTextFlow
+  minimumHeight: 48
 --- !u!1 &1997110352
 GameObject:
   m_ObjectHideFlags: 0
@@ -14450,6 +14656,7 @@ GameObject:
   - component: {fileID: 1997110354}
   - component: {fileID: 1997110360}
   - component: {fileID: 1997110361}
+  - component: {fileID: 1997110362}
   m_Layer: 0
   m_Name: Settings
   m_TagString: Untagged
@@ -14649,6 +14856,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6971c1c47d7ed747af5455852f8ccd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::IanGame.PixelFocusScroll
+--- !u!114 &1997110362
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1997110352}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de9834bd9f0732e44abe0c2054e2e353, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IanGame.PixelButtonTextFlow
 --- !u!1 &1998691394
 GameObject:
   m_ObjectHideFlags: 0
@@ -14660,6 +14879,7 @@ GameObject:
   - component: {fileID: 1998691395}
   - component: {fileID: 1998691397}
   - component: {fileID: 1998691396}
+  - component: {fileID: 1998691398}
   m_Layer: 0
   m_Name: Slogan
   m_TagString: Untagged
@@ -14786,6 +15006,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1998691394}
   m_CullTransparentMesh: 1
+--- !u!114 &1998691398
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1998691394}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4adfb7fd5d5984a41b1945fce3b17e45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IanGame.UITypeScale
+  baseSize: 18
 --- !u!1 &2006710665
 GameObject:
   m_ObjectHideFlags: 0
@@ -15125,9 +15358,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.LayoutElement
   m_IgnoreLayout: 0
   m_MinWidth: 0
-  m_MinHeight: 24
+  m_MinHeight: 32
   m_PreferredWidth: -1
-  m_PreferredHeight: 24
+  m_PreferredHeight: 32
   m_FlexibleWidth: 1
   m_FlexibleHeight: 0
   m_LayoutPriority: 1
@@ -15426,9 +15659,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.LayoutElement
   m_IgnoreLayout: 0
   m_MinWidth: 0
-  m_MinHeight: 24
+  m_MinHeight: 32
   m_PreferredWidth: -1
-  m_PreferredHeight: 24
+  m_PreferredHeight: 32
   m_FlexibleWidth: 1
   m_FlexibleHeight: 0
   m_LayoutPriority: 1
@@ -15853,6 +16086,7 @@ GameObject:
   - component: {fileID: 2080194101}
   - component: {fileID: 2080194100}
   - component: {fileID: 2080194099}
+  - component: {fileID: 2080194105}
   m_Layer: 0
   m_Name: Font license
   m_TagString: Untagged
@@ -15911,9 +16145,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.LayoutElement
   m_IgnoreLayout: 0
   m_MinWidth: 0
-  m_MinHeight: 42
+  m_MinHeight: 52
   m_PreferredWidth: -1
-  m_PreferredHeight: 42
+  m_PreferredHeight: 52
   m_FlexibleWidth: 1
   m_FlexibleHeight: 0
   m_LayoutPriority: 1
@@ -16026,6 +16260,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2080194097}
   m_CullTransparentMesh: 1
+--- !u!114 &2080194105
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2080194097}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de9834bd9f0732e44abe0c2054e2e353, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IanGame.PixelButtonTextFlow
 --- !u!1 &2092193336
 GameObject:
   m_ObjectHideFlags: 0
@@ -16113,6 +16359,8 @@ GameObject:
   - component: {fileID: 2114659936}
   - component: {fileID: 2114659935}
   - component: {fileID: 2114659934}
+  - component: {fileID: 2114659937}
+  - component: {fileID: 2114659938}
   m_Layer: 0
   m_Name: License
   m_TagString: Untagged
@@ -16261,6 +16509,32 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2114659932}
   m_CullTransparentMesh: 1
+--- !u!114 &2114659937
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2114659932}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4525a8b8f13188d46ab39438c8d48f01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IanGame.PixelTextFlow
+  minimumHeight: 48
+--- !u!114 &2114659938
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2114659932}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4adfb7fd5d5984a41b1945fce3b17e45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IanGame.UITypeScale
+  baseSize: 18
 --- !u!1 &2124707298
 GameObject:
   m_ObjectHideFlags: 0
@@ -16367,6 +16641,7 @@ GameObject:
   - component: {fileID: 2138676264}
   - component: {fileID: 2138676270}
   - component: {fileID: 2138676271}
+  - component: {fileID: 2138676272}
   m_Layer: 0
   m_Name: Reduce motion
   m_TagString: Untagged
@@ -16566,6 +16841,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6971c1c47d7ed747af5455852f8ccd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::IanGame.PixelFocusScroll
+--- !u!114 &2138676272
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2138676262}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de9834bd9f0732e44abe0c2054e2e353, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IanGame.PixelButtonTextFlow
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

@@ -1,0 +1,53 @@
+﻿Phase 2.5.6 validation and implementation record
+
+Implemented screens inspected in Unity Editor Play:
+Bootstrap -> MainMenu; Home; Home bathroom; School; Workplace; City; Battle; StockMarket.
+Primary menus: Life, Status/Growth, City destinations, Jobs/Education, Missions, Home management, Other.
+Additional panels: detailed status, mission archive, basic education, location activities and their tabs, equipment inventory, settings, pause, new life confirmation, economy/debt/tax, automatic activity, offline report, market tabs, purchase confirmation and birth introduction.
+
+UI corrections:
+Moved mission/recent-log/automatic activity detail out of the main HUD. Seven consistent bottom destinations replace scattered shortcuts. Single major window, highlighted active menu, distinct modal input priority.
+Fixed UIShell closing animation retaining raycasts. Replacing a major window does not emit a transient empty stack (important for StockMarket return behavior).
+Disabled legacy scaling callbacks no longer override the new CanvasScaler after a resolution change.
+Applied paragraph height calculation and activity-button text height to inactive as well as active panels. Tab pages grow to their selected content. Minimum button/heading row sizes and 115% type option are consistent.
+Final automated text overflow and glyph checks: 0 issues within the inspected screens and states.
+Resolutions: 1280x720, 1920x1080, 2400x1080, 1080x1920. Additional 115% text, birth popup, portrait navigation bounds and modal input checks passed.
+Storefront lists purchasable furniture before fixed starter facilities; fixed facilities display as installed.
+
+Housing and economy:
+New life: free starter home, wood-pattern linoleum, warm white walls, jade bathroom, fixed basic bed/table.
+Additional furniture: lamp 250G, chair 450G, bookshelf 600G. Each catalog price is configurable.
+Only owned optional furniture may be placed. Placement, removal and cycling room positions are free. Purchased props render separately from the room background.
+Two residences only: starter (first occupancy free; returning move 500G), improved small home (10,000G, existing age-30 housing unlock rule). Improved home reuses the existing authored room.
+All charges use existing EconomySystem wallet/atomic Commit/receipts. No second currency. UI confirmation precedes payment. Duplicate ownership/current residence/receipt and same-frame confirmation are rejected.
+Successful UI mutations checkpoint through existing SaveManager; save failure restores the entire prior game snapshot including cash, missions, ownership, house and receipts.
+Optional economy.housing schema=1 in existing save v4. Missing field migrates to free starter defaults. Existing ownership, placement and custom interior values are preserved. Actual old-v4 file IO checked.
+M044 furniture purchase uses a narrow FurniturePurchases feature flag and the existing mission counter. Unimplemented rent/insurance remain planned; no Phase 2.6 systems added.
+
+Primary changed/added files (Assets/_Game/):
+Scripts/EconomyHousing.cs, HousingCatalog.cs, EconomySystem.cs, SaveManager.cs
+Scripts/HomeManagementPresenter.cs, HomeEnvironmentPresenter.cs, PolishedNavigation.cs
+Scripts/UIShell.cs, PixelTextFlow.cs, PixelButtonTextFlow.cs, PixelTabGroup.cs, PixelCanvasScale.cs, UIResponsiveHUD.cs, UITypeScale.cs
+Scripts/MissionData.cs, MissionService.cs; Data/Missions/M044.asset
+Scripts/Editor/Phase256Builder.cs; Scripts/Development/Phase256Verification.cs
+Data/Phase256/HousingCatalog.asset; Prefabs/GameContext.prefab
+Scenes/Home, School, Workplace, City, Battle, StockMarket, MainMenu
+Art/Housing/*; existing Korean symbol fallback atlas may include symbols exercised by the glyph audit.
+Character art and animation were preserved. Prior Phase 2.5 economy/market changes were retained.
+
+Evidence:
+PLAY_TEST_RESULTS.json: 58 checks passed, 0 failure, 0 UI issues.
+SUPPLEMENTAL_RESULTS.json: 26 checks passed, 0 issues, including 115% type and unlocked-but-insufficient move funds.
+RAYCAST_CHECKS.txt: all 7 primary menu buttons are the top raycast hit at their centers.
+Initial harness startup-transition timing and a supplemental birth lookup in City were corrected; final results above are from corrected runs.
+Screenshots/: before, home, bathroom, seven menus, furniture, moving, purchase confirmation, birth, portrait housing, stock market.
+ASSET_PROMPTS.txt: full built-in image_gen prompts and workspace asset paths. Original background retained for improved residence. New 640x360 assets point-filtered, uncompressed, 100 PPU.
+Tests used GUID-isolated save slots and restored the original model, slot, autosave preferences and text-size setting. No user save was reset.
+
+Remaining/unverified:
+No critical housing/economy/UI failures were observed in the tested flows.
+Actual Windows/Android player builds, device touch/DPI, physical controller operation and exhaustive arbitrary-content/localization extremes were not tested.
+Archived MainGame/MainGame2D and tutorial SampleScene are outside the current product routes and were not play-tested.
+Existing Unity AI NoSubscription package logs occurred; they are separate from game C# compilation/runtime failures.
+Unity-generated scene YAML contains serialized blank-value whitespace; C# diff whitespace checks pass.
+This is a small two-residence system. Rent, insurance, wallpaper/floor shops, large real-estate catalogs and new stat bonuses were not introduced.

@@ -5,7 +5,7 @@ public class UIResponsiveHUD:MonoBehaviour {
  public CanvasScaler scaler;public RectTransform frame;public UIAdaptiveLayout middleFlow,headerFlow,statsFlow;public LayoutElement middle,stats,hero,mission,header,actions,navigation;
  public GridLayoutGroup actionGrid,navGrid;public RectTransform statRows;
  int lastW,lastH;void OnEnable(){Apply();}void OnRectTransformDimensionsChange(){Apply();}void Update(){if(lastW!=Screen.width||lastH!=Screen.height)Apply();}
- public void Apply(){if(scaler==null||frame==null)return;lastW=Screen.width;lastH=Screen.height;bool portrait=Screen.height>Screen.width;scaler.referenceResolution=portrait?new Vector2(820,1600):new Vector2(1600,1000);scaler.matchWidthOrHeight=portrait?0:1;
+ public void Apply(){if(!isActiveAndEnabled||scaler==null||frame==null)return;lastW=Screen.width;lastH=Screen.height;bool portrait=Screen.height>Screen.width;scaler.referenceResolution=portrait?new Vector2(820,1600):new Vector2(1600,1000);scaler.matchWidthOrHeight=portrait?0:1;
  middleFlow.vertical=portrait;headerFlow.vertical=portrait;statsFlow.vertical=true;statsFlow.columns=portrait?4:1;statsFlow.spacing=portrait?6:8;middleFlow.Reflow();headerFlow.Reflow();statsFlow.Reflow();
  header.minHeight=header.preferredHeight=portrait?118:88;middle.minHeight=portrait?740:460;middle.flexibleHeight=1;
  stats.minWidth=portrait?0:270;stats.preferredWidth=portrait?-1:290;stats.flexibleWidth=portrait?1:0;stats.minHeight=portrait?175:0;stats.preferredHeight=portrait?175:-1;stats.flexibleHeight=portrait?0:1;
