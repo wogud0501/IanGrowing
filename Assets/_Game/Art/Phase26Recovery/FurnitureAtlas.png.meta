@@ -1,0 +1,565 @@
+fileFormatVersion: 2
+guid: d15f8565257d7fc478493d2e5e0cf44b
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 7678523650449619062
+    second: FurnitureAtlas_0
+  - first:
+      213: -6327107731223078017
+    second: Bed
+  - first:
+      213: 3355498879508141452
+    second: Fridge
+  - first:
+      213: 4473492142677930137
+    second: Table
+  - first:
+      213: -2801218345252212256
+    second: Wardrobe
+  - first:
+      213: -3056779674510452802
+    second: Sink
+  - first:
+      213: 1734089330981326749
+    second: Toilet
+  - first:
+      213: 562856356326890950
+    second: Shower
+  - first:
+      213: -6287002357799567390
+    second: Door
+  - first:
+      213: 2804968355760249059
+    second: Desk
+  - first:
+      213: -7212120994256485723
+    second: Books
+  - first:
+      213: 1391849852316778699
+    second: Chair
+  - first:
+      213: -7404596940508686741
+    second: Bench
+  - first:
+      213: -5616722099392927122
+    second: Tree
+  - first:
+      213: -6720721861240943430
+    second: Lamp
+  - first:
+      213: -7699136884572724954
+    second: Bin
+  - first:
+      213: -3920132243780884839
+    second: Pole
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 97.96875
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationMethod: 0
+  spriteTessellationDetail: -1
+  spriteGeometrySubdivision: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 4096
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: iOS
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Bed
+      rect:
+        serializedVersion: 2
+        x: 57
+        y: 950
+        width: 216
+        height: 256
+      alignment: 9
+      pivot: {x: 0.46296296, y: 0.009765625}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f7b12d87a099138a0800000000000000
+      internalID: -6327107731223078017
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fridge
+      rect:
+        serializedVersion: 2
+        x: 390
+        y: 950
+        width: 161
+        height: 274
+      alignment: 9
+      pivot: {x: 0.5, y: 0.009124087}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c85dd45e370219e20800000000000000
+      internalID: 3355498879508141452
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Table
+      rect:
+        serializedVersion: 2
+        x: 671
+        y: 953
+        width: 225
+        height: 214
+      alignment: 9
+      pivot: {x: 0.5, y: 0.011682243}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 990b1d5f669051e30800000000000000
+      internalID: 4473492142677930137
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wardrobe
+      rect:
+        serializedVersion: 2
+        x: 992
+        y: 950
+        width: 212
+        height: 283
+      alignment: 9
+      pivot: {x: 0.495283, y: 0.008833922}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0e13fe8a1c21029d0800000000000000
+      internalID: -2801218345252212256
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sink
+      rect:
+        serializedVersion: 2
+        x: 86
+        y: 634
+        width: 158
+        height: 285
+      alignment: 9
+      pivot: {x: 0.44936708, y: 0.00877193}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eb79b20e4132495d0800000000000000
+      internalID: -3056779674510452802
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Toilet
+      rect:
+        serializedVersion: 2
+        x: 395
+        y: 634
+        width: 145
+        height: 252
+      alignment: 9
+      pivot: {x: 0.52068967, y: 0.009920635}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d9fcfe51f09b01810800000000000000
+      internalID: 1734089330981326749
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Shower
+      rect:
+        serializedVersion: 2
+        x: 671
+        y: 633
+        width: 225
+        height: 289
+      alignment: 9
+      pivot: {x: 0.5, y: 0.008650519}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6cd5f6abfdaafc700800000000000000
+      internalID: 562856356326890950
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Door
+      rect:
+        serializedVersion: 2
+        x: 1010
+        y: 635
+        width: 175
+        height: 287
+      alignment: 9
+      pivot: {x: 0.49714285, y: 0.008710802}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2ef30516aa410c8a0800000000000000
+      internalID: -6287002357799567390
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Desk
+      rect:
+        serializedVersion: 2
+        x: 14
+        y: 327
+        width: 288
+        height: 269
+      alignment: 9
+      pivot: {x: 0.4965278, y: 0.00929368}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3e81d43bbdf3de620800000000000000
+      internalID: 2804968355760249059
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Books
+      rect:
+        serializedVersion: 2
+        x: 359
+        y: 324
+        width: 222
+        height: 289
+      alignment: 9
+      pivot: {x: 0.5022523, y: 0.008650519}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5a2843cca2669eb90800000000000000
+      internalID: -7212120994256485723
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Chair
+      rect:
+        serializedVersion: 2
+        x: 693
+        y: 326
+        width: 179
+        height: 246
+      alignment: 9
+      pivot: {x: 0.50558656, y: 0.010162601}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bc0850cf018d05310800000000000000
+      internalID: 1391849852316778699
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Bench
+      rect:
+        serializedVersion: 2
+        x: 950
+        y: 335
+        width: 294
+        height: 211
+      alignment: 9
+      pivot: {x: 0.5, y: 0.011848342}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b66190850569d3990800000000000000
+      internalID: -7404596940508686741
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tree
+      rect:
+        serializedVersion: 2
+        x: 13
+        y: 9
+        width: 289
+        height: 297
+      alignment: 9
+      pivot: {x: 0.4982699, y: 0.008417509}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e6a299f52056d02b0800000000000000
+      internalID: -5616722099392927122
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Lamp
+      rect:
+        serializedVersion: 2
+        x: 434
+        y: 11
+        width: 73
+        height: 298
+      alignment: 9
+      pivot: {x: 0.5, y: 0.008389262}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: abc088a33133bb2a0800000000000000
+      internalID: -6720721861240943430
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Bin
+      rect:
+        serializedVersion: 2
+        x: 675
+        y: 18
+        width: 223
+        height: 201
+      alignment: 9
+      pivot: {x: 0.48654708, y: 0.012437811}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6216fe59bcb272590800000000000000
+      internalID: -7699136884572724954
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pole
+      rect:
+        serializedVersion: 2
+        x: 1028
+        y: 10
+        width: 140
+        height: 296
+      alignment: 9
+      pivot: {x: 0.49285713, y: 0.008445946}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 996a2e87e74e899c0800000000000000
+      internalID: -3920132243780884839
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Bed: -6327107731223078017
+      Bench: -7404596940508686741
+      Bin: -7699136884572724954
+      Books: -7212120994256485723
+      Chair: 1391849852316778699
+      Desk: 2804968355760249059
+      Door: -6287002357799567390
+      Fridge: 3355498879508141452
+      FurnitureAtlas_0: 7678523650449619062
+      Lamp: -6720721861240943430
+      Pole: -3920132243780884839
+      Shower: 562856356326890950
+      Sink: -3056779674510452802
+      Table: 4473492142677930137
+      Toilet: 1734089330981326749
+      Tree: -5616722099392927122
+      Wardrobe: -2801218345252212256
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: Phase26Recovery/v2
+  assetBundleName: 
+  assetBundleVariant: 

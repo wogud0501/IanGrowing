@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::IanGame.LifeWorldRules
   moveSpeed: 3.2
   cameraDamping: 0.16
-  indoorCameraSize: 5.8
-  outdoorCameraSize: 7.2
+  indoorCameraSize: 5.625
+  outdoorCameraSize: 8.181818
   realSecondsPerGameDay: 1200
   activityAnimationScale: 1
   fatiguePerDay: 40
@@ -36,6 +36,8 @@ MonoBehaviour:
     size: {x: 18, y: 12}
     spawn: {x: 0, y: -2}
     outdoor: 0
+    walkableTop: 3.15
+    cameraSize: 0
   - id: bathroom
     title: "\uC625\uC0C9 \uD654\uC7A5\uC2E4"
     location: 2
@@ -43,6 +45,8 @@ MonoBehaviour:
     size: {x: 10, y: 9}
     spawn: {x: 0, y: -2}
     outdoor: 0
+    walkableTop: 1.35
+    cameraSize: 0
   - id: alley
     title: "\uC8FC\uAC70 \uACE8\uBAA9"
     location: 5
@@ -50,13 +54,17 @@ MonoBehaviour:
     size: {x: 24, y: 16}
     spawn: {x: 0, y: -2}
     outdoor: 1
+    walkableTop: 8
+    cameraSize: 6.6666665
   - id: city
     title: "\uB3C4\uC2DC \uC911\uC2EC"
     location: 5
     origin: {x: 130, y: 0}
     size: {x: 32, y: 20}
-    spawn: {x: 0, y: -2}
+    spawn: {x: 0, y: 0.8}
     outdoor: 1
+    walkableTop: 10
+    cameraSize: 0
   - id: shop
     title: "\uB3D9\uB124 \uC0C1\uC810"
     location: 9
@@ -64,6 +72,8 @@ MonoBehaviour:
     size: {x: 18, y: 12}
     spawn: {x: 0, y: -2}
     outdoor: 0
+    walkableTop: 3.15
+    cameraSize: 0
   - id: workplace
     title: Workspace
     location: 4
@@ -71,6 +81,8 @@ MonoBehaviour:
     size: {x: 18, y: 12}
     spawn: {x: 0, y: -2}
     outdoor: 0
+    walkableTop: 3.15
+    cameraSize: 0
   - id: school
     title: "\uBC30\uC6C0\uD130"
     location: 3
@@ -78,14 +90,18 @@ MonoBehaviour:
     size: {x: 18, y: 12}
     spawn: {x: 0, y: -2}
     outdoor: 0
+    walkableTop: 3.15
+    cameraSize: 0
   npcs:
   - npcId: colleague
     title: "\uB3D9\uB124 \uC120\uBC30 \uC218\uC5F0"
     frames:
-    - {fileID: 7884886324942417129, guid: 42f057b9d5c3b5941ae35ade19be7006, type: 2}
-    - {fileID: -5941330600595465168, guid: 42f057b9d5c3b5941ae35ade19be7006, type: 2}
-    - {fileID: 5737566730294966140, guid: 42f057b9d5c3b5941ae35ade19be7006, type: 2}
-    - {fileID: 267871229182402052, guid: 42f057b9d5c3b5941ae35ade19be7006, type: 2}
+    - {fileID: 8654990830787796205, guid: 32da10372c4869a41ad06827e80db6fa, type: 3}
+    - {fileID: -3507694956340147093, guid: 32da10372c4869a41ad06827e80db6fa, type: 3}
+    - {fileID: 2654456613250182127, guid: 32da10372c4869a41ad06827e80db6fa, type: 3}
+    - {fileID: 8961933521211744281, guid: 32da10372c4869a41ad06827e80db6fa, type: 3}
+    - {fileID: -6612112287937615191, guid: 32da10372c4869a41ad06827e80db6fa, type: 3}
+    - {fileID: -2492463519736372151, guid: 32da10372c4869a41ad06827e80db6fa, type: 3}
     schedule:
     - hour: 0
       zone: alley
@@ -98,17 +114,19 @@ MonoBehaviour:
       position: {x: 4, y: 1}
     - hour: 18
       zone: city
-      position: {x: 3, y: -3}
+      position: {x: 3, y: -0.8}
     - hour: 22
       zone: alley
       position: {x: -4, y: 1}
   - npcId: classmate
     title: "\uC606\uC790\uB9AC \uBBFC\uC218"
     frames:
-    - {fileID: 7884886324942417129, guid: 42f057b9d5c3b5941ae35ade19be7006, type: 2}
-    - {fileID: -5941330600595465168, guid: 42f057b9d5c3b5941ae35ade19be7006, type: 2}
-    - {fileID: 5737566730294966140, guid: 42f057b9d5c3b5941ae35ade19be7006, type: 2}
-    - {fileID: 267871229182402052, guid: 42f057b9d5c3b5941ae35ade19be7006, type: 2}
+    - {fileID: 5922913841180796738, guid: 32da10372c4869a41ad06827e80db6fa, type: 3}
+    - {fileID: -3149443096527263752, guid: 32da10372c4869a41ad06827e80db6fa, type: 3}
+    - {fileID: -5808762171865805891, guid: 32da10372c4869a41ad06827e80db6fa, type: 3}
+    - {fileID: 503767667352521975, guid: 32da10372c4869a41ad06827e80db6fa, type: 3}
+    - {fileID: -1898996087698927076, guid: 32da10372c4869a41ad06827e80db6fa, type: 3}
+    - {fileID: -5554759672939389616, guid: 32da10372c4869a41ad06827e80db6fa, type: 3}
     schedule:
     - hour: 0
       zone: alley
@@ -118,7 +136,7 @@ MonoBehaviour:
       position: {x: -3, y: 1}
     - hour: 16
       zone: city
-      position: {x: -3, y: -3}
+      position: {x: -3, y: -0.8}
     - hour: 21
       zone: alley
       position: {x: 3, y: 1}

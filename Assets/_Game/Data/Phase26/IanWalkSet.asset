@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2cb10e74d1086c849b2b2f7f3956143c, type: 3}
+  m_Name: IanWalkSet
+  m_EditorClassIdentifier: Assembly-CSharp::IanGame.WorldWalkSet
+  controller: {fileID: 9100000, guid: aec1081eb8142e249acbbc50fa5293e9, type: 2}
+  down:
+  - {fileID: -526105193480923997, guid: b1ba8d423cb79894187b22bbcb22b9fd, type: 3}
+  - {fileID: 7143077135058284173, guid: b1ba8d423cb79894187b22bbcb22b9fd, type: 3}
+  - {fileID: -2655779777060616363, guid: b1ba8d423cb79894187b22bbcb22b9fd, type: 3}
+  - {fileID: 2487008817740685052, guid: b1ba8d423cb79894187b22bbcb22b9fd, type: 3}
+  - {fileID: -1850307678752545717, guid: b1ba8d423cb79894187b22bbcb22b9fd, type: 3}
+  - {fileID: 2003551049431074174, guid: b1ba8d423cb79894187b22bbcb22b9fd, type: 3}
+  up:
+  - {fileID: 5192574675085505024, guid: b1ba8d423cb79894187b22bbcb22b9fd, type: 3}
+  - {fileID: 1516697844245787737, guid: b1ba8d423cb79894187b22bbcb22b9fd, type: 3}
+  - {fileID: 1520595550316187551, guid: b1ba8d423cb79894187b22bbcb22b9fd, type: 3}
+  - {fileID: 2356281205800139870, guid: b1ba8d423cb79894187b22bbcb22b9fd, type: 3}
+  - {fileID: 2541198515290420059, guid: b1ba8d423cb79894187b22bbcb22b9fd, type: 3}
+  - {fileID: 998185295620145107, guid: b1ba8d423cb79894187b22bbcb22b9fd, type: 3}
+  left:
+  - {fileID: 3791743764637749067, guid: b1ba8d423cb79894187b22bbcb22b9fd, type: 3}
+  - {fileID: 2613091229187912777, guid: b1ba8d423cb79894187b22bbcb22b9fd, type: 3}
+  - {fileID: 3459482634973437945, guid: b1ba8d423cb79894187b22bbcb22b9fd, type: 3}
+  - {fileID: -4386152864097976880, guid: b1ba8d423cb79894187b22bbcb22b9fd, type: 3}
+  - {fileID: 1712847041321539546, guid: b1ba8d423cb79894187b22bbcb22b9fd, type: 3}
+  - {fileID: -4708435555668107598, guid: b1ba8d423cb79894187b22bbcb22b9fd, type: 3}
+  right:
+  - {fileID: 11319730333497268, guid: b1ba8d423cb79894187b22bbcb22b9fd, type: 3}
+  - {fileID: -4858127434866095468, guid: b1ba8d423cb79894187b22bbcb22b9fd, type: 3}
+  - {fileID: -2910873351674296319, guid: b1ba8d423cb79894187b22bbcb22b9fd, type: 3}
+  - {fileID: -3560397856927043976, guid: b1ba8d423cb79894187b22bbcb22b9fd, type: 3}
+  - {fileID: 5115143465009381209, guid: b1ba8d423cb79894187b22bbcb22b9fd, type: 3}
+  - {fileID: -5764656393600629891, guid: b1ba8d423cb79894187b22bbcb22b9fd, type: 3}
+  strideLength: 1.8

@@ -1,0 +1,13 @@
+{
+    "status":  "Failed or unavailable",
+    "failure":  "System.Exception: Native movement failed for key 87\r\n  at IanGame.Editor.Phase26NativeInputProbe+\u003c\u003ec__DisplayClass33_0.\u003cScenario\u003eb__13 () [0x0010d] in C:\\Users\\user\\Desktop\\IanGrow\\IanGrowing\\Assets\\_Game\\Scripts\\Editor\\Phase26NativeInputProbe.cs:61 \r\n  at IanGame.Editor.Phase26NativeInputProbe.Tick () [0x00033] in C:\\Users\\user\\Desktop\\IanGrow\\IanGrowing\\Assets\\_Game\\Scripts\\Editor\\Phase26NativeInputProbe.cs:44 ",
+    "focused":  true,
+    "observations":  [
+                         "Visible editor window: IanGrowing - LifeWorld - Windows, Mac, Linux - Unity 6.6 (6000.6.8f1) \u003cDX12\u003e",
+                         "Foreground request=False, actual=False",
+                         "Normal Play: focused=True, CanControl=True, timeScale=1, shell=0",
+                         "OS held=False, InputSystem=False, editorFocus=GameView, frame=3218",
+                         "OS key 87 delta=(0.00, 0.00)"
+                     ],
+    "classification":  "Unverified: foreground activation denied and OS key state not observed. This report does not establish a gameplay input defect."
+}

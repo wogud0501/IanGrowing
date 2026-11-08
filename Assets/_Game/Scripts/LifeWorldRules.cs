@@ -8,7 +8,7 @@ namespace IanGame {
  public long dailyIncome;public string lastSummary="";
 }
 [Serializable]public class WorldZoneDefinition {
- public string id,title;public SceneId location;public Vector2 origin,size=new Vector2(18,12),spawn=new Vector2(0,-1.5f);public bool outdoor;
+ public string id,title;public SceneId location;public Vector2 origin,size=new Vector2(18,12),spawn=new Vector2(0,-1.5f);public bool outdoor;public float walkableTop=1000,cameraSize;
 }
 [Serializable]public class NPCScheduleEntry {public int hour;public string zone;public Vector2 position;}
 [Serializable]public class WorldNPCDefinition {public string npcId,title;public Sprite[] frames;public NPCScheduleEntry[] schedule;}

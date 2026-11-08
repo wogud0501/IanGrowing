@@ -1,3 +1,41 @@
+# 2026-11-09 — Phase 2.6 품질 복구 진행 중 (완료 아님)
+
+## 연결/중단 복구
+- Unity는 이미 실행 중이므로 재실행하지 않았다. 기존 로컬 MCP 8080에 남은 세션 ID가 404를 반환하여 세션 ID만 갱신해 통신 복구.
+- MCP로 실제 프로젝트 IanGrow/IanGrowing, Bootstrap, Play 중지, 컴파일 대기 없음, 활성 씬 dirty=false 확인.
+- Editor-prev.log 끝에 EditorApplicationQuit와 정상 종료 요청/종료 절차가 있다. 이 기록만으로 크래시 원인을 확정할 수 없음.
+- git 미커밋 변경 및 IanSymbolsFallback.asset 변경을 보존. reset/clean/기존 세이브 삭제 없음.
+
+## 현재 Stage: P0 입력 복구
+- 완료(파일/참조): WorldControls.inputactions의 WASD/방향키 2DVector, 게임패드, E, I, M을 기존 LifeWorld 플레이어에 연결. Esc는 기존 UIShell 단일 소유, Tab은 UI 포커스 이동.
+- 완료(코드): 가속/제동, 대각선 정규화, 창/메뉴/텍스트 입력 중 조작 차단. 포커스 상실 후 Update/FixedUpdate가 다시 이동시키지 않도록 포커스 게이트 추가.
+- 진행 중: DeX + 블루투스 키보드 + 원격 앱 경로의 영문 키 전달. 사용자 보고: 방향키는 동작하나 WASD는 동작하지 않음. 키보드 고장으로 판단하지 않음.
+- 실제 기록: 주입 검사기 종료 후 방향키 KeyState 및 위치 변화 수신. 같은 구간에서 실제 WASD KeyState 미수신. 00000412/00000409 레이아웃 모두 관찰. 원격 앱은 Microsoft임을 사용자에게 확인.
+- 원인 확인: REMOTE_TEXT_INPUT_EVIDENCE.json에 실제 W/A/S/D가 KeyState 없이 TextEvent로만 수신됨. Microsoft 공식 문서의 Unicode 전달 방식과 일치. 클라이언트의 Use scancode input when available 설정 변경 후 사용자 정상 동작 확인. 실제 WASD KeyState와 위치 변화도 기록됨. 문자 이벤트에는 눌림/해제 정보가 없으므로 임의 타임아웃으로 이동을 흉내 내지 않음.
+- 원인 확정 후 불필요한 Unity IME 강제 전환 코드를 제거. 텍스트 입력창/포커스 게이트는 유지.
+- 진단: Phase26InputTrace는 게임 키의 상태 이벤트와 해당 키 문자(TextEvent) 전달을 구분해 기록하도록 확장. 임의 텍스트는 기록하지 않음.
+
+- 안전 체크포인트: Docs/Phase26/Checkpoints/20261109-023252-input-recovery.zip (21개 변경 파일, ZIP 재열기 확인). 원본 파일과 세이브는 유지.
+
+## 테스트 상태
+- 이전 주입 입력 검사: 20개 체크 통과 후 DownArrow 해제/정지 체크에서 실패. 성공으로 덮어쓰지 않음. 당시 물리 틱이 지나기 전 정지 위치를 측정할 수 있는 시간 의존성 및 사용자 동시 입력 여부는 미확정. 검사에 제동 대기 0.12초 추가.
+- Windows SendInput 검사: 전면 창 활성화 요청 거부, OS 키 눌림 확인 안 됨. 이는 자동 조작 검증 불가이며 게임 결함 증거가 아님. 실제 WASD/E/I/Esc와 원격 호환성은 미검증.
+- 이전 Phase 2.6 자동 검사 기록은 기능 경로 검사이며 일반 키보드 조작/상용 그래픽 완료 근거가 아니다.
+
+## 파일/씬
+- 수정: WorldPlayerMotor.cs, LifeWorldController.cs, WorldHUD.cs, LifeWorldBuilder.cs, Phase26Verification.cs, Phase26EditorBridge.cs.
+- 추가: WorldControls.inputactions, Phase26InputSetup.cs, Phase26InputTrace.cs, Phase26NativeInputProbe.cs.
+- 저장된 씬: LifeWorld.unity 플레이어 controls 참조/가감속 값/조작 안내. 프리팹 재생성 없음.
+
+## 남은 작업 / 다음 작업
+1. 변경 입력 스크립트 컴파일 → 원격 문자/키 상태 구분 → 실제 WASD/E/I/Esc 검증. 입력 미해결 상태에서 아트 제작으로 우회하지 않음.
+2. 진행 중: 공식 원본 기준 4방향 × 6프레임 시트의 배경 알파 0 확인, 24개 Sprite / 8개 Idle·Walk 클립 / Animator / WorldWalkSet 생성. LifeWorld 기존 플레이어에 연결하여 씬 저장 완료. 재임포트 후 크기 재조회와 Unity fake-null 판정을 수정. 실제 이동 거리 기반 재생과 발바닥 pivot 보정 적용. 사용자 실제 4방향 보행/정지 정상 확인.
+3. 연결 완료/검증 중: HomeShell/CityGround/BathroomShell, 가구16종, 도시 건물4종·차량, 시민4외형×6프레임, 신호3상태, 실내 밤 배경. Phase26ArtSetup으로 기존 LifeWorld에 적용/저장. WorldPixelViewport 정수 확대, 변경된 벽 위치와 안전 로드 상한, 도로 위 벤치·단말기 이동 적용. Game View에서 집/도시 적용 화면 확인. 작은 월드 간판 글꼴/HUD 과밀은 수정 중.
+4. 연결 완료/검증 중: 배경 시민10명 + 기존 친구2명, 전용2차선 차량4대, 시간대별 밀도/횡단보도 정지/차간 간격/플레이어 감지. Game View 및 A/B 관찰에서 시민10명 이동/프레임 변화 확인. 차량은 횡단 종료 조건 때문에 정지 지속됨을 발견(성공 아님). crossingActive로 시작한 횡단은 끝까지 마치도록 수정, 재검증 대기. 생활/경제/저장/UI 경로 재검증 남음.
+5. 진행 중: 작은 HUD/동적 폭 E 안내, 메뉴 내부 조작 안내, 간판 확대/대비, 전용 차선 위치, 골목 진입점·친구 일정의 인도 배치, 원본 합성 발소리·문·환경음 연결. quality 검사는 정상 입력 정책을 변경하지 않고 컨트롤러/UI 경로로 실행하며 실제 키 검증과 구분. 
+6. Phase 2.7로 넘어가지 않음. 완료 선언 금지.
+
+---
 # 이안 키우기 — Phase 2.6 진행 및 검증 기록
 
 최종 갱신: 2026-11-08
