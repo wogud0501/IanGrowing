@@ -7,6 +7,7 @@ public sealed class WorldPlayerMotor:MonoBehaviour {
  public LifeWorldController world;public SpriteRenderer sprite;public SpriteMotionLibrary motions;public CharacterIdentity identity;public Transform bodyVisual;public Vector2 Facing=Vector2.down;
  public InputActionAsset controls;
  public Animator locomotion;public WorldWalkSet walkSet;public SpriteRenderer contactShadow;
+ [Min(.1f)]public float visualScale=1;
  [Min(1)] public float acceleration=40, braking=64;
  Rigidbody2D body;Vector2 input,velocity;float walkPhase;string pose="Idle";float poseStart;
  InputActionAsset runtimeControls;InputActionMap gameplay;InputAction move,interact,inventory,menu;
@@ -40,11 +41,11 @@ public sealed class WorldPlayerMotor:MonoBehaviour {
    string state=(walking?"Walk_":"Idle_")+walkSet.Direction(Facing);
    locomotion.speed=0;locomotion.Play(state,0,walking?Mathf.Repeat(walkDistance/walkSet.strideLength,1):0);locomotion.Update(0);
    float progress=Mathf.Clamp01((Time.unscaledTime-poseStart)/.35f);bool resting=pose=="Sleep",waking=pose=="Wake Up";float recline=resting?progress:waking?1-progress:0;
-   bodyVisual.localPosition=Vector3.up*(recline*.55f);bodyVisual.localScale=new Vector3(1,Mathf.Lerp(1,.85f,recline),1);bodyVisual.localRotation=Quaternion.identity;
+   bodyVisual.localPosition=Vector3.up*(recline*.55f);bodyVisual.localScale=new Vector3(visualScale,visualScale*Mathf.Lerp(1,.85f,recline),1);bodyVisual.localRotation=Quaternion.identity;
    sprite.flipX=false;sprite.sortingOrder=1000-Mathf.RoundToInt(transform.position.y*100)+(resting||waking?50:0);return;
   }
-  bool walk=input.sqrMagnitude>.01f;float t=Time.unscaledTime-poseStart;float bob=pose=="Sleep"?0:walk?Mathf.Abs(Mathf.Sin(walkPhase))*.05f:Mathf.Sin(Time.unscaledTime*1.6f)*.012f;bodyVisual.localPosition=new Vector3(0,.95f+bob,0);bodyVisual.localRotation=Quaternion.Euler(0,0,pose=="Sleep"?78:pose=="Work"?Mathf.Sin(t*8)*2:pose=="Wash"||pose=="Shower"?Mathf.Sin(t*10)*3:walk?Mathf.Sin(walkPhase)*2:0);bodyVisual.localScale=new Vector3(1,pose=="Sit"||pose=="Eat"||pose=="Work"?.88f:1,1);sprite.flipX=Facing.x<-.1f;sprite.sortingOrder=1000-Mathf.RoundToInt(transform.position.y*100);
-  if(pose=="Wake Up")bodyVisual.localScale=new Vector3(1,Mathf.Lerp(.65f,1,Mathf.Clamp01(t/.35f)),1);
+  bool walk=input.sqrMagnitude>.01f;float t=Time.unscaledTime-poseStart;float bob=pose=="Sleep"?0:walk?Mathf.Abs(Mathf.Sin(walkPhase))*.05f:Mathf.Sin(Time.unscaledTime*1.6f)*.012f;bodyVisual.localPosition=new Vector3(0,.95f+bob,0);bodyVisual.localRotation=Quaternion.Euler(0,0,pose=="Sleep"?78:pose=="Work"?Mathf.Sin(t*8)*2:pose=="Wash"||pose=="Shower"?Mathf.Sin(t*10)*3:walk?Mathf.Sin(walkPhase)*2:0);bodyVisual.localScale=new Vector3(visualScale,visualScale*(pose=="Sit"||pose=="Eat"||pose=="Work"?.88f:1),1);sprite.flipX=Facing.x<-.1f;sprite.sortingOrder=1000-Mathf.RoundToInt(transform.position.y*100);
+  if(pose=="Wake Up")bodyVisual.localScale=new Vector3(visualScale,visualScale*Mathf.Lerp(.65f,1,Mathf.Clamp01(t/.35f)),1);
   if(motions!=null){SpriteMotion state=pose=="Sleep"?SpriteMotion.Sleep:pose=="Eat"?SpriteMotion.Eat:pose=="Work"?SpriteMotion.Work:walk?SpriteMotion.Walk:SpriteMotion.Idle;var clip=motions.Find(state);sprite.sprite=clip!=null&&clip.frames.Length>0?clip.frames[Mathf.FloorToInt(t*clip.framesPerSecond)%clip.frames.Length]:motions.fallback;}
   if(identity!=null&&(pose=="Idle"||walk)){string direction=Mathf.Abs(Facing.x)>Mathf.Abs(Facing.y)?Facing.x<0?"west":"east":Facing.y>0?"north":"south";var directional=identity.State((walk?"walk-":"idle-")+direction);if(directional!=null&&directional!=identity.baseSprite)sprite.sprite=directional;}
  }

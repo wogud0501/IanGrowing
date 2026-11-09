@@ -11,5 +11,6 @@ public sealed class WorldVisualCatalog:ScriptableObject {
  // Food shop, workspace, school, residence, car, traffic signal.
  public Sprite[] urban;
  public WorldPedestrianLook[] pedestrians;
+ public Sprite[] homeArchitecture,homeProps;
 }
 }

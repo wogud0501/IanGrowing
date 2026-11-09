@@ -1,8 +1,8 @@
 {
     "entries": [
         {
-            "frame": 7661,
-            "keys": "W,A",
+            "frame": 16024,
+            "keys": "A",
             "layout": "00000412",
             "device": "RawInput",
             "focus": "GameView",
@@ -11,13 +11,13 @@
             "canControl": true,
             "injectedHarness": false,
             "position": {
-                "x": -1.2143895626068115,
-                "y": -1.1704425811767578
+                "x": 76.86908721923828,
+                "y": 0.6017058491706848
             }
         },
         {
-            "frame": 7661,
-            "keys": "TextOnly:w",
+            "frame": 16024,
+            "keys": "TextOnly:a",
             "layout": "00000412",
             "device": "RawInput",
             "focus": "GameView",
@@ -26,13 +26,13 @@
             "canControl": true,
             "injectedHarness": false,
             "position": {
-                "x": -1.2143895626068115,
-                "y": -1.1704425811767578
+                "x": 76.86908721923828,
+                "y": 0.6017058491706848
             }
         },
         {
-            "frame": 7679,
-            "keys": "W",
+            "frame": 16106,
+            "keys": "A,E",
             "layout": "00000412",
             "device": "RawInput",
             "focus": "GameView",
@@ -41,27 +41,57 @@
             "canControl": true,
             "injectedHarness": false,
             "position": {
-                "x": -1.3696519136428833,
-                "y": -1.0817501544952393
+                "x": 76.26107025146484,
+                "y": 0.6017058491706848
             }
         },
         {
-            "frame": 7888,
+            "frame": 16106,
+            "keys": "TextOnly:e",
+            "layout": "00000412",
+            "device": "RawInput",
+            "focus": "GameView",
+            "eventKind": "TextEvent",
+            "ime": false,
+            "canControl": true,
+            "injectedHarness": false,
+            "position": {
+                "x": 76.26107025146484,
+                "y": 0.6017058491706848
+            }
+        },
+        {
+            "frame": 16107,
+            "keys": "E",
+            "layout": "00000412",
+            "device": "RawInput",
+            "focus": "GameView",
+            "eventKind": "KeyState",
+            "ime": false,
+            "canControl": false,
+            "injectedHarness": false,
+            "position": {
+                "x": 76.26107025146484,
+                "y": 0.6017058491706848
+            }
+        },
+        {
+            "frame": 16135,
             "keys": "",
             "layout": "00000412",
             "device": "RawInput",
             "focus": "GameView",
             "eventKind": "KeyState",
             "ime": false,
-            "canControl": true,
+            "canControl": false,
             "injectedHarness": false,
             "position": {
-                "x": -1.4183759689331055,
-                "y": 0.6892630457878113
+                "x": 76.26107025146484,
+                "y": 0.6017058491706848
             }
         },
         {
-            "frame": 7893,
+            "frame": 17059,
             "keys": "D",
             "layout": "00000412",
             "device": "RawInput",
@@ -71,12 +101,12 @@
             "canControl": true,
             "injectedHarness": false,
             "position": {
-                "x": -1.4183759689331055,
-                "y": 0.7276630401611328
+                "x": 76.26107025146484,
+                "y": 0.6017058491706848
             }
         },
         {
-            "frame": 7893,
+            "frame": 17059,
             "keys": "TextOnly:d",
             "layout": "00000412",
             "device": "RawInput",
@@ -86,1017 +116,12 @@
             "canControl": true,
             "injectedHarness": false,
             "position": {
-                "x": -1.4183759689331055,
-                "y": 0.7276630401611328
+                "x": 76.26107025146484,
+                "y": 0.6017058491706848
             }
         },
         {
-            "frame": 8033,
-            "keys": "S,D",
-            "layout": "00000412",
-            "device": "RawInput",
-            "focus": "GameView",
-            "eventKind": "KeyState",
-            "ime": false,
-            "canControl": true,
-            "injectedHarness": false,
-            "position": {
-                "x": -0.3851775527000427,
-                "y": 0.7989437580108643
-            }
-        },
-        {
-            "frame": 8033,
-            "keys": "TextOnly:s",
-            "layout": "00000412",
-            "device": "RawInput",
-            "focus": "GameView",
-            "eventKind": "TextEvent",
-            "ime": false,
-            "canControl": true,
-            "injectedHarness": false,
-            "position": {
-                "x": -0.3851775527000427,
-                "y": 0.7989437580108643
-            }
-        },
-        {
-            "frame": 8042,
-            "keys": "S",
-            "layout": "00000412",
-            "device": "RawInput",
-            "focus": "GameView",
-            "eventKind": "KeyState",
-            "ime": false,
-            "canControl": true,
-            "injectedHarness": false,
-            "position": {
-                "x": -0.3273005187511444,
-                "y": 0.7841616868972778
-            }
-        },
-        {
-            "frame": 8353,
-            "keys": "",
-            "layout": "00000412",
-            "device": "RawInput",
-            "focus": "GameView",
-            "eventKind": "KeyState",
-            "ime": false,
-            "canControl": true,
-            "injectedHarness": false,
-            "position": {
-                "x": -0.2176792025566101,
-                "y": -1.682616949081421
-            }
-        },
-        {
-            "frame": 8417,
-            "keys": "D",
-            "layout": "00000412",
-            "device": "RawInput",
-            "focus": "GameView",
-            "eventKind": "KeyState",
-            "ime": false,
-            "canControl": true,
-            "injectedHarness": false,
-            "position": {
-                "x": -0.2176792025566101,
-                "y": -1.7338168621063232
-            }
-        },
-        {
-            "frame": 8417,
-            "keys": "TextOnly:d",
-            "layout": "00000412",
-            "device": "RawInput",
-            "focus": "GameView",
-            "eventKind": "TextEvent",
-            "ime": false,
-            "canControl": true,
-            "injectedHarness": false,
-            "position": {
-                "x": -0.2176792025566101,
-                "y": -1.7338168621063232
-            }
-        },
-        {
-            "frame": 8560,
-            "keys": "TextOnly:d",
-            "layout": "00000412",
-            "device": "RawInput",
-            "focus": "GameView",
-            "eventKind": "TextEvent",
-            "ime": false,
-            "canControl": true,
-            "injectedHarness": false,
-            "position": {
-                "x": 0.9663200974464417,
-                "y": -1.7338168621063232
-            }
-        },
-        {
-            "frame": 8581,
-            "keys": "TextOnly:d",
-            "layout": "00000412",
-            "device": "RawInput",
-            "focus": "GameView",
-            "eventKind": "TextEvent",
-            "ime": false,
-            "canControl": true,
-            "injectedHarness": false,
-            "position": {
-                "x": 1.1583200693130493,
-                "y": -1.7338168621063232
-            }
-        },
-        {
-            "frame": 8592,
-            "keys": "TextOnly:d",
-            "layout": "00000412",
-            "device": "RawInput",
-            "focus": "GameView",
-            "eventKind": "TextEvent",
-            "ime": false,
-            "canControl": true,
-            "injectedHarness": false,
-            "position": {
-                "x": 1.2223200798034668,
-                "y": -1.7338168621063232
-            }
-        },
-        {
-            "frame": 8610,
-            "keys": "TextOnly:d",
-            "layout": "00000412",
-            "device": "RawInput",
-            "focus": "GameView",
-            "eventKind": "TextEvent",
-            "ime": false,
-            "canControl": true,
-            "injectedHarness": false,
-            "position": {
-                "x": 1.4143201112747192,
-                "y": -1.7338168621063232
-            }
-        },
-        {
-            "frame": 8629,
-            "keys": "TextOnly:d",
-            "layout": "00000412",
-            "device": "RawInput",
-            "focus": "GameView",
-            "eventKind": "TextEvent",
-            "ime": false,
-            "canControl": true,
-            "injectedHarness": false,
-            "position": {
-                "x": 1.5423201322555542,
-                "y": -1.7338168621063232
-            }
-        },
-        {
-            "frame": 8646,
-            "keys": "TextOnly:d",
-            "layout": "00000412",
-            "device": "RawInput",
-            "focus": "GameView",
-            "eventKind": "TextEvent",
-            "ime": false,
-            "canControl": true,
-            "injectedHarness": false,
-            "position": {
-                "x": 1.7343201637268066,
-                "y": -1.7338168621063232
-            }
-        },
-        {
-            "frame": 8668,
-            "keys": "TextOnly:d",
-            "layout": "00000412",
-            "device": "RawInput",
-            "focus": "GameView",
-            "eventKind": "TextEvent",
-            "ime": false,
-            "canControl": true,
-            "injectedHarness": false,
-            "position": {
-                "x": 1.926320195198059,
-                "y": -1.7338168621063232
-            }
-        },
-        {
-            "frame": 8681,
-            "keys": "TextOnly:d",
-            "layout": "00000412",
-            "device": "RawInput",
-            "focus": "GameView",
-            "eventKind": "TextEvent",
-            "ime": false,
-            "canControl": true,
-            "injectedHarness": false,
-            "position": {
-                "x": 2.0543200969696045,
-                "y": -1.7338168621063232
-            }
-        },
-        {
-            "frame": 8699,
-            "keys": "TextOnly:d",
-            "layout": "00000412",
-            "device": "RawInput",
-            "focus": "GameView",
-            "eventKind": "TextEvent",
-            "ime": false,
-            "canControl": true,
-            "injectedHarness": false,
-            "position": {
-                "x": 2.1823198795318604,
-                "y": -1.7338168621063232
-            }
-        },
-        {
-            "frame": 8721,
-            "keys": "TextOnly:d",
-            "layout": "00000412",
-            "device": "RawInput",
-            "focus": "GameView",
-            "eventKind": "TextEvent",
-            "ime": false,
-            "canControl": true,
-            "injectedHarness": false,
-            "position": {
-                "x": 2.374319553375244,
-                "y": -1.7338168621063232
-            }
-        },
-        {
-            "frame": 8735,
-            "keys": "TextOnly:d",
-            "layout": "00000412",
-            "device": "RawInput",
-            "focus": "GameView",
-            "eventKind": "TextEvent",
-            "ime": false,
-            "canControl": true,
-            "injectedHarness": false,
-            "position": {
-                "x": 2.5023193359375,
-                "y": -1.7338168621063232
-            }
-        },
-        {
-            "frame": 8737,
-            "keys": "",
-            "layout": "00000412",
-            "device": "RawInput",
-            "focus": "GameView",
-            "eventKind": "KeyState",
-            "ime": false,
-            "canControl": true,
-            "injectedHarness": false,
-            "position": {
-                "x": 2.566319227218628,
-                "y": -1.7338168621063232
-            }
-        },
-        {
-            "frame": 8789,
-            "keys": "S",
-            "layout": "00000412",
-            "device": "RawInput",
-            "focus": "GameView",
-            "eventKind": "KeyState",
-            "ime": false,
-            "canControl": true,
-            "injectedHarness": false,
-            "position": {
-                "x": 2.6175191402435303,
-                "y": -1.7338168621063232
-            }
-        },
-        {
-            "frame": 8789,
-            "keys": "TextOnly:s",
-            "layout": "00000412",
-            "device": "RawInput",
-            "focus": "GameView",
-            "eventKind": "TextEvent",
-            "ime": false,
-            "canControl": true,
-            "injectedHarness": false,
-            "position": {
-                "x": 2.6175191402435303,
-                "y": -1.7338168621063232
-            }
-        },
-        {
-            "frame": 8950,
-            "keys": "TextOnly:s",
-            "layout": "00000412",
-            "device": "RawInput",
-            "focus": "GameView",
-            "eventKind": "TextEvent",
-            "ime": false,
-            "canControl": true,
-            "injectedHarness": false,
-            "position": {
-                "x": 2.6175191402435303,
-                "y": -2.9178152084350586
-            }
-        },
-        {
-            "frame": 8953,
-            "keys": "",
-            "layout": "00000412",
-            "device": "RawInput",
-            "focus": "GameView",
-            "eventKind": "KeyState",
-            "ime": false,
-            "canControl": true,
-            "injectedHarness": false,
-            "position": {
-                "x": 2.6175191402435303,
-                "y": -2.9818150997161865
-            }
-        },
-        {
-            "frame": 8982,
-            "keys": "A",
-            "layout": "00000412",
-            "device": "RawInput",
-            "focus": "GameView",
-            "eventKind": "KeyState",
-            "ime": false,
-            "canControl": true,
-            "injectedHarness": false,
-            "position": {
-                "x": 2.6175191402435303,
-                "y": -3.033015012741089
-            }
-        },
-        {
-            "frame": 8982,
-            "keys": "TextOnly:a",
-            "layout": "00000412",
-            "device": "RawInput",
-            "focus": "GameView",
-            "eventKind": "TextEvent",
-            "ime": false,
-            "canControl": true,
-            "injectedHarness": false,
-            "position": {
-                "x": 2.6175191402435303,
-                "y": -3.033015012741089
-            }
-        },
-        {
-            "frame": 9064,
-            "keys": "W,A",
-            "layout": "00000412",
-            "device": "RawInput",
-            "focus": "GameView",
-            "eventKind": "KeyState",
-            "ime": false,
-            "canControl": true,
-            "injectedHarness": false,
-            "position": {
-                "x": 2.0095200538635254,
-                "y": -3.033015012741089
-            }
-        },
-        {
-            "frame": 9064,
-            "keys": "TextOnly:w",
-            "layout": "00000412",
-            "device": "RawInput",
-            "focus": "GameView",
-            "eventKind": "TextEvent",
-            "ime": false,
-            "canControl": true,
-            "injectedHarness": false,
-            "position": {
-                "x": 2.0095200538635254,
-                "y": -3.033015012741089
-            }
-        },
-        {
-            "frame": 9216,
-            "keys": "TextOnly:w",
-            "layout": "00000412",
-            "device": "RawInput",
-            "focus": "GameView",
-            "eventKind": "TextEvent",
-            "ime": false,
-            "canControl": true,
-            "injectedHarness": false,
-            "position": {
-                "x": 1.084925651550293,
-                "y": -2.174992799758911
-            }
-        },
-        {
-            "frame": 9235,
-            "keys": "TextOnly:w",
-            "layout": "00000412",
-            "device": "RawInput",
-            "focus": "GameView",
-            "eventKind": "TextEvent",
-            "ime": false,
-            "canControl": true,
-            "injectedHarness": false,
-            "position": {
-                "x": 0.949161171913147,
-                "y": -2.039228677749634
-            }
-        },
-        {
-            "frame": 9245,
-            "keys": "TextOnly:w",
-            "layout": "00000412",
-            "device": "RawInput",
-            "focus": "GameView",
-            "eventKind": "TextEvent",
-            "ime": false,
-            "canControl": true,
-            "injectedHarness": false,
-            "position": {
-                "x": 0.8586515188217163,
-                "y": -1.9487190246582031
-            }
-        },
-        {
-            "frame": 9253,
-            "keys": "TextOnly:w",
-            "layout": "00000412",
-            "device": "RawInput",
-            "focus": "GameView",
-            "eventKind": "TextEvent",
-            "ime": false,
-            "canControl": true,
-            "injectedHarness": false,
-            "position": {
-                "x": 0.7681418657302856,
-                "y": -1.8582093715667725
-            }
-        },
-        {
-            "frame": 9261,
-            "keys": "TextOnly:w",
-            "layout": "00000412",
-            "device": "RawInput",
-            "focus": "GameView",
-            "eventKind": "TextEvent",
-            "ime": false,
-            "canControl": true,
-            "injectedHarness": false,
-            "position": {
-                "x": 0.5871225595474243,
-                "y": -1.6771900653839111
-            }
-        },
-        {
-            "frame": 9269,
-            "keys": "TextOnly:w",
-            "layout": "00000412",
-            "device": "RawInput",
-            "focus": "GameView",
-            "eventKind": "TextEvent",
-            "ime": false,
-            "canControl": true,
-            "injectedHarness": false,
-            "position": {
-                "x": 0.49661290645599365,
-                "y": -1.5866804122924805
-            }
-        },
-        {
-            "frame": 9287,
-            "keys": "TextOnly:w",
-            "layout": "00000412",
-            "device": "RawInput",
-            "focus": "GameView",
-            "eventKind": "TextEvent",
-            "ime": false,
-            "canControl": true,
-            "injectedHarness": false,
-            "position": {
-                "x": 0.406103253364563,
-                "y": -1.4961707592010498
-            }
-        },
-        {
-            "frame": 9304,
-            "keys": "TextOnly:w",
-            "layout": "00000412",
-            "device": "RawInput",
-            "focus": "GameView",
-            "eventKind": "TextEvent",
-            "ime": false,
-            "canControl": true,
-            "injectedHarness": false,
-            "position": {
-                "x": 0.3155936002731323,
-                "y": -1.4056611061096191
-            }
-        },
-        {
-            "frame": 9325,
-            "keys": "TextOnly:w",
-            "layout": "00000412",
-            "device": "RawInput",
-            "focus": "GameView",
-            "eventKind": "TextEvent",
-            "ime": false,
-            "canControl": true,
-            "injectedHarness": false,
-            "position": {
-                "x": 0.17982912063598633,
-                "y": -1.2698966264724731
-            }
-        },
-        {
-            "frame": 9341,
-            "keys": "TextOnly:w",
-            "layout": "00000412",
-            "device": "RawInput",
-            "focus": "GameView",
-            "eventKind": "TextEvent",
-            "ime": false,
-            "canControl": true,
-            "injectedHarness": false,
-            "position": {
-                "x": 0.08931947499513626,
-                "y": -1.1793869733810425
-            }
-        },
-        {
-            "frame": 9363,
-            "keys": "TextOnly:w",
-            "layout": "00000412",
-            "device": "RawInput",
-            "focus": "GameView",
-            "eventKind": "TextEvent",
-            "ime": false,
-            "canControl": true,
-            "injectedHarness": false,
-            "position": {
-                "x": -0.046444982290267944,
-                "y": -1.0436224937438965
-            }
-        },
-        {
-            "frame": 9372,
-            "keys": "W",
-            "layout": "00000412",
-            "device": "RawInput",
-            "focus": "GameView",
-            "eventKind": "KeyState",
-            "ime": false,
-            "canControl": true,
-            "injectedHarness": false,
-            "position": {
-                "x": -0.13695462048053741,
-                "y": -0.9531128406524658
-            }
-        },
-        {
-            "frame": 9476,
-            "keys": "",
-            "layout": "00000412",
-            "device": "RawInput",
-            "focus": "GameView",
-            "eventKind": "KeyState",
-            "ime": false,
-            "canControl": true,
-            "injectedHarness": false,
-            "position": {
-                "x": -0.18402670323848724,
-                "y": -0.14061111211776733
-            }
-        },
-        {
-            "frame": 9530,
-            "keys": "D",
-            "layout": "00000412",
-            "device": "RawInput",
-            "focus": "GameView",
-            "eventKind": "KeyState",
-            "ime": false,
-            "canControl": true,
-            "injectedHarness": false,
-            "position": {
-                "x": -0.18402670323848724,
-                "y": -0.08941110223531723
-            }
-        },
-        {
-            "frame": 9530,
-            "keys": "TextOnly:d",
-            "layout": "00000412",
-            "device": "RawInput",
-            "focus": "GameView",
-            "eventKind": "TextEvent",
-            "ime": false,
-            "canControl": true,
-            "injectedHarness": false,
-            "position": {
-                "x": -0.18402670323848724,
-                "y": -0.08941110223531723
-            }
-        },
-        {
-            "frame": 9619,
-            "keys": "S,D",
-            "layout": "00000412",
-            "device": "RawInput",
-            "focus": "GameView",
-            "eventKind": "KeyState",
-            "ime": false,
-            "canControl": true,
-            "injectedHarness": false,
-            "position": {
-                "x": 0.5519729852676392,
-                "y": -0.08941110223531723
-            }
-        },
-        {
-            "frame": 9619,
-            "keys": "TextOnly:s",
-            "layout": "00000412",
-            "device": "RawInput",
-            "focus": "GameView",
-            "eventKind": "TextEvent",
-            "ime": false,
-            "canControl": true,
-            "injectedHarness": false,
-            "position": {
-                "x": 0.5519729852676392,
-                "y": -0.08941110223531723
-            }
-        },
-        {
-            "frame": 9625,
-            "keys": "S",
-            "layout": "00000412",
-            "device": "RawInput",
-            "focus": "GameView",
-            "eventKind": "KeyState",
-            "ime": false,
-            "canControl": true,
-            "injectedHarness": false,
-            "position": {
-                "x": 0.6098500490188599,
-                "y": -0.10419316589832306
-            }
-        },
-        {
-            "frame": 9792,
-            "keys": "",
-            "layout": "00000412",
-            "device": "RawInput",
-            "focus": "GameView",
-            "eventKind": "KeyState",
-            "ime": false,
-            "canControl": true,
-            "injectedHarness": false,
-            "position": {
-                "x": 0.7194713354110718,
-                "y": -1.3549721240997314
-            }
-        },
-        {
-            "frame": 17550,
-            "keys": "RightArrow",
-            "layout": "00000412",
-            "device": "RawInput",
-            "focus": "InspectorWindow",
-            "eventKind": "KeyState",
-            "ime": false,
-            "canControl": true,
-            "injectedHarness": false,
-            "position": {
-                "x": 0.7194713354110718,
-                "y": -1.4061720371246338
-            }
-        },
-        {
-            "frame": 17555,
-            "keys": "",
-            "layout": "00000412",
-            "device": "RawInput",
-            "focus": "InspectorWindow",
-            "eventKind": "KeyState",
-            "ime": false,
-            "canControl": true,
-            "injectedHarness": false,
-            "position": {
-                "x": 0.7194713354110718,
-                "y": -1.4061720371246338
-            }
-        },
-        {
-            "frame": 26930,
-            "keys": "W",
-            "layout": "00000412",
-            "device": "RawInput",
-            "focus": "InspectorWindow",
-            "eventKind": "KeyState",
-            "ime": false,
-            "canControl": true,
-            "injectedHarness": false,
-            "position": {
-                "x": 0.7194713354110718,
-                "y": -1.4061720371246338
-            }
-        },
-        {
-            "frame": 26930,
-            "keys": "TextOnly:w",
-            "layout": "00000412",
-            "device": "RawInput",
-            "focus": "InspectorWindow",
-            "eventKind": "TextEvent",
-            "ime": false,
-            "canControl": true,
-            "injectedHarness": false,
-            "position": {
-                "x": 0.7194713354110718,
-                "y": -1.4061720371246338
-            }
-        },
-        {
-            "frame": 27057,
-            "keys": "",
-            "layout": "00000412",
-            "device": "RawInput",
-            "focus": "InspectorWindow",
-            "eventKind": "KeyState",
-            "ime": false,
-            "canControl": true,
-            "injectedHarness": false,
-            "position": {
-                "x": 0.7194713354110718,
-                "y": -1.4061720371246338
-            }
-        },
-        {
-            "frame": 27061,
-            "keys": "A",
-            "layout": "00000412",
-            "device": "RawInput",
-            "focus": "InspectorWindow",
-            "eventKind": "KeyState",
-            "ime": false,
-            "canControl": true,
-            "injectedHarness": false,
-            "position": {
-                "x": 0.7194713354110718,
-                "y": -1.4061720371246338
-            }
-        },
-        {
-            "frame": 27061,
-            "keys": "TextOnly:a",
-            "layout": "00000412",
-            "device": "RawInput",
-            "focus": "InspectorWindow",
-            "eventKind": "TextEvent",
-            "ime": false,
-            "canControl": true,
-            "injectedHarness": false,
-            "position": {
-                "x": 0.7194713354110718,
-                "y": -1.4061720371246338
-            }
-        },
-        {
-            "frame": 27191,
-            "keys": "",
-            "layout": "00000412",
-            "device": "RawInput",
-            "focus": "InspectorWindow",
-            "eventKind": "KeyState",
-            "ime": false,
-            "canControl": true,
-            "injectedHarness": false,
-            "position": {
-                "x": 0.7194713354110718,
-                "y": -1.4061720371246338
-            }
-        },
-        {
-            "frame": 27726,
-            "keys": "W",
-            "layout": "00000412",
-            "device": "RawInput",
-            "focus": "InspectorWindow",
-            "eventKind": "KeyState",
-            "ime": false,
-            "canControl": true,
-            "injectedHarness": false,
-            "position": {
-                "x": 0.7194713354110718,
-                "y": -1.4061720371246338
-            }
-        },
-        {
-            "frame": 27726,
-            "keys": "TextOnly:w",
-            "layout": "00000412",
-            "device": "RawInput",
-            "focus": "InspectorWindow",
-            "eventKind": "TextEvent",
-            "ime": false,
-            "canControl": true,
-            "injectedHarness": false,
-            "position": {
-                "x": 0.7194713354110718,
-                "y": -1.4061720371246338
-            }
-        },
-        {
-            "frame": 27850,
-            "keys": "W,A",
-            "layout": "00000412",
-            "device": "RawInput",
-            "focus": "InspectorWindow",
-            "eventKind": "KeyState",
-            "ime": false,
-            "canControl": true,
-            "injectedHarness": false,
-            "position": {
-                "x": 0.7194713354110718,
-                "y": -1.4061720371246338
-            }
-        },
-        {
-            "frame": 27850,
-            "keys": "TextOnly:a",
-            "layout": "00000412",
-            "device": "RawInput",
-            "focus": "InspectorWindow",
-            "eventKind": "TextEvent",
-            "ime": false,
-            "canControl": true,
-            "injectedHarness": false,
-            "position": {
-                "x": 0.7194713354110718,
-                "y": -1.4061720371246338
-            }
-        },
-        {
-            "frame": 27869,
-            "keys": "A",
-            "layout": "00000412",
-            "device": "RawInput",
-            "focus": "InspectorWindow",
-            "eventKind": "KeyState",
-            "ime": false,
-            "canControl": true,
-            "injectedHarness": false,
-            "position": {
-                "x": 0.7194713354110718,
-                "y": -1.4061720371246338
-            }
-        },
-        {
-            "frame": 27977,
-            "keys": "",
-            "layout": "00000412",
-            "device": "RawInput",
-            "focus": "InspectorWindow",
-            "eventKind": "KeyState",
-            "ime": false,
-            "canControl": true,
-            "injectedHarness": false,
-            "position": {
-                "x": 0.7194713354110718,
-                "y": -1.4061720371246338
-            }
-        },
-        {
-            "frame": 28172,
-            "keys": "S",
-            "layout": "00000412",
-            "device": "RawInput",
-            "focus": "GameView",
-            "eventKind": "KeyState",
-            "ime": false,
-            "canControl": true,
-            "injectedHarness": false,
-            "position": {
-                "x": 0.7194713354110718,
-                "y": -1.4061720371246338
-            }
-        },
-        {
-            "frame": 28172,
-            "keys": "TextOnly:s",
-            "layout": "00000412",
-            "device": "RawInput",
-            "focus": "GameView",
-            "eventKind": "TextEvent",
-            "ime": false,
-            "canControl": true,
-            "injectedHarness": false,
-            "position": {
-                "x": 0.7194713354110718,
-                "y": -1.4061720371246338
-            }
-        },
-        {
-            "frame": 28301,
-            "keys": "A,S",
-            "layout": "00000412",
-            "device": "RawInput",
-            "focus": "GameView",
-            "eventKind": "KeyState",
-            "ime": false,
-            "canControl": true,
-            "injectedHarness": false,
-            "position": {
-                "x": 0.7194713354110718,
-                "y": -2.3981711864471436
-            }
-        },
-        {
-            "frame": 28301,
-            "keys": "A",
-            "layout": "00000412",
-            "device": "RawInput",
-            "focus": "GameView",
-            "eventKind": "KeyState",
-            "ime": false,
-            "canControl": true,
-            "injectedHarness": false,
-            "position": {
-                "x": 0.7194713354110718,
-                "y": -2.3981711864471436
-            }
-        },
-        {
-            "frame": 28301,
-            "keys": "TextOnly:a",
-            "layout": "00000412",
-            "device": "RawInput",
-            "focus": "GameView",
-            "eventKind": "TextEvent",
-            "ime": false,
-            "canControl": true,
-            "injectedHarness": false,
-            "position": {
-                "x": 0.7194713354110718,
-                "y": -2.3981711864471436
-            }
-        },
-        {
-            "frame": 28414,
-            "keys": "W,A",
-            "layout": "00000412",
-            "device": "RawInput",
-            "focus": "GameView",
-            "eventKind": "KeyState",
-            "ime": false,
-            "canControl": true,
-            "injectedHarness": false,
-            "position": {
-                "x": -0.0262339785695076,
-                "y": -2.5484654903411865
-            }
-        },
-        {
-            "frame": 28414,
-            "keys": "TextOnly:w",
-            "layout": "00000412",
-            "device": "RawInput",
-            "focus": "GameView",
-            "eventKind": "TextEvent",
-            "ime": false,
-            "canControl": true,
-            "injectedHarness": false,
-            "position": {
-                "x": -0.0262339785695076,
-                "y": -2.5484654903411865
-            }
-        },
-        {
-            "frame": 28429,
-            "keys": "W",
-            "layout": "00000412",
-            "device": "RawInput",
-            "focus": "GameView",
-            "eventKind": "KeyState",
-            "ime": false,
-            "canControl": true,
-            "injectedHarness": false,
-            "position": {
-                "x": -0.18149632215499878,
-                "y": -2.459773302078247
-            }
-        },
-        {
-            "frame": 28707,
+            "frame": 17157,
             "keys": "W,D",
             "layout": "00000412",
             "device": "RawInput",
@@ -1106,28 +131,13 @@
             "canControl": true,
             "injectedHarness": false,
             "position": {
-                "x": -0.23022042214870453,
-                "y": -0.240759938955307
+                "x": 76.93309020996094,
+                "y": 0.6017058491706848
             }
         },
         {
-            "frame": 28707,
-            "keys": "D",
-            "layout": "00000412",
-            "device": "RawInput",
-            "focus": "GameView",
-            "eventKind": "KeyState",
-            "ime": false,
-            "canControl": true,
-            "injectedHarness": false,
-            "position": {
-                "x": -0.23022042214870453,
-                "y": -0.240759938955307
-            }
-        },
-        {
-            "frame": 28707,
-            "keys": "TextOnly:d",
+            "frame": 17157,
+            "keys": "TextOnly:w",
             "layout": "00000412",
             "device": "RawInput",
             "focus": "GameView",
@@ -1136,28 +146,13 @@
             "canControl": true,
             "injectedHarness": false,
             "position": {
-                "x": -0.23022042214870453,
-                "y": -0.240759938955307
+                "x": 76.93309020996094,
+                "y": 0.6017058491706848
             }
         },
         {
-            "frame": 28795,
-            "keys": "S,D",
-            "layout": "00000412",
-            "device": "RawInput",
-            "focus": "GameView",
-            "eventKind": "KeyState",
-            "ime": false,
-            "canControl": true,
-            "injectedHarness": false,
-            "position": {
-                "x": 0.38748493790626526,
-                "y": -0.09046556800603867
-            }
-        },
-        {
-            "frame": 28795,
-            "keys": "TextOnly:s",
+            "frame": 17321,
+            "keys": "TextOnly:w",
             "layout": "00000412",
             "device": "RawInput",
             "focus": "GameView",
@@ -1166,13 +161,208 @@
             "canControl": true,
             "injectedHarness": false,
             "position": {
-                "x": 0.38748493790626526,
-                "y": -0.09046556800603867
+                "x": 77.90299224853516,
+                "y": 1.5049850940704346
             }
         },
         {
-            "frame": 28798,
-            "keys": "S",
+            "frame": 17335,
+            "keys": "TextOnly:w",
+            "layout": "00000412",
+            "device": "RawInput",
+            "focus": "GameView",
+            "eventKind": "TextEvent",
+            "ime": false,
+            "canControl": true,
+            "injectedHarness": false,
+            "position": {
+                "x": 77.9935073852539,
+                "y": 1.5954947471618652
+            }
+        },
+        {
+            "frame": 17356,
+            "keys": "TextOnly:w",
+            "layout": "00000412",
+            "device": "RawInput",
+            "focus": "GameView",
+            "eventKind": "TextEvent",
+            "ime": false,
+            "canControl": true,
+            "injectedHarness": false,
+            "position": {
+                "x": 78.08402252197266,
+                "y": 1.686004400253296
+            }
+        },
+        {
+            "frame": 17374,
+            "keys": "TextOnly:w",
+            "layout": "00000412",
+            "device": "RawInput",
+            "focus": "GameView",
+            "eventKind": "TextEvent",
+            "ime": false,
+            "canControl": true,
+            "injectedHarness": false,
+            "position": {
+                "x": 78.21979522705078,
+                "y": 1.821768879890442
+            }
+        },
+        {
+            "frame": 17395,
+            "keys": "TextOnly:w",
+            "layout": "00000412",
+            "device": "RawInput",
+            "focus": "GameView",
+            "eventKind": "TextEvent",
+            "ime": false,
+            "canControl": true,
+            "injectedHarness": false,
+            "position": {
+                "x": 78.3555679321289,
+                "y": 1.957533359527588
+            }
+        },
+        {
+            "frame": 17419,
+            "keys": "TextOnly:w",
+            "layout": "00000412",
+            "device": "RawInput",
+            "focus": "GameView",
+            "eventKind": "TextEvent",
+            "ime": false,
+            "canControl": true,
+            "injectedHarness": false,
+            "position": {
+                "x": 78.49134063720703,
+                "y": 2.0932974815368652
+            }
+        },
+        {
+            "frame": 17430,
+            "keys": "TextOnly:w",
+            "layout": "00000412",
+            "device": "RawInput",
+            "focus": "GameView",
+            "eventKind": "TextEvent",
+            "ime": false,
+            "canControl": true,
+            "injectedHarness": false,
+            "position": {
+                "x": 78.5365982055664,
+                "y": 2.138552188873291
+            }
+        },
+        {
+            "frame": 17451,
+            "keys": "TextOnly:w",
+            "layout": "00000412",
+            "device": "RawInput",
+            "focus": "GameView",
+            "eventKind": "TextEvent",
+            "ime": false,
+            "canControl": true,
+            "injectedHarness": false,
+            "position": {
+                "x": 78.67237091064453,
+                "y": 2.2743163108825684
+            }
+        },
+        {
+            "frame": 17470,
+            "keys": "TextOnly:w",
+            "layout": "00000412",
+            "device": "RawInput",
+            "focus": "GameView",
+            "eventKind": "TextEvent",
+            "ime": false,
+            "canControl": true,
+            "injectedHarness": false,
+            "position": {
+                "x": 78.80814361572266,
+                "y": 2.4100804328918457
+            }
+        },
+        {
+            "frame": 17487,
+            "keys": "TextOnly:w",
+            "layout": "00000412",
+            "device": "RawInput",
+            "focus": "GameView",
+            "eventKind": "TextEvent",
+            "ime": false,
+            "canControl": true,
+            "injectedHarness": false,
+            "position": {
+                "x": 78.8986587524414,
+                "y": 2.5005898475646973
+            }
+        },
+        {
+            "frame": 17506,
+            "keys": "TextOnly:w",
+            "layout": "00000412",
+            "device": "RawInput",
+            "focus": "GameView",
+            "eventKind": "TextEvent",
+            "ime": false,
+            "canControl": true,
+            "injectedHarness": false,
+            "position": {
+                "x": 79.03443145751953,
+                "y": 2.6363539695739746
+            }
+        },
+        {
+            "frame": 17515,
+            "keys": "TextOnly:w",
+            "layout": "00000412",
+            "device": "RawInput",
+            "focus": "GameView",
+            "eventKind": "TextEvent",
+            "ime": false,
+            "canControl": true,
+            "injectedHarness": false,
+            "position": {
+                "x": 79.12494659423828,
+                "y": 2.726863384246826
+            }
+        },
+        {
+            "frame": 17531,
+            "keys": "TextOnly:w",
+            "layout": "00000412",
+            "device": "RawInput",
+            "focus": "GameView",
+            "eventKind": "TextEvent",
+            "ime": false,
+            "canControl": true,
+            "injectedHarness": false,
+            "position": {
+                "x": 79.21546173095703,
+                "y": 2.8173727989196777
+            }
+        },
+        {
+            "frame": 17551,
+            "keys": "TextOnly:w",
+            "layout": "00000412",
+            "device": "RawInput",
+            "focus": "GameView",
+            "eventKind": "TextEvent",
+            "ime": false,
+            "canControl": true,
+            "injectedHarness": false,
+            "position": {
+                "x": 79.35123443603516,
+                "y": 2.953136920928955
+            }
+        },
+        {
+            "frame": 17556,
+            "keys": "W",
             "layout": "00000412",
             "device": "RawInput",
             "focus": "GameView",
@@ -1181,12 +371,12 @@
             "canControl": true,
             "injectedHarness": false,
             "position": {
-                "x": 0.4453619718551636,
-                "y": -0.1052476316690445
+                "x": 79.39649200439453,
+                "y": 2.998391628265381
             }
         },
         {
-            "frame": 28862,
+            "frame": 18442,
             "keys": "",
             "layout": "00000412",
             "device": "RawInput",
@@ -1196,8 +386,818 @@
             "canControl": true,
             "injectedHarness": false,
             "position": {
-                "x": 0.5549833178520203,
-                "y": -0.5880268216133118
+                "x": 79.44356536865234,
+                "y": 7.540008068084717
+            }
+        },
+        {
+            "frame": 18517,
+            "keys": "S",
+            "layout": "00000412",
+            "device": "RawInput",
+            "focus": "GameView",
+            "eventKind": "KeyState",
+            "ime": false,
+            "canControl": true,
+            "injectedHarness": false,
+            "position": {
+                "x": 79.44356536865234,
+                "y": 7.540000915527344
+            }
+        },
+        {
+            "frame": 18517,
+            "keys": "TextOnly:s",
+            "layout": "00000412",
+            "device": "RawInput",
+            "focus": "GameView",
+            "eventKind": "TextEvent",
+            "ime": false,
+            "canControl": true,
+            "injectedHarness": false,
+            "position": {
+                "x": 79.44356536865234,
+                "y": 7.540000915527344
+            }
+        },
+        {
+            "frame": 18647,
+            "keys": "TextOnly:s",
+            "layout": "00000412",
+            "device": "RawInput",
+            "focus": "GameView",
+            "eventKind": "TextEvent",
+            "ime": false,
+            "canControl": true,
+            "injectedHarness": false,
+            "position": {
+                "x": 79.44356536865234,
+                "y": 6.61199951171875
+            }
+        },
+        {
+            "frame": 18695,
+            "keys": "TextOnly:s",
+            "layout": "00000412",
+            "device": "RawInput",
+            "focus": "GameView",
+            "eventKind": "TextEvent",
+            "ime": false,
+            "canControl": true,
+            "injectedHarness": false,
+            "position": {
+                "x": 79.44356536865234,
+                "y": 6.227998733520508
+            }
+        },
+        {
+            "frame": 18695,
+            "keys": "TextOnly:s",
+            "layout": "00000412",
+            "device": "RawInput",
+            "focus": "GameView",
+            "eventKind": "TextEvent",
+            "ime": false,
+            "canControl": true,
+            "injectedHarness": false,
+            "position": {
+                "x": 79.44356536865234,
+                "y": 6.227998733520508
+            }
+        },
+        {
+            "frame": 18702,
+            "keys": "TextOnly:s",
+            "layout": "00000412",
+            "device": "RawInput",
+            "focus": "GameView",
+            "eventKind": "TextEvent",
+            "ime": false,
+            "canControl": true,
+            "injectedHarness": false,
+            "position": {
+                "x": 79.44356536865234,
+                "y": 6.163998603820801
+            }
+        },
+        {
+            "frame": 18722,
+            "keys": "TextOnly:s",
+            "layout": "00000412",
+            "device": "RawInput",
+            "focus": "GameView",
+            "eventKind": "TextEvent",
+            "ime": false,
+            "canControl": true,
+            "injectedHarness": false,
+            "position": {
+                "x": 79.44356536865234,
+                "y": 5.97199821472168
+            }
+        },
+        {
+            "frame": 18785,
+            "keys": "TextOnly:s",
+            "layout": "00000412",
+            "device": "RawInput",
+            "focus": "GameView",
+            "eventKind": "TextEvent",
+            "ime": false,
+            "canControl": true,
+            "injectedHarness": false,
+            "position": {
+                "x": 79.44356536865234,
+                "y": 5.459997177124023
+            }
+        },
+        {
+            "frame": 18785,
+            "keys": "TextOnly:s",
+            "layout": "00000412",
+            "device": "RawInput",
+            "focus": "GameView",
+            "eventKind": "TextEvent",
+            "ime": false,
+            "canControl": true,
+            "injectedHarness": false,
+            "position": {
+                "x": 79.44356536865234,
+                "y": 5.459997177124023
+            }
+        },
+        {
+            "frame": 18785,
+            "keys": "TextOnly:s",
+            "layout": "00000412",
+            "device": "RawInput",
+            "focus": "GameView",
+            "eventKind": "TextEvent",
+            "ime": false,
+            "canControl": true,
+            "injectedHarness": false,
+            "position": {
+                "x": 79.44356536865234,
+                "y": 5.459997177124023
+            }
+        },
+        {
+            "frame": 18805,
+            "keys": "TextOnly:s",
+            "layout": "00000412",
+            "device": "RawInput",
+            "focus": "GameView",
+            "eventKind": "TextEvent",
+            "ime": false,
+            "canControl": true,
+            "injectedHarness": false,
+            "position": {
+                "x": 79.44356536865234,
+                "y": 5.331996917724609
+            }
+        },
+        {
+            "frame": 18817,
+            "keys": "TextOnly:s",
+            "layout": "00000412",
+            "device": "RawInput",
+            "focus": "GameView",
+            "eventKind": "TextEvent",
+            "ime": false,
+            "canControl": true,
+            "injectedHarness": false,
+            "position": {
+                "x": 79.44356536865234,
+                "y": 5.139996528625488
+            }
+        },
+        {
+            "frame": 18863,
+            "keys": "TextOnly:s",
+            "layout": "00000412",
+            "device": "RawInput",
+            "focus": "GameView",
+            "eventKind": "TextEvent",
+            "ime": false,
+            "canControl": true,
+            "injectedHarness": false,
+            "position": {
+                "x": 79.44356536865234,
+                "y": 4.755995750427246
+            }
+        },
+        {
+            "frame": 18863,
+            "keys": "TextOnly:s",
+            "layout": "00000412",
+            "device": "RawInput",
+            "focus": "GameView",
+            "eventKind": "TextEvent",
+            "ime": false,
+            "canControl": true,
+            "injectedHarness": false,
+            "position": {
+                "x": 79.44356536865234,
+                "y": 4.755995750427246
+            }
+        },
+        {
+            "frame": 18869,
+            "keys": "TextOnly:s",
+            "layout": "00000412",
+            "device": "RawInput",
+            "focus": "GameView",
+            "eventKind": "TextEvent",
+            "ime": false,
+            "canControl": true,
+            "injectedHarness": false,
+            "position": {
+                "x": 79.44356536865234,
+                "y": 4.691995620727539
+            }
+        },
+        {
+            "frame": 18889,
+            "keys": "TextOnly:s",
+            "layout": "00000412",
+            "device": "RawInput",
+            "focus": "GameView",
+            "eventKind": "TextEvent",
+            "ime": false,
+            "canControl": true,
+            "injectedHarness": false,
+            "position": {
+                "x": 79.44356536865234,
+                "y": 4.499995231628418
+            }
+        },
+        {
+            "frame": 18948,
+            "keys": "TextOnly:s",
+            "layout": "00000412",
+            "device": "RawInput",
+            "focus": "GameView",
+            "eventKind": "TextEvent",
+            "ime": false,
+            "canControl": true,
+            "injectedHarness": false,
+            "position": {
+                "x": 79.44356536865234,
+                "y": 4.051994323730469
+            }
+        },
+        {
+            "frame": 18948,
+            "keys": "TextOnly:s",
+            "layout": "00000412",
+            "device": "RawInput",
+            "focus": "GameView",
+            "eventKind": "TextEvent",
+            "ime": false,
+            "canControl": true,
+            "injectedHarness": false,
+            "position": {
+                "x": 79.44356536865234,
+                "y": 4.051994323730469
+            }
+        },
+        {
+            "frame": 18950,
+            "keys": "TextOnly:s",
+            "layout": "00000412",
+            "device": "RawInput",
+            "focus": "GameView",
+            "eventKind": "TextEvent",
+            "ime": false,
+            "canControl": true,
+            "injectedHarness": false,
+            "position": {
+                "x": 79.44356536865234,
+                "y": 3.987994432449341
+            }
+        },
+        {
+            "frame": 18962,
+            "keys": "TextOnly:s",
+            "layout": "00000412",
+            "device": "RawInput",
+            "focus": "GameView",
+            "eventKind": "TextEvent",
+            "ime": false,
+            "canControl": true,
+            "injectedHarness": false,
+            "position": {
+                "x": 79.44356536865234,
+                "y": 3.859994649887085
+            }
+        },
+        {
+            "frame": 19032,
+            "keys": "TextOnly:s",
+            "layout": "00000412",
+            "device": "RawInput",
+            "focus": "GameView",
+            "eventKind": "TextEvent",
+            "ime": false,
+            "canControl": true,
+            "injectedHarness": false,
+            "position": {
+                "x": 79.44356536865234,
+                "y": 3.3479955196380615
+            }
+        },
+        {
+            "frame": 19032,
+            "keys": "TextOnly:s",
+            "layout": "00000412",
+            "device": "RawInput",
+            "focus": "GameView",
+            "eventKind": "TextEvent",
+            "ime": false,
+            "canControl": true,
+            "injectedHarness": false,
+            "position": {
+                "x": 79.44356536865234,
+                "y": 3.3479955196380615
+            }
+        },
+        {
+            "frame": 19032,
+            "keys": "TextOnly:s",
+            "layout": "00000412",
+            "device": "RawInput",
+            "focus": "GameView",
+            "eventKind": "TextEvent",
+            "ime": false,
+            "canControl": true,
+            "injectedHarness": false,
+            "position": {
+                "x": 79.44356536865234,
+                "y": 3.3479955196380615
+            }
+        },
+        {
+            "frame": 19041,
+            "keys": "TextOnly:s",
+            "layout": "00000412",
+            "device": "RawInput",
+            "focus": "GameView",
+            "eventKind": "TextEvent",
+            "ime": false,
+            "canControl": true,
+            "injectedHarness": false,
+            "position": {
+                "x": 79.44356536865234,
+                "y": 3.2199957370758057
+            }
+        },
+        {
+            "frame": 19058,
+            "keys": "TextOnly:s",
+            "layout": "00000412",
+            "device": "RawInput",
+            "focus": "GameView",
+            "eventKind": "TextEvent",
+            "ime": false,
+            "canControl": true,
+            "injectedHarness": false,
+            "position": {
+                "x": 79.44356536865234,
+                "y": 3.09199595451355
+            }
+        },
+        {
+            "frame": 19117,
+            "keys": "TextOnly:s",
+            "layout": "00000412",
+            "device": "RawInput",
+            "focus": "GameView",
+            "eventKind": "TextEvent",
+            "ime": false,
+            "canControl": true,
+            "injectedHarness": false,
+            "position": {
+                "x": 79.44356536865234,
+                "y": 2.5799968242645264
+            }
+        },
+        {
+            "frame": 19117,
+            "keys": "TextOnly:s",
+            "layout": "00000412",
+            "device": "RawInput",
+            "focus": "GameView",
+            "eventKind": "TextEvent",
+            "ime": false,
+            "canControl": true,
+            "injectedHarness": false,
+            "position": {
+                "x": 79.44356536865234,
+                "y": 2.5799968242645264
+            }
+        },
+        {
+            "frame": 19119,
+            "keys": "TextOnly:s",
+            "layout": "00000412",
+            "device": "RawInput",
+            "focus": "GameView",
+            "eventKind": "TextEvent",
+            "ime": false,
+            "canControl": true,
+            "injectedHarness": false,
+            "position": {
+                "x": 79.44356536865234,
+                "y": 2.5799968242645264
+            }
+        },
+        {
+            "frame": 19134,
+            "keys": "TextOnly:s",
+            "layout": "00000412",
+            "device": "RawInput",
+            "focus": "GameView",
+            "eventKind": "TextEvent",
+            "ime": false,
+            "canControl": true,
+            "injectedHarness": false,
+            "position": {
+                "x": 79.44356536865234,
+                "y": 2.4519970417022705
+            }
+        },
+        {
+            "frame": 19203,
+            "keys": "TextOnly:s",
+            "layout": "00000412",
+            "device": "RawInput",
+            "focus": "GameView",
+            "eventKind": "TextEvent",
+            "ime": false,
+            "canControl": true,
+            "injectedHarness": false,
+            "position": {
+                "x": 79.44356536865234,
+                "y": 1.87599778175354
+            }
+        },
+        {
+            "frame": 19203,
+            "keys": "TextOnly:s",
+            "layout": "00000412",
+            "device": "RawInput",
+            "focus": "GameView",
+            "eventKind": "TextEvent",
+            "ime": false,
+            "canControl": true,
+            "injectedHarness": false,
+            "position": {
+                "x": 79.44356536865234,
+                "y": 1.87599778175354
+            }
+        },
+        {
+            "frame": 19203,
+            "keys": "TextOnly:s",
+            "layout": "00000412",
+            "device": "RawInput",
+            "focus": "GameView",
+            "eventKind": "TextEvent",
+            "ime": false,
+            "canControl": true,
+            "injectedHarness": false,
+            "position": {
+                "x": 79.44356536865234,
+                "y": 1.87599778175354
+            }
+        },
+        {
+            "frame": 19214,
+            "keys": "TextOnly:s",
+            "layout": "00000412",
+            "device": "RawInput",
+            "focus": "GameView",
+            "eventKind": "TextEvent",
+            "ime": false,
+            "canControl": true,
+            "injectedHarness": false,
+            "position": {
+                "x": 79.44356536865234,
+                "y": 1.747997760772705
+            }
+        },
+        {
+            "frame": 19232,
+            "keys": "TextOnly:s",
+            "layout": "00000412",
+            "device": "RawInput",
+            "focus": "GameView",
+            "eventKind": "TextEvent",
+            "ime": false,
+            "canControl": true,
+            "injectedHarness": false,
+            "position": {
+                "x": 79.44356536865234,
+                "y": 1.6199977397918701
+            }
+        },
+        {
+            "frame": 19287,
+            "keys": "TextOnly:s",
+            "layout": "00000412",
+            "device": "RawInput",
+            "focus": "GameView",
+            "eventKind": "TextEvent",
+            "ime": false,
+            "canControl": true,
+            "injectedHarness": false,
+            "position": {
+                "x": 79.44356536865234,
+                "y": 1.1719976663589478
+            }
+        },
+        {
+            "frame": 19287,
+            "keys": "TextOnly:s",
+            "layout": "00000412",
+            "device": "RawInput",
+            "focus": "GameView",
+            "eventKind": "TextEvent",
+            "ime": false,
+            "canControl": true,
+            "injectedHarness": false,
+            "position": {
+                "x": 79.44356536865234,
+                "y": 1.1719976663589478
+            }
+        },
+        {
+            "frame": 19289,
+            "keys": "TextOnly:s",
+            "layout": "00000412",
+            "device": "RawInput",
+            "focus": "GameView",
+            "eventKind": "TextEvent",
+            "ime": false,
+            "canControl": true,
+            "injectedHarness": false,
+            "position": {
+                "x": 79.44356536865234,
+                "y": 1.1079976558685303
+            }
+        },
+        {
+            "frame": 19308,
+            "keys": "TextOnly:s",
+            "layout": "00000412",
+            "device": "RawInput",
+            "focus": "GameView",
+            "eventKind": "TextEvent",
+            "ime": false,
+            "canControl": true,
+            "injectedHarness": false,
+            "position": {
+                "x": 79.44356536865234,
+                "y": 0.9799976944923401
+            }
+        },
+        {
+            "frame": 19376,
+            "keys": "TextOnly:s",
+            "layout": "00000412",
+            "device": "RawInput",
+            "focus": "GameView",
+            "eventKind": "TextEvent",
+            "ime": false,
+            "canControl": true,
+            "injectedHarness": false,
+            "position": {
+                "x": 79.44356536865234,
+                "y": 0.40399807691574097
+            }
+        },
+        {
+            "frame": 19376,
+            "keys": "TextOnly:s",
+            "layout": "00000412",
+            "device": "RawInput",
+            "focus": "GameView",
+            "eventKind": "TextEvent",
+            "ime": false,
+            "canControl": true,
+            "injectedHarness": false,
+            "position": {
+                "x": 79.44356536865234,
+                "y": 0.40399807691574097
+            }
+        },
+        {
+            "frame": 19376,
+            "keys": "TextOnly:s",
+            "layout": "00000412",
+            "device": "RawInput",
+            "focus": "GameView",
+            "eventKind": "TextEvent",
+            "ime": false,
+            "canControl": true,
+            "injectedHarness": false,
+            "position": {
+                "x": 79.44356536865234,
+                "y": 0.40399807691574097
+            }
+        },
+        {
+            "frame": 19388,
+            "keys": "TextOnly:s",
+            "layout": "00000412",
+            "device": "RawInput",
+            "focus": "GameView",
+            "eventKind": "TextEvent",
+            "ime": false,
+            "canControl": true,
+            "injectedHarness": false,
+            "position": {
+                "x": 79.44356536865234,
+                "y": 0.2759981155395508
+            }
+        },
+        {
+            "frame": 19405,
+            "keys": "TextOnly:s",
+            "layout": "00000412",
+            "device": "RawInput",
+            "focus": "GameView",
+            "eventKind": "TextEvent",
+            "ime": false,
+            "canControl": true,
+            "injectedHarness": false,
+            "position": {
+                "x": 79.44356536865234,
+                "y": 0.1479981541633606
+            }
+        },
+        {
+            "frame": 19409,
+            "keys": "S,D",
+            "layout": "00000412",
+            "device": "RawInput",
+            "focus": "GameView",
+            "eventKind": "KeyState",
+            "ime": false,
+            "canControl": true,
+            "injectedHarness": false,
+            "position": {
+                "x": 79.44356536865234,
+                "y": 0.0839981809258461
+            }
+        },
+        {
+            "frame": 19409,
+            "keys": "TextOnly:d",
+            "layout": "00000412",
+            "device": "RawInput",
+            "focus": "GameView",
+            "eventKind": "TextEvent",
+            "ime": false,
+            "canControl": true,
+            "injectedHarness": false,
+            "position": {
+                "x": 79.44356536865234,
+                "y": 0.0839981809258461
+            }
+        },
+        {
+            "frame": 19569,
+            "keys": "TextOnly:d",
+            "layout": "00000412",
+            "device": "RawInput",
+            "focus": "GameView",
+            "eventKind": "TextEvent",
+            "ime": false,
+            "canControl": true,
+            "injectedHarness": false,
+            "position": {
+                "x": 80.30164337158203,
+                "y": -0.8405961990356445
+            }
+        },
+        {
+            "frame": 19586,
+            "keys": "TextOnly:d",
+            "layout": "00000412",
+            "device": "RawInput",
+            "focus": "GameView",
+            "eventKind": "TextEvent",
+            "ime": false,
+            "canControl": true,
+            "injectedHarness": false,
+            "position": {
+                "x": 80.39215850830078,
+                "y": -0.9311058521270752
+            }
+        },
+        {
+            "frame": 19642,
+            "keys": "TextOnly:d",
+            "layout": "00000412",
+            "device": "RawInput",
+            "focus": "GameView",
+            "eventKind": "TextEvent",
+            "ime": false,
+            "canControl": true,
+            "injectedHarness": false,
+            "position": {
+                "x": 80.7089614868164,
+                "y": -1.2478896379470825
+            }
+        },
+        {
+            "frame": 19642,
+            "keys": "TextOnly:d",
+            "layout": "00000412",
+            "device": "RawInput",
+            "focus": "GameView",
+            "eventKind": "TextEvent",
+            "ime": false,
+            "canControl": true,
+            "injectedHarness": false,
+            "position": {
+                "x": 80.7089614868164,
+                "y": -1.2478896379470825
+            }
+        },
+        {
+            "frame": 19647,
+            "keys": "TextOnly:d",
+            "layout": "00000412",
+            "device": "RawInput",
+            "focus": "GameView",
+            "eventKind": "TextEvent",
+            "ime": false,
+            "canControl": true,
+            "injectedHarness": false,
+            "position": {
+                "x": 80.75421905517578,
+                "y": -1.2931444644927979
+            }
+        },
+        {
+            "frame": 19663,
+            "keys": "TextOnly:d",
+            "layout": "00000412",
+            "device": "RawInput",
+            "focus": "GameView",
+            "eventKind": "TextEvent",
+            "ime": false,
+            "canControl": true,
+            "injectedHarness": false,
+            "position": {
+                "x": 80.84473419189453,
+                "y": -1.3836541175842285
+            }
+        },
+        {
+            "frame": 19724,
+            "keys": "D",
+            "layout": "00000412",
+            "device": "RawInput",
+            "focus": "GameView",
+            "eventKind": "KeyState",
+            "ime": false,
+            "canControl": true,
+            "injectedHarness": false,
+            "position": {
+                "x": 81.20679473876953,
+                "y": -1.7456927299499512
+            }
+        },
+        {
+            "frame": 19724,
+            "keys": "",
+            "layout": "00000412",
+            "device": "RawInput",
+            "focus": "GameView",
+            "eventKind": "KeyState",
+            "ime": false,
+            "canControl": true,
+            "injectedHarness": false,
+            "position": {
+                "x": 81.20679473876953,
+                "y": -1.7456927299499512
+            }
+        },
+        {
+            "frame": 19724,
+            "keys": "TextOnly:d",
+            "layout": "00000412",
+            "device": "RawInput",
+            "focus": "GameView",
+            "eventKind": "TextEvent",
+            "ime": false,
+            "canControl": true,
+            "injectedHarness": false,
+            "position": {
+                "x": 81.20679473876953,
+                "y": -1.7456927299499512
             }
         }
     ]

@@ -1,0 +1,47 @@
+{
+  "views": [
+    {
+      "name": "Game",
+      "display": 0
+    }
+  ],
+  "width": 1280,
+  "height": 720,
+  "camera": {
+    "name": "Main Camera 2D",
+    "enabled": true,
+    "targetDisplay": 0,
+    "cullingMask": -1,
+    "tag": "MainCamera",
+    "texture": "none",
+    "urp": "Base"
+  },
+  "canvases": [
+    {
+      "name": "World transition and sleep fade",
+      "mode": "ScreenSpaceOverlay",
+      "targetDisplay": 0
+    },
+    {
+      "name": "Game Canvas",
+      "mode": "ScreenSpaceOverlay",
+      "targetDisplay": 0
+    },
+    {
+      "name": "Persistent Loading UI",
+      "mode": "ScreenSpaceOverlay",
+      "targetDisplay": 0
+    },
+    {
+      "name": "Overlay Stack",
+      "mode": "ScreenSpaceOverlay",
+      "targetDisplay": 0
+    },
+    {
+      "name": "Phase23 Scene UI",
+      "mode": "ScreenSpaceOverlay",
+      "targetDisplay": 0
+    }
+  ],
+  "activeDisplayCameras": 1
+}

@@ -14,8 +14,10 @@ namespace IanGame {
 public sealed class HomeLayoutPlan:ScriptableObject {
  public int version=2;public float grid=.25f,playerRadius=.3f;public Rect floor;
  public Vector2 entrance;public Vector2[] accessPoints;public HomeAreaRegion[] regions;
+ public Material furnitureMaterial;
  public HomeFixedFootprint[] fixedFootprints;public Rect[] reserved;public HomeFurnitureRule[] furniture;
  public HomeFurnitureRule Rule(string id)=>furniture?.FirstOrDefault(r=>r.id==id);
+ public bool ValidateAccess(HousingSnapshot home,out string reason){bool ok=Connected(Obstacles(home,null),new List<Vector2>(accessPoints));reason=ok?null:"필수 가구와 출입문의 실제 접근 동선이 막힙니다.";return ok;}
  public Vector2 Snap(Vector2 world)=>new Vector2(Mathf.Round(world.x/grid)*grid,Mathf.Round(world.y/grid)*grid);
  static Rect Expand(Rect r,float amount)=>new Rect(r.xMin-amount,r.yMin-amount,r.width+2*amount,r.height+2*amount);
  static bool Contains(Rect outer,Rect inner)=>inner.xMin>=outer.xMin&&inner.yMin>=outer.yMin&&inner.xMax<=outer.xMax&&inner.yMax<=outer.yMax;
@@ -31,6 +33,9 @@ public sealed class HomeLayoutPlan:ScriptableObject {
   obstacles.Add(footprint);var targets=new List<Vector2>(accessPoints);targets.Add(approach);if(!Connected(obstacles,targets)){reason="침대·주방·출입문의 이동 동선이 막힙니다.";return false;}return true;
  }
  bool Connected(List<Rect> obstacles,List<Vector2> targets){
+  // The actual use point must be clear; a reachable neighbour cannot stand in
+  // for a bed/door approach occupied by furniture.
+  if(targets.Any(p=>!floor.Contains(p)||obstacles.Any(r=>Expand(r,playerRadius).Contains(p))))return false;
   var area=Expand(floor,-playerRadius);int width=Mathf.CeilToInt(area.width/grid)+1,height=Mathf.CeilToInt(area.height/grid)+1;var blocked=new bool[width,height];var visited=new bool[width,height];
   for(int y=0;y<height;y++)for(int x=0;x<width;x++){var point=new Vector2(area.xMin+x*grid,area.yMin+y*grid);blocked[x,y]=!area.Contains(point)||obstacles.Any(r=>Expand(r,playerRadius).Contains(point));}
   int sx=Mathf.Clamp(Mathf.RoundToInt((entrance.x-area.xMin)/grid),0,width-1),sy=Mathf.Clamp(Mathf.RoundToInt((entrance.y-area.yMin)/grid),0,height-1);if(blocked[sx,sy])return false;

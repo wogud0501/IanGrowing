@@ -1,5 +1,18 @@
 # 2026-11-09 — Phase 2.6 품질 복구 진행 중 (완료 아님)
 
+## 현재 상태 — 집 긴급 수정 최종 확인 (2026-11-09)
+- 실제 저장된 LifeWorld 집: 13.5×9, 카메라 4.8 orthographic. 바닥/벽은 종횡비를 유지해 균일 축소. 좌측 침실/협탁/책상/옷장, 우측 연속 주방 작업대/싱크/냉장고/식탁, 뒤쪽 문으로 옥색 화장실 연결.
+- HOME_COMPACT_CYCLE_RESULTS.json: 최종 배치에서 119개 통과. 침대 수면/기상, 샤워, 냉장고 준비/식사, 외출/도시/근무/급여/대화/귀가, 다음 날, 가구 구매/배치, 저장/복원 확인.
+- HOME_ROUTE_RESULTS.json: 고정 가구 점유영역 겹침, 실제 플레이어 Rigidbody2D의 10개 집 동선, 외벽 충돌, 마이그레이션, 낮밤/HUD 포함 108개 통과, UI issue 0. 모터를 검증 중에만 끄고 몸체를 직접 구동하므로 물리 키보드/걷기 애니메이션 검증으로 간주하지 않음.
+- HOME_SINK_RESULTS.json: 실제 세수 상호작용 수락, 위생 20→34.9479, 정확히 300초 경과, 검사 후 기존 상태 복원.
+- HOME_HOUSING_RESULTS.json: 책장 600G 구매(5,000→4,400G), 중복 구매 거부, 현관 배치 거부/차감 없음, 유효 배치 무료, 실제 저장 파일 읽기/로드 후 소유권·배치·잔액 유지 모두 통과.
+- HOME_CAMERA_AUDIT.json: Game View targetDisplay 0과 카메라 display 0 일치, 실제 1280×720, Main Camera 2D 활성/URP Base/MainCamera/cullingMask -1/targetTexture null, 활성 Display 카메라 1개. 월드는 카메라로, HUD만 ScreenSpaceOverlay로 출력. 중복 카메라 생성 없음.
+- 최종 Game View 스크린샷: Urgent-Home-1280x720.png, Urgent-Home-Night-1280x720.png, Urgent-Bathroom-1280x720.png. 기존 Recovery-Home-Art.png, 중간 Urgent-Home-Layout-v1.png 보존.
+- 주요 추가 파일: HomeTraversalVerification.cs. 수정: Phase26HomeSetup.cs / HomeLayoutPlan.cs / Phase26Verification.cs / LifeWorld 씬·규칙·HomeLayoutPlan.asset. 검사 실패 시 모터 복원 처리도 보완.
+- Play 검증 종료 직후 Console 조회 오류 0건. 이후 카메라 Edit Mode 초기값 저장을 위한 재컴파일 시 Unity AI(UERP) ThreadAbort 로그가 다시 발생함. 게임 컴파일/생활 검증 실패와 구분한다. 검사 종료 후 Play 정지, 씬·에셋 저장. 기존 사용자 저장 슬롯과 플레이 상태 복원. 미커밋 작업 보존.
+- 미검증/남음: 새 배치의 사용자 물리 WASD/E 체감, 최종 상업용 미술 품질 검토, 기존 Phase 2.6의 미연결 일상 애니메이션. 전체 Phase 완료 선언 없음.
+
+## 이전 작업 이력
 ## 연결/중단 복구
 - Unity는 이미 실행 중이므로 재실행하지 않았다. 기존 로컬 MCP 8080에 남은 세션 ID가 404를 반환하여 세션 ID만 갱신해 통신 복구.
 - MCP로 실제 프로젝트 IanGrow/IanGrowing, Bootstrap, Play 중지, 컴파일 대기 없음, 활성 씬 dirty=false 확인.
@@ -183,3 +196,24 @@ UI 비율: 1280×720, 1920×1080, 2400×1080, 1080×1920. 큰 글씨 115%, 소�
 - 이전 Recovery-Home-Art.png와 Urgent-Home-1280x720.png를 직접 비교: 침실의 냉장고/노출된 세면대/야외 벤치 제거, 주방 가구와 침실 가구 크기 조정, 현관 통로 확보, 상단 HUD 폭 축소 유지.
 - 마지막 테스트 후 Play 종료, 씬과 에셋 저장 완료. 기존 사용자 모델 및 저장 슬롯은 검사기가 원복함. 키보드 물리 입력/사용자 체감은 이번 집 수정 후 미검증.
 - 다음 작업: 새 집에서 실제 WASD 이동/E 문·가구 조작 확인 → 미연결 일상 애니메이션 선별/연결 → 픽셀 밀도/원근감 추가 검토. Phase 2.6 전체 완료 아님.
+## 2026-11-09 추가 보정 — 작은 집과 실제 물리 이동
+- 현재 집 최종 크기 13.5×9 (앞선 15×10에서 균일 축소). 바닥/벽 아트의 종횡비 유지, 가구별 크기는 유지해 빈 공간을 축소. 침대/협탁/옷장/책상과 주방/식탁/현관 위치, 벽 충돌 및 복귀 위치를 함께 맞춤.
+- 주방 조리대·싱크·냉장고 간격을 좁혀 하나의 작업 구역으로 연결. 문 안내를 '밖으로 나가기', '화장실 문 열기', '집으로 돌아가기'로 정리.
+- HomeLayoutPlan v3: 기존 v2 배치를 새 방 경계에 맞게 마이그레이션. 소유권/화폐/다른 저장 데이터 유지. 필수 상호작용 접근점 자체가 점유된 경우 주변 셀의 접근성으로 대신 통과시키지 않음.
+- HomeTraversalVerification: 실제 플레이어 Rigidbody2D를 현관부터 옷장/침대/책상/욕실 문/조리대/싱크/냉장고/식탁/의자/현관으로 이동. 고정 가구 점유영역 겹침 및 실제 외벽 충돌 확인. 키보드 입력을 주입하거나 게임의 포커스 조건을 우회하지 않음. 검증 중에만 모터를 중지해 Rigidbody를 직접 구동하므로 WASD 검증으로 분류하지 않음.
+- HOME_ROUTE_RESULTS.json: 최종 소형 집 물리/배치/카메라/낮밤/HUD 검사 108개 통과, UI issue 0. 초기 경로 검사기는 실제 시작점을 벽 안의 그리드 셀로 반올림해 실패했음(HOME_ROUTE_START_GRID_FAILED.json 보존). 실제 시작점에서 연결 가능한 빈 셀을 선택하도록 검사기를 수정 후 통과. 게임 이동 오류로 잘못 보고하지 않음.
+- 검증 실패 시 중첩 IEnumerator를 Dispose해 모터/임시 상태가 남지 않도록 검사기 복원 처리 보완.
+- 최종 소형 집의 생활 행동/구매/저장은 HOME_COMPACT_CYCLE_RESULTS.json에서 119개 통과. 기존 HOME_DAY_CYCLE_RESULTS.json의 119개는 이전 배치 결과로 보존.
+- 최종 검토 편의: LifeWorld 씬을 Editor에 열어 두었고, Edit Mode 카메라도 Play와 동일한 orthographic 4.8 / 집 중심으로 저장. 씬 dirty=false, 활성 Display 카메라 1개 확인.
+
+## Visual Rebuild 再開 — 2026-11-09 (진행 중)
+- E:\Projects\IanGrowing 경로 없음. 현재 연결된 실제 Unity 프로젝트는 C:\Users\user\Desktop\IanGrow\IanGrowing / Unity 6000.6.8f1. 일시 MCP handshaking 실패 후 연결 복구, 실제 씬 LifeWorld/Play 정지 상태 확인. 재실행/reset/clean 없음.
+- 기존 스크린샷을 스타일 입력으로 사용하지 않음. 공식 Eastward/Fields of Mistria/Stardew/Little Witch 자료와 사용자 기준을 바탕으로 STYLE_GUIDE.md 작성.
+- 새 오리지널 Furniture.png / Architecture.png를 Art/VisualRebuild에 저장. imagegen 내장 도구 사용. 4×4 모듈 아틀라스, 공통 논리 PPU40/32px 타일/Point/압축·mipmap 없음. 생성 결과의 정확한 픽셀 클러스터 품질은 별도 검토가 필요함.
+- Phase26VisualRebuild.cs: 기존 상호작용 ID 유지, 방별 바닥/실제 벽 Collider/침실 문 통로/외부 노치의 L자 평면/별도 옥색 욕실로 변경. 이전 흰색 대각선 kitchen-divider 비활성화. 버전4 배치 마이그레이션은 소유권 보존.
+- 첫 Game View에서 타일 검은 이음선, 큰 침실 문틀 가림, 공중 옷걸이 문제를 발견(First-GameView-Seams.png). 현재 타일 Rect 여백, 낮은 문틀/신발장 Sprite 부분 분리, 창문 높이를 보정하고 재검증 중.
+- 첫 가구 검사에서 책장 슬롯이 침실 출입을 막아 실패(First-Placement-Failed.json 보존). 생활 공간 벽으로 슬롯 이동. 기본집/개선집의 접근 동선 및 가구별 유효 위치를 씬 저장 전에 검사하도록 확장.
+- 반투명 배경 잔여 알파를 표준 cutout 셰이더 WorldAlphaCut으로 렌더에서 제거. 스프라이트/강조/구매 미리보기/소유 가구에 같은 material 적용. 원본 픽셀을 코드로 편집하지 않음.
+- UITypeScale.baseSize까지 수정하여 HUD 글자 크기 변경이 Play 시작 시 덮어써지지 않도록 보정. 구역별 위치명 표시 추가.
+- 수정 파일: Phase26VisualRebuild.cs, Phase26HomeSetup.cs, HomeLayoutPlan.cs, WorldVisualCatalog.cs, WorldPlayerMotor.cs, WorldPixelViewport.cs, LifeWorldController.cs, CompactWorldStatusBar.cs, Phase26Verification.cs, Phase26EditorBridge.cs, LifeWorld 씬/주거 카탈로그/규칙.
+- 아직 완료 아님: 최종 집 화면 재확인/실제 동선/전체 생활 흐름/다양한 해상도, 도시 스타일 교체, 정식 생활 애니메이션, 물리 키 입력. 기존 통과 기록을 이번 변경의 통과 기록으로 사용하지 않음.

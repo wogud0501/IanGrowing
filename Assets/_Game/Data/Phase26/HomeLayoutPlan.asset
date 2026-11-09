@@ -12,181 +12,301 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a0a4a455c0a8be49828ab02f0d423ae, type: 3}
   m_Name: HomeLayoutPlan
   m_EditorClassIdentifier: Assembly-CSharp::IanGame.HomeLayoutPlan
-  version: 2
+  version: 4
   grid: 0.25
   playerRadius: 0.3
   floor:
     serializedVersion: 2
-    x: -7.35
-    y: -4.85
-    width: 14.7
-    height: 7.225
-  entrance: {x: 0, y: -3.8}
+    x: -5.85
+    y: -3.85
+    width: 11.7
+    height: 6.2
+  entrance: {x: 0, y: -2.9}
   accessPoints:
-  - {x: -4.3, y: -0.4}
-  - {x: 6.65, y: 0.2}
-  - {x: 4.75, y: 0.2}
-  - {x: 2.85, y: 0.2}
-  - {x: 3, y: -1.45}
-  - {x: 0.2, y: 1.55}
-  - {x: -6.35, y: -3.7}
-  - {x: -1.8, y: -1.05}
+  - {x: -3.5, y: 0.5}
+  - {x: -0.75, y: 0.45}
+  - {x: -1, y: 0.8}
+  - {x: -2, y: -0.19999999}
+  - {x: 5.25, y: 0.45}
+  - {x: 4, y: 0.45}
+  - {x: 2.75, y: 0.45}
+  - {x: 3.05, y: -1.65}
+  - {x: 4.25, y: -3.4499998}
+  - {x: -0.75, y: -3.05}
+  - {x: 0, y: -3}
+  - {x: 1, y: 1.5500001}
   regions:
-  - title: "\uCE68\uC2E4\xB7\uC0DD\uD65C\xB7\uCC45\uC0C1"
-    area: 7
+  - title: "\uCE68\uC2E4"
+    area: 5
     bounds:
       serializedVersion: 2
-      x: -7.3
-      y: -4.6
-      width: 7.9
-      height: 7
-  - title: "\uC8FC\uBC29\xB7\uC2DD\uC0AC"
-    area: 24
+      x: -5.85
+      y: -0.6
+      width: 5.45
+      height: 2.95
+  - title: "\uC8FC\uBC29"
+    area: 8
     bounds:
       serializedVersion: 2
-      x: 1.6
-      y: -4.5
-      width: 5.7
-      height: 6.9
+      x: 0.4
+      y: -0.6
+      width: 5.45
+      height: 2.95
+  - title: "\uC2DD\uC0AC \uACF5\uAC04"
+    area: 16
+    bounds:
+      serializedVersion: 2
+      x: 2.75
+      y: -3.6
+      width: 3.1
+      height: 2.9
+  - title: "\uC0DD\uD65C \uACF5\uAC04"
+    area: 2
+    bounds:
+      serializedVersion: 2
+      x: -3.35
+      y: -3.85
+      width: 9.2
+      height: 3.1
+  furnitureMaterial: {fileID: 2100000, guid: f89d76783bc7ebf43b282c75d6bae503, type: 2}
   fixedFootprints:
+  - id: Outside house notch
+    bounds:
+      serializedVersion: 2
+      x: -6
+      y: -4
+      width: 2.5
+      height: 3.25
+    improvedOnly: 0
+  - id: Bedroom kitchen partition collision
+    bounds:
+      serializedVersion: 2
+      x: -0.12
+      y: -0.75
+      width: 0.24
+      height: 3.25
+    improvedOnly: 0
+  - id: Bedroom west wall collision
+    bounds:
+      serializedVersion: 2
+      x: -6.12
+      y: -0.75
+      width: 0.24
+      height: 3.25
+    improvedOnly: 0
+  - id: Living west wall collision
+    bounds:
+      serializedVersion: 2
+      x: -3.62
+      y: -4
+      width: 0.24
+      height: 3.25
+    improvedOnly: 0
+  - id: House east wall collision
+    bounds:
+      serializedVersion: 2
+      x: 5.88
+      y: -4
+      width: 0.24
+      height: 6.5
+    improvedOnly: 0
+  - id: Bedroom cutaway left collision
+    bounds:
+      serializedVersion: 2
+      x: -6
+      y: -0.85
+      width: 3
+      height: 0.2
+    improvedOnly: 0
+  - id: Bedroom cutaway right collision
+    bounds:
+      serializedVersion: 2
+      x: -1.5
+      y: -0.85
+      width: 1.5
+      height: 0.2
+    improvedOnly: 0
+  - id: Kitchen cutaway collision
+    bounds:
+      serializedVersion: 2
+      x: 2.5
+      y: -0.35
+      width: 3.5
+      height: 0.2
+    improvedOnly: 0
+  - id: Entry cutaway left collision
+    bounds:
+      serializedVersion: 2
+      x: -3.5
+      y: -4.1
+      width: 2.6
+      height: 0.2
+    improvedOnly: 0
+  - id: Entry cutaway right collision
+    bounds:
+      serializedVersion: 2
+      x: 0.9
+      y: -4.1
+      width: 5.1
+      height: 0.2
+    improvedOnly: 0
   - id: bed
     bounds:
       serializedVersion: 2
-      x: -6.45
-      y: 0.2
-      width: 1.7
-      height: 1.6
+      x: -5.35
+      y: 0.75
+      width: 1.2
+      height: 1.25
+    improvedOnly: 0
+  - id: bedside-table
+    bounds:
+      serializedVersion: 2
+      x: -3.6
+      y: 1
+      width: 0.7
+      height: 0.4
     improvedOnly: 0
   - id: closet
     bounds:
       serializedVersion: 2
-      x: -7.0499997
-      y: -2.9
-      width: 1.4
+      x: -1.175
+      y: 1.25
+      width: 0.85
       height: 0.5
+    improvedOnly: 0
+  - id: starter-desk
+    bounds:
+      serializedVersion: 2
+      x: -2.6
+      y: 1.5
+      width: 1.2
+      height: 0.5
+    improvedOnly: 0
+  - id: writing-chair
+    bounds:
+      serializedVersion: 2
+      x: -2.275
+      y: 0.5
+      width: 0.55
+      height: 0.35
     improvedOnly: 0
   - id: fridge
     bounds:
       serializedVersion: 2
-      x: 6.1
-      y: 1
-      width: 1.1
+      x: 4.775
+      y: 1.25
+      width: 0.95
       height: 0.6
     improvedOnly: 0
   - id: tap-home
     bounds:
       serializedVersion: 2
-      x: 3.9
-      y: 1
-      width: 1.7
-      height: 0.65
+      x: 3.45
+      y: 1.25
+      width: 1.1
+      height: 0.6
     improvedOnly: 0
   - id: kitchen-prep
     bounds:
       serializedVersion: 2
-      x: 1.9999999
-      y: 1
-      width: 1.7
-      height: 0.65
+      x: 2.2
+      y: 1.25
+      width: 1.1
+      height: 0.6
     improvedOnly: 0
   - id: meal-table
     bounds:
       serializedVersion: 2
-      x: 3.45
-      y: -1.6
-      width: 1.6
-      height: 0.7
+      x: 3.6
+      y: -1.8
+      width: 1.3
+      height: 0.6
     improvedOnly: 0
   - id: home-chair
     bounds:
       serializedVersion: 2
-      x: 3.9
+      x: 3.975
       y: -2.8
-      width: 0.7
+      width: 0.55
+      height: 0.35
+    improvedOnly: 0
+  - id: living-settee
+    bounds:
+      serializedVersion: 2
+      x: -1.55
+      y: -2.25
+      width: 1.6
       height: 0.55
-    improvedOnly: 0
-  - id: starter-desk
-    bounds:
-      serializedVersion: 2
-      x: -2.6999998
-      y: 1
-      width: 1.8
-      height: 0.6
-    improvedOnly: 0
-  - id: writing-chair
-    bounds:
-      serializedVersion: 2
-      x: -2.125
-      y: -0.25
-      width: 0.65
-      height: 0.5
-    improvedOnly: 0
-  - id: bedside-table
-    bounds:
-      serializedVersion: 2
-      x: -4.4
-      y: 0.4
-      width: 0.9
-      height: 0.5
     improvedOnly: 0
   - id: entry-shoes
     bounds:
       serializedVersion: 2
-      x: 0.84999996
-      y: -4
-      width: 1.1
-      height: 0.45
+      x: 0.75
+      y: -3.5
+      width: 1
+      height: 0.35
     improvedOnly: 0
-  - id: kitchen-divider
+  - id: Laundry footprint
     bounds:
       serializedVersion: 2
-      x: 0.75
-      y: 0.5
-      width: 1.5
-      height: 0.35
+      x: -5.65
+      y: -0.4
+      width: 0.7
+      height: 0.3
+    improvedOnly: 0
+  - id: Plant footprint
+    bounds:
+      serializedVersion: 2
+      x: 5.05
+      y: -3.55
+      width: 0.6
+      height: 0.3
     improvedOnly: 0
   - id: upgrade-storage
     bounds:
       serializedVersion: 2
-      x: -4.2999997
-      y: -2.5
-      width: 1.4
-      height: 0.45
+      x: 0.25
+      y: 0.25
+      width: 1
+      height: 0.4
     improvedOnly: 1
   reserved:
   - serializedVersion: 2
     x: -0.6
-    y: -4.4
+    y: -3.5
     width: 1.2
-    height: 5.8
+    height: 1.5
   - serializedVersion: 2
-    x: -0.55
-    y: 1.25
-    width: 1.5
+    x: -3.05
+    y: -1.25
+    width: 1.6
+    height: 1.05
+  - serializedVersion: 2
+    x: 0.4
+    y: 1.2
+    width: 1.3
     height: 1.15
   furniture:
   - id: bookshelf
-    areas: 5
-    footprint: {x: 1.4, y: 0.45}
+    areas: 2
+    footprint: {x: 1, y: 0.35}
     approach: {x: 0, y: -0.75}
-    height: 2.1
+    height: 1.44375
     slots:
-    - {x: -3.25, y: 1.75}
-    - {x: -6.5, y: -0.75}
+    - {x: -2.75, y: -2.25}
   - id: lamp
-    areas: 3
-    footprint: {x: 0.45, y: 0.4}
+    areas: 2
+    footprint: {x: 0.55, y: 0.35}
     approach: {x: 0, y: -0.75}
-    height: 1.6
+    height: 1.375
     slots:
-    - {x: -4, y: -1.25}
-    - {x: -1, y: -2.5}
+    - {x: 1.5, y: -1.25}
+    - {x: -2.75, y: -2.5}
   - id: chair
-    areas: 6
-    footprint: {x: 0.8, y: 0.6}
+    areas: 18
+    footprint: {x: 0.55, y: 0.35}
     approach: {x: 0, y: -0.75}
-    height: 1.3
+    height: 1.23125
     slots:
-    - {x: -2.5, y: -3}
-    - {x: -1.75, y: -2.5}
-    - {x: -4, y: -2.5}
+    - {x: 2.25, y: -2.25}
+    - {x: 1.5, y: -2.75}
