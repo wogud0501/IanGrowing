@@ -28,6 +28,7 @@ public static class AdvancedMobileSetup {
   var content=hud.shell.settingsPanel.GetComponentInChildren<ScrollRect>(true).content;
   Button Setting(string name){var existing=content.Find(name);if(existing!=null)return existing.GetComponent<Button>();var b=UnityEngine.Object.Instantiate(hud.shell.motionButton,content);b.name=name;b.onClick=new UnityEngine.UI.Button.ButtonClickedEvent();var le=b.GetComponent<LayoutElement>()??b.gameObject.AddComponent<LayoutElement>();le.preferredHeight=le.minHeight=72;return b;}
   mobile.frameRateButton=Setting("Mobile frame rate");mobile.detailButton=Setting("Mobile environment detail");mobile.touchRoot.gameObject.SetActive(false);mobile.simulateMobile=false;
+  PlayerSettings.Android.resizeableActivity=true;PlayerSettings.Android.resizeableActivity=true;PlayerSettings.resizableWindow=true;
   PlayerSettings.defaultInterfaceOrientation=UIOrientation.AutoRotation;PlayerSettings.allowedAutorotateToPortrait=true;PlayerSettings.allowedAutorotateToPortraitUpsideDown=false;PlayerSettings.allowedAutorotateToLandscapeLeft=PlayerSettings.allowedAutorotateToLandscapeRight=true;
   PlayerSettings.SetScriptingBackend(UnityEditor.Build.NamedBuildTarget.Android,ScriptingImplementation.IL2CPP);PlayerSettings.Android.targetArchitectures=AndroidArchitecture.ARM64;PlayerSettings.Android.minSdkVersion=AndroidSdkVersions.AndroidApiLevel26;
   PlayerSettings.SetScriptingBackend(UnityEditor.Build.NamedBuildTarget.iOS,ScriptingImplementation.IL2CPP);PlayerSettings.iOS.targetOSVersionString="15.0";

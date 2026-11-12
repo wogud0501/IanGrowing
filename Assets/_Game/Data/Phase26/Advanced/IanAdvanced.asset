@@ -27,16 +27,6 @@ MonoBehaviour:
     loopFrom: 0
     framesPerSecond: 8
     strideLength: 1.8
-  - motion: 0
-    direction: 0
-    frames:
-    - {fileID: -526105193480923997, guid: b1ba8d423cb79894187b22bbcb22b9fd, type: 3}
-    - {fileID: -526105193480923997, guid: b1ba8d423cb79894187b22bbcb22b9fd, type: 3}
-    loop: 1
-    mirror: 0
-    loopFrom: 0
-    framesPerSecond: 8
-    strideLength: 1.8
   - motion: 2
     direction: 0
     frames:
@@ -493,4 +483,16 @@ MonoBehaviour:
     mirror: 1
     loopFrom: 0
     framesPerSecond: 8
+    strideLength: 1.8
+  - motion: 0
+    direction: 0
+    frames:
+    - {fileID: 28776294171772349, guid: 187d56c84d77b4114af3bac280974d98, type: 3}
+    - {fileID: -6422428598501140640, guid: 187d56c84d77b4114af3bac280974d98, type: 3}
+    - {fileID: 7776630202130684966, guid: 187d56c84d77b4114af3bac280974d98, type: 3}
+    - {fileID: -4381392612927873233, guid: 187d56c84d77b4114af3bac280974d98, type: 3}
+    loop: 1
+    mirror: 0
+    loopFrom: 0
+    framesPerSecond: 2
     strideLength: 1.8

@@ -7,7 +7,7 @@ public sealed class WorldPlayerMotor:MonoBehaviour {
  public LifeWorldController world;public SpriteRenderer sprite;public SpriteMotionLibrary motions;public CharacterIdentity identity;public Transform bodyVisual;public Vector2 Facing=Vector2.down;
  public InputActionAsset controls;public Animator locomotion;public WorldWalkSet walkSet;public SpriteRenderer contactShadow;public WorldActorAnimation advanced;
  [Min(.1f)]public float visualScale=1;[Min(1)]public float acceleration=40,braking=64;[Min(1)]public float runMultiplier=1.65f;
- Rigidbody2D body;Vector2 input,velocity,observedPosition;float actualSpeed,pendingDistance;bool observed,wasMoving;string pose="Idle";float stopUntil,turnUntil;
+ Rigidbody2D body;Vector2 input,velocity,observedPosition;float actualSpeed,pendingDistance;bool observed,wasMoving;string pose="Idle";float stopUntil,turnUntil,reactionRemaining;ActorMotion reaction;
  InputActionAsset runtimeControls;InputActionMap gameplay;InputAction move,interact,inventory,menu,run;
  bool scripted;Vector2 traversalTarget;float traversalSpeed;
  public bool TraversalArrived{get;private set;}public bool IsTraversing=>scripted;public float ActualSpeed=>actualSpeed;public Vector2 Movement=>velocity;
@@ -41,8 +41,9 @@ public sealed class WorldPlayerMotor:MonoBehaviour {
   if(wasMoving&&!moving)stopUntil=Time.unscaledTime+.24f;wasMoving=moving;
   if(advanced!=null&&advanced.library!=null){
    ActorMotion motion=Parse(pose);
-   if(pose=="Idle")motion=moving?(running?ActorMotion.Run:ActorMotion.Walk):Time.unscaledTime<stopUntil?ActorMotion.Stop:Time.unscaledTime<turnUntil?ActorMotion.Turn:ActorMotion.Idle;
-   bool walking=motion==ActorMotion.Walk||motion==ActorMotion.Run||motion==ActorMotion.Idle;
+   if(pose=="Idle")motion=moving?(running?ActorMotion.Run:ActorMotion.Walk):Time.unscaledTime<stopUntil?ActorMotion.Stop:Time.unscaledTime<turnUntil?ActorMotion.Turn:reactionRemaining>0?reaction:ActorMotion.Idle;
+   if(pose=="Idle"&&!moving&&reactionRemaining>0)reactionRemaining=Mathf.Max(0,reactionRemaining-Time.unscaledDeltaTime);
+   bool walking=motion==ActorMotion.Walk||motion==ActorMotion.Run;
    advanced.Render(motion,Facing,pendingDistance,walking);pendingDistance=0;
    bodyVisual.localPosition=Vector3.zero;bodyVisual.localScale=Vector3.one*visualScale;bodyVisual.localRotation=Quaternion.identity;
   }else if(locomotion!=null&&walkSet!=null&&walkSet.Complete){
@@ -64,6 +65,7 @@ public sealed class WorldPlayerMotor:MonoBehaviour {
  public void Warp(Vector2 point){if(body==null)body=GetComponent<Rigidbody2D>();scripted=false;StopMotion();body.position=point;transform.position=point;}
  void LateUpdate(){if(contactShadow!=null)contactShadow.sortingOrder=sprite.sortingOrder-1;}
  public void Face(Vector2 direction){if(direction.sqrMagnitude<.0001f)return;if(ActorAnimationSet.Direction(direction)!=ActorAnimationSet.Direction(Facing))turnUntil=Time.unscaledTime+.18f;Facing=direction.normalized;}
+ public void React(ActorMotion motion,float seconds=.8f){reaction=motion;reactionRemaining=seconds;}public void ClearReaction(){reactionRemaining=0;}
  public void Pose(string state){pose=state;if(advanced!=null)advanced.Play(Parse(state),Facing,true);}
  static ActorMotion Parse(string state){switch(state){case "Wake Up":return ActorMotion.WakeUp;case "Sit":return ActorMotion.SitDown;case "Wash":return ActorMotion.WashFace;case "Stand Up":return ActorMotion.StandUp;case "Open Door":return ActorMotion.OpenDoor;case "Use Computer":return ActorMotion.UseComputer;case "Use Phone":return ActorMotion.UsePhone;default:return System.Enum.TryParse(state.Replace(" ",""),out ActorMotion motion)?motion:ActorMotion.Interact;}}
 }

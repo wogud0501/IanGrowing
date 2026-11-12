@@ -10,7 +10,7 @@ public sealed class WorldActorAnimation:MonoBehaviour {
  float entered;bool finished;ActorSpriteClip active;
  public void Face(Vector2 direction){Direction=ActorAnimationSet.Direction(direction,Direction);}
  public void Play(ActorMotion motion,Vector2 facing,bool restart=false){
-  Face(facing);var clip=library==null?null:library.Find(motion,Direction);
+  var direction=ActorAnimationSet.Direction(facing,Direction);if(!restart&&Motion==motion&&Direction==direction&&active!=null)return;Direction=direction;var clip=library==null?null:library.Find(motion,Direction);
   if(!restart&&Motion==motion&&active==clip)return;
   Motion=motion;active=clip;entered=Time.unscaledTime;finished=false;Frame=0;
   UsedDirectionFallback=clip!=null&&clip.direction!=Direction;

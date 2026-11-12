@@ -11,13 +11,16 @@ public static class AdvancedLifeSetup {
  public const string Art="Assets/_Game/Art/AdvancedLife/",Data="Assets/_Game/Data/Phase26/Advanced/";
  internal static Sprite[] Grid(string file,int columns,int rows,bool door=false){
   string path=Art+file;AssetDatabase.ImportAsset(path,ImportAssetOptions.ForceSynchronousImport);
-  var importer=(TextureImporter)AssetImporter.GetAtPath(path);string stamp="AdvancedLife/v2/"+File.GetLastWriteTimeUtc(path).Ticks;
+  var importer=(TextureImporter)AssetImporter.GetAtPath(path);string stamp="AdvancedLife/v3/"+File.GetLastWriteTimeUtc(path).Ticks;
   var cached=AssetDatabase.LoadAllAssetsAtPath(path).OfType<Sprite>().OrderBy(s=>s.name).ToArray();if(importer.userData==stamp&&cached.Length==columns*rows&&!importer.isReadable)return cached;
   importer.textureType=TextureImporterType.Sprite;importer.spriteImportMode=SpriteImportMode.Multiple;importer.filterMode=FilterMode.Point;importer.mipmapEnabled=false;importer.alphaIsTransparency=true;importer.npotScale=TextureImporterNPOTScale.None;importer.textureCompression=TextureImporterCompression.Uncompressed;importer.wrapMode=TextureWrapMode.Clamp;importer.maxTextureSize=4096;importer.isReadable=true;
   importer.GetSourceTextureWidthAndHeight(out int width,out int height);importer.spritePixelsPerUnit=door?height/(float)rows/2.25f:height/(float)rows/256*120;
   importer.SaveAndReimport();var texture=AssetDatabase.LoadAssetAtPath<Texture2D>(path);var pixels=texture.GetPixels32();width=texture.width;height=texture.height;if(pixels[0].a>2||pixels.Count(p=>p.a==0)<pixels.Length/4)throw new Exception("Transparent source required: "+path);
+  float[] anchors=file=="CitizenDirections.png"?new[]{0f,.15f,.28f,.426f,.548f,.68f,.802f,.911f,1f}:file=="CitizenActionsV2.png"?new[]{0f,.15f,.285f,.410f,.547f,.692f,.813f,.925f,1f}:file=="IanActions.png"?new[]{0f,.13f,.256f,.38f,.505f,.62f,.74f,.865f,1f}:null;
+  var cuts=new int[rows+1];for(int i=0;i<=rows;i++)cuts[i]=Mathf.RoundToInt(i*height/(float)rows);
+  if(anchors!=null){for(int i=1;i<rows;i++){int expected=Mathf.RoundToInt(anchors[i]*height),best=expected,lowest=int.MaxValue;for(int top=Mathf.Max(1,expected-height/100);top<Mathf.Min(height-1,expected+height/100);top++){int opaque=0;for(int x=0;x<width;x++)if(pixels[(height-1-top)*width+x].a>250)opaque++;if(opaque<lowest){lowest=opaque;best=top;}}cuts[i]=best;}}
   var parts=new SpriteMetaData[columns*rows];for(int row=0;row<rows;row++)for(int col=0;col<columns;col++){
-   int x=Mathf.RoundToInt(col*width/(float)columns),x1=Mathf.RoundToInt((col+1)*width/(float)columns),y=Mathf.RoundToInt((rows-1-row)*height/(float)rows),y1=Mathf.RoundToInt((rows-row)*height/(float)rows);
+   int x=Mathf.RoundToInt(col*width/(float)columns),x1=Mathf.RoundToInt((col+1)*width/(float)columns),y=height-cuts[row+1],y1=height-cuts[row];
    int foot=-1;for(int py=y;py<y1&&foot<0;py++)for(int px=x;px<x1;px++)if(pixels[py*width+px].a>240){foot=py;break;}
    if(foot<0)throw new Exception("Empty authored frame "+file+" "+row+"/"+col);
    parts[row*columns+col]=new SpriteMetaData{name=Path.GetFileNameWithoutExtension(file)+"_"+(row*columns+col).ToString("D3"),rect=new Rect(x,y,x1-x,y1-y),alignment=9,pivot=new Vector2(.5f,(foot+.5f-y)/(y1-y))};

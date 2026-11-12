@@ -11,7 +11,7 @@ public sealed class WorldNPCScheduler:MonoBehaviour {
  sealed class Resident {
   public WorldInteractable actor;public WorldNPCDefinition definition;public WorldActorAnimation animation;public NPCScheduleEntry target;
   public int index=-1;public Vector2 facing=Vector2.down;public NPCDailyAction action;public long used=-1;public List<Vector2> path=new List<Vector2>();public int waypoint;
-  public WorldInteractable portal,nextPortal;public WorldDoor door;public int portalPhase;public float retry,releaseSeatUntil,labelUntil,arrivingUntil;public bool active,atActivity,pendingAbstract;
+  public WorldInteractable portal,nextPortal;public WorldDoor door;public int portalPhase;public float retry,releaseSeatUntil,labelUntil,arrivingUntil,departingUntil;public bool active,atActivity,pendingAbstract;
  }
  Resident[] residents=Array.Empty<Resident>();readonly WorldNPCNavigation navigation=new WorldNPCNavigation();float nextDecision;long lastMinute=-1;string viewedZone;bool ready;WorldStreetLife street;readonly RaycastHit2D[] hits=new RaycastHit2D[16];ContactFilter2D hitFilter;
  public int AbstractUpdates{get;private set;}public int VisibleSteps{get;private set;}public int DoorPassages{get;private set;}public int ObjectUses{get;private set;}public int NavigationBakes=>navigation.Bakes;
@@ -34,10 +34,10 @@ public sealed class WorldNPCScheduler:MonoBehaviour {
  Vector2 Destination(Resident r){var z=world.Service.rules.Zone(r.target.zone);return z.origin+r.target.position;}
  void Decide(bool restoring){long now=Minute;bool minuteChanged=now!=lastMinute;string local=world.Service.State.zone;bool zoneChanged=local!=viewedZone;lastMinute=now;viewedZone=local;
   foreach(var r in residents){int index=Schedule(r.definition,world.Service.Game.clock.Day,(int)(world.Service.Game.clock.SubDaySeconds/60));bool changed=index!=r.index;r.target=r.definition.schedule[index];
-   if(changed){if(r.action==NPCDailyAction.Sleep||r.action==NPCDailyAction.Rest)r.releaseSeatUntil=Time.unscaledTime+1;r.door?.Release(r.definition.npcId);r.door=null;r.portal=null;r.nextPortal=null;r.portalPhase=0;r.path.Clear();r.waypoint=0;r.index=index;r.atActivity=false;r.labelUntil=Time.unscaledTime+2;r.action=NPCDailyAction.Walk;}
+   if(changed){if(r.action==NPCDailyAction.Sleep||r.action==NPCDailyAction.Rest)r.releaseSeatUntil=Time.unscaledTime+1;r.door?.Release(r.definition.npcId);r.door=null;r.portal=null;r.nextPortal=null;r.portalPhase=0;r.path.Clear();r.waypoint=0;r.index=index;r.atActivity=false;r.departingUntil=0;r.labelUntil=Time.unscaledTime+2;r.action=NPCDailyAction.Walk;}
    bool here=r.actor.zone==local;bool goesHere=r.target.zone==local;
    if(!here&&!goesHere&&(minuteChanged||changed||restoring||zoneChanged||r.pendingAbstract)){
-    r.pendingAbstract=false;r.actor.zone=r.target.zone;r.actor.transform.position=Destination(r);r.action=r.target.action;r.atActivity=true;if(r.action==NPCDailyAction.Sleep){var bed=Object(r.target.objectId);if(bed!=null)r.actor.transform.position=(Vector2)bed.transform.position+Vector2.up*.1f;}UseObject(r);AbstractUpdates++;
+    r.pendingAbstract=false;r.actor.zone=r.target.zone;r.actor.transform.position=Destination(r);r.action=r.target.action;r.atActivity=true;if(r.action==NPCDailyAction.Sleep){var bed=Object(r.target.objectId);if(bed!=null)r.actor.transform.position=(Vector2)bed.transform.position+Vector2.up*.7f;}UseObject(r);AbstractUpdates++;
    }else if(!here&&goesHere&&(changed||restoring||zoneChanged||minuteChanged)){
     var arrival=world.objects.FirstOrDefault(o=>o.kind==WorldInteractionKind.Door&&o.zone==local&&o.targetZone==r.actor.zone)??world.objects.FirstOrDefault(o=>o.kind==WorldInteractionKind.Door&&o.zone==local);
     r.actor.zone=local;r.actor.transform.position=arrival==null?world.Service.rules.Zone(local).origin+world.Service.rules.Zone(local).spawn:arrival.Point;
@@ -65,12 +65,13 @@ public sealed class WorldNPCScheduler:MonoBehaviour {
    if(door!=null&&door.State!=DoorState.Open){if(!door.Acquire(r.definition.npcId,world.Service.Hour,out _))Label(r,index,"문 앞 대기");Render(r,index,before);return;}
    Vector2 cross=door==null?portal.Point:door.CrossPoint;
    if(Vector2.Distance(r.actor.transform.position,cross)>.06f){Move(r,index,cross,dt);Render(r,index,before);return;}
+   if(r.departingUntil==0)r.departingUntil=Time.unscaledTime+.18f;if(Time.unscaledTime<r.departingUntil){Render(r,index,before);return;}r.departingUntil=0;
    door?.Release(r.definition.npcId);r.actor.zone=portal.targetZone;r.actor.transform.position=world.Service.rules.Zone(r.actor.zone).origin+portal.arrival;r.portal=null;r.door=null;r.path.Clear();r.waypoint=0;r.nextPortal=null;r.pendingAbstract=true;DoorPassages++;r.active=r.actor.zone==world.Service.State.zone;r.actor.visual.enabled=r.active;if(r.actor.shadow!=null)r.actor.shadow.enabled=r.active;return;
   }
   bool leaving=r.actor.zone!=r.target.zone;if(leaving&&(r.nextPortal==null||r.nextPortal.zone!=r.actor.zone))r.nextPortal=NextPortal(r.actor.zone,r.target.zone);var nextPortal=leaving?r.nextPortal:null;Vector2 goal=nextPortal==null?Destination(r):nextPortal.Point;
   if(!leaving&&r.atActivity||Vector2.Distance(r.actor.transform.position,goal)<.16f){
    if(nextPortal!=null){r.portal=nextPortal;r.door=nextPortal.GetComponent<WorldDoor>();if(r.door!=null)r.door.Acquire(r.definition.npcId,world.Service.Hour,out _);r.action=NPCDailyAction.Walk;Render(r,index,before);return;}
-   r.atActivity=true;r.action=r.target.action;UseObject(r);if(r.action==NPCDailyAction.Sleep){var bed=Object(r.target.objectId);if(bed!=null)r.actor.transform.position=Vector2.MoveTowards(r.actor.transform.position,(Vector2)bed.transform.position+Vector2.up*.1f,dt*2);}
+   r.atActivity=true;r.action=r.target.action;UseObject(r);if(r.action==NPCDailyAction.Sleep){var bed=Object(r.target.objectId);if(bed!=null)r.actor.transform.position=Vector2.MoveTowards(r.actor.transform.position,(Vector2)bed.transform.position+Vector2.up*.7f,dt*2);}
    if(r.action==NPCDailyAction.Talk){var friend=residents.FirstOrDefault(n=>n.definition.npcId==r.definition.companionId&&n.actor.zone==r.actor.zone);if(friend!=null&&Vector2.Distance(friend.actor.transform.position,r.actor.transform.position)<2)r.facing=(friend.actor.transform.position-r.actor.transform.position).normalized;}
    Render(r,index,before);return;
   }
@@ -79,8 +80,8 @@ public sealed class WorldNPCScheduler:MonoBehaviour {
   r.action=NPCDailyAction.Walk;Render(r,index,before);
  }
  void Label(Resident r,int index,string value){if(index<activityLabels.Length&&activityLabels[index]!=null){activityLabels[index].text=value;activityLabels[index].gameObject.SetActive(r.active);}}
- void Render(Resident r,int index,Vector2 before){Vector2 delta=(Vector2)r.actor.transform.position-before;bool walking=r.action==NPCDailyAction.Walk&&delta.sqrMagnitude>.0000001f;var motion=walking?ActorMotion.Walk:r.action==NPCDailyAction.Walk?ActorMotion.Idle:Motion(r.action);r.animation?.Render(motion,walking?delta:r.facing,delta.magnitude,walking||motion==ActorMotion.Idle);r.actor.visual.sortingOrder=1000-Mathf.RoundToInt(r.actor.transform.position.y*100);if(r.actor.shadow!=null)r.actor.shadow.sortingOrder=r.actor.visual.sortingOrder-1;if(r.actor.highlight!=null){r.actor.highlight.sprite=r.actor.visual.sprite;r.actor.highlight.flipX=r.actor.visual.flipX;r.actor.highlight.sortingOrder=r.actor.visual.sortingOrder-1;}
-  var color=r.actor.visual.color;color.a=r.arrivingUntil>Time.unscaledTime?Mathf.Clamp01(1-(r.arrivingUntil-Time.unscaledTime)/.3f):1;r.actor.visual.color=color;
+ void Render(Resident r,int index,Vector2 before){Vector2 delta=(Vector2)r.actor.transform.position-before;bool walking=r.action==NPCDailyAction.Walk&&delta.sqrMagnitude>.0000001f;var motion=walking?ActorMotion.Walk:r.action==NPCDailyAction.Walk?ActorMotion.Idle:Motion(r.action);r.animation?.Render(motion,walking?delta:r.facing,delta.magnitude,walking||motion==ActorMotion.Idle);r.actor.visual.sortingOrder=1000-Mathf.RoundToInt(r.actor.transform.position.y*100)+(r.action==NPCDailyAction.Sleep?100:0);if(r.actor.shadow!=null)r.actor.shadow.sortingOrder=r.actor.visual.sortingOrder-1;if(r.actor.highlight!=null){r.actor.highlight.sprite=r.actor.visual.sprite;r.actor.highlight.flipX=r.actor.visual.flipX;r.actor.highlight.sortingOrder=r.actor.visual.sortingOrder-1;}
+  var color=r.actor.visual.color;color.a=r.departingUntil>0?Mathf.Clamp01((r.departingUntil-Time.unscaledTime)/.18f):r.arrivingUntil>Time.unscaledTime?Mathf.Clamp01(1-(r.arrivingUntil-Time.unscaledTime)/.3f):1;r.actor.visual.color=color;
   if(index<activityLabels.Length&&activityLabels[index]!=null){string label=r.action==NPCDailyAction.Work?"근무 중":r.action==NPCDailyAction.Study?"공부 중":r.action==NPCDailyAction.Eat?"식사 중":r.action==NPCDailyAction.Shop?"장보기":r.action==NPCDailyAction.Talk?"이야기 중":r.action==NPCDailyAction.Sleep?"잠든 시간":r.action==NPCDailyAction.Rest?"쉬는 중":"";Label(r,index,label);activityLabels[index].transform.position=r.actor.transform.position+Vector3.up*2.1f;activityLabels[index].gameObject.SetActive(r.active&&Time.unscaledTime<r.labelUntil&&label!="");}
  }
  public NPCResidentSnapshot Inspect(string id){Capture();return world.Service.State.residents.FirstOrDefault(n=>n.id==id);}
