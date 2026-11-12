@@ -5,7 +5,7 @@ namespace IanGame {
 public enum DoorState {Closed,Opening,Open,Closing,Locked}
 public enum DoorMechanism {HingedOak,HingedJade,SlidingGlass}
 public sealed class WorldDoor:MonoBehaviour {
- public WorldInteractable portal;public LifeWorldController world;public WorldDoorStyle style;public SpriteRenderer leaf;public BoxCollider2D closedCollider;
+ public WorldInteractable portal;public LifeWorldController world;public WorldDoorStyle style;public SpriteRenderer leaf,apertureShadow;public BoxCollider2D closedCollider;
  public Vector2 normal=Vector2.up,threshold;public bool locked;public int opens=0,closes=24;public string staffId;
  public DoorState State{get;private set;}=DoorState.Closed;public float Aperture{get;private set;}public int Users=>users.Count;
  public Vector2 Plane=>(Vector2)transform.position+threshold;public Vector2 CrossPoint=>Plane+normal*.2f;
@@ -25,6 +25,8 @@ public sealed class WorldDoor:MonoBehaviour {
  }
  bool PlayerInSweep()=>world!=null&&world.CurrentZone!=null&&world.CurrentZone.id==portal.zone&&Mathf.Abs(world.Player.Position.x-Plane.x)<.65f&&Mathf.Abs(world.Player.Position.y-Plane.y)<.38f;
  void Set(DoorState state){if(State==state)return;State=state;StateChanged?.Invoke(state);}
- void Draw(){if(closedCollider!=null)closedCollider.enabled=State!=DoorState.Open;if(leaf!=null&&style!=null&&style.openingFrames.Length>1){leaf.sprite=style.openingFrames[Mathf.Clamp(Mathf.RoundToInt(Aperture*(style.openingFrames.Length-1)),0,style.openingFrames.Length-1)];leaf.sortingOrder=1000-Mathf.RoundToInt(Plane.y*100);}}
+ void Draw(){bool cutaway=normal.y<0&&world!=null&&world.CurrentZone!=null&&world.CurrentZone.id==portal.zone&&Mathf.Abs(world.Player.Position.x-Plane.x)<.85f&&world.Player.Position.y>Plane.y&&world.Player.Position.y<Plane.y+2;
+  if(leaf!=null){var color=leaf.color;color.a=cutaway?.32f:1;leaf.color=color;}if(apertureShadow!=null){var color=apertureShadow.color;color.a=cutaway?.25f:1;apertureShadow.color=color;}
+  if(closedCollider!=null)closedCollider.enabled=State!=DoorState.Open;if(leaf!=null&&style!=null&&style.openingFrames.Length>1){leaf.sprite=style.openingFrames[Mathf.Clamp(Mathf.RoundToInt(Aperture*(style.openingFrames.Length-1)),0,style.openingFrames.Length-1)];leaf.sortingOrder=1000-Mathf.RoundToInt(Plane.y*100);}}
 }
 }

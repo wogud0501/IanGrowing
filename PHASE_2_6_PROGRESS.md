@@ -1,13 +1,17 @@
 # ADVANCED OVERHAUL 추가 필수 작업 — 2026-11-12
 
-## 현재 Priority 1: 애니메이션/NPC 문워크 원인 수정 중
+## 현재 Priority 2 검증 완료 / Priority 3 모바일 입력·적응형 UI 구현 중
 - 기존 HEAD 1766e16 / 실제 프로젝트 `/Users/hyunwol/IanGrowing`, Unity 6000.6.8f1 ARM64. 기존 작업/사용자 변경 보존.
 - 수정 전 로컬 복구 ZIP: DevelopmentBackups/Advanced-Before-20261112.zip, 무결성 확인.
 - 필수 범위: 고급 행동 애니메이션, 실제 문/전환, Android+iOS/접힘 화면, NPC 방향 동기화/일정/저장/오프스크린.
 - 확인: Android/iOS Editor 모듈 지원 true. xcode-select는 CommandLineTools, xcodebuild 미설치. 실제 기기 검증과 Editor/빌드 검증을 구분.
 - 원인 후보: WorldStreetLife는 단일 우향 프레임을 상하 이동에도 사용, 세로 이동 FlipX가 경로 인덱스 기반. WorldNPCScheduler는 시간표가 구역을 바꾸면 즉시 위치를 바꾸며 실제 출입 과정 없음.
 - 다음 순서: 실제 방향 프레임/속도 기반 공통 재생 → 문 상태/충돌/출입 연출 → 터치/화면 재구성 → NPC 개인 일정·포털 경로·저장 → Play/빌드 검증.
-- 완료 아님: 신규 추가 범위의 전체 기능/플랫폼은 아직 미검증.
+- Priority 1 체크포인트 1871f5f: 이안 40개 방향·행동 클립, 4시민 방향 뱅크, 실제 이동 거리 기반 발걸음, 달리기/감속/정지. ADVANCEDANIMATION_RESULTS.json 실제 Play 105개 통과. 작은 프레임 이동을 정지로 보던 새 임계값 문제 수정, 최초 실패 기록 보존.
+- Priority 2: 10개 실제 문, 여닫이 2종/미닫이 1종 원본 6프레임, Closed/Opening/Open/Closing/Locked, 닫힘 충돌/열림 통과, 소유자별 사용/해제, NPC 호출 공통 경로. 실제 플레이어 Rigidbody로 접근→개방→통과→장소 확정→닫힘. 실내 전면 문은 캐릭터 가림 완화.
+- ADVANCEDDOORS_RESULTS.json 실제 Play 106개 통과: 10개 연결 경로, 중복 거부, 장소별 PixelFade/ShortSlide/LightingReveal, 소지금/입력 복원, NPC 문 열기·닫기, 잠금, 로드 중단 복구. 최초 실패는 재진입 문이 안전 감지로 이미 열린 상태인 것을 검사기가 무조건 Opening으로 요구한 문제, 조건 보정 후 통과.
+- 행동별 원본이 없는 방향은 UsedDirectionFallback으로 구분. 모든 행동의 4방향 정식 아트 완성으로 간주하지 않음.
+- 미완료/미검증: 모바일 터치/화면 재구성, NPC 생활 AI, 플랫폼 빌드·실기기, 모든 행동의 정확한 4방향 아트.
 
 ---
 # MASTER DIRECTIVE — macOS 재개 (2026-11-12)

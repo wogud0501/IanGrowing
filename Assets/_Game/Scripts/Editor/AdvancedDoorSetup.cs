@@ -14,7 +14,7 @@ public static class AdvancedDoorSetup {
   int row=o.zone=="bathroom"||o.targetZone=="bathroom"?1:o.zone=="shop"||o.targetZone=="shop"||o.zone=="workplace"||o.targetZone=="workplace"?2:0;
   var door=o.GetComponent<WorldDoor>()??o.gameObject.AddComponent<WorldDoor>();door.portal=o;door.world=w;door.style=Style(row);door.normal=((Vector2)o.transform.position-o.Point).normalized;
   if(door.normal.sqrMagnitude<.1f)door.normal=Vector2.up;var plane=o.Point+door.normal*.35f;door.threshold=plane-(Vector2)o.transform.position;
-  var leaf=o.transform.Find("Animated door leaf");if(leaf==null){leaf=new GameObject("Animated door leaf",typeof(SpriteRenderer)).transform;leaf.SetParent(o.transform,false);}leaf.position=plane-Vector2.up*.1f;leaf.localScale=new Vector3(1/o.transform.lossyScale.x,1/o.transform.lossyScale.y,1);
+  var leaf=o.transform.Find("Animated door leaf");if(leaf==null){leaf=new GameObject("Animated door leaf",typeof(SpriteRenderer)).transform;leaf.SetParent(o.transform,false);}leaf.position=o.transform.position;leaf.localScale=new Vector3(1/o.transform.lossyScale.x,1/o.transform.lossyScale.y,1);
   door.leaf=leaf.GetComponent<SpriteRenderer>();door.leaf.sprite=door.style.openingFrames[0];door.leaf.sharedMaterial=AssetDatabase.LoadAssetAtPath<Material>("Assets/_Game/Art/VisualRebuild/WorldAlphaCut.mat");door.leaf.sortingOrder=1000-Mathf.RoundToInt(plane.y*100);
   bool building=o.id=="house-entrance"||o.id=="shop-front"||o.id=="office-front"||o.id=="school-front"||o.id=="npc-residence-front";
   if(o.visual!=door.leaf&&!building)o.visual.enabled=false;
@@ -25,7 +25,7 @@ public static class AdvancedDoorSetup {
    original.enabled=false;
   }
   var barrier=o.transform.Find("Closed leaf collision");if(barrier==null){barrier=new GameObject("Closed leaf collision",typeof(BoxCollider2D)).transform;barrier.SetParent(o.transform,false);}barrier.position=plane;barrier.localScale=new Vector3(1/o.transform.lossyScale.x,1/o.transform.lossyScale.y,1);door.closedCollider=barrier.GetComponent<BoxCollider2D>();door.closedCollider.size=new Vector2(1.12f,.12f);
-  var backing=leaf.Find("Doorway interior shadow");if(backing==null){backing=new GameObject("Doorway interior shadow",typeof(SpriteRenderer)).transform;backing.SetParent(leaf,false);}var shadow=backing.GetComponent<SpriteRenderer>();shadow.sprite=AssetDatabase.LoadAssetAtPath<Sprite>("Assets/_Game/Art/LifeWorld/Wood.png");if(shadow.sprite==null)shadow.sprite=LifeWorldArtBuilder.Solid();backing.localPosition=new Vector2(0,1);backing.localScale=new Vector3(1.05f/shadow.sprite.bounds.size.x,1.8f/shadow.sprite.bounds.size.y,1);shadow.color=new Color(.12f,.14f,.17f);shadow.sortingOrder=door.leaf.sortingOrder-1;
+  var backing=leaf.Find("Doorway interior shadow");if(backing==null){backing=new GameObject("Doorway interior shadow",typeof(SpriteRenderer)).transform;backing.SetParent(leaf,false);}var shadow=backing.GetComponent<SpriteRenderer>();shadow.sprite=AssetDatabase.LoadAssetAtPath<Sprite>("Assets/_Game/Art/LifeWorld/Wood.png");if(shadow.sprite==null)shadow.sprite=LifeWorldArtBuilder.Solid();backing.localPosition=new Vector2(0,1);backing.localScale=new Vector3(1.05f/shadow.sprite.bounds.size.x,1.8f/shadow.sprite.bounds.size.y,1);shadow.color=new Color(.12f,.14f,.17f);shadow.sortingOrder=door.leaf.sortingOrder-1;door.apertureShadow=shadow;
   if(o.id=="shop-front"||o.id=="shop-exit"){door.opens=7;door.closes=23;door.staffId="colleague";}
   door.ResetClosed();EditorUtility.SetDirty(o);EditorUtility.SetDirty(door);return door;
  }

@@ -6,6 +6,23 @@ using System.Linq;
 using UnityEngine;
 namespace IanGame.Editor {
 public static class AdvancedWorldVerification {
+ public static IEnumerator Doors(LifeWorldController w,GameManager g,Action<bool,string> check){
+  System.IO.Directory.CreateDirectory("Docs/Phase26/Advanced/Screenshots");
+  foreach(var door in w.GetComponentsInChildren<WorldDoor>(true)){check(door.style.openingFrames.Length==6&&door.style.openingFrames.Distinct().Count()==6,"Six authored aperture frames: "+door.portal.id);check(door.closedCollider.enabled,"Closed door starts solid: "+door.portal.id);}
+  long cash=g.economy.Cash;var effects=new HashSet<WorldTransitionStyle>();
+  foreach(var id in new[]{"front-door","city-path","shop-front","shop-exit","office-front","work-exit","alley-path","house-entrance","bath-door","bath-exit"}){
+   var portal=w.objects.First(o=>o.id==id);check(portal.zone==g.world.State.zone,"Portal belongs to current zone: "+id);w.Player.Warp(portal.Point);yield return null;
+   var door=portal.GetComponent<WorldDoor>();bool startedOpen=door!=null&&door.State==DoorState.Open;var seen=new HashSet<Sprite>();var states=new HashSet<DoorState>();bool crossed=false,captured=false,commitOpen=true;check(w.Use(portal),"Actual portal action accepted: "+id);check(!w.Use(portal)&&w.Busy&&!w.CanControl,"Duplicate portal input blocked: "+id);float end=Time.unscaledTime+5;
+   while(w.Busy&&Time.unscaledTime<end){if(door!=null){seen.Add(door.leaf.sprite);states.Add(door.State);if(g.world.State.zone==portal.targetZone){crossed=true;commitOpen&=door.State==DoorState.Open||door.State==DoorState.Closing;}if(!captured&&door.State==DoorState.Opening&&door.Aperture>.35f){ScreenCapture.CaptureScreenshot("Docs/Phase26/Advanced/Screenshots/"+id+"-Opening.png");captured=true;}}if(w.transitions.Active)effects.Add(w.transitions.Style);yield return null;}
+   check(!w.Busy&&g.world.State.zone==portal.targetZone,"Door passage reaches intended area: "+id);
+   if(door!=null){check(commitOpen,"Source was opened before destination commit: "+id);check((startedOpen||seen.Count>=3&&states.Contains(DoorState.Opening))&&crossed,"Visible leaf frames and passage observed: "+id);yield return new WaitForSecondsRealtime(.6f);check(door.State==DoorState.Closed&&door.closedCollider.enabled,"Source closes and collision restores: "+id);}
+   check(w.CanControl&&g.economy.Cash==cash,"Control and wallet preserved after portal: "+id);
+  }
+  check(effects.Count>=3,"Three location-dependent transition profiles actually used");
+  var locked=w.objects.First(o=>o.id=="bath-door");var guard=locked.GetComponent<WorldDoor>();guard.locked=true;guard.ResetClosed();w.Player.Warp(locked.Point);yield return null;check(!w.Use(locked)&&!w.Busy,"Locked door rejects entry without displacement");guard.locked=false;guard.ResetClosed();
+  check(guard.Acquire("npc-test",g.world.Hour,out var why),"NPC can acquire the same real door");yield return new WaitForSecondsRealtime(.45f);check(guard.State==DoorState.Open&&!guard.closedCollider.enabled,"NPC opening releases physical collision");guard.Release("npc-test");w.Player.Warp(new Vector2(0,-2));yield return new WaitForSecondsRealtime(.6f);check(guard.State==DoorState.Closed,"NPC release closes the door");
+  w.Player.Warp(locked.Point);var before=g.CaptureState();check(w.Use(locked),"Start portal before load interruption");yield return new WaitForSecondsRealtime(.12f);g.RestoreState(before);g.clock.realtimeEnabled=false;yield return new WaitForSecondsRealtime(1.2f);check(!w.Busy&&g.world.State.zone==before.world.zone&&w.CanControl,"Load during opening cancels transition and restores control safely");
+ }
  public static IEnumerator Animation(LifeWorldController w,GameManager g,Action<bool,string> check){
   var bank=w.Player.advanced.library;foreach(ActorMotion motion in Enum.GetValues(typeof(ActorMotion)))check(bank.Find(motion,ActorDirection.Down)!=null,"Authored clip available: "+motion);
   foreach(ActorDirection d in Enum.GetValues(typeof(ActorDirection)))check(bank.Find(ActorMotion.Run,d,false)!=null,"Actual four-direction run clip: "+d);
