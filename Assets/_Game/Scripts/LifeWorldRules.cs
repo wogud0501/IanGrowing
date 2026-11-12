@@ -5,13 +5,17 @@ namespace IanGame {
 [Serializable]public class LifeWorldSnapshot {
  public int schema=1;public string zone="home";public Vector2 position=new Vector2(0,-1.5f);public Vector2 facing=Vector2.down;
  public float fatigue=15,hygiene=85;public int rice=3,bread=2;public string prepared="",pendingAction="";public int lastWorkDay=-1,lastSummaryDay=1;
+ public List<NPCResidentSnapshot> residents=new List<NPCResidentSnapshot>();
  public long dailyIncome;public string lastSummary="";
 }
 [Serializable]public class WorldZoneDefinition {
  public string id,title;public SceneId location;public Vector2 origin,size=new Vector2(18,12),spawn=new Vector2(0,-1.5f);public bool outdoor;public float walkableTop=1000,cameraSize;
 }
-[Serializable]public class NPCScheduleEntry {public int hour;public string zone;public Vector2 position;}
-[Serializable]public class WorldNPCDefinition {public string npcId,title;public Sprite[] frames;public NPCScheduleEntry[] schedule;}
+public enum NPCDailyAction {Idle,Wake,Walk,Work,Study,Eat,Shop,Rest,Talk,Sleep}
+public enum NPCPersonality {EarlyBird,NightWorker,Student,OfficeWorker,ShopWorker,Homebody,WeekendVisitor}
+[Serializable]public class NPCResidentSnapshot {public string id,zone,destinationZone,objectId;public Vector2 position,facing=Vector2.down;public NPCDailyAction action;public int scheduleIndex;public long minute,completedUseKey=-1;}
+[Serializable]public class NPCScheduleEntry {public int hour,minute;public int dayMask=127;public string zone,objectId;public Vector2 position;public NPCDailyAction action;}
+[Serializable]public class WorldNPCDefinition {public string npcId,title,homeZone="residence",jobId,workZone,companionId;public NPCPersonality personality;public float speed=1.3f;public ActorAnimationSet animations;public Sprite[] frames;public NPCScheduleEntry[] schedule;}
 [CreateAssetMenu(menuName="Ian/Life World Rules")]
 public class LifeWorldRules:ScriptableObject {
  public int neighbourhoodHelpReward=30,neighbourhoodHelpMinutes=30;

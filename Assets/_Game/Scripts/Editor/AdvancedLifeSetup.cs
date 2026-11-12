@@ -9,7 +9,7 @@ using UnityEditor.SceneManagement;
 namespace IanGame.Editor {
 public static class AdvancedLifeSetup {
  public const string Art="Assets/_Game/Art/AdvancedLife/",Data="Assets/_Game/Data/Phase26/Advanced/";
- static Sprite[] Grid(string file,int columns,int rows,bool door=false){
+ internal static Sprite[] Grid(string file,int columns,int rows,bool door=false){
   string path=Art+file;AssetDatabase.ImportAsset(path,ImportAssetOptions.ForceSynchronousImport);
   var importer=(TextureImporter)AssetImporter.GetAtPath(path);string stamp="AdvancedLife/v2/"+File.GetLastWriteTimeUtc(path).Ticks;
   var cached=AssetDatabase.LoadAllAssetsAtPath(path).OfType<Sprite>().OrderBy(s=>s.name).ToArray();if(importer.userData==stamp&&cached.Length==columns*rows&&!importer.isReadable)return cached;

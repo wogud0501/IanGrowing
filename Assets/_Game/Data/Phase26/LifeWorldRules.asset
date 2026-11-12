@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f34c96834416763449f25daf9b583ad3, type: 3}
   m_Name: LifeWorldRules
   m_EditorClassIdentifier: Assembly-CSharp::IanGame.LifeWorldRules
+  neighbourhoodHelpReward: 30
+  neighbourhoodHelpMinutes: 30
   moveSpeed: 3.2
   cameraDamping: 0.16
   indoorCameraSize: 5.625
@@ -92,51 +94,998 @@ MonoBehaviour:
     outdoor: 0
     walkableTop: 3.15
     cameraSize: 0
+  - id: residence
+    title: "\uC8FC\uBBFC \uC0DD\uD65C\uAD00"
+    location: 2
+    origin: {x: 310, y: 0}
+    size: {x: 18, y: 12}
+    spawn: {x: 0, y: -4.5}
+    outdoor: 0
+    walkableTop: 4.8
+    cameraSize: 6.8
   npcs:
   - npcId: colleague
     title: "\uB3D9\uB124 \uC120\uBC30 \uC218\uC5F0"
+    homeZone: residence
+    jobId: convenience
+    workZone: workplace
+    companionId: classmate
+    personality: 3
+    speed: 1.1
+    animations: {fileID: 11400000, guid: 4d251d34a4b9b4dd280859fa9b30cdc5, type: 2}
     frames:
-    - {fileID: 8654990830787796205, guid: 32da10372c4869a41ad06827e80db6fa, type: 3}
-    - {fileID: -3507694956340147093, guid: 32da10372c4869a41ad06827e80db6fa, type: 3}
-    - {fileID: 2654456613250182127, guid: 32da10372c4869a41ad06827e80db6fa, type: 3}
-    - {fileID: 8961933521211744281, guid: 32da10372c4869a41ad06827e80db6fa, type: 3}
-    - {fileID: -6612112287937615191, guid: 32da10372c4869a41ad06827e80db6fa, type: 3}
-    - {fileID: -2492463519736372151, guid: 32da10372c4869a41ad06827e80db6fa, type: 3}
+    - {fileID: 8559920643888737118, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    - {fileID: 5538569489634594306, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    - {fileID: 7290411598565047993, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    - {fileID: 2752892591760221209, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
     schedule:
     - hour: 0
-      zone: alley
-      position: {x: -4, y: 1}
+      minute: 0
+      dayMask: 127
+      zone: residence
+      objectId: resident-bed-0
+      position: {x: -4.899994, y: -3.3}
+      action: 9
     - hour: 7
+      minute: 0
+      dayMask: 127
+      zone: residence
+      objectId: resident-bed-0
+      position: {x: -4.899994, y: -3.3}
+      action: 1
+    - hour: 8
+      minute: 0
+      dayMask: 127
       zone: city
-      position: {x: 6, y: 0}
+      objectId: 
+      position: {x: -10, y: 1}
+      action: 2
     - hour: 9
+      minute: 0
+      dayMask: 127
       zone: workplace
-      position: {x: 4, y: 1}
+      objectId: workdesk
+      position: {x: -0.7, y: 1.2}
+      action: 3
+    - hour: 12
+      minute: 0
+      dayMask: 127
+      zone: shop
+      objectId: counter
+      position: {x: -0.65, y: 1.2}
+      action: 5
+    - hour: 13
+      minute: 0
+      dayMask: 127
+      zone: workplace
+      objectId: workdesk
+      position: {x: -0.7, y: 1.2}
+      action: 3
     - hour: 18
+      minute: 0
+      dayMask: 127
       zone: city
-      position: {x: 3, y: -0.8}
-    - hour: 22
-      zone: alley
-      position: {x: -4, y: 1}
+      objectId: city-bench
+      position: {x: -5, y: -7.2}
+      action: 7
+    - hour: 19
+      minute: 0
+      dayMask: 127
+      zone: shop
+      objectId: counter
+      position: {x: -0.65, y: 1.2}
+      action: 6
+    - hour: 20
+      minute: 0
+      dayMask: 127
+      zone: city
+      objectId: 
+      position: {x: -2, y: 1.2}
+      action: 8
+    - hour: 21
+      minute: 0
+      dayMask: 127
+      zone: residence
+      objectId: resident-bed-0
+      position: {x: -4.899994, y: -3.3}
+      action: 7
+    - hour: 23
+      minute: 0
+      dayMask: 127
+      zone: residence
+      objectId: resident-bed-0
+      position: {x: -4.899994, y: -3.3}
+      action: 9
   - npcId: classmate
     title: "\uC606\uC790\uB9AC \uBBFC\uC218"
+    homeZone: residence
+    jobId: student
+    workZone: school
+    companionId: colleague
+    personality: 2
+    speed: 1.23
+    animations: {fileID: 11400000, guid: 9f8407b30c9f6485a88698b8d55d2862, type: 2}
     frames:
-    - {fileID: 5922913841180796738, guid: 32da10372c4869a41ad06827e80db6fa, type: 3}
-    - {fileID: -3149443096527263752, guid: 32da10372c4869a41ad06827e80db6fa, type: 3}
-    - {fileID: -5808762171865805891, guid: 32da10372c4869a41ad06827e80db6fa, type: 3}
-    - {fileID: 503767667352521975, guid: 32da10372c4869a41ad06827e80db6fa, type: 3}
-    - {fileID: -1898996087698927076, guid: 32da10372c4869a41ad06827e80db6fa, type: 3}
-    - {fileID: -5554759672939389616, guid: 32da10372c4869a41ad06827e80db6fa, type: 3}
+    - {fileID: 1956735336081625382, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    - {fileID: -7710114160355480345, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    - {fileID: 4417901699844961301, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    - {fileID: 8105579582091720354, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
     schedule:
     - hour: 0
-      zone: alley
-      position: {x: 3, y: 1}
+      minute: 0
+      dayMask: 127
+      zone: residence
+      objectId: resident-bed-1
+      position: {x: -0.8999939, y: -3.3}
+      action: 9
+    - hour: 7
+      minute: 7
+      dayMask: 127
+      zone: residence
+      objectId: resident-bed-1
+      position: {x: -0.8999939, y: -3.3}
+      action: 1
     - hour: 8
-      zone: school
-      position: {x: -3, y: 1}
-    - hour: 16
+      minute: 7
+      dayMask: 127
       zone: city
-      position: {x: -3, y: -0.8}
+      objectId: 
+      position: {x: -8.4, y: 1}
+      action: 2
+    - hour: 9
+      minute: 0
+      dayMask: 127
+      zone: school
+      objectId: study-desk
+      position: {x: 0, y: 1.2}
+      action: 4
+    - hour: 12
+      minute: 7
+      dayMask: 127
+      zone: shop
+      objectId: counter
+      position: {x: 0, y: 1.2}
+      action: 5
+    - hour: 13
+      minute: 7
+      dayMask: 127
+      zone: school
+      objectId: study-desk
+      position: {x: 0, y: 1.2}
+      action: 4
+    - hour: 16
+      minute: 7
+      dayMask: 127
+      zone: city
+      objectId: city-bench
+      position: {x: -4.35, y: -7.2}
+      action: 7
+    - hour: 19
+      minute: 7
+      dayMask: 127
+      zone: shop
+      objectId: counter
+      position: {x: 0, y: 1.2}
+      action: 6
+    - hour: 20
+      minute: 0
+      dayMask: 127
+      zone: city
+      objectId: 
+      position: {x: -1.35, y: 1.2}
+      action: 8
     - hour: 21
-      zone: alley
-      position: {x: 3, y: 1}
+      minute: 7
+      dayMask: 127
+      zone: residence
+      objectId: resident-bed-1
+      position: {x: -0.8999939, y: -3.3}
+      action: 7
+    - hour: 23
+      minute: 7
+      dayMask: 127
+      zone: residence
+      objectId: resident-bed-1
+      position: {x: -0.8999939, y: -3.3}
+      action: 9
+  - npcId: resident-0
+    title: "\uC9C0\uC740"
+    homeZone: residence
+    jobId: convenience
+    workZone: workplace
+    companionId: 
+    personality: 3
+    speed: 1.36
+    animations: {fileID: 11400000, guid: 4d251d34a4b9b4dd280859fa9b30cdc5, type: 2}
+    frames:
+    - {fileID: 8559920643888737118, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    - {fileID: 5538569489634594306, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    - {fileID: 7290411598565047993, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    - {fileID: 2752892591760221209, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    schedule:
+    - hour: 0
+      minute: 0
+      dayMask: 127
+      zone: residence
+      objectId: resident-bed-2
+      position: {x: 3.100006, y: -3.3}
+      action: 9
+    - hour: 7
+      minute: 14
+      dayMask: 127
+      zone: residence
+      objectId: resident-bed-2
+      position: {x: 3.100006, y: -3.3}
+      action: 1
+    - hour: 8
+      minute: 14
+      dayMask: 127
+      zone: city
+      objectId: 
+      position: {x: -6.8, y: 1}
+      action: 2
+    - hour: 9
+      minute: 0
+      dayMask: 127
+      zone: workplace
+      objectId: workdesk
+      position: {x: 0.7, y: 1.2}
+      action: 3
+    - hour: 12
+      minute: 14
+      dayMask: 127
+      zone: shop
+      objectId: counter
+      position: {x: 0.65, y: 1.2}
+      action: 5
+    - hour: 13
+      minute: 14
+      dayMask: 127
+      zone: workplace
+      objectId: workdesk
+      position: {x: 0.7, y: 1.2}
+      action: 3
+    - hour: 18
+      minute: 14
+      dayMask: 127
+      zone: city
+      objectId: city-bench
+      position: {x: -3.7, y: -7.2}
+      action: 7
+    - hour: 19
+      minute: 14
+      dayMask: 127
+      zone: shop
+      objectId: counter
+      position: {x: 0.65, y: 1.2}
+      action: 6
+    - hour: 20
+      minute: 0
+      dayMask: 127
+      zone: city
+      objectId: 
+      position: {x: -0.70000005, y: 1.2}
+      action: 2
+    - hour: 21
+      minute: 14
+      dayMask: 127
+      zone: residence
+      objectId: resident-bed-2
+      position: {x: 3.100006, y: -3.3}
+      action: 7
+    - hour: 23
+      minute: 14
+      dayMask: 127
+      zone: residence
+      objectId: resident-bed-2
+      position: {x: 3.100006, y: -3.3}
+      action: 9
+  - npcId: resident-1
+    title: "\uC815\uD638"
+    homeZone: residence
+    jobId: convenience
+    workZone: workplace
+    companionId: 
+    personality: 1
+    speed: 1.49
+    animations: {fileID: 11400000, guid: 0767c8e9b91b74b279a6f36a21050a93, type: 2}
+    frames:
+    - {fileID: 3447005225139973113, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    - {fileID: 1120148964544944648, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    - {fileID: 3011680283813473461, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    - {fileID: -893005434674621288, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    schedule:
+    - hour: 0
+      minute: 0
+      dayMask: 31
+      zone: workplace
+      objectId: workdesk
+      position: {x: -0.7, y: 0.70000005}
+      action: 3
+    - hour: 7
+      minute: 21
+      dayMask: 127
+      zone: residence
+      objectId: resident-bed-3
+      position: {x: 7.100006, y: -3.3}
+      action: 9
+    - hour: 9
+      minute: 21
+      dayMask: 96
+      zone: city
+      objectId: 
+      position: {x: 6, y: -7.2}
+      action: 2
+    - hour: 15
+      minute: 21
+      dayMask: 127
+      zone: residence
+      objectId: resident-bed-3
+      position: {x: 7.100006, y: -3.3}
+      action: 1
+    - hour: 17
+      minute: 21
+      dayMask: 127
+      zone: city
+      objectId: city-bench
+      position: {x: -6, y: -7.2}
+      action: 7
+    - hour: 20
+      minute: 21
+      dayMask: 127
+      zone: shop
+      objectId: counter
+      position: {x: -0.65, y: 0.85}
+      action: 5
+    - hour: 22
+      minute: 21
+      dayMask: 31
+      zone: workplace
+      objectId: workdesk
+      position: {x: -0.7, y: 0.70000005}
+      action: 3
+  - npcId: resident-2
+    title: "\uB3C4\uC724"
+    homeZone: residence
+    jobId: convenience
+    workZone: workplace
+    companionId: 
+    personality: 5
+    speed: 1.1
+    animations: {fileID: 11400000, guid: 9f8407b30c9f6485a88698b8d55d2862, type: 2}
+    frames:
+    - {fileID: 1956735336081625382, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    - {fileID: -7710114160355480345, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    - {fileID: 4417901699844961301, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    - {fileID: 8105579582091720354, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    schedule:
+    - hour: 0
+      minute: 0
+      dayMask: 127
+      zone: residence
+      objectId: resident-bed-4
+      position: {x: -4.899994, y: -0.3}
+      action: 9
+    - hour: 9
+      minute: 28
+      dayMask: 127
+      zone: residence
+      objectId: resident-bed-4
+      position: {x: -4.899994, y: -0.3}
+      action: 7
+    - hour: 14
+      minute: 28
+      dayMask: 127
+      zone: city
+      objectId: 
+      position: {x: 5, y: -7.3}
+      action: 2
+    - hour: 16
+      minute: 28
+      dayMask: 127
+      zone: shop
+      objectId: counter
+      position: {x: 0, y: 0.85}
+      action: 6
+    - hour: 18
+      minute: 28
+      dayMask: 127
+      zone: residence
+      objectId: resident-bed-4
+      position: {x: -4.899994, y: -0.3}
+      action: 7
+    - hour: 23
+      minute: 28
+      dayMask: 127
+      zone: residence
+      objectId: resident-bed-4
+      position: {x: -4.899994, y: -0.3}
+      action: 9
+  - npcId: resident-3
+    title: "\uC21C\uC790"
+    homeZone: residence
+    jobId: convenience
+    workZone: workplace
+    companionId: 
+    personality: 3
+    speed: 1.23
+    animations: {fileID: 11400000, guid: caa1a24b2b2f14def9c286f44e83de15, type: 2}
+    frames:
+    - {fileID: 7223506886873769134, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    - {fileID: -6729979080979554837, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    - {fileID: -463648950955847634, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    - {fileID: -5013025111935446509, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    schedule:
+    - hour: 0
+      minute: 0
+      dayMask: 127
+      zone: residence
+      objectId: resident-bed-5
+      position: {x: -0.8999939, y: -0.3}
+      action: 9
+    - hour: 7
+      minute: 35
+      dayMask: 127
+      zone: residence
+      objectId: resident-bed-5
+      position: {x: -0.8999939, y: -0.3}
+      action: 1
+    - hour: 8
+      minute: 35
+      dayMask: 127
+      zone: city
+      objectId: 
+      position: {x: -1.9999999, y: 1}
+      action: 2
+    - hour: 9
+      minute: 0
+      dayMask: 127
+      zone: workplace
+      objectId: workdesk
+      position: {x: 0.7, y: 0.70000005}
+      action: 3
+    - hour: 12
+      minute: 35
+      dayMask: 127
+      zone: shop
+      objectId: counter
+      position: {x: 0.65, y: 0.85}
+      action: 5
+    - hour: 13
+      minute: 35
+      dayMask: 127
+      zone: workplace
+      objectId: workdesk
+      position: {x: 0.7, y: 0.70000005}
+      action: 3
+    - hour: 18
+      minute: 35
+      dayMask: 127
+      zone: city
+      objectId: city-bench
+      position: {x: -1.7500001, y: -7.2}
+      action: 7
+    - hour: 19
+      minute: 35
+      dayMask: 127
+      zone: shop
+      objectId: counter
+      position: {x: 0.65, y: 0.85}
+      action: 6
+    - hour: 20
+      minute: 0
+      dayMask: 127
+      zone: city
+      objectId: 
+      position: {x: 1.2499999, y: 1.2}
+      action: 2
+    - hour: 21
+      minute: 35
+      dayMask: 127
+      zone: residence
+      objectId: resident-bed-5
+      position: {x: -0.8999939, y: -0.3}
+      action: 7
+    - hour: 23
+      minute: 35
+      dayMask: 127
+      zone: residence
+      objectId: resident-bed-5
+      position: {x: -0.8999939, y: -0.3}
+      action: 9
+  - npcId: resident-4
+    title: "\uC9C0\uC740"
+    homeZone: residence
+    jobId: convenience
+    workZone: workplace
+    companionId: 
+    personality: 3
+    speed: 1.36
+    animations: {fileID: 11400000, guid: 4d251d34a4b9b4dd280859fa9b30cdc5, type: 2}
+    frames:
+    - {fileID: 8559920643888737118, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    - {fileID: 5538569489634594306, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    - {fileID: 7290411598565047993, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    - {fileID: 2752892591760221209, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    schedule:
+    - hour: 0
+      minute: 0
+      dayMask: 127
+      zone: residence
+      objectId: resident-bed-6
+      position: {x: 3.100006, y: -0.3}
+      action: 9
+    - hour: 7
+      minute: 2
+      dayMask: 127
+      zone: residence
+      objectId: resident-bed-6
+      position: {x: 3.100006, y: -0.3}
+      action: 1
+    - hour: 8
+      minute: 2
+      dayMask: 127
+      zone: city
+      objectId: 
+      position: {x: -0.39999986, y: 1}
+      action: 2
+    - hour: 9
+      minute: 0
+      dayMask: 31
+      zone: workplace
+      objectId: workdesk
+      position: {x: -0.7, y: 0.20000005}
+      action: 3
+    - hour: 9
+      minute: 2
+      dayMask: 96
+      zone: city
+      objectId: 
+      position: {x: 6, y: -7.2}
+      action: 2
+    - hour: 12
+      minute: 2
+      dayMask: 127
+      zone: shop
+      objectId: counter
+      position: {x: -0.65, y: 0.50000006}
+      action: 5
+    - hour: 13
+      minute: 2
+      dayMask: 31
+      zone: workplace
+      objectId: workdesk
+      position: {x: -0.7, y: 0.20000005}
+      action: 3
+    - hour: 18
+      minute: 2
+      dayMask: 127
+      zone: city
+      objectId: city-bench
+      position: {x: -1.1000001, y: -7.2}
+      action: 7
+    - hour: 19
+      minute: 2
+      dayMask: 127
+      zone: shop
+      objectId: counter
+      position: {x: -0.65, y: 0.50000006}
+      action: 6
+    - hour: 20
+      minute: 0
+      dayMask: 127
+      zone: city
+      objectId: 
+      position: {x: 1.8999999, y: 1.2}
+      action: 2
+    - hour: 21
+      minute: 2
+      dayMask: 127
+      zone: residence
+      objectId: resident-bed-6
+      position: {x: 3.100006, y: -0.3}
+      action: 7
+    - hour: 23
+      minute: 2
+      dayMask: 127
+      zone: residence
+      objectId: resident-bed-6
+      position: {x: 3.100006, y: -0.3}
+      action: 9
+  - npcId: resident-5
+    title: "\uC815\uD638"
+    homeZone: residence
+    jobId: convenience
+    workZone: workplace
+    companionId: 
+    personality: 3
+    speed: 1.49
+    animations: {fileID: 11400000, guid: 0767c8e9b91b74b279a6f36a21050a93, type: 2}
+    frames:
+    - {fileID: 3447005225139973113, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    - {fileID: 1120148964544944648, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    - {fileID: 3011680283813473461, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    - {fileID: -893005434674621288, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    schedule:
+    - hour: 0
+      minute: 0
+      dayMask: 127
+      zone: residence
+      objectId: resident-bed-7
+      position: {x: 7.100006, y: -0.3}
+      action: 9
+    - hour: 7
+      minute: 9
+      dayMask: 127
+      zone: residence
+      objectId: resident-bed-7
+      position: {x: 7.100006, y: -0.3}
+      action: 1
+    - hour: 8
+      minute: 9
+      dayMask: 127
+      zone: city
+      objectId: 
+      position: {x: 1.2000002, y: 1}
+      action: 2
+    - hour: 9
+      minute: 0
+      dayMask: 127
+      zone: workplace
+      objectId: workdesk
+      position: {x: 0, y: 0.20000005}
+      action: 3
+    - hour: 12
+      minute: 9
+      dayMask: 127
+      zone: shop
+      objectId: counter
+      position: {x: 0, y: 0.50000006}
+      action: 5
+    - hour: 13
+      minute: 9
+      dayMask: 127
+      zone: workplace
+      objectId: workdesk
+      position: {x: 0, y: 0.20000005}
+      action: 3
+    - hour: 18
+      minute: 9
+      dayMask: 127
+      zone: city
+      objectId: city-bench
+      position: {x: -0.45000017, y: -7.2}
+      action: 7
+    - hour: 19
+      minute: 9
+      dayMask: 127
+      zone: shop
+      objectId: counter
+      position: {x: 0, y: 0.50000006}
+      action: 6
+    - hour: 20
+      minute: 0
+      dayMask: 127
+      zone: city
+      objectId: 
+      position: {x: 2.5499997, y: 1.2}
+      action: 2
+    - hour: 21
+      minute: 9
+      dayMask: 127
+      zone: residence
+      objectId: resident-bed-7
+      position: {x: 7.100006, y: -0.3}
+      action: 7
+    - hour: 23
+      minute: 9
+      dayMask: 127
+      zone: residence
+      objectId: resident-bed-7
+      position: {x: 7.100006, y: -0.3}
+      action: 9
+  - npcId: resident-6
+    title: "\uB3C4\uC724"
+    homeZone: residence
+    jobId: convenience
+    workZone: workplace
+    companionId: 
+    personality: 1
+    speed: 1.1
+    animations: {fileID: 11400000, guid: 9f8407b30c9f6485a88698b8d55d2862, type: 2}
+    frames:
+    - {fileID: 1956735336081625382, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    - {fileID: -7710114160355480345, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    - {fileID: 4417901699844961301, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    - {fileID: 8105579582091720354, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    schedule:
+    - hour: 0
+      minute: 0
+      dayMask: 127
+      zone: workplace
+      objectId: workdesk
+      position: {x: 0.7, y: 0.20000005}
+      action: 3
+    - hour: 7
+      minute: 16
+      dayMask: 127
+      zone: residence
+      objectId: resident-bed-8
+      position: {x: -4.899994, y: 2.7}
+      action: 9
+    - hour: 15
+      minute: 16
+      dayMask: 127
+      zone: residence
+      objectId: resident-bed-8
+      position: {x: -4.899994, y: 2.7}
+      action: 1
+    - hour: 17
+      minute: 16
+      dayMask: 127
+      zone: city
+      objectId: city-bench
+      position: {x: -6, y: -7.2}
+      action: 7
+    - hour: 20
+      minute: 16
+      dayMask: 127
+      zone: shop
+      objectId: counter
+      position: {x: 0.65, y: 0.50000006}
+      action: 5
+    - hour: 22
+      minute: 16
+      dayMask: 127
+      zone: workplace
+      objectId: workdesk
+      position: {x: 0.7, y: 0.20000005}
+      action: 3
+  - npcId: resident-7
+    title: "\uC21C\uC790"
+    homeZone: residence
+    jobId: convenience
+    workZone: workplace
+    companionId: 
+    personality: 5
+    speed: 1.23
+    animations: {fileID: 11400000, guid: caa1a24b2b2f14def9c286f44e83de15, type: 2}
+    frames:
+    - {fileID: 7223506886873769134, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    - {fileID: -6729979080979554837, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    - {fileID: -463648950955847634, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    - {fileID: -5013025111935446509, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    schedule:
+    - hour: 0
+      minute: 0
+      dayMask: 127
+      zone: residence
+      objectId: resident-bed-9
+      position: {x: -0.8999939, y: 2.7}
+      action: 9
+    - hour: 9
+      minute: 23
+      dayMask: 127
+      zone: residence
+      objectId: resident-bed-9
+      position: {x: -0.8999939, y: 2.7}
+      action: 7
+    - hour: 9
+      minute: 23
+      dayMask: 96
+      zone: city
+      objectId: 
+      position: {x: 6, y: -7.2}
+      action: 2
+    - hour: 14
+      minute: 23
+      dayMask: 127
+      zone: city
+      objectId: 
+      position: {x: 5, y: -7.3}
+      action: 2
+    - hour: 16
+      minute: 23
+      dayMask: 127
+      zone: shop
+      objectId: counter
+      position: {x: -0.65, y: 0.1500001}
+      action: 6
+    - hour: 18
+      minute: 23
+      dayMask: 127
+      zone: residence
+      objectId: resident-bed-9
+      position: {x: -0.8999939, y: 2.7}
+      action: 7
+    - hour: 23
+      minute: 23
+      dayMask: 127
+      zone: residence
+      objectId: resident-bed-9
+      position: {x: -0.8999939, y: 2.7}
+      action: 9
+  - npcId: resident-8
+    title: "\uC9C0\uC740"
+    homeZone: residence
+    jobId: convenience
+    workZone: workplace
+    companionId: 
+    personality: 3
+    speed: 1.36
+    animations: {fileID: 11400000, guid: 4d251d34a4b9b4dd280859fa9b30cdc5, type: 2}
+    frames:
+    - {fileID: 8559920643888737118, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    - {fileID: 5538569489634594306, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    - {fileID: 7290411598565047993, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    - {fileID: 2752892591760221209, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    schedule:
+    - hour: 0
+      minute: 0
+      dayMask: 127
+      zone: residence
+      objectId: resident-bed-10
+      position: {x: 3.100006, y: 2.7}
+      action: 9
+    - hour: 7
+      minute: 30
+      dayMask: 127
+      zone: residence
+      objectId: resident-bed-10
+      position: {x: 3.100006, y: 2.7}
+      action: 1
+    - hour: 8
+      minute: 30
+      dayMask: 127
+      zone: city
+      objectId: 
+      position: {x: 6, y: 1}
+      action: 2
+    - hour: 9
+      minute: 0
+      dayMask: 127
+      zone: workplace
+      objectId: workdesk
+      position: {x: 0, y: -0.29999995}
+      action: 3
+    - hour: 12
+      minute: 30
+      dayMask: 127
+      zone: shop
+      objectId: counter
+      position: {x: 0, y: 0.1500001}
+      action: 5
+    - hour: 13
+      minute: 30
+      dayMask: 127
+      zone: workplace
+      objectId: workdesk
+      position: {x: 0, y: -0.29999995}
+      action: 3
+    - hour: 18
+      minute: 30
+      dayMask: 127
+      zone: city
+      objectId: city-bench
+      position: {x: 1.4999998, y: -7.2}
+      action: 7
+    - hour: 19
+      minute: 30
+      dayMask: 127
+      zone: shop
+      objectId: counter
+      position: {x: 0, y: 0.1500001}
+      action: 6
+    - hour: 20
+      minute: 0
+      dayMask: 127
+      zone: city
+      objectId: 
+      position: {x: 4.5, y: 1.2}
+      action: 2
+    - hour: 21
+      minute: 30
+      dayMask: 127
+      zone: residence
+      objectId: resident-bed-10
+      position: {x: 3.100006, y: 2.7}
+      action: 7
+    - hour: 23
+      minute: 30
+      dayMask: 127
+      zone: residence
+      objectId: resident-bed-10
+      position: {x: 3.100006, y: 2.7}
+      action: 9
+  - npcId: resident-9
+    title: "\uC815\uD638"
+    homeZone: residence
+    jobId: convenience
+    workZone: workplace
+    companionId: 
+    personality: 3
+    speed: 1.49
+    animations: {fileID: 11400000, guid: 0767c8e9b91b74b279a6f36a21050a93, type: 2}
+    frames:
+    - {fileID: 3447005225139973113, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    - {fileID: 1120148964544944648, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    - {fileID: 3011680283813473461, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    - {fileID: -893005434674621288, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    schedule:
+    - hour: 0
+      minute: 0
+      dayMask: 127
+      zone: residence
+      objectId: resident-bed-11
+      position: {x: 7.100006, y: 2.7}
+      action: 9
+    - hour: 7
+      minute: 37
+      dayMask: 127
+      zone: residence
+      objectId: resident-bed-11
+      position: {x: 7.100006, y: 2.7}
+      action: 1
+    - hour: 8
+      minute: 37
+      dayMask: 127
+      zone: city
+      objectId: 
+      position: {x: 7.6000004, y: 1}
+      action: 2
+    - hour: 9
+      minute: 0
+      dayMask: 127
+      zone: workplace
+      objectId: workdesk
+      position: {x: 0.7, y: -0.29999995}
+      action: 3
+    - hour: 12
+      minute: 37
+      dayMask: 127
+      zone: shop
+      objectId: counter
+      position: {x: 0.65, y: 0.1500001}
+      action: 5
+    - hour: 13
+      minute: 37
+      dayMask: 127
+      zone: workplace
+      objectId: workdesk
+      position: {x: 0.7, y: -0.29999995}
+      action: 3
+    - hour: 18
+      minute: 37
+      dayMask: 127
+      zone: city
+      objectId: city-bench
+      position: {x: 2.1499996, y: -7.2}
+      action: 7
+    - hour: 19
+      minute: 37
+      dayMask: 127
+      zone: shop
+      objectId: counter
+      position: {x: 0.65, y: 0.1500001}
+      action: 6
+    - hour: 20
+      minute: 0
+      dayMask: 127
+      zone: city
+      objectId: 
+      position: {x: 5.1499996, y: 1.2}
+      action: 2
+    - hour: 21
+      minute: 37
+      dayMask: 127
+      zone: residence
+      objectId: resident-bed-11
+      position: {x: 7.100006, y: 2.7}
+      action: 7
+    - hour: 23
+      minute: 37
+      dayMask: 127
+      zone: residence
+      objectId: resident-bed-11
+      position: {x: 7.100006, y: 2.7}
+      action: 9

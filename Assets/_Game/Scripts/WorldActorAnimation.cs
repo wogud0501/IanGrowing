@@ -29,6 +29,7 @@ public sealed class WorldActorAnimation:MonoBehaviour {
   }
   Frame=index;visual.sprite=active.frames[index];visual.flipX=active.mirror;return true;
  }
+ public void Seek(float seconds){entered=Time.unscaledTime-Mathf.Max(0,seconds);}
  public bool Complete=>active!=null&&!active.loop&&(Time.unscaledTime-entered)*active.framesPerSecond>=active.frames.Length;
  public float Duration(ActorMotion motion,Vector2 face){var c=library?.Find(motion,ActorAnimationSet.Direction(face));return c==null?0:c.frames.Length/Mathf.Max(1,c.framesPerSecond);}
 }
