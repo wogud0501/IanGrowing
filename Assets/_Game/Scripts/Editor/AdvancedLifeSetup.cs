@@ -41,6 +41,7 @@ public static class AdvancedLifeSetup {
   for(int i=0;i<7;i++)clips.Add(Clip((ActorMotion)((int)ActorMotion.Happy+i),ActorDirection.Down,emotions.Skip(i*4).Take(4).ToArray(),true,false,1.8f,5));
   clips.Add(Clip(ActorMotion.Turn,ActorDirection.Up,run.Skip(16).Take(4).ToArray()));clips.Add(Clip(ActorMotion.Turn,ActorDirection.Down,run.Skip(20).Take(4).ToArray()));
   clips.Add(Clip(ActorMotion.Stop,ActorDirection.Down,run.Skip(24).Take(4).ToArray()));clips.Add(Clip(ActorMotion.Stop,ActorDirection.Right,run.Skip(28).Take(4).ToArray()));clips.Add(Clip(ActorMotion.Stop,ActorDirection.Left,run.Skip(28).Take(4).ToArray(),false,true));
+  clips.RemoveAll(c=>c.motion==ActorMotion.Idle&&c.direction==ActorDirection.Down);clips.Add(Clip(ActorMotion.Idle,ActorDirection.Down,emotions.Skip(28).Take(4).ToArray(),true,false,1.8f,2));
   player.clips=clips.ToArray();EditorUtility.SetDirty(player);
   var actor=w.Player.GetComponent<WorldActorAnimation>()??w.Player.gameObject.AddComponent<WorldActorAnimation>();actor.library=player;actor.visual=w.Player.sprite;actor.legacyAnimator=w.Player.locomotion;w.Player.advanced=actor;
   var citizens=new ActorAnimationSet[4];for(int person=0;person<4;person++){

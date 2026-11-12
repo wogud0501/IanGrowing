@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: caa8d0c57baa743f49bd9fb3c199d5db, type: 3}
+  m_Name: Door2
+  m_EditorClassIdentifier: Assembly-CSharp::IanGame.WorldDoorStyle
+  mechanism: 2
+  openingFrames:
+  - {fileID: -3835587380678959961, guid: df257750171594a4c9ccce4a2152fd4e, type: 3}
+  - {fileID: 7277174057046238414, guid: df257750171594a4c9ccce4a2152fd4e, type: 3}
+  - {fileID: -1878249249425804948, guid: df257750171594a4c9ccce4a2152fd4e, type: 3}
+  - {fileID: 6401715881218916115, guid: df257750171594a4c9ccce4a2152fd4e, type: 3}
+  - {fileID: -235732769111238746, guid: df257750171594a4c9ccce4a2152fd4e, type: 3}
+  - {fileID: 8920794568333368591, guid: df257750171594a4c9ccce4a2152fd4e, type: 3}
+  seconds: 0.28
