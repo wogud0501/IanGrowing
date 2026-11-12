@@ -1,0 +1,13 @@
+{
+  "baseline": "Docs/DoorFix/SAVE_BASELINE.json",
+  "productionFilesUnchangedAfterRecovery": true,
+  "files": {
+    "ian-black-comedy-v4.autosave.json.bak": true,
+    "ian-black-comedy-v1.autosave.json": true,
+    "ian-black-comedy-v4.autosave.json": true
+  },
+  "observedChangedFilesPreservedAt": "DevelopmentBackups/WorldRecovery-Observed-Saves-20261113",
+  "unsavedEntryModel": "DevelopmentBackups/DoorFix-Before-20261113/LIVE_RUNTIME_STATE.json",
+  "cause": "Production autosave mutation detected after Play-mode checks; precise originating callback not yet proven. Editor test write guard added.",
+  "verifiedAfterGuardedPlayExit": true
+}

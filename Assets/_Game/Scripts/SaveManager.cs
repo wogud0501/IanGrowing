@@ -52,6 +52,11 @@ public class SaveManager:MonoBehaviour {
  public bool Save(PlayerStats stats,TimeManager clock,bool gameOver,out string message)=>Save(stats,clock,gameOver,Guid.NewGuid().ToString("N"),clock==null?1:clock.Day,out message);
  public bool Save(PlayerStats stats,TimeManager clock,bool gameOver,string runId,int settledDay,out string message){
  EnsureSlot();
+ #if UNITY_EDITOR
+ // A test session may outlive a scene or serialized-channel reset on Play exit.
+ // Protect at the final write boundary as well as at the startup scene callback.
+ if(UnityEditor.SessionState.GetBool("ian.phase26.protectWrites",false)&&!Path.GetFileName(fileName).StartsWith("phase26-")&&!Path.GetFileName(fileName).StartsWith("qa-")){message="자동 검증 중 원본 슬롯 쓰기가 차단되었습니다.";return false;}
+ #endif
  if(WritesBlocked){message="원본 저장 보호 중입니다. 새 인생을 명시적으로 시작하거나 저장 파일을 복구해 주세요.";return false;}
  try{
  if(stats==null||clock==null)throw new InvalidOperationException("시스템 연결 누락");

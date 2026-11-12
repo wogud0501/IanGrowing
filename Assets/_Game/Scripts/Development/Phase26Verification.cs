@@ -17,7 +17,7 @@ public sealed class Phase26Verification:MonoBehaviour {
  [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
  static void ProtectStartup(){
   if(string.IsNullOrEmpty(UnityEditor.SessionState.GetString("ian.phase26.pendingTest","")))return;
-  UnityEngine.SceneManagement.SceneManager.sceneLoaded+=IsolateStartup;
+  UnityEditor.SessionState.SetBool("ian.phase26.protectWrites",true);UnityEngine.SceneManagement.SceneManager.sceneLoaded+=IsolateStartup;
  }
  static void IsolateStartup(UnityEngine.SceneManagement.Scene scene,UnityEngine.SceneManagement.LoadSceneMode mode){
   if(scene.name!="Bootstrap")return;
@@ -54,6 +54,7 @@ public sealed class Phase26Verification:MonoBehaviour {
  }
  IEnumerator Scenario(){result.stage="Stage A";g.NewGame();Check(g.growth.Age==0&&g.economy.Cash==0,"New life preserves newborn age and zero cash");Check(GameContext.Instance.transitions.Navigate(SceneId.Home),"Main menu Home routes to connected LifeWorld");yield return WaitWorld();var birth=UnityEngine.Object.FindAnyObjectByType<BirthIntroductionPopup>();Check(birth!=null&&birth.IsShowing,"DAY 1 birth introduction remains visible");if(result.mode=="masterCapture"){yield return new WaitForSecondsRealtime(.3f);ScreenCapture.CaptureScreenshot("Docs/Phase26/MasterScreenshots/00-Day1-Birth.png");yield return Frames();}birth.begin.onClick.Invoke();yield return new WaitForSecondsRealtime(.3f);Check(!g.BirthIntroductionPending,"Actual birth confirmation starts world controls");g.clock.realtimeEnabled=false;CommercialSliceVerification.SetSize(1280,720);yield return Frames();
   if(result.mode=="stageA"){var before=world.Player.Position;yield return Hold(Key.D,.45f);Check(world.Player.Position.x>before.x+.5f,"Actual keyboard D moves rigidbody in world");world.Player.Warp(new Vector2(7.6f,-3));yield return Hold(Key.D,.9f);Check(world.Player.Position.x<8.6f,"Wall collider stops physical movement");world.Player.Warp(new Vector2(2,-1.4f));yield return Hold(Key.W,.9f);Check(world.Player.Position.y<.1f,"Table footprint blocks movement while upper sprite occludes correctly");world.Player.Warp(new Vector2(0,-2));yield return Frames();var bed=world.objects.First(o=>o.id=="bed");Check(!world.Use(bed),"Distant bed cannot be used");Shot("StageA-Home");yield return Frames();yield return Use("front-door");Check(g.world.State.zone=="alley","E at front door enters residential alley");yield return Use("city-path");Check(g.world.State.zone=="city","Alley door connects to city");Check(Vector2.Distance(world.follow.transform.position,world.Player.Position)<8,"Camera moves to destination without exposing other zones");Shot("StageA-City");yield return Frames();yield break;}
+  if(result.mode=="advancedRecoverySafety"){yield return WorldRecoveryVerification.Safety(world,g,Check);yield break;}
   if(result.mode=="advancedRecoveryPolish"){yield return WorldRecoveryVerification.Polish(world,g,Check,Audit);yield break;}
   if(result.mode=="advancedRecovery"){yield return WorldRecoveryVerification.Run(world,g,Check,Audit);yield break;}
   if(result.mode=="advancedQAFailed"){yield return QACenterVerification.Run(world,g,Check,Audit,true);yield break;}
