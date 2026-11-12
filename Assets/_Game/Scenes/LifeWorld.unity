@@ -176876,6 +176876,7 @@ GameObject:
   - component: {fileID: 8994981041183254200}
   - component: {fileID: 8994981041183254199}
   - component: {fileID: 8994981041183254201}
+  - component: {fileID: 8994981041183254202}
   m_Layer: 0
   m_Name: Game Canvas
   m_TagString: Untagged
@@ -177105,6 +177106,18 @@ MonoBehaviour:
   - {fileID: 2118219841}
   fade: {fileID: 899123211}
   choicePrefab: {fileID: 323644760}
+--- !u!114 &8994981041183254202
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8994981041183254193}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffdf2eee66bc64965b17754dec1414c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IanGame.WorldHUDLayout
 --- !u!224 &9000788790833570479
 RectTransform:
   m_ObjectHideFlags: 0
