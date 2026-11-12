@@ -297,3 +297,11 @@ UI 비율: 1280×720, 1920×1080, 2400×1080, 1080×1920. 큰 글씨 115%, 소�
 - UITypeScale.baseSize까지 수정하여 HUD 글자 크기 변경이 Play 시작 시 덮어써지지 않도록 보정. 구역별 위치명 표시 추가.
 - 수정 파일: Phase26VisualRebuild.cs, Phase26HomeSetup.cs, HomeLayoutPlan.cs, WorldVisualCatalog.cs, WorldPlayerMotor.cs, WorldPixelViewport.cs, LifeWorldController.cs, CompactWorldStatusBar.cs, Phase26Verification.cs, Phase26EditorBridge.cs, LifeWorld 씬/주거 카탈로그/규칙.
 - 아직 완료 아님: 최종 집 화면 재확인/실제 동선/전체 생활 흐름/다양한 해상도, 도시 스타일 교체, 정식 생활 애니메이션, 물리 키 입력. 기존 통과 기록을 이번 변경의 통과 기록으로 사용하지 않음.
+
+## 2026-11-13 World & UI Recovery
+- LifeWorld의 사무실 직원 공용 목적지/동일 출입 스폰 문제 수정. 직원별 책상 9개, 공용 업무석, 실내 휴게·탕비실, 별도 화장실 구성.
+- 증권·부동산 실내 및 도시 출입 경로 연결. 기존 단말기 기능과 ID 유지.
+- 문 고정 프레임/경첩 메시, 개폐 상태·충돌·역방향 접근 수정. 기존 전환 서비스 유지.
+- 기존 7개 씬의 공통 픽셀 UI 개선 및 반응형 부동산 설명 배치. 초기 집 및 경제 데이터 유지.
+- 최초 Play 516개 검사 통과. 발견한 지갑 overflow/바닥 스케일 시각 문제 보완 후 집중 검증 중.
+- 상세 파일/미완료 항목: `Docs/WorldRecovery/PROGRESS.md`. 전체 상업용 품질 완료로 판정하지 않음.

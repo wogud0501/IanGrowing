@@ -12,12 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: caa8d0c57baa743f49bd9fb3c199d5db, type: 3}
   m_Name: Door1
   m_EditorClassIdentifier: Assembly-CSharp::IanGame.WorldDoorStyle
+  frame: {fileID: 7140344639328648094, guid: 3407649d1bc1842fb87b94e1c3c7b840, type: 2}
+  hingeOffset: {x: 0.6081849, y: 0.044898536}
+  closeSeconds: 0.38
   mechanism: 1
   openingFrames:
-  - {fileID: -1266127796029762465, guid: df257750171594a4c9ccce4a2152fd4e, type: 3}
-  - {fileID: 4336114929768333646, guid: df257750171594a4c9ccce4a2152fd4e, type: 3}
-  - {fileID: -6007024722266976864, guid: df257750171594a4c9ccce4a2152fd4e, type: 3}
-  - {fileID: -5322894266315508104, guid: df257750171594a4c9ccce4a2152fd4e, type: 3}
-  - {fileID: -74492535472800441, guid: df257750171594a4c9ccce4a2152fd4e, type: 3}
-  - {fileID: 3965346767505593252, guid: df257750171594a4c9ccce4a2152fd4e, type: 3}
-  seconds: 0.32
+  - {fileID: 4999634210857460834, guid: 3407649d1bc1842fb87b94e1c3c7b840, type: 2}
+  - {fileID: 2504888130932428640, guid: 3407649d1bc1842fb87b94e1c3c7b840, type: 2}
+  - {fileID: 7603871800695326146, guid: 3407649d1bc1842fb87b94e1c3c7b840, type: 2}
+  - {fileID: 4103567680546536746, guid: 3407649d1bc1842fb87b94e1c3c7b840, type: 2}
+  - {fileID: 4072725767286417480, guid: 3407649d1bc1842fb87b94e1c3c7b840, type: 2}
+  - {fileID: -8944901570816193441, guid: 3407649d1bc1842fb87b94e1c3c7b840, type: 2}
+  seconds: 0.38

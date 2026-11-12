@@ -61,10 +61,11 @@ public sealed class LifeWorldController:MonoBehaviour {
  IEnumerator DoorTravel(WorldInteractable portal){
   travelling=true;int generation=restoreGeneration;beforePortalCommit=true;transitionEntry=Player.Position;var door=portal.GetComponent<WorldDoor>();WorldDoor arrivalDoor=null;bool committed=false;
   try{
-   hud.CloseContext();yield return StepTo(portal.Point);
-   if(Vector2.Distance(Player.Position,portal.Point)>.25f){hud.Notify("문 앞의 통로를 비워 주세요.");yield break;}
+   var approach=door==null?portal.Point:door.Approach(Player.Position);var crossing=door==null?portal.Point:door.Passage(Player.Position);
+   hud.CloseContext();yield return StepTo(approach);
+   if(Vector2.Distance(Player.Position,approach)>.25f){hud.Notify("문 앞의 통로를 비워 주세요.");yield break;}
    Player.Face((Vector2)portal.transform.position-Player.Position);Player.Pose("Open Door");
-   if(door!=null){if(!door.Acquire("player",Service.Hour,out var reason)){hud.Notify(reason);yield break;}float openedAt=Time.unscaledTime+Mathf.Max(.32f,Player.advanced==null?0:Player.advanced.Duration(ActorMotion.OpenDoor,Player.Facing));while(door.State!=DoorState.Open||Time.unscaledTime<openedAt){if(generation!=restoreGeneration)yield break;yield return null;}yield return StepTo(door.CrossPoint,.65f);if(!Player.TraversalArrived){hud.Notify("문을 통과할 공간이 필요합니다.");yield break;}}
+   if(door!=null){if(!door.Acquire("player",Service.Hour,out var reason)){hud.Notify(reason);yield break;}float openedAt=Time.unscaledTime+Mathf.Max(.32f,Player.advanced==null?0:Player.advanced.Duration(ActorMotion.OpenDoor,Player.Facing));while(door.State!=DoorState.Open||Time.unscaledTime<openedAt){if(generation!=restoreGeneration)yield break;yield return null;}yield return StepTo(crossing,.65f);if(!Player.TraversalArrived){hud.Notify("문을 통과할 공간이 필요합니다.");yield break;}}
    if(generation!=restoreGeneration)yield break;
    string from=Service.State.zone;transitions?.Begin(from,portal.targetZone);for(float t=0;t<.16f;t+=Time.unscaledDeltaTime){if(generation!=restoreGeneration)yield break;if(transitions!=null)transitions.Cover(t/.16f);else hud.Dim(t/.16f);yield return null;}
    arrivalDoor=objects.Where(o=>o.zone==portal.targetZone&&o.targetZone==from&&o.kind==WorldInteractionKind.Door).Select(o=>o.GetComponent<WorldDoor>()).FirstOrDefault(d=>d!=null);

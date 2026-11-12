@@ -77,14 +77,14 @@ MonoBehaviour:
     walkableTop: 3.15
     cameraSize: 0
   - id: workplace
-    title: Workspace
+    title: "\uC774\uC548 \uC0AC\uBB34\uC2E4"
     location: 4
     origin: {x: 220, y: 0}
     size: {x: 18, y: 12}
-    spawn: {x: 0, y: -2}
+    spawn: {x: 0, y: -4.6}
     outdoor: 0
-    walkableTop: 3.15
-    cameraSize: 0
+    walkableTop: 4.7
+    cameraSize: 6.8
   - id: school
     title: "\uBC30\uC6C0\uD130"
     location: 3
@@ -102,6 +102,33 @@ MonoBehaviour:
     spawn: {x: 0, y: -4.5}
     outdoor: 0
     walkableTop: 4.8
+    cameraSize: 6.8
+  - id: office-bathroom
+    title: "\uC0AC\uBB34\uC2E4 \uD654\uC7A5\uC2E4"
+    location: 5
+    origin: {x: 430, y: 0}
+    size: {x: 7, y: 7}
+    spawn: {x: 0, y: -2.1}
+    outdoor: 0
+    walkableTop: 2.2
+    cameraSize: 4.3
+  - id: finance
+    title: "\uC774\uC548 \uC99D\uAD8C"
+    location: 5
+    origin: {x: 350, y: 0}
+    size: {x: 12, y: 10}
+    spawn: {x: 0, y: -3.6}
+    outdoor: 0
+    walkableTop: 3.7
+    cameraSize: 6.8
+  - id: realestate
+    title: "\uC774\uC548 \uBD80\uB3D9\uC0B0"
+    location: 5
+    origin: {x: 390, y: 0}
+    size: {x: 12, y: 10}
+    spawn: {x: 0, y: -3.6}
+    outdoor: 0
+    walkableTop: 3.7
     cameraSize: 6.8
   npcs:
   - npcId: colleague
@@ -144,8 +171,22 @@ MonoBehaviour:
       minute: 0
       dayMask: 127
       zone: workplace
-      objectId: workdesk
-      position: {x: -0.7, y: 1.2}
+      objectId: staff-desk-colleague
+      position: {x: -6.199997, y: 0.8299999}
+      action: 3
+    - hour: 10
+      minute: 0
+      dayMask: 127
+      zone: workplace
+      objectId: office-break-0
+      position: {x: 5.399994, y: -1.45}
+      action: 7
+    - hour: 10
+      minute: 15
+      dayMask: 127
+      zone: workplace
+      objectId: staff-desk-colleague
+      position: {x: -6.199997, y: 0.8299999}
       action: 3
     - hour: 12
       minute: 0
@@ -158,15 +199,15 @@ MonoBehaviour:
       minute: 0
       dayMask: 127
       zone: workplace
-      objectId: workdesk
-      position: {x: -0.7, y: 1.2}
+      objectId: staff-desk-colleague
+      position: {x: -6.199997, y: 0.8299999}
       action: 3
     - hour: 18
       minute: 0
       dayMask: 127
       zone: city
       objectId: city-bench
-      position: {x: 4.35, y: -1.5}
+      position: {x: 3.600003, y: -8.900001}
       action: 7
     - hour: 19
       minute: 0
@@ -258,7 +299,7 @@ MonoBehaviour:
       dayMask: 127
       zone: city
       objectId: city-bench
-      position: {x: 5, y: -1.5}
+      position: {x: 4.300003, y: -8.900001}
       action: 7
     - hour: 19
       minute: 7
@@ -328,8 +369,22 @@ MonoBehaviour:
       minute: 0
       dayMask: 127
       zone: workplace
-      objectId: workdesk
-      position: {x: 0.7, y: 1.2}
+      objectId: staff-desk-resident-0
+      position: {x: -2.949997, y: 0.8299999}
+      action: 3
+    - hour: 10
+      minute: 3
+      dayMask: 127
+      zone: workplace
+      objectId: office-break-1
+      position: {x: 6.600006, y: -1.45}
+      action: 7
+    - hour: 10
+      minute: 18
+      dayMask: 127
+      zone: workplace
+      objectId: staff-desk-resident-0
+      position: {x: -2.949997, y: 0.8299999}
       action: 3
     - hour: 12
       minute: 14
@@ -342,15 +397,15 @@ MonoBehaviour:
       minute: 14
       dayMask: 127
       zone: workplace
-      objectId: workdesk
-      position: {x: 0.7, y: 1.2}
+      objectId: staff-desk-resident-0
+      position: {x: -2.949997, y: 0.8299999}
       action: 3
     - hour: 18
       minute: 14
       dayMask: 127
       zone: city
       objectId: city-bench
-      position: {x: 5.65, y: -1.5}
+      position: {x: 5.000003, y: -8.900001}
       action: 7
     - hour: 19
       minute: 14
@@ -399,8 +454,22 @@ MonoBehaviour:
       minute: 0
       dayMask: 31
       zone: workplace
-      objectId: workdesk
-      position: {x: -0.7, y: 0.70000005}
+      objectId: staff-desk-resident-1
+      position: {x: 0.30000305, y: 0.8299999}
+      action: 3
+    - hour: 2
+      minute: 20
+      dayMask: 31
+      zone: workplace
+      objectId: office-break-0
+      position: {x: 5.399994, y: -1.45}
+      action: 7
+    - hour: 2
+      minute: 35
+      dayMask: 31
+      zone: workplace
+      objectId: staff-desk-resident-1
+      position: {x: 0.30000305, y: 0.8299999}
       action: 3
     - hour: 7
       minute: 21
@@ -428,7 +497,7 @@ MonoBehaviour:
       dayMask: 127
       zone: city
       objectId: city-bench
-      position: {x: 4.35, y: -1.5}
+      position: {x: 3.600003, y: -8.900001}
       action: 7
     - hour: 20
       minute: 21
@@ -441,8 +510,8 @@ MonoBehaviour:
       minute: 21
       dayMask: 31
       zone: workplace
-      objectId: workdesk
-      position: {x: -0.7, y: 0.70000005}
+      objectId: staff-desk-resident-1
+      position: {x: 0.30000305, y: 0.8299999}
       action: 3
   - npcId: resident-2
     title: "\uB3C4\uC724"
@@ -541,8 +610,22 @@ MonoBehaviour:
       minute: 0
       dayMask: 127
       zone: workplace
-      objectId: workdesk
-      position: {x: 0.7, y: 0.70000005}
+      objectId: staff-desk-resident-3
+      position: {x: -6.199997, y: -1.72}
+      action: 3
+    - hour: 10
+      minute: 23
+      dayMask: 127
+      zone: workplace
+      objectId: office-break-1
+      position: {x: 6.600006, y: -1.45}
+      action: 7
+    - hour: 10
+      minute: 38
+      dayMask: 127
+      zone: workplace
+      objectId: staff-desk-resident-3
+      position: {x: -6.199997, y: -1.72}
       action: 3
     - hour: 12
       minute: 35
@@ -555,15 +638,15 @@ MonoBehaviour:
       minute: 35
       dayMask: 127
       zone: workplace
-      objectId: workdesk
-      position: {x: 0.7, y: 0.70000005}
+      objectId: staff-desk-resident-3
+      position: {x: -6.199997, y: -1.72}
       action: 3
     - hour: 18
       minute: 35
       dayMask: 127
       zone: city
       objectId: city-bench
-      position: {x: 5.65, y: -1.5}
+      position: {x: 5.000003, y: -8.900001}
       action: 7
     - hour: 19
       minute: 35
@@ -633,8 +716,8 @@ MonoBehaviour:
       minute: 0
       dayMask: 31
       zone: workplace
-      objectId: workdesk
-      position: {x: -0.7, y: 0.20000005}
+      objectId: staff-desk-resident-4
+      position: {x: -2.949997, y: -1.72}
       action: 3
     - hour: 9
       minute: 2
@@ -643,6 +726,20 @@ MonoBehaviour:
       objectId: 
       position: {x: 6, y: -7.2}
       action: 2
+    - hour: 10
+      minute: 40
+      dayMask: 31
+      zone: workplace
+      objectId: office-break-0
+      position: {x: 5.399994, y: -1.45}
+      action: 7
+    - hour: 10
+      minute: 55
+      dayMask: 31
+      zone: workplace
+      objectId: staff-desk-resident-4
+      position: {x: -2.949997, y: -1.72}
+      action: 3
     - hour: 12
       minute: 2
       dayMask: 127
@@ -654,15 +751,15 @@ MonoBehaviour:
       minute: 2
       dayMask: 31
       zone: workplace
-      objectId: workdesk
-      position: {x: -0.7, y: 0.20000005}
+      objectId: staff-desk-resident-4
+      position: {x: -2.949997, y: -1.72}
       action: 3
     - hour: 18
       minute: 2
       dayMask: 127
       zone: city
       objectId: city-bench
-      position: {x: 4.35, y: -1.5}
+      position: {x: 3.600003, y: -8.900001}
       action: 7
     - hour: 19
       minute: 2
@@ -732,8 +829,22 @@ MonoBehaviour:
       minute: 0
       dayMask: 127
       zone: workplace
-      objectId: workdesk
-      position: {x: 0, y: 0.20000005}
+      objectId: staff-desk-resident-5
+      position: {x: 0.30000305, y: -1.72}
+      action: 3
+    - hour: 10
+      minute: 43
+      dayMask: 127
+      zone: workplace
+      objectId: office-break-1
+      position: {x: 6.600006, y: -1.45}
+      action: 7
+    - hour: 10
+      minute: 58
+      dayMask: 127
+      zone: workplace
+      objectId: staff-desk-resident-5
+      position: {x: 0.30000305, y: -1.72}
       action: 3
     - hour: 12
       minute: 9
@@ -746,15 +857,15 @@ MonoBehaviour:
       minute: 9
       dayMask: 127
       zone: workplace
-      objectId: workdesk
-      position: {x: 0, y: 0.20000005}
+      objectId: staff-desk-resident-5
+      position: {x: 0.30000305, y: -1.72}
       action: 3
     - hour: 18
       minute: 9
       dayMask: 127
       zone: city
       objectId: city-bench
-      position: {x: 5, y: -1.5}
+      position: {x: 4.300003, y: -8.900001}
       action: 7
     - hour: 19
       minute: 9
@@ -803,8 +914,22 @@ MonoBehaviour:
       minute: 0
       dayMask: 127
       zone: workplace
-      objectId: workdesk
-      position: {x: 0.7, y: 0.20000005}
+      objectId: staff-desk-resident-6
+      position: {x: -6.199997, y: -4.27}
+      action: 3
+    - hour: 3
+      minute: 0
+      dayMask: 127
+      zone: workplace
+      objectId: office-break-0
+      position: {x: 5.399994, y: -1.45}
+      action: 7
+    - hour: 3
+      minute: 15
+      dayMask: 127
+      zone: workplace
+      objectId: staff-desk-resident-6
+      position: {x: -6.199997, y: -4.27}
       action: 3
     - hour: 7
       minute: 16
@@ -825,7 +950,7 @@ MonoBehaviour:
       dayMask: 127
       zone: city
       objectId: city-bench
-      position: {x: 5.65, y: -1.5}
+      position: {x: 5.000003, y: -8.900001}
       action: 7
     - hour: 20
       minute: 16
@@ -838,8 +963,8 @@ MonoBehaviour:
       minute: 16
       dayMask: 127
       zone: workplace
-      objectId: workdesk
-      position: {x: 0.7, y: 0.20000005}
+      objectId: staff-desk-resident-6
+      position: {x: -6.199997, y: -4.27}
       action: 3
   - npcId: resident-7
     title: "\uC21C\uC790"
@@ -945,8 +1070,22 @@ MonoBehaviour:
       minute: 0
       dayMask: 127
       zone: workplace
-      objectId: workdesk
-      position: {x: 0, y: -0.29999995}
+      objectId: staff-desk-resident-8
+      position: {x: -2.949997, y: -4.27}
+      action: 3
+    - hour: 11
+      minute: 3
+      dayMask: 127
+      zone: workplace
+      objectId: office-break-1
+      position: {x: 6.600006, y: -1.45}
+      action: 7
+    - hour: 11
+      minute: 18
+      dayMask: 127
+      zone: workplace
+      objectId: staff-desk-resident-8
+      position: {x: -2.949997, y: -4.27}
       action: 3
     - hour: 12
       minute: 30
@@ -959,15 +1098,15 @@ MonoBehaviour:
       minute: 30
       dayMask: 127
       zone: workplace
-      objectId: workdesk
-      position: {x: 0, y: -0.29999995}
+      objectId: staff-desk-resident-8
+      position: {x: -2.949997, y: -4.27}
       action: 3
     - hour: 18
       minute: 30
       dayMask: 127
       zone: city
       objectId: city-bench
-      position: {x: 5, y: -1.5}
+      position: {x: 4.300003, y: -8.900001}
       action: 7
     - hour: 19
       minute: 30
@@ -1037,8 +1176,22 @@ MonoBehaviour:
       minute: 0
       dayMask: 127
       zone: workplace
-      objectId: workdesk
-      position: {x: 0.7, y: -0.29999995}
+      objectId: staff-desk-resident-9
+      position: {x: 0.30000305, y: -4.27}
+      action: 3
+    - hour: 11
+      minute: 20
+      dayMask: 127
+      zone: workplace
+      objectId: office-break-0
+      position: {x: 5.399994, y: -1.45}
+      action: 7
+    - hour: 11
+      minute: 35
+      dayMask: 127
+      zone: workplace
+      objectId: staff-desk-resident-9
+      position: {x: 0.30000305, y: -4.27}
       action: 3
     - hour: 12
       minute: 37
@@ -1051,15 +1204,15 @@ MonoBehaviour:
       minute: 37
       dayMask: 127
       zone: workplace
-      objectId: workdesk
-      position: {x: 0.7, y: -0.29999995}
+      objectId: staff-desk-resident-9
+      position: {x: 0.30000305, y: -4.27}
       action: 3
     - hour: 18
       minute: 37
       dayMask: 127
       zone: city
       objectId: city-bench
-      position: {x: 5.65, y: -1.5}
+      position: {x: 5.000003, y: -8.900001}
       action: 7
     - hour: 19
       minute: 37
