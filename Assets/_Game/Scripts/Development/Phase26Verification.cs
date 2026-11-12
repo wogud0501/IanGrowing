@@ -12,6 +12,21 @@ using UnityEngine.UI;
 using TMPro;
 namespace IanGame.Editor {
 public sealed class Phase26Verification:MonoBehaviour {
+ // Isolate before GameManager.Start: waiting for MainMenu is too late for
+ // load/offline-progress lifecycle writes. Never load the user's slot in tests.
+ [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+ static void ProtectStartup(){
+  if(string.IsNullOrEmpty(UnityEditor.SessionState.GetString("ian.phase26.pendingTest","")))return;
+  UnityEngine.SceneManagement.SceneManager.sceneLoaded+=IsolateStartup;
+ }
+ static void IsolateStartup(UnityEngine.SceneManagement.Scene scene,UnityEngine.SceneManagement.LoadSceneMode mode){
+  if(scene.name!="Bootstrap")return;
+  UnityEngine.SceneManagement.SceneManager.sceneLoaded-=IsolateStartup;
+  var context=GameContext.Instance;if(context==null)return;var game=context.game;
+  typeof(SaveManager).GetField("fileName",BindingFlags.Instance|BindingFlags.NonPublic).SetValue(game.saves,"phase26-startup-"+Guid.NewGuid().ToString("N")+".json");
+  game.autoLoadOnStart=false;game.autoSaveAfterAction=game.autoSaveOnLifecycle=false;
+  game.realtimeLifeEnabled=game.clock.realtimeEnabled=false;
+ }
  [Serializable]class Results {public string mode,stage,failure;public List<string> passed=new List<string>(),uiIssues=new List<string>();}
  bool ControllerMode=>result.mode.StartsWith("advanced")||result.mode=="masterCapture"||result.mode=="master"||result.mode=="quality"||result.mode=="home"||result.mode=="visual";
  Results result=new Results();GameManager g;LifeWorldController world;SaveData original;string originalSlot;bool auto,lifecycle,realtime,realLife;float animation,eventChance;InputSettings.BackgroundBehavior background;InputSettings.EditorInputBehaviorInPlayMode editorInput;int large;

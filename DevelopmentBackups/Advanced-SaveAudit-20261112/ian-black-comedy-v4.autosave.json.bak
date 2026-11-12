@@ -1,0 +1,1068 @@
+{
+    "world": {
+        "schema": 1,
+        "zone": "city",
+        "position": {
+            "x": -12.0,
+            "y": -7.400000095367432
+        },
+        "facing": {
+            "x": 0.004846261348575354,
+            "y": -0.9999882578849792
+        },
+        "fatigue": 16.0860538482666,
+        "hygiene": 84.5958251953125,
+        "rice": 3,
+        "bread": 2,
+        "prepared": "",
+        "pendingAction": "",
+        "lastWorkDay": -1,
+        "lastSummaryDay": 1,
+        "residents": [
+            {
+                "id": "colleague",
+                "zone": "city",
+                "destinationZone": "city",
+                "objectId": "",
+                "position": {
+                    "x": -10.0,
+                    "y": 1.0
+                },
+                "facing": {
+                    "x": 0.0,
+                    "y": -1.0
+                },
+                "action": 2,
+                "scheduleIndex": 2,
+                "minute": 519,
+                "completedUseKey": 65538
+            },
+            {
+                "id": "classmate",
+                "zone": "city",
+                "destinationZone": "city",
+                "objectId": "",
+                "position": {
+                    "x": -8.400001525878906,
+                    "y": 1.0
+                },
+                "facing": {
+                    "x": 0.0,
+                    "y": -1.0
+                },
+                "action": 2,
+                "scheduleIndex": 2,
+                "minute": 519,
+                "completedUseKey": 65538
+            },
+            {
+                "id": "resident-0",
+                "zone": "city",
+                "destinationZone": "city",
+                "objectId": "",
+                "position": {
+                    "x": -6.8000030517578125,
+                    "y": 1.0
+                },
+                "facing": {
+                    "x": 0.0,
+                    "y": -1.0
+                },
+                "action": 2,
+                "scheduleIndex": 2,
+                "minute": 519,
+                "completedUseKey": 65538
+            },
+            {
+                "id": "resident-1",
+                "zone": "residence",
+                "destinationZone": "residence",
+                "objectId": "resident-bed-3",
+                "position": {
+                    "x": 6.0,
+                    "y": -2.299999952316284
+                },
+                "facing": {
+                    "x": 0.0,
+                    "y": -1.0
+                },
+                "action": 9,
+                "scheduleIndex": 1,
+                "minute": 519,
+                "completedUseKey": 65537
+            },
+            {
+                "id": "resident-2",
+                "zone": "residence",
+                "destinationZone": "residence",
+                "objectId": "resident-bed-4",
+                "position": {
+                    "x": -6.0,
+                    "y": 0.699999988079071
+                },
+                "facing": {
+                    "x": 0.0,
+                    "y": -1.0
+                },
+                "action": 9,
+                "scheduleIndex": 0,
+                "minute": 519,
+                "completedUseKey": 65536
+            },
+            {
+                "id": "resident-3",
+                "zone": "city",
+                "destinationZone": "city",
+                "objectId": "",
+                "position": {
+                    "x": -2.0,
+                    "y": 1.0
+                },
+                "facing": {
+                    "x": 0.0,
+                    "y": -1.0
+                },
+                "action": 2,
+                "scheduleIndex": 2,
+                "minute": 519,
+                "completedUseKey": 65538
+            },
+            {
+                "id": "resident-4",
+                "zone": "city",
+                "destinationZone": "city",
+                "objectId": "",
+                "position": {
+                    "x": -0.399993896484375,
+                    "y": 1.0
+                },
+                "facing": {
+                    "x": 0.0,
+                    "y": -1.0
+                },
+                "action": 2,
+                "scheduleIndex": 2,
+                "minute": 519,
+                "completedUseKey": 65538
+            },
+            {
+                "id": "resident-5",
+                "zone": "city",
+                "destinationZone": "city",
+                "objectId": "",
+                "position": {
+                    "x": 1.1999969482421875,
+                    "y": 1.0
+                },
+                "facing": {
+                    "x": 0.0,
+                    "y": -1.0
+                },
+                "action": 2,
+                "scheduleIndex": 2,
+                "minute": 519,
+                "completedUseKey": 65538
+            },
+            {
+                "id": "resident-6",
+                "zone": "residence",
+                "destinationZone": "residence",
+                "objectId": "resident-bed-8",
+                "position": {
+                    "x": -6.0,
+                    "y": 3.700000047683716
+                },
+                "facing": {
+                    "x": 0.0,
+                    "y": -1.0
+                },
+                "action": 9,
+                "scheduleIndex": 1,
+                "minute": 519,
+                "completedUseKey": 65537
+            },
+            {
+                "id": "resident-7",
+                "zone": "residence",
+                "destinationZone": "residence",
+                "objectId": "resident-bed-9",
+                "position": {
+                    "x": -2.0,
+                    "y": 3.700000047683716
+                },
+                "facing": {
+                    "x": 0.0,
+                    "y": -1.0
+                },
+                "action": 9,
+                "scheduleIndex": 0,
+                "minute": 519,
+                "completedUseKey": 65536
+            },
+            {
+                "id": "resident-8",
+                "zone": "city",
+                "destinationZone": "city",
+                "objectId": "",
+                "position": {
+                    "x": 6.0,
+                    "y": 1.0
+                },
+                "facing": {
+                    "x": 0.0,
+                    "y": -1.0
+                },
+                "action": 2,
+                "scheduleIndex": 2,
+                "minute": 519,
+                "completedUseKey": 65538
+            },
+            {
+                "id": "resident-9",
+                "zone": "city",
+                "destinationZone": "city",
+                "objectId": "",
+                "position": {
+                    "x": 7.600006103515625,
+                    "y": 1.0
+                },
+                "facing": {
+                    "x": 0.0,
+                    "y": -1.0
+                },
+                "action": 2,
+                "scheduleIndex": 2,
+                "minute": 519,
+                "completedUseKey": 65538
+            }
+        ],
+        "dailyIncome": 0,
+        "lastSummary": ""
+    },
+    "idle": {
+        "schema": 1,
+        "active": false,
+        "offlineEnabled": true,
+        "activityId": "",
+        "sessionId": "",
+        "educationId": "",
+        "jobId": "",
+        "stopReason": "",
+        "cycleProgressSeconds": 0.0,
+        "accountedUtcTicks": 0,
+        "sequence": 0,
+        "sessionCycles": 0,
+        "ledgers": [],
+        "battles": [],
+        "report": {
+            "id": "",
+            "activityId": "",
+            "stopReason": "",
+            "fromUtcTicks": 0,
+            "toUtcTicks": 0,
+            "gold": 0,
+            "experience": 0,
+            "elapsedSeconds": 0.0,
+            "eligibleSeconds": 0.0,
+            "activitySeconds": 0.0,
+            "cycles": 0,
+            "workCycles": 0,
+            "studyCycles": 0,
+            "battleWins": 0,
+            "battleLosses": 0,
+            "educationExperience": 0,
+            "knowledge": 0,
+            "hunger": 0,
+            "thirst": 0,
+            "health": 0,
+            "mental": 0,
+            "capped": false,
+            "clockReversed": false,
+            "acknowledged": false
+        }
+    },
+    "birthIntroVersion": 1,
+    "birthIntroCompleted": true,
+    "phase23": {
+        "education": {
+            "currentEducationId": "",
+            "careerId": "",
+            "books": 0,
+            "studies": 0,
+            "homework": 0,
+            "experience": 0,
+            "preparation": 0,
+            "enrollments": [],
+            "exams": []
+        },
+        "social": {
+            "experience": 0,
+            "relationships": [],
+            "history": []
+        },
+        "employment": {
+            "resumeWritten": false,
+            "currentJobId": "unemployed",
+            "selectedJobId": "convenience",
+            "workCount": 0,
+            "experience": 0,
+            "rank": 0,
+            "strikes": 0,
+            "work": [],
+            "history": []
+        },
+        "owned": [],
+        "equipped": [],
+        "deliveryIds": [],
+        "activities": []
+    },
+    "version": 4,
+    "day": 1,
+    "missions": {
+        "activeMissionId": "M001",
+        "startDay": 1,
+        "eventSequence": 0,
+        "growthPoints": 0,
+        "counters": [],
+        "seenEventIds": [],
+        "completedMissionIds": [],
+        "claimedMissionIds": [],
+        "walletReceiptIds": [],
+        "milestoneIds": [],
+        "unlocks": [],
+        "pendingRewards": [],
+        "progress": [
+            {
+                "missionId": "M001",
+                "state": 2,
+                "current": 0.0,
+                "target": 1.0,
+                "eventCount": 0,
+                "prerequisiteIds": []
+            },
+            {
+                "missionId": "M002",
+                "state": 0,
+                "current": 0.0,
+                "target": 1.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M001"
+                ]
+            },
+            {
+                "missionId": "M003",
+                "state": 0,
+                "current": 0.0,
+                "target": 1.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M002"
+                ]
+            },
+            {
+                "missionId": "M004",
+                "state": 0,
+                "current": 70.0,
+                "target": 70.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M003"
+                ]
+            },
+            {
+                "missionId": "M005",
+                "state": 0,
+                "current": 70.0,
+                "target": 70.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M004"
+                ]
+            },
+            {
+                "missionId": "M006",
+                "state": 0,
+                "current": 0.0,
+                "target": 1.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M005"
+                ]
+            },
+            {
+                "missionId": "M007",
+                "state": 0,
+                "current": 80.0,
+                "target": 80.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M006"
+                ]
+            },
+            {
+                "missionId": "M008",
+                "state": 0,
+                "current": 50.0,
+                "target": 50.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M007"
+                ]
+            },
+            {
+                "missionId": "M009",
+                "state": 0,
+                "current": 1.0,
+                "target": 4.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M008"
+                ]
+            },
+            {
+                "missionId": "M010",
+                "state": 0,
+                "current": 0.0,
+                "target": 9.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M009"
+                ]
+            },
+            {
+                "missionId": "M011",
+                "state": 0,
+                "current": 0.0,
+                "target": 1.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M010"
+                ]
+            },
+            {
+                "missionId": "M012",
+                "state": 0,
+                "current": 0.0,
+                "target": 3.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M011"
+                ]
+            },
+            {
+                "missionId": "M013",
+                "state": 0,
+                "current": 0.0,
+                "target": 20.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M012"
+                ]
+            },
+            {
+                "missionId": "M014",
+                "state": 0,
+                "current": 0.0,
+                "target": 1.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M013"
+                ]
+            },
+            {
+                "missionId": "M015",
+                "state": 0,
+                "current": 0.0,
+                "target": 15.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M014"
+                ]
+            },
+            {
+                "missionId": "M016",
+                "state": 0,
+                "current": 0.0,
+                "target": 5.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M015"
+                ]
+            },
+            {
+                "missionId": "M017",
+                "state": 0,
+                "current": 0.0,
+                "target": 1.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M016"
+                ]
+            },
+            {
+                "missionId": "M018",
+                "state": 0,
+                "current": 0.0,
+                "target": 1.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M017"
+                ]
+            },
+            {
+                "missionId": "M019",
+                "state": 0,
+                "current": 0.0,
+                "target": 1.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M018"
+                ]
+            },
+            {
+                "missionId": "M020",
+                "state": 0,
+                "current": 0.0,
+                "target": 12.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M019"
+                ]
+            },
+            {
+                "missionId": "M021",
+                "state": 0,
+                "current": 0.0,
+                "target": 1.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M020"
+                ]
+            },
+            {
+                "missionId": "M022",
+                "state": 0,
+                "current": 0.0,
+                "target": 10.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M021"
+                ]
+            },
+            {
+                "missionId": "M023",
+                "state": 0,
+                "current": 0.0,
+                "target": 35.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M022"
+                ]
+            },
+            {
+                "missionId": "M024",
+                "state": 0,
+                "current": 0.0,
+                "target": 1.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M023"
+                ]
+            },
+            {
+                "missionId": "M025",
+                "state": 0,
+                "current": 0.0,
+                "target": 1.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M024"
+                ]
+            },
+            {
+                "missionId": "M026",
+                "state": 0,
+                "current": 0.0,
+                "target": 25.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M025"
+                ]
+            },
+            {
+                "missionId": "M027",
+                "state": 0,
+                "current": 0.0,
+                "target": 2.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M026"
+                ]
+            },
+            {
+                "missionId": "M028",
+                "state": 0,
+                "current": 0.0,
+                "target": 1.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M027"
+                ]
+            },
+            {
+                "missionId": "M029",
+                "state": 0,
+                "current": 40.0,
+                "target": 40.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M028"
+                ]
+            },
+            {
+                "missionId": "M030",
+                "state": 0,
+                "current": 0.0,
+                "target": 10.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M029"
+                ]
+            },
+            {
+                "missionId": "M031",
+                "state": 0,
+                "current": 0.0,
+                "target": 1.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M030"
+                ]
+            },
+            {
+                "missionId": "M032",
+                "state": 0,
+                "current": 0.0,
+                "target": 1.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M031"
+                ]
+            },
+            {
+                "missionId": "M033",
+                "state": 0,
+                "current": 0.0,
+                "target": 1.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M032"
+                ]
+            },
+            {
+                "missionId": "M034",
+                "state": 0,
+                "current": 0.0,
+                "target": 1.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M033"
+                ]
+            },
+            {
+                "missionId": "M035",
+                "state": 0,
+                "current": 0.0,
+                "target": 1.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M034"
+                ]
+            },
+            {
+                "missionId": "M036",
+                "state": 0,
+                "current": 0.0,
+                "target": 1.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M035"
+                ]
+            },
+            {
+                "missionId": "M037",
+                "state": 0,
+                "current": 0.0,
+                "target": 3.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M036"
+                ]
+            },
+            {
+                "missionId": "M038",
+                "state": 0,
+                "current": 0.0,
+                "target": 1.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M037"
+                ]
+            },
+            {
+                "missionId": "M039",
+                "state": 5,
+                "current": 0.0,
+                "target": 3.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M038"
+                ]
+            },
+            {
+                "missionId": "M040",
+                "state": 0,
+                "current": 0.0,
+                "target": 9.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M039"
+                ]
+            },
+            {
+                "missionId": "M041",
+                "state": 0,
+                "current": 0.0,
+                "target": 1.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M040"
+                ]
+            },
+            {
+                "missionId": "M042",
+                "state": 0,
+                "current": 0.0,
+                "target": 10000.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M041"
+                ]
+            },
+            {
+                "missionId": "M043",
+                "state": 0,
+                "current": 50.0,
+                "target": 60.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M042"
+                ]
+            },
+            {
+                "missionId": "M044",
+                "state": 0,
+                "current": 0.0,
+                "target": 1.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M043"
+                ]
+            },
+            {
+                "missionId": "M045",
+                "state": 5,
+                "current": 0.0,
+                "target": 1.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M044"
+                ]
+            },
+            {
+                "missionId": "M046",
+                "state": 5,
+                "current": 0.0,
+                "target": 1.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M045"
+                ]
+            },
+            {
+                "missionId": "M047",
+                "state": 0,
+                "current": 0.0,
+                "target": 1.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M046"
+                ]
+            },
+            {
+                "missionId": "M048",
+                "state": 0,
+                "current": 0.0,
+                "target": 1.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M047"
+                ]
+            },
+            {
+                "missionId": "M049",
+                "state": 0,
+                "current": 0.0,
+                "target": 1000.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M048"
+                ]
+            },
+            {
+                "missionId": "M050",
+                "state": 0,
+                "current": 0.0,
+                "target": 9.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M049"
+                ]
+            },
+            {
+                "missionId": "M051",
+                "state": 5,
+                "current": 0.0,
+                "target": 60.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M050"
+                ]
+            },
+            {
+                "missionId": "M052",
+                "state": 5,
+                "current": 0.0,
+                "target": 1.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M051"
+                ]
+            },
+            {
+                "missionId": "M053",
+                "state": 5,
+                "current": 260.0,
+                "target": 260.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M052"
+                ]
+            },
+            {
+                "missionId": "M054",
+                "state": 5,
+                "current": 0.0,
+                "target": 1.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M053"
+                ]
+            },
+            {
+                "missionId": "M055",
+                "state": 5,
+                "current": 0.0,
+                "target": 1.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M054"
+                ]
+            },
+            {
+                "missionId": "M056",
+                "state": 5,
+                "current": 0.0,
+                "target": 50.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M055"
+                ]
+            },
+            {
+                "missionId": "M057",
+                "state": 5,
+                "current": 0.0,
+                "target": 5.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M056"
+                ]
+            },
+            {
+                "missionId": "M058",
+                "state": 5,
+                "current": 0.0,
+                "target": 1.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M057"
+                ]
+            },
+            {
+                "missionId": "M059",
+                "state": 5,
+                "current": 0.0,
+                "target": 1.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M058"
+                ]
+            },
+            {
+                "missionId": "M060",
+                "state": 5,
+                "current": 0.0,
+                "target": 1.0,
+                "eventCount": 0,
+                "prerequisiteIds": [
+                    "M059"
+                ]
+            }
+        ],
+        "choiceOutcomes": [],
+        "finalReviewRequested": false
+    },
+    "stats": {
+        "happiness": 50,
+        "stress": 0,
+        "energy": 100,
+        "money": 0,
+        "hunger": 100,
+        "thirst": 100,
+        "knowledge": 0,
+        "mental": 100,
+        "social": 0,
+        "credit": 50
+    },
+    "gameOver": false,
+    "progression": {
+        "age": 0,
+        "level": 1,
+        "experience": 0,
+        "socialStanding": "없음",
+        "completedGrowthIds": []
+    },
+    "economy": {
+        "debt": 1000000,
+        "otherAssets": 0,
+        "processedIds": [],
+        "finance": {
+            "schema": 1,
+            "lastTaxDay": 1,
+            "lastDebtDay": 1,
+            "marketUtcTicks": 639300849299728470,
+            "marketSequence": 0,
+            "totalIncome": 0,
+            "totalExpenses": 0,
+            "taxableIncome": 0,
+            "pendingTax": 0,
+            "taxRemainder": 0,
+            "cumulativeInterest": 0,
+            "outstandingInterest": 0,
+            "paidThisPeriod": 0,
+            "realizedPnL": 0.0,
+            "transactions": [],
+            "bills": [],
+            "quotes": [
+                {
+                    "StockId": "IAN",
+                    "CurrentPrice": 1000,
+                    "PreviousPrice": 1000,
+                    "MarketStatus": 0,
+                    "PriceHistory": [
+                        1000
+                    ]
+                },
+                {
+                    "StockId": "SOC",
+                    "CurrentPrice": 800,
+                    "PreviousPrice": 800,
+                    "MarketStatus": 0,
+                    "PriceHistory": [
+                        800
+                    ]
+                },
+                {
+                    "StockId": "BIO",
+                    "CurrentPrice": 600,
+                    "PreviousPrice": 600,
+                    "MarketStatus": 0,
+                    "PriceHistory": [
+                        600
+                    ]
+                },
+                {
+                    "StockId": "WORK",
+                    "CurrentPrice": 1200,
+                    "PreviousPrice": 1200,
+                    "MarketStatus": 0,
+                    "PriceHistory": [
+                        1200
+                    ]
+                },
+                {
+                    "StockId": "WATER",
+                    "CurrentPrice": 900,
+                    "PreviousPrice": 900,
+                    "MarketStatus": 0,
+                    "PriceHistory": [
+                        900
+                    ]
+                },
+                {
+                    "StockId": "PHONE",
+                    "CurrentPrice": 1500,
+                    "PreviousPrice": 1500,
+                    "MarketStatus": 0,
+                    "PriceHistory": [
+                        1500
+                    ]
+                }
+            ],
+            "holdings": [],
+            "news": []
+        },
+        "housing": {
+            "schema": 1,
+            "residenceId": "starter",
+            "wallpaper": "warm-white",
+            "floor": "wood-linoleum",
+            "bathroom": "jade-tile",
+            "owned": [
+                "basic-bed"
+            ],
+            "placed": [],
+            "starterRevision": 1,
+            "layoutVersion": 4,
+            "layoutAdjusted": 0,
+            "layoutResidenceId": "starter"
+        }
+    },
+    "survival": {
+        "hungerRemainder": 0.2171718128041063,
+        "thirstRemainder": 0.32575771920616053,
+        "hungerDangerSeconds": 0.0,
+        "thirstDangerSeconds": 0.0,
+        "failed": false,
+        "statuses": []
+    },
+    "time": {
+        "subDaySeconds": 31145.455578284338,
+        "elapsedSeconds": 2345.455578284338
+    },
+    "lastSeenUtcTicks": 639300849766200140,
+    "runId": "b686f0c322784eeb99336c56f72a148f",
+    "settledDay": 1
+}

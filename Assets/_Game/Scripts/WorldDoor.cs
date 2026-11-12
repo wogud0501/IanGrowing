@@ -24,7 +24,7 @@ public sealed class WorldDoor:MonoBehaviour {
   Draw();
  }
  bool PlayerInSweep()=>world!=null&&world.CurrentZone!=null&&world.CurrentZone.id==portal.zone&&Mathf.Abs(world.Player.Position.x-Plane.x)<.65f&&Mathf.Abs(world.Player.Position.y-Plane.y)<.38f;
- void Set(DoorState state){if(State==state)return;State=state;StateChanged?.Invoke(state);}
+ void Set(DoorState state){if(State==state)return;bool latched=State==DoorState.Closing&&(state==DoorState.Closed||state==DoorState.Locked);State=state;if(latched&&world!=null&&world.audio!=null&&world.CurrentZone!=null&&portal.zone==world.CurrentZone.id)world.audio.CloseDoor();StateChanged?.Invoke(state);}
  void Draw(){bool cutaway=normal.y<0&&world!=null&&world.CurrentZone!=null&&world.CurrentZone.id==portal.zone&&Mathf.Abs(world.Player.Position.x-Plane.x)<.85f&&world.Player.Position.y>Plane.y&&world.Player.Position.y<Plane.y+2;
   if(leaf!=null){var color=leaf.color;color.a=cutaway?.32f:1;leaf.color=color;}if(apertureShadow!=null){var color=apertureShadow.color;color.a=cutaway?.25f:1;apertureShadow.color=color;}
   if(closedCollider!=null)closedCollider.enabled=State!=DoorState.Open;if(leaf!=null&&style!=null&&style.openingFrames.Length>1){leaf.sprite=style.openingFrames[Mathf.Clamp(Mathf.RoundToInt(Aperture*(style.openingFrames.Length-1)),0,style.openingFrames.Length-1)];leaf.sortingOrder=1000-Mathf.RoundToInt(Plane.y*100);}}

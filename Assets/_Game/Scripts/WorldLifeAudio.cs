@@ -12,5 +12,6 @@ public sealed class WorldLifeAudio:MonoBehaviour {
   if(!active||world.Busy){distance=0;return;}if(travelled>.2f)return;distance+=travelled;float step=world.Player.walkSet==null?.9f:world.Player.walkSet.strideLength*.5f;if(distance>=step){distance%=step;var clip=outdoor||zone=="bathroom"?stoneStep:woodStep;if(clip!=null&&effects!=null){effects.pitch=1+(Time.frameCount%3-1)*.035f;effects.PlayOneShot(clip,volume);}}
  }
  public void OpenDoor(){if(door!=null&&effects!=null){effects.pitch=1;effects.PlayOneShot(door,volume*.8f);}}
+ public void CloseDoor(){if(door!=null&&effects!=null){effects.pitch=1.18f;effects.PlayOneShot(door,volume*.45f);}}
 }
 }

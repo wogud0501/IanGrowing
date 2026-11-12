@@ -1,0 +1,469 @@
+{
+    "world": {
+        "schema": 1,
+        "zone": "city",
+        "position": {
+            "x": -12.0,
+            "y": -7.400000095367432
+        },
+        "facing": {
+            "x": 0.004846261348575354,
+            "y": -0.9999882578849792
+        },
+        "fatigue": 16.331491470336914,
+        "hygiene": 84.50786590576172,
+        "rice": 3,
+        "bread": 2,
+        "prepared": "",
+        "pendingAction": "",
+        "lastWorkDay": -1,
+        "lastSummaryDay": 1,
+        "residents": [
+            {
+                "id": "colleague",
+                "zone": "city",
+                "destinationZone": "city",
+                "objectId": "",
+                "position": {
+                    "x": -10.0,
+                    "y": 1.0
+                },
+                "facing": {
+                    "x": 0.0,
+                    "y": -1.0
+                },
+                "action": 2,
+                "scheduleIndex": 2,
+                "minute": 527,
+                "completedUseKey": 65538
+            },
+            {
+                "id": "classmate",
+                "zone": "city",
+                "destinationZone": "city",
+                "objectId": "",
+                "position": {
+                    "x": -8.400001525878906,
+                    "y": 1.0
+                },
+                "facing": {
+                    "x": 0.0,
+                    "y": -1.0
+                },
+                "action": 2,
+                "scheduleIndex": 2,
+                "minute": 527,
+                "completedUseKey": 65538
+            },
+            {
+                "id": "resident-0",
+                "zone": "city",
+                "destinationZone": "city",
+                "objectId": "",
+                "position": {
+                    "x": -6.8000030517578125,
+                    "y": 1.0
+                },
+                "facing": {
+                    "x": 0.0,
+                    "y": -1.0
+                },
+                "action": 2,
+                "scheduleIndex": 2,
+                "minute": 527,
+                "completedUseKey": 65538
+            },
+            {
+                "id": "resident-1",
+                "zone": "residence",
+                "destinationZone": "residence",
+                "objectId": "resident-bed-3",
+                "position": {
+                    "x": 6.0,
+                    "y": -2.299999952316284
+                },
+                "facing": {
+                    "x": 0.0,
+                    "y": -1.0
+                },
+                "action": 9,
+                "scheduleIndex": 1,
+                "minute": 527,
+                "completedUseKey": 65537
+            },
+            {
+                "id": "resident-2",
+                "zone": "residence",
+                "destinationZone": "residence",
+                "objectId": "resident-bed-4",
+                "position": {
+                    "x": -6.0,
+                    "y": 0.699999988079071
+                },
+                "facing": {
+                    "x": 0.0,
+                    "y": -1.0
+                },
+                "action": 9,
+                "scheduleIndex": 0,
+                "minute": 527,
+                "completedUseKey": 65536
+            },
+            {
+                "id": "resident-3",
+                "zone": "city",
+                "destinationZone": "city",
+                "objectId": "",
+                "position": {
+                    "x": -2.0,
+                    "y": 1.0
+                },
+                "facing": {
+                    "x": 0.0,
+                    "y": -1.0
+                },
+                "action": 2,
+                "scheduleIndex": 2,
+                "minute": 527,
+                "completedUseKey": 65538
+            },
+            {
+                "id": "resident-4",
+                "zone": "city",
+                "destinationZone": "city",
+                "objectId": "",
+                "position": {
+                    "x": -0.399993896484375,
+                    "y": 1.0
+                },
+                "facing": {
+                    "x": 0.0,
+                    "y": -1.0
+                },
+                "action": 2,
+                "scheduleIndex": 2,
+                "minute": 527,
+                "completedUseKey": 65538
+            },
+            {
+                "id": "resident-5",
+                "zone": "city",
+                "destinationZone": "city",
+                "objectId": "",
+                "position": {
+                    "x": 1.1999969482421875,
+                    "y": 1.0
+                },
+                "facing": {
+                    "x": 0.0,
+                    "y": -1.0
+                },
+                "action": 2,
+                "scheduleIndex": 2,
+                "minute": 527,
+                "completedUseKey": 65538
+            },
+            {
+                "id": "resident-6",
+                "zone": "residence",
+                "destinationZone": "residence",
+                "objectId": "resident-bed-8",
+                "position": {
+                    "x": -6.0,
+                    "y": 3.700000047683716
+                },
+                "facing": {
+                    "x": 0.0,
+                    "y": -1.0
+                },
+                "action": 9,
+                "scheduleIndex": 1,
+                "minute": 527,
+                "completedUseKey": 65537
+            },
+            {
+                "id": "resident-7",
+                "zone": "residence",
+                "destinationZone": "residence",
+                "objectId": "resident-bed-9",
+                "position": {
+                    "x": -2.0,
+                    "y": 3.700000047683716
+                },
+                "facing": {
+                    "x": 0.0,
+                    "y": -1.0
+                },
+                "action": 9,
+                "scheduleIndex": 0,
+                "minute": 527,
+                "completedUseKey": 65536
+            },
+            {
+                "id": "resident-8",
+                "zone": "city",
+                "destinationZone": "city",
+                "objectId": "",
+                "position": {
+                    "x": 6.0,
+                    "y": 1.0
+                },
+                "facing": {
+                    "x": 0.0,
+                    "y": -1.0
+                },
+                "action": 2,
+                "scheduleIndex": 2,
+                "minute": 527,
+                "completedUseKey": 65538
+            },
+            {
+                "id": "resident-9",
+                "zone": "city",
+                "destinationZone": "city",
+                "objectId": "",
+                "position": {
+                    "x": 7.600006103515625,
+                    "y": 1.0
+                },
+                "facing": {
+                    "x": 0.0,
+                    "y": -1.0
+                },
+                "action": 2,
+                "scheduleIndex": 2,
+                "minute": 527,
+                "completedUseKey": 65538
+            }
+        ],
+        "dailyIncome": 0,
+        "lastSummary": ""
+    },
+    "idle": {
+        "schema": 1,
+        "active": false,
+        "offlineEnabled": true,
+        "activityId": "",
+        "sessionId": "",
+        "educationId": "",
+        "jobId": "",
+        "stopReason": "",
+        "cycleProgressSeconds": 0.0,
+        "accountedUtcTicks": 0,
+        "sequence": 0,
+        "sessionCycles": 0,
+        "ledgers": [],
+        "battles": [],
+        "report": {
+            "id": "",
+            "activityId": "",
+            "stopReason": "",
+            "fromUtcTicks": 0,
+            "toUtcTicks": 0,
+            "gold": 0,
+            "experience": 0,
+            "elapsedSeconds": 0.0,
+            "eligibleSeconds": 0.0,
+            "activitySeconds": 0.0,
+            "cycles": 0,
+            "workCycles": 0,
+            "studyCycles": 0,
+            "battleWins": 0,
+            "battleLosses": 0,
+            "educationExperience": 0,
+            "knowledge": 0,
+            "hunger": 0,
+            "thirst": 0,
+            "health": 0,
+            "mental": 0,
+            "capped": false,
+            "clockReversed": false,
+            "acknowledged": false
+        }
+    },
+    "birthIntroVersion": 1,
+    "birthIntroCompleted": true,
+    "phase23": {
+        "education": {
+            "currentEducationId": "",
+            "careerId": "",
+            "books": 0,
+            "studies": 0,
+            "homework": 0,
+            "experience": 0,
+            "preparation": 0,
+            "enrollments": [],
+            "exams": []
+        },
+        "social": {
+            "experience": 0,
+            "relationships": [],
+            "history": []
+        },
+        "employment": {
+            "resumeWritten": false,
+            "currentJobId": "unemployed",
+            "selectedJobId": "convenience",
+            "workCount": 0,
+            "experience": 0,
+            "rank": 0,
+            "strikes": 0,
+            "work": [],
+            "history": []
+        },
+        "owned": [],
+        "equipped": [],
+        "deliveryIds": [],
+        "activities": []
+    },
+    "version": 4,
+    "day": 1,
+    "missions": {
+        "activeMissionId": "",
+        "startDay": 1,
+        "eventSequence": 0,
+        "growthPoints": 0,
+        "counters": [],
+        "seenEventIds": [],
+        "completedMissionIds": [],
+        "claimedMissionIds": [],
+        "walletReceiptIds": [],
+        "milestoneIds": [],
+        "unlocks": [],
+        "pendingRewards": [],
+        "progress": [],
+        "choiceOutcomes": [],
+        "finalReviewRequested": false
+    },
+    "stats": {
+        "happiness": 50,
+        "stress": 0,
+        "energy": 100,
+        "money": 0,
+        "hunger": 100,
+        "thirst": 100,
+        "knowledge": 0,
+        "mental": 100,
+        "social": 0,
+        "credit": 50
+    },
+    "gameOver": false,
+    "progression": {
+        "age": 0,
+        "level": 1,
+        "experience": 0,
+        "socialStanding": "없음",
+        "completedGrowthIds": []
+    },
+    "economy": {
+        "debt": 1000000,
+        "otherAssets": 0,
+        "processedIds": [],
+        "finance": {
+            "schema": 1,
+            "lastTaxDay": 1,
+            "lastDebtDay": 1,
+            "marketUtcTicks": 639300849299728470,
+            "marketSequence": 0,
+            "totalIncome": 0,
+            "totalExpenses": 0,
+            "taxableIncome": 0,
+            "pendingTax": 0,
+            "taxRemainder": 0,
+            "cumulativeInterest": 0,
+            "outstandingInterest": 0,
+            "paidThisPeriod": 0,
+            "realizedPnL": 0.0,
+            "transactions": [],
+            "bills": [],
+            "quotes": [
+                {
+                    "StockId": "IAN",
+                    "CurrentPrice": 1000,
+                    "PreviousPrice": 1000,
+                    "MarketStatus": 0,
+                    "PriceHistory": [
+                        1000
+                    ]
+                },
+                {
+                    "StockId": "SOC",
+                    "CurrentPrice": 800,
+                    "PreviousPrice": 800,
+                    "MarketStatus": 0,
+                    "PriceHistory": [
+                        800
+                    ]
+                },
+                {
+                    "StockId": "BIO",
+                    "CurrentPrice": 600,
+                    "PreviousPrice": 600,
+                    "MarketStatus": 0,
+                    "PriceHistory": [
+                        600
+                    ]
+                },
+                {
+                    "StockId": "WORK",
+                    "CurrentPrice": 1200,
+                    "PreviousPrice": 1200,
+                    "MarketStatus": 0,
+                    "PriceHistory": [
+                        1200
+                    ]
+                },
+                {
+                    "StockId": "WATER",
+                    "CurrentPrice": 900,
+                    "PreviousPrice": 900,
+                    "MarketStatus": 0,
+                    "PriceHistory": [
+                        900
+                    ]
+                },
+                {
+                    "StockId": "PHONE",
+                    "CurrentPrice": 1500,
+                    "PreviousPrice": 1500,
+                    "MarketStatus": 0,
+                    "PriceHistory": [
+                        1500
+                    ]
+                }
+            ],
+            "holdings": [],
+            "news": []
+        },
+        "housing": {
+            "schema": 1,
+            "residenceId": "starter",
+            "wallpaper": "warm-white",
+            "floor": "wood-linoleum",
+            "bathroom": "jade-tile",
+            "owned": [
+                "basic-bed"
+            ],
+            "placed": [],
+            "starterRevision": 1,
+            "layoutVersion": 4,
+            "layoutAdjusted": 0,
+            "layoutResidenceId": "starter"
+        }
+    },
+    "survival": {
+        "hungerRemainder": 0.266255537560211,
+        "thirstRemainder": 0.39938330634031743,
+        "hungerDangerSeconds": 0.0,
+        "thirstDangerSeconds": 0.0,
+        "failed": false,
+        "statuses": []
+    },
+    "time": {
+        "subDaySeconds": 31953.496461576317,
+        "elapsedSeconds": 3153.4964615763165
+    },
+    "lastSeenUtcTicks": 639300849996165890,
+    "runId": "b686f0c322784eeb99336c56f72a148f",
+    "settledDay": 1
+}

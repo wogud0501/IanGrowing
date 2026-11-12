@@ -1,6 +1,6 @@
 # ADVANCED OVERHAUL 추가 필수 작업 — 2026-11-12
 
-## 현재 Priority 3 Editor 검증 완료 / Priority 4 NPC 생활 AI 구현 중
+## 현재 Priority 6 이번 구현·검증·보존 완료 — 전체 필수 조건 완료 아님
 - 기존 HEAD 1766e16 / 실제 프로젝트 `/Users/hyunwol/IanGrowing`, Unity 6000.6.8f1 ARM64. 기존 작업/사용자 변경 보존.
 - 수정 전 로컬 복구 ZIP: DevelopmentBackups/Advanced-Before-20261112.zip, 무결성 확인.
 - 필수 범위: 고급 행동 애니메이션, 실제 문/전환, Android+iOS/접힘 화면, NPC 방향 동기화/일정/저장/오프스크린.
@@ -14,7 +14,17 @@
 - Priority 3: OnScreenStick/OnScreenButton을 동일 World 액션에 연결. 휴대폰 세로/가로/확장 화면 3개 배치, Safe Area, 입력 해제/재개, 30/60FPS·환경 효과 옵션, Android ARM64/IL2CPP 및 iOS 설정 저장.
 - ADVANCEDMOBILE_RESULTS.json Editor Play 48개 통과/UI issue 0. 904×2316↔1840×2208 접힘/펼침 반복, 2340×1080 회전, 1920×1440 확장, 상태/위치 보존, Safe Area 내 터치 타깃, 115% 주요 메뉴, 실제 복제 InputActionMap까지 OnScreenButton/가상 조이스틱 디바이스 이벤트 전달과 해제 확인. 초기 뒤로 버튼 5개 넘침은 버튼 폭을 104로 확대해 해결, 최초 기록 보존.
 - 실제 터치스크린/블루투스 키보드 혼용·Android/iOS 기기·접힘 하드웨어 검증은 아님. adb 연결 기기 없음, 전체 Xcode 앱 없음. 빌드 시도와 실기기 결과를 분리할 것.
-- 미완료/미검증: NPC 생활 AI, 플랫폼 빌드·실기기, 모든 행동의 정확한 4방향 아트.
+- Priority 4/5: 기존 단일 NPC scheduler 확장. 12명 개인 일정/주말/야간 근무, 공통 시간·사회 ID, 실제 직장/상점/생활관 오브젝트, 문 사용, 이동 벡터 방향, 캐시 경로, 오프스크린 데이터 진행과 저장. NPC 임금은 플레이어 경제와 분리.
+- ADVANCEDRESIDENTS_RESULTS.json 34개 통과, ADVANCEDRESIDENTVISUAL_RESULTS.json 10개 통과, MASTER_RESULTS.json 기존 경제·구매·배치·하루 회귀 90개 통과/UI issue 0. 기존 강제 정오 보행/일괄 야간 인구 검사를 개인 일정 기준으로 수정. 최초 실패 결과 보존.
+- GameContext Play 재컴파일 후 정적 Instance만 초기화되는 오류를 실제 확인, OnEnable 재연결 추가. 부트 재실행 후 귀가/수면 검사 통과.
+- Android ARM64 IL2CPP 개발 APK 생성 성공: Builds/Advanced/Android/IanGrowing.apk (139.2 MiB), 오류 0, 경고 1207, 최종 클린 빌드 92초. 원본 빌드 경고/해시/라이브러리 목록은 Docs/Phase26/Advanced. 경고에는 기존 MissionCondition.children 재귀 직렬화 한계가 포함됨. 실기기 실행 아님.
+- 저장 감사: 시작 해시 대비 기존 v4 자동 저장/백업 2개가 21:56경 변경됨. v1은 동일. 현재 두 파일을 DevelopmentBackups/Advanced-SaveAudit-20261112에 별도 보존했으며 원래 경로는 덮어쓰지 않음. 통계/성장/경제는 현재 주/백업 간 동일하나 시작 버전의 전체 바이트/진행 보존은 입증 불가. 테스트 MainMenu 진입 이전 자동 로딩도 격리하도록 BeforeSceneLoad+sceneLoaded 테스트 시작 경로 보강. 모든 기존 데이터 무변경이라는 주장은 하지 않음.
+- 최종 문/전환 회귀 110개 통과. 닫힘 완료에 기존 문 음원 재사용(별도 피치/음량) 연결. 최종 UI 11개 통과/넘침 0. 보강한 초기 슬롯 격리 이후 기존 3개 파일 SHA-256 추가 변화 없음(SAVE_ISOLATION_VERIFIED.json). 시작 기준 2개 변경 사실은 별도 SAVE_AUDIT.json에 유지.
+- iOS 최종 Xcode 프로젝트 내보내기 성공: Builds/Advanced/iOS/Unity-iPhone.xcodeproj, 오류 0 / 경고 616, 32초. Xcode 앱이 없어 네이티브 컴파일/서명/설치 미검증. Android 기기 없음. 현재 Editor target macOS / Edit Mode / Bootstrap 씬 dirty=false, SaveOpenScenes/SaveAssets 실행.
+- 클린 Android APK는 139.2 MiB. 증분 패키지에서 확인된 과거 항목 사이 빈 공간(약 90 MiB)을 클린 빌드로 제거. 빌드 캐시(.utmp) 및 재정렬/동적 폰트 초기화만 발생한 에셋은 이번 작업 이전 버전으로 복원하여 기존 소스 상태 보존.
+- 미완료/미검증: 시작 저장 원본 2개 전체 무변경 입증(현재 주/백업 별도 보존), 실기기 터치/접힘/성능, 모든 행동의 정확한 4방향 아트, 수면 스프라이트와 침대 포즈/비율 정합 및 상업용 시각 품질 최종 승인, 기존 미션 재귀 직렬화 경고와 모바일 불필요 리소스 포함 문제.
+- 다음 순서: 저장 원본 사본이 있으면 시작 해시 대조(현재 파일 덮어쓰기 금지) → MissionCondition 에셋 안전 마이그레이션 및 회귀 → 수면/방향별 원본 아트 정합 → 실기기 Android/iOS/접힘·성능 검증. 테스트는 BeforeSceneLoad 슬롯 격리를 유지할 것.
+- 사용자가 제공한 시작 원본 사본은 아직 없음. Time Machine latestbackup 대상 마운트 실패, 로컬 snapshot 목록 비어 있음. 로컬 ZIP/Git이 장비 손실 대비 원격 백업을 대체하지 않음. 원격 push 실행 안 함.
 
 ---
 # MASTER DIRECTIVE — macOS 재개 (2026-11-12)
