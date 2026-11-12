@@ -26,6 +26,8 @@
 - 다음 순서: 저장 원본 사본이 있으면 시작 해시 대조(현재 파일 덮어쓰기 금지) → MissionCondition 에셋 안전 마이그레이션 및 회귀 → 수면/방향별 원본 아트 정합 → 실기기 Android/iOS/접힘·성능 검증. 테스트는 BeforeSceneLoad 슬롯 격리를 유지할 것.
 - 사용자가 제공한 시작 원본 사본은 아직 없음. Time Machine latestbackup 대상 마운트 실패, 로컬 snapshot 목록 비어 있음. 로컬 ZIP/Git이 장비 손실 대비 원격 백업을 대체하지 않음. 원격 push 실행 안 함.
 
+- 마지막 코드/검증 체크포인트: e568505. 최종 소스 복구 ZIP DevelopmentBackups/Advanced-Final-20261112.zip 무결성 통과. 파일 수/크기/SHA-256은 Docs/Phase26/Advanced/BACKUP_MANIFEST.json. ZIP은 로컬 보존, 빌드 출력은 Builds/Advanced, 원격 백업 아님.
+
 ---
 # MASTER DIRECTIVE — macOS 재개 (2026-11-12)
 
