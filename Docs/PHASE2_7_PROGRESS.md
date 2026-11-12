@@ -37,3 +37,5 @@
 - 사용자 추가 지시로 QA Center를 우선 구현. Phase 2.7 현재 소스/씬/에셋 보존.
 - 집중 검증 결과 70개 통과, UI 감사 0건. 복원 중 UI가 이전 날짜로 정산 초기화하던 문제는 Starting 상태에서 갱신을 건너뛰어 수정.
 - 다음: QA Center 완료 후 남은 UI 문제/최종 통합 회귀를 수행.
+
+최종 소스 체크포인트 `91a2635`. 로컬 복구 ZIP `DevelopmentBackups/Phase27-QA-Final-20261112.zip` 무결성 통과. 파일 수/크기/SHA-256은 `Docs/DeveloperQA/BACKUP_MANIFEST.json`. 로컬 보존이며 장비 손실 대비 원격 백업 완료를 의미하지 않는다.

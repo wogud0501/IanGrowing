@@ -49,3 +49,5 @@
 주거 대출은 기존 LifeProgression.MeetsLoanRequirements를 사용해 19세 성장 해금과 신용 기준을 함께 검사한다. 이 변경은 대출 항목만 재실행하여 검증했다.
 
 최종 코드/에셋 저장: Bootstrap / Edit Mode / StandaloneOSX / 씬 dirty=false. 현재 C# 컴파일 오류 0. 기존 Unity AI 패키지 NoSubscription/UERP 로그와 미션 재귀 직렬화 경고는 별도이며 이번 기능 오류로 혼동하지 않는다. 원격 push는 수행하지 않았다.
+
+최종 소스 체크포인트 `91a2635`. 로컬 복구 ZIP `DevelopmentBackups/Phase27-QA-Final-20261112.zip` 무결성 통과. 파일 수/크기/SHA-256은 `Docs/DeveloperQA/BACKUP_MANIFEST.json`. 로컬 보존이며 장비 손실 대비 원격 백업 완료를 의미하지 않는다.
