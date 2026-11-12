@@ -14,6 +14,7 @@ namespace IanGame {
 [Serializable]public class WorldNPCDefinition {public string npcId,title;public Sprite[] frames;public NPCScheduleEntry[] schedule;}
 [CreateAssetMenu(menuName="Ian/Life World Rules")]
 public class LifeWorldRules:ScriptableObject {
+ public int neighbourhoodHelpReward=30,neighbourhoodHelpMinutes=30;
  public float moveSpeed=3.2f,cameraDamping=.16f,indoorCameraSize=5.8f,outdoorCameraSize=7.2f,realSecondsPerGameDay=1200,activityAnimationScale=1;
  public float fatiguePerDay=40,hygieneLossPerDay=15,interactionRadius=1.65f;public int ricePrice=35,breadPrice=20,shopOpen=7,shopClose=23,workOpen=9,workLastStart=10,shiftHours=8;
  public WorldZoneDefinition[] zones=new WorldZoneDefinition[0];public WorldNPCDefinition[] npcs=new WorldNPCDefinition[0];

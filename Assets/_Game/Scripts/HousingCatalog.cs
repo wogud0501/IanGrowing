@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 namespace IanGame {
 [Serializable] public class FurnitureDefinition {
- public string id,title,description; public int price; public bool starter; public Sprite preview; public Vector2 position;
+ public string id,title,description; public int price; public bool starter; public WorldInteractionKind interaction=WorldInteractionKind.Rest; public Sprite preview; public Vector2 position;
 }
 [Serializable] public class ResidenceDefinition {
  public string id,title,description; public int movingCost,minAge; public Sprite preview; public float furnishingScale=1;
@@ -20,6 +20,8 @@ public class HousingCatalog:ScriptableObject {
 [Serializable] public class HousingSnapshot {
  public int schema=1; public string residenceId="starter",wallpaper="warm-white",floor="wood-linoleum",bathroom="jade-tile";
  public List<string> owned=new List<string>(); public List<FurniturePlacement> placed=new List<FurniturePlacement>();
+ // Zero identifies legacy homes; their existing furnishings remain available.
+ public int starterRevision;
  public int layoutVersion,layoutAdjusted;public string layoutResidenceId;
 }
 }

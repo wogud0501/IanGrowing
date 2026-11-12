@@ -1,7 +1,7 @@
 {
     "mode": "input",
     "stage": "Failed",
-    "failure": "System.Exception: Injected DownArrow release stops without drift\r\n  at IanGame.Editor.Phase26Verification.Check (System.Boolean condition, System.String text) [0x00021] in C:\\Users\\user\\Desktop\\IanGrow\\IanGrowing\\Assets\\_Game\\Scripts\\Development\\Phase26Verification.cs:19 \r\n  at IanGame.Editor.Phase26Verification+<InputRecovery>d__28.MoveNext () [0x002bf] in C:\\Users\\user\\Desktop\\IanGrow\\IanGrowing\\Assets\\_Game\\Scripts\\Development\\Phase26Verification.cs:47 \r\n  at IanGame.Editor.Phase26Verification+<Run>d__26.MoveNext () [0x001d8] in C:\\Users\\user\\Desktop\\IanGrow\\IanGrowing\\Assets\\_Game\\Scripts\\Development\\Phase26Verification.cs:28 ",
+    "failure": "System.Exception: Injected W drives Rigidbody in expected direction; delta=(0.00, 0.00) [automation lost application/Game View focus]\n  at IanGame.Editor.Phase26Verification.Check (System.Boolean condition, System.String text) [0x00021] in /Users/hyunwol/IanGrowing/Assets/_Game/Scripts/Development/Phase26Verification.cs:20 \n  at IanGame.Editor.Phase26Verification+<InputRecovery>d__34.MoveNext () [0x00212] in /Users/hyunwol/IanGrowing/Assets/_Game/Scripts/Development/Phase26Verification.cs:87 \n  at IanGame.Editor.Phase26Verification+<Run>d__29.MoveNext () [0x001e0] in /Users/hyunwol/IanGrowing/Assets/_Game/Scripts/Development/Phase26Verification.cs:30 ",
     "passed": [
         "New life preserves newborn age and zero cash",
         "Main menu Home routes to connected LifeWorld",
@@ -9,20 +9,7 @@
         "DAY 1 birth introduction remains visible",
         "Actual birth confirmation starts world controls",
         "Existing scene references persistent WorldControls asset",
-        "Move includes two keyboard composites and gamepad stick",
-        "Injected W drives Rigidbody in expected direction",
-        "Injected W release stops without drift",
-        "Injected A drives Rigidbody in expected direction",
-        "Injected A release stops without drift",
-        "Injected S drives Rigidbody in expected direction",
-        "Injected S release stops without drift",
-        "Injected D drives Rigidbody in expected direction",
-        "Injected D release stops without drift",
-        "Injected UpArrow drives Rigidbody in expected direction",
-        "Injected UpArrow release stops without drift",
-        "Injected LeftArrow drives Rigidbody in expected direction",
-        "Injected LeftArrow release stops without drift",
-        "Injected DownArrow drives Rigidbody in expected direction"
+        "Move includes two keyboard composites and gamepad stick"
     ],
     "uiIssues": []
 }

@@ -1,0 +1,16 @@
+{
+    "mode": "masterCapture",
+    "stage": "Failed",
+    "failure": "System.Exception: Preview accepts a free grid cell outside recommended preset\n  at IanGame.Editor.Phase26Verification.Check (System.Boolean condition, System.String text) [0x00021] in /Users/hyunwol/IanGrowing/Assets/_Game/Scripts/Development/Phase26Verification.cs:20 \n  at IanGame.Editor.MasterDirectiveVerification+<Capture>d__9.MoveNext () [0x0035e] in /Users/hyunwol/IanGrowing/Assets/_Game/Scripts/Development/MasterDirectiveVerification.cs:29 \n  at IanGame.Editor.Phase26Verification+<Run>d__28.MoveNext () [0x001e0] in /Users/hyunwol/IanGrowing/Assets/_Game/Scripts/Development/Phase26Verification.cs:29 ",
+    "passed": [
+        "New life preserves newborn age and zero cash",
+        "Main menu Home routes to connected LifeWorld",
+        "Connected playable LifeWorld is active",
+        "DAY 1 birth introduction remains visible",
+        "Actual birth confirmation starts world controls",
+        "Stable placement screen has no overlapping housing panel",
+        "Preview marks obstructed doorway invalid",
+        "Invalid ghost confirmation cannot place or charge"
+    ],
+    "uiIssues": []
+}

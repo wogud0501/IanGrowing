@@ -18,20 +18,23 @@ MonoBehaviour:
     description: "\uC2DC\uC791 \uC2DC \uC81C\uACF5 \xB7 \uBC29\uC758 \uAE30\uBCF8 \uC124\uBE44"
     price: 0
     starter: 1
+    interaction: 8
     preview: {fileID: -6327107731223078017, guid: e50cda9e68c7a8f48bc2f777d976ea8e, type: 3}
     position: {x: 0, y: 0}
   - id: basic-table
-    title: "\uAE30\uBCF8 \uC2DD\uD0C1"
-    description: "\uC2DC\uC791 \uC2DC \uC81C\uACF5 \xB7 \uBC29\uC758 \uAE30\uBCF8 \uC124\uBE44"
-    price: 0
-    starter: 1
+    title: "\uB098\uBB34 \uC2DD\uD0C1"
+    description: "\uAD6C\uB9E4 \uD6C4 \uBCF4\uAD00 \xB7 \uC9C1\uC811 \uBC30\uCE58 \xB7 \uD68C\uC218\uC640 \uC7AC\uBC30\uCE58 \uBB34\uB8CC"
+    price: 450
+    starter: 0
+    interaction: 3
     preview: {fileID: 7991353321942829753, guid: e50cda9e68c7a8f48bc2f777d976ea8e, type: 3}
-    position: {x: 0, y: 0}
+    position: {x: 2.125, y: -0.9}
   - id: bookshelf
     title: "\uC791\uC740 \uCC45\uC7A5"
     description: "\uC0DD\uD65C \uB3C4\uAD6C\uB97C \uC815\uB9AC\uD558\uB294 \uB098\uBB34 \uCC45\uC7A5"
     price: 600
     starter: 0
+    interaction: 8
     preview: {fileID: 2158128184492950747, guid: e50cda9e68c7a8f48bc2f777d976ea8e, type: 3}
     position: {x: -1.375, y: -1.125}
   - id: lamp
@@ -39,6 +42,7 @@ MonoBehaviour:
     description: "\uB530\uB73B\uD55C \uBE5B\uC758 \uC18C\uBC15\uD55C \uC870\uBA85"
     price: 250
     starter: 0
+    interaction: 8
     preview: {fileID: 790710298634700873, guid: e50cda9e68c7a8f48bc2f777d976ea8e, type: 3}
     position: {x: 0.75, y: -0.625}
   - id: chair
@@ -46,8 +50,57 @@ MonoBehaviour:
     description: "\uD558\uB8E8\uB97C \uB9C8\uCE58\uACE0 \uC26C\uB294 \uC791\uC740 \uC758\uC790"
     price: 450
     starter: 0
+    interaction: 8
     preview: {fileID: 1391849852316778699, guid: e50cda9e68c7a8f48bc2f777d976ea8e, type: 3}
     position: {x: 1.125, y: -1.125}
+  - id: fridge
+    title: "\uC791\uC740 \uB0C9\uC7A5\uACE0"
+    description: "\uAD6C\uB9E4 \uD6C4 \uBCF4\uAD00 \xB7 \uC9C1\uC811 \uBC30\uCE58 \xB7 \uD68C\uC218\uC640 \uC7AC\uBC30\uCE58 \uBB34\uB8CC"
+    price: 800
+    starter: 0
+    interaction: 2
+    preview: {fileID: 3355498879508141452, guid: e50cda9e68c7a8f48bc2f777d976ea8e, type: 3}
+    position: {x: 2.625, y: 0.625}
+  - id: cooker
+    title: "\uC870\uB9AC\uB300"
+    description: "\uAD6C\uB9E4 \uD6C4 \uBCF4\uAD00 \xB7 \uC9C1\uC811 \uBC30\uCE58 \xB7 \uD68C\uC218\uC640 \uC7AC\uBC30\uCE58 \uBB34\uB8CC"
+    price: 650
+    starter: 0
+    interaction: 2
+    preview: {fileID: -1897614567197711313, guid: e50cda9e68c7a8f48bc2f777d976ea8e, type: 3}
+    position: {x: 1.375, y: 0.625}
+  - id: desk
+    title: "\uB098\uBB34 \uCC45\uC0C1"
+    description: "\uAD6C\uB9E4 \uD6C4 \uBCF4\uAD00 \xB7 \uC9C1\uC811 \uBC30\uCE58 \xB7 \uD68C\uC218\uC640 \uC7AC\uBC30\uCE58 \uBB34\uB8CC"
+    price: 550
+    starter: 0
+    interaction: 11
+    preview: {fileID: -6936349736939082042, guid: e50cda9e68c7a8f48bc2f777d976ea8e, type: 3}
+    position: {x: -1, y: 0.75}
+  - id: sofa
+    title: "\uC791\uC740 \uC18C\uD30C"
+    description: "\uAD6C\uB9E4 \uD6C4 \uBCF4\uAD00 \xB7 \uC9C1\uC811 \uBC30\uCE58 \xB7 \uD68C\uC218\uC640 \uC7AC\uBC30\uCE58 \uBB34\uB8CC"
+    price: 700
+    starter: 0
+    interaction: 8
+    preview: {fileID: 63423604622975293, guid: e50cda9e68c7a8f48bc2f777d976ea8e, type: 3}
+    position: {x: -0.375, y: -1.125}
+  - id: wardrobe
+    title: "\uC637\uC7A5"
+    description: "\uAD6C\uB9E4 \uD6C4 \uBCF4\uAD00 \xB7 \uC9C1\uC811 \uBC30\uCE58 \xB7 \uD68C\uC218\uC640 \uC7AC\uBC30\uCE58 \uBB34\uB8CC"
+    price: 500
+    starter: 0
+    interaction: 9
+    preview: {fileID: -2801218345252212256, guid: e50cda9e68c7a8f48bc2f777d976ea8e, type: 3}
+    position: {x: -0.375, y: 0.625}
+  - id: nightstand
+    title: "\uD611\uD0C1"
+    description: "\uAD6C\uB9E4 \uD6C4 \uBCF4\uAD00 \xB7 \uC9C1\uC811 \uBC30\uCE58 \xB7 \uD68C\uC218\uC640 \uC7AC\uBC30\uCE58 \uBB34\uB8CC"
+    price: 200
+    starter: 0
+    interaction: 8
+    preview: {fileID: 790710298634700873, guid: e50cda9e68c7a8f48bc2f777d976ea8e, type: 3}
+    position: {x: -1.625, y: 0.5}
   residences:
   - id: starter
     title: "\uAE30\uBCF8 \uC9D1"

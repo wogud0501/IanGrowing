@@ -1,0 +1,41 @@
+{
+  "utc": "2026-11-12T11:10:39.527228+00:00",
+  "platform": "macOS ARM64 / Unity 6000.6.8f1",
+  "tests": {
+    "MASTER_RESULTS.json": {
+      "stage": "Completed",
+      "passed": 90,
+      "uiIssues": 0,
+      "failure": ""
+    },
+    "MASTERCAPTURE_RESULTS.json": {
+      "stage": "Completed",
+      "passed": 15,
+      "uiIssues": 0,
+      "failure": ""
+    },
+    "UI_RESULTS.json": {
+      "stage": "Completed",
+      "passed": 11,
+      "uiIssues": 0,
+      "failure": ""
+    },
+    "INPUT_RESULTS.json": {
+      "stage": "Failed",
+      "passed": 7,
+      "uiIssues": 0,
+      "failure": "System.Exception: Injected W drives Rigidbody in expected direction; delta=(0.00, 0.00) [automation lost application/Game View focus]\n  at IanGame.Editor.Phase26Verification.Check (System.Boolean condition, System.String text) [0x00021] in /Users/hyunwol/IanGrowing/Assets/_Game/Scripts/Development/Phase26Verification.cs:20 \n  at IanGame.Editor.Phase26Verification+<InputRecovery>d__34.MoveNext () [0x00212] in /Users/hyunwol/IanGrowing/Assets/_Game/Scripts/Development/Phase26Verification.cs:87 \n  at IanGame.Editor.Phase26Verification+<Run>d__29.MoveNext () [0x001e0] in /Users/hyunwol/IanGrowing/Assets/_Game/Scripts/Development/Phase26Verification.cs:30 "
+    }
+  },
+  "sceneSaved": true,
+  "legacyMissingFieldDefault": 0,
+  "screenshots": 16,
+  "notComplete": [
+    "physical keyboard and observed player walk playback",
+    "dedicated life animation sprites",
+    "larger residence world geometry and interior progression",
+    "commercial pixel art polish",
+    "player build and long-duration/platform performance"
+  ],
+  "note": "Controller integration uses real scene UI/actions/colliders with position warps. It is not uninterrupted physical keyboard gameplay."
+}

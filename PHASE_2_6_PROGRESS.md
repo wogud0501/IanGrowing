@@ -1,6 +1,6 @@
 # MASTER DIRECTIVE — macOS 재개 (2026-11-12)
 
-## 현재 Stage: 1 UI 보정 검증 완료 / 2 초기 주거 개선 중
+## 현재 Stage: 9 이번 변경 보존 완료 — 전체 상업용 완성 아님
 - 실제 경로 `/Users/hyunwol/IanGrowing`, Unity 6000.6.8f1, Apple M5 Max, MCP 연결 정상, Edit Mode. MainGame2D에서 시작; LifeWorld 확인 중.
 - 기존 Git HEAD 1f14318, origin GitHub 등록. 기존 변경 `Docs/Phase26/LIVE_KEY_TRACE.json` 보존. 원격 등록만 확인했으며 이번 변경의 원격 백업 완료를 의미하지 않음.
 - 수정 전 복구 ZIP: `DevelopmentBackups/Master-20261112-194924.zip` (791파일, 무결성 확인). 로컬 백업은 장비 손실에 대비한 원격 백업이 아님.
@@ -9,6 +9,40 @@
 - 미검증: 현재 모든 Play 경로, 720p/1080p UI, 실제 물리 키보드, 아트 최종 품질.
 - Stage 1: 실제 4개 해상도(1280×720/1920×1080/2400×1080/1080×1920) 메뉴/HUD 및 115% 글씨·최대 소지금/날짜 검사. 수정 전 넘침 2건 → 수정 후 0건, 11개 체크 통과. WorldHUDLayout을 LifeWorld 씬에 연결하고 저장. HUD는 상태 이벤트로 갱신.
 - 다음 순서: 실제 UI 감사 → 신규 침대 전용 초기 상태/기존 저장 호환 → 주거 구매·배치 → 생활/도시 실행 → 캡처/체크포인트.
+
+## 2026-11-12 현재 구현 및 검사
+- Stage 2 핵심 구현: 신규 주거 starterRevision=1은 침대만 보유. starterRevision=0인 기존 세이브는 무료 가구/소유권 보존. HomeShowcase.unity에 기존 완성형 씬 보존(빌드 경로 추가 없음).
+- 신규 일반 가구/장식/싱크·주방 무료 제공 제거. 나무 바닥/흰 벽지, 독립 옥색 욕실의 변기/세면대/샤워만 건물 설비 유지. 기존 캐릭터와 아트 원본 유지.
+- 기존 주거 지갑/영수증/저장 사용, 가구 카탈로그 11종으로 확장. 냉장고·조리대·식탁·책상·소파·옷장·협탁 구매 가능. 구매 후 직접 그리드 배치/초록·빨강 미리보기/충돌·문앞·동선 검사/회수·취소·무료 재배치. 이사 비용 차감, 소유권 유지, 보관함 이동.
+- 상점 식사(빵 소모)와 정리 도움(30분/30G)을 연결해 무료 가구/초기 잔액 없이 생활과 수입 가능. 기존 직업/교육 조건은 유지.
+- MASTER_RESULTS.json: Unity macOS Play 90개 통과, UI issue 0. 신규/기존 저장, 출생 1회, 욕실/음식/수입, 구매 UI, 유효/무효 배치, 유료 이사, 실제 디스크 저장·로드, 기존 근무/급여/중복 방지, 관계, 다음날 기상, 도시 27초 이동·3상 신호·걷기 프레임·야간 밀도 확인.
+- 실패 기록 보존: MASTER_FIRST_ATTEMPT.json은 미보유 가구를 소유권 검사 API로 사전 조회한 검사기 오류. MASTER_PLACEMENT_FAILURE.json은 소파 추천점이 현관 예약 영역과 겹침. 추천점을 통로 밖으로 수정하고 옷장도 벽 안쪽으로 이동 후 90개 통과.
+- ARM64 Editor 확인, 실행 중 한 시점 할당 메모리 약 939MB(플레이어 빌드 성능 측정 아님).
+- 공식 Eastward Octopia 저녁 실내, Mistria 가구배치 GIF, Stardew PennyHouse, Little Witch 숲 스크린샷을 실제 열어 검토. 자료는 References/sources.json. 에셋으로 복제하지 않음. 현재 환경의 선명한 픽셀 클러스터/캐릭터와 배경 밀도/행동별 애니메이션은 최종 품질 미달 또는 미검증으로 유지.
+- 최종 UI: 카탈로그 확장 후 4개 해상도 전체 메뉴/HUD/115% 및 최대 숫자 재검사 11개 통과, UI issue 0.
+- 자유 배치 좁은 검사: 유효/무효 표시, 추천 슬롯 이외 실제 그리드 좌표 확정, 재배치 취소, 주거 패널이 닫힌 안정 화면 확인. MASTERCAPTURE_RESULTS.json에 별도 기록. 16개 실제 Game View PNG는 Docs/Phase26/MasterScreenshots/.
+- 입력 자동검사: INPUT_RESULTS.json은 W 이동 실패. 최초 7개 연결 체크는 통과, 이동 delta=(0,0), 누르는 동안 `automation lost application/Game View focus` 관찰. osascript로 Unity 활성화 후에도 발생. 자동검사 포커스 전제 미충족이며 실제 WASD 정상/고장을 확정하지 않음. 모터의 포커스 보호 정책을 우회하지 않았고 추가 반복 중단. 기존 Windows 원격 원인과 동일시하지 않음.
+- DAY 1 메시지 및 인생 시작 버튼 유지, 실제 저장 뒤 로드 시 재등장 없음 확인. 초기 침대 전용 상태를 씬에도 저장하고 전체 LifeWorldBuilder의 마지막 단계에 적용을 연결.
+- 전체 미완료: 이사 후 집 평면/넓이·고급 인테리어의 시각적 발전, 전용 수면/식사/위생 동작 스프라이트, 최종 픽셀 밀도·조명·도시 아트 폴리싱, 물리 키보드/게임패드, macOS 플레이어 빌드·다른 플랫폼, 장시간 성능. 기존 eight-state 걷기 Animator 자산 연결은 확인했으나 이번 환경의 실제 키보드 보행/걷기 프레임 재생 검증은 완료하지 못함.
+- Console: Play 종료 전 게임 오류 0건 조회. 도메인 리로드 때 Unity AI(UERP) NoSubscription/ThreadAbort가 반복되며 게임 컴파일 오류와 구분. 패키지 임의 삭제 없음.
+- 검사기는 고유 임시 슬롯에서 실행하고 원래 모델/슬롯/자동저장/입력 설정을 finally에서 복원. 기존 사용자 저장 삭제/리셋/덮어쓰기 없음.
+
+### 마지막 저장 지점 (2026-11-12)
+- LifeWorld 씬을 침대 전용 초기 표현으로 디스크 저장, Edit Mode, scene dirty=false, 기존 Display 1 카메라 직접 출력/중복 카메라 없음. HomeShowcase 및 기존 프리팹/원본 아트 유지.
+- 최종 좁은 검사 MASTERCAPTURE_RESULTS.json 15개 통과/UI issue 0. scene 초기 상태에서 legacyRevision=0 복원/초기 상태 복귀까지 확인.
+- 구 JSON에 starterRevision 필드가 없어도 0으로 읽히고 기존 보유 3항목이 남는 실제 Unity JsonUtility 역직렬화 확인.
+- MASTER_MAC_SUMMARY.json에 이번 결과/제약 요약. 코드 공백 검사 통과, Play 종료 후 Console error 0 조회.
+- 최종 로컬 복구 ZIP: DevelopmentBackups/Master-Final-20261112.zip (무결성 확인), 수정 전 ZIP도 보존. Git 첫 체크포인트 613956e 및 후속 주거/검증 체크포인트. origin 등록은 확인했으나 이번 세션에서 push하지 않았으므로 원격 보존 완료 아님.
+- 기존 LIVE_KEY_TRACE.json과 Unity가 갱신한 Readme/Walnut 등 작업 외 변경을 제거하거나 체크포인트에 섞지 않음. 기존 결과 파일은 Git 이력과 BEFORE/실패 JSON으로 보존.
+- 남은 모든 항목은 위 '전체 미완료' 목록과 재개 순서 참고. 이번 결과를 모든 Stage 최종 완료로 간주하지 않음.
+
+### 재개 및 사용자 직접 검증
+1. Bootstrap 씬 → Play → 새 게임. 출생 안내에서 인생 시작하기. 침대 1개, 욕실 필수 설비만 확인.
+2. Unity 창을 직접 클릭하고 Game 탭 내부 클릭 → WASD/방향키 각각 이동·방향별 걷기/정지 확인. I 인벤토리 중 이동 차단, Esc 닫기·복귀. 창 밖 클릭 후 이동 정지 확인. 자동 포커스 문제를 해결하려고 모터 게이트를 제거하지 말 것.
+3. E로 현관→골목→도시→상점. 정리 돕기로 수입, 빵 구매·바로 식사. 구매 전 소지금 확인. 가구 구매 후 집 관리에서 배치(집에서), 마우스/방향키로 초록·빨강 미리보기, Enter 확정/Esc 취소.
+4. 집 관리에서 회수/무료 재배치, 저장/불러오기. 30세·10,000G 이상 등 기존 조건으로 유료 이사 확인. 현재 더 큰 집의 실제 평면 확대는 미완료.
+5. 다음 개발 순서: 물리 입력 확인 → 생활 동작 원본 제작/연결 → 이사 후 실제 주거 공간 차별화 → 레퍼런스 대비 아트 폴리싱 → macOS 빌드/지속 플레이. Phase 2.7로 임의 확장하지 않음.
+6. 재생성이 필요할 때만 `Ian/Life World/Apply Bed Only Starter Home` 사용. Inspector 변경 보존 후 실행. 개발용 HomeShowcase는 새 게임 진입 경로가 아님.
 
 ---
 아래는 이전 환경의 이력이며 현재 환경 검증 결과와 구분한다.

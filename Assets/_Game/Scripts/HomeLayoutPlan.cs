@@ -5,7 +5,7 @@ using UnityEngine;
 namespace IanGame {
 [Flags]public enum HomeArea {Bedroom=1,Living=2,Study=4,Kitchen=8,Dining=16}
 [Serializable]public class HomeAreaRegion {public string title;public HomeArea area;public Rect bounds;}
-[Serializable]public class HomeFixedFootprint {public string id;public Rect bounds;public bool improvedOnly;}
+[Serializable]public class HomeFixedFootprint {public string id;public Rect bounds;public bool improvedOnly,optionalFurnishing;}
 [Serializable]public class HomeFurnitureRule {
  public string id;public HomeArea areas;public Vector2 footprint=new Vector2(1,.5f),approach=new Vector2(0,-.75f);public float height=1.5f;public Vector2[] slots;
  public Rect At(Vector2 p)=>new Rect(p.x-footprint.x/2,p.y,footprint.x,footprint.y);
@@ -13,24 +13,23 @@ namespace IanGame {
 [CreateAssetMenu(menuName="Ian/Housing/Placement plan")]
 public sealed class HomeLayoutPlan:ScriptableObject {
  public int version=2;public float grid=.25f,playerRadius=.3f;public Rect floor;
- public Vector2 entrance;public Vector2[] accessPoints;public HomeAreaRegion[] regions;
+ public Vector2 entrance;public Vector2[] accessPoints;public Vector2[] starterAccessPoints;public HomeAreaRegion[] regions;
  public Material furnitureMaterial;
  public HomeFixedFootprint[] fixedFootprints;public Rect[] reserved;public HomeFurnitureRule[] furniture;
  public HomeFurnitureRule Rule(string id)=>furniture?.FirstOrDefault(r=>r.id==id);
- public bool ValidateAccess(HousingSnapshot home,out string reason){bool ok=Connected(Obstacles(home,null),new List<Vector2>(accessPoints));reason=ok?null:"필수 가구와 출입문의 실제 접근 동선이 막힙니다.";return ok;}
+ public bool ValidateAccess(HousingSnapshot home,out string reason){bool ok=Connected(Obstacles(home,null),new List<Vector2>(home.starterRevision>0&&starterAccessPoints!=null&&starterAccessPoints.Length>0?starterAccessPoints:accessPoints));reason=ok?null:"필수 가구와 출입문의 실제 접근 동선이 막힙니다.";return ok;}
  public Vector2 Snap(Vector2 world)=>new Vector2(Mathf.Round(world.x/grid)*grid,Mathf.Round(world.y/grid)*grid);
  static Rect Expand(Rect r,float amount)=>new Rect(r.xMin-amount,r.yMin-amount,r.width+2*amount,r.height+2*amount);
  static bool Contains(Rect outer,Rect inner)=>inner.xMin>=outer.xMin&&inner.yMin>=outer.yMin&&inner.xMax<=outer.xMax&&inner.yMax<=outer.yMax;
- List<Rect> Obstacles(HousingSnapshot home,string except){var list=fixedFootprints.Where(f=>!f.improvedOnly||home.residenceId=="improved").Select(f=>f.bounds).ToList();foreach(var p in home.placed){if(p.id==except)continue;var rule=Rule(p.id);if(rule!=null)list.Add(rule.At(p.position*2));}return list;}
+ List<Rect> Obstacles(HousingSnapshot home,string except){var list=fixedFootprints.Where(f=>(!f.improvedOnly||home.residenceId=="improved")&&(!f.optionalFurnishing||home.starterRevision==0)).Select(f=>f.bounds).ToList();foreach(var p in home.placed){if(p.id==except)continue;var rule=Rule(p.id);if(rule!=null)list.Add(rule.At(p.position*2));}return list;}
  public bool Validate(string id,Vector2 world,HousingSnapshot home,out string reason){
   reason=null;var rule=Rule(id);if(rule==null){reason="이 가구의 배치 구역이 없습니다.";return false;}
   var footprint=rule.At(world);if(!Contains(floor,footprint)){reason="벽과 바닥 경계 안에 배치하세요.";return false;}
-  if(rule.slots==null||!rule.slots.Any(p=>Vector2.Distance(Snap(p),world)<.02f)){reason="지정된 가구 배치 위치를 사용하세요.";return false;}
   if(!regions.Any(r=>(r.area&rule.areas)!=0&&Contains(r.bounds,footprint))){reason="이 가구에 맞는 공간이 아닙니다.";return false;}
   if(reserved.Any(r=>r.Overlaps(footprint))){reason="문 앞과 주요 통로를 비워 두세요.";return false;}
   var obstacles=Obstacles(home,id);if(obstacles.Any(r=>Expand(r,.04f).Overlaps(footprint))){reason="다른 가구와 겹치는 위치입니다.";return false;}
   Vector2 approach=world+rule.approach;if(!floor.Contains(approach)||obstacles.Any(r=>Expand(r,playerRadius).Contains(approach))){reason="가구 앞에 접근할 공간이 필요합니다.";return false;}
-  obstacles.Add(footprint);var targets=new List<Vector2>(accessPoints);targets.Add(approach);if(!Connected(obstacles,targets)){reason="침대·주방·출입문의 이동 동선이 막힙니다.";return false;}return true;
+  obstacles.Add(footprint);var targets=new List<Vector2>(home.starterRevision>0&&starterAccessPoints!=null&&starterAccessPoints.Length>0?starterAccessPoints:accessPoints);targets.Add(approach);if(!Connected(obstacles,targets)){reason="침대·주방·출입문의 이동 동선이 막힙니다.";return false;}return true;
  }
  bool Connected(List<Rect> obstacles,List<Vector2> targets){
   // The actual use point must be clear; a reachable neighbour cannot stand in

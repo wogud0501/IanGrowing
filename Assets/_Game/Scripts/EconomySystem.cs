@@ -22,7 +22,7 @@ public partial class EconomySystem:MonoBehaviour,IMissionFeatureSource {
  public bool HasTransaction(string id)=>state.processedIds.Contains(id);
  public EconomySnapshot Capture(){EnsureHousing();var copy=Clone(state);if(state.finance==null)copy.finance=null;return copy;}
  public void Restore(EconomySnapshot value){if(value==null)return;state=Clone(value);if(value.housing==null)state.housing=null;EnsureHousing();if(value.finance==null)state.finance=null;state.debt=Math.Max(0,state.debt);state.otherAssets=Math.Max(0,state.otherAssets);if(state.processedIds==null)state.processedIds=new List<string>();Changed?.Invoke();}
- public void ResetLife(bool newborn){Restore(new EconomySnapshot{debt=newborn?InitialLifeSettings.NewbornDebt:0});EnsureFinance(1,DateTime.UtcNow.Ticks);}
+ public void ResetLife(bool newborn){Restore(new EconomySnapshot{debt=newborn?InitialLifeSettings.NewbornDebt:0,housing=new HousingSnapshot{starterRevision=1,owned=new List<string>{"basic-bed"}}});EnsureFinance(1,DateTime.UtcNow.Ticks);}
  public bool CanAfford(int cost)=>stats!=null&&cost>=0&&stats.Money>=cost;
  public bool TrySpend(int cost,string reason="지출")=>TryTransaction(Guid.NewGuid().ToString("N"),TransactionKind.Expense,cost,reason);
  public bool Earn(int amount,string reason="수입")=>TryTransaction(Guid.NewGuid().ToString("N"),TransactionKind.Income,amount,reason);
