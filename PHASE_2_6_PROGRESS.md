@@ -312,4 +312,12 @@ UI 비율: 1280×720, 1920×1080, 2400×1080, 1080×1920. 큰 글씨 115%, 소�
 - 기존 9명 근무 인물을 사무실5/증권2/부동산2의 실제 업무석에 연결. 기존 야간·점심·퇴근 유지, 정면 업무/서류 프레임 연결, 플레이어가 막으면 대기 후 퇴근 확인. 67개 시설/화면 경계/복원 검사 PASS.
 - 성장 90 PASS, 기존 경제 40 PASS, 전체 QA 최종87 PASS/0 FAIL/미구현13/수동4. UI 감사0. 원본 저장3개 해시 일치.
 - 실제 저장 씬: LifeWorld, City, Workplace, StockMarket, School, Home, MainMenu. 개별 Door prefab/Animator 새로 교체하지 않음.
-- 최종 빌드 확인 중. 미완료: 전면 착석/기립 연결, 금융 고객 방문·풍부한 상담 AI, 상업용 미술 최종 검수, 실제 모바일 기기, Xcode 네이티브 iOS. 상세 및 다음 작업: `Docs/CriticalRecovery/RESULTS.md`.
+- 미완료: 전면 착석/기립 연결, 풍부한 상담 AI, 상업용 미술 최종 검수, 실제 모바일 기기, Xcode 네이티브 iOS. 상세 및 다음 작업: `Docs/CriticalRecovery/RESULTS.md`.
+
+- 최종 빌드: Android release 성공(오류0/경고1214), iOS release Xcode export 성공(오류0/경고628). iOS native/device와 실제 Android/Fold는 미검증. 구현 체크포인트 `5f4bea9`, 상세 결과·이미지·해시는 Docs/CriticalRecovery에 보존.
+
+### 마지막 집중 수정 — 금융 고객 일정 및 NPC 문 접근
+- 기존 주민2명을 증권/부동산 상담 시간표와 예약 지점에 연결. 실제 상담 사용 기록·도보 퇴장·기존 쇼핑 일정 복귀 13 PASS.
+- 재현된 문 앞 정지 원인: 마지막 경로 격자점이 닫힌 문짝 쪽으로 반올림됨. WorldNPCNavigation의 마지막 구간을 실제 원형 충돌 검사로 정확한 접근점에 연결. 문 충돌/사용 계약 유지.
+- 경로 수정 후 회사 퇴근·예약·4해상도·저장 복원 집중 회귀 67 PASS, UI issue0. 두 고객 Game View 화면 저장.
+- 원본 자동 저장3개 SHA-256은 초기 백업과 일치. 고객/경로 수정 포함 최종 Android 릴리스 및 iOS export 성공(모두 오류0). StandaloneOSX/Edit Mode/LifeWorld dirty=false 확인. 최종 체크포인트는 Git 최신 커밋 참조.

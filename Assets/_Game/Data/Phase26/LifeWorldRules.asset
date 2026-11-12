@@ -518,7 +518,7 @@ MonoBehaviour:
     homeZone: residence
     jobId: convenience
     workZone: workplace
-    companionId: 
+    companionId: resident-3
     personality: 5
     speed: 1.1
     animations: {fileID: 11400000, guid: 9f8407b30c9f6485a88698b8d55d2862, type: 2}
@@ -542,6 +542,13 @@ MonoBehaviour:
       objectId: resident-bed-4
       position: {x: -4.899994, y: -0.3}
       action: 7
+    - hour: 14
+      minute: 20
+      dayMask: 31
+      zone: finance
+      objectId: finance-consultation-point
+      position: {x: -3, y: -0.6}
+      action: 8
     - hour: 14
       minute: 28
       dayMask: 127
@@ -971,7 +978,7 @@ MonoBehaviour:
     homeZone: residence
     jobId: convenience
     workZone: workplace
-    companionId: 
+    companionId: resident-8
     personality: 5
     speed: 1.23
     animations: {fileID: 11400000, guid: caa1a24b2b2f14def9c286f44e83de15, type: 2}
@@ -1009,6 +1016,13 @@ MonoBehaviour:
       objectId: 
       position: {x: 5, y: -7.3}
       action: 2
+    - hour: 15
+      minute: 20
+      dayMask: 31
+      zone: realestate
+      objectId: realestate-consultation-point
+      position: {x: -3, y: -0.6}
+      action: 8
     - hour: 16
       minute: 23
       dayMask: 127

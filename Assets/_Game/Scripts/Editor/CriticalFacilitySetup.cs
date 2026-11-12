@@ -24,6 +24,10 @@ public static partial class WorldQualityRecoverySetup {
     foreach(var e in d.schedule.Where(e=>e.objectId.StartsWith("office-break-"))){e.zone=zone;e.objectId=rest.id;e.position=rest.Point-rules.Zone(zone).origin;}
    }
   }
+  foreach(var visit in new[]{new[]{"resident-2","finance","resident-3"},new[]{"resident-7","realestate","resident-8"}}){
+   var customer=rules.npcs.First(d=>d.npcId==visit[0]);string zone=visit[1],id=zone+"-consultation-point";var point=Find(id);if(point==null){var go=new GameObject(id,typeof(WorldInteractable));go.transform.SetParent(world.transform,false);point=go.GetComponent<WorldInteractable>();world.objects=world.objects.Concat(new[]{point}).ToArray();}point.id=id;point.zone=zone;point.title="상담 방문 위치";point.kind=WorldInteractionKind.Rest;point.UsePoint=Vector2.zero;point.transform.position=rules.Zone(zone).origin+new Vector2(-3,-.6f);point.enabled=false;var slot=Component<WorldActivitySlot>(point.gameObject);slot.staffId=customer.npcId;slot.facing=Vector2.up;customer.companionId=visit[2];
+   var entry=customer.schedule.FirstOrDefault(e=>e.objectId==id);if(entry==null){entry=new NPCScheduleEntry();customer.schedule=customer.schedule.Concat(new[]{entry}).ToArray();}entry.hour=zone=="finance"?14:15;entry.minute=20;entry.dayMask=31;entry.zone=zone;entry.objectId=id;entry.action=NPCDailyAction.Talk;entry.position=point.Point-rules.Zone(zone).origin;customer.schedule=customer.schedule.OrderBy(e=>e.hour*60+e.minute).ToArray();
+  }
   foreach(string zone in new[]{"finance","realestate"}){
    var root=world.transform.Cast<Transform>().First(t=>t.name.EndsWith(" / "+zone));var terminal=Find(zone=="finance"?"stock-terminal":"property-agency");terminal.transform.position=rules.Zone(zone).origin+new Vector2(-4,-2.4f);terminal.visual.transform.localScale=Vector3.one*.65f;terminal.GetComponent<BoxCollider2D>().size=new Vector2(1.1f,.35f);terminal.visual.sortingOrder=1240;
    var waiting=Find(zone+"-waiting");waiting.transform.position=rules.Zone(zone).origin+new Vector2(3.6f,-3);waiting.visual.sortingOrder=1300;

@@ -22,7 +22,13 @@ public sealed class WorldNPCNavigation {
   var zone=world.Service.rules.Zone(zoneId);var g=Get(world,zone);int first=Nearest(g,start),last=Nearest(g,goal);if(first<0||last<0)return new List<Vector2>();
   var parent=new int[g.blocked.Length];System.Array.Fill(parent,-1);var queue=new Queue<int>();queue.Enqueue(first);parent[first]=first;int[] dx={0,1,0,-1,1,1,-1,-1},dy={1,0,-1,0,1,-1,1,-1};
   while(queue.Count>0&&parent[last]<0){int current=queue.Dequeue(),x=current%g.width,y=current/g.width;for(int s=0;s<8;s++){int nx=x+dx[s],ny=y+dy[s];if(nx<0||ny<0||nx>=g.width||ny>=g.height)continue;int next=ny*g.width+nx;if(parent[next]>=0||g.blocked[next])continue;if(s>=4&&(g.blocked[y*g.width+nx]||g.blocked[ny*g.width+x]))continue;parent[next]=current;queue.Enqueue(next);}}
-  var result=new List<Vector2>();if(parent[last]<0)return result;for(int i=last;i!=first;i=parent[i])result.Add(g.Point(i));result.Reverse();result.Add(goal);return result;
+  var result=new List<Vector2>();if(parent[last]<0)return result;for(int i=last;i!=first;i=parent[i])result.Add(g.Point(i));result.Reverse();
+  // Grid rounding can put the final node beyond a door's interaction point,
+  // inside its closed collider. Connect to the exact goal from the last safe
+  // waypoint instead. Unlike the cached grid, this sweep includes closed doors.
+  while(result.Count>0){var previous=result.Count>1?result[result.Count-2]:start;if(!ClearApproach(previous,goal))break;result.RemoveAt(result.Count-1);}
+  result.Add(goal);return result;
  }
+ static bool ClearApproach(Vector2 from,Vector2 to){var delta=to-from;foreach(var hit in Physics2D.CircleCastAll(from,.22f,delta.normalized,delta.magnitude)){var c=hit.collider;if(c==null||c.isTrigger||c.attachedRigidbody!=null)continue;return false;}return true;}
 }
 }

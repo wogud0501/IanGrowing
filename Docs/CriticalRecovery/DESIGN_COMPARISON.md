@@ -15,7 +15,9 @@ Sources read locally: Docs/IAN_DESIGN_BASELINE.md, Docs/MAIN_MISSIONS_60.md, Doc
 - Baseline actual Play test: 213 checks, 16 doors, both approach sides, duplicate interaction rejection, destination and fixed transforms. Broad failure reported by user was not reproduced in this baseline; do not claim every reported symptom explained.
 - Confirmed code defect: shop-exit inherited 07–23 entry restrictions, preventing late egress. Exit bypasses opening hours, explicit locked flag remains authoritative.
 - Confirmed code defect: StepTo deadline used absolute unscaled time even during pause. Timeout now counts active movement time.
-- Teardown MissingReference recorded for WorldPlayerMotor; door Draw/Occupied now check Unity object lifetime before accessing the player. Further Play teardown validation required.
+- Teardown MissingReference recorded for WorldPlayerMotor; door Draw/Occupied now check Unity object lifetime before accessing the player. Subsequent full Play runs reported no recurrence in the Console.
+
+- Customer departure reproduced an NPC navigation/door mismatch: snapped final grid node overlapped the closed leaf while exact interaction point was reachable. The static grid intentionally ignores doors; live movement respects them. The final path segment now uses a swept-radius collision check including closed doors and connects directly to the exact goal when clear. Both finance and brokerage customer departures passed after correction.
 
 ## References
 NYSE official Ramp article and Perkins Eastman trading-floor page were read; the latter photograph was actually viewed (NYSE.jpg). These describe an exchange floor, not evidence that the game's small customer investment room must become a full exchange. Existing retail investment interface is retained as a local securities branch. Ziptoss branch11 text was read; photo download failed, so no image analysis claimed. No commercial reference art copied into game assets.
