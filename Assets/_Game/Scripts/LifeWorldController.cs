@@ -9,7 +9,7 @@ namespace IanGame {
 public sealed class LifeWorldController:MonoBehaviour {
  public WorldPlayerMotor Player;public WorldCameraController follow;public WorldHUD hud;public WorldInteractable[] objects;
  public WorldTransitionDirector transitions;public GameObject upgradedHome,starterWritingDesk;public Transform furnishingRoot;public WorldLifeAudio audio;public LifeWorldService Service{get;private set;}public WorldZoneDefinition CurrentZone{get;private set;}
- public bool lowDetail;public bool Busy=>acting||travelling;public bool CanControl=>Service!=null&&!Busy&&Service.Game.State==GameState.Playing&&!Service.Game.BirthIntroductionPending&&hud.shell.Depth==0&&!Player.TextInputFocused&&!GameContext.Instance.transitions.IsTransitioning;
+ public bool lowDetail;public bool Busy=>acting||travelling;public bool CanControl=>!DeveloperInputLock.Active&&Service!=null&&!Busy&&Service.Game.State==GameState.Playing&&!Service.Game.BirthIntroductionPending&&hud.shell.Depth==0&&!Player.TextInputFocused&&!GameContext.Instance.transitions.IsTransitioning;
  public WorldInteractable Nearest{get;private set;}readonly List<WorldInteractable> furniture=new List<WorldInteractable>();string furnitureKey;bool acting,travelling,cancel;int restoreGeneration;Vector2 activityEntry,transitionEntry;bool beforePortalCommit;float nextLight;string restoreZone;Vector2 restoredPosition;
  readonly Dictionary<SpriteRenderer,Color> colors=new Dictionary<SpriteRenderer,Color>();public SpriteRenderer[] lamps;public WorldRoomBackdrop[] roomBackdrops=new WorldRoomBackdrop[0];
  void Awake(){if(GameContext.Instance==null)return;Service=GameContext.Instance.game.world;Service.Attach(this);}

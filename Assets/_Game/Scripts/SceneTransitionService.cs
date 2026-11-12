@@ -15,6 +15,14 @@ public class SceneTransitionService : MonoBehaviour {
   if(IsTransitioning)return false;
 
   var world=GameContext.Instance==null?null:GameContext.Instance.game.world;if(world!=null&&world.rules!=null&&LifeWorldService.ZoneFor(id)!=null){if(CurrentScene==SceneId.LifeWorld&&world.Host!=null)return world.Host.Travel(LifeWorldService.ZoneFor(id));if(id!=SceneId.Home||CurrentScene!=SceneId.MainMenu)world.SelectDestination(id);id=SceneId.LifeWorld;}
+ return NavigateRoute(id);
+ }
+ #if UNITY_EDITOR || DEVELOPMENT_BUILD
+ // QA can reach the original automation scenes without changing normal world routing.
+ public bool NavigateForTesting(SceneId id)=>NavigateRoute(id);
+ #endif
+ bool NavigateRoute(SceneId id){
+  if(IsTransitioning)return false;
  if(id==CurrentScene&&SceneManager.GetActiveScene().name==id.ToString())return true;
   var route=catalog==null?null:catalog.Find(id);
   if(id==SceneId.Bootstrap&&GameContext.Instance!=null&&SceneManager.GetActiveScene().name!="Bootstrap"){Fail("Bootstrap은 공통 시스템의 시작 씬입니다.");return false;}

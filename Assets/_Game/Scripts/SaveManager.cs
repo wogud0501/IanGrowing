@@ -25,6 +25,14 @@ public class SaveManager:MonoBehaviour {
  static string MigratedPath(string source)=>Path.Combine(Path.GetDirectoryName(source),Path.GetFileNameWithoutExtension(source)+".phase2-v4.json");
  
  public string AutomaticSavePath=>Path.Combine(Application.persistentDataPath,Path.GetFileNameWithoutExtension(fileName)+".autosave.json");
+ #if UNITY_EDITOR || DEVELOPMENT_BUILD
+ [Serializable]public struct TestingChannel {public string slot,active,path;public bool blocked;public long lastSaved;}
+ public TestingChannel EnterTestingChannel(string slot){
+  if(string.IsNullOrEmpty(slot)||!slot.StartsWith("qa-")||Path.GetFileName(slot)!=slot)throw new ArgumentException("QA slot name required");
+  var old=new TestingChannel{slot=fileName,active=activeBase,path=writePath,blocked=WritesBlocked,lastSaved=LastSavedUtcTicks};fileName=slot;activeBase=null;writePath=null;WritesBlocked=false;return old;
+ }
+ public void RestoreTestingChannel(TestingChannel old){fileName=old.slot;activeBase=old.active;writePath=old.path;WritesBlocked=old.blocked;LastSavedUtcTicks=old.lastSaved;}
+ #endif
  struct ChannelState {public string slot,active,path;public bool blocked;}
  ChannelState EnterAutomatic(){
  var old=new ChannelState{slot=fileName,active=activeBase,path=writePath,blocked=WritesBlocked};

@@ -8,7 +8,15 @@ public class Phase23Services:MonoBehaviour,IMissionFeatureSource,IPendingMission
  public bool IsAvailable=>catalog!=null;public event Action<MissionActivityEvent> ActivityProduced;
  public void Configure(GameManager game){Game=game;Education=new EducationService(this);Social=new SocialService(this);Jobs=new JobService(this);Employment=new EmploymentService(this);Work=new WorkActivityService(this);game.missions.RegisterSource(this);game.clock.DayChanged+=OnDay;}
  void OnDay(int day){Social?.Decay(day);}void OnDestroy(){if(Game!=null){Game.clock.DayChanged-=OnDay;Game.missions.UnregisterSource(this);}}
- public float Roll()=>UnityEngine.Random.value;
+ #if UNITY_EDITOR || DEVELOPMENT_BUILD
+ public Func<float> TestRollSource;
+ #endif
+ public float Roll(){
+ #if UNITY_EDITOR || DEVELOPMENT_BUILD
+  if(TestRollSource!=null)return Mathf.Clamp01(TestRollSource());
+ #endif
+  return UnityEngine.Random.value;
+ }
  public void Signal(string id,MissionCounter counter,long amount=1){if(counter!=MissionCounter.None)ActivityProduced?.Invoke(new MissionActivityEvent{id=id,counter=counter,amount=amount});}
  public bool Handles(int action)=>catalog!=null&&(action==0||action>=7);
  public SceneId Location=>Game.world!=null&&Game.world.Active?Game.world.Location:GameContext.Instance==null?SceneId.Home:GameContext.Instance.transitions.CurrentScene;
