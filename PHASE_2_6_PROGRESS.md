@@ -1,6 +1,6 @@
 # ADVANCED OVERHAUL 추가 필수 작업 — 2026-11-12
 
-## 현재 Priority 2 검증 완료 / Priority 3 모바일 입력·적응형 UI 구현 중
+## 현재 Priority 3 Editor 검증 완료 / Priority 4 NPC 생활 AI 구현 중
 - 기존 HEAD 1766e16 / 실제 프로젝트 `/Users/hyunwol/IanGrowing`, Unity 6000.6.8f1 ARM64. 기존 작업/사용자 변경 보존.
 - 수정 전 로컬 복구 ZIP: DevelopmentBackups/Advanced-Before-20261112.zip, 무결성 확인.
 - 필수 범위: 고급 행동 애니메이션, 실제 문/전환, Android+iOS/접힘 화면, NPC 방향 동기화/일정/저장/오프스크린.
@@ -11,7 +11,10 @@
 - Priority 2: 10개 실제 문, 여닫이 2종/미닫이 1종 원본 6프레임, Closed/Opening/Open/Closing/Locked, 닫힘 충돌/열림 통과, 소유자별 사용/해제, NPC 호출 공통 경로. 실제 플레이어 Rigidbody로 접근→개방→통과→장소 확정→닫힘. 실내 전면 문은 캐릭터 가림 완화.
 - ADVANCEDDOORS_RESULTS.json 실제 Play 106개 통과: 10개 연결 경로, 중복 거부, 장소별 PixelFade/ShortSlide/LightingReveal, 소지금/입력 복원, NPC 문 열기·닫기, 잠금, 로드 중단 복구. 최초 실패는 재진입 문이 안전 감지로 이미 열린 상태인 것을 검사기가 무조건 Opening으로 요구한 문제, 조건 보정 후 통과.
 - 행동별 원본이 없는 방향은 UsedDirectionFallback으로 구분. 모든 행동의 4방향 정식 아트 완성으로 간주하지 않음.
-- 미완료/미검증: 모바일 터치/화면 재구성, NPC 생활 AI, 플랫폼 빌드·실기기, 모든 행동의 정확한 4방향 아트.
+- Priority 3: OnScreenStick/OnScreenButton을 동일 World 액션에 연결. 휴대폰 세로/가로/확장 화면 3개 배치, Safe Area, 입력 해제/재개, 30/60FPS·환경 효과 옵션, Android ARM64/IL2CPP 및 iOS 설정 저장.
+- ADVANCEDMOBILE_RESULTS.json Editor Play 48개 통과/UI issue 0. 904×2316↔1840×2208 접힘/펼침 반복, 2340×1080 회전, 1920×1440 확장, 상태/위치 보존, Safe Area 내 터치 타깃, 115% 주요 메뉴, 실제 복제 InputActionMap까지 OnScreenButton/가상 조이스틱 디바이스 이벤트 전달과 해제 확인. 초기 뒤로 버튼 5개 넘침은 버튼 폭을 104로 확대해 해결, 최초 기록 보존.
+- 실제 터치스크린/블루투스 키보드 혼용·Android/iOS 기기·접힘 하드웨어 검증은 아님. adb 연결 기기 없음, 전체 Xcode 앱 없음. 빌드 시도와 실기기 결과를 분리할 것.
+- 미완료/미검증: NPC 생활 AI, 플랫폼 빌드·실기기, 모든 행동의 정확한 4방향 아트.
 
 ---
 # MASTER DIRECTIVE — macOS 재개 (2026-11-12)

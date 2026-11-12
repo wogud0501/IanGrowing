@@ -9,7 +9,7 @@ namespace IanGame {
 public sealed class LifeWorldController:MonoBehaviour {
  public WorldPlayerMotor Player;public WorldCameraController follow;public WorldHUD hud;public WorldInteractable[] objects;
  public WorldTransitionDirector transitions;public GameObject upgradedHome,starterWritingDesk;public Transform furnishingRoot;public WorldLifeAudio audio;public LifeWorldService Service{get;private set;}public WorldZoneDefinition CurrentZone{get;private set;}
- public bool Busy=>acting||travelling;public bool CanControl=>Service!=null&&!Busy&&Service.Game.State==GameState.Playing&&!Service.Game.BirthIntroductionPending&&hud.shell.Depth==0&&!Player.TextInputFocused&&!GameContext.Instance.transitions.IsTransitioning;
+ public bool lowDetail;public bool Busy=>acting||travelling;public bool CanControl=>Service!=null&&!Busy&&Service.Game.State==GameState.Playing&&!Service.Game.BirthIntroductionPending&&hud.shell.Depth==0&&!Player.TextInputFocused&&!GameContext.Instance.transitions.IsTransitioning;
  public WorldInteractable Nearest{get;private set;}readonly List<WorldInteractable> furniture=new List<WorldInteractable>();string furnitureKey;bool acting,travelling,cancel;int restoreGeneration;Vector2 activityEntry,transitionEntry;bool beforePortalCommit;float nextLight;string restoreZone;Vector2 restoredPosition;
  readonly Dictionary<SpriteRenderer,Color> colors=new Dictionary<SpriteRenderer,Color>();public SpriteRenderer[] lamps;public WorldRoomBackdrop[] roomBackdrops=new WorldRoomBackdrop[0];
  void Awake(){if(GameContext.Instance==null)return;Service=GameContext.Instance.game.world;Service.Attach(this);}
@@ -109,6 +109,6 @@ public sealed class LifeWorldController:MonoBehaviour {
   }
   Physics2D.SyncTransforms();if(!Busy&&CurrentZone!=null&&!Clear(Player.Position))Player.Warp(Safe(CurrentZone,Player.Position-CurrentZone.origin));
  }
- void Light(){int hour=Service.Hour;foreach(var backdrop in roomBackdrops)if(backdrop!=null)backdrop.Apply(hour<6||hour>=19);float daylight=hour<5?.32f:hour<8?Mathf.Lerp(.32f,1,(hour-5)/3f):hour<18?1:hour<21?Mathf.Lerp(1,.32f,(hour-18)/3f):.32f;float ambient=CurrentZone.outdoor?daylight:Mathf.Max(.68f,daylight);foreach(var pair in colors)if(pair.Key!=null&&!lamps.Contains(pair.Key)){var c=pair.Value;pair.Key.color=new Color(c.r*ambient,c.g*ambient,c.b*Mathf.Lerp(ambient,1,.1f),c.a);}foreach(var lamp in lamps)if(lamp!=null)lamp.enabled=daylight<.7f;Player.sprite.color=Color.Lerp(new Color(.65f,.72f,.87f),Color.white,ambient);}
+ void Light(){int hour=Service.Hour;foreach(var backdrop in roomBackdrops)if(backdrop!=null)backdrop.Apply(hour<6||hour>=19);float daylight=hour<5?.32f:hour<8?Mathf.Lerp(.32f,1,(hour-5)/3f):hour<18?1:hour<21?Mathf.Lerp(1,.32f,(hour-18)/3f):.32f;float ambient=CurrentZone.outdoor?daylight:Mathf.Max(.68f,daylight);foreach(var pair in colors)if(pair.Key!=null&&!lamps.Contains(pair.Key)){var c=pair.Value;pair.Key.color=new Color(c.r*ambient,c.g*ambient,c.b*Mathf.Lerp(ambient,1,.1f),c.a);}foreach(var lamp in lamps)if(lamp!=null)lamp.enabled=daylight<.7f&&!lowDetail;Player.sprite.color=Color.Lerp(new Color(.65f,.72f,.87f),Color.white,ambient);}
 }
 }
