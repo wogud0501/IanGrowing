@@ -5,9 +5,9 @@ using UnityEngine;
 namespace IanGame {
 public static class WorldRecoveryChecks {
  public static void Layout(LifeWorldController world,Action<bool,string> check){
-  check(world!=null,"LifeWorld is loaded");var definitions=world.Service.rules.npcs.Where(n=>n.schedule.Any(e=>e.zone=="workplace"&&e.action==NPCDailyAction.Work)).ToArray();var slots=world.GetComponentsInChildren<WorldActivitySlot>().Where(s=>!string.IsNullOrEmpty(s.staffId)).ToArray();
-  check(definitions.Length==9&&slots.Length==9,"Nine employees and nine facility seats retained");check(slots.Select(s=>s.staffId).Distinct().Count()==slots.Length,"Seat ownership IDs are unique");
-  foreach(var d in definitions)check(d.schedule.Where(e=>e.zone=="workplace"&&e.action==NPCDailyAction.Work).All(e=>e.objectId=="staff-desk-"+d.npcId),"Assigned work schedule: "+d.npcId);
+  check(world!=null,"LifeWorld is loaded");var definitions=world.Service.rules.npcs.Where(n=>n.schedule.Any(e=>e.action==NPCDailyAction.Work)).ToArray();var slots=world.GetComponentsInChildren<WorldActivitySlot>().Where(s=>s.GetComponent<WorldWorkstationPresentation>()!=null).ToArray();
+  check(definitions.Length==9&&slots.Length==9,"Nine employees and nine assigned facility workstations retained");check(slots.Select(s=>s.staffId).Distinct().Count()==slots.Length,"Seat ownership IDs are unique");
+  foreach(var d in definitions)check(d.schedule.Where(e=>e.action==NPCDailyAction.Work).All(e=>e.objectId=="staff-desk-"+d.npcId),"Assigned work schedule: "+d.npcId);
   check(world.objects.Single(o=>o.id=="stock-terminal").zone=="finance","Stock terminal is in finance interior");check(world.objects.Single(o=>o.id=="property-agency").zone=="realestate","Property terminal is in agency interior");
   foreach(var zone in new[]{"finance","realestate","office-bathroom"})check(world.objects.Any(o=>o.kind==WorldInteractionKind.Door&&o.targetZone==zone)&&world.objects.Any(o=>o.kind==WorldInteractionKind.Door&&o.zone==zone),"Bidirectional facility route: "+zone);
  }

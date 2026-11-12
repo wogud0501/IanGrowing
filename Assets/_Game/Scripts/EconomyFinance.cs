@@ -7,6 +7,7 @@ public partial class EconomySystem {
   if(rules!=null)foreach(var d in rules.stocks)state.finance.quotes.Add(new StockQuote{StockId=d.StockId,CurrentPrice=Math.Max(1,d.BasePrice),PreviousPrice=Math.Max(1,d.BasePrice),PriceHistory=new System.Collections.Generic.List<int>{Math.Max(1,d.BasePrice)}});
  }
  public bool PaySalary(string id,int amount,string jobId){
+  if(!GrowthAccess.Adult(game))return false;
   if(rules==null)return TryTransaction(id,TransactionKind.Income,amount,"급여");
   EnsureFinance(Day,DateTime.UtcNow.Ticks);var f=state.finance;
   long numerator=(long)amount*Mathf.Clamp(rules.TaxRate(jobId),0,5000)+f.taxRemainder;
@@ -48,7 +49,7 @@ public partial class EconomySystem {
  public StockQuote GetQuote(string stockId)=>Clone(Quote(stockId));
  public StockHolding GetHolding(string stockId)=>Clone(state.finance?.holdings.Find(h=>h.stockId==stockId));
  public bool Trade(string orderId,string stockId,int quantity,bool buy){
-  if(rules==null||busy||quantity<=0||string.IsNullOrWhiteSpace(orderId)||HasTransaction(orderId))return false;
+  if(!GrowthAccess.Adult(game)||rules==null||busy||quantity<=0||string.IsNullOrWhiteSpace(orderId)||HasTransaction(orderId))return false;
   EnsureFinance(Day,DateTime.UtcNow.Ticks);var q=Quote(stockId);var f=state.finance;var h=f.holdings.Find(v=>v.stockId==stockId);
   if(q==null||q.MarketStatus!=MarketStatus.Open||buy&&stats.Credit<rules.minimumTradingCredit||buy&&(long)(h?.quantity??0)+quantity>int.MaxValue||!buy&&(h==null||h.quantity<quantity))return false;
   long amount=(long)q.CurrentPrice*quantity;

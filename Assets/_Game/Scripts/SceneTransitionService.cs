@@ -13,6 +13,7 @@ public class SceneTransitionService : MonoBehaviour {
  public SceneId CurrentScene{get;private set;}=SceneId.Bootstrap;public event Action<SceneId> SceneChanged;
  public bool Navigate(SceneId id){
   if(IsTransitioning)return false;
+  var accessGame=GameContext.Instance==null?null:GameContext.Instance.game;if(accessGame!=null&&!GrowthAccess.Scene(accessGame,id,out var denied)){Fail(denied);return false;}
 
   var world=GameContext.Instance==null?null:GameContext.Instance.game.world;if(world!=null&&world.rules!=null&&LifeWorldService.ZoneFor(id)!=null){if(CurrentScene==SceneId.LifeWorld&&world.Host!=null)return world.Host.Travel(LifeWorldService.ZoneFor(id));if(id!=SceneId.Home||CurrentScene!=SceneId.MainMenu)world.SelectDestination(id);id=SceneId.LifeWorld;}
  return NavigateRoute(id);
@@ -23,6 +24,7 @@ public class SceneTransitionService : MonoBehaviour {
  #endif
  bool NavigateRoute(SceneId id){
   if(IsTransitioning)return false;
+ var accessGame=GameContext.Instance==null?null:GameContext.Instance.game;if(accessGame!=null&&!GrowthAccess.Scene(accessGame,id,out var denied)){Fail(denied);return false;}
  if(id==CurrentScene&&SceneManager.GetActiveScene().name==id.ToString())return true;
   var route=catalog==null?null:catalog.Find(id);
   if(id==SceneId.Bootstrap&&GameContext.Instance!=null&&SceneManager.GetActiveScene().name!="Bootstrap"){Fail("Bootstrap은 공통 시스템의 시작 씬입니다.");return false;}

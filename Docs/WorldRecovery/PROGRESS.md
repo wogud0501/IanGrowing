@@ -10,3 +10,6 @@
 - QA Center: `world/facility-layout`, `world/door-lease` 자동 검사 및 업무 미술 MANUAL 항목 등록.
 - 미완료: 컴퓨터 작업은 Right 원화만 있음. 각 책상 방향에 맞는 정식 업무 원화, 상업용 미술 최종 검수, 주요 시설 전체 NPC 생활 연출 및 실기 모바일 검증은 완료 아님.
 - 현재: 집중 시각/휴식 경로/반응형 검증 진행 중. 씬/에셋 디스크 저장됨. 최종 체크포인트와 결과는 후속 기록.
+
+## 후속 정정 — Critical Recovery
+이 문서 위 기록은 이전 체크포인트다. 최신 상태는 `../CriticalRecovery/RESULTS.md`를 따른다. 연령 제한, 9인 분산 업무시설, 정면 업무 원화, 모바일 그리드 경계 및 문 회귀를 추가 수정했다. 이전 자동 저장 변동의 보존·복구 증거는 SAVE_PROTECTION.json에 유지한다.

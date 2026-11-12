@@ -26,7 +26,7 @@ public class Phase23Services:MonoBehaviour,IMissionFeatureSource,IPendingMission
  reason=null;var a=catalog.Find(action);if(a==null){reason="등록되지 않은 활동입니다.";return false;}
  if(GameContext.Instance!=null&&GameContext.Instance.transitions.IsTransitioning){reason="이동 중입니다.";return false;}
  if(Game.growth.Age<a.minAge||Game.growth.Age>a.maxAge||Game.growth.Stage<a.requiredStage){reason="성장 단계 또는 나이 조건을 확인하세요.";return false;}
- if(!AutomaticExecution&&!((action==9||action==18||action==19)&&Game.world!=null&&Game.world.Active&&Game.world.Host.NearbyNPC(SelectedNpcId))&&a.locations!=null&&a.locations.Length>0&&!a.locations.Contains(Location)){reason=string.Join(" / ",a.locations.Select(s=>s.ToString()))+"에서 수행하세요.";return false;}
+ if(!AutomaticExecution&&!(action==17&&Game.growth.Stage==LifeStage.Infancy&&Location==SceneId.Home)&&!((action==9||action==18||action==19)&&Game.world!=null&&Game.world.Active&&Game.world.Host.NearbyNPC(SelectedNpcId))&&a.locations!=null&&a.locations.Length>0&&!a.locations.Contains(Location)){reason=string.Join(" / ",a.locations.Select(s=>s.ToString()))+"에서 수행하세요.";return false;}
  if(a.maxCount>0&&Progress.activities.Count(r=>r.action==action)>=a.maxCount){reason="수행 횟수 제한에 도달했습니다.";return false;}
  if(action==9||action==18||action==19)return Social.Can(action,out reason);
  if(action==0||action>=20&&action<=23)return Employment.Can(action,out reason);

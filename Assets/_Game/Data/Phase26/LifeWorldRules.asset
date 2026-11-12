@@ -134,7 +134,7 @@ MonoBehaviour:
   - npcId: colleague
     title: "\uB3D9\uB124 \uC120\uBC30 \uC218\uC5F0"
     homeZone: residence
-    jobId: convenience
+    jobId: office
     workZone: workplace
     companionId: classmate
     personality: 3
@@ -172,7 +172,7 @@ MonoBehaviour:
       dayMask: 127
       zone: workplace
       objectId: staff-desk-colleague
-      position: {x: -6.199997, y: 0.8299999}
+      position: {x: -5.600006, y: 2.3}
       action: 3
     - hour: 10
       minute: 0
@@ -186,7 +186,7 @@ MonoBehaviour:
       dayMask: 127
       zone: workplace
       objectId: staff-desk-colleague
-      position: {x: -6.199997, y: 0.8299999}
+      position: {x: -5.600006, y: 2.3}
       action: 3
     - hour: 12
       minute: 0
@@ -200,7 +200,7 @@ MonoBehaviour:
       dayMask: 127
       zone: workplace
       objectId: staff-desk-colleague
-      position: {x: -6.199997, y: 0.8299999}
+      position: {x: -5.600006, y: 2.3}
       action: 3
     - hour: 18
       minute: 0
@@ -332,7 +332,7 @@ MonoBehaviour:
   - npcId: resident-0
     title: "\uC9C0\uC740"
     homeZone: residence
-    jobId: convenience
+    jobId: office
     workZone: workplace
     companionId: 
     personality: 3
@@ -370,7 +370,7 @@ MonoBehaviour:
       dayMask: 127
       zone: workplace
       objectId: staff-desk-resident-0
-      position: {x: -2.949997, y: 0.8299999}
+      position: {x: -1.199997, y: 2.3}
       action: 3
     - hour: 10
       minute: 3
@@ -384,7 +384,7 @@ MonoBehaviour:
       dayMask: 127
       zone: workplace
       objectId: staff-desk-resident-0
-      position: {x: -2.949997, y: 0.8299999}
+      position: {x: -1.199997, y: 2.3}
       action: 3
     - hour: 12
       minute: 14
@@ -398,7 +398,7 @@ MonoBehaviour:
       dayMask: 127
       zone: workplace
       objectId: staff-desk-resident-0
-      position: {x: -2.949997, y: 0.8299999}
+      position: {x: -1.199997, y: 2.3}
       action: 3
     - hour: 18
       minute: 14
@@ -438,7 +438,7 @@ MonoBehaviour:
   - npcId: resident-1
     title: "\uC815\uD638"
     homeZone: residence
-    jobId: convenience
+    jobId: office
     workZone: workplace
     companionId: 
     personality: 1
@@ -455,7 +455,7 @@ MonoBehaviour:
       dayMask: 31
       zone: workplace
       objectId: staff-desk-resident-1
-      position: {x: 0.30000305, y: 0.8299999}
+      position: {x: -5.600006, y: -1.5}
       action: 3
     - hour: 2
       minute: 20
@@ -469,7 +469,7 @@ MonoBehaviour:
       dayMask: 31
       zone: workplace
       objectId: staff-desk-resident-1
-      position: {x: 0.30000305, y: 0.8299999}
+      position: {x: -5.600006, y: -1.5}
       action: 3
     - hour: 7
       minute: 21
@@ -511,7 +511,7 @@ MonoBehaviour:
       dayMask: 31
       zone: workplace
       objectId: staff-desk-resident-1
-      position: {x: 0.30000305, y: 0.8299999}
+      position: {x: -5.600006, y: -1.5}
       action: 3
   - npcId: resident-2
     title: "\uB3C4\uC724"
@@ -573,8 +573,8 @@ MonoBehaviour:
   - npcId: resident-3
     title: "\uC21C\uC790"
     homeZone: residence
-    jobId: convenience
-    workZone: workplace
+    jobId: analyst
+    workZone: finance
     companionId: 
     personality: 3
     speed: 1.23
@@ -609,23 +609,23 @@ MonoBehaviour:
     - hour: 9
       minute: 0
       dayMask: 127
-      zone: workplace
+      zone: finance
       objectId: staff-desk-resident-3
-      position: {x: -6.199997, y: -1.72}
+      position: {x: -3, y: 1.2}
       action: 3
     - hour: 10
       minute: 23
       dayMask: 127
-      zone: workplace
-      objectId: office-break-1
-      position: {x: 7.199997, y: 0}
+      zone: finance
+      objectId: finance-staff-rest-0
+      position: {x: -3, y: -2.1}
       action: 7
     - hour: 10
       minute: 38
       dayMask: 127
-      zone: workplace
+      zone: finance
       objectId: staff-desk-resident-3
-      position: {x: -6.199997, y: -1.72}
+      position: {x: -3, y: 1.2}
       action: 3
     - hour: 12
       minute: 35
@@ -637,9 +637,9 @@ MonoBehaviour:
     - hour: 13
       minute: 35
       dayMask: 127
-      zone: workplace
+      zone: finance
       objectId: staff-desk-resident-3
-      position: {x: -6.199997, y: -1.72}
+      position: {x: -3, y: 1.2}
       action: 3
     - hour: 18
       minute: 35
@@ -679,8 +679,8 @@ MonoBehaviour:
   - npcId: resident-4
     title: "\uC9C0\uC740"
     homeZone: residence
-    jobId: convenience
-    workZone: workplace
+    jobId: analyst
+    workZone: finance
     companionId: 
     personality: 3
     speed: 1.36
@@ -715,9 +715,9 @@ MonoBehaviour:
     - hour: 9
       minute: 0
       dayMask: 31
-      zone: workplace
+      zone: finance
       objectId: staff-desk-resident-4
-      position: {x: -2.949997, y: -1.72}
+      position: {x: 2.5, y: 1.2}
       action: 3
     - hour: 9
       minute: 2
@@ -729,16 +729,16 @@ MonoBehaviour:
     - hour: 10
       minute: 40
       dayMask: 31
-      zone: workplace
-      objectId: office-break-0
-      position: {x: 4.600006, y: 0}
+      zone: finance
+      objectId: finance-staff-rest-1
+      position: {x: 2.5, y: -2.1}
       action: 7
     - hour: 10
       minute: 55
       dayMask: 31
-      zone: workplace
+      zone: finance
       objectId: staff-desk-resident-4
-      position: {x: -2.949997, y: -1.72}
+      position: {x: 2.5, y: 1.2}
       action: 3
     - hour: 12
       minute: 2
@@ -750,9 +750,9 @@ MonoBehaviour:
     - hour: 13
       minute: 2
       dayMask: 31
-      zone: workplace
+      zone: finance
       objectId: staff-desk-resident-4
-      position: {x: -2.949997, y: -1.72}
+      position: {x: 2.5, y: 1.2}
       action: 3
     - hour: 18
       minute: 2
@@ -792,7 +792,7 @@ MonoBehaviour:
   - npcId: resident-5
     title: "\uC815\uD638"
     homeZone: residence
-    jobId: convenience
+    jobId: office
     workZone: workplace
     companionId: 
     personality: 3
@@ -830,7 +830,7 @@ MonoBehaviour:
       dayMask: 127
       zone: workplace
       objectId: staff-desk-resident-5
-      position: {x: 0.30000305, y: -1.72}
+      position: {x: -1.199997, y: -1.5}
       action: 3
     - hour: 10
       minute: 43
@@ -844,7 +844,7 @@ MonoBehaviour:
       dayMask: 127
       zone: workplace
       objectId: staff-desk-resident-5
-      position: {x: 0.30000305, y: -1.72}
+      position: {x: -1.199997, y: -1.5}
       action: 3
     - hour: 12
       minute: 9
@@ -858,7 +858,7 @@ MonoBehaviour:
       dayMask: 127
       zone: workplace
       objectId: staff-desk-resident-5
-      position: {x: 0.30000305, y: -1.72}
+      position: {x: -1.199997, y: -1.5}
       action: 3
     - hour: 18
       minute: 9
@@ -898,7 +898,7 @@ MonoBehaviour:
   - npcId: resident-6
     title: "\uB3C4\uC724"
     homeZone: residence
-    jobId: convenience
+    jobId: office
     workZone: workplace
     companionId: 
     personality: 1
@@ -915,7 +915,7 @@ MonoBehaviour:
       dayMask: 127
       zone: workplace
       objectId: staff-desk-resident-6
-      position: {x: -6.199997, y: -4.27}
+      position: {x: 3.199997, y: 2.3}
       action: 3
     - hour: 3
       minute: 0
@@ -929,7 +929,7 @@ MonoBehaviour:
       dayMask: 127
       zone: workplace
       objectId: staff-desk-resident-6
-      position: {x: -6.199997, y: -4.27}
+      position: {x: 3.199997, y: 2.3}
       action: 3
     - hour: 7
       minute: 16
@@ -964,7 +964,7 @@ MonoBehaviour:
       dayMask: 127
       zone: workplace
       objectId: staff-desk-resident-6
-      position: {x: -6.199997, y: -4.27}
+      position: {x: 3.199997, y: 2.3}
       action: 3
   - npcId: resident-7
     title: "\uC21C\uC790"
@@ -1033,8 +1033,8 @@ MonoBehaviour:
   - npcId: resident-8
     title: "\uC9C0\uC740"
     homeZone: residence
-    jobId: convenience
-    workZone: workplace
+    jobId: office
+    workZone: realestate
     companionId: 
     personality: 3
     speed: 1.36
@@ -1069,23 +1069,23 @@ MonoBehaviour:
     - hour: 9
       minute: 0
       dayMask: 127
-      zone: workplace
+      zone: realestate
       objectId: staff-desk-resident-8
-      position: {x: -2.949997, y: -4.27}
+      position: {x: -3, y: 1.2}
       action: 3
     - hour: 11
       minute: 3
       dayMask: 127
-      zone: workplace
-      objectId: office-break-1
-      position: {x: 7.199997, y: 0}
+      zone: realestate
+      objectId: realestate-staff-rest-0
+      position: {x: -3, y: -2.1}
       action: 7
     - hour: 11
       minute: 18
       dayMask: 127
-      zone: workplace
+      zone: realestate
       objectId: staff-desk-resident-8
-      position: {x: -2.949997, y: -4.27}
+      position: {x: -3, y: 1.2}
       action: 3
     - hour: 12
       minute: 30
@@ -1097,9 +1097,9 @@ MonoBehaviour:
     - hour: 13
       minute: 30
       dayMask: 127
-      zone: workplace
+      zone: realestate
       objectId: staff-desk-resident-8
-      position: {x: -2.949997, y: -4.27}
+      position: {x: -3, y: 1.2}
       action: 3
     - hour: 18
       minute: 30
@@ -1139,8 +1139,8 @@ MonoBehaviour:
   - npcId: resident-9
     title: "\uC815\uD638"
     homeZone: residence
-    jobId: convenience
-    workZone: workplace
+    jobId: office
+    workZone: realestate
     companionId: 
     personality: 3
     speed: 1.49
@@ -1175,23 +1175,23 @@ MonoBehaviour:
     - hour: 9
       minute: 0
       dayMask: 127
-      zone: workplace
+      zone: realestate
       objectId: staff-desk-resident-9
-      position: {x: 0.30000305, y: -4.27}
+      position: {x: 2.5, y: 1.2}
       action: 3
     - hour: 11
       minute: 20
       dayMask: 127
-      zone: workplace
-      objectId: office-break-0
-      position: {x: 4.600006, y: 0}
+      zone: realestate
+      objectId: realestate-staff-rest-1
+      position: {x: 2.5, y: -2.1}
       action: 7
     - hour: 11
       minute: 35
       dayMask: 127
-      zone: workplace
+      zone: realestate
       objectId: staff-desk-resident-9
-      position: {x: 0.30000305, y: -4.27}
+      position: {x: 2.5, y: 1.2}
       action: 3
     - hour: 12
       minute: 37
@@ -1203,9 +1203,9 @@ MonoBehaviour:
     - hour: 13
       minute: 37
       dayMask: 127
-      zone: workplace
+      zone: realestate
       objectId: staff-desk-resident-9
-      position: {x: 0.30000305, y: -4.27}
+      position: {x: 2.5, y: 1.2}
       action: 3
     - hour: 18
       minute: 37

@@ -15,7 +15,8 @@ public sealed class WorldDoor:MonoBehaviour {
  public Vector2 Passage(Vector2 from)=>Plane-normal*SideOf(from)*.2f;
  public event Action<DoorState> StateChanged;readonly HashSet<string> users=new HashSet<string>();float releaseAt,progress;bool passable;WorldNPCScheduler scheduler;
  void Awake(){scheduler=world==null?null:world.GetComponent<WorldNPCScheduler>();ResetClosed();}
- public bool CanEnter(string actor,int hour,out string reason){reason=locked?"잠긴 문입니다.":actor==staffId?null:opens<closes?(hour<opens||hour>=closes?$"출입 시간 {opens:00}:00–{closes:00}:00":null):(hour>=closes&&hour<opens?"지금은 문이 닫혀 있습니다.":null);return reason==null;}
+ bool IsExit=>world!=null&&world.Service!=null&&portal!=null&&world.Service.rules.Zone(portal.zone)?.outdoor==false&&world.Service.rules.Zone(portal.targetZone)?.outdoor==true;
+ public bool CanEnter(string actor,int hour,out string reason){if(actor=="player"&&world!=null&&world.Service!=null&&portal!=null&&!GrowthAccess.Zone(world.Service.Game,portal.targetZone,out reason))return false;reason=locked?"잠긴 문입니다.":actor==staffId||IsExit?null:opens<closes?(hour<opens||hour>=closes?$"출입 시간 {opens:00}:00–{closes:00}:00":null):(hour>=closes&&hour<opens?"지금은 문이 닫혀 있습니다.":null);return reason==null;}
  public bool Acquire(string actor,int hour,out string reason){
   // A rejected new request must never interrupt another user's active animation.
   if(!CanEnter(actor,hour,out reason)){if(progress<=0&&users.Count==0)Set(DoorState.Locked);return false;}
@@ -34,10 +35,10 @@ public sealed class WorldDoor:MonoBehaviour {
   Aperture=progress*progress*(3-2*progress);Draw();
  }
  bool InSweep(Vector2 p,float radius){if(closedCollider==null)return Vector2.Distance(p,Plane)<.8f;Vector2 local=closedCollider.transform.InverseTransformPoint(p);local-=closedCollider.offset;var scale=closedCollider.transform.lossyScale;return Mathf.Abs(local.x)<closedCollider.size.x/2+radius/Mathf.Abs(scale.x)&&Mathf.Abs(local.y)<closedCollider.size.y/2+(radius+.12f)/Mathf.Abs(scale.y);}
- bool Occupied(){if(world==null||world.CurrentZone==null||world.CurrentZone.id!=portal.zone)return false;if(InSweep(world.Player.Position,.32f))return true;if(scheduler!=null)foreach(var actor in scheduler.actors)if(actor!=null&&actor.isActiveAndEnabled&&actor.zone==portal.zone&&InSweep(actor.transform.position,.28f))return true;return false;}
+ bool Occupied(){if(world==null||world.CurrentZone==null||world.CurrentZone.id!=portal.zone)return false;if(world.Player!=null&&InSweep(world.Player.Position,.32f))return true;if(scheduler!=null)foreach(var actor in scheduler.actors)if(actor!=null&&actor.isActiveAndEnabled&&actor.zone==portal.zone&&InSweep(actor.transform.position,.28f))return true;return false;}
  void Set(DoorState state){if(State==state)return;bool latched=State==DoorState.Closing&&(state==DoorState.Closed||state==DoorState.Locked);State=state;if(latched&&world!=null&&world.audio!=null&&world.CurrentZone!=null&&portal.zone==world.CurrentZone.id)world.audio.CloseDoor();StateChanged?.Invoke(state);}
  static void Fade(SpriteRenderer sr,float alpha){if(sr==null)return;var c=sr.color;c.a=alpha;sr.color=c;}
- void Draw(){bool cutaway=normal.y<0&&world!=null&&world.CurrentZone!=null&&world.CurrentZone.id==portal.zone&&Mathf.Abs(world.Player.Position.x-Plane.x)<.85f&&world.Player.Position.y>Plane.y&&world.Player.Position.y<Plane.y+2;
+ void Draw(){bool cutaway=normal.y<0&&world!=null&&world.Player!=null&&world.CurrentZone!=null&&world.CurrentZone.id==portal.zone&&Mathf.Abs(world.Player.Position.x-Plane.x)<.85f&&world.Player.Position.y>Plane.y&&world.Player.Position.y<Plane.y+2;
   Fade(leaf,cutaway?.32f:1);Fade(frame,cutaway?.32f:1);Fade(apertureShadow,cutaway?.25f:1);
   // Latch collision only while closed. Closing graphics never push an actor.
   if(closedCollider!=null)closedCollider.enabled=!passable;

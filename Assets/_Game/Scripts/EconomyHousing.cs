@@ -13,7 +13,7 @@ public partial class EconomySystem {
   housingCatalog?.placementPlan?.Migrate(state.housing);
  }
  public static bool ValidHousing(HousingSnapshot h)=>h==null||h.schema==0||h.schema==1&&h.starterRevision>=0&&h.starterRevision<=1&&!string.IsNullOrEmpty(h.residenceId)&&!string.IsNullOrEmpty(h.wallpaper)&&!string.IsNullOrEmpty(h.floor)&&!string.IsNullOrEmpty(h.bathroom)&&h.owned!=null&&h.placed!=null&&h.owned.All(id=>!string.IsNullOrWhiteSpace(id))&&h.owned.Distinct().Count()==h.owned.Count&&h.placed.All(p=>p!=null&&h.owned.Contains(p.id)&&float.IsFinite(p.position.x)&&float.IsFinite(p.position.y)&&Math.Abs(p.position.x)<=3.9f&&p.position.y>=-2.5f&&p.position.y<=1.5f)&&h.placed.Select(p=>p.id).Distinct().Count()==h.placed.Count;
- bool HousingReady=>housingCatalog!=null&&game!=null&&game.State==GameState.Playing&&!game.BirthIntroductionPending&&(GameContext.Instance==null||!GameContext.Instance.transitions.IsTransitioning)&&!game.idle.IsPersistenceSuspended;
+ bool HousingReady=>GrowthAccess.Independent(game)&&housingCatalog!=null&&game!=null&&game.State==GameState.Playing&&!game.BirthIntroductionPending&&(GameContext.Instance==null||!GameContext.Instance.transitions.IsTransitioning)&&!game.idle.IsPersistenceSuspended;
  public bool CanBuyFurniture(string id,out string reason){
   EnsureHousing();var f=housingCatalog==null?null:housingCatalog.Furniture(id);
   reason=!HousingReady?"현재는 구매할 수 없습니다.":f==null?"등록되지 않은 가구입니다.":state.housing.owned.Contains(id)?"이미 보유한 가구입니다.":f.price<=0?"구매 가격을 확인하세요.":!CanAfford(f.price)?$"소지금이 {f.price-Cash:N0}G 부족합니다.":null;return reason==null;

@@ -1,0 +1,1659 @@
+{
+    "utc": "2026-11-12T16:04:53.8108580Z",
+    "unity": "6000.6.8f1",
+    "platform": "OSXEditor",
+    "productionFilesUnchanged": true,
+    "results": [
+        {
+            "id": "core/new-life",
+            "title": "새 게임·DAY 1",
+            "category": "1 기본",
+            "reason": "실제 검사 통과",
+            "utc": "2026-11-12T16:04:39.8912080Z",
+            "statusName": "PASS",
+            "status": 1,
+            "checks": 3,
+            "seconds": 0.022561875000974396,
+            "log": [
+                "실제 새 게임의 나이/현금/출생 안내",
+                "실제 출생 확인 저장",
+                "QA 저장 복원 후 출생 안내 반복 없음"
+            ]
+        },
+        {
+            "id": "core/save",
+            "title": "저장·불러오기·이어하기",
+            "category": "1 기본",
+            "reason": "실제 검사 통과",
+            "utc": "2026-11-12T16:04:39.9316030Z",
+            "statusName": "PASS",
+            "status": 1,
+            "checks": 3,
+            "seconds": 0.028688165999483317,
+            "log": [
+                "전용 자동 슬롯 저장",
+                "실제 디스크에서 현금/나이 복원",
+                "원본 저장 파일 해시 보존"
+            ]
+        },
+        {
+            "id": "core/source-copy",
+            "title": "기존 파일 복사 불러오기",
+            "category": "1 기본",
+            "reason": "실제 검사 통과",
+            "utc": "2026-11-12T16:04:39.9661950Z",
+            "statusName": "PASS",
+            "status": 1,
+            "checks": 2,
+            "seconds": 0.016191874998185085,
+            "log": [
+                "원본을 QA 파일로 복사 후 실제 SaveManager 검증/로드",
+                "원본 파일 해시 유지"
+            ]
+        },
+        {
+            "id": "core/scene",
+            "title": "씬·UI 스택 왕복",
+            "category": "1 기본",
+            "reason": "실제 검사 통과",
+            "utc": "2026-11-12T16:04:39.9878650Z",
+            "statusName": "PASS",
+            "status": 1,
+            "checks": 3,
+            "seconds": 0.01645308300066972,
+            "log": [
+                "기존 홈 월드 경로",
+                "메뉴 입력 차단",
+                "메뉴 닫기"
+            ]
+        },
+        {
+            "id": "core/movement",
+            "title": "물리 키보드·캐릭터 이동",
+            "category": "1 기본",
+            "reason": "관련 화면에서 WASD/방향키/걷기 방향과 실제 발걸음을 확인하세요. 자동 PASS 아님.",
+            "utc": "2026-11-12T16:04:40.0091790Z",
+            "statusName": "MANUAL",
+            "status": 5,
+            "checks": 0,
+            "seconds": 0.0000065829990489874035,
+            "log": []
+        },
+        {
+            "id": "core/legacy-import",
+            "title": "기존 세이브 가져오기",
+            "category": "1 기본",
+            "reason": "진단 화면의 원본 복사 불러오기는 원본 파일을 읽어서 QA 슬롯에 복사한 뒤 기존 SaveManager로 읽습니다. 원본 버전별 결과를 직접 확인하세요.",
+            "utc": "2026-11-12T16:04:40.0121250Z",
+            "statusName": "MANUAL",
+            "status": 5,
+            "checks": 0,
+            "seconds": 8.300048648379743e-8,
+            "log": []
+        },
+        {
+            "id": "survival/stats",
+            "title": "8개 능력치·범위",
+            "category": "2.1 생존",
+            "reason": "실제 검사 통과",
+            "utc": "2026-11-12T16:04:40.0151940Z",
+            "statusName": "PASS",
+            "status": 1,
+            "checks": 17,
+            "seconds": 0.02213645799929509,
+            "log": [
+                "Hunger 최소",
+                "Hunger 최대",
+                "Thirst 최소",
+                "Thirst 최대",
+                "Knowledge 최소",
+                "Knowledge 최대",
+                "Health 최소",
+                "Health 최대",
+                "Mental 최소",
+                "Mental 최대",
+                "Social 최소",
+                "Social 최대",
+                "Credit 최소",
+                "Credit 최대",
+                "Happiness 최소",
+                "Happiness 최대",
+                "정신력과 스트레스 연동"
+            ]
+        },
+        {
+            "id": "survival/day",
+            "title": "소모·회복·위험 판정",
+            "category": "2.1 생존",
+            "reason": "실제 검사 통과",
+            "utc": "2026-11-12T16:04:40.0417980Z",
+            "statusName": "PASS",
+            "status": 1,
+            "checks": 3,
+            "seconds": 0.027736624997487525,
+            "log": [
+                "기존 하루 생존 소모",
+                "실제 생존 위험 진입",
+                "회복 후 위험 해제"
+            ]
+        },
+        {
+            "id": "growth/unlocks",
+            "title": "나이별 잠금 해제·이벤트",
+            "category": "2.2 성장·미션",
+            "reason": "실제 검사 통과",
+            "utc": "2026-11-12T16:04:40.0806850Z",
+            "statusName": "PASS",
+            "status": 1,
+            "checks": 2,
+            "seconds": 0.031428124999365536,
+            "log": [
+                "실제 나이 이벤트",
+                "실제 성장 해금"
+            ]
+        },
+        {
+            "id": "missions/catalog",
+            "title": "60개 미션 무결성",
+            "category": "2.2 성장·미션",
+            "reason": "실제 검사 통과",
+            "utc": "2026-11-12T16:04:40.1185310Z",
+            "statusName": "PASS",
+            "status": 1,
+            "checks": 2,
+            "seconds": 0.009819958999287337,
+            "log": [
+                "60개 유지",
+                "미션 ID 중복 없음"
+            ]
+        },
+        {
+            "id": "missions/progress-command",
+            "title": "임의 미션 진행값·실제 조건 관찰",
+            "category": "2.2 성장·미션",
+            "reason": "실제 검사 통과",
+            "utc": "2026-11-12T16:04:40.1334770Z",
+            "statusName": "PASS",
+            "status": 1,
+            "checks": 3,
+            "seconds": 0.02230237500043586,
+            "log": [
+                "미션 카운터 0에서 실제 미완료",
+                "실제 이벤트로 진행도 증가",
+                "실제 완료 판정과 읽기 전용 상태 관찰"
+            ]
+        },
+        {
+            "id": "mission/M001",
+            "title": "M001 · 물을 마셔보자",
+            "category": "2.2 성장·미션",
+            "reason": "실제 검사 통과",
+            "utc": "2026-11-12T16:04:40.1614700Z",
+            "statusName": "PASS",
+            "status": 1,
+            "checks": 3,
+            "seconds": 0.01871887499873992,
+            "log": [
+                "실제 조건 평가 완료",
+                "실제 미션 보상 수령",
+                "중복 보상 지급 차단"
+            ]
+        },
+        {
+            "id": "mission/M002",
+            "title": "M002 · 밥이라는 것을 먹어보자",
+            "category": "2.2 성장·미션",
+            "reason": "실제 검사 통과",
+            "utc": "2026-11-12T16:04:40.1873140Z",
+            "statusName": "PASS",
+            "status": 1,
+            "checks": 3,
+            "seconds": 0.021336583002266707,
+            "log": [
+                "실제 조건 평가 완료",
+                "실제 미션 보상 수령",
+                "중복 보상 지급 차단"
+            ]
+        },
+        {
+            "id": "mission/M003",
+            "title": "M003 · 잠을 자보자",
+            "category": "2.2 성장·미션",
+            "reason": "실제 검사 통과",
+            "utc": "2026-11-12T16:04:40.2191580Z",
+            "statusName": "PASS",
+            "status": 1,
+            "checks": 3,
+            "seconds": 0.02567066700066789,
+            "log": [
+                "실제 조건 평가 완료",
+                "실제 미션 보상 수령",
+                "중복 보상 지급 차단"
+            ]
+        },
+        {
+            "id": "mission/M004",
+            "title": "M004 · 배고픔을 해결해보자",
+            "category": "2.2 성장·미션",
+            "reason": "실제 검사 통과",
+            "utc": "2026-11-12T16:04:40.2498820Z",
+            "statusName": "PASS",
+            "status": 1,
+            "checks": 3,
+            "seconds": 0.021239916000922676,
+            "log": [
+                "실제 조건 평가 완료",
+                "실제 미션 보상 수령",
+                "중복 보상 지급 차단"
+            ]
+        },
+        {
+            "id": "mission/M005",
+            "title": "M005 · 갈증에서 벗어나자",
+            "category": "2.2 성장·미션",
+            "reason": "실제 검사 통과",
+            "utc": "2026-11-12T16:04:40.2773670Z",
+            "statusName": "PASS",
+            "status": 1,
+            "checks": 3,
+            "seconds": 0.019706874998519197,
+            "log": [
+                "실제 조건 평가 완료",
+                "실제 미션 보상 수령",
+                "중복 보상 지급 차단"
+            ]
+        },
+        {
+            "id": "mission/M006",
+            "title": "M006 · 휴식의 가치를 알아보자",
+            "category": "2.2 성장·미션",
+            "reason": "실제 검사 통과",
+            "utc": "2026-11-12T16:04:40.3026850Z",
+            "statusName": "PASS",
+            "status": 1,
+            "checks": 3,
+            "seconds": 0.022178416002134327,
+            "log": [
+                "실제 조건 평가 완료",
+                "실제 미션 보상 수령",
+                "중복 보상 지급 차단"
+            ]
+        },
+        {
+            "id": "mission/M007",
+            "title": "M007 · 건강한 인간이 되어보자",
+            "category": "2.2 성장·미션",
+            "reason": "실제 검사 통과",
+            "utc": "2026-11-12T16:04:40.3339460Z",
+            "statusName": "PASS",
+            "status": 1,
+            "checks": 3,
+            "seconds": 0.025863916001981124,
+            "log": [
+                "실제 조건 평가 완료",
+                "실제 미션 보상 수령",
+                "중복 보상 지급 차단"
+            ]
+        },
+        {
+            "id": "mission/M008",
+            "title": "M008 · 멘탈을 관리해보자",
+            "category": "2.2 성장·미션",
+            "reason": "실제 검사 통과",
+            "utc": "2026-11-12T16:04:40.3653750Z",
+            "statusName": "PASS",
+            "status": 1,
+            "checks": 3,
+            "seconds": 0.018805499999871245,
+            "log": [
+                "실제 조건 평가 완료",
+                "실제 미션 보상 수령",
+                "중복 보상 지급 차단"
+            ]
+        },
+        {
+            "id": "mission/M009",
+            "title": "M009 · 사흘 동안 살아남자",
+            "category": "2.2 성장·미션",
+            "reason": "실제 검사 통과",
+            "utc": "2026-11-12T16:04:40.3897160Z",
+            "statusName": "PASS",
+            "status": 1,
+            "checks": 3,
+            "seconds": 0.018716165999649093,
+            "log": [
+                "실제 조건 평가 완료",
+                "실제 미션 보상 수령",
+                "중복 보상 지급 차단"
+            ]
+        },
+        {
+            "id": "mission/M010",
+            "title": "M010 · 유아기 졸업",
+            "category": "2.2 성장·미션",
+            "reason": "실제 검사 통과",
+            "utc": "2026-11-12T16:04:40.4149110Z",
+            "statusName": "PASS",
+            "status": 1,
+            "checks": 3,
+            "seconds": 0.024085334000119474,
+            "log": [
+                "실제 조건 평가 완료",
+                "실제 미션 보상 수령",
+                "중복 보상 지급 차단"
+            ]
+        },
+        {
+            "id": "mission/M011",
+            "title": "M011 · 학교 입학",
+            "category": "2.2 성장·미션",
+            "reason": "실제 검사 통과",
+            "utc": "2026-11-12T16:04:40.4541880Z",
+            "statusName": "PASS",
+            "status": 1,
+            "checks": 3,
+            "seconds": 0.01898537499801023,
+            "log": [
+                "실제 조건 평가 완료",
+                "실제 미션 보상 수령",
+                "중복 보상 지급 차단"
+            ]
+        },
+        {
+            "id": "mission/M012",
+            "title": "M012 · 책 3권 읽기",
+            "category": "2.2 성장·미션",
+            "reason": "실제 검사 통과",
+            "utc": "2026-11-12T16:04:40.4789510Z",
+            "statusName": "PASS",
+            "status": 1,
+            "checks": 3,
+            "seconds": 0.018751499999780208,
+            "log": [
+                "실제 조건 평가 완료",
+                "실제 미션 보상 수령",
+                "중복 보상 지급 차단"
+            ]
+        },
+        {
+            "id": "mission/M013",
+            "title": "M013 · 지식 20 달성",
+            "category": "2.2 성장·미션",
+            "reason": "실제 검사 통과",
+            "utc": "2026-11-12T16:04:40.5034540Z",
+            "statusName": "PASS",
+            "status": 1,
+            "checks": 3,
+            "seconds": 0.018313584001589334,
+            "log": [
+                "실제 조건 평가 완료",
+                "실제 미션 보상 수령",
+                "중복 보상 지급 차단"
+            ]
+        },
+        {
+            "id": "mission/M014",
+            "title": "M014 · 친구 1명 만들기",
+            "category": "2.2 성장·미션",
+            "reason": "실제 검사 통과",
+            "utc": "2026-11-12T16:04:40.5275180Z",
+            "statusName": "PASS",
+            "status": 1,
+            "checks": 3,
+            "seconds": 0.023123042003135197,
+            "log": [
+                "실제 조건 평가 완료",
+                "실제 미션 보상 수령",
+                "중복 보상 지급 차단"
+            ]
+        },
+        {
+            "id": "mission/M015",
+            "title": "M015 · 사회성 15 달성",
+            "category": "2.2 성장·미션",
+            "reason": "실제 검사 통과",
+            "utc": "2026-11-12T16:04:40.5662780Z",
+            "statusName": "PASS",
+            "status": 1,
+            "checks": 3,
+            "seconds": 0.019184832999599166,
+            "log": [
+                "실제 조건 평가 완료",
+                "실제 미션 보상 수령",
+                "중복 보상 지급 차단"
+            ]
+        },
+        {
+            "id": "mission/M016",
+            "title": "M016 · 숙제 5회",
+            "category": "2.2 성장·미션",
+            "reason": "실제 검사 통과",
+            "utc": "2026-11-12T16:04:40.5915680Z",
+            "statusName": "PASS",
+            "status": 1,
+            "checks": 3,
+            "seconds": 0.018958417000249028,
+            "log": [
+                "실제 조건 평가 완료",
+                "실제 미션 보상 수령",
+                "중복 보상 지급 차단"
+            ]
+        },
+        {
+            "id": "mission/M017",
+            "title": "M017 · 시험 응시",
+            "category": "2.2 성장·미션",
+            "reason": "실제 검사 통과",
+            "utc": "2026-11-12T16:04:40.6167460Z",
+            "statusName": "PASS",
+            "status": 1,
+            "checks": 3,
+            "seconds": 0.018393250000372063,
+            "log": [
+                "실제 조건 평가 완료",
+                "실제 미션 보상 수령",
+                "중복 보상 지급 차단"
+            ]
+        },
+        {
+            "id": "mission/M018",
+            "title": "M018 · 첫 성적표 받기",
+            "category": "2.2 성장·미션",
+            "reason": "실제 검사 통과",
+            "utc": "2026-11-12T16:04:40.6414710Z",
+            "statusName": "PASS",
+            "status": 1,
+            "checks": 3,
+            "seconds": 0.021745499998360174,
+            "log": [
+                "실제 조건 평가 완료",
+                "실제 미션 보상 수령",
+                "중복 보상 지급 차단"
+            ]
+        },
+        {
+            "id": "mission/M019",
+            "title": "M019 · 방과 후 학습",
+            "category": "2.2 성장·미션",
+            "reason": "실제 검사 통과",
+            "utc": "2026-11-12T16:04:40.6792810Z",
+            "statusName": "PASS",
+            "status": 1,
+            "checks": 3,
+            "seconds": 0.019216000000596978,
+            "log": [
+                "실제 조건 평가 완료",
+                "실제 미션 보상 수령",
+                "중복 보상 지급 차단"
+            ]
+        },
+        {
+            "id": "mission/M020",
+            "title": "M020 · 12세 달성",
+            "category": "2.2 성장·미션",
+            "reason": "실제 검사 통과",
+            "utc": "2026-11-12T16:04:40.7044240Z",
+            "statusName": "PASS",
+            "status": 1,
+            "checks": 3,
+            "seconds": 0.01918508300150279,
+            "log": [
+                "실제 조건 평가 완료",
+                "실제 미션 보상 수령",
+                "중복 보상 지급 차단"
+            ]
+        },
+        {
+            "id": "mission/M021",
+            "title": "M021 · 중학교 입학",
+            "category": "2.2 성장·미션",
+            "reason": "실제 검사 통과",
+            "utc": "2026-11-12T16:04:40.7303970Z",
+            "statusName": "PASS",
+            "status": 1,
+            "checks": 3,
+            "seconds": 0.0183919170012814,
+            "log": [
+                "실제 조건 평가 완료",
+                "실제 미션 보상 수령",
+                "중복 보상 지급 차단"
+            ]
+        },
+        {
+            "id": "mission/M022",
+            "title": "M022 · 공부 10회 수행",
+            "category": "2.2 성장·미션",
+            "reason": "실제 검사 통과",
+            "utc": "2026-11-12T16:04:40.7558630Z",
+            "statusName": "PASS",
+            "status": 1,
+            "checks": 3,
+            "seconds": 0.0219931669998914,
+            "log": [
+                "실제 조건 평가 완료",
+                "실제 미션 보상 수령",
+                "중복 보상 지급 차단"
+            ]
+        },
+        {
+            "id": "mission/M023",
+            "title": "M023 · 지식 35 달성",
+            "category": "2.2 성장·미션",
+            "reason": "실제 검사 통과",
+            "utc": "2026-11-12T16:04:40.7880970Z",
+            "statusName": "PASS",
+            "status": 1,
+            "checks": 3,
+            "seconds": 0.026043375000881497,
+            "log": [
+                "실제 조건 평가 완료",
+                "실제 미션 보상 수령",
+                "중복 보상 지급 차단"
+            ]
+        },
+        {
+            "id": "mission/M024",
+            "title": "M024 · 헤드폰 첫 장착",
+            "category": "2.2 성장·미션",
+            "reason": "실제 검사 통과",
+            "utc": "2026-11-12T16:04:40.8202790Z",
+            "statusName": "PASS",
+            "status": 1,
+            "checks": 3,
+            "seconds": 0.018949707999126986,
+            "log": [
+                "실제 조건 평가 완료",
+                "실제 미션 보상 수령",
+                "중복 보상 지급 차단"
+            ]
+        },
+        {
+            "id": "mission/M025",
+            "title": "M025 · 장비 첫 장착",
+            "category": "2.2 성장·미션",
+            "reason": "실제 검사 통과",
+            "utc": "2026-11-12T16:04:40.8453700Z",
+            "statusName": "PASS",
+            "status": 1,
+            "checks": 3,
+            "seconds": 0.01868425000066054,
+            "log": [
+                "실제 조건 평가 완료",
+                "실제 미션 보상 수령",
+                "중복 보상 지급 차단"
+            ]
+        },
+        {
+            "id": "mission/M026",
+            "title": "M026 · 사회성 25 달성",
+            "category": "2.2 성장·미션",
+            "reason": "실제 검사 통과",
+            "utc": "2026-11-12T16:04:40.8700030Z",
+            "statusName": "PASS",
+            "status": 1,
+            "checks": 3,
+            "seconds": 0.018598916998598725,
+            "log": [
+                "실제 조건 평가 완료",
+                "실제 미션 보상 수령",
+                "중복 보상 지급 차단"
+            ]
+        },
+        {
+            "id": "mission/M027",
+            "title": "M027 · 시험 2회 응시",
+            "category": "2.2 성장·미션",
+            "reason": "실제 검사 통과",
+            "utc": "2026-11-12T16:04:40.8946810Z",
+            "statusName": "PASS",
+            "status": 1,
+            "checks": 3,
+            "seconds": 0.03288849999808008,
+            "log": [
+                "실제 조건 평가 완료",
+                "실제 미션 보상 수령",
+                "중복 보상 지급 차단"
+            ]
+        },
+        {
+            "id": "mission/M028",
+            "title": "M028 · 진로 선택",
+            "category": "2.2 성장·미션",
+            "reason": "실제 검사 통과",
+            "utc": "2026-11-12T16:04:40.9338800Z",
+            "statusName": "PASS",
+            "status": 1,
+            "checks": 3,
+            "seconds": 0.019453916000202298,
+            "log": [
+                "실제 조건 평가 완료",
+                "실제 미션 보상 수령",
+                "중복 보상 지급 차단"
+            ]
+        },
+        {
+            "id": "mission/M029",
+            "title": "M029 · 멘탈 40 이상 유지",
+            "category": "2.2 성장·미션",
+            "reason": "실제 검사 통과",
+            "utc": "2026-11-12T16:04:40.9598690Z",
+            "statusName": "PASS",
+            "status": 1,
+            "checks": 3,
+            "seconds": 0.018920082999102306,
+            "log": [
+                "실제 조건 평가 완료",
+                "실제 미션 보상 수령",
+                "중복 보상 지급 차단"
+            ]
+        },
+        {
+            "id": "mission/M030",
+            "title": "M030 · 청소년기 졸업",
+            "category": "2.2 성장·미션",
+            "reason": "실제 검사 통과",
+            "utc": "2026-11-12T16:04:40.9849440Z",
+            "statusName": "PASS",
+            "status": 1,
+            "checks": 3,
+            "seconds": 0.01884941699972842,
+            "log": [
+                "실제 조건 평가 완료",
+                "실제 미션 보상 수령",
+                "중복 보상 지급 차단"
+            ]
+        },
+        {
+            "id": "mission/M031",
+            "title": "M031 · 첫 이력서 작성",
+            "category": "2.2 성장·미션",
+            "reason": "실제 검사 통과",
+            "utc": "2026-11-12T16:04:41.0094390Z",
+            "statusName": "PASS",
+            "status": 1,
+            "checks": 3,
+            "seconds": 0.02170829199894797,
+            "log": [
+                "실제 조건 평가 완료",
+                "실제 미션 보상 수령",
+                "중복 보상 지급 차단"
+            ]
+        },
+        {
+            "id": "mission/M032",
+            "title": "M032 · 첫 면접 응시",
+            "category": "2.2 성장·미션",
+            "reason": "실제 검사 통과",
+            "utc": "2026-11-12T16:04:41.0414310Z",
+            "statusName": "PASS",
+            "status": 1,
+            "checks": 3,
+            "seconds": 0.029978000002301997,
+            "log": [
+                "실제 조건 평가 완료",
+                "실제 미션 보상 수령",
+                "중복 보상 지급 차단"
+            ]
+        },
+        {
+            "id": "mission/M033",
+            "title": "M033 · 첫 아르바이트 취업",
+            "category": "2.2 성장·미션",
+            "reason": "실제 검사 통과",
+            "utc": "2026-11-12T16:04:41.0775000Z",
+            "statusName": "PASS",
+            "status": 1,
+            "checks": 3,
+            "seconds": 0.020359499998448882,
+            "log": [
+                "실제 조건 평가 완료",
+                "실제 미션 보상 수령",
+                "중복 보상 지급 차단"
+            ]
+        },
+        {
+            "id": "mission/M034",
+            "title": "M034 · 첫 급여 수령",
+            "category": "2.2 성장·미션",
+            "reason": "실제 검사 통과",
+            "utc": "2026-11-12T16:04:41.1041020Z",
+            "statusName": "PASS",
+            "status": 1,
+            "checks": 3,
+            "seconds": 0.01895166599933873,
+            "log": [
+                "실제 조건 평가 완료",
+                "실제 미션 보상 수령",
+                "중복 보상 지급 차단"
+            ]
+        },
+        {
+            "id": "mission/M035",
+            "title": "M035 · 첫 세금 납부",
+            "category": "2.2 성장·미션",
+            "reason": "실제 검사 통과",
+            "utc": "2026-11-12T16:04:41.1294760Z",
+            "statusName": "PASS",
+            "status": 1,
+            "checks": 3,
+            "seconds": 0.018869125000492204,
+            "log": [
+                "실제 조건 평가 완료",
+                "실제 미션 보상 수령",
+                "중복 보상 지급 차단"
+            ]
+        },
+        {
+            "id": "mission/M036",
+            "title": "M036 · 부채 일부 상환",
+            "category": "2.2 성장·미션",
+            "reason": "실제 검사 통과",
+            "utc": "2026-11-12T16:04:41.1543450Z",
+            "statusName": "PASS",
+            "status": 1,
+            "checks": 3,
+            "seconds": 0.032317249999323394,
+            "log": [
+                "실제 조건 평가 완료",
+                "실제 미션 보상 수령",
+                "중복 보상 지급 차단"
+            ]
+        },
+        {
+            "id": "mission/M037",
+            "title": "M037 · 출근 3회 완료",
+            "category": "2.2 성장·미션",
+            "reason": "실제 검사 통과",
+            "utc": "2026-11-12T16:04:41.1926360Z",
+            "statusName": "PASS",
+            "status": 1,
+            "checks": 3,
+            "seconds": 0.01943895799922757,
+            "log": [
+                "실제 조건 평가 완료",
+                "실제 미션 보상 수령",
+                "중복 보상 지급 차단"
+            ]
+        },
+        {
+            "id": "mission/M038",
+            "title": "M038 · 주식 첫 매수",
+            "category": "2.2 성장·미션",
+            "reason": "실제 검사 통과",
+            "utc": "2026-11-12T16:04:41.2178490Z",
+            "statusName": "PASS",
+            "status": 1,
+            "checks": 3,
+            "seconds": 0.019099582998023834,
+            "log": [
+                "실제 조건 평가 완료",
+                "실제 미션 보상 수령",
+                "중복 보상 지급 차단"
+            ]
+        },
+        {
+            "id": "mission/M039",
+            "title": "M039 · 인생 이벤트 선택 3회",
+            "category": "2.2 성장·미션",
+            "reason": "미션에 필요한 서비스 미구현: EventChoices",
+            "utc": "2026-11-12T16:04:41.2427560Z",
+            "statusName": "NOT_IMPLEMENTED",
+            "status": 3,
+            "checks": 0,
+            "seconds": 0.00981566599875805,
+            "log": []
+        },
+        {
+            "id": "mission/M040",
+            "title": "M040 · 청년기 졸업",
+            "category": "2.2 성장·미션",
+            "reason": "실제 검사 통과",
+            "utc": "2026-11-12T16:04:41.2642150Z",
+            "statusName": "PASS",
+            "status": 1,
+            "checks": 3,
+            "seconds": 0.019122917001368478,
+            "log": [
+                "실제 조건 평가 완료",
+                "실제 미션 보상 수령",
+                "중복 보상 지급 차단"
+            ]
+        },
+        {
+            "id": "mission/M041",
+            "title": "M041 · 승진에 도전하기",
+            "category": "2.2 성장·미션",
+            "reason": "실제 검사 통과",
+            "utc": "2026-11-12T16:04:41.2933420Z",
+            "statusName": "PASS",
+            "status": 1,
+            "checks": 3,
+            "seconds": 0.03255945800265181,
+            "log": [
+                "실제 조건 평가 완료",
+                "실제 미션 보상 수령",
+                "중복 보상 지급 차단"
+            ]
+        },
+        {
+            "id": "mission/M042",
+            "title": "M042 · 저축 10,000G 달성",
+            "category": "2.2 성장·미션",
+            "reason": "실제 검사 통과",
+            "utc": "2026-11-12T16:04:41.3351140Z",
+            "statusName": "PASS",
+            "status": 1,
+            "checks": 3,
+            "seconds": 0.020776582998223603,
+            "log": [
+                "실제 조건 평가 완료",
+                "실제 미션 보상 수령",
+                "중복 보상 지급 차단"
+            ]
+        },
+        {
+            "id": "mission/M043",
+            "title": "M043 · 신용도 60 달성",
+            "category": "2.2 성장·미션",
+            "reason": "실제 검사 통과",
+            "utc": "2026-11-12T16:04:41.3646580Z",
+            "statusName": "PASS",
+            "status": 1,
+            "checks": 3,
+            "seconds": 0.02187716700063902,
+            "log": [
+                "실제 조건 평가 완료",
+                "실제 미션 보상 수령",
+                "중복 보상 지급 차단"
+            ]
+        },
+        {
+            "id": "mission/M044",
+            "title": "M044 · 첫 가구 구매",
+            "category": "2.2 성장·미션",
+            "reason": "실제 검사 통과",
+            "utc": "2026-11-12T16:04:41.3953960Z",
+            "statusName": "PASS",
+            "status": 1,
+            "checks": 3,
+            "seconds": 0.02010100000188686,
+            "log": [
+                "실제 조건 평가 완료",
+                "실제 미션 보상 수령",
+                "중복 보상 지급 차단"
+            ]
+        },
+        {
+            "id": "mission/M045",
+            "title": "M045 · 월세 납부",
+            "category": "2.2 성장·미션",
+            "reason": "실제 검사 통과",
+            "utc": "2026-11-12T16:04:41.4244820Z",
+            "statusName": "PASS",
+            "status": 1,
+            "checks": 3,
+            "seconds": 0.020841416997427586,
+            "log": [
+                "실제 조건 평가 완료",
+                "실제 미션 보상 수령",
+                "중복 보상 지급 차단"
+            ]
+        },
+        {
+            "id": "mission/M046",
+            "title": "M046 · 전세보증보험 알아보기",
+            "category": "2.2 성장·미션",
+            "reason": "실제 검사 통과",
+            "utc": "2026-11-12T16:04:41.4608820Z",
+            "statusName": "PASS",
+            "status": 1,
+            "checks": 3,
+            "seconds": 0.02983437500006403,
+            "log": [
+                "실제 조건 평가 완료",
+                "실제 미션 보상 수령",
+                "중복 보상 지급 차단"
+            ]
+        },
+        {
+            "id": "mission/M047",
+            "title": "M047 · 주식 첫 매도",
+            "category": "2.2 성장·미션",
+            "reason": "실제 검사 통과",
+            "utc": "2026-11-12T16:04:41.4995890Z",
+            "statusName": "PASS",
+            "status": 1,
+            "checks": 3,
+            "seconds": 0.020425124999746913,
+            "log": [
+                "실제 조건 평가 완료",
+                "실제 미션 보상 수령",
+                "중복 보상 지급 차단"
+            ]
+        },
+        {
+            "id": "mission/M048",
+            "title": "M048 · 투자 손익 확인",
+            "category": "2.2 성장·미션",
+            "reason": "실제 검사 통과",
+            "utc": "2026-11-12T16:04:41.5285480Z",
+            "statusName": "PASS",
+            "status": 1,
+            "checks": 3,
+            "seconds": 0.021845584000402596,
+            "log": [
+                "실제 조건 평가 완료",
+                "실제 미션 보상 수령",
+                "중복 보상 지급 차단"
+            ]
+        },
+        {
+            "id": "mission/M049",
+            "title": "M049 · 부채 원금 추가 상환",
+            "category": "2.2 성장·미션",
+            "reason": "실제 검사 통과",
+            "utc": "2026-11-12T16:04:41.5591320Z",
+            "statusName": "PASS",
+            "status": 1,
+            "checks": 3,
+            "seconds": 0.019757250000111526,
+            "log": [
+                "실제 조건 평가 완료",
+                "실제 미션 보상 수령",
+                "중복 보상 지급 차단"
+            ]
+        },
+        {
+            "id": "mission/M050",
+            "title": "M050 · 중년기 졸업",
+            "category": "2.2 성장·미션",
+            "reason": "실제 검사 통과",
+            "utc": "2026-11-12T16:04:41.5873310Z",
+            "statusName": "PASS",
+            "status": 1,
+            "checks": 3,
+            "seconds": 0.027230125000642147,
+            "log": [
+                "실제 조건 평가 완료",
+                "실제 미션 보상 수령",
+                "중복 보상 지급 차단"
+            ]
+        },
+        {
+            "id": "mission/M051",
+            "title": "M051 · 노년기 진입 확인",
+            "category": "2.2 성장·미션",
+            "reason": "미션에 필요한 서비스 미구현: Endings",
+            "utc": "2026-11-12T16:04:41.6278550Z",
+            "statusName": "NOT_IMPLEMENTED",
+            "status": 3,
+            "checks": 0,
+            "seconds": 0.009405832999618724,
+            "log": []
+        },
+        {
+            "id": "mission/M052",
+            "title": "M052 · 은퇴 여부 결정",
+            "category": "2.2 성장·미션",
+            "reason": "미션에 필요한 서비스 미구현: Endings",
+            "utc": "2026-11-12T16:04:41.6477250Z",
+            "statusName": "NOT_IMPLEMENTED",
+            "status": 3,
+            "checks": 0,
+            "seconds": 0.009330374999990454,
+            "log": []
+        },
+        {
+            "id": "mission/M053",
+            "title": "M053 · 생존 능력치 관리",
+            "category": "2.2 성장·미션",
+            "reason": "미션에 필요한 서비스 미구현: Endings",
+            "utc": "2026-11-12T16:04:41.6690070Z",
+            "statusName": "NOT_IMPLEMENTED",
+            "status": 3,
+            "checks": 0,
+            "seconds": 0.009138875000644475,
+            "log": []
+        },
+        {
+            "id": "mission/M054",
+            "title": "M054 · 과거 인생 이벤트 회상",
+            "category": "2.2 성장·미션",
+            "reason": "미션에 필요한 서비스 미구현: EventChoices",
+            "utc": "2026-11-12T16:04:41.6917100Z",
+            "statusName": "NOT_IMPLEMENTED",
+            "status": 3,
+            "checks": 0,
+            "seconds": 0.009279625002818648,
+            "log": []
+        },
+        {
+            "id": "mission/M055",
+            "title": "M055 · 누적 소득 확인",
+            "category": "2.2 성장·미션",
+            "reason": "미션에 필요한 서비스 미구현: Endings",
+            "utc": "2026-11-12T16:04:41.7222560Z",
+            "statusName": "NOT_IMPLEMENTED",
+            "status": 3,
+            "checks": 0,
+            "seconds": 0.016119374999107094,
+            "log": []
+        },
+        {
+            "id": "mission/M056",
+            "title": "M056 · 사회성 50 달성",
+            "category": "2.2 성장·미션",
+            "reason": "미션에 필요한 서비스 미구현: Endings",
+            "utc": "2026-11-12T16:04:41.7543920Z",
+            "statusName": "NOT_IMPLEMENTED",
+            "status": 3,
+            "checks": 0,
+            "seconds": 0.009251125000446336,
+            "log": []
+        },
+        {
+            "id": "mission/M057",
+            "title": "M057 · 주요 업적 5개 달성",
+            "category": "2.2 성장·미션",
+            "reason": "미션에 필요한 서비스 미구현: Achievements",
+            "utc": "2026-11-12T16:04:41.7815260Z",
+            "statusName": "NOT_IMPLEMENTED",
+            "status": 3,
+            "checks": 0,
+            "seconds": 0.00926712499858695,
+            "log": []
+        },
+        {
+            "id": "mission/M058",
+            "title": "M058 · 남은 부채 확인",
+            "category": "2.2 성장·미션",
+            "reason": "미션에 필요한 서비스 미구현: Endings",
+            "utc": "2026-11-12T16:04:41.8164540Z",
+            "statusName": "NOT_IMPLEMENTED",
+            "status": 3,
+            "checks": 0,
+            "seconds": 0.017769375001080334,
+            "log": []
+        },
+        {
+            "id": "mission/M059",
+            "title": "M059 · 최종 인생 평가 신청",
+            "category": "2.2 성장·미션",
+            "reason": "미션에 필요한 서비스 미구현: Endings",
+            "utc": "2026-11-12T16:04:41.8554240Z",
+            "statusName": "NOT_IMPLEMENTED",
+            "status": 3,
+            "checks": 0,
+            "seconds": 0.010143374998733634,
+            "log": []
+        },
+        {
+            "id": "mission/M060",
+            "title": "M060 · 생애 평가 완료",
+            "category": "2.2 성장·미션",
+            "reason": "미션에 필요한 서비스 미구현: Endings",
+            "utc": "2026-11-12T16:04:41.8880480Z",
+            "statusName": "NOT_IMPLEMENTED",
+            "status": 3,
+            "checks": 0,
+            "seconds": 0.009963999997125939,
+            "log": []
+        },
+        {
+            "id": "education/study",
+            "title": "입학·공부·진학 조건",
+            "category": "2.3 교육·직업",
+            "reason": "실제 검사 통과",
+            "utc": "2026-11-12T16:04:41.9347620Z",
+            "statusName": "PASS",
+            "status": 1,
+            "checks": 2,
+            "seconds": 0.6801844999972673,
+            "log": [
+                "실제 입학 행동",
+                "실제 공부와 교육 경험"
+            ]
+        },
+        {
+            "id": "jobs/hire",
+            "title": "이력서·면접·직업 변경·급여",
+            "category": "2.3 교육·직업",
+            "reason": "실제 검사 통과",
+            "utc": "2026-11-12T16:04:42.6326630Z",
+            "statusName": "PASS",
+            "status": 1,
+            "checks": 4,
+            "seconds": 1.0074164170000586,
+            "log": [
+                "실제 이력서",
+                "난수 입력 고정 후 실제 채용",
+                "실제 근무 급여",
+                "실제 퇴사/직업 변경"
+            ]
+        },
+        {
+            "id": "social/talk",
+            "title": "사회관계 변화",
+            "category": "2.3 교육·직업",
+            "reason": "실제 검사 통과",
+            "utc": "2026-11-12T16:04:43.6612190Z",
+            "statusName": "PASS",
+            "status": 1,
+            "checks": 2,
+            "seconds": 0.9596799580031075,
+            "log": [
+                "실제 대화 활동",
+                "실제 호감도 변화"
+            ]
+        },
+        {
+            "id": "idle/Work",
+            "title": "자동 Work · 오프라인·중복 방지",
+            "category": "2.4 자동·오프라인",
+            "reason": "실제 검사 통과",
+            "utc": "2026-11-12T16:04:44.6371170Z",
+            "statusName": "PASS",
+            "status": 1,
+            "checks": 6,
+            "seconds": 0.9673747079978057,
+            "log": [
+                "실제 자동 활동 시작",
+                "실제 오프라인 주기 정산",
+                "실제 완료 주기 기록",
+                "실제 자동 급여",
+                "동일 주입 시각 재정산 보상 없음",
+                "실제 자동 활동 중지"
+            ]
+        },
+        {
+            "id": "idle/Study",
+            "title": "자동 Study · 오프라인·중복 방지",
+            "category": "2.4 자동·오프라인",
+            "reason": "실제 검사 통과",
+            "utc": "2026-11-12T16:04:45.6224680Z",
+            "statusName": "PASS",
+            "status": 1,
+            "checks": 6,
+            "seconds": 1.0026812920004886,
+            "log": [
+                "자동 공부 입학 조건",
+                "실제 자동 활동 시작",
+                "실제 오프라인 주기 정산",
+                "실제 완료 주기 기록",
+                "동일 주입 시각 재정산 보상 없음",
+                "실제 자동 활동 중지"
+            ]
+        },
+        {
+            "id": "idle/Battle",
+            "title": "자동 Battle · 오프라인·중복 방지",
+            "category": "2.4 자동·오프라인",
+            "reason": "실제 검사 통과",
+            "utc": "2026-11-12T16:04:46.6426920Z",
+            "statusName": "PASS",
+            "status": 1,
+            "checks": 5,
+            "seconds": 0.9937950839994301,
+            "log": [
+                "실제 자동 활동 시작",
+                "실제 오프라인 주기 정산",
+                "실제 완료 주기 기록",
+                "동일 주입 시각 재정산 보상 없음",
+                "실제 자동 활동 중지"
+            ]
+        },
+        {
+            "id": "offline/1",
+            "title": "오프라인 1시간",
+            "category": "2.4 자동·오프라인",
+            "reason": "실제 검사 통과",
+            "utc": "2026-11-12T16:04:47.6543810Z",
+            "statusName": "PASS",
+            "status": 1,
+            "checks": 5,
+            "seconds": 0.987517082998238,
+            "log": [
+                "자동 노동 준비",
+                "주입 시간 오프라인 정산",
+                "기존 오프라인 상한",
+                "실제 완료/자원 소모 반영",
+                "동일 시각 보상 중복 없음"
+            ]
+        },
+        {
+            "id": "offline/24",
+            "title": "오프라인 24시간",
+            "category": "2.4 자동·오프라인",
+            "reason": "실제 검사 통과",
+            "utc": "2026-11-12T16:04:48.6591660Z",
+            "statusName": "PASS",
+            "status": 1,
+            "checks": 5,
+            "seconds": 0.1013674580026418,
+            "log": [
+                "자동 노동 준비",
+                "주입 시간 오프라인 정산",
+                "기존 오프라인 상한",
+                "실제 완료/자원 소모 반영",
+                "동일 시각 보상 중복 없음"
+            ]
+        },
+        {
+            "id": "offline/168",
+            "title": "오프라인 168시간",
+            "category": "2.4 자동·오프라인",
+            "reason": "실제 검사 통과",
+            "utc": "2026-11-12T16:04:48.7872170Z",
+            "statusName": "PASS",
+            "status": 1,
+            "checks": 5,
+            "seconds": 0.10237220900307875,
+            "log": [
+                "자동 노동 준비",
+                "주입 시간 오프라인 정산",
+                "기존 오프라인 상한",
+                "실제 완료/자원 소모 반영",
+                "동일 시각 보상 중복 없음"
+            ]
+        },
+        {
+            "id": "time/1",
+            "title": "게임 시간 1일",
+            "category": "2.4 자동·오프라인",
+            "reason": "실제 검사 통과",
+            "utc": "2026-11-12T16:04:48.9099810Z",
+            "statusName": "PASS",
+            "status": 1,
+            "checks": 1,
+            "seconds": 0.015731292001873953,
+            "log": [
+                "각 일자를 실제 시간 서비스로 진행 (생존 자원 fixture 회복)"
+            ]
+        },
+        {
+            "id": "time/7",
+            "title": "게임 시간 7일",
+            "category": "2.4 자동·오프라인",
+            "reason": "실제 검사 통과",
+            "utc": "2026-11-12T16:04:48.9501100Z",
+            "statusName": "PASS",
+            "status": 1,
+            "checks": 1,
+            "seconds": 0.05414079099864466,
+            "log": [
+                "각 일자를 실제 시간 서비스로 진행 (생존 자원 fixture 회복)"
+            ]
+        },
+        {
+            "id": "time/30",
+            "title": "게임 시간 30일",
+            "category": "2.4 자동·오프라인",
+            "reason": "실제 검사 통과",
+            "utc": "2026-11-12T16:04:49.0258910Z",
+            "statusName": "PASS",
+            "status": 1,
+            "checks": 1,
+            "seconds": 0.1773131670015573,
+            "log": [
+                "각 일자를 실제 시간 서비스로 진행 (생존 자원 fixture 회복)"
+            ]
+        },
+        {
+            "id": "finance/tax",
+            "title": "급여·세금·체납",
+            "category": "2.5 경제",
+            "reason": "실제 검사 통과",
+            "utc": "2026-11-12T16:04:49.2287620Z",
+            "statusName": "PASS",
+            "status": 1,
+            "checks": 3,
+            "seconds": 0.033691208001982886,
+            "log": [
+                "기존 급여 지급",
+                "체납 비용 발생",
+                "실제 세금 납부"
+            ]
+        },
+        {
+            "id": "finance/asset-bounds",
+            "title": "순자산 극값·미납 합계 무결성",
+            "category": "2.5 경제",
+            "reason": "실제 검사 통과",
+            "utc": "2026-11-12T16:04:49.2840100Z",
+            "statusName": "PASS",
+            "status": 1,
+            "checks": 3,
+            "seconds": 0.012457457996788435,
+            "log": [
+                "최대 부채와 미납에서 순자산 부호 역전 방지",
+                "경계값 저장 유효성",
+                "미납 합계 오버플로 데이터 거부"
+            ]
+        },
+        {
+            "id": "finance/debt",
+            "title": "부채·이자·신용·상환",
+            "category": "2.5 경제",
+            "reason": "실제 검사 통과",
+            "utc": "2026-11-12T16:04:49.3179710Z",
+            "statusName": "PASS",
+            "status": 1,
+            "checks": 3,
+            "seconds": 0.01705874999970547,
+            "log": [
+                "기존 이자 발생",
+                "중복 이자 없음",
+                "실제 전액 상환과 신용 회복"
+            ]
+        },
+        {
+            "id": "stocks/up",
+            "title": "주가 +10%·매수·전량 매도",
+            "category": "2.5 경제",
+            "reason": "실제 검사 통과",
+            "utc": "2026-11-12T16:04:49.3561960Z",
+            "statusName": "PASS",
+            "status": 1,
+            "checks": 5,
+            "seconds": 0.014752499999303836,
+            "log": [
+                "실제 매수",
+                "테스트 시세 입력 적용",
+                "평가 손익 방향",
+                "실제 전량 매도와 최종 현금",
+                "보유량 없는 중복 매도 거부"
+            ]
+        },
+        {
+            "id": "stocks/down",
+            "title": "주가 -10%·손실",
+            "category": "2.5 경제",
+            "reason": "실제 검사 통과",
+            "utc": "2026-11-12T16:04:49.3909300Z",
+            "statusName": "PASS",
+            "status": 1,
+            "checks": 5,
+            "seconds": 0.014214124999853084,
+            "log": [
+                "실제 매수",
+                "테스트 시세 입력 적용",
+                "평가 손익 방향",
+                "실제 전량 매도와 최종 현금",
+                "보유량 없는 중복 매도 거부"
+            ]
+        },
+        {
+            "id": "stocks/news",
+            "title": "경제 뉴스·시세 영향",
+            "category": "2.5 경제",
+            "reason": "실제 검사 통과",
+            "utc": "2026-11-12T16:04:49.4247830Z",
+            "statusName": "PASS",
+            "status": 1,
+            "checks": 2,
+            "seconds": 0.011249457998928847,
+            "log": [
+                "기존 경제 뉴스 발행",
+                "동일 난수/시각에서 경기 뉴스 가격 영향"
+            ]
+        },
+        {
+            "id": "equipment/starter",
+            "title": "스타터 헤드폰·장비 장착",
+            "category": "2.6 월드·장비",
+            "reason": "실제 검사 통과",
+            "utc": "2026-11-12T16:04:49.4550710Z",
+            "statusName": "PASS",
+            "status": 1,
+            "checks": 4,
+            "seconds": 0.9755789160008135,
+            "log": [
+                "스타터 보상 게이트웨이",
+                "스타터 보상 게이트웨이",
+                "실제 장착 행동",
+                "장착 상태 및 중복 장착 거부"
+            ]
+        },
+        {
+            "id": "gacha/draw",
+            "title": "가챠·확률·중복 보상",
+            "category": "2.6 월드·장비",
+            "reason": "정식 가챠 서비스/확률표 미구현. 가챠권 pending entitlement를 가챠 실행 성공으로 표시하지 않습니다.",
+            "utc": "2026-11-12T16:04:50.4454570Z",
+            "statusName": "NOT_IMPLEMENTED",
+            "status": 3,
+            "checks": 0,
+            "seconds": 4.2000465327873826e-8,
+            "log": []
+        },
+        {
+            "id": "equipment/stats",
+            "title": "장비 해제·확장 능력치",
+            "category": "2.6 월드·장비",
+            "reason": "현재 스타터 장착 경로만 구현됨. 정식 해제/확장 장비 스탯 서비스 미구현.",
+            "utc": "2026-11-12T16:04:50.4622370Z",
+            "statusName": "NOT_IMPLEMENTED",
+            "status": 3,
+            "checks": 0,
+            "seconds": 4.1000021155923605e-8,
+            "log": []
+        },
+        {
+            "id": "world/visual",
+            "title": "문·걷기·애니메이션 품질",
+            "category": "2.6 월드·장비",
+            "reason": "생활 월드에서 실제 문/발걸음/가림을 관찰하세요. 시각적 품질은 자동 PASS 처리하지 않습니다.",
+            "utc": "2026-11-12T16:04:50.4781860Z",
+            "statusName": "MANUAL",
+            "status": 5,
+            "checks": 0,
+            "seconds": 1.2500095181167126e-7,
+            "log": []
+        },
+        {
+            "id": "property/trade",
+            "title": "매물·매매·손익",
+            "category": "2.7 부동산",
+            "reason": "실제 검사 통과",
+            "utc": "2026-11-12T16:04:50.4917610Z",
+            "statusName": "PASS",
+            "status": 1,
+            "checks": 5,
+            "seconds": 0.013255917001515627,
+            "log": [
+                "실제 6개 매물",
+                "매수",
+                "중복 소유 차단",
+                "동일 시세 매각",
+                "중복 매각 차단"
+            ]
+        },
+        {
+            "id": "property/Jeonse",
+            "title": "전세·보증금 반환",
+            "category": "2.7 부동산",
+            "reason": "실제 검사 통과",
+            "utc": "2026-11-12T16:04:50.5200480Z",
+            "statusName": "PASS",
+            "status": 1,
+            "checks": 5,
+            "seconds": 0.030272125000919914,
+            "log": [
+                "실제 계약",
+                "반환 보증금 자산",
+                "중복 월세/관리비 방지",
+                "보증금 반환",
+                "이중 반환 거부"
+            ]
+        },
+        {
+            "id": "property/MonthlyRent",
+            "title": "월세·관리비·납부",
+            "category": "2.7 부동산",
+            "reason": "실제 검사 통과",
+            "utc": "2026-11-12T16:04:50.5730080Z",
+            "statusName": "PASS",
+            "status": 1,
+            "checks": 6,
+            "seconds": 0.01756070899864426,
+            "log": [
+                "실제 계약",
+                "반환 보증금 자산",
+                "중복 월세/관리비 방지",
+                "기존 월세 미션",
+                "보증금 반환",
+                "이중 반환 거부"
+            ]
+        },
+        {
+            "id": "property/loan",
+            "title": "주거 대출·상환",
+            "category": "2.7 부동산",
+            "reason": "실제 검사 통과",
+            "utc": "2026-11-12T16:04:50.6052320Z",
+            "statusName": "PASS",
+            "status": 1,
+            "checks": 3,
+            "seconds": 0.018080624999129213,
+            "log": [
+                "기존 계정 대출",
+                "기존 서비스 상환",
+                "기존 성장 시스템의 미성년 대출 제한"
+            ]
+        },
+        {
+            "id": "property/market-save",
+            "title": "시세·저장·오프라인",
+            "category": "2.7 부동산",
+            "reason": "실제 검사 통과",
+            "utc": "2026-11-12T16:04:50.6384550Z",
+            "statusName": "PASS",
+            "status": 1,
+            "checks": 2,
+            "seconds": 0.021607292001135647,
+            "log": [
+                "소유 fixture",
+                "시세/소유권/납부 워터마크 디스크 복원"
+            ]
+        },
+        {
+            "id": "property/offline-rent",
+            "title": "오프라인 노동 → 월세·관리비 정산",
+            "category": "2.7 부동산",
+            "reason": "실제 검사 통과",
+            "utc": "2026-11-12T16:04:50.6734930Z",
+            "statusName": "PASS",
+            "status": 1,
+            "checks": 5,
+            "seconds": 0.9880882920006115,
+            "log": [
+                "월세 계약",
+                "실제 자동 노동 오프라인 정산",
+                "실제 날짜 이벤트를 통해 월세/관리비 납부",
+                "오프라인 납부가 기존 월세 미션에 반영",
+                "같은 오프라인 시각에 비용/보상 중복 없음"
+            ]
+        },
+        {
+            "id": "property/recovery",
+            "title": "주거 회복 효과",
+            "category": "2.7 부동산",
+            "reason": "기존 체력/정신력 회복",
+            "utc": "2026-11-12T16:04:51.6736650Z",
+            "statusName": "FAIL",
+            "status": 2,
+            "checks": 1,
+            "seconds": 0.017341707996820332,
+            "log": [
+                "주택 구매/입주"
+            ]
+        },
+        {
+            "id": "growth/world-access",
+            "title": "연령별 월드·금융 실행 제한",
+            "category": "2.2 성장·미션",
+            "reason": "실제 검사 통과",
+            "utc": "2026-11-12T16:04:51.7039080Z",
+            "statusName": "PASS",
+            "status": 1,
+            "checks": 14,
+            "seconds": 0.018476790999557124,
+            "log": [
+                "아동기 외출 경계 0",
+                "성인 회사 경계 0",
+                "주식 함수 연령 차단 0",
+                "아동기 외출 경계 6",
+                "성인 회사 경계 6",
+                "주식 함수 연령 차단 6",
+                "아동기 외출 경계 7",
+                "성인 회사 경계 7",
+                "주식 함수 연령 차단 7",
+                "아동기 외출 경계 18",
+                "성인 회사 경계 18",
+                "주식 함수 연령 차단 18",
+                "아동기 외출 경계 19",
+                "성인 회사 경계 19"
+            ]
+        },
+        {
+            "id": "world/facility-layout",
+            "title": "업무 좌석·금융시설 배치",
+            "category": "월드·시설",
+            "reason": "실제 검사 통과",
+            "utc": "2026-11-12T16:04:51.7364840Z",
+            "statusName": "PASS",
+            "status": 1,
+            "checks": 17,
+            "seconds": 0.685050209001929,
+            "log": [
+                "LifeWorld is loaded",
+                "Nine employees and nine assigned facility workstations retained",
+                "Seat ownership IDs are unique",
+                "Assigned work schedule: colleague",
+                "Assigned work schedule: resident-0",
+                "Assigned work schedule: resident-1",
+                "Assigned work schedule: resident-3",
+                "Assigned work schedule: resident-4",
+                "Assigned work schedule: resident-5",
+                "Assigned work schedule: resident-6",
+                "Assigned work schedule: resident-8",
+                "Assigned work schedule: resident-9",
+                "Stock terminal is in finance interior",
+                "Property terminal is in agency interior",
+                "Bidirectional facility route: finance",
+                "Bidirectional facility route: realestate",
+                "Bidirectional facility route: office-bathroom"
+            ]
+        },
+        {
+            "id": "world/door-lease",
+            "title": "문 요청·고정 프레임·충돌",
+            "category": "월드·시설",
+            "reason": "실제 검사 통과",
+            "utc": "2026-11-12T16:04:52.4291280Z",
+            "statusName": "PASS",
+            "status": 1,
+            "checks": 5,
+            "seconds": 0.011811249998572748,
+            "log": [
+                "Actual door lease accepted",
+                "Denied lease preserves active animation",
+                "Opening releases collision at full aperture",
+                "DoorRoot and frame remain fixed",
+                "Approach sides are distinguished"
+            ]
+        },
+        {
+            "id": "world/activity-art",
+            "title": "업무 방향·착석·미술 품질",
+            "category": "월드·시설",
+            "reason": "실제 Game View에서 책상 방향, NPC의 발걸음·좌석과 업무 동작을 확인하세요. 업무 중에는 정면 업무석 프레임을 사용합니다. 착석/기립의 전면 연결과 미술 품질은 수동 확인이 필요합니다.",
+            "utc": "2026-11-12T16:04:52.4521100Z",
+            "statusName": "MANUAL",
+            "status": 5,
+            "checks": 0,
+            "seconds": 4.2000465327873826e-8,
+            "log": []
+        }
+    ]
+}

@@ -20,7 +20,7 @@ public class EmploymentService {
  if(action==22){var c=j.PromotionConditions;int count=p.work.Count(w=>w.jobId==j.JobId);if(p.rank>=c.maxRank||p.experience<c.experience*(p.rank+1)||count<c.workCount*(p.rank+1)||owner.Game.stats.Knowledge<c.knowledge||owner.Game.stats.Social<c.social){reason="승진에 필요한 경력·근무·지식·사회성이 부족합니다.";return false;}}
  return true;
  }
- public void Complete(int action,string id){var p=Progress;string job=p.currentJobId;bool success=true;string kind="";
+ internal void Complete(int action,string id){if(!Can(action,out _))return;var p=Progress;string job=p.currentJobId;bool success=true;string kind="";
  switch(action){
  case 20:p.resumeWritten=true;kind="resume";owner.Signal(id,MissionCounter.ResumeWritten);break;
  case 21:job=p.selectedJobId;success=owner.Roll()<InterviewChance(owner.catalog.Job(job));kind="interview";owner.Signal(id+"/interview",MissionCounter.Interviews);if(success){p.currentJobId=job;p.rank=0;p.strikes=0;owner.Signal(id+"/hired",MissionCounter.Employment);}owner.Game.Log(success?"채용되었습니다. 자유시간이 퇴사했습니다.":"면접 탈락. 공부·대화·휴식 후 다시 지원할 수 있습니다.");break;
@@ -37,7 +37,7 @@ public class EmploymentService {
 public class WorkActivityService {
  readonly Phase23Services owner;public WorkActivityService(Phase23Services value){owner=value;}
  public int Wage {get{var j=owner.Jobs.Current;return j==null?0:Math.Max(0,j.BaseDailyWage+owner.Progress.employment.rank*j.PromotionConditions.wageIncrease);}}
- internal void Complete(string id){var p=owner.Progress.employment;if(p.work.Any(w=>w.id==id))return;var j=owner.Jobs.Current;
+ internal void Complete(string id){if(!owner.Game.growth.EmploymentUnlocked)return;var p=owner.Progress.employment;if(p.work.Any(w=>w.id==id))return;var j=owner.Jobs.Current;
  var record=new WorkRecord{id=id,jobId=j.JobId,day=owner.Game.clock.Day,wage=Wage};p.work.Add(record);p.workCount++;p.experience+=j.ExperienceReward;
  owner.Signal(id+"/work",MissionCounter.Work);Pay(record.id);var events=j.SpecialEventIds;if(events!=null&&events.Length>0&&owner.Roll()<.25f)owner.Game.Log(events[Math.Min(events.Length-1,(int)(owner.Roll()*events.Length))]);owner.Employment.EvaluateDismissal(id);
  }
