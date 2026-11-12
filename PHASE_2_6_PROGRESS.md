@@ -1,3 +1,15 @@
+# ADVANCED OVERHAUL 추가 필수 작업 — 2026-11-12
+
+## 현재 Priority 1: 애니메이션/NPC 문워크 원인 수정 중
+- 기존 HEAD 1766e16 / 실제 프로젝트 `/Users/hyunwol/IanGrowing`, Unity 6000.6.8f1 ARM64. 기존 작업/사용자 변경 보존.
+- 수정 전 로컬 복구 ZIP: DevelopmentBackups/Advanced-Before-20261112.zip, 무결성 확인.
+- 필수 범위: 고급 행동 애니메이션, 실제 문/전환, Android+iOS/접힘 화면, NPC 방향 동기화/일정/저장/오프스크린.
+- 확인: Android/iOS Editor 모듈 지원 true. xcode-select는 CommandLineTools, xcodebuild 미설치. 실제 기기 검증과 Editor/빌드 검증을 구분.
+- 원인 후보: WorldStreetLife는 단일 우향 프레임을 상하 이동에도 사용, 세로 이동 FlipX가 경로 인덱스 기반. WorldNPCScheduler는 시간표가 구역을 바꾸면 즉시 위치를 바꾸며 실제 출입 과정 없음.
+- 다음 순서: 실제 방향 프레임/속도 기반 공통 재생 → 문 상태/충돌/출입 연출 → 터치/화면 재구성 → NPC 개인 일정·포털 경로·저장 → Play/빌드 검증.
+- 완료 아님: 신규 추가 범위의 전체 기능/플랫폼은 아직 미검증.
+
+---
 # MASTER DIRECTIVE — macOS 재개 (2026-11-12)
 
 ## 현재 Stage: 9 이번 변경 보존 완료 — 전체 상업용 완성 아님

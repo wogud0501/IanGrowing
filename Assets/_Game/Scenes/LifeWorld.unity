@@ -8513,6 +8513,7 @@ GameObject:
   - component: {fileID: 186109975}
   - component: {fileID: 186109974}
   - component: {fileID: 186109973}
+  - component: {fileID: 186109977}
   m_Layer: 0
   m_Name: Ian / official playable character
   m_TagString: Untagged
@@ -8542,9 +8543,11 @@ MonoBehaviour:
   locomotion: {fileID: 1265790236}
   walkSet: {fileID: 11400000, guid: e04c744d3159bf446b8bd430a173c88e, type: 2}
   contactShadow: {fileID: 659058472}
+  advanced: {fileID: 186109977}
   visualScale: 0.8
   acceleration: 40
   braking: 64
+  runMultiplier: 1.65
 --- !u!58 &186109974
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -8626,6 +8629,21 @@ Transform:
   - {fileID: 659058473}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &186109977
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 186109972}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ddc9eb9bc0424b3c887e012dda70a6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IanGame.WorldActorAnimation
+  library: {fileID: 11400000, guid: bdb276a2e1f51449799ed882c852f5a6, type: 2}
+  visual: {fileID: 1265790235}
+  legacyAnimator: {fileID: 1265790236}
 --- !u!1 &189490358
 GameObject:
   m_ObjectHideFlags: 0
@@ -13593,6 +13611,7 @@ GameObject:
   m_Component:
   - component: {fileID: 278881149}
   - component: {fileID: 278881150}
+  - component: {fileID: 278881151}
   m_Layer: 0
   m_Name: Citizen 1
   m_TagString: Untagged
@@ -13642,7 +13661,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
+  - {fileID: 2100000, guid: f89d76783bc7ebf43b282c75d6bae503, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -13676,6 +13695,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
   m_BlendShapeWeights: []
+--- !u!114 &278881151
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 278881148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ddc9eb9bc0424b3c887e012dda70a6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IanGame.WorldActorAnimation
+  library: {fileID: 11400000, guid: 0767c8e9b91b74b279a6f36a21050a93, type: 2}
+  visual: {fileID: 278881150}
+  legacyAnimator: {fileID: 0}
 --- !u!1 &280597334
 GameObject:
   m_ObjectHideFlags: 0
@@ -16302,6 +16336,7 @@ GameObject:
   m_Component:
   - component: {fileID: 325005021}
   - component: {fileID: 325005022}
+  - component: {fileID: 325005023}
   m_Layer: 0
   m_Name: Citizen 9
   m_TagString: Untagged
@@ -16351,7 +16386,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
+  - {fileID: 2100000, guid: f89d76783bc7ebf43b282c75d6bae503, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -16385,6 +16420,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
   m_BlendShapeWeights: []
+--- !u!114 &325005023
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 325005020}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ddc9eb9bc0424b3c887e012dda70a6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IanGame.WorldActorAnimation
+  library: {fileID: 11400000, guid: 0767c8e9b91b74b279a6f36a21050a93, type: 2}
+  visual: {fileID: 325005022}
+  legacyAnimator: {fileID: 0}
 --- !u!1 &328472654
 GameObject:
   m_ObjectHideFlags: 0
@@ -19232,6 +19282,7 @@ GameObject:
   - component: {fileID: 374895827}
   - component: {fileID: 374895828}
   - component: {fileID: 374895829}
+  - component: {fileID: 374895830}
   m_Layer: 0
   m_Name: npc-0
   m_TagString: Untagged
@@ -19282,7 +19333,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
+  - {fileID: 2100000, guid: f89d76783bc7ebf43b282c75d6bae503, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -19342,6 +19393,21 @@ MonoBehaviour:
   activityEffect: {fileID: 0}
   animateDoorLeaf: 1
   UsePoint: {x: 0, y: -0.1}
+--- !u!114 &374895830
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 374895826}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ddc9eb9bc0424b3c887e012dda70a6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IanGame.WorldActorAnimation
+  library: {fileID: 11400000, guid: 4d251d34a4b9b4dd280859fa9b30cdc5, type: 2}
+  visual: {fileID: 374895828}
+  legacyAnimator: {fileID: 0}
 --- !u!1 &378209598
 GameObject:
   m_ObjectHideFlags: 0
@@ -26947,6 +27013,7 @@ GameObject:
   m_Component:
   - component: {fileID: 500754008}
   - component: {fileID: 500754009}
+  - component: {fileID: 500754010}
   m_Layer: 0
   m_Name: Citizen 5
   m_TagString: Untagged
@@ -26996,7 +27063,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
+  - {fileID: 2100000, guid: f89d76783bc7ebf43b282c75d6bae503, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -27030,6 +27097,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
   m_BlendShapeWeights: []
+--- !u!114 &500754010
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 500754007}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ddc9eb9bc0424b3c887e012dda70a6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IanGame.WorldActorAnimation
+  library: {fileID: 11400000, guid: 0767c8e9b91b74b279a6f36a21050a93, type: 2}
+  visual: {fileID: 500754009}
+  legacyAnimator: {fileID: 0}
 --- !u!1 &502231469
 GameObject:
   m_ObjectHideFlags: 0
@@ -41945,6 +42027,7 @@ GameObject:
   m_Component:
   - component: {fileID: 772217383}
   - component: {fileID: 772217384}
+  - component: {fileID: 772217385}
   m_Layer: 0
   m_Name: Citizen 7
   m_TagString: Untagged
@@ -41994,7 +42077,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
+  - {fileID: 2100000, guid: f89d76783bc7ebf43b282c75d6bae503, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -42028,6 +42111,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
   m_BlendShapeWeights: []
+--- !u!114 &772217385
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 772217382}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ddc9eb9bc0424b3c887e012dda70a6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IanGame.WorldActorAnimation
+  library: {fileID: 11400000, guid: caa1a24b2b2f14def9c286f44e83de15, type: 2}
+  visual: {fileID: 772217384}
+  legacyAnimator: {fileID: 0}
 --- !u!1 &774345423
 GameObject:
   m_ObjectHideFlags: 0
@@ -57842,6 +57940,7 @@ GameObject:
   - component: {fileID: 1098322679}
   - component: {fileID: 1098322680}
   - component: {fileID: 1098322681}
+  - component: {fileID: 1098322682}
   m_Layer: 0
   m_Name: npc-1
   m_TagString: Untagged
@@ -57892,7 +57991,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
+  - {fileID: 2100000, guid: f89d76783bc7ebf43b282c75d6bae503, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -57952,6 +58051,21 @@ MonoBehaviour:
   activityEffect: {fileID: 0}
   animateDoorLeaf: 1
   UsePoint: {x: 0, y: -0.1}
+--- !u!114 &1098322682
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1098322678}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ddc9eb9bc0424b3c887e012dda70a6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IanGame.WorldActorAnimation
+  library: {fileID: 11400000, guid: 9f8407b30c9f6485a88698b8d55d2862, type: 2}
+  visual: {fileID: 1098322680}
+  legacyAnimator: {fileID: 0}
 --- !u!1 &1098562451
 GameObject:
   m_ObjectHideFlags: 0
@@ -60282,6 +60396,7 @@ MonoBehaviour:
   pedestrians:
   - visual: {fileID: 1412832517}
     shadow: {fileID: 539842383}
+    animation: {fileID: 1412832518}
     frames:
     - {fileID: 8654990830787796205, guid: 32da10372c4869a41ad06827e80db6fa, type: 3}
     - {fileID: -3507694956340147093, guid: 32da10372c4869a41ad06827e80db6fa, type: 3}
@@ -60300,6 +60415,7 @@ MonoBehaviour:
     crossing: 0
   - visual: {fileID: 278881150}
     shadow: {fileID: 1822763277}
+    animation: {fileID: 278881151}
     frames:
     - {fileID: -1532578835498481548, guid: 32da10372c4869a41ad06827e80db6fa, type: 3}
     - {fileID: 6730853935954131662, guid: 32da10372c4869a41ad06827e80db6fa, type: 3}
@@ -60318,6 +60434,7 @@ MonoBehaviour:
     crossing: 0
   - visual: {fileID: 1253035554}
     shadow: {fileID: 30625313}
+    animation: {fileID: 1253035555}
     frames:
     - {fileID: 5922913841180796738, guid: 32da10372c4869a41ad06827e80db6fa, type: 3}
     - {fileID: -3149443096527263752, guid: 32da10372c4869a41ad06827e80db6fa, type: 3}
@@ -60336,6 +60453,7 @@ MonoBehaviour:
     crossing: 0
   - visual: {fileID: 1701190407}
     shadow: {fileID: 1863438332}
+    animation: {fileID: 1701190408}
     frames:
     - {fileID: -7376258655472578023, guid: 32da10372c4869a41ad06827e80db6fa, type: 3}
     - {fileID: 383469392629030051, guid: 32da10372c4869a41ad06827e80db6fa, type: 3}
@@ -60354,6 +60472,7 @@ MonoBehaviour:
     crossing: 0
   - visual: {fileID: 1940322687}
     shadow: {fileID: 884936567}
+    animation: {fileID: 1940322688}
     frames:
     - {fileID: 8654990830787796205, guid: 32da10372c4869a41ad06827e80db6fa, type: 3}
     - {fileID: -3507694956340147093, guid: 32da10372c4869a41ad06827e80db6fa, type: 3}
@@ -60372,6 +60491,7 @@ MonoBehaviour:
     crossing: 0
   - visual: {fileID: 500754009}
     shadow: {fileID: 117271764}
+    animation: {fileID: 500754010}
     frames:
     - {fileID: -1532578835498481548, guid: 32da10372c4869a41ad06827e80db6fa, type: 3}
     - {fileID: 6730853935954131662, guid: 32da10372c4869a41ad06827e80db6fa, type: 3}
@@ -60390,6 +60510,7 @@ MonoBehaviour:
     crossing: 0
   - visual: {fileID: 1998266280}
     shadow: {fileID: 644417721}
+    animation: {fileID: 1998266281}
     frames:
     - {fileID: 5922913841180796738, guid: 32da10372c4869a41ad06827e80db6fa, type: 3}
     - {fileID: -3149443096527263752, guid: 32da10372c4869a41ad06827e80db6fa, type: 3}
@@ -60408,6 +60529,7 @@ MonoBehaviour:
     crossing: 0
   - visual: {fileID: 772217384}
     shadow: {fileID: 1009580861}
+    animation: {fileID: 772217385}
     frames:
     - {fileID: -7376258655472578023, guid: 32da10372c4869a41ad06827e80db6fa, type: 3}
     - {fileID: 383469392629030051, guid: 32da10372c4869a41ad06827e80db6fa, type: 3}
@@ -60426,6 +60548,7 @@ MonoBehaviour:
     crossing: 0
   - visual: {fileID: 1840276511}
     shadow: {fileID: 1286589421}
+    animation: {fileID: 1840276512}
     frames:
     - {fileID: 8654990830787796205, guid: 32da10372c4869a41ad06827e80db6fa, type: 3}
     - {fileID: -3507694956340147093, guid: 32da10372c4869a41ad06827e80db6fa, type: 3}
@@ -60442,6 +60565,7 @@ MonoBehaviour:
     crossing: 1
   - visual: {fileID: 325005022}
     shadow: {fileID: 957555950}
+    animation: {fileID: 325005023}
     frames:
     - {fileID: -1532578835498481548, guid: 32da10372c4869a41ad06827e80db6fa, type: 3}
     - {fileID: 6730853935954131662, guid: 32da10372c4869a41ad06827e80db6fa, type: 3}
@@ -65310,6 +65434,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1253035553}
   - component: {fileID: 1253035554}
+  - component: {fileID: 1253035555}
   m_Layer: 0
   m_Name: Citizen 2
   m_TagString: Untagged
@@ -65359,7 +65484,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
+  - {fileID: 2100000, guid: f89d76783bc7ebf43b282c75d6bae503, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -65393,6 +65518,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
   m_BlendShapeWeights: []
+--- !u!114 &1253035555
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1253035552}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ddc9eb9bc0424b3c887e012dda70a6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IanGame.WorldActorAnimation
+  library: {fileID: 11400000, guid: 9f8407b30c9f6485a88698b8d55d2862, type: 2}
+  visual: {fileID: 1253035554}
+  legacyAnimator: {fileID: 0}
 --- !u!1 &1253733541
 GameObject:
   m_ObjectHideFlags: 0
@@ -65932,7 +66072,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
+  - {fileID: 2100000, guid: f89d76783bc7ebf43b282c75d6bae503, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -73833,6 +73973,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1412832516}
   - component: {fileID: 1412832517}
+  - component: {fileID: 1412832518}
   m_Layer: 0
   m_Name: Citizen 0
   m_TagString: Untagged
@@ -73882,7 +74023,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
+  - {fileID: 2100000, guid: f89d76783bc7ebf43b282c75d6bae503, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -73916,6 +74057,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
   m_BlendShapeWeights: []
+--- !u!114 &1412832518
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1412832515}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ddc9eb9bc0424b3c887e012dda70a6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IanGame.WorldActorAnimation
+  library: {fileID: 11400000, guid: 4d251d34a4b9b4dd280859fa9b30cdc5, type: 2}
+  visual: {fileID: 1412832517}
+  legacyAnimator: {fileID: 0}
 --- !u!1 &1418018189
 GameObject:
   m_ObjectHideFlags: 0
@@ -86793,6 +86949,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1701190406}
   - component: {fileID: 1701190407}
+  - component: {fileID: 1701190408}
   m_Layer: 0
   m_Name: Citizen 3
   m_TagString: Untagged
@@ -86842,7 +86999,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
+  - {fileID: 2100000, guid: f89d76783bc7ebf43b282c75d6bae503, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -86876,6 +87033,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
   m_BlendShapeWeights: []
+--- !u!114 &1701190408
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1701190405}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ddc9eb9bc0424b3c887e012dda70a6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IanGame.WorldActorAnimation
+  library: {fileID: 11400000, guid: caa1a24b2b2f14def9c286f44e83de15, type: 2}
+  visual: {fileID: 1701190407}
+  legacyAnimator: {fileID: 0}
 --- !u!1 &1703088449
 GameObject:
   m_ObjectHideFlags: 0
@@ -95021,6 +95193,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1840276510}
   - component: {fileID: 1840276511}
+  - component: {fileID: 1840276512}
   m_Layer: 0
   m_Name: Citizen 8
   m_TagString: Untagged
@@ -95070,7 +95243,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
+  - {fileID: 2100000, guid: f89d76783bc7ebf43b282c75d6bae503, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -95104,6 +95277,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
   m_BlendShapeWeights: []
+--- !u!114 &1840276512
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1840276509}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ddc9eb9bc0424b3c887e012dda70a6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IanGame.WorldActorAnimation
+  library: {fileID: 11400000, guid: 4d251d34a4b9b4dd280859fa9b30cdc5, type: 2}
+  visual: {fileID: 1840276511}
+  legacyAnimator: {fileID: 0}
 --- !u!1 &1844276469
 GameObject:
   m_ObjectHideFlags: 0
@@ -99899,6 +100087,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1940322686}
   - component: {fileID: 1940322687}
+  - component: {fileID: 1940322688}
   m_Layer: 0
   m_Name: Citizen 4
   m_TagString: Untagged
@@ -99948,7 +100137,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
+  - {fileID: 2100000, guid: f89d76783bc7ebf43b282c75d6bae503, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -99982,6 +100171,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
   m_BlendShapeWeights: []
+--- !u!114 &1940322688
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1940322685}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ddc9eb9bc0424b3c887e012dda70a6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IanGame.WorldActorAnimation
+  library: {fileID: 11400000, guid: 4d251d34a4b9b4dd280859fa9b30cdc5, type: 2}
+  visual: {fileID: 1940322687}
+  legacyAnimator: {fileID: 0}
 --- !u!1 &1941885729
 GameObject:
   m_ObjectHideFlags: 0
@@ -102263,6 +102467,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1998266279}
   - component: {fileID: 1998266280}
+  - component: {fileID: 1998266281}
   m_Layer: 0
   m_Name: Citizen 6
   m_TagString: Untagged
@@ -102312,7 +102517,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
+  - {fileID: 2100000, guid: f89d76783bc7ebf43b282c75d6bae503, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -102346,6 +102551,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
   m_BlendShapeWeights: []
+--- !u!114 &1998266281
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1998266278}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ddc9eb9bc0424b3c887e012dda70a6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IanGame.WorldActorAnimation
+  library: {fileID: 11400000, guid: 9f8407b30c9f6485a88698b8d55d2862, type: 2}
+  visual: {fileID: 1998266280}
+  legacyAnimator: {fileID: 0}
 --- !u!1 &1998894270
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,0 +1,103 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32870a43c790a4e389619ab6828d6019, type: 3}
+  m_Name: Citizen2
+  m_EditorClassIdentifier: Assembly-CSharp::IanGame.ActorAnimationSet
+  clips:
+  - motion: 1
+    direction: 0
+    frames:
+    - {fileID: -9001604227622201023, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    - {fileID: -4881432910045293658, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    - {fileID: -8557470061917145515, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    - {fileID: 1247784887906265359, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    loop: 1
+    mirror: 0
+    loopFrom: 0
+    framesPerSecond: 8
+    strideLength: 1.45
+  - motion: 0
+    direction: 0
+    frames:
+    - {fileID: -9001604227622201023, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    - {fileID: -9001604227622201023, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    loop: 1
+    mirror: 0
+    loopFrom: 0
+    framesPerSecond: 8
+    strideLength: 1.8
+  - motion: 1
+    direction: 1
+    frames:
+    - {fileID: 1662989454423304589, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    - {fileID: -4313777940132966273, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    - {fileID: -2550109506708201963, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    - {fileID: -8494220655228524706, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    loop: 1
+    mirror: 0
+    loopFrom: 0
+    framesPerSecond: 8
+    strideLength: 1.45
+  - motion: 0
+    direction: 1
+    frames:
+    - {fileID: 1662989454423304589, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    - {fileID: 1662989454423304589, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    loop: 1
+    mirror: 0
+    loopFrom: 0
+    framesPerSecond: 8
+    strideLength: 1.8
+  - motion: 1
+    direction: 2
+    frames:
+    - {fileID: 1956735336081625382, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    - {fileID: -7710114160355480345, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    - {fileID: 4417901699844961301, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    - {fileID: 8105579582091720354, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    loop: 1
+    mirror: 1
+    loopFrom: 0
+    framesPerSecond: 8
+    strideLength: 1.45
+  - motion: 0
+    direction: 2
+    frames:
+    - {fileID: 1956735336081625382, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    - {fileID: 1956735336081625382, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    loop: 1
+    mirror: 1
+    loopFrom: 0
+    framesPerSecond: 8
+    strideLength: 1.8
+  - motion: 1
+    direction: 3
+    frames:
+    - {fileID: 1956735336081625382, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    - {fileID: -7710114160355480345, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    - {fileID: 4417901699844961301, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    - {fileID: 8105579582091720354, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    loop: 1
+    mirror: 0
+    loopFrom: 0
+    framesPerSecond: 8
+    strideLength: 1.45
+  - motion: 0
+    direction: 3
+    frames:
+    - {fileID: 1956735336081625382, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    - {fileID: 1956735336081625382, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    loop: 1
+    mirror: 0
+    loopFrom: 0
+    framesPerSecond: 8
+    strideLength: 1.8

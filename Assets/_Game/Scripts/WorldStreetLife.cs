@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 namespace IanGame {
 [Serializable]public sealed class StreetPedestrian {
- public SpriteRenderer visual,shadow;public Sprite[] frames;public Vector2[] route;
+ public SpriteRenderer visual,shadow;public WorldActorAnimation animation;public Sprite[] frames;public Vector2[] route;
  public float speed=1.2f;public int next;public float waiting;public bool crossing;
  [NonSerialized]public float phase;[NonSerialized]public bool crossingActive;
 }
@@ -38,9 +38,11 @@ public sealed class WorldStreetLife:MonoBehaviour {
    Vector2 to=Vector2.MoveTowards(from,target,p.speed*Time.deltaTime);
    bool nearPlayer=Vector2.Distance(to,player)<.7f&&Vector2.Distance(to,player)<Vector2.Distance(from,player);
    bool walking=!blocked&&!nearPlayer&&p.waiting<=0&&Vector2.Distance(from,target)>.025f;
-   if(walking){if(p.crossing)p.crossingActive=true;p.visual.transform.localPosition=to;p.phase+=Vector2.Distance(from,to)*5.2f;p.visual.flipX=to.x<from.x;if(Mathf.Abs(to.x-from.x)<.001f)p.visual.flipX=p.next%2==0;}
+   if(walking){if(p.crossing)p.crossingActive=true;p.visual.transform.localPosition=to;p.phase+=Vector2.Distance(from,to)*5.2f;if(Mathf.Abs(to.x-from.x)>.001f)p.visual.flipX=to.x<from.x;}
    else if(!blocked&&!nearPlayer&&p.waiting<=0){p.next=(p.next+1)%p.route.Length;p.waiting=.4f+(p.next%3)*.35f;p.crossingActive=false;}
-   p.visual.sprite=p.frames[walking?Mathf.FloorToInt(p.phase)%p.frames.Length:0];p.visual.sortingOrder=1000-Mathf.RoundToInt(p.visual.transform.position.y*100);if(p.shadow!=null)p.shadow.sortingOrder=p.visual.sortingOrder-1;
+   Vector2 actual=(Vector2)p.visual.transform.localPosition-from;
+   if(p.animation!=null)p.animation.Render(actual.sqrMagnitude>.000001f?ActorMotion.Walk:ActorMotion.Idle,actual,actual.magnitude,true);
+   else p.visual.sprite=p.frames[walking?Mathf.FloorToInt(p.phase)%p.frames.Length:0];p.visual.sortingOrder=1000-Mathf.RoundToInt(p.visual.transform.position.y*100);if(p.shadow!=null)p.shadow.sortingOrder=p.visual.sortingOrder-1;
   }
  }
  bool VehicleOnCrossing(){foreach(var v in vehicles)if(v.body.simulated&&Mathf.Abs(v.body.position.x-Origin.x)<3)return true;return false;}
