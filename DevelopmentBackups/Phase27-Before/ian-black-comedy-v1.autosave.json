@@ -1,0 +1,193 @@
+{
+    "world": {
+        "schema": 1,
+        "zone": "home",
+        "position": {
+            "x": 0.0,
+            "y": -1.5
+        },
+        "facing": {
+            "x": 0.0,
+            "y": -1.0
+        },
+        "fatigue": 15.0,
+        "hygiene": 85.0,
+        "rice": 3,
+        "bread": 2,
+        "prepared": "",
+        "pendingAction": "",
+        "lastWorkDay": -1,
+        "lastSummaryDay": 1,
+        "dailyIncome": 0,
+        "lastSummary": ""
+    },
+    "idle": {
+        "schema": 1,
+        "active": false,
+        "offlineEnabled": true,
+        "activityId": "",
+        "sessionId": "",
+        "educationId": "",
+        "jobId": "",
+        "stopReason": "",
+        "cycleProgressSeconds": 0.0,
+        "accountedUtcTicks": 0,
+        "sequence": 0,
+        "sessionCycles": 0,
+        "ledgers": [],
+        "battles": [],
+        "report": {
+            "id": "",
+            "activityId": "",
+            "stopReason": "",
+            "fromUtcTicks": 0,
+            "toUtcTicks": 0,
+            "gold": 0,
+            "experience": 0,
+            "elapsedSeconds": 0.0,
+            "eligibleSeconds": 0.0,
+            "activitySeconds": 0.0,
+            "cycles": 0,
+            "workCycles": 0,
+            "studyCycles": 0,
+            "battleWins": 0,
+            "battleLosses": 0,
+            "educationExperience": 0,
+            "knowledge": 0,
+            "hunger": 0,
+            "thirst": 0,
+            "health": 0,
+            "mental": 0,
+            "capped": false,
+            "clockReversed": false,
+            "acknowledged": false
+        }
+    },
+    "birthIntroVersion": 1,
+    "birthIntroCompleted": true,
+    "phase23": {
+        "education": {
+            "currentEducationId": "",
+            "careerId": "",
+            "books": 0,
+            "studies": 0,
+            "homework": 0,
+            "experience": 0,
+            "preparation": 0,
+            "enrollments": [],
+            "exams": []
+        },
+        "social": {
+            "experience": 0,
+            "relationships": [],
+            "history": []
+        },
+        "employment": {
+            "resumeWritten": false,
+            "currentJobId": "unemployed",
+            "selectedJobId": "convenience",
+            "workCount": 0,
+            "experience": 0,
+            "rank": 0,
+            "strikes": 0,
+            "work": [],
+            "history": []
+        },
+        "owned": [],
+        "equipped": [],
+        "deliveryIds": [],
+        "activities": []
+    },
+    "version": 4,
+    "day": 1,
+    "missions": {
+        "activeMissionId": "",
+        "startDay": 1,
+        "eventSequence": 0,
+        "growthPoints": 0,
+        "counters": [],
+        "seenEventIds": [],
+        "completedMissionIds": [],
+        "claimedMissionIds": [],
+        "walletReceiptIds": [],
+        "milestoneIds": [],
+        "unlocks": [],
+        "pendingRewards": [],
+        "progress": [],
+        "choiceOutcomes": [],
+        "finalReviewRequested": false
+    },
+    "stats": {
+        "happiness": 50,
+        "stress": 0,
+        "energy": 100,
+        "money": 0,
+        "hunger": 100,
+        "thirst": 100,
+        "knowledge": 0,
+        "mental": 100,
+        "social": 0,
+        "credit": 50
+    },
+    "gameOver": false,
+    "progression": {
+        "age": 0,
+        "level": 1,
+        "experience": 0,
+        "socialStanding": "없음",
+        "completedGrowthIds": []
+    },
+    "economy": {
+        "debt": 1000000,
+        "otherAssets": 0,
+        "processedIds": [],
+        "finance": {
+            "schema": 1,
+            "lastTaxDay": 1,
+            "lastDebtDay": 1,
+            "marketUtcTicks": 639300769775264400,
+            "marketSequence": 0,
+            "totalIncome": 0,
+            "totalExpenses": 0,
+            "taxableIncome": 0,
+            "pendingTax": 0,
+            "taxRemainder": 0,
+            "cumulativeInterest": 0,
+            "outstandingInterest": 0,
+            "paidThisPeriod": 0,
+            "realizedPnL": 0.0,
+            "transactions": [],
+            "bills": [],
+            "quotes": [],
+            "holdings": [],
+            "news": []
+        },
+        "housing": {
+            "schema": 1,
+            "residenceId": "starter",
+            "wallpaper": "warm-white",
+            "floor": "wood-linoleum",
+            "bathroom": "jade-tile",
+            "owned": [],
+            "placed": [],
+            "layoutVersion": 0,
+            "layoutAdjusted": 0,
+            "layoutResidenceId": ""
+        }
+    },
+    "survival": {
+        "hungerRemainder": 0.06946912998488787,
+        "thirstRemainder": 0.10420369497733205,
+        "hungerDangerSeconds": 0.0,
+        "thirstDangerSeconds": 0.0,
+        "failed": false,
+        "statuses": []
+    },
+    "time": {
+        "subDaySeconds": 750.2666038367897,
+        "elapsedSeconds": 750.2666038367897
+    },
+    "lastSeenUtcTicks": 639300769801055050,
+    "runId": "f4dc5529fa714e9eb6b57bde9dbe7ec8",
+    "settledDay": 1
+}

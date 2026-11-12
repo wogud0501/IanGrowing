@@ -42,7 +42,7 @@ public partial class EconomySystem {
    bool overdue=Debt>0&&f.paidThisPeriod<Math.Min(Debt,Math.Max(0,rules.minimumDebtPayment));f.paidThisPeriod=0;
    Commit("debt/interest/"+f.lastDebtDay,TransactionKind.DebtInterest,interest,"부채 이자",overdue?"연체":"정상",()=>{f.outstandingInterest+=interest;f.cumulativeInterest=Add(f.cumulativeInterest,interest);if(overdue)stats.ApplyCore(new StatDelta{credit=-Math.Max(0,rules.overdueCreditPenalty)});});
   }
-  Changed?.Invoke();
+  SettlePropertyDay(day);Changed?.Invoke();
  }
  StockQuote Quote(string stockId)=>state.finance?.quotes.Find(q=>q.StockId==stockId);
  public StockQuote GetQuote(string stockId)=>Clone(Quote(stockId));
@@ -59,7 +59,7 @@ public partial class EconomySystem {
   if(ok)Signal(orderId+"/mission",buy?MissionCounter.StockBuys:MissionCounter.StockSells);return ok;
  }
  public void ReviewInvestment(){if(state.finance!=null&&state.finance.transactions.Any(t=>t.kind==TransactionKind.StockBuy))Signal("finance/pnl-review",MissionCounter.PnLReviews);}
- public void ReanchorMarket(long minimumUtc){EnsureFinance(Day,minimumUtc);state.finance.marketUtcTicks=Math.Max(state.finance.marketUtcTicks,minimumUtc);}
+ public void ReanchorMarket(long minimumUtc){EnsureFinance(Day,minimumUtc);state.finance.marketUtcTicks=Math.Max(state.finance.marketUtcTicks,minimumUtc);if(state.property!=null)state.property.marketUtcTicks=Math.Max(state.property.marketUtcTicks,minimumUtc);}
  static double Sample(string key,long tick){unchecked{uint h=2166136261;foreach(char c in key){h^=c;h*=16777619;}h^=(uint)tick;h*=16777619;h^=(uint)(tick>>32);h^=h>>16;h*=2246822519;h^=h>>13;return h/(double)uint.MaxValue;}}
  public bool ApplyNews(string newsId,string occurrenceId,long tick){
   if(rules==null||state.finance==null||busy||string.IsNullOrWhiteSpace(occurrenceId))return false;
@@ -70,7 +70,7 @@ public partial class EconomySystem {
  public void SettleMarket(long utc){
   if(rules==null||busy||utc<0||utc>DateTime.MaxValue.Ticks)return;EnsureFinance(Day,utc);var f=state.finance;
   long interval=(long)Math.Max(1,rules.marketIntervalSeconds)*TimeSpan.TicksPerSecond;
-  long count=(utc-f.marketUtcTicks)/interval;if(count<=0)return;
+  long count=(utc-f.marketUtcTicks)/interval;if(count<=0){SettlePropertyMarket(utc);return;}
   // Bound very long absences, consuming skipped time so it cannot be reclaimed.
   long skip=Math.Max(0,count-Math.Max(1,rules.maximumCatchupTicks));f.marketUtcTicks+=skip*interval;f.marketSequence+=skip;
   for(long i=skip;i<count;i++){
@@ -82,11 +82,11 @@ public partial class EconomySystem {
     q.PreviousPrice=q.CurrentPrice;q.CurrentPrice=(int)Math.Max(Math.Max(1,d.BasePrice/10),Math.Min(Math.Min(int.MaxValue/100,Math.Max(1,d.BasePrice)*20L),Math.Round(q.CurrentPrice*(1+Math.Max(-.12,Math.Min(.12,move))))));
     q.PriceHistory.Add(q.CurrentPrice);while(q.PriceHistory.Count>Math.Max(2,rules.historyLimit))q.PriceHistory.RemoveAt(0);
    }
-  }Changed?.Invoke();
+  }SettlePropertyMarket(utc);Changed?.Invoke();
  }
  void Update(){if(game==null||game.State!=GameState.Playing||game.BirthIntroductionPending||Time.unscaledTime<nextTick||game.idle!=null&&game.idle.IsPersistenceSuspended)return;nextTick=Time.unscaledTime+1;SettleMarket(DateTime.UtcNow.Ticks);}
  public static bool ValidFinance(EconomySnapshot e){
-  if(e==null||e.processedIds==null)return false;var f=e.finance;if(f==null)return true;
+  NormalizeProperty(e);if(e==null||e.processedIds==null||!ValidProperty(e))return false;var f=e.finance;if(f==null)return true;
   if(f.schema!=1||f.lastTaxDay<1||f.lastDebtDay<1||f.marketUtcTicks<0||f.marketUtcTicks>DateTime.MaxValue.Ticks||f.marketSequence<0||f.totalIncome<0||f.totalExpenses<0||f.taxableIncome<0||f.pendingTax<0||f.taxRemainder<0||f.taxRemainder>=10000||f.cumulativeInterest<0||f.outstandingInterest<0||f.outstandingInterest>e.debt||f.paidThisPeriod<0||double.IsNaN(f.realizedPnL)||double.IsInfinity(f.realizedPnL)||f.transactions==null||f.bills==null||f.quotes==null||f.holdings==null||f.news==null)return false;
   if(f.transactions.Any(t=>t==null||string.IsNullOrWhiteSpace(t.id)||t.amount<0||t.utcTicks<0||t.utcTicks>DateTime.MaxValue.Ticks||!Enum.IsDefined(typeof(TransactionKind),t.kind)||!e.processedIds.Contains(t.id))||f.transactions.Select(t=>t.id).Distinct().Count()!=f.transactions.Count)return false;
   if(f.quotes.Any(q=>q==null||string.IsNullOrWhiteSpace(q.StockId)||q.CurrentPrice<1||q.PreviousPrice<1||!Enum.IsDefined(typeof(MarketStatus),q.MarketStatus)||q.PriceHistory==null||q.PriceHistory.Any(p=>p<1))||f.quotes.Select(q=>q.StockId).Distinct().Count()!=f.quotes.Count)return false;

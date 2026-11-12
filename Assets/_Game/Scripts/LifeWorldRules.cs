@@ -24,5 +24,5 @@ public class LifeWorldRules:ScriptableObject {
  public WorldZoneDefinition[] zones=new WorldZoneDefinition[0];public WorldNPCDefinition[] npcs=new WorldNPCDefinition[0];
  public WorldZoneDefinition Zone(string id)=>Array.Find(zones,z=>z.id==id);
 }
-public enum WorldInteractionKind {Door,Sleep,Fridge,Meal,Drink,Wash,Shower,Toilet,Rest,Wardrobe,Work,Study,NPC,FoodShop,FurnitureShop,StockMarket}
+public enum WorldInteractionKind {Door,Sleep,Fridge,Meal,Drink,Wash,Shower,Toilet,Rest,Wardrobe,Work,Study,NPC,FoodShop,FurnitureShop,StockMarket,RealEstate}
 }

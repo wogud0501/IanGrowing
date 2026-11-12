@@ -1,0 +1,222 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d6c9c212be844fcbb82a3ea31b01218, type: 3}
+  m_Name: PropertyCatalog
+  m_EditorClassIdentifier: Assembly-CSharp::IanGame.PropertyCatalog
+  properties:
+  - PropertyId: property-0
+    PropertyName: "\uD1F4\uADFC \uACE0\uC2DC\uC6D0"
+    Location: "\uC11C\uCABD \uACE8\uBAA9"
+    residenceId: starter
+    PropertyType: 0
+    PurchasePrice: 8000
+    JeonseDeposit: 5600
+    MonthlyDeposit: 800
+    MonthlyRent: 80
+    MaintenanceCost: 16
+    minAge: 19
+    volatility: 0.009
+    regionalTrend: -0.0005
+    newsSensitivity: 1
+    sleepBonus:
+      hunger: 0
+      thirst: 0
+      knowledge: 0
+      health: 1
+      mental: 1
+      social: 0
+      credit: 0
+      happiness: 0
+    restBonus:
+      hunger: 0
+      thirst: 0
+      knowledge: 0
+      health: 0
+      mental: 1
+      social: 0
+      credit: 0
+      happiness: 0
+    preview: {fileID: 21300000, guid: 5dfec2aaebe4af040a175b1dd21989d4, type: 3}
+  - PropertyId: property-1
+    PropertyName: "\uACE8\uBAA9 \uC6D0\uB8F8"
+    Location: "\uC11C\uCABD \uACE8\uBAA9"
+    residenceId: starter
+    PropertyType: 1
+    PurchasePrice: 30000
+    JeonseDeposit: 21000
+    MonthlyDeposit: 3000
+    MonthlyRent: 300
+    MaintenanceCost: 60
+    minAge: 19
+    volatility: 0.012
+    regionalTrend: -0.0005
+    newsSensitivity: 1
+    sleepBonus:
+      hunger: 0
+      thirst: 0
+      knowledge: 0
+      health: 2
+      mental: 2
+      social: 0
+      credit: 0
+      happiness: 0
+    restBonus:
+      hunger: 0
+      thirst: 0
+      knowledge: 0
+      health: 0
+      mental: 1
+      social: 0
+      credit: 0
+      happiness: 0
+    preview: {fileID: 21300000, guid: 5dfec2aaebe4af040a175b1dd21989d4, type: 3}
+  - PropertyId: property-2
+    PropertyName: "\uD587\uC0B4 \uBE4C\uB77C"
+    Location: "\uC911\uC559 \uC5C5\uBB34\uC9C0\uAD6C"
+    residenceId: improved
+    PropertyType: 2
+    PurchasePrice: 80000
+    JeonseDeposit: 56000
+    MonthlyDeposit: 8000
+    MonthlyRent: 800
+    MaintenanceCost: 160
+    minAge: 30
+    volatility: 0.015
+    regionalTrend: 0.0005
+    newsSensitivity: 1
+    sleepBonus:
+      hunger: 0
+      thirst: 0
+      knowledge: 0
+      health: 3
+      mental: 3
+      social: 0
+      credit: 0
+      happiness: 1
+    restBonus:
+      hunger: 0
+      thirst: 0
+      knowledge: 0
+      health: 1
+      mental: 2
+      social: 0
+      credit: 0
+      happiness: 0
+    preview: {fileID: 21300000, guid: 501e8e621ce14474eb8f62164555d50e, type: 3}
+  - PropertyId: property-3
+    PropertyName: "\uC57C\uADFC \uC624\uD53C\uC2A4\uD154"
+    Location: "\uC911\uC559 \uC5C5\uBB34\uC9C0\uAD6C"
+    residenceId: improved
+    PropertyType: 3
+    PurchasePrice: 120000
+    JeonseDeposit: 84000
+    MonthlyDeposit: 12000
+    MonthlyRent: 1200
+    MaintenanceCost: 240
+    minAge: 30
+    volatility: 0.018
+    regionalTrend: 0.0005
+    newsSensitivity: 1
+    sleepBonus:
+      hunger: 0
+      thirst: 0
+      knowledge: 0
+      health: 4
+      mental: 4
+      social: 0
+      credit: 0
+      happiness: 1
+    restBonus:
+      hunger: 0
+      thirst: 0
+      knowledge: 0
+      health: 1
+      mental: 2
+      social: 0
+      credit: 0
+      happiness: 0
+    preview: {fileID: 21300000, guid: 501e8e621ce14474eb8f62164555d50e, type: 3}
+  - PropertyId: property-4
+    PropertyName: "\uD3C9\uC628 \uC544\uD30C\uD2B8"
+    Location: "\uB3D9\uCABD \uC8FC\uAC70\uC9C0"
+    residenceId: improved
+    PropertyType: 4
+    PurchasePrice: 250000
+    JeonseDeposit: 175000
+    MonthlyDeposit: 25000
+    MonthlyRent: 2500
+    MaintenanceCost: 500
+    minAge: 35
+    volatility: 0.021
+    regionalTrend: 0.0005
+    newsSensitivity: 1
+    sleepBonus:
+      hunger: 0
+      thirst: 0
+      knowledge: 0
+      health: 5
+      mental: 5
+      social: 0
+      credit: 0
+      happiness: 2
+    restBonus:
+      hunger: 0
+      thirst: 0
+      knowledge: 0
+      health: 2
+      mental: 3
+      social: 0
+      credit: 0
+      happiness: 0
+    preview: {fileID: 21300000, guid: 501e8e621ce14474eb8f62164555d50e, type: 3}
+  - PropertyId: property-5
+    PropertyName: "\uAD6C\uB984 \uACE0\uAE09 \uC544\uD30C\uD2B8"
+    Location: "\uB3D9\uCABD \uC8FC\uAC70\uC9C0"
+    residenceId: improved
+    PropertyType: 5
+    PurchasePrice: 750000
+    JeonseDeposit: 525000
+    MonthlyDeposit: 75000
+    MonthlyRent: 7500
+    MaintenanceCost: 1500
+    minAge: 40
+    volatility: 0.024
+    regionalTrend: 0.0005
+    newsSensitivity: 1
+    sleepBonus:
+      hunger: 0
+      thirst: 0
+      knowledge: 0
+      health: 6
+      mental: 6
+      social: 0
+      credit: 0
+      happiness: 2
+    restBonus:
+      hunger: 0
+      thirst: 0
+      knowledge: 0
+      health: 2
+      mental: 3
+      social: 0
+      credit: 0
+      happiness: 0
+    preview: {fileID: 21300000, guid: 501e8e621ce14474eb8f62164555d50e, type: 3}
+  paymentPeriodDays: 30
+  contractPeriods: 3
+  marketIntervalSeconds: 300
+  historyLimit: 60
+  maximumCatchupTicks: 288
+  minimumLoanCredit: 40
+  baseLoanLimit: 200000
+  graceDays: 3
+  marketInterestBasisPoints: 100

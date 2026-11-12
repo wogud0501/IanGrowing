@@ -21,9 +21,9 @@ public partial class EconomySystem {
  public bool BuyFurniture(string receipt,string id){string reason;if(!CanBuyFurniture(id,out reason))return false;var f=housingCatalog.Furniture(id);bool ok=Commit(receipt,TransactionKind.Expense,f.price,"가구 구매 · "+f.title,id,()=>state.housing.owned.Add(id));if(ok)Signal(receipt+"/furniture",MissionCounter.FurnitureBought);return ok;}
  public bool CanMoveResidence(string id,out string reason){
   EnsureHousing();var r=housingCatalog==null?null:housingCatalog.Residence(id);
-  reason=!HousingReady?"현재는 이사할 수 없습니다.":r==null?"등록되지 않은 집입니다.":id==state.housing.residenceId?"현재 거주 중입니다.":game.growth.Age<r.minAge?$"{r.minAge}세부터 입주할 수 있습니다.":r.movingCost<=0?"이사 비용을 확인하세요.":!CanAfford(r.movingCost)?$"소지금이 {r.movingCost-Cash:N0}G 부족합니다.":null;return reason==null;
+  reason=!HousingReady?"현재는 이사할 수 없습니다.":state.property?.contract!=null?"부동산 중개소에서 기존 계약을 종료하세요.":r==null?"등록되지 않은 집입니다.":id==state.housing.residenceId?"현재 거주 중입니다.":game.growth.Age<r.minAge?$"{r.minAge}세부터 입주할 수 있습니다.":r.movingCost<=0?"이사 비용을 확인하세요.":!CanAfford(r.movingCost)?$"소지금이 {r.movingCost-Cash:N0}G 부족합니다.":null;return reason==null;
  }
- public bool MoveResidence(string receipt,string id){string reason;if(!CanMoveResidence(id,out reason))return false;var r=housingCatalog.Residence(id);return Commit(receipt,TransactionKind.Expense,r.movingCost,"이사 · "+r.title,id,()=>{state.housing.residenceId=id;state.housing.placed.Clear();state.housing.layoutVersion=0;});}
+ public bool MoveResidence(string receipt,string id){string reason;if(!CanMoveResidence(id,out reason))return false;var r=housingCatalog.Residence(id);return Commit(receipt,TransactionKind.Expense,r.movingCost,"이사 · "+r.title,id,()=>{if(state.property!=null)state.property.occupiedPropertyId="";state.housing.residenceId=id;state.housing.placed.Clear();state.housing.layoutVersion=0;});}
  // Placement never charges money. Ownership and a bounded room position are mandatory.
  public bool PlaceFurniture(string id,Vector2 position,bool place=true){
   EnsureHousing();var f=housingCatalog==null?null:housingCatalog.Furniture(id);
