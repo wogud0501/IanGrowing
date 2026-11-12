@@ -27,7 +27,7 @@ public sealed class TestResultReporter {
  public string Text()=>string.Join("\n",Results.Select(r=>$"{r.status} | {r.category} | {r.id} {r.title} | checks={r.checks} | {r.reason}"))+"\n\n"+string.Join("\n",Log);
  public string Save(bool filesUnchanged){foreach(var result in Results)result.statusName=result.status.ToString();var folder=Path.Combine(Application.persistentDataPath,"DeveloperQA");Directory.CreateDirectory(folder);LastPath=Path.Combine(folder,"QA-"+DateTime.UtcNow.ToString("yyyyMMdd-HHmmss-fff")+".json");var json=JsonUtility.ToJson(new Report{utc=DateTime.UtcNow.ToString("O"),unity=Application.unityVersion,platform=Application.platform.ToString(),productionFilesUnchanged=filesUnchanged,results=Results},true);File.WriteAllText(LastPath,json);
 #if UNITY_EDITOR
- Directory.CreateDirectory("Docs/DeveloperQA");File.WriteAllText("Docs/DeveloperQA/LATEST_RESULTS.json",json);
+ Directory.CreateDirectory("Docs/DeveloperQA");File.WriteAllText(Results.Any(r=>!string.IsNullOrEmpty(r.utc))?"Docs/DeveloperQA/LATEST_RESULTS.json":"Docs/DeveloperQA/LATEST_SANDBOX_SESSION.json",json);
 #endif
  return LastPath;}
 }

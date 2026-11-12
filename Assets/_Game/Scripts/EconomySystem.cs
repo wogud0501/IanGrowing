@@ -7,7 +7,7 @@ public partial class EconomySystem:MonoBehaviour,IMissionFeatureSource {
  [SerializeField]PlayerStats stats;public EconomyRules rules;EconomySnapshot state=new EconomySnapshot();bool busy;GameManager game;float nextTick;
  public PlayerStats Stats=>stats;public long Cash=>stats==null?0:stats.Money;public long Debt=>state.debt;public long OtherAssets=>state.otherAssets;
  public long StockValue=>state.finance==null?0:state.finance.holdings.Sum(h=>(long)h.quantity*(Quote(h.stockId)?.CurrentPrice??0));
- public long TotalAssets=>Add(Add(Add(Add(Cash,OtherAssets),StockValue),PropertyValue),HousingDeposit);public long NetWorth=>TotalAssets-Debt-HousingArrears;
+ public long TotalAssets=>Add(Add(Add(Add(Cash,OtherAssets),StockValue),PropertyValue),HousingDeposit);public long NetWorth=>(long)Math.Max(long.MinValue,(decimal)TotalAssets-Debt-HousingArrears);
  public long Principal=>Debt-(state.finance?.outstandingInterest??0);public double UnrealizedPnL=>state.finance==null?0:StockValue-state.finance.holdings.Sum(h=>h.costBasis);
  public double RealizedPnL=>state.finance?.realizedPnL??0;public FinanceSnapshot Finance=>Clone(state.finance);
  public event Action<int,int,string> TransactionCompleted;public event Action Changed;public event Action<MissionActivityEvent> ActivityProduced;

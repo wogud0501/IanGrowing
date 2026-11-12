@@ -1,0 +1,26 @@
+{
+  "Release": {
+    "sha256": "debe1e164e8ad3253ba70616aebaaef67978d43b36fba16eb89c37e999608f1e",
+    "bytes": 401920,
+    "symbols": {
+      "DeveloperQACenter": false,
+      "DebugCommandService": false,
+      "TestScenarioRegistry": false,
+      "TestSaveSandbox": false,
+      "TestRollSource": false,
+      "EnterTestingChannel": false
+    }
+  },
+  "Development": {
+    "sha256": "bcadbd038c86cccbb62c1019c77bc2570ee55e28c5d70dc403e68362b24ae123",
+    "bytes": 476672,
+    "symbols": {
+      "DeveloperQACenter": true,
+      "DebugCommandService": true,
+      "TestScenarioRegistry": true,
+      "TestSaveSandbox": true,
+      "TestRollSource": true,
+      "EnterTestingChannel": true
+    }
+  }
+}

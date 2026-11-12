@@ -26,12 +26,12 @@ public class SaveManager:MonoBehaviour {
  
  public string AutomaticSavePath=>Path.Combine(Application.persistentDataPath,Path.GetFileNameWithoutExtension(fileName)+".autosave.json");
  #if UNITY_EDITOR || DEVELOPMENT_BUILD
- [Serializable]public struct TestingChannel {public string slot,active,path;public bool blocked;public long lastSaved;}
+ [Serializable]public struct TestingChannel {public string slot,active,path,source,recovery;public int sourceVersion;public bool blocked,migrated;public long lastSaved;public SaveLoadStatus loadStatus;}
  public TestingChannel EnterTestingChannel(string slot){
   if(string.IsNullOrEmpty(slot)||!slot.StartsWith("qa-")||Path.GetFileName(slot)!=slot)throw new ArgumentException("QA slot name required");
-  var old=new TestingChannel{slot=fileName,active=activeBase,path=writePath,blocked=WritesBlocked,lastSaved=LastSavedUtcTicks};fileName=slot;activeBase=null;writePath=null;WritesBlocked=false;return old;
+  var old=new TestingChannel{slot=fileName,active=activeBase,path=writePath,blocked=WritesBlocked,lastSaved=LastSavedUtcTicks,source=LastSourcePath,sourceVersion=LastSourceVersion,recovery=LastRecoveryCopy,migrated=WasMigrated,loadStatus=LastLoadStatus};fileName=slot;activeBase=null;writePath=null;WritesBlocked=false;return old;
  }
- public void RestoreTestingChannel(TestingChannel old){fileName=old.slot;activeBase=old.active;writePath=old.path;WritesBlocked=old.blocked;LastSavedUtcTicks=old.lastSaved;}
+ public void RestoreTestingChannel(TestingChannel old){fileName=old.slot;activeBase=old.active;writePath=old.path;WritesBlocked=old.blocked;LastSavedUtcTicks=old.lastSaved;LastSourcePath=old.source;LastSourceVersion=old.sourceVersion;LastRecoveryCopy=old.recovery;WasMigrated=old.migrated;LastLoadStatus=old.loadStatus;}
  #endif
  struct ChannelState {public string slot,active,path;public bool blocked;}
  ChannelState EnterAutomatic(){
