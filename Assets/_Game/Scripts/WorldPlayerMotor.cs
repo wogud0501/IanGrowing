@@ -10,6 +10,7 @@ public sealed class WorldPlayerMotor:MonoBehaviour {
  Rigidbody2D body;Vector2 input,velocity,observedPosition;float actualSpeed,pendingDistance;bool observed,wasMoving;string pose="Idle";float stopUntil,turnUntil,reactionRemaining;ActorMotion reaction;
  InputActionAsset runtimeControls;InputActionMap gameplay;InputAction move,interact,inventory,menu,run;
  bool scripted;Vector2 traversalTarget;float traversalSpeed;
+ public float TraversalSeconds{get;private set;}
  public bool TraversalArrived{get;private set;}public bool IsTraversing=>scripted;public float ActualSpeed=>actualSpeed;public Vector2 Movement=>velocity;
  public bool TextInputFocused {get{var es=UnityEngine.EventSystems.EventSystem.current;var selected=es==null?null:es.currentSelectedGameObject;var field=selected==null?null:selected.GetComponent<TMPro.TMP_InputField>();return field!=null&&field.isFocused;}}
  public bool InteractPressed=>OwnsKeyboardFocus()&&interact!=null&&interact.WasPressedThisFrame();
@@ -31,7 +32,7 @@ public sealed class WorldPlayerMotor:MonoBehaviour {
  #endif
   return true;
  }
- public void BeginTraversal(Vector2 destination,float speed=2.2f){StopMotion();traversalTarget=destination;traversalSpeed=Mathf.Max(.1f,speed);TraversalArrived=false;scripted=true;pose="Idle";}
+ public void BeginTraversal(Vector2 destination,float speed=2.2f){StopMotion();traversalTarget=destination;traversalSpeed=Mathf.Max(.1f,speed);TraversalArrived=false;TraversalSeconds=0;scripted=true;pose="Idle";}
  public void CancelTraversal(){scripted=false;TraversalArrived=false;StopMotion();}
  void Update(){
   bool controlling=world!=null&&world.CanControl&&OwnsKeyboardFocus();input=controlling&&move!=null?Vector2.ClampMagnitude(move.ReadValue<Vector2>(),1):Vector2.zero;
@@ -53,6 +54,7 @@ public sealed class WorldPlayerMotor:MonoBehaviour {
  }
  void FixedUpdate(){
   if(world==null||world.Service==null||world.Service.Game.State!=GameState.Playing||!scripted&&(!world.CanControl||!OwnsKeyboardFocus())){StopMotion();return;}
+  if(scripted)TraversalSeconds+=Time.fixedDeltaTime;
   float distance=observed?Vector2.Distance(observedPosition,body.position):0;observedPosition=body.position;observed=true;actualSpeed=distance/Time.fixedDeltaTime;
   float maximum=world.Service.rules.moveSpeed*runMultiplier*Time.fixedDeltaTime*2;if(distance<maximum)pendingDistance+=distance;
   if(scripted&&Vector2.Distance(body.position,traversalTarget)<.045f){scripted=false;TraversalArrived=true;StopMotion();return;}

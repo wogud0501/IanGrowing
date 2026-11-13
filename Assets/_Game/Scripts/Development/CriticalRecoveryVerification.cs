@@ -59,9 +59,13 @@ public static class CriticalRecoveryVerification {
    var o=w.objects.FirstOrDefault(x=>x.id==id);if(o==null){check(false,"Missing expected portal: "+id);yield break;}var door=o.GetComponent<WorldDoor>();check(door!=null,"Animated door connected: "+id);
    for(int side=0;side<2;side++){
     check(w.Travel(o.zone),"Source route accepted: "+id);yield return Wait(w);door.ResetClosed();Vector3 root=door.transform.position,frame=door.frame.transform.position,leaf=door.leaf.transform.position;
-    var start=side==0?o.Point:door.Plane+door.normal*.5f;w.Player.Warp(start);w.follow.Snap();yield return new WaitForSecondsRealtime(.15f);
+    var start=side==0?o.Point:door.Plane+door.normal*.5f;
+    // A paired portal covers the other room. Do not invent a reverse approach
+    // inside a solid wall of this room, then mistake its collision for a door bug.
+    if(side==1&&new[]{start,door.Approach(start)}.Any(p=>Physics2D.OverlapCircleAll(p,.32f).Any(c=>!c.isTrigger&&c.attachedRigidbody==null&&c!=door.closedCollider)))continue;
+    w.Player.Warp(start);w.follow.Snap();yield return new WaitForSecondsRealtime(.15f);
     check(w.Use(o),"Interaction accepted: "+id+" side "+side);check(!w.Use(o),"Repeated input rejected: "+id);if(id=="front-door"&&side==0){yield return null;g.Pause();yield return new WaitForSecondsRealtime(1.2f);check(w.Busy,"Pause preserves pending door traversal");g.Resume();}yield return Wait(w);
-    check(g.world.State.zone==o.targetZone,"Passage committed: "+id+" side "+side+" (actual "+g.world.State.zone+")");check(w.CanControl,"Input released: "+id);check(root==door.transform.position&&frame==door.frame.transform.position&&leaf==door.leaf.transform.position,"Door transforms fixed: "+id);
+    check(g.world.State.zone==o.targetZone,"Passage committed: "+id+" side "+side+" (actual "+g.world.State.zone+", player "+w.Player.Position+", approach "+door.Approach(start)+", state "+door.State+", overlaps "+string.Join("/",Physics2D.OverlapCircleAll(w.Player.Position,.4f).Select(c=>c.name))+")");check(w.CanControl,"Input released: "+id);check(root==door.transform.position&&frame==door.frame.transform.position&&leaf==door.leaf.transform.position,"Door transforms fixed: "+id);
    }
   }
  }

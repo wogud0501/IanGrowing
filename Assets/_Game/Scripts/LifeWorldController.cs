@@ -58,7 +58,7 @@ public sealed class LifeWorldController:MonoBehaviour {
   }
   return true;
  }
- IEnumerator StepTo(Vector2 point,float limit=.8f){Player.BeginTraversal(point,2.5f);float elapsed=0;while(Player.IsTraversing&&elapsed<limit){if(Service.Game.State!=GameState.Playing){yield return null;continue;}elapsed+=Time.unscaledDeltaTime;yield return null;}if(Player.IsTraversing)Player.CancelTraversal();}
+ IEnumerator StepTo(Vector2 point,float limit=.8f){Player.BeginTraversal(point,2.5f);while(Player.IsTraversing&&Player.TraversalSeconds<limit)yield return null;if(Player.IsTraversing)Player.CancelTraversal();}
  IEnumerator DoorTravel(WorldInteractable portal){
   travelling=true;int generation=restoreGeneration;beforePortalCommit=true;transitionEntry=Player.Position;var door=portal.GetComponent<WorldDoor>();WorldDoor arrivalDoor=null;bool committed=false;
   try{

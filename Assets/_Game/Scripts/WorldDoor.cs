@@ -7,8 +7,14 @@ public enum DoorMechanism {HingedOak,HingedJade,SlidingGlass}
 public sealed class WorldDoor:MonoBehaviour {
  public WorldInteractable portal;public LifeWorldController world;public WorldDoorStyle style;public SpriteRenderer leaf,frame,apertureShadow;public BoxCollider2D closedCollider;
  public Vector2 normal=Vector2.up,threshold;public bool locked;public int opens=0,closes=24;public string staffId;
+ WorldDoorLeafVisual solidVisual;
+ public bool Highlighted{get;private set;}
+ public void Highlight(bool value){Highlighted=value;}
  public DoorState State{get;private set;}=DoorState.Closed;public float Aperture{get;private set;}public int Users=>users.Count;
  // Serialized normal/threshold remain world-space for existing scene compatibility.
+ // Entrance facades were authored above their physical foot threshold. Keep
+ // established exit visuals, but anchor entrance presentation at that threshold.
+ public Vector3 VisualOffset=>normal.y>0?(Vector3)(Plane-(Vector2)transform.position):Vector3.zero;
  public Vector2 Plane=>(Vector2)transform.position+threshold;public Vector2 CrossPoint=>Plane+normal*.2f;
  public float SideOf(Vector2 position){var local=transform.InverseTransformPoint(position);var plane=transform.InverseTransformPoint(Plane);var axis=transform.InverseTransformVector(normal).normalized;return Vector2.Dot((Vector2)(local-plane),axis)>=0?1:-1;}
  public Vector2 Approach(Vector2 from)=>Plane+normal*SideOf(from)*.35f;
@@ -39,10 +45,11 @@ public sealed class WorldDoor:MonoBehaviour {
  void Set(DoorState state){if(State==state)return;bool latched=State==DoorState.Closing&&(state==DoorState.Closed||state==DoorState.Locked);State=state;if(latched&&world!=null&&world.audio!=null&&world.CurrentZone!=null&&portal.zone==world.CurrentZone.id)world.audio.CloseDoor();StateChanged?.Invoke(state);}
  static void Fade(SpriteRenderer sr,float alpha){if(sr==null)return;var c=sr.color;c.a=alpha;sr.color=c;}
  void Draw(){bool cutaway=normal.y<0&&world!=null&&world.Player!=null&&world.CurrentZone!=null&&world.CurrentZone.id==portal.zone&&Mathf.Abs(world.Player.Position.x-Plane.x)<.85f&&world.Player.Position.y>Plane.y&&world.Player.Position.y<Plane.y+2;
-  Fade(leaf,cutaway?.32f:1);Fade(frame,cutaway?.32f:1);Fade(apertureShadow,cutaway?.25f:1);
+  Fade(leaf,1);Fade(frame,1);Fade(apertureShadow,cutaway?.25f:1);
   // Latch collision only while closed. Closing graphics never push an actor.
   if(closedCollider!=null)closedCollider.enabled=!passable;
   if(leaf!=null&&style!=null&&style.openingFrames.Length>1){leaf.sprite=style.openingFrames[Mathf.Clamp(Mathf.RoundToInt(Aperture*(style.openingFrames.Length-1)),0,style.openingFrames.Length-1)];leaf.sortingOrder=1000-Mathf.RoundToInt(Plane.y*100);if(frame!=null)frame.sortingOrder=leaf.sortingOrder+1;}
+  if(Application.isPlaying&&style!=null&&leaf!=null){if(solidVisual==null){var go=new GameObject("Solid leaf visual");go.transform.SetParent(transform,false);solidVisual=go.AddComponent<WorldDoorLeafVisual>();}solidVisual.Draw(this);}
  }
 }
 }

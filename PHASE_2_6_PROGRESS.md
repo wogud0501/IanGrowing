@@ -321,3 +321,10 @@ UI 비율: 1280×720, 1920×1080, 2400×1080, 1080×1920. 큰 글씨 115%, 소�
 - 재현된 문 앞 정지 원인: 마지막 경로 격자점이 닫힌 문짝 쪽으로 반올림됨. WorldNPCNavigation의 마지막 구간을 실제 원형 충돌 검사로 정확한 접근점에 연결. 문 충돌/사용 계약 유지.
 - 경로 수정 후 회사 퇴근·예약·4해상도·저장 복원 집중 회귀 67 PASS, UI issue0. 두 고객 Game View 화면 저장.
 - 원본 자동 저장3개 SHA-256은 초기 백업과 일치. 고객/경로 수정 포함 최종 Android 릴리스 및 iOS export 성공(모두 오류0). StandaloneOSX/Edit Mode/LifeWorld dirty=false 확인. 최종 체크포인트는 Git 최신 커밋 참조.
+
+## 2026-11-13 Door visual and entering alignment recovery
+- Removed leaf/frame alpha fade and stale closed-door frame/highlight images. Existing textures now render on a thick hinged solid, fixed border mesh and separate sliding panels. WorldDoor remains the state/physics/lease owner.
+- Confirmed entrance root/threshold mismatch (.45-.5 units). Aligned entrance presentation and aperture backing to physical threshold, retaining exit presentation, colliders and original arrival points. Traversal timeout now counts actual FixedUpdate simulation.
+- Focused Play regression: 1,291 PASS, ten round trips per five pairs, 180 mechanism cycles, duplicate input, arrival, controls, disk save and actual NPC departures. Final visual-only backing adjustment followed by separate capture/entry/exit checks.
+- Runtime changes: WorldDoorLeafVisual, WorldDoor, WorldInteractable, WorldPlayerMotor, LifeWorldController. Development verification and bridge updated. No scene/prefab/image/age/economy data regeneration. Runtime connection through existing WorldDoor instances.
+- Evidence and remaining device/manual limitations: Docs/DoorVisual/RESULTS.md.
