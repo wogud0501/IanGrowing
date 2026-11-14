@@ -9,10 +9,10 @@ public sealed class WorldLifeAction:MonoBehaviour {
  public LifeActionVisual mode;public Transform approach,anchor,standUp;public Vector2 facing=Vector2.up;
  public ShowerBoothVisual booth;public SpriteRenderer overlay;public Sprite[] frames;public WorldActivitySlot seat;public bool familyOwned;
  public bool Ready{get;private set;}public bool Completed{get;private set;}public int Frame{get;private set;}
- bool care,infantCare;WorldPlayerMotor actor;WorldInteractable target;bool active;bool colliderWasEnabled,visualWasEnabled;SpriteRenderer furnitureVisual;
+ bool care,infantCare,guardianBath;WorldPlayerMotor actor;WorldInteractable target;bool active;bool colliderWasEnabled,visualWasEnabled;SpriteRenderer furnitureVisual;
  public bool Available=>seat==null||string.IsNullOrEmpty(seat.Occupant);
  public IEnumerator Enter(LifeWorldController world,int action,Func<bool> cancelled){
-  Ready=false;Completed=false;care=mode==LifeActionVisual.Bed&&action!=5;infantCare=care&&world.Service.Game.growth.Age==0;actor=world.Player;target=GetComponent<WorldInteractable>();if(seat!=null&&!seat.TryReserve("player"))yield break;active=true;furnitureVisual=target.visual;colliderWasEnabled=actor.GetComponent<CircleCollider2D>().enabled;visualWasEnabled=actor.sprite.enabled;
+  Ready=false;Completed=false;guardianBath=action==-4;care=mode==LifeActionVisual.Bed&&action!=5;infantCare=care&&world.Service.Game.growth.Age==0;actor=world.Player;target=GetComponent<WorldInteractable>();if(seat!=null&&!seat.TryReserve("player"))yield break;active=true;furnitureVisual=target.visual;colliderWasEnabled=actor.GetComponent<CircleCollider2D>().enabled;visualWasEnabled=actor.sprite.enabled;
   var p=approach==null?target.Point:(Vector2)approach.position;
   if(actor.MovementAllowed&&Vector2.Distance(actor.Position,p)>.05f){actor.BeginTraversal(p,2.2f);while(actor.IsTraversing&&actor.TraversalSeconds<5){if(cancelled())yield break;yield return null;}if(!actor.TraversalArrived)yield break;}
   actor.Face(facing);actor.Pose(mode==LifeActionVisual.Bed?"Sit":mode==LifeActionVisual.Dining?"Sit":"Interact");
@@ -20,7 +20,7 @@ public sealed class WorldLifeAction:MonoBehaviour {
   var growth=actor.growthVisual;
   if(growth!=null&&growth.Young&&(mode==LifeActionVisual.Bed||mode==LifeActionVisual.Dining)){
    actor.GetComponent<CircleCollider2D>().enabled=false;growth.ActionOrder=furnitureVisual.sortingOrder+3;actor.sprite.enabled=true;furnitureVisual.enabled=true;
-   if(mode==LifeActionVisual.Bed){growth.InBed=true;var destination=growth.SleepPoint(this);if(actor.MovementAllowed){actor.Pose("Sit");yield return Wait(.2f,cancelled);actor.BeginTraversal(destination,1.7f);while(actor.IsTraversing&&actor.TraversalSeconds<5){if(cancelled())yield break;yield return null;}if(!actor.TraversalArrived)yield break;actor.CancelTraversal();}else growth.ActionOffset=destination-actor.Position;actor.Pose(action==-4?"CareBath":care?(action==3||action==4?"CareFeed":"Play"):"Sleep");}
+   if(mode==LifeActionVisual.Bed){growth.InBed=action!=-4;var destination=action==-4?(Vector2)approach.position+Vector2.right*.55f:growth.SleepPoint(this);if(actor.MovementAllowed){actor.Pose("Sit");yield return Wait(.2f,cancelled);actor.BeginTraversal(destination,1.7f);while(actor.IsTraversing&&actor.TraversalSeconds<5){if(cancelled())yield break;yield return null;}if(!actor.TraversalArrived)yield break;actor.CancelTraversal();}else if(action==-4){actor.Pose("Carried");var from=growth.ActionOffset;var to=destination-actor.Position;for(float t=0;t<.6f;t+=Time.unscaledDeltaTime){if(cancelled())yield break;growth.ActionOffset=Vector2.Lerp(from,to,Mathf.SmoothStep(0,1,t/.6f));yield return null;}growth.ActionOffset=to;}else growth.ActionOffset=destination-actor.Position;actor.Pose(care?growth.CarePose(action):"Sleep");}
    else{actor.Pose("Sit");yield return Wait(.25f,cancelled);actor.BeginTraversal(growth.Inside(this),1.7f);while(actor.IsTraversing&&actor.TraversalSeconds<5){if(cancelled())yield break;yield return null;}if(!actor.TraversalArrived)yield break;actor.CancelTraversal();growth.Seated=true;actor.Face(facing);actor.Pose("Eat");}
   }
   else if(care&&world.Service.Game.growth.Age==0){Show(action==3||action==4?13:14);}
@@ -33,12 +33,13 @@ public sealed class WorldLifeAction:MonoBehaviour {
   }
   Ready=!cancelled();
  }
- public void Animate(float seconds){if(!active)return;if(infantCare&&frames.Length>=16)Show(13+Mathf.FloorToInt(seconds*3)%2);else if(mode==LifeActionVisual.Dining)Show(8+Mathf.FloorToInt(seconds*4)%4);}
+ public void Animate(float seconds){if(!active)return;if(actor.growthVisual?.Young==true&&(mode==LifeActionVisual.Bed||mode==LifeActionVisual.Dining))return;if(infantCare&&frames.Length>=16)Show(13+Mathf.FloorToInt(seconds*3)%2);else if(mode==LifeActionVisual.Dining)Show(8+Mathf.FloorToInt(seconds*4)%4);}
  void Show(int index){if(overlay==null||frames==null||frames.Length==0)return;Frame=Mathf.Clamp(index,0,frames.Length-1);overlay.sprite=frames[Frame];overlay.enabled=true;overlay.color=Color.white;overlay.sortingOrder=furnitureVisual.sortingOrder+3;furnitureVisual.enabled=false;if(mode==LifeActionVisual.Bed||mode==LifeActionVisual.Dining){actor.sprite.enabled=false;if(actor.contactShadow!=null)actor.contactShadow.enabled=false;}}
  IEnumerator Sequence(int start,int end,float seconds,Func<bool> cancelled){for(int i=start;i<=end;i++){Show(i);yield return Wait(seconds,cancelled);if(cancelled())yield break;}}
  static IEnumerator Wait(float seconds,Func<bool> cancelled){for(float t=0;t<seconds;t+=Time.unscaledDeltaTime){if(cancelled())yield break;yield return null;}}
  public IEnumerator Exit(LifeWorldController world,Func<bool> cancelled){
   if(actor?.growthVisual!=null&&actor.growthVisual.Young&&(mode==LifeActionVisual.Bed||mode==LifeActionVisual.Dining)){
+   if(mode==LifeActionVisual.Bed&&!actor.MovementAllowed&&guardianBath){var growth=actor.growthVisual;actor.Pose("Carried");var from=growth.ActionOffset;var to=growth.SleepPoint(this)-actor.Position;for(float t=0;t<.6f;t+=Time.unscaledDeltaTime){if(cancelled())yield break;growth.ActionOffset=Vector2.Lerp(from,to,Mathf.SmoothStep(0,1,t/.6f));yield return null;}}
    actor.Pose(mode==LifeActionVisual.Bed?"Wake Up":"Stand Up");yield return Wait(.45f,cancelled);if(cancelled())yield break;
    actor.growthVisual.InBed=actor.growthVisual.Seated=false;actor.Pose("Idle");if(actor.MovementAllowed){actor.BeginTraversal(standUp.position,1.7f);while(actor.IsTraversing&&actor.TraversalSeconds<5){if(cancelled())yield break;yield return null;}if(!actor.TraversalArrived)yield break;actor.CancelTraversal();}ResetVisual();Completed=!cancelled();yield break;
   }

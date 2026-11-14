@@ -1,0 +1,18 @@
+{
+    "mode": "roomVisualGrowthSave",
+    "stage": "Failed",
+    "failure": "System.Exception: Growth save/load preserves cash inventory and housing\n  at IanGame.Editor.Phase26Verification.Check (System.Boolean condition, System.String text) [0x00021] in /Users/hyunwol/IanGrowing/Assets/_Game/Scripts/Development/Phase26Verification.cs:35 \n  at IanGame.Editor.GrowthVerification+<Save>d__9.MoveNext () [0x0016a] in /Users/hyunwol/IanGrowing/Assets/_Game/Scripts/Development/GrowthVerification.cs:31 \n  at IanGame.Editor.Phase26Verification+<Run>d__31.MoveNext () [0x001e0] in /Users/hyunwol/IanGrowing/Assets/_Game/Scripts/Development/Phase26Verification.cs:45 ",
+    "passed": [
+        "New life preserves newborn age and zero cash",
+        "Main menu Home routes to connected LifeWorld",
+        "Connected playable LifeWorld is active",
+        "DAY 1 birth introduction remains visible",
+        "Actual birth confirmation starts world controls",
+        "Actual newborn begins in separate family nursery",
+        "Nine authored visual profiles bound to real player",
+        "Request actual room family-living",
+        "Actual active room family-living",
+        "Actual QA disk load restores authoritative age and matching art"
+    ],
+    "uiIssues": []
+}

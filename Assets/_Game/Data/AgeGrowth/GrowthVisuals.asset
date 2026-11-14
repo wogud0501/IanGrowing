@@ -1,0 +1,192 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d138dd7909c646888d07a0d025ec188, type: 3}
+  m_Name: Growth visuals
+  m_EditorClassIdentifier: Assembly-CSharp::IanGame.GrowthVisualCatalog
+  profiles:
+  - stage: 0
+    id: Newborn
+    minAge: 0
+    maxAge: 0
+    animations: {fileID: 11400000, guid: 9c32ef9a9ae474dca90738159ead008f, type: 2}
+    height: 0.39297587
+    colliderRadius: 0.07
+    speedFactor: 0
+    stride: 0.47157106
+    colliderOffset: {x: 0, y: 0}
+    foot: {x: 0, y: 0}
+    hand: {x: 0, y: 0.17683913}
+    eye: {x: 0, y: 0.3222402}
+    seatOffset: {x: 0, y: 0.12}
+    showerOffset: {x: 0, y: 0}
+    basinOffset: {x: 0, y: 0}
+    idlePreview: {fileID: 21300000, guid: 3f0e9b18717e34b0c975ac014611224c, type: 2}
+    sleepHorizontal: 0
+    artNotes: Generated original age-specific atlas; four-direction locomotion (except newborn); interaction directions use Down fallback. Turn/Stop and care-feed are explicit aliases. Missing motions remain queryable; not authored coverage.
+  - stage: 1
+    id: Toddler
+    minAge: 1
+    maxAge: 2
+    animations: {fileID: 11400000, guid: 98b87dc5cb364435aba3d8288f27335c, type: 2}
+    height: 0.7005222
+    colliderRadius: 0.11
+    speedFactor: 0.48
+    stride: 0.84062666
+    colliderOffset: {x: 0, y: 0}
+    foot: {x: 0, y: 0}
+    hand: {x: 0, y: 0.315235}
+    eye: {x: 0, y: 0.5744282}
+    seatOffset: {x: 0, y: 0.12}
+    showerOffset: {x: 0, y: 0}
+    basinOffset: {x: 0, y: 0}
+    idlePreview: {fileID: 21300000, guid: f37cd50ccbd264a8f8989b0d4039c70e, type: 2}
+    sleepHorizontal: 1
+    artNotes: Generated original age-specific atlas; four-direction locomotion (except newborn); interaction directions use Down fallback. Turn/Stop and care-feed are explicit aliases. Missing motions remain queryable; not authored coverage.
+  - stage: 2
+    id: Preschool
+    minAge: 3
+    maxAge: 4
+    animations: {fileID: 11400000, guid: d21740045f6c6469fb5258b5e763c492, type: 2}
+    height: 0.8542954
+    colliderRadius: 0.13
+    speedFactor: 0.56
+    stride: 1.0251545
+    colliderOffset: {x: 0, y: 0}
+    foot: {x: 0, y: 0}
+    hand: {x: 0, y: 0.3844329}
+    eye: {x: 0, y: 0.7005222}
+    seatOffset: {x: 0, y: 0.12}
+    showerOffset: {x: 0, y: 0}
+    basinOffset: {x: 0, y: 0}
+    idlePreview: {fileID: 21300000, guid: 7235342a36fa24dc4af32b50a3c606f2, type: 2}
+    sleepHorizontal: 1
+    artNotes: Generated original age-specific atlas; four-direction locomotion (except newborn); interaction directions use Down fallback. Turn/Stop and care-feed are explicit aliases. Missing motions remain queryable; not authored coverage.
+  - stage: 3
+    id: EarlyChild
+    minAge: 5
+    maxAge: 7
+    animations: {fileID: 11400000, guid: 525d03f576f614ad1aad62089fbc51ab, type: 2}
+    height: 1.0080684
+    colliderRadius: 0.145
+    speedFactor: 0.65
+    stride: 1.2096822
+    colliderOffset: {x: 0, y: 0}
+    foot: {x: 0, y: 0}
+    hand: {x: 0, y: 0.45363078}
+    eye: {x: 0, y: 0.8266161}
+    seatOffset: {x: 0, y: 0.12}
+    showerOffset: {x: 0, y: 0}
+    basinOffset: {x: 0, y: 0}
+    idlePreview: {fileID: 21300000, guid: d156405ed8e614b59a300cb1faf76062, type: 2}
+    sleepHorizontal: 1
+    artNotes: Generated original age-specific atlas; four-direction locomotion (except newborn); interaction directions use Down fallback. Turn/Stop and care-feed are explicit aliases. Missing motions remain queryable; not authored coverage.
+  - stage: 4
+    id: SchoolChild
+    minAge: 8
+    maxAge: 10
+    animations: {fileID: 11400000, guid: 2039ee79ccb1d4becbdeb338142ee5a0, type: 2}
+    height: 1.1447558
+    colliderRadius: 0.16
+    speedFactor: 0.78
+    stride: 1.373707
+    colliderOffset: {x: 0, y: 0}
+    foot: {x: 0, y: 0}
+    hand: {x: 0, y: 0.5151401}
+    eye: {x: 0, y: 0.9386998}
+    seatOffset: {x: 0, y: 0.12}
+    showerOffset: {x: 0, y: 0}
+    basinOffset: {x: 0, y: 0}
+    idlePreview: {fileID: 21300000, guid: e89b3b8c6f8f245c1bf4a28864e38b05, type: 2}
+    sleepHorizontal: 1
+    artNotes: Generated original age-specific atlas; four-direction locomotion (except newborn); interaction directions use Down fallback. Turn/Stop and care-feed are explicit aliases. Missing motions remain queryable; not authored coverage.
+  - stage: 5
+    id: Preteen
+    minAge: 11
+    maxAge: 13
+    animations: {fileID: 11400000, guid: a9ea3d01dceac4791b3dd9d30794ed83, type: 2}
+    height: 1.2985289
+    colliderRadius: 0.17
+    speedFactor: 0.86
+    stride: 1.5582348
+    colliderOffset: {x: 0, y: 0}
+    foot: {x: 0, y: 0}
+    hand: {x: 0, y: 0.584338}
+    eye: {x: 0, y: 1.0647937}
+    seatOffset: {x: 0, y: 0}
+    showerOffset: {x: 0, y: 0}
+    basinOffset: {x: 0, y: 0}
+    idlePreview: {fileID: 21300000, guid: 91d863e55c4d345059458cb01bec7dce, type: 2}
+    sleepHorizontal: 1
+    artNotes: Generated original age-specific atlas; four-direction locomotion (except newborn); interaction directions use Down fallback. Turn/Stop and care-feed are explicit aliases. Missing motions remain queryable; not authored coverage.
+  - stage: 6
+    id: Teen
+    minAge: 14
+    maxAge: 16
+    animations: {fileID: 11400000, guid: 7eabd3c64c6134f6ba28d7775f4835cd, type: 2}
+    height: 1.4523022
+    colliderRadius: 0.18
+    speedFactor: 0.94
+    stride: 1.7427627
+    colliderOffset: {x: 0, y: 0}
+    foot: {x: 0, y: 0}
+    hand: {x: 0, y: 0.65353596}
+    eye: {x: 0, y: 1.1908878}
+    seatOffset: {x: 0, y: 0}
+    showerOffset: {x: 0, y: 0}
+    basinOffset: {x: 0, y: 0}
+    idlePreview: {fileID: 21300000, guid: 05433f43a8c834bdaa52c9ef6a11859b, type: 2}
+    sleepHorizontal: 1
+    artNotes: Generated original age-specific atlas; four-direction locomotion (except newborn); interaction directions use Down fallback. Turn/Stop and care-feed are explicit aliases. Missing motions remain queryable; not authored coverage.
+  - stage: 7
+    id: LateTeen
+    minAge: 17
+    maxAge: 18
+    animations: {fileID: 11400000, guid: b9f92ed4cf5c64cb58a217726844f743, type: 2}
+    height: 1.6060753
+    colliderRadius: 0.19
+    speedFactor: 0.98
+    stride: 1.9272904
+    colliderOffset: {x: 0, y: 0}
+    foot: {x: 0, y: 0}
+    hand: {x: 0, y: 0.72273386}
+    eye: {x: 0, y: 1.3169817}
+    seatOffset: {x: 0, y: 0}
+    showerOffset: {x: 0, y: 0}
+    basinOffset: {x: 0, y: 0}
+    idlePreview: {fileID: 21300000, guid: 0e79c300bd9a34d7da21fc13788aace3, type: 2}
+    sleepHorizontal: 1
+    artNotes: Generated original age-specific atlas; four-direction locomotion (except newborn); interaction directions use Down fallback. Turn/Stop and care-feed are explicit aliases. Missing motions remain queryable; not authored coverage.
+  - stage: 8
+    id: Adult
+    minAge: 19
+    maxAge: 2147483647
+    animations: {fileID: 11400000, guid: bdb276a2e1f51449799ed882c852f5a6, type: 2}
+    height: 1.7085907
+    colliderRadius: 0.28
+    speedFactor: 1
+    stride: 2.050309
+    colliderOffset: {x: 0, y: 0}
+    foot: {x: 0, y: 0}
+    hand: {x: 0, y: 0.7688658}
+    eye: {x: 0, y: 1.4010444}
+    seatOffset: {x: 0, y: 0}
+    showerOffset: {x: 0, y: 0}
+    basinOffset: {x: 0, y: 0}
+    idlePreview: {fileID: 28776294171772349, guid: 187d56c84d77b4114af3bac280974d98, type: 3}
+    sleepHorizontal: 0
+    artNotes: Original adult art retained unchanged
+  emptyCrib: {fileID: 21300000, guid: c36052a164a49459db67a56aeef312a4, type: 2}
+  cribFront: {fileID: 21300000, guid: e016374cd9bb441c1837770747cd8466, type: 2}
+  toddlerBed: {fileID: 21300000, guid: 2b8ce517ed9be459e904afd9320499f0, type: 2}
+  booster: {fileID: 21300000, guid: 6f288cec221074f6a90695b329efb230, type: 2}
+  stepStool: {fileID: 21300000, guid: b06eb40ff5be24253aadcda60abd8195, type: 2}
+  babyBath: {fileID: 21300000, guid: 5381391221e124eb0aba0463e3e362a8, type: 2}

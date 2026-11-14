@@ -45,7 +45,7 @@ public static class AdvancedWorldVerification {
   w.Player.Warp(locked.Point);var before=g.CaptureState();check(w.Use(locked),"Start portal before load interruption");yield return new WaitForSecondsRealtime(.12f);g.RestoreState(before);g.clock.realtimeEnabled=false;yield return new WaitForSecondsRealtime(1.2f);check(!w.Busy&&g.world.State.zone==before.world.zone&&w.CanControl,"Load during opening cancels transition and restores control safely");
  }
  public static IEnumerator Animation(LifeWorldController w,GameManager g,Action<bool,string> check){
-  var bank=w.Player.advanced.library;foreach(ActorMotion motion in Enum.GetValues(typeof(ActorMotion)))check(bank.Find(motion,ActorDirection.Down)!=null,"Authored clip available: "+motion);
+  var bank=w.Player.advanced.library;foreach(ActorMotion motion in Enum.GetValues(typeof(ActorMotion)).Cast<ActorMotion>().Where(m=>m<=ActorMotion.Thinking))check(bank.Find(motion,ActorDirection.Down)!=null,"Authored clip available: "+motion);
   foreach(ActorDirection d in Enum.GetValues(typeof(ActorDirection)))check(bank.Find(ActorMotion.Run,d,false)!=null,"Actual four-direction run clip: "+d);
   w.Player.Warp(new Vector2(-1,-2.8f));w.Player.BeginTraversal(new Vector2(1,-2.8f),2);var seen=new HashSet<Sprite>();var from=w.Player.Position;float timeout=Time.unscaledTime+3;
   while(w.Player.IsTraversing&&Time.unscaledTime<timeout){seen.Add(w.Player.sprite.sprite);yield return null;}

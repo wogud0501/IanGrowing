@@ -1,0 +1,18 @@
+{
+    "mode": "roomVisualGrowthCare",
+    "stage": "Failed",
+    "failure": "System.Exception: Correct own-age care frames, actual stat effect and input restored 0\n  at IanGame.Editor.Phase26Verification.Check (System.Boolean condition, System.String text) [0x00021] in /Users/hyunwol/IanGrowing/Assets/_Game/Scripts/Development/Phase26Verification.cs:35 \n  at IanGame.Editor.GrowthVerification+<Care>d__12.MoveNext () [0x002da] in /Users/hyunwol/IanGrowing/Assets/_Game/Scripts/Development/GrowthVerification.cs:41 \n  at IanGame.Editor.Phase26Verification+<Run>d__31.MoveNext () [0x001e0] in /Users/hyunwol/IanGrowing/Assets/_Game/Scripts/Development/Phase26Verification.cs:45 ",
+    "passed": [
+        "New life preserves newborn age and zero cash",
+        "Main menu Home routes to connected LifeWorld",
+        "Connected playable LifeWorld is active",
+        "DAY 1 birth introduction remains visible",
+        "Actual birth confirmation starts world controls",
+        "Actual newborn begins in separate family nursery",
+        "Nine authored visual profiles bound to real player",
+        "Request actual room family-ian-bedroom",
+        "Actual active room family-ian-bedroom",
+        "Real feeding/drinking care starts 0"
+    ],
+    "uiIssues": []
+}

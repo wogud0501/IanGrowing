@@ -400,3 +400,14 @@ UI 비율: 1280×720, 1920×1080, 2400×1080, 1080×1920. 큰 글씨 115%, 소�
 - 영유아 전용 보호자 목욕 아트/실제 모바일·폴더블 기기 성능/iOS 네이티브 빌드는 완료 인증하지 않음.
 - 실제 파일·비교 화면·검증·남은 범위: `Docs/InteriorReconstruction/RESULTS.md`. 패치노트: `Docs/PATCH_NOTES_INTERIOR_RECONSTRUCTION_2026_11_14.md`.
 - 기준 d651cef, 로컬 백업 `DevelopmentBackups/InteriorReconstruction-20261114` (운영 세이브 포함/Git 제외).
+
+
+## 2026-11-15 — 중단된 9단계 성장 외형·생활 연결 재개
+
+- 8a95d70의 중단 변경에서 이어 9단계 실제 원화/프로필을 16개 분리 씬에 직렬화했다. Workspace 배치·기존 문 코어·기존 6단계 성장/미션 규칙은 보존했다.
+- 연령별 Sprite/Collider/속도·보폭, 침대·수면·기상·식사·목욕·샤워, 실행 단계 연령 제한 및 저장 복원을 연결했다.
+- QA 외형 프리셋/성장 시나리오와 실제 9단계 Game View 비교 캡처를 저장했다.
+- 최종 Play Mode 12개 시나리오 931 assertions 및 Unity Framework 2개 테스트 PASS. Android ARM64 IL2CPP Development 빌드 성공. iOS SDK 없음으로 BLOCKED; 실기기 미검증.
+- 원본 플레이 세이브 3개 SHA-256 동일. 가족/개인 가구 소유권·19세 선택적 유료 독립 유지.
+- 원화 최종 검수, 생활 동작의 모든 방향, 가구별 손/시선 연결, 부모 전신 돌봄 연쇄, 실제 모바일 성능은 미완료다. 전체 요구사항 완료나 Phase 2.8 READY로 선언하지 않는다.
+- 결과: Docs/AgeGrowth/RESULTS.md · 패치노트: Docs/PATCHNOTES_2026_11_15_AGE_GROWTH.md. 마지막 저장/보호 해제 상태는 Docs/AgeGrowth/FINAL_EDITOR_STATE.json 참조.

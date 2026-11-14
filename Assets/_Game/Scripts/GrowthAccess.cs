@@ -21,10 +21,12 @@ public static class GrowthAccess {
   reason=null;return true;
  }
  public static bool Interaction(GameManager g,WorldInteractable o,int action,out string reason){
-  reason=null;if(o==null)return false;if(o.kind==WorldInteractionKind.Door)return Zone(g,o.targetZone,out reason);
+  reason=null;if(o==null)return false;if(o.kind==WorldInteractionKind.Door){if(g!=null&&!g.growth.WalkingUnlocked){reason="아직 혼자 문을 통과할 수 없습니다. 보호자의 도움이 필요합니다.";return false;}return Zone(g,o.targetZone,out reason);}
   if(!Zone(g,o.zone,out reason))return false;
   bool adult=o.kind==WorldInteractionKind.Work||o.kind==WorldInteractionKind.StockMarket||o.kind==WorldInteractionKind.RealEstate||action==-3;
   if(adult&&!Adult(g)){reason="현재 성장 단계에서는 이용할 수 없습니다. 청년기(19세)에 해금됩니다.";return false;}
+  if(FamilyLife.IsFamilyRoom(o.zone)&&o.kind==WorldInteractionKind.Shower&&g.growth.Age<=2){reason="아직 보호자의 목욕 도움이 필요합니다. 아기 침대에서 돌봄을 선택하세요.";return false;}
+  if(action==-4&&!(o.id=="family-bed"&&FamilyLife.IsFamilyRoom(o.zone)&&g.growth.Age<=2)){reason="영유아 목욕 돌봄은 가족 침대에서 이용하세요.";return false;}
   if(FamilyLife.IsFamilyRoom(o.zone)){if(ParentCare(g,o,action))return true;if(g.growth.Age==0){reason="부모님이나 아기 침대에서 돌봄을 받으세요.";return false;}}
   if(!Independent(g)&&!FamilyLife.IsFamilyRoom(o.zone)&&o.kind!=WorldInteractionKind.Sleep&&o.kind!=WorldInteractionKind.Rest){reason="현재는 돌봄을 받는 시기입니다. 침대에서 돌봄 행동을 선택하세요.";return false;}return true;
  }

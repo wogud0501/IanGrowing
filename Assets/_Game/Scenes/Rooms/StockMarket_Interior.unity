@@ -6112,6 +6112,7 @@ GameObject:
   - component: {fileID: 186109974}
   - component: {fileID: 186109973}
   - component: {fileID: 186109977}
+  - component: {fileID: 186109978}
   m_Layer: 0
   m_Name: Ian / official playable character
   m_TagString: Untagged
@@ -6146,6 +6147,7 @@ MonoBehaviour:
   acceleration: 40
   braking: 64
   runMultiplier: 1.65
+  growthVisual: {fileID: 186109978}
 --- !u!58 &186109974
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -6242,6 +6244,22 @@ MonoBehaviour:
   library: {fileID: 11400000, guid: bdb276a2e1f51449799ed882c852f5a6, type: 2}
   visual: {fileID: 1265790235}
   legacyAnimator: {fileID: 1265790236}
+--- !u!114 &186109978
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 186109972}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c17d363d264f443e9632884591b52a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IanGame.PlayerGrowthVisual
+  motor: {fileID: 186109973}
+  catalog: {fileID: 11400000, guid: 9b2d07c4d63164ce98a8e59bed22c1bf, type: 2}
+  ActionOffset: {x: 0, y: 0}
+  ActionOrder: -2147483648
 --- !u!1 &188114729
 GameObject:
   m_ObjectHideFlags: 0
