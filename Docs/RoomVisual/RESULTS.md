@@ -56,3 +56,17 @@ Workspace의5개 업무석, 회사/학교/상점의 기존 NPC 일정과 가구 
 표의 숫자는6개 실행의 assertion 수로, 고유 기능 수가 아니다. 같은 준비·경계 검사 일부가 포함된다. 문은30개의 실제 장소 연결, 샤워는 실제2개 부스, 실내는14개 씬을 확인했다. 마지막4실 폴리싱과 욕실 모바일 검사는 해당 변경/화면에 한정했다.
 
 sceneState에서는 실제 QA 슬롯 저장 후 복원, 현금/부채/투자/미션/직업·관계·가구 보존, 부모의 냉장고 재료 소비→요리→배식, 멀리 있는 가족 행동의 중복 소비 방지, 회사5개 업무석을 실행 검사했다. roomVisualShower는 안쪽 actor 위치와 서로 다른 프레임, 유리문 개방/폐쇄, 물 효과 프레임,1200초 정산, 취소 무보상과 점유 해제까지 검사했다.
+
+## 빌드와 최종 저장
+
+Android ARM64 IL2CPP Development APK를 이번 변경으로 실제 생성했다. [BuildReport](ANDROID_BUILD.txt): Succeeded, 오류0, 경고1223,26개 Build Scene,2분3초. APK는 `Builds/SceneArchitecture/Ian-Rooms-Development.apk`,168,472,896 bytes다. 설치·기기 실행 완료를 의미하지 않는다. 경고는 기존 API/패키지 경고를 포함하며 이번 범위에서 전체 정리하지 않았다. Editor target은 StandaloneOSX로 복원했다.
+
+iOS는 `xcode-select -p`가 CommandLineTools만 가리키고 `xcrun --sdk iphoneos --show-sdk-path`가 SDK 없음으로 실패했다. iOS 빌드는 BLOCKED이며 성공으로 표시하지 않는다.
+
+원본 세이브3개는 작업 시작 해시와 모두 일치했다([최종 해시](SAVE_FINAL_HASHES.json)). 보호 상태에서 실제 운영 슬롯 쓰기 차단도 재확인했다. 검증 후 보호 플래그를 해제해 다음 수동 Play에서는 정상 저장된다([해제 근거](EDITOR_RELEASED.json)). Editor는 Play 중지/컴파일 완료, FamilyHome_IanBedroom 씬 dirty=False로 남겼다([저장 상태](EDITOR_SAVED.json)). 모든14실 변경은 실제 `.unity` 파일에 저장했다.
+
+기존 프리팹 자체 수정은 없다. DoorTemplate 및 기존 SceneResidents를 재사용했고 새 컴포넌트/Anchor/비주얼 참조는 각 실내 Scene에 저장했다. 정확한 파일 목록은 FILES_CHANGED.txt를 따른다.
+
+## 복구 체크포인트
+
+작업 도중 외부에서 생성된 `e76de30` 커밋에 구현과 캡처가 저장된 것을 확인했고, 해당 커밋을 되돌리지 않았다. 이번 최종 검증·세이브 해제 근거는 별도 문서 체크포인트로 저장한다. `LIVE_KEY_TRACE.json`은 작업 시작 시 백업과 바이트가 일치함을 확인했다. Build가 자동 갱신한 URP/atlas/네이티브 디버그 메타데이터도 외부 커밋에 포함되어 있으며, 게임 로직 변경으로 분류하지 않는다.

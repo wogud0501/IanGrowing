@@ -9,4 +9,8 @@
 - Stage 5–7: 실제14개 실내에 프로필 저장. Workspace 가구·업무석 및 NPC 데이터 유지. 독립 욕실의 기존 disabled 바닥/벽 렌더러 복구. 행동 안내 패널을 기존 HUD 디자인으로 통일.
 - Stage 8: 최종 Play 시나리오6종 모두 Completed, 실패0/UI 문제0. `Results/`의 최종 Completed 결과만 판정 근거로 사용. 실제 Android/iOS 기기 검증은 미실행.
 
-다음 체크포인트: Android 빌드 결과와 운영 세이브 해시 확인, 자동화 보호 잠금 해제, Git 체크포인트. 상세 실행 결과는 RESULTS.md 및 Results/ 참고.
+Stage 8–9 완료 기록: 최종 Play6시나리오457개 assertion 통과/UI 문제0. Android ARM64 IL2CPP Development APK 성공(오류0/경고1223), Editor macOS 복귀. 운영3세이브 해시 일치. 검증 보호 잠금 해제 완료. 실제 기기 및 iOS SDK는 미검증/차단으로 상세 보고서에 기록.
+
+다음 작업: 실제 Android/iOS 기기에서 각 방 카메라·터치·메모리/FPS 확인, 기존 NPC 동작 아트의 추가 폴리싱. 이번 세션은 Phase2.8 기능을 추가하지 않았다.
+
+코드/캡처 체크포인트: 작업 도중 생성된 외부 커밋 `e76de30` 보존. 최종 검증/정상 저장 복구 근거는 뒤이은 문서 커밋.
