@@ -10,6 +10,8 @@ public sealed class WorldPlayerMotor:MonoBehaviour {
  Rigidbody2D body;Vector2 input,velocity,observedPosition;float actualSpeed,pendingDistance;bool observed,wasMoving;string pose="Idle";float stopUntil,turnUntil,reactionRemaining;ActorMotion reaction;
  InputActionAsset runtimeControls;InputActionMap gameplay;InputAction move,interact,inventory,menu,run;
  bool scripted;Vector2 traversalTarget;float traversalSpeed;
+ // Walking (1+) and independent outdoor travel (7+) have separate policies.
+ public bool MovementAllowed=>world!=null&&world.Service!=null&&world.Service.Game.growth.WalkingUnlocked;
  public float TraversalSeconds{get;private set;}
  public bool TraversalArrived{get;private set;}public bool IsTraversing=>scripted;public float ActualSpeed=>actualSpeed;public Vector2 Movement=>velocity;
  public bool TextInputFocused {get{var es=UnityEngine.EventSystems.EventSystem.current;var selected=es==null?null:es.currentSelectedGameObject;var field=selected==null?null:selected.GetComponent<TMPro.TMP_InputField>();return field!=null&&field.isFocused;}}
@@ -32,10 +34,11 @@ public sealed class WorldPlayerMotor:MonoBehaviour {
  #endif
   return true;
  }
- public void BeginTraversal(Vector2 destination,float speed=2.2f){StopMotion();traversalTarget=destination;traversalSpeed=Mathf.Max(.1f,speed);TraversalArrived=false;TraversalSeconds=0;scripted=true;pose="Idle";}
+ public void BeginTraversal(Vector2 destination,float speed=2.2f){if(!MovementAllowed){CancelTraversal();return;}StopMotion();traversalTarget=destination;traversalSpeed=Mathf.Max(.1f,speed);TraversalArrived=false;TraversalSeconds=0;scripted=true;pose="Idle";}
  public void CancelTraversal(){scripted=false;TraversalArrived=false;StopMotion();}
  void Update(){
-  bool controlling=world!=null&&world.CanControl&&OwnsKeyboardFocus();input=controlling&&move!=null?Vector2.ClampMagnitude(move.ReadValue<Vector2>(),1):Vector2.zero;
+  bool controlling=MovementAllowed&&world.CanControl&&OwnsKeyboardFocus();input=controlling&&move!=null?Vector2.ClampMagnitude(move.ReadValue<Vector2>(),1):Vector2.zero;
+  if(!MovementAllowed){if(scripted)CancelTraversal();StopMotion();}
   if(scripted)input=Vector2.ClampMagnitude(traversalTarget-Position,1);
   if(actualSpeed>.03f&&velocity.sqrMagnitude>.0001f)Facing=velocity.normalized;
   bool moving=actualSpeed>.06f;bool running=controlling&&run!=null&&run.IsPressed()&&world.Service.State.fatigue<85;
@@ -44,6 +47,7 @@ public sealed class WorldPlayerMotor:MonoBehaviour {
    ActorMotion motion=Parse(pose);
    if(pose=="Idle")motion=moving?(running?ActorMotion.Run:ActorMotion.Walk):Time.unscaledTime<stopUntil?ActorMotion.Stop:Time.unscaledTime<turnUntil?ActorMotion.Turn:reactionRemaining>0?reaction:ActorMotion.Idle;
    if(pose=="Idle"&&!moving&&reactionRemaining>0)reactionRemaining=Mathf.Max(0,reactionRemaining-Time.unscaledDeltaTime);
+   if(!MovementAllowed&&(motion==ActorMotion.Walk||motion==ActorMotion.Run||motion==ActorMotion.Turn||motion==ActorMotion.Stop))motion=ActorMotion.Idle;
    bool walking=motion==ActorMotion.Walk||motion==ActorMotion.Run;
    advanced.Render(motion,Facing,pendingDistance,walking);pendingDistance=0;
    bodyVisual.localPosition=Vector3.zero;bodyVisual.localScale=Vector3.one*visualScale;bodyVisual.localRotation=Quaternion.identity;
@@ -53,7 +57,7 @@ public sealed class WorldPlayerMotor:MonoBehaviour {
   sprite.sortingOrder=1000-Mathf.RoundToInt(transform.position.y*100)+(pose=="Sleep"||pose=="Wake Up"?50:0);
  }
  void FixedUpdate(){
-  if(world==null||world.Service==null||world.Service.Game.State!=GameState.Playing||!scripted&&(!world.CanControl||!OwnsKeyboardFocus())){StopMotion();return;}
+  if(!MovementAllowed||world.Service.Game.State!=GameState.Playing||!scripted&&(!world.CanControl||!OwnsKeyboardFocus())){StopMotion();return;}
   if(scripted)TraversalSeconds+=Time.fixedDeltaTime;
   float distance=observed?Vector2.Distance(observedPosition,body.position):0;observedPosition=body.position;observed=true;actualSpeed=distance/Time.fixedDeltaTime;
   float maximum=world.Service.rules.moveSpeed*runMultiplier*Time.fixedDeltaTime*2;if(distance<maximum)pendingDistance+=distance;
@@ -68,7 +72,7 @@ public sealed class WorldPlayerMotor:MonoBehaviour {
  void LateUpdate(){if(contactShadow!=null)contactShadow.sortingOrder=sprite.sortingOrder-1;}
  public void Face(Vector2 direction){if(direction.sqrMagnitude<.0001f)return;if(ActorAnimationSet.Direction(direction)!=ActorAnimationSet.Direction(Facing))turnUntil=Time.unscaledTime+.18f;Facing=direction.normalized;}
  public void React(ActorMotion motion,float seconds=.8f){reaction=motion;reactionRemaining=seconds;}public void ClearReaction(){reactionRemaining=0;}
- public void Pose(string state){pose=state;if(advanced!=null)advanced.Play(Parse(state),Facing,true);}
+ public void Pose(string state){if(!MovementAllowed&&(state=="Walk"||state=="Run"||state=="Turn"||state=="Stop"))state="Idle";pose=state;if(advanced!=null)advanced.Play(Parse(state),Facing,true);}
  static ActorMotion Parse(string state){switch(state){case "Wake Up":return ActorMotion.WakeUp;case "Sit":return ActorMotion.SitDown;case "Wash":return ActorMotion.WashFace;case "Stand Up":return ActorMotion.StandUp;case "Open Door":return ActorMotion.OpenDoor;case "Use Computer":return ActorMotion.UseComputer;case "Use Phone":return ActorMotion.UsePhone;default:return System.Enum.TryParse(state.Replace(" ",""),out ActorMotion motion)?motion:ActorMotion.Interact;}}
 }
 }

@@ -1,0 +1,140 @@
+ID,Category,Title,Status,RunnerStatus,ExecutedAssertions,ExecutionUTC,Evidence,Notes
+core/new-life,1 기본,새 게임·DAY 1,PASS,PASS,4,2026-11-14T03:13:43.3138560Z,REGISTRY_FINAL.json,실제 검사 통과
+core/save,1 기본,저장·불러오기·이어하기,PASS,PASS,3,2026-11-14T03:13:43.3532430Z,REGISTRY_FINAL.json,실제 검사 통과
+core/source-copy,1 기본,기존 파일 복사 불러오기,PASS,PASS,2,2026-11-14T03:13:43.3880870Z,REGISTRY_FINAL.json,실제 검사 통과
+core/scene,1 기본,씬·UI 스택 왕복,PASS,PASS,3,2026-11-14T03:13:43.4109180Z,REGISTRY_FINAL.json,실제 검사 통과
+core/movement,1 기본,물리 키보드·캐릭터 이동,MANUAL,MANUAL,0,2026-11-14T03:13:43.4315870Z,REGISTRY_FINAL.json,관련 화면에서 WASD/방향키/걷기 방향과 실제 발걸음을 확인하세요. 자동 PASS 아님.
+core/legacy-import,1 기본,기존 세이브 가져오기,MANUAL,MANUAL,0,2026-11-14T03:13:43.4347400Z,REGISTRY_FINAL.json,진단 화면의 원본 복사 불러오기는 원본 파일을 읽어서 QA 슬롯에 복사한 뒤 기존 SaveManager로 읽습니다. 원본 버전별 결과를 직접 확인하세요.
+survival/stats,2.1 생존,8개 능력치·범위,PASS,PASS,17,2026-11-14T03:13:43.4379990Z,REGISTRY_FINAL.json,실제 검사 통과
+survival/day,2.1 생존,소모·회복·위험 판정,PASS,PASS,3,2026-11-14T03:13:43.4760300Z,REGISTRY_FINAL.json,실제 검사 통과
+growth/unlocks,2.2 성장·미션,나이별 잠금 해제·이벤트,PASS,PASS,2,2026-11-14T03:13:43.5041620Z,REGISTRY_FINAL.json,실제 검사 통과
+missions/catalog,2.2 성장·미션,60개 미션 무결성,PASS,PASS,2,2026-11-14T03:13:43.5269530Z,REGISTRY_FINAL.json,실제 검사 통과
+missions/progress-command,2.2 성장·미션,임의 미션 진행값·실제 조건 관찰,PASS,PASS,3,2026-11-14T03:13:43.5416950Z,REGISTRY_FINAL.json,실제 검사 통과
+mission/M001,2.2 성장·미션,M001 · 물을 마셔보자,PASS,PASS,4,2026-11-14T03:13:43.5754620Z,REGISTRY_FINAL.json,실제 행동 성장 경로 및 별도 fixture 검사 통과. 실제 검사 통과
+mission/M002,2.2 성장·미션,M002 · 밥이라는 것을 먹어보자,PASS,PASS,4,2026-11-14T03:13:43.6147360Z,REGISTRY_FINAL.json,실제 행동 성장 경로 및 별도 fixture 검사 통과. 실제 검사 통과
+mission/M003,2.2 성장·미션,M003 · 잠을 자보자,PASS,PASS,4,2026-11-14T03:13:43.6479600Z,REGISTRY_FINAL.json,실제 행동 성장 경로 및 별도 fixture 검사 통과. 실제 검사 통과
+mission/M004,2.2 성장·미션,M004 · 배고픔을 해결해보자,PASS,PASS,4,2026-11-14T03:13:43.6914270Z,REGISTRY_FINAL.json,실제 행동 성장 경로 및 별도 fixture 검사 통과. 실제 검사 통과
+mission/M005,2.2 성장·미션,M005 · 갈증에서 벗어나자,PASS,PASS,4,2026-11-14T03:13:43.7226190Z,REGISTRY_FINAL.json,실제 행동 성장 경로 및 별도 fixture 검사 통과. 실제 검사 통과
+mission/M006,2.2 성장·미션,M006 · 휴식의 가치를 알아보자,PASS,PASS,4,2026-11-14T03:13:43.7597480Z,REGISTRY_FINAL.json,실제 행동 성장 경로 및 별도 fixture 검사 통과. 실제 검사 통과
+mission/M007,2.2 성장·미션,M007 · 건강한 인간이 되어보자,PASS,PASS,4,2026-11-14T03:13:43.7965520Z,REGISTRY_FINAL.json,실제 행동 성장 경로 및 별도 fixture 검사 통과. 실제 검사 통과
+mission/M008,2.2 성장·미션,M008 · 멘탈을 관리해보자,PASS,PASS,4,2026-11-14T03:13:43.8272510Z,REGISTRY_FINAL.json,실제 행동 성장 경로 및 별도 fixture 검사 통과. 실제 검사 통과
+mission/M009,2.2 성장·미션,M009 · 사흘 동안 살아남자,PASS,PASS,4,2026-11-14T03:13:43.8708660Z,REGISTRY_FINAL.json,실제 행동 성장 경로 및 별도 fixture 검사 통과. 실제 검사 통과
+mission/M010,2.2 성장·미션,M010 · 유아기 졸업,PASS,PASS,4,2026-11-14T03:13:44.2553290Z,REGISTRY_FINAL.json,실제 행동 성장 경로 및 별도 fixture 검사 통과. 실제 검사 통과
+mission/M011,2.2 성장·미션,M011 · 학교 입학,PASS,PASS,4,2026-11-14T03:13:44.3169220Z,REGISTRY_FINAL.json,실제 행동 성장 경로 및 별도 fixture 검사 통과. 실제 검사 통과
+mission/M012,2.2 성장·미션,M012 · 책 3권 읽기,PASS,PASS,4,2026-11-14T03:13:44.3752470Z,REGISTRY_FINAL.json,실제 행동 성장 경로 및 별도 fixture 검사 통과. 실제 검사 통과
+mission/M013,2.2 성장·미션,M013 · 지식 20 달성,PASS,PASS,4,2026-11-14T03:13:44.4090850Z,REGISTRY_FINAL.json,실제 행동 성장 경로 및 별도 fixture 검사 통과. 실제 검사 통과
+mission/M014,2.2 성장·미션,M014 · 친구 1명 만들기,PASS,PASS,4,2026-11-14T03:13:44.4544130Z,REGISTRY_FINAL.json,실제 행동 성장 경로 및 별도 fixture 검사 통과. 실제 검사 통과
+mission/M015,2.2 성장·미션,M015 · 사회성 15 달성,PASS,PASS,4,2026-11-14T03:13:44.4889770Z,REGISTRY_FINAL.json,실제 행동 성장 경로 및 별도 fixture 검사 통과. 실제 검사 통과
+mission/M016,2.2 성장·미션,M016 · 숙제 5회,PASS,PASS,4,2026-11-14T03:13:44.5281220Z,REGISTRY_FINAL.json,실제 행동 성장 경로 및 별도 fixture 검사 통과. 실제 검사 통과
+mission/M017,2.2 성장·미션,M017 · 시험 응시,PASS,PASS,4,2026-11-14T03:13:44.5666300Z,REGISTRY_FINAL.json,실제 행동 성장 경로 및 별도 fixture 검사 통과. 실제 검사 통과
+mission/M018,2.2 성장·미션,M018 · 첫 성적표 받기,PASS,PASS,4,2026-11-14T03:13:44.5995400Z,REGISTRY_FINAL.json,실제 행동 성장 경로 및 별도 fixture 검사 통과. 실제 검사 통과
+mission/M019,2.2 성장·미션,M019 · 방과 후 학습,PASS,PASS,4,2026-11-14T03:13:44.6432530Z,REGISTRY_FINAL.json,실제 행동 성장 경로 및 별도 fixture 검사 통과. 실제 검사 통과
+mission/M020,2.2 성장·미션,M020 · 12세 달성,PASS,PASS,4,2026-11-14T03:13:44.6756720Z,REGISTRY_FINAL.json,실제 행동 성장 경로 및 별도 fixture 검사 통과. 실제 검사 통과
+mission/M021,2.2 성장·미션,M021 · 중학교 입학,PASS,PASS,4,2026-11-14T03:13:44.7159820Z,REGISTRY_FINAL.json,실제 행동 성장 경로 및 별도 fixture 검사 통과. 실제 검사 통과
+mission/M022,2.2 성장·미션,M022 · 공부 10회 수행,PASS,PASS,4,2026-11-14T03:13:44.7548980Z,REGISTRY_FINAL.json,실제 행동 성장 경로 및 별도 fixture 검사 통과. 실제 검사 통과
+mission/M023,2.2 성장·미션,M023 · 지식 35 달성,PASS,PASS,4,2026-11-14T03:13:44.7879440Z,REGISTRY_FINAL.json,실제 행동 성장 경로 및 별도 fixture 검사 통과. 실제 검사 통과
+mission/M024,2.2 성장·미션,M024 · 헤드폰 첫 장착,PASS,PASS,4,2026-11-14T03:13:44.8319990Z,REGISTRY_FINAL.json,실제 행동 성장 경로 및 별도 fixture 검사 통과. 실제 검사 통과
+mission/M025,2.2 성장·미션,M025 · 장비 첫 장착,PASS,PASS,4,2026-11-14T03:13:44.8642710Z,REGISTRY_FINAL.json,실제 행동 성장 경로 및 별도 fixture 검사 통과. 실제 검사 통과
+mission/M026,2.2 성장·미션,M026 · 사회성 25 달성,PASS,PASS,4,2026-11-14T03:13:44.8964010Z,REGISTRY_FINAL.json,실제 행동 성장 경로 및 별도 fixture 검사 통과. 실제 검사 통과
+mission/M027,2.2 성장·미션,M027 · 시험 2회 응시,PASS,PASS,4,2026-11-14T03:13:44.9412480Z,REGISTRY_FINAL.json,실제 행동 성장 경로 및 별도 fixture 검사 통과. 실제 검사 통과
+mission/M028,2.2 성장·미션,M028 · 진로 선택,PASS,PASS,4,2026-11-14T03:13:44.9734300Z,REGISTRY_FINAL.json,실제 행동 성장 경로 및 별도 fixture 검사 통과. 실제 검사 통과
+mission/M029,2.2 성장·미션,M029 · 멘탈 40 이상 유지,PASS,PASS,4,2026-11-14T03:13:45.0124800Z,REGISTRY_FINAL.json,실제 행동 성장 경로 및 별도 fixture 검사 통과. 실제 검사 통과
+mission/M030,2.2 성장·미션,M030 · 청소년기 졸업,PASS,PASS,4,2026-11-14T03:13:45.0510270Z,REGISTRY_FINAL.json,실제 행동 성장 경로 및 별도 fixture 검사 통과. 실제 검사 통과
+mission/M031,2.2 성장·미션,M031 · 첫 이력서 작성,PASS,PASS,4,2026-11-14T03:13:45.0836280Z,REGISTRY_FINAL.json,실제 행동 성장 경로 및 별도 fixture 검사 통과. 실제 검사 통과
+mission/M032,2.2 성장·미션,M032 · 첫 면접 응시,PASS,PASS,4,2026-11-14T03:13:45.1290030Z,REGISTRY_FINAL.json,실제 행동 성장 경로 및 별도 fixture 검사 통과. 실제 검사 통과
+mission/M033,2.2 성장·미션,M033 · 첫 아르바이트 취업,PASS,PASS,4,2026-11-14T03:13:45.1622960Z,REGISTRY_FINAL.json,실제 행동 성장 경로 및 별도 fixture 검사 통과. 실제 검사 통과
+mission/M034,2.2 성장·미션,M034 · 첫 급여 수령,PASS,PASS,4,2026-11-14T03:13:45.1950300Z,REGISTRY_FINAL.json,실제 행동 성장 경로 및 별도 fixture 검사 통과. 실제 검사 통과
+mission/M035,2.2 성장·미션,M035 · 첫 세금 납부,PASS,PASS,4,2026-11-14T03:13:45.2396430Z,REGISTRY_FINAL.json,실제 행동 성장 경로 및 별도 fixture 검사 통과. 실제 검사 통과
+mission/M036,2.2 성장·미션,M036 · 부채 일부 상환,PASS,PASS,4,2026-11-14T03:13:45.2728870Z,REGISTRY_FINAL.json,실제 행동 성장 경로 및 별도 fixture 검사 통과. 실제 검사 통과
+mission/M037,2.2 성장·미션,M037 · 출근 3회 완료,PASS,PASS,4,2026-11-14T03:13:45.3057860Z,REGISTRY_FINAL.json,실제 행동 성장 경로 및 별도 fixture 검사 통과. 실제 검사 통과
+mission/M038,2.2 성장·미션,M038 · 주식 첫 매수,PASS,PASS,4,2026-11-14T03:13:45.3505640Z,REGISTRY_FINAL.json,실제 행동 성장 경로 및 별도 fixture 검사 통과. 실제 검사 통과
+mission/M039,2.2 성장·미션,M039 · 인생 이벤트 선택 3회,NOT APPLICABLE,NOT_IMPLEMENTED,0,2026-11-14T03:13:45.3838870Z,REGISTRY_FINAL.json,후속 Phase 서비스 의존; 현재 범위 밖. 미션에 필요한 서비스 미구현: EventChoices
+mission/M040,2.2 성장·미션,M040 · 청년기 졸업,PARTIAL,PASS,4,2026-11-14T03:13:45.4059680Z,REGISTRY_FINAL.json,실제 조건/보상/저장 fixture PASS. 자연 순차 경로는 M039 의존으로 후속 단계 연결 필요.
+mission/M041,2.2 성장·미션,M041 · 승진에 도전하기,PARTIAL,PASS,4,2026-11-14T03:13:45.4549190Z,REGISTRY_FINAL.json,실제 조건/보상/저장 fixture PASS. 자연 순차 경로는 M039 의존으로 후속 단계 연결 필요.
+mission/M042,2.2 성장·미션,"M042 · 저축 10,000G 달성",PARTIAL,PASS,4,2026-11-14T03:13:45.4928640Z,REGISTRY_FINAL.json,실제 조건/보상/저장 fixture PASS. 자연 순차 경로는 M039 의존으로 후속 단계 연결 필요.
+mission/M043,2.2 성장·미션,M043 · 신용도 60 달성,PARTIAL,PASS,4,2026-11-14T03:13:45.5282940Z,REGISTRY_FINAL.json,실제 조건/보상/저장 fixture PASS. 자연 순차 경로는 M039 의존으로 후속 단계 연결 필요.
+mission/M044,2.2 성장·미션,M044 · 첫 가구 구매,PARTIAL,PASS,4,2026-11-14T03:13:45.5775090Z,REGISTRY_FINAL.json,실제 조건/보상/저장 fixture PASS. 자연 순차 경로는 M039 의존으로 후속 단계 연결 필요.
+mission/M045,2.2 성장·미션,M045 · 월세 납부,PARTIAL,PASS,4,2026-11-14T03:13:45.6135540Z,REGISTRY_FINAL.json,실제 조건/보상/저장 fixture PASS. 자연 순차 경로는 M039 의존으로 후속 단계 연결 필요.
+mission/M046,2.2 성장·미션,M046 · 전세보증보험 알아보기,PARTIAL,PASS,4,2026-11-14T03:13:45.6499020Z,REGISTRY_FINAL.json,실제 조건/보상/저장 fixture PASS. 자연 순차 경로는 M039 의존으로 후속 단계 연결 필요.
+mission/M047,2.2 성장·미션,M047 · 주식 첫 매도,PARTIAL,PASS,4,2026-11-14T03:13:45.6988980Z,REGISTRY_FINAL.json,실제 조건/보상/저장 fixture PASS. 자연 순차 경로는 M039 의존으로 후속 단계 연결 필요.
+mission/M048,2.2 성장·미션,M048 · 투자 손익 확인,PARTIAL,PASS,4,2026-11-14T03:13:45.7360940Z,REGISTRY_FINAL.json,실제 조건/보상/저장 fixture PASS. 자연 순차 경로는 M039 의존으로 후속 단계 연결 필요.
+mission/M049,2.2 성장·미션,M049 · 부채 원금 추가 상환,PARTIAL,PASS,4,2026-11-14T03:13:45.7716760Z,REGISTRY_FINAL.json,실제 조건/보상/저장 fixture PASS. 자연 순차 경로는 M039 의존으로 후속 단계 연결 필요.
+mission/M050,2.2 성장·미션,M050 · 중년기 졸업,PARTIAL,PASS,4,2026-11-14T03:13:45.8205540Z,REGISTRY_FINAL.json,실제 조건/보상/저장 fixture PASS. 자연 순차 경로는 M039 의존으로 후속 단계 연결 필요.
+mission/M051,2.2 성장·미션,M051 · 노년기 진입 확인,NOT APPLICABLE,NOT_IMPLEMENTED,0,2026-11-14T03:13:45.8553520Z,REGISTRY_FINAL.json,후속 Phase 서비스 의존; 현재 범위 밖. 미션에 필요한 서비스 미구현: Endings
+mission/M052,2.2 성장·미션,M052 · 은퇴 여부 결정,NOT APPLICABLE,NOT_IMPLEMENTED,0,2026-11-14T03:13:45.8760710Z,REGISTRY_FINAL.json,후속 Phase 서비스 의존; 현재 범위 밖. 미션에 필요한 서비스 미구현: Endings
+mission/M053,2.2 성장·미션,M053 · 생존 능력치 관리,NOT APPLICABLE,NOT_IMPLEMENTED,0,2026-11-14T03:13:45.8978910Z,REGISTRY_FINAL.json,후속 Phase 서비스 의존; 현재 범위 밖. 미션에 필요한 서비스 미구현: Endings
+mission/M054,2.2 성장·미션,M054 · 과거 인생 이벤트 회상,NOT APPLICABLE,NOT_IMPLEMENTED,0,2026-11-14T03:13:45.9314880Z,REGISTRY_FINAL.json,후속 Phase 서비스 의존; 현재 범위 밖. 미션에 필요한 서비스 미구현: EventChoices
+mission/M055,2.2 성장·미션,M055 · 누적 소득 확인,NOT APPLICABLE,NOT_IMPLEMENTED,0,2026-11-14T03:13:45.9562070Z,REGISTRY_FINAL.json,후속 Phase 서비스 의존; 현재 범위 밖. 미션에 필요한 서비스 미구현: Endings
+mission/M056,2.2 성장·미션,M056 · 사회성 50 달성,NOT APPLICABLE,NOT_IMPLEMENTED,0,2026-11-14T03:13:45.9832290Z,REGISTRY_FINAL.json,후속 Phase 서비스 의존; 현재 범위 밖. 미션에 필요한 서비스 미구현: Endings
+mission/M057,2.2 성장·미션,M057 · 주요 업적 5개 달성,NOT APPLICABLE,NOT_IMPLEMENTED,0,2026-11-14T03:13:46.0205560Z,REGISTRY_FINAL.json,후속 Phase 서비스 의존; 현재 범위 밖. 미션에 필요한 서비스 미구현: Achievements
+mission/M058,2.2 성장·미션,M058 · 남은 부채 확인,NOT APPLICABLE,NOT_IMPLEMENTED,0,2026-11-14T03:13:46.0505350Z,REGISTRY_FINAL.json,후속 Phase 서비스 의존; 현재 범위 밖. 미션에 필요한 서비스 미구현: Endings
+mission/M059,2.2 성장·미션,M059 · 최종 인생 평가 신청,NOT APPLICABLE,NOT_IMPLEMENTED,0,2026-11-14T03:13:46.0915440Z,REGISTRY_FINAL.json,후속 Phase 서비스 의존; 현재 범위 밖. 미션에 필요한 서비스 미구현: Endings
+mission/M060,2.2 성장·미션,M060 · 생애 평가 완료,NOT APPLICABLE,NOT_IMPLEMENTED,0,2026-11-14T03:13:46.1406630Z,REGISTRY_FINAL.json,후속 Phase 서비스 의존; 현재 범위 밖. 미션에 필요한 서비스 미구현: Endings
+education/study,2.3 교육·직업,입학·공부·진학 조건,PASS,PASS,2,2026-11-14T03:13:46.1749190Z,REGISTRY_FINAL.json,실제 검사 통과
+jobs/hire,2.3 교육·직업,이력서·면접·직업 변경·급여,PASS,PASS,4,2026-11-14T03:13:46.8632310Z,REGISTRY_FINAL.json,실제 검사 통과
+social/talk,2.3 교육·직업,사회관계 변화,PASS,PASS,2,2026-11-14T03:13:47.8864700Z,REGISTRY_FINAL.json,실제 검사 통과
+idle/Work,2.4 자동·오프라인,자동 Work · 오프라인·중복 방지,PASS,PASS,6,2026-11-14T03:13:48.8683270Z,REGISTRY_FINAL.json,실제 검사 통과
+idle/Study,2.4 자동·오프라인,자동 Study · 오프라인·중복 방지,PASS,PASS,6,2026-11-14T03:13:49.8702180Z,REGISTRY_FINAL.json,실제 검사 통과
+idle/Battle,2.4 자동·오프라인,자동 Battle · 오프라인·중복 방지,PASS,PASS,5,2026-11-14T03:13:50.8591320Z,REGISTRY_FINAL.json,실제 검사 통과
+offline/1,2.4 자동·오프라인,오프라인 1시간,PASS,PASS,5,2026-11-14T03:13:51.8673810Z,REGISTRY_FINAL.json,실제 검사 통과
+offline/24,2.4 자동·오프라인,오프라인 24시간,PASS,PASS,5,2026-11-14T03:13:52.8945840Z,REGISTRY_FINAL.json,실제 검사 통과
+offline/168,2.4 자동·오프라인,오프라인 168시간,PASS,PASS,5,2026-11-14T03:13:53.0189550Z,REGISTRY_FINAL.json,실제 검사 통과
+time/1,2.4 자동·오프라인,게임 시간 1일,PASS,PASS,1,2026-11-14T03:13:53.1386020Z,REGISTRY_FINAL.json,실제 검사 통과
+time/7,2.4 자동·오프라인,게임 시간 7일,PASS,PASS,1,2026-11-14T03:13:53.1729310Z,REGISTRY_FINAL.json,실제 검사 통과
+time/30,2.4 자동·오프라인,게임 시간 30일,PASS,PASS,1,2026-11-14T03:13:53.2479670Z,REGISTRY_FINAL.json,실제 검사 통과
+finance/tax,2.5 경제,급여·세금·체납,PASS,PASS,3,2026-11-14T03:13:53.4354770Z,REGISTRY_FINAL.json,실제 검사 통과
+finance/asset-bounds,2.5 경제,순자산 극값·미납 합계 무결성,PASS,PASS,3,2026-11-14T03:13:53.4801050Z,REGISTRY_FINAL.json,실제 검사 통과
+finance/debt,2.5 경제,부채·이자·신용·상환,PASS,PASS,3,2026-11-14T03:13:53.5186580Z,REGISTRY_FINAL.json,실제 검사 통과
+stocks/up,2.5 경제,주가 +10%·매수·전량 매도,PASS,PASS,5,2026-11-14T03:13:53.5547300Z,REGISTRY_FINAL.json,실제 검사 통과
+stocks/down,2.5 경제,주가 -10%·손실,PASS,PASS,5,2026-11-14T03:13:53.5872130Z,REGISTRY_FINAL.json,실제 검사 통과
+stocks/news,2.5 경제,경제 뉴스·시세 영향,PASS,PASS,2,2026-11-14T03:13:53.6182040Z,REGISTRY_FINAL.json,실제 검사 통과
+equipment/starter,2.6 월드·장비,스타터 헤드폰·장비 장착,PASS,PASS,4,2026-11-14T03:13:53.6461810Z,REGISTRY_FINAL.json,실제 검사 통과
+gacha/draw,2.6 월드·장비,가챠·확률·중복 보상,NOT_IMPLEMENTED,NOT_IMPLEMENTED,0,2026-11-14T03:13:54.6279060Z,REGISTRY_FINAL.json,정식 가챠 서비스/확률표 미구현. 가챠권 pending entitlement를 가챠 실행 성공으로 표시하지 않습니다.
+equipment/stats,2.6 월드·장비,장비 해제·확장 능력치,NOT_IMPLEMENTED,NOT_IMPLEMENTED,0,2026-11-14T03:13:54.6440470Z,REGISTRY_FINAL.json,현재 스타터 장착 경로만 구현됨. 정식 해제/확장 장비 스탯 서비스 미구현.
+world/visual,2.6 월드·장비,문·걷기·애니메이션 품질,MANUAL,MANUAL,0,2026-11-14T03:13:54.6595870Z,REGISTRY_FINAL.json,생활 월드에서 실제 문/발걸음/가림을 관찰하세요. 시각적 품질은 자동 PASS 처리하지 않습니다.
+property/trade,2.7 부동산,매물·매매·손익,PASS,PASS,5,2026-11-14T03:13:54.6722810Z,REGISTRY_FINAL.json,실제 검사 통과
+property/Jeonse,2.7 부동산,전세·보증금 반환,PASS,PASS,5,2026-11-14T03:13:54.7000630Z,REGISTRY_FINAL.json,실제 검사 통과
+property/MonthlyRent,2.7 부동산,월세·관리비·납부,PASS,PASS,6,2026-11-14T03:13:54.7451340Z,REGISTRY_FINAL.json,실제 검사 통과
+property/loan,2.7 부동산,주거 대출·상환,PASS,PASS,3,2026-11-14T03:13:54.7742580Z,REGISTRY_FINAL.json,실제 검사 통과
+property/market-save,2.7 부동산,시세·저장·오프라인,PASS,PASS,2,2026-11-14T03:13:54.8016490Z,REGISTRY_FINAL.json,실제 검사 통과
+property/offline-rent,2.7 부동산,오프라인 노동 → 월세·관리비 정산,PASS,PASS,5,2026-11-14T03:13:54.8327220Z,REGISTRY_FINAL.json,실제 검사 통과
+property/recovery,2.7 부동산,주거 회복 효과,PASS,PASS,2,2026-11-14T03:13:55.8313670Z,REGISTRY_FINAL.json,실제 검사 통과
+growth/world-access,2.2 성장·미션,연령별 월드·금융 실행 제한,PASS,PASS,14,2026-11-14T03:13:56.7935260Z,REGISTRY_FINAL.json,실제 검사 통과
+world/facility-layout,월드·시설,업무 좌석·금융시설 배치,PASS,PASS,17,2026-11-14T03:13:56.8192920Z,REGISTRY_FINAL.json,실제 검사 통과
+world/door-lease,월드·시설,문 요청·고정 프레임·충돌,PASS,PASS,5,2026-11-14T03:13:57.4895840Z,REGISTRY_FINAL.json,실제 검사 통과
+world/activity-art,월드·시설,업무 방향·착석·미술 품질,MANUAL,MANUAL,0,2026-11-14T03:13:57.5109140Z,REGISTRY_FINAL.json,"실제 Game View에서 책상 방향, NPC의 발걸음·좌석과 업무 동작을 확인하세요. 업무 중에는 정면 업무석 프레임을 사용합니다. 착석/기립의 전면 연결과 미술 품질은 수동 확인이 필요합니다."
+growth/newborn-motor,2.2 성장·미션,신생아 실행 단계 보행 제한,PASS,PASS,1,2026-11-14T03:13:57.5188380Z,REGISTRY_FINAL.json,실제 검사 통과
+growth/data-boundaries,2.2 성장·미션,데이터 연령 경계와 중복 이벤트,PASS,PASS,101,2026-11-14T03:13:57.5419300Z,REGISTRY_FINAL.json,실제 검사 통과
+preset/walk-before,생애주기 fixture,보행 해금 직전,PASS,PASS,1,2026-11-14T03:13:57.6251820Z,REGISTRY_FINAL.json,실제 검사 통과
+preset/walk-after,생애주기 fixture,보행 해금 직후,PASS,PASS,1,2026-11-14T03:13:57.6464320Z,REGISTRY_FINAL.json,실제 검사 통과
+preset/birth,생애주기 fixture,0세 출생 직후,PASS,PASS,1,2026-11-14T03:13:57.6707240Z,REGISTRY_FINAL.json,실제 검사 통과
+preset/school-before,생애주기 fixture,학교 연령 직전,PASS,PASS,1,2026-11-14T03:13:57.7008960Z,REGISTRY_FINAL.json,실제 검사 통과
+preset/school,생애주기 fixture,학교 연령·선행조건,PASS,PASS,1,2026-11-14T03:13:57.7300740Z,REGISTRY_FINAL.json,실제 검사 통과
+preset/adult-before,생애주기 fixture,성인 전환 직전,PASS,PASS,1,2026-11-14T03:13:57.7515800Z,REGISTRY_FINAL.json,실제 검사 통과
+preset/adult,생애주기 fixture,성인 전환 직후,PASS,PASS,1,2026-11-14T03:13:57.7736730Z,REGISTRY_FINAL.json,실제 검사 통과
+preset/job,생애주기 fixture,취업 자격,PASS,PASS,1,2026-11-14T03:13:57.7971280Z,REGISTRY_FINAL.json,실제 검사 통과
+preset/stock,생애주기 fixture,주식 거래 자격,PASS,PASS,1,2026-11-14T03:13:57.8189570Z,REGISTRY_FINAL.json,실제 검사 통과
+preset/property,생애주기 fixture,주거 거래 자격,PASS,PASS,1,2026-11-14T03:13:57.8520930Z,REGISTRY_FINAL.json,실제 검사 통과
+education/course/basics,2.3 교육·직업,교육 과정 · basics,PASS,PASS,2,2026-11-14T03:13:57.8732050Z,REGISTRY_FINAL.json,실제 검사 통과
+education/course/elementary,2.3 교육·직업,교육 과정 · elementary,PASS,PASS,3,2026-11-14T03:13:58.5424600Z,REGISTRY_FINAL.json,실제 검사 통과
+education/course/secondary,2.3 교육·직업,교육 과정 · secondary,PASS,PASS,3,2026-11-14T03:13:59.5344700Z,REGISTRY_FINAL.json,실제 검사 통과
+education/course/vocational,2.3 교육·직업,교육 과정 · vocational,PASS,PASS,3,2026-11-14T03:13:59.5788150Z,REGISTRY_FINAL.json,실제 검사 통과
+education/course/lifelong,2.3 교육·직업,교육 과정 · lifelong,PASS,PASS,3,2026-11-14T03:13:59.6356240Z,REGISTRY_FINAL.json,실제 검사 통과
+save/production-copy/ian-black-comedy-v1.autosave.json,1 기본,실제 저장 복사본 · ian-black-comedy-v1.autosave.json,PASS,PASS,2,2026-11-14T03:13:59.6818190Z,REGISTRY_FINAL.json,실제 검사 통과
+save/production-copy/ian-black-comedy-v4.autosave.json,1 기본,실제 저장 복사본 · ian-black-comedy-v4.autosave.json,PASS,PASS,2,2026-11-14T03:13:59.6997190Z,REGISTRY_FINAL.json,실제 검사 통과
+save/production-copy/ian-black-comedy-v4.autosave.json.bak,1 기본,실제 저장 복사본 · ian-black-comedy-v4.autosave.json.bak,PASS,PASS,2,2026-11-14T03:13:59.7187240Z,REGISTRY_FINAL.json,실제 검사 통과
+save/presence-integrity,1 기본,선택 블록 표시·실제 자산 불일치 거부,PASS,PASS,2,2026-11-14T03:13:59.7371810Z,REGISTRY_FINAL.json,실제 검사 통과
+core/weighted-events,1 기본,기존 가중 생활 이벤트,PASS,PASS,2,2026-11-14T03:13:59.7683130Z,REGISTRY_FINAL.json,실제 검사 통과
+save/version/1,1 기본,v1 저장 복사본 호환,PASS,PASS,6,2026-11-14T03:13:59.7857740Z,REGISTRY_FINAL.json,실제 검사 통과
+save/version/2,1 기본,v2 저장 복사본 호환,PASS,PASS,6,2026-11-14T03:13:59.8080810Z,REGISTRY_FINAL.json,실제 검사 통과
+save/version/3,1 기본,v3 저장 복사본 호환,PASS,PASS,5,2026-11-14T03:13:59.8276100Z,REGISTRY_FINAL.json,실제 검사 통과
+save/version/4,1 기본,v4 저장 복사본 호환,PASS,PASS,4,2026-11-14T03:13:59.8485900Z,REGISTRY_FINAL.json,실제 검사 통과
+survival/clamp-delta,2.1 생존,8개 능력치 증감·극값,PASS,PASS,2,2026-11-14T03:13:59.8696730Z,REGISTRY_FINAL.json,실제 검사 통과
+audit/job-reject-rehire,2.3 교육·직업,면접 탈락·재응시·퇴사·재취업,PASS,PASS,5,2026-11-14T03:13:59.8925140Z,REGISTRY_FINAL.json,실제 검사 통과
+audit/job-promotion,2.3 교육·직업,실제 근무 후 승진·상한,PASS,PASS,6,2026-11-14T03:14:00.9030370Z,REGISTRY_FINAL.json,실제 검사 통과
+audit/job-dismissal,2.3 교육·직업,저멘탈 근무·해고·재취업,PASS,PASS,6,2026-11-14T03:14:00.9670250Z,REGISTRY_FINAL.json,실제 검사 통과
+audit/survival-recovery,2.1 생존,체력 차단·무료 회복·생존 유예,PASS,PASS,4,2026-11-14T03:14:01.0623470Z,REGISTRY_FINAL.json,실제 검사 통과
+audit/offline-infant,2.4 자동·오프라인,부적합 연령 자동 활동 로드·정산 거부,PASS,PASS,3,2026-11-14T03:14:01.1032460Z,REGISTRY_FINAL.json,실제 검사 통과
+audit/stock-negative,2.5 경제,잔액·보유량 부족·거래 영수증 중복,PASS,PASS,6,2026-11-14T03:14:03.0461920Z,REGISTRY_FINAL.json,실제 검사 통과
+audit/housing-expiry,2.7 부동산,주거 잔액 부족·계약 만료·비용 보존,PASS,PASS,5,2026-11-14T03:14:03.0710610Z,REGISTRY_FINAL.json,실제 검사 통과
+audit/corrupt-future-save,1 기본,손상/미지원 저장·현재 모델 보호,PASS,PASS,6,2026-11-14T03:14:03.1029020Z,REGISTRY_FINAL.json,실제 검사 통과

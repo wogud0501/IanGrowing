@@ -15,6 +15,7 @@ public partial class EconomySystem {
   if(ok&&game!=null)game.Log(rules.incomeMessage);return ok;
  }
  public bool PayTax(string orderId,string billId,long amount){
+  if(game!=null&&game.LifeMode&&!GrowthAccess.Adult(game))return false;
   if(busy||state.finance==null||amount<=0)return false;var bill=state.finance.bills.Find(b=>b.id==billId);
   if(bill==null||amount>bill.Remaining)return false;
   bool ok=Commit(orderId,TransactionKind.Tax,amount,"세금 납부",billId,()=>bill.paid+=amount);

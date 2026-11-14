@@ -31,6 +31,7 @@ public partial class EconomySystem:MonoBehaviour,IMissionFeatureSource {
  void Signal(string id,MissionCounter counter,long amount=1){ActivityProduced?.Invoke(new MissionActivityEvent{id=id,counter=counter,amount=amount});}
  public bool TryTransaction(string id,TransactionKind kind,long amount,string reason)=>Commit(id,kind,amount,reason,null,null);
  bool Commit(string id,TransactionKind kind,long amount,string reason,string data,Action mutation){
+  if(kind==TransactionKind.DebtRepayment&&game!=null&&game.LifeMode&&!GrowthAccess.Adult(game))return false;
   if(stats==null||busy||string.IsNullOrWhiteSpace(id)||amount<0||HasTransaction(id)||!Enum.IsDefined(typeof(TransactionKind),kind))return false;
   bool income=kind==TransactionKind.Income||kind==TransactionKind.Salary||kind==TransactionKind.EventReward||kind==TransactionKind.StockSell||kind==TransactionKind.PropertySell||kind==TransactionKind.DepositReturn||kind==TransactionKind.LoanDraw;
   bool expense=kind==TransactionKind.Expense||kind==TransactionKind.Tax||kind==TransactionKind.StockBuy||kind==TransactionKind.DebtRepayment||kind==TransactionKind.PropertyBuy||kind==TransactionKind.LeaseDeposit||kind==TransactionKind.PropertyFee;

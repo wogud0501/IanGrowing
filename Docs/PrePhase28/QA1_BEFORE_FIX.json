@@ -1,0 +1,14 @@
+{
+    "mode": "pre28Birth",
+    "stage": "Failed",
+    "failure": "System.Exception: Newborn cannot walk through motor execution; observed displacement=0.5759997\n  at IanGame.Editor.Phase26Verification.Check (System.Boolean condition, System.String text) [0x00021] in /Users/hyunwol/IanGrowing/Assets/_Game/Scripts/Development/Phase26Verification.cs:35 \n  at IanGame.Editor.PrePhase28Verification+<Birth>d__0.MoveNext () [0x0012f] in /Users/hyunwol/IanGrowing/Assets/_Game/Scripts/Development/PrePhase28Verification.cs:12 \n  at IanGame.Editor.Phase26Verification+<Run>d__31.MoveNext () [0x001e0] in /Users/hyunwol/IanGrowing/Assets/_Game/Scripts/Development/Phase26Verification.cs:45 ",
+    "passed": [
+        "New life preserves newborn age and zero cash",
+        "Main menu Home routes to connected LifeWorld",
+        "Connected playable LifeWorld is active",
+        "DAY 1 birth introduction remains visible",
+        "Actual birth confirmation starts world controls",
+        "Newborn age/cash/debt match original design"
+    ],
+    "uiIssues": []
+}

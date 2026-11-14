@@ -43,7 +43,7 @@ public sealed class WorldMobileHUD:MonoBehaviour {
   Position(inventory.transform as RectTransform,compact?new Vector2(.72f,.215f):new Vector2(.9f,.43f),new Vector2(92,92));
   Position(menu.transform as RectTransform,compact?new Vector2(.9f,.215f):new Vector2(.78f,.43f),new Vector2(92,92));
   Position(run.transform as RectTransform,compact?new Vector2(.61f,.10f):new Vector2(.78f,.18f),new Vector2(92,92));
-  touchRoot.gameObject.SetActive(mobile&&!paused);ApplyQuality();Canvas.ForceUpdateCanvases();hud.Prompt(hud.promptPanel.activeSelf?hud.prompt.text:null);
+  touchRoot.gameObject.SetActive(mobile&&!paused);hud.ReflowNotification();ApplyQuality();Canvas.ForceUpdateCanvases();hud.Prompt(hud.promptPanel.activeSelf?hud.prompt.text:null);
  }
  static void Position(RectTransform r,Vector2 anchor,Vector2 size){r.anchorMin=r.anchorMax=anchor;r.pivot=Vector2.one*.5f;r.anchoredPosition=Vector2.zero;r.sizeDelta=size;}
  public void ToggleFrameRate(){PlayerPrefs.SetInt("ian.mobile.fps",PlayerPrefs.GetInt("ian.mobile.fps",60)==60?30:60);PlayerPrefs.Save();ApplyQuality();}

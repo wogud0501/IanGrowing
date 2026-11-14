@@ -1,0 +1,20 @@
+{
+    "mode": "pre28World",
+    "stage": "Failed",
+    "failure": "System.Exception: Offscreen arrival begins work at the existing workstation\n  at IanGame.Editor.Phase26Verification.Check (System.Boolean condition, System.String text) [0x00021] in /Users/hyunwol/IanGrowing/Assets/_Game/Scripts/Development/Phase26Verification.cs:35 \n  at IanGame.Editor.ResidentLifeVerification+<Run>d__2.MoveNext () [0x0049a] in /Users/hyunwol/IanGrowing/Assets/_Game/Scripts/Development/ResidentLifeVerification.cs:23 \n  at IanGame.Editor.Phase26Verification+<Run>d__31.MoveNext () [0x001e0] in /Users/hyunwol/IanGrowing/Assets/_Game/Scripts/Development/Phase26Verification.cs:45 ",
+    "passed": [
+        "New life preserves newborn age and zero cash",
+        "Main menu Home routes to connected LifeWorld",
+        "Connected playable LifeWorld is active",
+        "DAY 1 birth introduction remains visible",
+        "Actual birth confirmation starts world controls",
+        "Twelve named residents use the single existing scheduler",
+        "Resident identities are unique",
+        "Residents have distinct day/night/student/homebody patterns",
+        "Weekend-specific schedule is authored",
+        "Residents have real sleep and eating drawings",
+        "Visible colleague walks to office and uses an actual portal",
+        "NPC walk frames and real door aperture animate during commute"
+    ],
+    "uiIssues": []
+}

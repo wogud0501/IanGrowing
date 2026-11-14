@@ -1,0 +1,101 @@
+{
+  "claimed": [
+    "M001",
+    "M002",
+    "M003",
+    "M004",
+    "M005",
+    "M006",
+    "M007",
+    "M008",
+    "M009",
+    "M010",
+    "M011",
+    "M012",
+    "M013",
+    "M014",
+    "M015",
+    "M016",
+    "M017",
+    "M018",
+    "M019",
+    "M020",
+    "M021",
+    "M022",
+    "M023",
+    "M024",
+    "M025",
+    "M026",
+    "M027",
+    "M028",
+    "M029",
+    "M030",
+    "M031",
+    "M032",
+    "M033",
+    "M034",
+    "M035",
+    "M036",
+    "M037",
+    "M038"
+  ],
+  "age": 27,
+  "day": 297,
+  "money": 5421,
+  "credit": 20,
+  "career": [
+    {
+      "id": "0b3cbe2474b4495c86e964cc7b95394f",
+      "jobId": "unemployed",
+      "kind": "resume",
+      "day": 96,
+      "success": true
+    },
+    {
+      "id": "9e81565fb8ad4bc6988963324875408c",
+      "jobId": "convenience",
+      "kind": "interview",
+      "day": 98,
+      "success": true
+    },
+    {
+      "id": "bbdeddf6adc0406486675a3f3a9e12ce",
+      "jobId": "convenience",
+      "kind": "resigned",
+      "day": 107,
+      "success": true
+    },
+    {
+      "id": "9000be3ee7b847d9945bdc4ae1ddb8d5",
+      "jobId": "office",
+      "kind": "interview",
+      "day": 108,
+      "success": true
+    },
+    {
+      "id": "add02be126864c1eab997eb41d2a7d38",
+      "jobId": "office",
+      "kind": "resigned",
+      "day": 115,
+      "success": true
+    },
+    {
+      "id": "2f760e7bbc11453da4e182606155aab2",
+      "jobId": "developer",
+      "kind": "interview",
+      "day": 116,
+      "success": true
+    }
+  ],
+  "testing_inputs": [
+    "deterministic social/interview roll",
+    "faster presentation duration",
+    "protected checkpoint continuation"
+  ],
+  "not_used": [
+    "forced age",
+    "cash grants",
+    "stat grants",
+    "mission condition injection"
+  ]
+}

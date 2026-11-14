@@ -51,3 +51,13 @@
 최종 코드/에셋 저장: Bootstrap / Edit Mode / StandaloneOSX / 씬 dirty=false. 현재 C# 컴파일 오류 0. 기존 Unity AI 패키지 NoSubscription/UERP 로그와 미션 재귀 직렬화 경고는 별도이며 이번 기능 오류로 혼동하지 않는다. 원격 push는 수행하지 않았다.
 
 최종 소스 체크포인트 `91a2635`. 로컬 복구 ZIP `DevelopmentBackups/Phase27-QA-Final-20261112.zip` 무결성 통과. 파일 수/크기/SHA-256은 `Docs/DeveloperQA/BACKUP_MANIFEST.json`. 로컬 보존이며 장비 손실 대비 원격 백업 완료를 의미하지 않는다.
+
+## PRE-PHASE 2.8 QA 확장 — 2026-11-14
+- 생애주기 preset10개: 출생0세, 보행 직전0/직후1세, 학교 직전6/진입7세, 성인 직전18/직후19세, 취업/투자/주거 조건. 연령은 LifeProgression 상수와 기존 교육/생애주기/매물 데이터에서 가져온다.
+- 직전 preset이 미션 milestone으로 경계를 넘어가던 오류 수정. UI 분류 행 높이는 실제 탭 수에 맞춤.
+- 전체 등록139개. 최종 PASS122 / FAIL0 / NOT IMPLEMENTED13 / MANUAL4. 후속 Phase11개와 자연 성장 PARTIAL11개를 구분한 판정은 `PRE_PHASE2_8_FULL_QA_REPORT.md` 참조.
+- 추가 검사: 교육5과정, v1–v4 실제 파일 roundtrip, 현재 원본3개 QA 복사본, 선택 블록 존재 무결성, 극값 능력치, 기존 가중 이벤트, 면접 탈락/재취업/승진/해고, 생존 회복, 영아 오프라인, 주식 부정 경로, 임대 만료, 손상·미래 버전 보호.
+- 60개 미션 fixture의 현금 보상 정확값과 수령 후 저장/재로드·중복 보상 거부를 검사. 실제 행동 M001–M038 순차 진행은 별도 실행 증거로 보존.
+- 실제 Play 중 스크립트 재컴파일로 비직렬화 서비스가 소실된 사례가 있다. cold Play에서 실행하며 Editor bridge는 script import와 서비스 준비 완료를 기다린다. hot reload를 검증 완료로 표시하지 않는다.
+
+최종 시작 기준 해시 감사에서 테스트 사이 생산 자동 저장2개 변경을 발견했다. 테스트 종료 시 보호를 해제하던 Editor bridge를 수정해 Edit Mode/재컴파일 동안 유지하고 다음 명시적 일반 Play 진입에서만 해제한다. 실제 Play의 생산 쓰기 거부·QA 쓰기 성공과 Edit Mode의 SaveManager 호출 거부를 확인했다. 관찰본을 보존하고 시작 백업으로 복원했다. 각 QA entry/exit 검사만으로 전체 세션 생산 파일의 불변성을 주장하지 않으며 `PrePhase28/SAVE_RECOVERY.json`을 함께 확인한다.

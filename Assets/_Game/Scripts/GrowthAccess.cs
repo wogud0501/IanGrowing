@@ -2,7 +2,7 @@ namespace IanGame {
 // One execution-time policy. Ages derive from the existing growth model.
 // Independent travel from Childhood was explicitly confirmed by the user on 2026-11-13.
 public static class GrowthAccess {
- public static bool Independent(GameManager g)=>g!=null&&g.growth.Stage>=LifeStage.Childhood;
+ public static bool Independent(GameManager g)=>g!=null&&g.growth.IndependentOutdoorUnlocked;
  public static bool Adult(GameManager g)=>g!=null&&g.growth.FinanceUnlocked;
  public static bool Zone(GameManager g,string zone,out string reason){
   reason=null;if(g==null){reason="성장 정보를 불러오는 중입니다.";return false;}

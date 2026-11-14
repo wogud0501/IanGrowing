@@ -45,3 +45,12 @@ Desktop File.Replace has a non-destructive backup fallback for platform support;
 
 ## Final audit note
 Existing v2 source differed from the initial checkpoint (day21 vs day103). Cause not established; neither state was discarded. Original checkpoint and final-observed copy are both preserved. Current legacy source matches its read-only migration backup. See PHASE2_PROGRESS.md. Official artwork hashes match exactly.
+
+## 2026-11-14 공식 보완 — 보행과 독립 외출
+이번 사용자 지시가 기존의 미정 보행 해금 시점에 우선한다.
+- 0세: 플레이어 보행/WASD·달리기 금지. 기존 침대 돌봄으로 성장 가능.
+- 1세: 기본 보행 반드시 해금, 집 안 이동과 첫 걸음 안내1회. 안내·퀘스트 수령 여부는 보행 권한을 막지 않음.
+- 2–6세: 일반 보행 가능, 독립 외출 불가. 보호자 동반 외출은 전용 시스템이 존재할 때만 허용하며 이번 QA에서 새로 구현하지 않음.
+- 7세 이상: 기존 독립 외출 해금 유지.
+- 별도 정책: `WalkingUnlocked = age >= 1`, `IndependentOutdoorUnlocked = age >= 7`.
+현재 적용: LifeProgression 상수/속성, WorldPlayerMotor 실행부, GrowthAccess 외출 조건. 첫 걸음 표시는 저장하며 레거시 성인에게 재출력하지 않는다. 연령별 전용 캐릭터 아트는 별도 미완료 항목이다.

@@ -328,3 +328,15 @@ UI 비율: 1280×720, 1920×1080, 2400×1080, 1080×1920. 큰 글씨 115%, 소�
 - Focused Play regression: 1,291 PASS, ten round trips per five pairs, 180 mechanism cycles, duplicate input, arrival, controls, disk save and actual NPC departures. Final visual-only backing adjustment followed by separate capture/entry/exit checks.
 - Runtime changes: WorldDoorLeafVisual, WorldDoor, WorldInteractable, WorldPlayerMotor, LifeWorldController. Development verification and bridge updated. No scene/prefab/image/age/economy data regeneration. Runtime connection through existing WorldDoor instances.
 - Evidence and remaining device/manual limitations: Docs/DoorVisual/RESULTS.md.
+
+## 2026-11-14 PRE-PHASE 2.8 전체 QA 및 공식 보행 기준
+- 현재 단계: Phase1–2.7 회귀 QA 종료 정리. Phase2.8 신규 개발 없음. 진입 판정 CONDITIONAL.
+- 공식 보행1세 / 독립 외출7세 분리. 실제 모터의0세 이동 우회 차단, 돌봄 침대 접근 보장, 첫 걸음 안내1회·저장·터치 비겹침 적용.
+- 미성년자 부채 상환/직접 납세 우회와 구버전 재저장 null 선택 블록 오류 수정. QA 생애주기 preset10개와 추가 무결성/부정 경로 검사.
+- 마지막 전체 Registry139개 실행: PASS122 / FAIL0 / NI13 / MANUAL4. 기획 범위 보정: PASS111 / PARTIAL11 / NI2 / MANUAL4 / N/A11. 자연 성장 M001–M038 완료(27세/DAY297); 나이·현금·능력치 강제 지급 없음.
+- 별도 실제 Play: 출생17, 금융 제한8, 공식 보행/안내44, UI95, 회사/금융시설67, 고객13, 주민/모바일/교통83 assertion 통과. 문 전체 검사 중 회사 화장실 조작권1회 실패, 해당2문32개 집중 재검사 통과; 간헐 원인 미확정.
+- 최종 전체 기간 해시 대조에서 생산 자동 저장2개의 시간/시세 등 변경 발견. 현금·미션·직업·runId 동일. 테스트 종료 시 Editor 보호 해제 틈을 수정하고 변경본을 별도 보관한 뒤 시작 백업 복원. Play 및 종료 후 Edit 실제 쓰기 거부 확인. 생산3개 시작 SHA-256 복구 확인은 Docs/PrePhase28/SAVE_FINAL_HASHES.json.
+- 변경 스크립트: WorldPlayerMotor, LifeWorldController, LifeProgression, GrowthAccess, WorldHUD/WorldMobileHUD, EconomySystem/EconomyFinance/FinancePresenter, SaveManager/GameManager, 기존 QA/Editor bridge와 PrePhase28 검증 코드. 씬·프리팹·미션 데이터·공식 이미지 재생성 없음.
+- 기록: Docs/PRE_PHASE2_8_FULL_QA_REPORT.md, Docs/PATCH_NOTES_PRE_PHASE2_8_QA.md, Docs/PrePhase28/FEATURE_MATRIX.csv, MISSIONS_60.md, 실제 JSON/스크린샷.
+- 남은 항목: 영아 전용 아트/보호자 외출, 정식 가챠/확장 장비, 후속 단계 미션, 물리 입력·실제 Android/iOS·Fold, 간헐 화장실 조작권, Play 중 코드 hot reload. 현재 범위 밖 기능을 성공으로 처리하지 않음.
+- 마지막 저장: LifeWorld / Edit Mode / StandaloneOSX / dirty=false. 로컬 Git 체크포인트는 본 QA 안정화 커밋. 원격 push 없음; 작업 시작 및 관찰 세이브 모두 DevelopmentBackups/PrePhase28-20261114에 보존.
