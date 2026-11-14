@@ -130,6 +130,24 @@ MonoBehaviour:
     outdoor: 0
     walkableTop: 3.7
     cameraSize: 6.8
+  - id: family-home
+    title: "\uBD80\uBAA8\uB2D8 \uC9D1"
+    location: 2
+    origin: {x: 500, y: 0}
+    size: {x: 24, y: 18}
+    spawn: {x: 0, y: 3.4499998}
+    outdoor: 0
+    walkableTop: 7.7
+    cameraSize: 6
+  - id: family-bathroom
+    title: "\uAC00\uC871 \uC695\uC2E4"
+    location: 2
+    origin: {x: 530, y: 0}
+    size: {x: 8, y: 8}
+    spawn: {x: 0, y: -2.6}
+    outdoor: 0
+    walkableTop: 2.7
+    cameraSize: 5
   npcs:
   - npcId: colleague
     title: "\uB3D9\uB124 \uC120\uBC30 \uC218\uC5F0"
@@ -137,6 +155,8 @@ MonoBehaviour:
     jobId: office
     workZone: workplace
     companionId: classmate
+    hasHomePosition: 0
+    homePosition: {x: 0, y: 0}
     personality: 3
     speed: 1.1
     animations: {fileID: 11400000, guid: 4d251d34a4b9b4dd280859fa9b30cdc5, type: 2}
@@ -257,6 +277,8 @@ MonoBehaviour:
     jobId: student
     workZone: school
     companionId: colleague
+    hasHomePosition: 0
+    homePosition: {x: 0, y: 0}
     personality: 2
     speed: 1.23
     animations: {fileID: 11400000, guid: 9f8407b30c9f6485a88698b8d55d2862, type: 2}
@@ -377,6 +399,8 @@ MonoBehaviour:
     jobId: office
     workZone: workplace
     companionId: 
+    hasHomePosition: 0
+    homePosition: {x: 0, y: 0}
     personality: 3
     speed: 1.36
     animations: {fileID: 11400000, guid: 4d251d34a4b9b4dd280859fa9b30cdc5, type: 2}
@@ -497,6 +521,8 @@ MonoBehaviour:
     jobId: office
     workZone: workplace
     companionId: 
+    hasHomePosition: 0
+    homePosition: {x: 0, y: 0}
     personality: 1
     speed: 1.49
     animations: {fileID: 11400000, guid: 0767c8e9b91b74b279a6f36a21050a93, type: 2}
@@ -582,6 +608,8 @@ MonoBehaviour:
     jobId: convenience
     workZone: workplace
     companionId: resident-3
+    hasHomePosition: 0
+    homePosition: {x: 0, y: 0}
     personality: 5
     speed: 1.1
     animations: {fileID: 11400000, guid: 9f8407b30c9f6485a88698b8d55d2862, type: 2}
@@ -695,6 +723,8 @@ MonoBehaviour:
     jobId: analyst
     workZone: finance
     companionId: 
+    hasHomePosition: 0
+    homePosition: {x: 0, y: 0}
     personality: 3
     speed: 1.23
     animations: {fileID: 11400000, guid: caa1a24b2b2f14def9c286f44e83de15, type: 2}
@@ -815,6 +845,8 @@ MonoBehaviour:
     jobId: analyst
     workZone: finance
     companionId: 
+    hasHomePosition: 0
+    homePosition: {x: 0, y: 0}
     personality: 3
     speed: 1.36
     animations: {fileID: 11400000, guid: 4d251d34a4b9b4dd280859fa9b30cdc5, type: 2}
@@ -942,6 +974,8 @@ MonoBehaviour:
     jobId: office
     workZone: workplace
     companionId: 
+    hasHomePosition: 0
+    homePosition: {x: 0, y: 0}
     personality: 3
     speed: 1.49
     animations: {fileID: 11400000, guid: 0767c8e9b91b74b279a6f36a21050a93, type: 2}
@@ -1062,6 +1096,8 @@ MonoBehaviour:
     jobId: office
     workZone: workplace
     companionId: 
+    hasHomePosition: 0
+    homePosition: {x: 0, y: 0}
     personality: 1
     speed: 1.1
     animations: {fileID: 11400000, guid: 9f8407b30c9f6485a88698b8d55d2862, type: 2}
@@ -1140,6 +1176,8 @@ MonoBehaviour:
     jobId: convenience
     workZone: workplace
     companionId: resident-8
+    hasHomePosition: 0
+    homePosition: {x: 0, y: 0}
     personality: 5
     speed: 1.23
     animations: {fileID: 11400000, guid: caa1a24b2b2f14def9c286f44e83de15, type: 2}
@@ -1246,6 +1284,8 @@ MonoBehaviour:
     jobId: office
     workZone: realestate
     companionId: 
+    hasHomePosition: 0
+    homePosition: {x: 0, y: 0}
     personality: 3
     speed: 1.36
     animations: {fileID: 11400000, guid: 4d251d34a4b9b4dd280859fa9b30cdc5, type: 2}
@@ -1366,6 +1406,8 @@ MonoBehaviour:
     jobId: office
     workZone: realestate
     companionId: 
+    hasHomePosition: 0
+    homePosition: {x: 0, y: 0}
     personality: 3
     speed: 1.49
     animations: {fileID: 11400000, guid: 0767c8e9b91b74b279a6f36a21050a93, type: 2}
@@ -1486,6 +1528,8 @@ MonoBehaviour:
     jobId: teacher
     workZone: school
     companionId: school-pupil
+    hasHomePosition: 0
+    homePosition: {x: 0, y: 0}
     personality: 0
     speed: 1.25
     animations: {fileID: 11400000, guid: 4d251d34a4b9b4dd280859fa9b30cdc5, type: 2}
@@ -1585,6 +1629,8 @@ MonoBehaviour:
     jobId: student
     workZone: school
     companionId: school-teacher
+    hasHomePosition: 0
+    homePosition: {x: 0, y: 0}
     personality: 2
     speed: 1.25
     animations: {fileID: 11400000, guid: 9f8407b30c9f6485a88698b8d55d2862, type: 2}
@@ -1670,6 +1716,8 @@ MonoBehaviour:
     jobId: shopkeeper
     workZone: shop
     companionId: 
+    hasHomePosition: 0
+    homePosition: {x: 0, y: 0}
     personality: 4
     speed: 1.25
     animations: {fileID: 11400000, guid: caa1a24b2b2f14def9c286f44e83de15, type: 2}
@@ -1734,4 +1782,290 @@ MonoBehaviour:
       zone: residence
       objectId: shop-clerk-bed
       position: {x: 7.299988, y: -0.3}
+      action: 9
+  - npcId: family-mother
+    title: "\uC5C4\uB9C8"
+    homeZone: family-home
+    jobId: parent
+    workZone: 
+    companionId: 
+    hasHomePosition: 1
+    homePosition: {x: -9, y: 4.5499997}
+    personality: 5
+    speed: 1.45
+    animations: {fileID: 11400000, guid: 4d251d34a4b9b4dd280859fa9b30cdc5, type: 2}
+    frames:
+    - {fileID: 8559920643888737118, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    - {fileID: 5538569489634594306, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    - {fileID: 7290411598565047993, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    - {fileID: 2752892591760221209, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    schedule:
+    - hour: 0
+      minute: 0
+      dayMask: 127
+      zone: family-home
+      objectId: family-mother-bed
+      position: {x: -9, y: 4.5499997}
+      action: 9
+    - hour: 6
+      minute: 45
+      dayMask: 127
+      zone: family-home
+      objectId: family-mother-bed
+      position: {x: -9, y: 4.5499997}
+      action: 1
+    - hour: 7
+      minute: 0
+      dayMask: 127
+      zone: family-home
+      objectId: family-fridge
+      position: {x: 10, y: -2.4}
+      action: 3
+    - hour: 7
+      minute: 10
+      dayMask: 127
+      zone: family-home
+      objectId: family-cook
+      position: {x: 6.5, y: -1.6}
+      action: 3
+    - hour: 7
+      minute: 30
+      dayMask: 127
+      zone: family-home
+      objectId: family-serve
+      position: {x: 6.5, y: -3.5}
+      action: 3
+    - hour: 7
+      minute: 35
+      dayMask: 127
+      zone: family-home
+      objectId: family-dine-1
+      position: {x: 4.5, y: -6.6}
+      action: 5
+    - hour: 8
+      minute: 0
+      dayMask: 127
+      zone: family-home
+      objectId: family-dishes
+      position: {x: 3, y: -2.45}
+      action: 3
+    - hour: 9
+      minute: 0
+      dayMask: 127
+      zone: family-home
+      objectId: family-clean
+      position: {x: -3, y: -4}
+      action: 3
+    - hour: 10
+      minute: 30
+      dayMask: 127
+      zone: city
+      objectId: 
+      position: {x: -8, y: 1.5}
+      action: 2
+    - hour: 11
+      minute: 0
+      dayMask: 127
+      zone: shop
+      objectId: counter
+      position: {x: -5.399994, y: 1.6500001}
+      action: 6
+    - hour: 11
+      minute: 20
+      dayMask: 127
+      zone: city
+      objectId: 
+      position: {x: -8, y: 1.5}
+      action: 2
+    - hour: 18
+      minute: 10
+      dayMask: 127
+      zone: family-home
+      objectId: family-fridge
+      position: {x: 10, y: -2.4}
+      action: 3
+    - hour: 18
+      minute: 20
+      dayMask: 127
+      zone: family-home
+      objectId: family-cook
+      position: {x: 6.5, y: -1.6}
+      action: 3
+    - hour: 18
+      minute: 40
+      dayMask: 127
+      zone: family-home
+      objectId: family-serve
+      position: {x: 6.5, y: -3.5}
+      action: 3
+    - hour: 18
+      minute: 45
+      dayMask: 127
+      zone: family-home
+      objectId: family-dine-1
+      position: {x: 4.5, y: -6.6}
+      action: 5
+    - hour: 19
+      minute: 10
+      dayMask: 127
+      zone: family-home
+      objectId: family-dishes
+      position: {x: 3, y: -2.45}
+      action: 3
+    - hour: 20
+      minute: 0
+      dayMask: 127
+      zone: family-home
+      objectId: family-tv-mother
+      position: {x: -8.600006, y: -5.55}
+      action: 7
+    - hour: 22
+      minute: 30
+      dayMask: 127
+      zone: family-home
+      objectId: family-mother-bed
+      position: {x: -9, y: 4.5499997}
+      action: 9
+  - npcId: family-father
+    title: "\uC544\uBE60"
+    homeZone: family-home
+    jobId: parent
+    workZone: 
+    companionId: 
+    hasHomePosition: 1
+    homePosition: {x: -6, y: 4.5499997}
+    personality: 5
+    speed: 1.45
+    animations: {fileID: 11400000, guid: 0767c8e9b91b74b279a6f36a21050a93, type: 2}
+    frames:
+    - {fileID: 3447005225139973113, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    - {fileID: 1120148964544944648, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    - {fileID: 3011680283813473461, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    - {fileID: -893005434674621288, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    schedule:
+    - hour: 0
+      minute: 0
+      dayMask: 127
+      zone: family-home
+      objectId: family-father-bed
+      position: {x: -6, y: 4.5499997}
+      action: 9
+    - hour: 6
+      minute: 55
+      dayMask: 127
+      zone: family-home
+      objectId: family-father-bed
+      position: {x: -6, y: 4.5499997}
+      action: 1
+    - hour: 7
+      minute: 5
+      dayMask: 127
+      zone: family-home
+      objectId: family-care
+      position: {x: 0.7999878, y: 3.1999998}
+      action: 8
+    - hour: 7
+      minute: 38
+      dayMask: 127
+      zone: family-home
+      objectId: family-dine-2
+      position: {x: 6.5, y: -6.6}
+      action: 5
+    - hour: 8
+      minute: 5
+      dayMask: 127
+      zone: family-home
+      objectId: family-clean
+      position: {x: -3, y: -4}
+      action: 3
+    - hour: 9
+      minute: 0
+      dayMask: 127
+      zone: city
+      objectId: 
+      position: {x: -8, y: 1.5}
+      action: 2
+    - hour: 12
+      minute: 0
+      dayMask: 127
+      zone: family-home
+      objectId: family-fridge
+      position: {x: 10, y: -2.4}
+      action: 3
+    - hour: 12
+      minute: 10
+      dayMask: 127
+      zone: family-home
+      objectId: family-cook
+      position: {x: 6.5, y: -1.6}
+      action: 3
+    - hour: 12
+      minute: 30
+      dayMask: 127
+      zone: family-home
+      objectId: family-serve
+      position: {x: 6.5, y: -3.5}
+      action: 3
+    - hour: 12
+      minute: 35
+      dayMask: 127
+      zone: family-home
+      objectId: family-dine-2
+      position: {x: 6.5, y: -6.6}
+      action: 5
+    - hour: 13
+      minute: 0
+      dayMask: 127
+      zone: family-home
+      objectId: family-dishes
+      position: {x: 3, y: -2.45}
+      action: 3
+    - hour: 15
+      minute: 30
+      dayMask: 127
+      zone: shop
+      objectId: counter
+      position: {x: -5.399994, y: 1.6500001}
+      action: 6
+    - hour: 15
+      minute: 50
+      dayMask: 127
+      zone: city
+      objectId: 
+      position: {x: -8, y: 1.5}
+      action: 2
+    - hour: 17
+      minute: 0
+      dayMask: 127
+      zone: family-home
+      objectId: family-clean
+      position: {x: -3, y: -4}
+      action: 3
+    - hour: 18
+      minute: 48
+      dayMask: 127
+      zone: family-home
+      objectId: family-dine-2
+      position: {x: 6.5, y: -6.6}
+      action: 5
+    - hour: 19
+      minute: 0
+      dayMask: 127
+      zone: family-home
+      objectId: family-care
+      position: {x: 0.7999878, y: 3.1999998}
+      action: 8
+    - hour: 21
+      minute: 0
+      dayMask: 127
+      zone: family-home
+      objectId: family-tv-father
+      position: {x: -7.399994, y: -5.55}
+      action: 7
+    - hour: 23
+      minute: 0
+      dayMask: 127
+      zone: family-home
+      objectId: family-father-bed
+      position: {x: -6, y: 4.5499997}
       action: 9

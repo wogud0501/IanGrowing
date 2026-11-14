@@ -1,0 +1,70 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ae91eff81faf4076ba6c2a3ff75c0f7, type: 3}
+  m_Name: FamilyHomeArchitecture
+  m_EditorClassIdentifier: Assembly-CSharp::IanGame.FamilyHomeArchitecturePlan
+  version: 3
+  size: {x: 24, y: 18}
+  playCameraSize: 6
+  rooms:
+  - id: parents
+    title: "\uBD80\uBAA8\uB2D8 \uCE68\uC2E4"
+    floor:
+      serializedVersion: 2
+      x: -12
+      y: 1
+      width: 8
+      height: 8
+  - id: ian
+    title: "\uC774\uC548\uC758 \uBC29"
+    floor:
+      serializedVersion: 2
+      x: -4
+      y: 1
+      width: 8
+      height: 8
+  - id: bath
+    title: "\uAC00\uC871 \uC695\uC2E4"
+    floor:
+      serializedVersion: 2
+      x: 4
+      y: 1
+      width: 8
+      height: 8
+  - id: living
+    title: "\uAC70\uC2E4"
+    floor:
+      serializedVersion: 2
+      x: -12
+      y: -9
+      width: 12
+      height: 10
+  - id: kitchen
+    title: "\uC8FC\uBC29 \xB7 \uAC00\uC871 \uC2DD\uC0AC"
+    floor:
+      serializedVersion: 2
+      x: 0
+      y: -9
+      width: 12
+      height: 10
+  parentsDoor: {x: -8, y: 1}
+  ianDoor: {x: 0, y: 1}
+  bathDoor: {x: 8, y: 1}
+  ianBed: {x: 0, y: 4.2}
+  motherBed: {x: -9, y: 5.2}
+  fatherBed: {x: -6, y: 5.2}
+  fridge: {x: 10, y: -1.7}
+  cook: {x: 6.5, y: -1.7}
+  sink: {x: 3, y: -1.7}
+  dining: {x: 6.5, y: -7.4}
+  sofa: {x: -8, y: -5.8}
+  tv: {x: -8, y: -2}

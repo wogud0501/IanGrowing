@@ -1,0 +1,113 @@
+{
+    "version": 3,
+    "size": {
+        "x": 24.0,
+        "y": 18.0
+    },
+    "playCameraSize": 6.0,
+    "rooms": [
+        {
+            "id": "parents",
+            "title": "부모님 침실",
+            "floor": {
+                "serializedVersion": "2",
+                "x": -12.0,
+                "y": 1.0,
+                "width": 8.0,
+                "height": 8.0
+            }
+        },
+        {
+            "id": "ian",
+            "title": "이안의 방",
+            "floor": {
+                "serializedVersion": "2",
+                "x": -4.0,
+                "y": 1.0,
+                "width": 8.0,
+                "height": 8.0
+            }
+        },
+        {
+            "id": "bath",
+            "title": "가족 욕실",
+            "floor": {
+                "serializedVersion": "2",
+                "x": 4.0,
+                "y": 1.0,
+                "width": 8.0,
+                "height": 8.0
+            }
+        },
+        {
+            "id": "living",
+            "title": "거실",
+            "floor": {
+                "serializedVersion": "2",
+                "x": -12.0,
+                "y": -9.0,
+                "width": 12.0,
+                "height": 10.0
+            }
+        },
+        {
+            "id": "kitchen",
+            "title": "주방 · 가족 식사",
+            "floor": {
+                "serializedVersion": "2",
+                "x": 0.0,
+                "y": -9.0,
+                "width": 12.0,
+                "height": 10.0
+            }
+        }
+    ],
+    "parentsDoor": {
+        "x": -8.0,
+        "y": 1.0
+    },
+    "ianDoor": {
+        "x": 0.0,
+        "y": 1.0
+    },
+    "bathDoor": {
+        "x": 8.0,
+        "y": 1.0
+    },
+    "ianBed": {
+        "x": 0.0,
+        "y": 4.199999809265137
+    },
+    "motherBed": {
+        "x": -9.0,
+        "y": 5.199999809265137
+    },
+    "fatherBed": {
+        "x": -6.0,
+        "y": 5.199999809265137
+    },
+    "fridge": {
+        "x": 10.0,
+        "y": -1.7000000476837158
+    },
+    "cook": {
+        "x": 6.5,
+        "y": -1.7000000476837158
+    },
+    "sink": {
+        "x": 3.0,
+        "y": -1.7000000476837158
+    },
+    "dining": {
+        "x": 6.5,
+        "y": -7.400000095367432
+    },
+    "sofa": {
+        "x": -8.0,
+        "y": -5.800000190734863
+    },
+    "tv": {
+        "x": -8.0,
+        "y": -2.0
+    }
+}

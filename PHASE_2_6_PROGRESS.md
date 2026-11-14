@@ -353,3 +353,14 @@ UI 비율: 1280×720, 1920×1080, 2400×1080, 1080×1920. 큰 글씨 115%, 소�
 - 미검증: 실제 Android/iOS/Fold·물리 입력·저사양 발열/FPS·상업용 미술 최종 검수. 이번 수정 후 네이티브 모바일 빌드 미실행. 일부 비착석 행동의 전용 방향 아트가 없으면 올바른 방향 Idle 사용; 전 행동 완성으로 보고하지 않음.
 - 주요 C#: WorldActivitySlot, WorldNPCScheduler, WorldFacilityActivityPresentation, WorldHUD, LifeWorldController, FacilityStandardizationSetup, Facility*Verification, FacilityQualityScenarios, SaveManager/Editor bridge. 공식 이안 이미지·미션60개·문 개폐 스크립트 변경 없음.
 - 마지막 체크포인트: 시설 표준화 Git 커밋 참조. 로컬 백업 DevelopmentBackups/FacilityStandardization-20261114. 원격 설정은 있으나 이번 변경 push 없음.
+
+## 2026-11-14 Family Life 및 부모님 집 구조 긴급 복구
+
+- 최신 기획: 새 게임은 가구 완비 부모님 집. 19세 이후 기존500G 비용과 확인 창으로 선택 독립, 자동 퇴거 없음. 첫 독립 집만 침대1개/나무 장판/흰 벽지/옥색 고정 욕실. 가족 가구와 개인 소유·보관·배치를 구분하고 기존 자산·미션·직업을 보존한다.
+- 초기 단일 가족 공간 시안은 잘못된 설계였다. FamilyHomeArchitecturePlan v3/FamilyArchitectureSetup으로 부모 침실·이안 방·거실·주방·욕실을 실제 벽·문·충돌로 나눴다. 부모별 초기 위치와 단일 가족 식탁을 연결했다. 같은 LifeWorld 구역이며 방마다 Scene을 만들지 않았다.
+- 기존 WorldDoor와 문짝 스크립트를 교체하지 않았다. 기존 Controller의 같은 구역 통과와 NPC 내부 문 사용을 확장했다. 기존 주요 시설의 생성 전후 서명은 일치한다.
+- 가족 상태·관계·식사·분담 가사·외출은 기존 World snapshot과 scheduler를 사용한다. 수면/기상/냉장고/식사 연출 어댑터는 기존 효과·경제·저장을 호출한다. 보행1세/독립 외출7세/선택 독립19세를 구분한다.
+- 실제 Play: 공간48, 부모 생활/공동 식사30, 생활 연출·취소26, 독립/저장35, 주요 문60, 회사67, 고객13, Editor 모바일48, 금융UI13 assertion 통과. 전체 QA146개 최종 PASS128 / FAIL0 / NI13 / MANUAL5. 전체 실행의 신규 평면 검사1개는 대기 보완 후 해당 항목만 재검증했다. 마지막35개에는 미성년 독립 플래그 복원 방어와 자산 보존을 포함한다.
+- 기록/수정 파일/8개 요청 화면: Docs/FAMILY_HOME_ARCHITECTURE_RECOVERY.md 및 Docs/FamilyLife/RESULTS.md, PROGRESS.md, FLOOR_PLAN.json. 새 원본4PNG와 프롬프트를 보존하고 공식 이안 원본은 변경하지 않았다.
+- 사용자1세·100G 생산 저장3개 해시를 유지했다. DevelopmentBackups/FamilyLife-20261114에 시작 파일/씬/규칙을 백업했다. 최종 씬 저장·일반 저장 권한 복구·로컬 Git 체크포인트로 보존하며 원격 push는 하지 않는다.
+- 남은 전체 생활 범위: 부모 돌봄 호출 동선, 가사/TV/연령별 전용 동작, 완전한 오프라인 조리 이력, 실제 기기/키보드/미술 검수. 긴급 공간 복구를 모든 생활 모션 완성으로 보고하지 않는다.
