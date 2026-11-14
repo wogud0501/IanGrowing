@@ -2,12 +2,12 @@ using System;
 using System.Collections;
 using UnityEngine;
 namespace IanGame {
-public enum LifeActionVisual {AlignOnly,Bed,Dining,Appliance}
+public enum LifeActionVisual {AlignOnly,Bed,Dining,Appliance,Shower}
 // A presentation adapter on existing interactables. LifeWorldController remains
 // the single action/effect owner; building doors are deliberately not involved.
 public sealed class WorldLifeAction:MonoBehaviour {
  public LifeActionVisual mode;public Transform approach,anchor,standUp;public Vector2 facing=Vector2.up;
- public SpriteRenderer overlay;public Sprite[] frames;public WorldActivitySlot seat;public bool familyOwned;
+ public ShowerBoothVisual booth;public SpriteRenderer overlay;public Sprite[] frames;public WorldActivitySlot seat;public bool familyOwned;
  public bool Ready{get;private set;}public bool Completed{get;private set;}public int Frame{get;private set;}
  bool care,infantCare;WorldPlayerMotor actor;WorldInteractable target;bool active;bool colliderWasEnabled,visualWasEnabled;SpriteRenderer furnitureVisual;
  public bool Available=>seat==null||string.IsNullOrEmpty(seat.Occupant);
@@ -21,6 +21,10 @@ public sealed class WorldLifeAction:MonoBehaviour {
   else if(mode==LifeActionVisual.Bed&&!care){int start=world.Service.Game.growth.Age==0&&frames.Length>=16?12:0;yield return Sequence(start,Math.Min(start+2,frames.Length-1),.2f,cancelled);if(cancelled())yield break;actor.Warp(anchor==null?p:(Vector2)anchor.position);Show(start==12?15:3);}
   else if(mode==LifeActionVisual.Dining){yield return Wait(.35f,cancelled);if(cancelled())yield break;actor.Warp(anchor==null?p:(Vector2)anchor.position);Show(8);}
   else if(mode==LifeActionVisual.Appliance){actor.Pose("Open Door");yield return Sequence(0,3,.15f,cancelled);actor.Pose("Pick Up Item");}
+  else if(mode==LifeActionVisual.Shower){
+   if(booth==null||!actor.MovementAllowed)yield break;actor.GetComponent<CircleCollider2D>().enabled=false;actor.Pose("Open Door");yield return booth.Door(1,cancelled);if(cancelled())yield break;
+   actor.BeginTraversal(anchor.position,1.7f);while(actor.IsTraversing&&actor.TraversalSeconds<4){if(cancelled())yield break;yield return null;}if(!actor.TraversalArrived)yield break;actor.CancelTraversal();actor.Face(facing);yield return booth.Door(0,cancelled);if(cancelled())yield break;actor.Pose("Shower");seat?.MarkOccupied("player");booth.WaterRunning=true;
+  }
   Ready=!cancelled();
  }
  public void Animate(float seconds){if(!active)return;if(infantCare&&frames.Length>=16)Show(13+Mathf.FloorToInt(seconds*3)%2);else if(mode==LifeActionVisual.Dining)Show(8+Mathf.FloorToInt(seconds*4)%4);}
@@ -30,6 +34,7 @@ public sealed class WorldLifeAction:MonoBehaviour {
  public IEnumerator Exit(LifeWorldController world,Func<bool> cancelled){if(care&&!infantCare){ResetVisual();Completed=!cancelled();yield break;}
   if(mode==LifeActionVisual.Bed&&!care){world.Player.Pose("Wake Up");if(world.Service.Game.growth.Age==0){Show(12);yield return Wait(.5f,cancelled);}else yield return Sequence(4,7,.18f,cancelled);}
   if(mode==LifeActionVisual.Appliance){for(int i=2;i>=0;i--){Show(i);yield return Wait(.15f,cancelled);}}
+  if(mode==LifeActionVisual.Shower){booth.WaterRunning=false;actor.Pose("Open Door");yield return booth.Door(1,cancelled);if(cancelled())yield break;actor.Pose("Idle");actor.BeginTraversal(standUp.position,1.7f);while(actor.IsTraversing&&actor.TraversalSeconds<4){if(cancelled())yield break;yield return null;}if(!actor.TraversalArrived)yield break;actor.CancelTraversal();yield return booth.Door(0,cancelled);ResetVisual();Completed=!cancelled();yield break;}
   bool leaving=mode==LifeActionVisual.Bed||mode==LifeActionVisual.Dining;
   var destination=standUp==null?target.Point:(Vector2)standUp.position;
   if(leaving&&!cancelled()){
@@ -39,7 +44,7 @@ public sealed class WorldLifeAction:MonoBehaviour {
   }
   ResetVisual();Completed=!cancelled();
  }
- public void ResetVisual(){if(!active)return;active=false;Ready=false;if(overlay!=null)overlay.enabled=false;if(furnitureVisual!=null)furnitureVisual.enabled=true;if(actor!=null){actor.sprite.enabled=visualWasEnabled;actor.GetComponent<CircleCollider2D>().enabled=colliderWasEnabled;if(actor.contactShadow!=null)actor.contactShadow.enabled=true;}seat?.Release("player");}
+ public void ResetVisual(){if(!active)return;active=false;Ready=false;if(overlay!=null)overlay.enabled=false;if(booth!=null)booth.ResetClosed();if(furnitureVisual!=null)furnitureVisual.enabled=mode!=LifeActionVisual.Shower;if(actor!=null){actor.sprite.enabled=visualWasEnabled;actor.GetComponent<CircleCollider2D>().enabled=colliderWasEnabled;if(actor.contactShadow!=null)actor.contactShadow.enabled=true;}seat?.Release("player");}
  public static void CopyTo(WorldInteractable target,WorldLifeAction source){if(source==null)return;var a=target.gameObject.AddComponent<WorldLifeAction>();a.mode=source.mode;a.frames=source.frames;a.facing=source.facing;a.approach=new GameObject("InteractionApproach").transform;a.approach.SetParent(target.transform,false);a.approach.localPosition=target.UsePoint;a.standUp=a.approach;a.anchor=new GameObject("ActionAnchor").transform;a.anchor.SetParent(target.transform,false);a.anchor.localPosition=source.anchor.localPosition;var overlay=new GameObject("Life action occupied",typeof(SpriteRenderer));overlay.transform.SetParent(target.transform,false);a.overlay=overlay.GetComponent<SpriteRenderer>();a.overlay.sharedMaterial=target.visual.sharedMaterial;a.overlay.enabled=false;}
  void OnDisable(){ResetVisual();}
 }

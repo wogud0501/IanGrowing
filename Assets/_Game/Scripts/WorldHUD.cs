@@ -8,7 +8,7 @@ namespace IanGame {
 public sealed class WorldHUD:MonoBehaviour {
  public LifeWorldController world;public UIShell shell;public PolishedNavigation navigation;public HomeManagementPresenter home;
  public TMP_Text cash,needs,prompt,feedback,progress,contextTitle,inventory;public GameObject promptPanel,menuPanel,contextPanel;public RectTransform choices;public Button menuButton,contextClose;public Button[] menus;public Image fade;public Button choicePrefab;
- readonly List<Button> buttons=new List<Button>();WorldInteractable source;int notificationPriority;float until;string recent="";GameManager game;bool dirty;RectTransform feedbackCard;float feedbackWidth;
+ readonly List<Button> buttons=new List<Button>();WorldInteractable source;int notificationPriority;float until;string recent="";GameManager game;bool dirty;RectTransform feedbackCard,activityCard;float feedbackWidth;
  void Start(){if(GameContext.Instance==null)return;game=GameContext.Instance.game;menuButton.onClick.AddListener(()=>{if(world.CanControl)shell.Push(menuPanel);});contextClose.onClick.AddListener(CloseContext);for(int i=0;i<menus.Length;i++){int n=i;menus[i].onClick.AddListener(()=>navigation.Open(n));}game.economy.TransactionCompleted+=Money;game.world.Changed+=Summary;game.economy.Changed+=Invalidate;game.stats.Changed+=Invalidate;game.world.Restored+=Invalidate;game.clock.SimulationAdvanced+=TimeChanged;game.Logged+=Log;shell.Changed+=ShellChanged;game.growth.AgeChanged+=WalkingAgeChanged;game.StateChanged+=WalkingStateChanged;Refresh();MaybeWalkingNotice();}
  void WalkingAgeChanged(int age,LifeStage stage)=>MaybeWalkingNotice();
  void WalkingStateChanged(GameState state)=>MaybeWalkingNotice();
@@ -28,7 +28,12 @@ public sealed class WorldHUD:MonoBehaviour {
  void Log(string text){if(text==recent)return;recent=text;if(text.Contains("실패")||text.Contains("부족")||text.Contains("채용"))Notify(text,2);}
  void Summary(){if(!string.IsNullOrEmpty(game.world.State.lastSummary))Notify(game.world.State.lastSummary);Refresh();}
  public void Dim(float alpha){fade.color=new Color(0,0,0,Mathf.Clamp01(alpha));fade.raycastTarget=alpha>.01f;}
- public void Activity(string text,float amount){progress.text=string.IsNullOrEmpty(text)?"":$"{text} · {Mathf.RoundToInt(amount*100)}%   [Esc] 취소";}
+ public void Activity(string text,float amount){
+  progress.text=string.IsNullOrEmpty(text)?"":$"{text} · {Mathf.RoundToInt(amount*100)}%   [Esc] 취소";
+  if(activityCard==null){var r=progress.rectTransform;activityCard=new GameObject("World action progress",typeof(RectTransform),typeof(Image)).GetComponent<RectTransform>();activityCard.SetParent(r.parent,false);activityCard.SetSiblingIndex(r.GetSiblingIndex());var image=activityCard.GetComponent<Image>();image.sprite=promptPanel.GetComponent<Image>().sprite;image.type=Image.Type.Sliced;image.raycastTarget=false;r.SetParent(activityCard,false);r.anchorMin=Vector2.zero;r.anchorMax=Vector2.one;r.offsetMin=new Vector2(16,8);r.offsetMax=new Vector2(-16,-8);progress.color=new Color32(57,53,47,255);progress.raycastTarget=false;}
+  activityCard.gameObject.SetActive(!string.IsNullOrEmpty(text));if(string.IsNullOrEmpty(text))return;
+  bool touch=GetComponent<WorldMobileHUD>()?.IsMobile==true;activityCard.anchorMin=new Vector2(touch?.12f:.25f,touch?.5f:.18f);activityCard.anchorMax=new Vector2(touch?.88f:.75f,touch?.5f:.18f);activityCard.pivot=new Vector2(.5f,0);activityCard.anchoredPosition=Vector2.zero;activityCard.sizeDelta=new Vector2(0,Mathf.Max(48,progress.GetPreferredValues(progress.text,activityCard.rect.width-32,Mathf.Infinity).y+16));
+ }
  public void OpenHousing(){home.Tab(1);shell.Push(home.panel);}
  public void CloseContext(){source=null;if(shell.Top==contextPanel)shell.Close(contextPanel);}
  void Choice(string label,Action command){var b=Instantiate(choicePrefab,choices);b.gameObject.SetActive(true);b.GetComponentInChildren<TMP_Text>().text=label;b.onClick.RemoveAllListeners();b.onClick.AddListener(()=>{if(source==null||!world.IsInReach(source)||world.Busy){Notify("대상 가까이에서 다시 시도하세요.");CloseContext();return;}command();Refresh();});buttons.Add(b);}

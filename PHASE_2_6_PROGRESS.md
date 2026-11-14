@@ -377,3 +377,14 @@ UI 비율: 1280×720, 1920×1080, 2400×1080, 1080×1920. 큰 글씨 115%, 소�
 - Android IL2CPP arm64 Development APK 생성 성공, iOS는 iPhoneOS SDK 미설치로 네이티브 빌드 BLOCKED. 실제 Android/iOS/Fold·성능·전체 생활 제스처·정확한 전체 오프라인 조리 이력은 미검증/잔여 범위.
 - 상세: Docs/RESIDENTIAL_SCENE_ARCHITECTURE.md, Docs/SceneArchitecture/RESULTS.md, Docs/PATCH_NOTES_SCENE_ARCHITECTURE_2026-11-14.md. 재개 지점: Docs/SCENE_ARCHITECTURE_PROGRESS.md.
 - 사용자1세/100G 세이브를 시작 해시로 보존. 로컬 백업 DevelopmentBackups/SceneArchitecture-20261114. 이번 변경 원격 push 없음.
+
+
+## 2026-11-14 — ROOM VISUAL & CAMERA QUALITY RECOVERY
+
+- 분리 씬 유지. 가족 욕실5.2×3.8/후벽1.0/720p ortho3.214286, 실제14실 공통 카메라 설정 저장.
+- 낮은 대비의 주택 외곽 표현, 밝은 문 안쪽 면·문턱, 중복 장식 제거, 독립 욕실 disabled/Scale 잔재 복구.
+- 기존 샤워2개에 부스 유리문·내부/퇴장 Anchor·실제 actor/물 모션 연결. 기존 효과/연령 제한/출입 WorldDoor는 보존.
+- 실내6개 최종 Play 시나리오457개 검사 통과.30경로 왕복/14실/샤워2개/저장·가족 조리·모바일 시뮬레이션 확인. 별도3종 문 반복120회 상태·좌표 검사 근거 보존.
+- Workspace 가구5업무석/NPC 일정 유지. 기존 프리팹은 재사용하고 수정하지 않음.
+- 상세 변경·검증·미검증: `Docs/RoomVisual/RESULTS.md`. 패치노트: `Docs/PATCH_NOTES_ROOM_VISUAL_2026_11_14.md`.
+- 로컬 기준 백업: `DevelopmentBackups/RoomVisual-20261114` (운영 세이브 포함, Git 제외). 마지막 Git 체크포인트는 해당 보고서 참조.
