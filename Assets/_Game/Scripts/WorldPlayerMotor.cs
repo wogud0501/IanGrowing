@@ -11,6 +11,7 @@ public sealed class WorldPlayerMotor:MonoBehaviour {
  InputActionAsset runtimeControls;InputActionMap gameplay;InputAction move,interact,inventory,menu,run;
  bool scripted;Vector2 traversalTarget;float traversalSpeed;
  // Walking (1+) and independent outdoor travel (7+) have separate policies.
+ public PlayerGrowthVisual growthVisual;
  public bool MovementAllowed=>world!=null&&world.Service!=null&&world.Service.Game.growth.WalkingUnlocked;
  public float TraversalSeconds{get;private set;}
  public bool TraversalArrived{get;private set;}public bool IsTraversing=>scripted;public float ActualSpeed=>actualSpeed;public Vector2 Movement=>velocity;
@@ -34,9 +35,10 @@ public sealed class WorldPlayerMotor:MonoBehaviour {
  #endif
   return true;
  }
- public void BeginTraversal(Vector2 destination,float speed=2.2f){if(!MovementAllowed){CancelTraversal();return;}StopMotion();traversalTarget=destination;traversalSpeed=Mathf.Max(.1f,speed);TraversalArrived=false;TraversalSeconds=0;scripted=true;pose="Idle";}
+ public void BeginTraversal(Vector2 destination,float speed=2.2f){if(!MovementAllowed){CancelTraversal();return;}StopMotion();traversalTarget=destination;traversalSpeed=Mathf.Max(.1f,speed)*(growthVisual==null?1:growthVisual.Speed);TraversalArrived=false;TraversalSeconds=0;scripted=true;pose="Idle";}
  public void CancelTraversal(){scripted=false;TraversalArrived=false;StopMotion();}
  void Update(){
+  growthVisual?.RefreshBinding();
   bool controlling=MovementAllowed&&world.CanControl&&OwnsKeyboardFocus();input=controlling&&move!=null?Vector2.ClampMagnitude(move.ReadValue<Vector2>(),1):Vector2.zero;
   if(!MovementAllowed){if(scripted)CancelTraversal();StopMotion();}
   if(scripted)input=Vector2.ClampMagnitude(traversalTarget-Position,1);
@@ -50,11 +52,11 @@ public sealed class WorldPlayerMotor:MonoBehaviour {
    if(!MovementAllowed&&(motion==ActorMotion.Walk||motion==ActorMotion.Run||motion==ActorMotion.Turn||motion==ActorMotion.Stop))motion=ActorMotion.Idle;
    bool walking=motion==ActorMotion.Walk||motion==ActorMotion.Run;
    advanced.Render(motion,Facing,pendingDistance,walking);pendingDistance=0;
-   bodyVisual.localPosition=Vector3.zero;bodyVisual.localScale=Vector3.one*visualScale;bodyVisual.localRotation=Quaternion.identity;
+   bodyVisual.localPosition=growthVisual==null?Vector3.zero:(Vector3)growthVisual.DisplayOffset;bodyVisual.localScale=Vector3.one*visualScale;bodyVisual.localRotation=growthVisual==null?Quaternion.identity:growthVisual.DisplayRotation;
   }else if(locomotion!=null&&walkSet!=null&&walkSet.Complete){
    locomotion.enabled=true;locomotion.speed=0;locomotion.Play((moving?"Walk_":"Idle_")+walkSet.Direction(Facing),0,moving?Mathf.Repeat(Time.unscaledTime*actualSpeed/walkSet.strideLength,1):0);locomotion.Update(0);
   }
-  sprite.sortingOrder=1000-Mathf.RoundToInt(transform.position.y*100)+(pose=="Sleep"||pose=="Wake Up"?50:0);
+  sprite.sortingOrder=growthVisual!=null&&growthVisual.ActionOrder!=int.MinValue?growthVisual.ActionOrder:1000-Mathf.RoundToInt(transform.position.y*100)+(pose=="Sleep"||pose=="Wake Up"?50:0);
  }
  void FixedUpdate(){
   if(!MovementAllowed||world.Service.Game.State!=GameState.Playing||!scripted&&(!world.CanControl||!OwnsKeyboardFocus())){StopMotion();return;}
@@ -63,7 +65,7 @@ public sealed class WorldPlayerMotor:MonoBehaviour {
   float maximum=world.Service.rules.moveSpeed*runMultiplier*Time.fixedDeltaTime*2;if(distance<maximum)pendingDistance+=distance;
   if(scripted&&Vector2.Distance(body.position,traversalTarget)<.045f){scripted=false;TraversalArrived=true;StopMotion();return;}
   float fatigue=world.Service.State.fatigue>85?.7f:1;bool running=!scripted&&run!=null&&run.IsPressed()&&fatigue==1;
-  Vector2 target=scripted?(traversalTarget-body.position).normalized*traversalSpeed:input*world.Service.rules.moveSpeed*fatigue*(running?runMultiplier:1);
+  Vector2 target=scripted?(traversalTarget-body.position).normalized*traversalSpeed:input*world.Service.rules.moveSpeed*(growthVisual==null?1:growthVisual.Speed)*fatigue*(running?runMultiplier:1);
   velocity=Vector2.MoveTowards(velocity,target,(target.sqrMagnitude>.001f?acceleration:braking)*Time.fixedDeltaTime);
   var next=body.position+velocity*Time.fixedDeltaTime;if(scripted&&(traversalTarget-body.position).sqrMagnitude<(next-body.position).sqrMagnitude)next=traversalTarget;
   body.MovePosition(next);
@@ -72,7 +74,7 @@ public sealed class WorldPlayerMotor:MonoBehaviour {
  void LateUpdate(){if(contactShadow!=null)contactShadow.sortingOrder=sprite.sortingOrder-1;}
  public void Face(Vector2 direction){if(direction.sqrMagnitude<.0001f)return;if(ActorAnimationSet.Direction(direction)!=ActorAnimationSet.Direction(Facing))turnUntil=Time.unscaledTime+.18f;Facing=direction.normalized;}
  public void React(ActorMotion motion,float seconds=.8f){reaction=motion;reactionRemaining=seconds;}public void ClearReaction(){reactionRemaining=0;}
- public void Pose(string state){if(!MovementAllowed&&(state=="Walk"||state=="Run"||state=="Turn"||state=="Stop"))state="Idle";pose=state;if(advanced!=null)advanced.Play(Parse(state),Facing,true);}
+ public void Pose(string state){if(!MovementAllowed&&(state=="Walk"||state=="Run"||state=="Turn"||state=="Stop"))state="Idle";pose=state;growthVisual?.Pose(state);if(advanced!=null)advanced.Play(Parse(state),Facing,true);}
  static ActorMotion Parse(string state){switch(state){case "Wake Up":return ActorMotion.WakeUp;case "Sit":return ActorMotion.SitDown;case "Wash":return ActorMotion.WashFace;case "Stand Up":return ActorMotion.StandUp;case "Open Door":return ActorMotion.OpenDoor;case "Use Computer":return ActorMotion.UseComputer;case "Use Phone":return ActorMotion.UsePhone;default:return System.Enum.TryParse(state.Replace(" ",""),out ActorMotion motion)?motion:ActorMotion.Interact;}}
 }
 }

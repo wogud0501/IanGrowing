@@ -5,6 +5,7 @@ namespace IanGame {
 public sealed class WorldActorAnimation:MonoBehaviour {
  public ActorAnimationSet library;public SpriteRenderer visual;public Animator legacyAnimator;
  public ActorMotion Motion{get;private set;}=ActorMotion.Idle;public ActorDirection Direction{get;private set;}=ActorDirection.Down;
+ public bool UsedMotionFallback=>active!=null&&active.motion!=Motion;
  public float Distance{get;private set;}public int Frame{get;private set;}public bool UsedDirectionFallback{get;private set;}
  public event System.Action<ActorMotion> Entered,Finished;
  float entered;bool finished;ActorSpriteClip active;

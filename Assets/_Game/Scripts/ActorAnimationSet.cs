@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 namespace IanGame {
-public enum ActorMotion {Idle,Walk,Run,Turn,Stop,Sleep,WakeUp,SitDown,StandUp,Eat,Drink,WashFace,Shower,Work,UseComputer,UsePhone,Interact,OpenDoor,PickUpItem,PutDownItem,Happy,Sad,Tired,Angry,Stressed,Surprised,Thinking}
+public enum ActorMotion {Idle,Walk,Run,Turn,Stop,Sleep,WakeUp,SitDown,StandUp,Eat,Drink,WashFace,Shower,Work,UseComputer,UsePhone,Interact,OpenDoor,PickUpItem,PutDownItem,Happy,Sad,Tired,Angry,Stressed,Surprised,Thinking,Study,Talk,Play,InfantCry,Carried,CareFeed,CareBath}
 public enum ActorDirection {Down,Up,Left,Right}
 [Serializable] public sealed class ActorSpriteClip {
  public ActorMotion motion;public ActorDirection direction;public Sprite[] frames=Array.Empty<Sprite>();
@@ -10,13 +10,13 @@ public enum ActorDirection {Down,Up,Left,Right}
 }
 [CreateAssetMenu(menuName="Ian/World/Actor animation set")]
 public sealed class ActorAnimationSet:ScriptableObject {
- public ActorSpriteClip[] clips=Array.Empty<ActorSpriteClip>();
+ public bool ageScoped;public ActorSpriteClip[] clips=Array.Empty<ActorSpriteClip>();
  public ActorSpriteClip Find(ActorMotion motion,ActorDirection direction,bool allowFallback=true){
   var exact=Array.Find(clips,c=>c.motion==motion&&c.direction==direction&&c.Available);
   if(exact!=null||!allowFallback)return exact;
   // Missing directional actions stay explicitly queryable; fallback is not a claim
   // that a full set of authored interaction directions exists.
-  return Array.Find(clips,c=>c.motion==motion&&c.Available);
+  return Array.Find(clips,c=>c.motion==motion&&c.Available)??(ageScoped?Array.Find(clips,c=>c.motion==ActorMotion.Idle&&c.Available):null);
  }
  public static ActorDirection Direction(Vector2 vector,ActorDirection previous=ActorDirection.Down){
   if(vector.sqrMagnitude<.0000001f)return previous;
