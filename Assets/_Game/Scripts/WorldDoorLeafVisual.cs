@@ -10,6 +10,8 @@ public sealed class WorldDoorLeafVisual:MonoBehaviour {
  public MeshRenderer Surface=>surface;public MeshRenderer FrameSurface=>frameSurface;public Mesh Geometry=>mesh;public Mesh FrameGeometry=>frameMesh;
  public void Draw(WorldDoor door){
   if(door.leaf==null||door.style==null||door.style.openingFrames.Length==0)return;
+  // A migrated backing may retain a sorting order from another room. It must stay behind the solid leaf.
+  if(door.apertureShadow!=null){door.apertureShadow.sortingLayerID=door.leaf.sortingLayerID;door.apertureShadow.sortingOrder=door.leaf.sortingOrder-2;}
   if(mesh==null){mesh=new Mesh{name="Solid door leaf (hinged volume)"};mesh.MarkDynamic();gameObject.AddComponent<MeshFilter>().sharedMesh=mesh;surface=gameObject.AddComponent<MeshRenderer>();surface.shadowCastingMode=UnityEngine.Rendering.ShadowCastingMode.Off;surface.receiveShadows=false;properties=new MaterialPropertyBlock();}
   transform.SetPositionAndRotation(door.leaf.transform.position+door.VisualOffset,Quaternion.identity);var scale=transform.parent.lossyScale;transform.localScale=new Vector3(1/scale.x,1/scale.y,1/scale.z);
   surface.sharedMaterial=door.leaf.sharedMaterial;surface.sortingLayerID=door.leaf.sortingLayerID;surface.sortingOrder=door.leaf.sortingOrder;surface.enabled=door.isActiveAndEnabled;

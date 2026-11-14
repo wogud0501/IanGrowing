@@ -16,7 +16,7 @@ public sealed class WorldHUDLayout : MonoBehaviour {
   string key=width+"/"+hud.cash.text+"/"+hud.cash.fontSize+"/"+bar.time.text+"/"+bar.time.fontSize+"/"+bar.place.text+"/"+bar.place.fontSize+"/"+compactStack;
   if(key==measured)return;measured=key;
   float cashWidth=hud.cash.GetPreferredValues(hud.cash.text).x+30;
-  float walletWidth=Mathf.Max(240,cashWidth+104);
+  float walletWidth=Mathf.Max(212,cashWidth+104);
   wallet.anchorMin=wallet.anchorMax=Vector2.one;wallet.pivot=Vector2.one;
   wallet.anchoredPosition=new Vector2(-width*.018f,-12);wallet.sizeDelta=new Vector2(walletWidth,compactStack?64:Mathf.Max(48,hud.cash.GetPreferredValues(hud.cash.text).y+8));
   hud.cash.rectTransform.anchorMin=new Vector2(0,0);hud.cash.rectTransform.anchorMax=new Vector2(1,1);
@@ -24,7 +24,7 @@ public sealed class WorldHUDLayout : MonoBehaviour {
   var button=(RectTransform)hud.menuButton.transform;button.anchorMin=new Vector2(1,.12f);button.anchorMax=new Vector2(1,.88f);button.pivot=new Vector2(1,.5f);button.anchoredPosition=new Vector2(-8,0);button.sizeDelta=new Vector2(80,0);
   float clockWidth=bar.time.GetPreferredValues(bar.time.text).x+12;
   var clock=bar.time.GetComponent<LayoutElement>();clock.minWidth=clock.preferredWidth=clockWidth;clock.flexibleWidth=0;
-  var place=bar.place.GetComponent<LayoutElement>();place.minWidth=120;place.preferredWidth=Mathf.Max(160,bar.place.GetPreferredValues(bar.place.text).x+8);place.flexibleWidth=1;
+  var place=bar.place.GetComponent<LayoutElement>();place.minWidth=120;place.preferredWidth=Mathf.Max(120,bar.place.GetPreferredValues(bar.place.text).x+8);place.flexibleWidth=1;
   float available=compactStack?width*.964f:width*.964f-walletWidth-18;
   float wanted=place.preferredWidth+clockWidth+58;
   if(compactStack){wallet.anchoredPosition=new Vector2(-width*.018f,-84);wallet.sizeDelta=new Vector2(Mathf.Min(walletWidth,width*.964f),64);}

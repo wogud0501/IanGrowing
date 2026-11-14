@@ -388,3 +388,15 @@ UI 비율: 1280×720, 1920×1080, 2400×1080, 1080×1920. 큰 글씨 115%, 소�
 - Workspace 가구5업무석/NPC 일정 유지. 기존 프리팹은 재사용하고 수정하지 않음.
 - 상세 변경·검증·미검증: `Docs/RoomVisual/RESULTS.md`. 패치노트: `Docs/PATCH_NOTES_ROOM_VISUAL_2026_11_14.md`.
 - 로컬 기준 백업: `DevelopmentBackups/RoomVisual-20261114` (운영 세이브 포함, Git 제외). 마지막 Git 체크포인트는 해당 보고서 참조.
+
+
+## 2026-11-14 — PIXEL INTERIOR VISUAL RECONSTRUCTION
+
+- 가족 욕실5.2×2.6, 민트/아이보리 후벽·실제 측벽·전면 문설주와 충돌/Entry 정렬. 카메라 ortho2.5(720p 참조9배율).
+- 자체 생성6모듈 Sprite 아틀라스, 개별 타일/수납/수건/선반 배치. 첨부 전체를 배경으로 사용하지 않음.
+- 문 배경판이 문짝을 덮던 실제 sorting899>630 결함을 렌더 소유자 WorldDoorLeafVisual에서 최소 수정. WorldDoor 상태·Scene 전환은 보존.
+- 샤워 내부 Anchor, 유리/물 표현,0세 차단, 실제 진입/퇴장/효과/취소 검증.14실 외곽·접지, 한글 HUD 정리; Workspace5업무석 유지.
+- 최종 Play7시나리오621개 검사 통과/UI 문제0. Android ARM64 IL2CPP 빌드 성공/오류0/기존 경고1223. 운영3세이브 해시 보존.
+- 영유아 전용 보호자 목욕 아트/실제 모바일·폴더블 기기 성능/iOS 네이티브 빌드는 완료 인증하지 않음.
+- 실제 파일·비교 화면·검증·남은 범위: `Docs/InteriorReconstruction/RESULTS.md`. 패치노트: `Docs/PATCH_NOTES_INTERIOR_RECONSTRUCTION_2026_11_14.md`.
+- 기준 d651cef, 로컬 백업 `DevelopmentBackups/InteriorReconstruction-20261114` (운영 세이브 포함/Git 제외).
