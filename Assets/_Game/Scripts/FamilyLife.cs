@@ -12,6 +12,8 @@ public enum HomeResidency {FamilyHome,IndependentHome}
 // State belongs to the existing LifeWorld snapshot; money and owned furniture stay in EconomySystem.
 public static class FamilyLife {
  public const string Home="family-home",Bath="family-bathroom";
+ public static bool IsFamilyRoom(string id)=>id==Home||id==Bath||id=="family-living"||id=="family-kitchen"||id=="family-parents-bedroom"||id=="family-ian-bedroom";
+ public static bool IsNursery(string id)=>id==Home||id=="family-ian-bedroom";
  public static FamilyLifeSnapshot State(GameManager g)=>g?.world?.State?.family;
  public static bool AtFamily(GameManager g)=>State(g)?.residency==HomeResidency.FamilyHome;
  public static string DefaultHome(GameManager g)=>AtFamily(g)?Home:"home";
@@ -26,7 +28,7 @@ public static class FamilyLife {
  public static bool Done(GameManager g,string parent,string target,long key)=>State(g)?.receipts?.Exists(r=>r.parent==parent&&r.target==target&&r.key==key)??false;
  public static void Use(GameManager g,string parent,WorldInteractable target,long key){if(!Parent(parent)||target==null||Done(g,parent,target.id,key))return;if(g.world.Host?.GetComponent<FamilyHomeRuntime>()?.Queue(parent,target,key)==true)return;ApplyUse(g,parent,target,key);}
  public static void ApplyUse(GameManager g,string parent,WorldInteractable target,long key){
-  if(!Parent(parent)||target==null||target.zone!=Home&&target.id!="counter")return;var f=State(g);if(f==null||Done(g,parent,target.id,key))return;if(f.receipts==null)f.receipts=new System.Collections.Generic.List<FamilyReceipt>();f.receipts.RemoveAll(r=>r.parent==parent&&r.target==target.id);f.receipts.Add(new FamilyReceipt{parent=parent,target=target.id,key=key});
+  if(!Parent(parent)||target==null||!IsFamilyRoom(target.zone)&&target.id!="counter")return;var f=State(g);if(f==null||Done(g,parent,target.id,key))return;if(f.receipts==null)f.receipts=new System.Collections.Generic.List<FamilyReceipt>();f.receipts.RemoveAll(r=>r.parent==parent&&r.target==target.id);f.receipts.Add(new FamilyReceipt{parent=parent,target=target.id,key=key});
   if(target.id=="counter"){f.pantry=Math.Min(999,f.pantry+6);return;}
   if(target.id=="family-fridge"&&f.pantry>0&&string.IsNullOrEmpty(f.ingredientCarrier)){f.pantry--;f.ingredientCarrier=parent;}
   if(target.id=="family-cook"&&f.ingredientCarrier==parent&&f.cookedKey!=key){f.cookedKey=key;f.ingredientCarrier="";f.cook=parent;f.preparedMeals=3;}

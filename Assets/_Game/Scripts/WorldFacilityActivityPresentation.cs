@@ -11,7 +11,7 @@ public sealed class WorldFacilityActivityPresentation:MonoBehaviour {
  void Awake(){phase=Mathf.Abs(transform.position.x*.37f)%3;}
  void LateUpdate(){
   var host=GameContext.Instance?.game.world.Host;if(host==null||slot==null)return;
-  if(owner!=slot.Occupant){RestoreActor();owner=slot.Occupant;actor=host.GetComponent<WorldNPCScheduler>().actors.FirstOrDefault(a=>a.npcId==owner);}
+  if(owner!=slot.Occupant||actor==null&&!string.IsNullOrEmpty(slot.Occupant)){RestoreActor();owner=slot.Occupant;actor=host.GetComponent<WorldNPCScheduler>().actors.FirstOrDefault(a=>a.npcId==owner);}
   bool local=actor!=null&&actor.zone==host.Service.State.zone;var animation=actor==null?null:actor.GetComponent<WorldActorAnimation>();
   bool active=local&&slot.IsOccupied&&Vector2.Distance(actor.transform.position,slot.Point)<.045f&&animation!=null&&animation.Motion!=ActorMotion.Walk&&animation.Motion!=ActorMotion.SitDown&&animation.Motion!=ActorMotion.StandUp&&frames!=null&&frames.Length>=4;
   if(active){int row=0;if(citizenRows&&frames.Length>=16){var name=animation.library.name;row=Mathf.Clamp(name[name.Length-1]-'0',0,3);}Frame=Mathf.FloorToInt((Time.unscaledTime+phase)*2.8f)%4;occupied.sprite=frames[row*4+Frame];occupied.sortingOrder=1000-Mathf.RoundToInt(transform.position.y*100)+2;actor.visual.enabled=false;if(actor.shadow!=null)actor.shadow.enabled=false;if(actor.highlight!=null)actor.highlight.enabled=false;}

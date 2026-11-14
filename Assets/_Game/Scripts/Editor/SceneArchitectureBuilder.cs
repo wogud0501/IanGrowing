@@ -1,0 +1,14 @@
+using System;
+using System.IO;
+using System.Linq;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEditor;
+using UnityEditor.SceneManagement;
+namespace IanGame.Editor {
+public static class SceneArchitectureBuilder {
+ public const string Source="Assets/_Game/Scenes/LifeWorld.unity",Data="Assets/_Game/Data/SceneArchitecture/",Scenes="Assets/_Game/Scenes/Rooms/";
+ [MenuItem("Ian/Scene Architecture/Audit Source")]
+ public static void Audit(){if(Application.isPlaying)throw new Exception("Stop Play");EditorSceneManager.OpenScene(Source);var w=UnityEngine.Object.FindFirstObjectByType<LifeWorldController>();Directory.CreateDirectory("Docs/SceneArchitecture");File.WriteAllText("Docs/SceneArchitecture/SOURCE_HIERARCHY.txt",string.Join("\n",w.gameObject.scene.GetRootGameObjects().Select(o=>"ROOT "+o.name))+"\n"+string.Join("\n",w.transform.Cast<Transform>().Select(t=>t.name+" pos="+t.position+" children="+t.childCount+" types="+string.Join(",",t.GetComponents<Component>().Select(c=>c==null?"MISSING":c.GetType().Name)))));}
+}
+}
