@@ -45,7 +45,7 @@ public sealed class HomeLayoutPlan:ScriptableObject {
  public bool Find(string id,HousingSnapshot home,Vector2? skip,out Vector2 model,out string reason){model=Vector2.zero;reason="배치할 수 있는 위치가 없습니다.";var rule=Rule(id);if(rule?.slots==null){reason="배치 위치가 설정되지 않았습니다.";return false;}foreach(var slot in rule.slots){var p=Snap(slot);if(skip.HasValue&&Vector2.Distance(p,skip.Value)<.02f)continue;if(Validate(id,p,home,out reason)){model=p/2;return true;}}reason="문과 가구의 동선을 확보할 수 있는 다른 위치가 없습니다.";return false;}
  public void Migrate(HousingSnapshot home){
   if(home.layoutVersion>=version&&home.layoutResidenceId==home.residenceId)return;var previous=home.placed.ToArray();var draft=JsonUtility.FromJson<HousingSnapshot>(JsonUtility.ToJson(home));draft.placed.Clear();int adjusted=0;
-  foreach(var item in previous){if(Rule(item.id)==null){draft.placed.Add(item);continue;}if(Validate(item.id,item.position*2,draft,out var why)){draft.placed.Add(item);continue;}if(Find(item.id,draft,null,out var position,out why))draft.placed.Add(new FurniturePlacement{id=item.id,position=position});adjusted++;}
+  foreach(var item in previous){if(Rule(item.id)==null){draft.placed.Add(item);continue;}if(Validate(item.id,item.position*2,draft,out var why)){draft.placed.Add(item);continue;}if(Find(item.id,draft,null,out var position,out why))draft.placed.Add(new FurniturePlacement{id=item.id,position=position,homeId=item.homeId,roomId=item.roomId,ownership=item.ownership,installed=item.installed,direction=item.direction});adjusted++;}
   home.placed=draft.placed;home.layoutVersion=version;home.layoutResidenceId=home.residenceId;home.layoutAdjusted+=adjusted;
  }
 }

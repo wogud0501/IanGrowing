@@ -16,7 +16,7 @@ public class HousingCatalog:ScriptableObject {
  public FurnitureDefinition Furniture(string id)=>Array.Find(furniture,f=>f.id==id);
  public ResidenceDefinition Residence(string id)=>Array.Find(residences,r=>r.id==id);
 }
-[Serializable] public class FurniturePlacement {public string id;public Vector2 position;}
+[Serializable] public class FurniturePlacement {public string id;public Vector2 position;public string homeId,roomId,ownership;public int direction;public bool installed=true;}
 [Serializable] public class HousingSnapshot {
  public int schema=1; public string residenceId="starter",wallpaper="warm-white",floor="wood-linoleum",bathroom="jade-tile";
  public List<string> owned=new List<string>(); public List<FurniturePlacement> placed=new List<FurniturePlacement>();

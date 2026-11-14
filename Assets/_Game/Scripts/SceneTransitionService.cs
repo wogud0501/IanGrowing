@@ -21,7 +21,9 @@ public partial class SceneTransitionService : MonoBehaviour {
  }
  #if UNITY_EDITOR || DEVELOPMENT_BUILD
  // QA can reach the original automation scenes without changing normal world routing.
- public bool NavigateForTesting(SceneId id){LegacyTesting=roomCatalog==null||roomCatalog.Find(id)==null;if(LegacyTesting){var world=GameContext.Instance.game.world;roomCatalog?.ToLegacy(world.State);world.UseLegacyRules();}return NavigateRoute(id);}
+ public void UseLegacyTesting(){LegacyTesting=true;roomCatalog?.ToLegacy(GameContext.Instance.game.world.State);GameContext.Instance.game.world.UseLegacyRules();}
+ public void PrepareRoomStateRestore(){LegacyTesting=false;GameContext.Instance.game.world.UseRoomRules(roomCatalog);}
+ public bool NavigateForTesting(SceneId id){LegacyTesting=roomCatalog==null||roomCatalog.Find(id)==null;if(LegacyTesting){var world=GameContext.Instance.game.world;roomCatalog?.ToLegacy(world.State);world.UseLegacyRules();}else{var world=GameContext.Instance.game.world;return NavigateRoom(roomCatalog.Find(id).roomId,world.State.position,world.State.facing);}return NavigateRoute(id);}
  #endif
  bool NavigateRoute(SceneId id){
   if(IsTransitioning)return false;

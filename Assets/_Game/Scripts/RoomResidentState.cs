@@ -11,7 +11,7 @@ public sealed partial class LifeWorldService {
    // A visitor entering the currently viewed room must appear through its door.
    // Other rooms are data-only; no GameObject is created there.
    if(Host!=null&&Host.Room!=null&&target.zone==Host.Room.roomId&&n.zone!=target.zone){n.action=NPCDailyAction.Walk;n.minute=now;continue;}
-   n.zone=target.zone;n.position=target.position;n.action=target.action;n.minute=now;
+   n.zone=target.zone;n.position=target.position;n.action=target.action;n.minute=now;long key=((long)Game.clock.Day<<16)+index;if(FamilyLife.Parent(d.npcId)&&!FamilyLife.Done(Game,d.npcId,target.objectId,key)){FamilyLife.ApplyLogicalUse(Game,d.npcId,target.objectId,key);n.completedUseKey=key;}
   }}
 }
 }

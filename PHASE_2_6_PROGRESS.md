@@ -364,3 +364,16 @@ UI 비율: 1280×720, 1920×1080, 2400×1080, 1080×1920. 큰 글씨 115%, 소�
 - 기록/수정 파일/8개 요청 화면: Docs/FAMILY_HOME_ARCHITECTURE_RECOVERY.md 및 Docs/FamilyLife/RESULTS.md, PROGRESS.md, FLOOR_PLAN.json. 새 원본4PNG와 프롬프트를 보존하고 공식 이안 원본은 변경하지 않았다.
 - 사용자1세·100G 생산 저장3개 해시를 유지했다. DevelopmentBackups/FamilyLife-20261114에 시작 파일/씬/규칙을 백업했다. 최종 씬 저장·일반 저장 권한 복구·로컬 Git 체크포인트로 보존하며 원격 push는 하지 않는다.
 - 남은 전체 생활 범위: 부모 돌봄 호출 동선, 가사/TV/연령별 전용 동작, 완전한 오프라인 조리 이력, 실제 기기/키보드/미술 검수. 긴급 공간 복구를 모든 생활 모션 완성으로 보고하지 않는다.
+
+
+## 2026-11-14 독립 Scene 및 주거 공간 개편
+
+- 최신 요청을 반영하여 이전 단일 가족 집 방 구성을 일반 플레이 경로에서 독립 Scene16개로 전환. 가족5방, 개인 스튜디오/욕실, 도시/골목 및 기존 시설. 원본 LifeWorld/Rules는 백업과 바이트 동일, 기존 SceneId 숫자 유지.
+- 거실9.6×7, 가족 욕실5.2×4.6 등으로 축소. 방별 벽·문·충돌·가구 배치·NPC 목적지를 저장. 잘못된 하단 Pivot과 Static sorting을 실제 배치 기준으로 맞춤. 기존 회사5개 업무석 및 금융4개 업무석을 재설계하지 않음.
+- 전역 GameContext/시계/성장/경제/미션/관계 공유. 현재 공간만 활성화한 뒤 이전 씬 언로드. NPC17명 논리 데이터와 현재 방 실제 인물을 분리하며 기존 좌석·경로·문 스크립트를 재사용.
+- 독립 전 개인 집 문과 두 표시판 숨김, 내부 실행 제한 유지. 보행1세/독립 외출7세/선택 독립19세·500G 및 첫 개인 집 침대1개를 유지. 개인 가구 RoomId/HomeId/ownership/installed/direction 기본값 마이그레이션.
+- 실제 Play:16씬 상태160,30문222, 저장/조리/모바일109, 축소 주거/가족 문/독립157, 최종 UI/새 게임69, 가족 캡처20, 공동 식탁10 assertion 통과. 실행 간 중복이 있어 합산 고유 테스트 수로 보고하지 않음. 초기 UI5건 수정 후 최종0건. QA Center 새 Scene4항목 포함11개 선택 재실행 PASS; 누적150개132PASS/13NI/5MANUAL은 과거 이력 포함.
+- 새 게임 전환에서 출생 팝업 보호 때문에 종료되지 않는 while을 실제 발견. Editor 강제 종료 후 저장된 프로젝트로 복구하고 진행 여부 검사로 수정. 최종69개 실행에서 도시→0세 방/출생/돌봄 접근까지 재검증 통과. 생산3파일 해시 유지.
+- Android IL2CPP arm64 Development APK 생성 성공, iOS는 iPhoneOS SDK 미설치로 네이티브 빌드 BLOCKED. 실제 Android/iOS/Fold·성능·전체 생활 제스처·정확한 전체 오프라인 조리 이력은 미검증/잔여 범위.
+- 상세: Docs/RESIDENTIAL_SCENE_ARCHITECTURE.md, Docs/SceneArchitecture/RESULTS.md, Docs/PATCH_NOTES_SCENE_ARCHITECTURE_2026-11-14.md. 재개 지점: Docs/SCENE_ARCHITECTURE_PROGRESS.md.
+- 사용자1세/100G 세이브를 시작 해시로 보존. 로컬 백업 DevelopmentBackups/SceneArchitecture-20261114. 이번 변경 원격 push 없음.

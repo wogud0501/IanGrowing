@@ -48,7 +48,7 @@ public sealed class WorldStreetLife:MonoBehaviour {
   }
  }
  bool VehicleOnCrossing(){foreach(var v in vehicles)if(v.body.simulated&&Mathf.Abs(v.body.position.x-Origin.x)<3)return true;return false;}
- bool PedestrianOnCrossing(){foreach(var p in pedestrians){Vector2 at=p.visual.transform.localPosition;if(p.visual.enabled&&Mathf.Abs(at.x)<2.7f&&at.y> -6.7f&&at.y< -2.1f)return true;}var player=world.Player.Position-Origin;return Mathf.Abs(player.x)<2.7f&&player.y> -6.7f&&player.y< -2.1f;}
+ bool PedestrianOnCrossing(){foreach(var p in pedestrians){if(residentSimulation||p.visual==null)continue;Vector2 at=p.visual.transform.localPosition;if(p.visual.enabled&&Mathf.Abs(at.x)<2.7f&&at.y> -6.7f&&at.y< -2.1f)return true;}var player=world.Player.Position-Origin;return Mathf.Abs(player.x)<2.7f&&player.y> -6.7f&&player.y< -2.1f;}
  void FixedUpdate(){
   if(world==null||world.Service==null)return;bool running=Running;Vector2 player=world.Player.Position-Origin;bool pedestrian=visible&&(PedestrianOnCrossing()||(world.GetComponent<WorldNPCScheduler>()?.OnCrossing??false));
   foreach(var v in vehicles){

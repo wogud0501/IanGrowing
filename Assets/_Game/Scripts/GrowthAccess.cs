@@ -7,13 +7,14 @@ public static class GrowthAccess {
  public static bool Zone(GameManager g,string zone,out string reason){
   reason=null;if(g==null){reason="성장 정보를 불러오는 중입니다.";return false;}
   if(FamilyLife.IsFamilyRoom(zone))return true;
-  if(zone=="home"||zone=="bathroom"){if(FamilyLife.AtFamily(g)){reason="집 관리에서 19세 이후 독립을 선택하세요. 부모님 집은 계속 이용할 수 있습니다.";return false;}return true;}
+  if(zone=="home"||zone=="bathroom"){if(!new ResidenceAccess(g).IsActiveResidence){reason="집 관리에서 19세 이후 독립을 선택하세요. 부모님 집은 계속 이용할 수 있습니다.";return false;}return true;}
   if(!Independent(g)){reason="독립 외출은 아동기(7세)부터 가능합니다. 집에서 돌봄과 성장 미션을 진행하세요.";return false;}
   if((zone=="workplace"||zone=="office-bathroom")&&!g.growth.EmploymentUnlocked){reason="회사 이용은 청년기(19세)부터 해금됩니다.";return false;}
   if((zone=="finance"||zone=="realestate")&&!Adult(g)){reason="금융·주거 계약은 청년기(19세)부터 해금됩니다.";return false;}
   if(zone=="school"&&(g.phase23.Education.Available==null||g.growth.Stage<g.phase23.Education.Available.requiredStage)){reason="현재 성장 단계에 맞는 교육 과정이 없습니다.";return false;}return true;
  }
  public static bool Scene(GameManager g,SceneId scene,out string reason){
+  var room=GameContext.Instance?.transitions.roomCatalog?.Find(scene);if(room!=null)return Zone(g,room.roomId,out reason);
   string zone=scene==SceneId.Home?FamilyLife.DefaultHome(g):LifeWorldService.ZoneFor(scene);if(zone!=null)return Zone(g,zone,out reason);
   if(scene==SceneId.StockMarket||scene==SceneId.Housing){reason=Adult(g)?null:"금융·주거 계약은 청년기(19세)부터 해금됩니다.";return reason==null;}
   if(scene==SceneId.Battle||scene==SceneId.Shop){reason=Independent(g)?null:"독립 외출은 아동기(7세)부터 가능합니다.";return reason==null;}

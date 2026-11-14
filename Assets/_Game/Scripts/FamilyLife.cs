@@ -28,13 +28,15 @@ public static class FamilyLife {
  public static bool Done(GameManager g,string parent,string target,long key)=>State(g)?.receipts?.Exists(r=>r.parent==parent&&r.target==target&&r.key==key)??false;
  public static void Use(GameManager g,string parent,WorldInteractable target,long key){if(!Parent(parent)||target==null||Done(g,parent,target.id,key))return;if(g.world.Host?.GetComponent<FamilyHomeRuntime>()?.Queue(parent,target,key)==true)return;ApplyUse(g,parent,target,key);}
  public static void ApplyUse(GameManager g,string parent,WorldInteractable target,long key){
-  if(!Parent(parent)||target==null||!IsFamilyRoom(target.zone)&&target.id!="counter")return;var f=State(g);if(f==null||Done(g,parent,target.id,key))return;if(f.receipts==null)f.receipts=new System.Collections.Generic.List<FamilyReceipt>();f.receipts.RemoveAll(r=>r.parent==parent&&r.target==target.id);f.receipts.Add(new FamilyReceipt{parent=parent,target=target.id,key=key});
-  if(target.id=="counter"){f.pantry=Math.Min(999,f.pantry+6);return;}
-  if(target.id=="family-fridge"&&f.pantry>0&&string.IsNullOrEmpty(f.ingredientCarrier)){f.pantry--;f.ingredientCarrier=parent;}
-  if(target.id=="family-cook"&&f.ingredientCarrier==parent&&f.cookedKey!=key){f.cookedKey=key;f.ingredientCarrier="";f.cook=parent;f.preparedMeals=3;}
-  if(target.id=="family-serve"&&f.preparedMeals>0&&f.servedKey!=key){f.meals=Math.Min(9,f.meals+f.preparedMeals);f.preparedMeals=0;f.servedKey=key;f.announcement="식사 준비가 끝났어요. 함께 먹을까요?";g.world.Host?.hud.Notify(f.announcement);}
-  if(target.id.StartsWith("family-dine-")&&f.meals>0)f.meals--;
-  if(target.id=="family-dishes"||target.id=="family-clean")f.housework=Math.Min(100000,f.housework+1);
+  if(!Parent(parent)||target==null||!IsFamilyRoom(target.zone)&&target.id!="counter")return;ApplyLogicalUse(g,parent,target.id,key);
+ }
+ public static void ApplyLogicalUse(GameManager g,string parent,string targetId,long key){if(!Parent(parent)||string.IsNullOrEmpty(targetId))return;var f=State(g);if(f==null||Done(g,parent,targetId,key))return;if(f.receipts==null)f.receipts=new System.Collections.Generic.List<FamilyReceipt>();f.receipts.RemoveAll(r=>r.parent==parent&&r.target==targetId);f.receipts.Add(new FamilyReceipt{parent=parent,target=targetId,key=key});
+  if(targetId=="counter"){f.pantry=Math.Min(999,f.pantry+6);return;}
+  if(targetId=="family-fridge"&&f.pantry>0&&string.IsNullOrEmpty(f.ingredientCarrier)){f.pantry--;f.ingredientCarrier=parent;}
+  if(targetId=="family-cook"&&f.ingredientCarrier==parent&&f.cookedKey!=key){f.cookedKey=key;f.ingredientCarrier="";f.cook=parent;f.preparedMeals=3;}
+  if(targetId=="family-serve"&&f.preparedMeals>0&&f.servedKey!=key){f.meals=Math.Min(9,f.meals+f.preparedMeals);f.preparedMeals=0;f.servedKey=key;f.announcement="식사 준비가 끝났어요. 함께 먹을까요?";g.world.Host?.hud.Notify(f.announcement);}
+  if(targetId.StartsWith("family-dine-")&&f.meals>0)f.meals--;
+  if(targetId=="family-dishes"||targetId=="family-clean")f.housework=Math.Min(100000,f.housework+1);
  }
  public static bool Care(GameManager g,string parent,int action){if(!Parent(parent)||g.growth.Age>=7||!GrowthAccess.Care(action))return false;return true;}
 }
