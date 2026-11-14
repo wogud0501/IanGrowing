@@ -1,13 +1,21 @@
 using UnityEngine;
 namespace IanGame {
-// Facility furniture belongs to the world, independently of player ownership.
-// A stable staff ID reserves the approach point for the complete activity.
+public enum ActivityOccupancy {Free,Reserved,Occupied}
+// World furniture never belongs to the player's purchased inventory. Legacy slots
+// retain their existing Point; authored facility seats opt into three anchors.
 public sealed class WorldActivitySlot:MonoBehaviour {
  public SpriteRenderer seat;public string staffId;public Vector2 facing=Vector2.up;
- public string Occupant{get;private set;}
- public Vector2 Point=>GetComponent<WorldInteractable>().Point;
- public bool TryReserve(string id){if(string.IsNullOrEmpty(id)||!string.IsNullOrEmpty(staffId)&&staffId!=id||!string.IsNullOrEmpty(Occupant)&&Occupant!=id)return false;Occupant=id;if(seat!=null)seat.enabled=false;return true;}
- public void Release(string id){if(Occupant==id){Occupant=null;if(seat!=null)seat.enabled=true;}}
- void OnDisable(){Occupant=null;if(seat!=null)seat.enabled=true;}
+ public bool useSeatAnchors,seated;public Transform seatAnchor,approachAnchor,standUpAnchor;
+ public ActorMotion activityMotion=ActorMotion.UseComputer;
+ public string Occupant{get;private set;}public bool IsOccupied{get;private set;}
+ public ActivityOccupancy State=>string.IsNullOrEmpty(Occupant)?ActivityOccupancy.Free:IsOccupied?ActivityOccupancy.Occupied:ActivityOccupancy.Reserved;
+ Vector2 LegacyPoint=>GetComponent<WorldInteractable>().Point;
+ public Vector2 Point=>useSeatAnchors&&seatAnchor!=null?(Vector2)seatAnchor.position:LegacyPoint;
+ public Vector2 ApproachPoint=>useSeatAnchors&&approachAnchor!=null?(Vector2)approachAnchor.position:Point;
+ public Vector2 StandUpPoint=>useSeatAnchors&&standUpAnchor!=null?(Vector2)standUpAnchor.position:ApproachPoint;
+ public bool TryReserve(string id){if(string.IsNullOrEmpty(id)||!string.IsNullOrEmpty(staffId)&&staffId!=id||!string.IsNullOrEmpty(Occupant)&&Occupant!=id)return false;Occupant=id;return true;}
+ public void MarkOccupied(string id){if(Occupant!=id)return;IsOccupied=true;if(seat!=null)seat.enabled=false;}
+ public void Release(string id){if(Occupant==id){Occupant=null;IsOccupied=false;if(seat!=null)seat.enabled=true;}}
+ void OnDisable(){Occupant=null;IsOccupied=false;if(seat!=null)seat.enabled=true;}
 }
 }

@@ -65,7 +65,7 @@ public static class Phase26ArtSetup {
   foreach(var sr in world.GetComponentsInChildren<SpriteRenderer>(true))if(sr.name=="City avenue"||sr.name=="Central pedestrian street"||sr.name.StartsWith("Road lane ")||sr.name.StartsWith("Crosswalk ")||sr.name=="Residential lane"||sr.name.StartsWith("Night window ")||sr.name=="Night lamp glow")sr.gameObject.SetActive(false);
   world.lamps=world.lamps.Where(s=>s!=null&&s.gameObject.activeSelf).ToArray();
   foreach(var text in world.GetComponentsInChildren<TMPro.TextMeshPro>(true)){
-   var entry=world.objects.FirstOrDefault(o=>o.zone=="city"&&o.kind==WorldInteractionKind.Door&&((o.targetZone=="shop"&&text.text.StartsWith("상점"))||(o.targetZone=="workplace"&&text.text=="Workspace")||(o.targetZone=="school"&&text.text=="배움터")));
+   var entry=world.objects.FirstOrDefault(o=>o.zone=="city"&&o.kind==WorldInteractionKind.Door&&((o.targetZone=="shop"&&text.text.StartsWith("상점"))||(o.targetZone=="workplace"&&text.text=="Workspace")||(o.targetZone=="school"&&(text.text=="학교"||text.text=="배움터"))));
    if(entry==null)continue;float rise=entry.targetZone=="shop"?2.9f:2.05f;text.rectTransform.anchoredPosition3D=entry.transform.position+new Vector3(0,rise,-.1f);text.rectTransform.sizeDelta=new Vector2(3.3f,.5f);text.fontSize=4.8f;text.rectTransform.sizeDelta=new Vector2(3.3f,.7f);text.color=new Color32(246,232,198,255);
    var old=world.GetComponentsInChildren<SpriteRenderer>(true).FirstOrDefault(s=>s.name=="Sign board / "+text.text);if(old!=null){old.gameObject.SetActive(true);old.transform.position=entry.transform.position+Vector3.up*rise;old.size=new Vector2(3.5f,.75f);old.color=new Color32(42,61,66,245);}
   }

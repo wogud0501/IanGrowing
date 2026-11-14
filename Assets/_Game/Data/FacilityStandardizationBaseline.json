@@ -1,0 +1,1696 @@
+{
+  "npcs": [
+    {
+      "npcId": "colleague",
+      "personality": 3,
+      "schedule": [
+        {
+          "hour": 0,
+          "minute": 0,
+          "dayMask": 127,
+          "action": 9,
+          "zone": "residence",
+          "objectId": "resident-bed-0",
+          "position": {
+            "x": -4.899994,
+            "y": -3.3
+          }
+        },
+        {
+          "hour": 7,
+          "minute": 0,
+          "dayMask": 127,
+          "action": 1,
+          "zone": "residence",
+          "objectId": "resident-bed-0",
+          "position": {
+            "x": -4.899994,
+            "y": -3.3
+          }
+        },
+        {
+          "hour": 8,
+          "minute": 0,
+          "dayMask": 127,
+          "action": 2,
+          "zone": "city",
+          "objectId": "",
+          "position": {
+            "x": -10.0,
+            "y": 1.0
+          }
+        },
+        {
+          "hour": 9,
+          "minute": 0,
+          "dayMask": 127,
+          "action": 3,
+          "zone": "workplace",
+          "objectId": "staff-desk-colleague",
+          "position": {
+            "x": -5.600006,
+            "y": 2.3
+          }
+        },
+        {
+          "hour": 10,
+          "minute": 0,
+          "dayMask": 127,
+          "action": 7,
+          "zone": "workplace",
+          "objectId": "office-break-0",
+          "position": {
+            "x": 4.600006,
+            "y": 0.0
+          }
+        },
+        {
+          "hour": 10,
+          "minute": 15,
+          "dayMask": 127,
+          "action": 3,
+          "zone": "workplace",
+          "objectId": "staff-desk-colleague",
+          "position": {
+            "x": -5.600006,
+            "y": 2.3
+          }
+        },
+        {
+          "hour": 12,
+          "minute": 0,
+          "dayMask": 127,
+          "action": 5,
+          "zone": "shop",
+          "objectId": "cafe-table-0",
+          "position": {
+            "x": -6.8,
+            "y": -2.3999999
+          }
+        },
+        {
+          "hour": 13,
+          "minute": 0,
+          "dayMask": 127,
+          "action": 3,
+          "zone": "workplace",
+          "objectId": "staff-desk-colleague",
+          "position": {
+            "x": -5.600006,
+            "y": 2.3
+          }
+        },
+        {
+          "hour": 18,
+          "minute": 0,
+          "dayMask": 127,
+          "action": 7,
+          "zone": "city",
+          "objectId": "city-bench",
+          "position": {
+            "x": 3.600003,
+            "y": -8.900001
+          }
+        },
+        {
+          "hour": 19,
+          "minute": 0,
+          "dayMask": 127,
+          "action": 6,
+          "zone": "shop",
+          "objectId": "counter",
+          "position": {
+            "x": -0.7,
+            "y": 1.2
+          }
+        },
+        {
+          "hour": 20,
+          "minute": 0,
+          "dayMask": 127,
+          "action": 8,
+          "zone": "city",
+          "objectId": "",
+          "position": {
+            "x": -2.0,
+            "y": 1.2
+          }
+        },
+        {
+          "hour": 21,
+          "minute": 0,
+          "dayMask": 127,
+          "action": 7,
+          "zone": "residence",
+          "objectId": "resident-bed-0",
+          "position": {
+            "x": -4.899994,
+            "y": -3.3
+          }
+        },
+        {
+          "hour": 23,
+          "minute": 0,
+          "dayMask": 127,
+          "action": 9,
+          "zone": "residence",
+          "objectId": "resident-bed-0",
+          "position": {
+            "x": -4.899994,
+            "y": -3.3
+          }
+        }
+      ]
+    },
+    {
+      "npcId": "classmate",
+      "personality": 2,
+      "schedule": [
+        {
+          "hour": 0,
+          "minute": 0,
+          "dayMask": 127,
+          "action": 9,
+          "zone": "residence",
+          "objectId": "resident-bed-1",
+          "position": {
+            "x": -0.8999939,
+            "y": -3.3
+          }
+        },
+        {
+          "hour": 7,
+          "minute": 7,
+          "dayMask": 127,
+          "action": 1,
+          "zone": "residence",
+          "objectId": "resident-bed-1",
+          "position": {
+            "x": -0.8999939,
+            "y": -3.3
+          }
+        },
+        {
+          "hour": 8,
+          "minute": 7,
+          "dayMask": 127,
+          "action": 2,
+          "zone": "city",
+          "objectId": "",
+          "position": {
+            "x": -8.4,
+            "y": 1.0
+          }
+        },
+        {
+          "hour": 9,
+          "minute": 0,
+          "dayMask": 127,
+          "action": 4,
+          "zone": "school",
+          "objectId": "study-desk",
+          "position": {
+            "x": 0.0,
+            "y": 1.2
+          }
+        },
+        {
+          "hour": 12,
+          "minute": 7,
+          "dayMask": 127,
+          "action": 5,
+          "zone": "shop",
+          "objectId": "cafe-table-0",
+          "position": {
+            "x": -5.2,
+            "y": -2.3999999
+          }
+        },
+        {
+          "hour": 13,
+          "minute": 7,
+          "dayMask": 127,
+          "action": 4,
+          "zone": "school",
+          "objectId": "study-desk",
+          "position": {
+            "x": 0.0,
+            "y": 1.2
+          }
+        },
+        {
+          "hour": 16,
+          "minute": 7,
+          "dayMask": 127,
+          "action": 7,
+          "zone": "city",
+          "objectId": "city-bench",
+          "position": {
+            "x": 4.300003,
+            "y": -8.900001
+          }
+        },
+        {
+          "hour": 19,
+          "minute": 7,
+          "dayMask": 127,
+          "action": 6,
+          "zone": "shop",
+          "objectId": "counter",
+          "position": {
+            "x": 0.0,
+            "y": 1.2
+          }
+        },
+        {
+          "hour": 20,
+          "minute": 0,
+          "dayMask": 127,
+          "action": 8,
+          "zone": "city",
+          "objectId": "",
+          "position": {
+            "x": -0.5,
+            "y": 1.2
+          }
+        },
+        {
+          "hour": 21,
+          "minute": 7,
+          "dayMask": 127,
+          "action": 7,
+          "zone": "residence",
+          "objectId": "resident-bed-1",
+          "position": {
+            "x": -0.8999939,
+            "y": -3.3
+          }
+        },
+        {
+          "hour": 23,
+          "minute": 7,
+          "dayMask": 127,
+          "action": 9,
+          "zone": "residence",
+          "objectId": "resident-bed-1",
+          "position": {
+            "x": -0.8999939,
+            "y": -3.3
+          }
+        }
+      ]
+    },
+    {
+      "npcId": "resident-0",
+      "personality": 3,
+      "schedule": [
+        {
+          "hour": 0,
+          "minute": 0,
+          "dayMask": 127,
+          "action": 9,
+          "zone": "residence",
+          "objectId": "resident-bed-2",
+          "position": {
+            "x": 3.100006,
+            "y": -3.3
+          }
+        },
+        {
+          "hour": 7,
+          "minute": 14,
+          "dayMask": 127,
+          "action": 1,
+          "zone": "residence",
+          "objectId": "resident-bed-2",
+          "position": {
+            "x": 3.100006,
+            "y": -3.3
+          }
+        },
+        {
+          "hour": 8,
+          "minute": 14,
+          "dayMask": 127,
+          "action": 2,
+          "zone": "city",
+          "objectId": "",
+          "position": {
+            "x": -6.8,
+            "y": 1.0
+          }
+        },
+        {
+          "hour": 9,
+          "minute": 0,
+          "dayMask": 127,
+          "action": 3,
+          "zone": "workplace",
+          "objectId": "staff-desk-resident-0",
+          "position": {
+            "x": -1.199997,
+            "y": 2.3
+          }
+        },
+        {
+          "hour": 10,
+          "minute": 3,
+          "dayMask": 127,
+          "action": 7,
+          "zone": "workplace",
+          "objectId": "office-break-1",
+          "position": {
+            "x": 7.199997,
+            "y": 0.0
+          }
+        },
+        {
+          "hour": 10,
+          "minute": 18,
+          "dayMask": 127,
+          "action": 3,
+          "zone": "workplace",
+          "objectId": "staff-desk-resident-0",
+          "position": {
+            "x": -1.199997,
+            "y": 2.3
+          }
+        },
+        {
+          "hour": 12,
+          "minute": 14,
+          "dayMask": 127,
+          "action": 5,
+          "zone": "shop",
+          "objectId": "cafe-table-0",
+          "position": {
+            "x": -6.0,
+            "y": -3.5
+          }
+        },
+        {
+          "hour": 13,
+          "minute": 14,
+          "dayMask": 127,
+          "action": 3,
+          "zone": "workplace",
+          "objectId": "staff-desk-resident-0",
+          "position": {
+            "x": -1.199997,
+            "y": 2.3
+          }
+        },
+        {
+          "hour": 18,
+          "minute": 14,
+          "dayMask": 127,
+          "action": 7,
+          "zone": "city",
+          "objectId": "city-bench",
+          "position": {
+            "x": 5.000003,
+            "y": -8.900001
+          }
+        },
+        {
+          "hour": 19,
+          "minute": 14,
+          "dayMask": 127,
+          "action": 6,
+          "zone": "shop",
+          "objectId": "counter",
+          "position": {
+            "x": 0.7,
+            "y": 1.2
+          }
+        },
+        {
+          "hour": 20,
+          "minute": 0,
+          "dayMask": 127,
+          "action": 2,
+          "zone": "city",
+          "objectId": "",
+          "position": {
+            "x": -0.20000005,
+            "y": 1.2
+          }
+        },
+        {
+          "hour": 21,
+          "minute": 14,
+          "dayMask": 127,
+          "action": 7,
+          "zone": "residence",
+          "objectId": "resident-bed-2",
+          "position": {
+            "x": 3.100006,
+            "y": -3.3
+          }
+        },
+        {
+          "hour": 23,
+          "minute": 14,
+          "dayMask": 127,
+          "action": 9,
+          "zone": "residence",
+          "objectId": "resident-bed-2",
+          "position": {
+            "x": 3.100006,
+            "y": -3.3
+          }
+        }
+      ]
+    },
+    {
+      "npcId": "resident-1",
+      "personality": 1,
+      "schedule": [
+        {
+          "hour": 0,
+          "minute": 0,
+          "dayMask": 31,
+          "action": 3,
+          "zone": "workplace",
+          "objectId": "staff-desk-resident-1",
+          "position": {
+            "x": -5.600006,
+            "y": -1.5
+          }
+        },
+        {
+          "hour": 2,
+          "minute": 20,
+          "dayMask": 31,
+          "action": 7,
+          "zone": "workplace",
+          "objectId": "office-break-0",
+          "position": {
+            "x": 4.600006,
+            "y": 0.0
+          }
+        },
+        {
+          "hour": 2,
+          "minute": 35,
+          "dayMask": 31,
+          "action": 3,
+          "zone": "workplace",
+          "objectId": "staff-desk-resident-1",
+          "position": {
+            "x": -5.600006,
+            "y": -1.5
+          }
+        },
+        {
+          "hour": 7,
+          "minute": 21,
+          "dayMask": 127,
+          "action": 9,
+          "zone": "residence",
+          "objectId": "resident-bed-3",
+          "position": {
+            "x": 7.100006,
+            "y": -3.3
+          }
+        },
+        {
+          "hour": 9,
+          "minute": 21,
+          "dayMask": 96,
+          "action": 2,
+          "zone": "city",
+          "objectId": "",
+          "position": {
+            "x": 6.0,
+            "y": -7.2
+          }
+        },
+        {
+          "hour": 15,
+          "minute": 21,
+          "dayMask": 127,
+          "action": 1,
+          "zone": "residence",
+          "objectId": "resident-bed-3",
+          "position": {
+            "x": 7.100006,
+            "y": -3.3
+          }
+        },
+        {
+          "hour": 17,
+          "minute": 21,
+          "dayMask": 127,
+          "action": 7,
+          "zone": "city",
+          "objectId": "city-bench",
+          "position": {
+            "x": 3.600003,
+            "y": -8.900001
+          }
+        },
+        {
+          "hour": 20,
+          "minute": 21,
+          "dayMask": 127,
+          "action": 5,
+          "zone": "shop",
+          "objectId": "cafe-table-1",
+          "position": {
+            "x": -2.8,
+            "y": -2.3999999
+          }
+        },
+        {
+          "hour": 22,
+          "minute": 21,
+          "dayMask": 31,
+          "action": 3,
+          "zone": "workplace",
+          "objectId": "staff-desk-resident-1",
+          "position": {
+            "x": -5.600006,
+            "y": -1.5
+          }
+        }
+      ]
+    },
+    {
+      "npcId": "resident-2",
+      "personality": 5,
+      "schedule": [
+        {
+          "hour": 0,
+          "minute": 0,
+          "dayMask": 127,
+          "action": 9,
+          "zone": "residence",
+          "objectId": "resident-bed-4",
+          "position": {
+            "x": -4.899994,
+            "y": -0.3
+          }
+        },
+        {
+          "hour": 9,
+          "minute": 28,
+          "dayMask": 127,
+          "action": 7,
+          "zone": "residence",
+          "objectId": "resident-bed-4",
+          "position": {
+            "x": -4.899994,
+            "y": -0.3
+          }
+        },
+        {
+          "hour": 14,
+          "minute": 20,
+          "dayMask": 31,
+          "action": 8,
+          "zone": "finance",
+          "objectId": "finance-consultation-point",
+          "position": {
+            "x": -3.0,
+            "y": -0.6
+          }
+        },
+        {
+          "hour": 14,
+          "minute": 28,
+          "dayMask": 127,
+          "action": 2,
+          "zone": "city",
+          "objectId": "",
+          "position": {
+            "x": 5.0,
+            "y": -7.3
+          }
+        },
+        {
+          "hour": 16,
+          "minute": 28,
+          "dayMask": 127,
+          "action": 6,
+          "zone": "shop",
+          "objectId": "counter",
+          "position": {
+            "x": 0.0,
+            "y": 0.50000006
+          }
+        },
+        {
+          "hour": 18,
+          "minute": 28,
+          "dayMask": 127,
+          "action": 7,
+          "zone": "residence",
+          "objectId": "resident-bed-4",
+          "position": {
+            "x": -4.899994,
+            "y": -0.3
+          }
+        },
+        {
+          "hour": 23,
+          "minute": 28,
+          "dayMask": 127,
+          "action": 9,
+          "zone": "residence",
+          "objectId": "resident-bed-4",
+          "position": {
+            "x": -4.899994,
+            "y": -0.3
+          }
+        }
+      ]
+    },
+    {
+      "npcId": "resident-3",
+      "personality": 3,
+      "schedule": [
+        {
+          "hour": 0,
+          "minute": 0,
+          "dayMask": 127,
+          "action": 9,
+          "zone": "residence",
+          "objectId": "resident-bed-5",
+          "position": {
+            "x": -0.8999939,
+            "y": -0.3
+          }
+        },
+        {
+          "hour": 7,
+          "minute": 35,
+          "dayMask": 127,
+          "action": 1,
+          "zone": "residence",
+          "objectId": "resident-bed-5",
+          "position": {
+            "x": -0.8999939,
+            "y": -0.3
+          }
+        },
+        {
+          "hour": 8,
+          "minute": 35,
+          "dayMask": 127,
+          "action": 2,
+          "zone": "city",
+          "objectId": "",
+          "position": {
+            "x": -1.9999999,
+            "y": 1.0
+          }
+        },
+        {
+          "hour": 9,
+          "minute": 0,
+          "dayMask": 127,
+          "action": 3,
+          "zone": "finance",
+          "objectId": "staff-desk-resident-3",
+          "position": {
+            "x": -3.0,
+            "y": 1.2
+          }
+        },
+        {
+          "hour": 10,
+          "minute": 23,
+          "dayMask": 127,
+          "action": 7,
+          "zone": "finance",
+          "objectId": "finance-staff-rest-0",
+          "position": {
+            "x": -3.0,
+            "y": -2.1
+          }
+        },
+        {
+          "hour": 10,
+          "minute": 38,
+          "dayMask": 127,
+          "action": 3,
+          "zone": "finance",
+          "objectId": "staff-desk-resident-3",
+          "position": {
+            "x": -3.0,
+            "y": 1.2
+          }
+        },
+        {
+          "hour": 12,
+          "minute": 35,
+          "dayMask": 127,
+          "action": 5,
+          "zone": "shop",
+          "objectId": "cafe-table-1",
+          "position": {
+            "x": -2.0,
+            "y": -3.5
+          }
+        },
+        {
+          "hour": 13,
+          "minute": 35,
+          "dayMask": 127,
+          "action": 3,
+          "zone": "finance",
+          "objectId": "staff-desk-resident-3",
+          "position": {
+            "x": -3.0,
+            "y": 1.2
+          }
+        },
+        {
+          "hour": 18,
+          "minute": 35,
+          "dayMask": 127,
+          "action": 7,
+          "zone": "city",
+          "objectId": "city-bench",
+          "position": {
+            "x": 5.000003,
+            "y": -8.900001
+          }
+        },
+        {
+          "hour": 19,
+          "minute": 35,
+          "dayMask": 127,
+          "action": 6,
+          "zone": "shop",
+          "objectId": "counter",
+          "position": {
+            "x": 0.7,
+            "y": 0.50000006
+          }
+        },
+        {
+          "hour": 20,
+          "minute": 0,
+          "dayMask": 127,
+          "action": 2,
+          "zone": "city",
+          "objectId": "",
+          "position": {
+            "x": 2.5,
+            "y": 1.2
+          }
+        },
+        {
+          "hour": 21,
+          "minute": 35,
+          "dayMask": 127,
+          "action": 7,
+          "zone": "residence",
+          "objectId": "resident-bed-5",
+          "position": {
+            "x": -0.8999939,
+            "y": -0.3
+          }
+        },
+        {
+          "hour": 23,
+          "minute": 35,
+          "dayMask": 127,
+          "action": 9,
+          "zone": "residence",
+          "objectId": "resident-bed-5",
+          "position": {
+            "x": -0.8999939,
+            "y": -0.3
+          }
+        }
+      ]
+    },
+    {
+      "npcId": "resident-4",
+      "personality": 3,
+      "schedule": [
+        {
+          "hour": 0,
+          "minute": 0,
+          "dayMask": 127,
+          "action": 9,
+          "zone": "residence",
+          "objectId": "resident-bed-6",
+          "position": {
+            "x": 3.100006,
+            "y": -0.3
+          }
+        },
+        {
+          "hour": 7,
+          "minute": 2,
+          "dayMask": 127,
+          "action": 1,
+          "zone": "residence",
+          "objectId": "resident-bed-6",
+          "position": {
+            "x": 3.100006,
+            "y": -0.3
+          }
+        },
+        {
+          "hour": 8,
+          "minute": 2,
+          "dayMask": 127,
+          "action": 2,
+          "zone": "city",
+          "objectId": "",
+          "position": {
+            "x": -0.39999986,
+            "y": 1.0
+          }
+        },
+        {
+          "hour": 9,
+          "minute": 0,
+          "dayMask": 31,
+          "action": 3,
+          "zone": "finance",
+          "objectId": "staff-desk-resident-4",
+          "position": {
+            "x": 2.5,
+            "y": 1.2
+          }
+        },
+        {
+          "hour": 9,
+          "minute": 2,
+          "dayMask": 96,
+          "action": 2,
+          "zone": "city",
+          "objectId": "",
+          "position": {
+            "x": 6.0,
+            "y": -7.2
+          }
+        },
+        {
+          "hour": 10,
+          "minute": 40,
+          "dayMask": 31,
+          "action": 7,
+          "zone": "finance",
+          "objectId": "finance-staff-rest-1",
+          "position": {
+            "x": 2.5,
+            "y": -2.1
+          }
+        },
+        {
+          "hour": 10,
+          "minute": 55,
+          "dayMask": 31,
+          "action": 3,
+          "zone": "finance",
+          "objectId": "staff-desk-resident-4",
+          "position": {
+            "x": 2.5,
+            "y": 1.2
+          }
+        },
+        {
+          "hour": 12,
+          "minute": 2,
+          "dayMask": 127,
+          "action": 5,
+          "zone": "shop",
+          "objectId": "cafe-table-2",
+          "position": {
+            "x": 1.2,
+            "y": -2.3999999
+          }
+        },
+        {
+          "hour": 13,
+          "minute": 2,
+          "dayMask": 31,
+          "action": 3,
+          "zone": "finance",
+          "objectId": "staff-desk-resident-4",
+          "position": {
+            "x": 2.5,
+            "y": 1.2
+          }
+        },
+        {
+          "hour": 18,
+          "minute": 2,
+          "dayMask": 127,
+          "action": 7,
+          "zone": "city",
+          "objectId": "city-bench",
+          "position": {
+            "x": 3.600003,
+            "y": -8.900001
+          }
+        },
+        {
+          "hour": 19,
+          "minute": 2,
+          "dayMask": 127,
+          "action": 6,
+          "zone": "shop",
+          "objectId": "counter",
+          "position": {
+            "x": -0.7,
+            "y": -0.19999993
+          }
+        },
+        {
+          "hour": 20,
+          "minute": 0,
+          "dayMask": 127,
+          "action": 2,
+          "zone": "city",
+          "objectId": "",
+          "position": {
+            "x": 3.3999999,
+            "y": 1.2
+          }
+        },
+        {
+          "hour": 21,
+          "minute": 2,
+          "dayMask": 127,
+          "action": 7,
+          "zone": "residence",
+          "objectId": "resident-bed-6",
+          "position": {
+            "x": 3.100006,
+            "y": -0.3
+          }
+        },
+        {
+          "hour": 23,
+          "minute": 2,
+          "dayMask": 127,
+          "action": 9,
+          "zone": "residence",
+          "objectId": "resident-bed-6",
+          "position": {
+            "x": 3.100006,
+            "y": -0.3
+          }
+        }
+      ]
+    },
+    {
+      "npcId": "resident-5",
+      "personality": 3,
+      "schedule": [
+        {
+          "hour": 0,
+          "minute": 0,
+          "dayMask": 127,
+          "action": 9,
+          "zone": "residence",
+          "objectId": "resident-bed-7",
+          "position": {
+            "x": 7.100006,
+            "y": -0.3
+          }
+        },
+        {
+          "hour": 7,
+          "minute": 9,
+          "dayMask": 127,
+          "action": 1,
+          "zone": "residence",
+          "objectId": "resident-bed-7",
+          "position": {
+            "x": 7.100006,
+            "y": -0.3
+          }
+        },
+        {
+          "hour": 8,
+          "minute": 9,
+          "dayMask": 127,
+          "action": 2,
+          "zone": "city",
+          "objectId": "",
+          "position": {
+            "x": 1.2000002,
+            "y": 1.0
+          }
+        },
+        {
+          "hour": 9,
+          "minute": 0,
+          "dayMask": 127,
+          "action": 3,
+          "zone": "workplace",
+          "objectId": "staff-desk-resident-5",
+          "position": {
+            "x": -1.199997,
+            "y": -1.5
+          }
+        },
+        {
+          "hour": 10,
+          "minute": 43,
+          "dayMask": 127,
+          "action": 7,
+          "zone": "workplace",
+          "objectId": "office-break-1",
+          "position": {
+            "x": 7.199997,
+            "y": 0.0
+          }
+        },
+        {
+          "hour": 10,
+          "minute": 58,
+          "dayMask": 127,
+          "action": 3,
+          "zone": "workplace",
+          "objectId": "staff-desk-resident-5",
+          "position": {
+            "x": -1.199997,
+            "y": -1.5
+          }
+        },
+        {
+          "hour": 12,
+          "minute": 9,
+          "dayMask": 127,
+          "action": 5,
+          "zone": "shop",
+          "objectId": "cafe-table-2",
+          "position": {
+            "x": 2.8,
+            "y": -2.3999999
+          }
+        },
+        {
+          "hour": 13,
+          "minute": 9,
+          "dayMask": 127,
+          "action": 3,
+          "zone": "workplace",
+          "objectId": "staff-desk-resident-5",
+          "position": {
+            "x": -1.199997,
+            "y": -1.5
+          }
+        },
+        {
+          "hour": 18,
+          "minute": 9,
+          "dayMask": 127,
+          "action": 7,
+          "zone": "city",
+          "objectId": "city-bench",
+          "position": {
+            "x": 4.300003,
+            "y": -8.900001
+          }
+        },
+        {
+          "hour": 19,
+          "minute": 9,
+          "dayMask": 127,
+          "action": 6,
+          "zone": "shop",
+          "objectId": "counter",
+          "position": {
+            "x": 0.0,
+            "y": -0.19999993
+          }
+        },
+        {
+          "hour": 20,
+          "minute": 0,
+          "dayMask": 127,
+          "action": 2,
+          "zone": "city",
+          "objectId": "",
+          "position": {
+            "x": 4.2999997,
+            "y": 1.2
+          }
+        },
+        {
+          "hour": 21,
+          "minute": 9,
+          "dayMask": 127,
+          "action": 7,
+          "zone": "residence",
+          "objectId": "resident-bed-7",
+          "position": {
+            "x": 7.100006,
+            "y": -0.3
+          }
+        },
+        {
+          "hour": 23,
+          "minute": 9,
+          "dayMask": 127,
+          "action": 9,
+          "zone": "residence",
+          "objectId": "resident-bed-7",
+          "position": {
+            "x": 7.100006,
+            "y": -0.3
+          }
+        }
+      ]
+    },
+    {
+      "npcId": "resident-6",
+      "personality": 1,
+      "schedule": [
+        {
+          "hour": 0,
+          "minute": 0,
+          "dayMask": 127,
+          "action": 3,
+          "zone": "workplace",
+          "objectId": "staff-desk-resident-6",
+          "position": {
+            "x": 3.199997,
+            "y": 2.3
+          }
+        },
+        {
+          "hour": 3,
+          "minute": 0,
+          "dayMask": 127,
+          "action": 7,
+          "zone": "workplace",
+          "objectId": "office-break-0",
+          "position": {
+            "x": 4.600006,
+            "y": 0.0
+          }
+        },
+        {
+          "hour": 3,
+          "minute": 15,
+          "dayMask": 127,
+          "action": 3,
+          "zone": "workplace",
+          "objectId": "staff-desk-resident-6",
+          "position": {
+            "x": 3.199997,
+            "y": 2.3
+          }
+        },
+        {
+          "hour": 7,
+          "minute": 16,
+          "dayMask": 127,
+          "action": 9,
+          "zone": "residence",
+          "objectId": "resident-bed-8",
+          "position": {
+            "x": -4.899994,
+            "y": 2.7
+          }
+        },
+        {
+          "hour": 15,
+          "minute": 16,
+          "dayMask": 127,
+          "action": 1,
+          "zone": "residence",
+          "objectId": "resident-bed-8",
+          "position": {
+            "x": -4.899994,
+            "y": 2.7
+          }
+        },
+        {
+          "hour": 17,
+          "minute": 16,
+          "dayMask": 127,
+          "action": 7,
+          "zone": "city",
+          "objectId": "city-bench",
+          "position": {
+            "x": 5.000003,
+            "y": -8.900001
+          }
+        },
+        {
+          "hour": 20,
+          "minute": 16,
+          "dayMask": 127,
+          "action": 5,
+          "zone": "shop",
+          "objectId": "cafe-table-2",
+          "position": {
+            "x": 2.0,
+            "y": -3.5
+          }
+        },
+        {
+          "hour": 22,
+          "minute": 16,
+          "dayMask": 127,
+          "action": 3,
+          "zone": "workplace",
+          "objectId": "staff-desk-resident-6",
+          "position": {
+            "x": 3.199997,
+            "y": 2.3
+          }
+        }
+      ]
+    },
+    {
+      "npcId": "resident-7",
+      "personality": 5,
+      "schedule": [
+        {
+          "hour": 0,
+          "minute": 0,
+          "dayMask": 127,
+          "action": 9,
+          "zone": "residence",
+          "objectId": "resident-bed-9",
+          "position": {
+            "x": -0.8999939,
+            "y": 2.7
+          }
+        },
+        {
+          "hour": 9,
+          "minute": 23,
+          "dayMask": 127,
+          "action": 7,
+          "zone": "residence",
+          "objectId": "resident-bed-9",
+          "position": {
+            "x": -0.8999939,
+            "y": 2.7
+          }
+        },
+        {
+          "hour": 9,
+          "minute": 23,
+          "dayMask": 96,
+          "action": 2,
+          "zone": "city",
+          "objectId": "",
+          "position": {
+            "x": 6.0,
+            "y": -7.2
+          }
+        },
+        {
+          "hour": 14,
+          "minute": 23,
+          "dayMask": 127,
+          "action": 2,
+          "zone": "city",
+          "objectId": "",
+          "position": {
+            "x": 5.0,
+            "y": -7.3
+          }
+        },
+        {
+          "hour": 15,
+          "minute": 20,
+          "dayMask": 31,
+          "action": 8,
+          "zone": "realestate",
+          "objectId": "realestate-consultation-point",
+          "position": {
+            "x": -3.0,
+            "y": -0.6
+          }
+        },
+        {
+          "hour": 16,
+          "minute": 23,
+          "dayMask": 127,
+          "action": 6,
+          "zone": "shop",
+          "objectId": "counter",
+          "position": {
+            "x": -0.7,
+            "y": -0.89999986
+          }
+        },
+        {
+          "hour": 18,
+          "minute": 23,
+          "dayMask": 127,
+          "action": 7,
+          "zone": "residence",
+          "objectId": "resident-bed-9",
+          "position": {
+            "x": -0.8999939,
+            "y": 2.7
+          }
+        },
+        {
+          "hour": 23,
+          "minute": 23,
+          "dayMask": 127,
+          "action": 9,
+          "zone": "residence",
+          "objectId": "resident-bed-9",
+          "position": {
+            "x": -0.8999939,
+            "y": 2.7
+          }
+        }
+      ]
+    },
+    {
+      "npcId": "resident-8",
+      "personality": 3,
+      "schedule": [
+        {
+          "hour": 0,
+          "minute": 0,
+          "dayMask": 127,
+          "action": 9,
+          "zone": "residence",
+          "objectId": "resident-bed-10",
+          "position": {
+            "x": 3.100006,
+            "y": 2.7
+          }
+        },
+        {
+          "hour": 7,
+          "minute": 30,
+          "dayMask": 127,
+          "action": 1,
+          "zone": "residence",
+          "objectId": "resident-bed-10",
+          "position": {
+            "x": 3.100006,
+            "y": 2.7
+          }
+        },
+        {
+          "hour": 8,
+          "minute": 30,
+          "dayMask": 127,
+          "action": 2,
+          "zone": "city",
+          "objectId": "",
+          "position": {
+            "x": 6.0,
+            "y": 1.0
+          }
+        },
+        {
+          "hour": 9,
+          "minute": 0,
+          "dayMask": 127,
+          "action": 3,
+          "zone": "realestate",
+          "objectId": "staff-desk-resident-8",
+          "position": {
+            "x": -3.0,
+            "y": 1.2
+          }
+        },
+        {
+          "hour": 11,
+          "minute": 3,
+          "dayMask": 127,
+          "action": 7,
+          "zone": "realestate",
+          "objectId": "realestate-staff-rest-0",
+          "position": {
+            "x": -3.0,
+            "y": -2.1
+          }
+        },
+        {
+          "hour": 11,
+          "minute": 18,
+          "dayMask": 127,
+          "action": 3,
+          "zone": "realestate",
+          "objectId": "staff-desk-resident-8",
+          "position": {
+            "x": -3.0,
+            "y": 1.2
+          }
+        },
+        {
+          "hour": 12,
+          "minute": 30,
+          "dayMask": 127,
+          "action": 5,
+          "zone": "shop",
+          "objectId": "cafe-table-3",
+          "position": {
+            "x": 6.8,
+            "y": -2.3999999
+          }
+        },
+        {
+          "hour": 13,
+          "minute": 30,
+          "dayMask": 127,
+          "action": 3,
+          "zone": "realestate",
+          "objectId": "staff-desk-resident-8",
+          "position": {
+            "x": -3.0,
+            "y": 1.2
+          }
+        },
+        {
+          "hour": 18,
+          "minute": 30,
+          "dayMask": 127,
+          "action": 7,
+          "zone": "city",
+          "objectId": "city-bench",
+          "position": {
+            "x": 4.300003,
+            "y": -8.900001
+          }
+        },
+        {
+          "hour": 19,
+          "minute": 30,
+          "dayMask": 127,
+          "action": 6,
+          "zone": "shop",
+          "objectId": "counter",
+          "position": {
+            "x": 0.0,
+            "y": -0.89999986
+          }
+        },
+        {
+          "hour": 20,
+          "minute": 0,
+          "dayMask": 127,
+          "action": 2,
+          "zone": "city",
+          "objectId": "",
+          "position": {
+            "x": 7.0,
+            "y": 1.2
+          }
+        },
+        {
+          "hour": 21,
+          "minute": 30,
+          "dayMask": 127,
+          "action": 7,
+          "zone": "residence",
+          "objectId": "resident-bed-10",
+          "position": {
+            "x": 3.100006,
+            "y": 2.7
+          }
+        },
+        {
+          "hour": 23,
+          "minute": 30,
+          "dayMask": 127,
+          "action": 9,
+          "zone": "residence",
+          "objectId": "resident-bed-10",
+          "position": {
+            "x": 3.100006,
+            "y": 2.7
+          }
+        }
+      ]
+    },
+    {
+      "npcId": "resident-9",
+      "personality": 3,
+      "schedule": [
+        {
+          "hour": 0,
+          "minute": 0,
+          "dayMask": 127,
+          "action": 9,
+          "zone": "residence",
+          "objectId": "resident-bed-11",
+          "position": {
+            "x": 7.100006,
+            "y": 2.7
+          }
+        },
+        {
+          "hour": 7,
+          "minute": 37,
+          "dayMask": 127,
+          "action": 1,
+          "zone": "residence",
+          "objectId": "resident-bed-11",
+          "position": {
+            "x": 7.100006,
+            "y": 2.7
+          }
+        },
+        {
+          "hour": 8,
+          "minute": 37,
+          "dayMask": 127,
+          "action": 2,
+          "zone": "city",
+          "objectId": "",
+          "position": {
+            "x": 7.6000004,
+            "y": 1.0
+          }
+        },
+        {
+          "hour": 9,
+          "minute": 0,
+          "dayMask": 127,
+          "action": 3,
+          "zone": "realestate",
+          "objectId": "staff-desk-resident-9",
+          "position": {
+            "x": 2.5,
+            "y": 1.2
+          }
+        },
+        {
+          "hour": 11,
+          "minute": 20,
+          "dayMask": 127,
+          "action": 7,
+          "zone": "realestate",
+          "objectId": "realestate-staff-rest-1",
+          "position": {
+            "x": 2.5,
+            "y": -2.1
+          }
+        },
+        {
+          "hour": 11,
+          "minute": 35,
+          "dayMask": 127,
+          "action": 3,
+          "zone": "realestate",
+          "objectId": "staff-desk-resident-9",
+          "position": {
+            "x": 2.5,
+            "y": 1.2
+          }
+        },
+        {
+          "hour": 12,
+          "minute": 37,
+          "dayMask": 127,
+          "action": 5,
+          "zone": "shop",
+          "objectId": "cafe-table-3",
+          "position": {
+            "x": 6.0,
+            "y": -3.5
+          }
+        },
+        {
+          "hour": 13,
+          "minute": 37,
+          "dayMask": 127,
+          "action": 3,
+          "zone": "realestate",
+          "objectId": "staff-desk-resident-9",
+          "position": {
+            "x": 2.5,
+            "y": 1.2
+          }
+        },
+        {
+          "hour": 18,
+          "minute": 37,
+          "dayMask": 127,
+          "action": 7,
+          "zone": "city",
+          "objectId": "city-bench",
+          "position": {
+            "x": 5.000003,
+            "y": -8.900001
+          }
+        },
+        {
+          "hour": 19,
+          "minute": 37,
+          "dayMask": 127,
+          "action": 6,
+          "zone": "shop",
+          "objectId": "counter",
+          "position": {
+            "x": 0.7,
+            "y": -0.89999986
+          }
+        },
+        {
+          "hour": 20,
+          "minute": 0,
+          "dayMask": 127,
+          "action": 2,
+          "zone": "city",
+          "objectId": "",
+          "position": {
+            "x": 7.8999996,
+            "y": 1.2
+          }
+        },
+        {
+          "hour": 21,
+          "minute": 37,
+          "dayMask": 127,
+          "action": 7,
+          "zone": "residence",
+          "objectId": "resident-bed-11",
+          "position": {
+            "x": 7.100006,
+            "y": 2.7
+          }
+        },
+        {
+          "hour": 23,
+          "minute": 37,
+          "dayMask": 127,
+          "action": 9,
+          "zone": "residence",
+          "objectId": "resident-bed-11",
+          "position": {
+            "x": 7.100006,
+            "y": 2.7
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -27,7 +27,7 @@ public sealed class LifeWorldController:MonoBehaviour {
   if(o.kind==WorldInteractionKind.FoodShop&&(Service.Hour<Service.rules.shopOpen||Service.Hour>=Service.rules.shopClose)){reason=$"영업 시간 {Service.rules.shopOpen:00}:00–{Service.rules.shopClose:00}:00";return false;}
   if(o.kind==WorldInteractionKind.FoodShop&&action==-3&&Service.State.fatigue>90){reason="먼저 침대에서 충분히 쉬세요.";return false;}
   if(o.kind==WorldInteractionKind.FoodShop&&action==3&&Service.State.bread<1){reason="먹을 빵이 없습니다. 빵을 구매하세요.";return false;}
-  if(o.kind==WorldInteractionKind.Meal&&string.IsNullOrEmpty(Service.State.prepared)){reason="먼저 냉장고에서 음식을 골라 준비하세요.";return false;}
+  if(o.kind==WorldInteractionKind.Meal&&string.IsNullOrEmpty(Service.State.prepared)&&!(o.zone=="shop"&&Service.State.bread>0)){reason="먼저 냉장고에서 음식을 골라 준비하세요.";return false;}
   if(o.kind==WorldInteractionKind.Fridge&&(food!="rice"&&food!="bread"||food=="rice"&&Service.State.rice<1||food=="bread"&&Service.State.bread<1||!string.IsNullOrEmpty(Service.State.prepared))){reason="음식이 없거나 이미 준비한 식사가 있습니다.";return false;}
   if(o.kind==WorldInteractionKind.NPC)Service.Game.phase23.SelectedNpcId=o.npcId;
   if(action>=0&&!Service.Game.CanPerformAction(action,out reason))return false;return true;
@@ -39,7 +39,7 @@ public sealed class LifeWorldController:MonoBehaviour {
   try{for(float t=0;t<duration;){if(cancel||!o.gameObject.activeInHierarchy)yield break;if(Service.Game.State==GameState.Paused){yield return null;continue;}t+=Time.unscaledDeltaTime;if(o.activityEffect!=null)for(int i=0;i<o.activityEffect.transform.childCount;i++)o.activityEffect.transform.GetChild(i).localPosition=new Vector3(-.3f+i*.15f,1.6f-Mathf.Repeat(t*2+i*.2f,.8f),-.01f);hud.Activity(o.title,t/duration);if(sleep)hud.Dim(Mathf.Sin(t/duration*Mathf.PI)*.9f);yield return null;}
    Service.State.pendingAction="";string message;bool ok=Service.Durable(()=>{if(!GrowthAccess.Interaction(Service.Game,o,action,out _))return false;if(o.kind==WorldInteractionKind.FoodShop&&action==-3){int reward=Service.rules.neighbourhoodHelpReward;if(!Service.Game.economy.Earn(reward,"동네 가게 정리"))return false;Service.Game.clock.AdvanceSimulation(Service.rules.neighbourhoodHelpMinutes*60);Service.State.dailyIncome+=reward;Service.State.fatigue=Mathf.Min(100,Service.State.fatigue+4);return true;}
     if(o.kind==WorldInteractionKind.FoodShop&&action==3){if(Service.State.bread<1)return false;Service.State.bread--;}
-    if(o.kind==WorldInteractionKind.Meal){if(string.IsNullOrEmpty(Service.State.prepared))return false;Service.State.prepared="";}
+    if(o.kind==WorldInteractionKind.Meal){if(!string.IsNullOrEmpty(Service.State.prepared))Service.State.prepared="";else if(o.zone=="shop"&&Service.State.bread>0)Service.State.bread--;else return false;}
     if(o.kind==WorldInteractionKind.Fridge){if(food=="rice"){if(Service.State.rice<1)return false;Service.State.rice--;}else{if(Service.State.bread<1)return false;Service.State.bread--;}Service.State.prepared=food;Service.Game.clock.AdvanceSimulation(food=="rice"?20*60:5*60);return true;}
     if(action>=0)return Service.CommitAction(action);
     double seconds=o.kind==WorldInteractionKind.Shower?20*60:o.kind==WorldInteractionKind.Toilet?8*60:5*60;Service.Game.clock.AdvanceSimulation(seconds);Service.State.hygiene=Mathf.Clamp(Service.State.hygiene+(o.kind==WorldInteractionKind.Shower?65:o.kind==WorldInteractionKind.Wash?15:5),0,100);Service.Game.stats.ApplyCore(new StatDelta{mental=2});return true;},out message);

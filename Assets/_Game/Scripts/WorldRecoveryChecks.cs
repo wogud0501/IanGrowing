@@ -5,7 +5,7 @@ using UnityEngine;
 namespace IanGame {
 public static class WorldRecoveryChecks {
  public static void Layout(LifeWorldController world,Action<bool,string> check){
-  check(world!=null,"LifeWorld is loaded");var definitions=world.Service.rules.npcs.Where(n=>n.schedule.Any(e=>e.action==NPCDailyAction.Work)).ToArray();var slots=world.GetComponentsInChildren<WorldActivitySlot>().Where(s=>s.GetComponent<WorldWorkstationPresentation>()!=null).ToArray();
+  check(world!=null,"LifeWorld is loaded");var definitions=world.Service.rules.npcs.Where(n=>n.schedule.Any(e=>e.action==NPCDailyAction.Work&&(e.zone=="workplace"||e.zone=="finance"||e.zone=="realestate"))).ToArray();var slots=world.GetComponentsInChildren<WorldActivitySlot>().Where(s=>s.GetComponent<WorldWorkstationPresentation>()!=null).ToArray();
   check(definitions.Length==9&&slots.Length==9,"Nine employees and nine assigned facility workstations retained");check(slots.Select(s=>s.staffId).Distinct().Count()==slots.Length,"Seat ownership IDs are unique");
   foreach(var d in definitions)check(d.schedule.Where(e=>e.action==NPCDailyAction.Work).All(e=>e.objectId=="staff-desk-"+d.npcId),"Assigned work schedule: "+d.npcId);
   check(world.objects.Single(o=>o.id=="stock-terminal").zone=="finance","Stock terminal is in finance interior");check(world.objects.Single(o=>o.id=="property-agency").zone=="realestate","Property terminal is in agency interior");

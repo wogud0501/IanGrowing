@@ -340,3 +340,16 @@ UI 비율: 1280×720, 1920×1080, 2400×1080, 1080×1920. 큰 글씨 115%, 소�
 - 기록: Docs/PRE_PHASE2_8_FULL_QA_REPORT.md, Docs/PATCH_NOTES_PRE_PHASE2_8_QA.md, Docs/PrePhase28/FEATURE_MATRIX.csv, MISSIONS_60.md, 실제 JSON/스크린샷.
 - 남은 항목: 영아 전용 아트/보호자 외출, 정식 가챠/확장 장비, 후속 단계 미션, 물리 입력·실제 Android/iOS·Fold, 간헐 화장실 조작권, Play 중 코드 hot reload. 현재 범위 밖 기능을 성공으로 처리하지 않음.
 - 마지막 저장: LifeWorld / Edit Mode / StandaloneOSX / dirty=false. 로컬 Git 체크포인트는 본 QA 안정화 커밋. 원격 push 없음; 작업 시작 및 관찰 세이브 모두 DevelopmentBackups/PrePhase28-20261114에 보존.
+
+
+## 2026-11-14 시설 품질 표준화 — Workspace 보호
+- 적용: LifeWorld 씬, LifeWorldRules, FacilityActivitySeat prefab 저장. 학교 명칭/교실, 상점 진열·계산·식사·가구 구역, 금융/부동산 업무 자료와 휴식 좌석 개선. 별도 식당/카페 씬 생성 없음.
+- Workspace/StarterHome 편집 전후 구조 서명 동일. 기존 9개 정면 업무석과 초기 집 침대1개·고정 욕실 규칙 유지. 회사 레이아웃 재생성 없음.
+- 기존 주민12명+교사/학생/점원3명. 새 좌석은 접근·예약·점유·착석·기립·해제 기준점을 사용. 기존 슬롯은 opt-in 미사용으로 유지. 실제 방향 이동 후 가구 방향 작업, 새 4프레임 학교/식사/음료/점원 원본 아트 연결.
+- 버그 수정: 새 앵커 도착 오차와 경로 종료 오차 불일치; 바닥 잔여 scale; 상담 뒤 쇼핑 시간차로 고객 체류가 길어지는 일정. 기존 야간 근무자 저녁 일정을 보존.
+- 실제 Play: 시설 통합114 / 회사·금융67 / 금융 고객13 / 실제 회사 급여10 / 점원 퇴장10 / Editor 모바일48 / 금융 실내 UI13 / 저장 보호11 assertion PASS, UI issue0. 기능 전용88도 통과했으며 최종 통합에 포함. 전체 Registry141개: PASS124 / FAIL0 / NOT IMPLEMENTED13 / MANUAL4. 실행별 중복 assertion을 고유 테스트 수로 합산하지 않음.
+- 테스트 실패/수정 근거와 Game View 전후: Docs/FACILITY_QUALITY_STANDARDIZATION.md 및 Docs/FacilityStandardization/RESULTS.md. 최종 화면 캡처는 실제 Play에서 별도 수행.
+- 저장: 사용자가 직접 만든1세·100G 진행을 확인받아 보존. 시작0세 백업으로 덮어쓰지 않음. SAVE_OBSERVED_BASELINE 기준 생산3파일 SHA-256 일치. 자동 검증 종료 후 저장 보호 해제 및 일반 플레이 저장 복구.
+- 미검증: 실제 Android/iOS/Fold·물리 입력·저사양 발열/FPS·상업용 미술 최종 검수. 이번 수정 후 네이티브 모바일 빌드 미실행. 일부 비착석 행동의 전용 방향 아트가 없으면 올바른 방향 Idle 사용; 전 행동 완성으로 보고하지 않음.
+- 주요 C#: WorldActivitySlot, WorldNPCScheduler, WorldFacilityActivityPresentation, WorldHUD, LifeWorldController, FacilityStandardizationSetup, Facility*Verification, FacilityQualityScenarios, SaveManager/Editor bridge. 공식 이안 이미지·미션60개·문 개폐 스크립트 변경 없음.
+- 마지막 체크포인트: 시설 표준화 Git 커밋 참조. 로컬 백업 DevelopmentBackups/FacilityStandardization-20261114. 원격 설정은 있으나 이번 변경 push 없음.

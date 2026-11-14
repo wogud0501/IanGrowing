@@ -11,7 +11,7 @@ public static partial class WorldQualityRecoverySetup {
   return AssetDatabase.LoadAllAssetsAtPath(path).OfType<Sprite>().OrderBy(s=>s.name).ToArray();
  }
  static void CriticalRecoveryLayout(){
-  var frames=ImportWork();var empty=AssetDatabase.LoadAssetAtPath<Sprite>("Assets/_Game/Art/CriticalRecovery/EmptyDesk.png");var scheduler=world.GetComponent<WorldNPCScheduler>();var staff=rules.npcs.Where(d=>d.schedule.Any(e=>e.action==NPCDailyAction.Work)).ToArray();int office=0,finance=0,agency=0;
+  var frames=ImportWork();var empty=AssetDatabase.LoadAssetAtPath<Sprite>("Assets/_Game/Art/CriticalRecovery/EmptyDesk.png");var scheduler=world.GetComponent<WorldNPCScheduler>();var staff=rules.npcs.Where(d=>d.schedule.Any(e=>e.action==NPCDailyAction.Work&&(e.zone=="workplace"||e.zone=="finance"||e.zone=="realestate"))).ToArray();int office=0,finance=0,agency=0;
   foreach(var d in staff){string zone=d.npcId=="resident-3"||d.npcId=="resident-4"?"finance":d.npcId=="resident-8"||d.npcId=="resident-9"?"realestate":"workplace";int index=zone=="finance"?finance++:zone=="realestate"?agency++:office++;
    var p=zone=="workplace"?new[]{new Vector2(-5.6f,1.5f),new Vector2(-1.2f,1.5f),new Vector2(-5.6f,-2.3f),new Vector2(-1.2f,-2.3f),new Vector2(3.2f,1.5f)}[index]:new Vector2(-3+index*5.5f,.4f);
    var o=Prop("staff-desk-"+d.npcId,d.title+" · "+(zone=="finance"?"금융 상담":zone=="realestate"?"주거 상담":"업무석"),zone,p,empty,WorldInteractionKind.Work,1);o.UsePoint=Vector2.up*.8f;var col=o.GetComponent<BoxCollider2D>();col.size=new Vector2(1.9f,.5f);col.offset=Vector2.up*.15f;

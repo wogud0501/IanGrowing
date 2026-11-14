@@ -57,7 +57,7 @@ public class SaveManager:MonoBehaviour {
  #if UNITY_EDITOR
  // A test session may outlive a scene or serialized-channel reset on Play exit.
  // Protect at the final write boundary as well as at the startup scene callback.
- if(UnityEditor.SessionState.GetBool("ian.phase26.protectWrites",false)&&!Path.GetFileName(fileName).StartsWith("phase26-")&&!Path.GetFileName(fileName).StartsWith("qa-")){message="자동 검증 중 원본 슬롯 쓰기가 차단되었습니다.";return false;}
+ if((UnityEditor.SessionState.GetBool("ian.phase26.protectWrites",false)||UnityEditor.SessionState.GetBool("ian.phase26.automationHold",false))&&!Path.GetFileName(fileName).StartsWith("phase26-")&&!Path.GetFileName(fileName).StartsWith("qa-")){Directory.CreateDirectory("Docs/FacilityStandardization");File.AppendAllText("Docs/FacilityStandardization/SAVE_WRITE_GUARD.log",DateTime.UtcNow.ToString("O")+" blocked "+Path.GetFileName(fileName)+" hold="+UnityEditor.SessionState.GetBool("ian.phase26.automationHold",false)+" play="+Application.isPlaying+"\n"+Environment.StackTrace+"\n");message="자동 검증 중 원본 슬롯 쓰기가 차단되었습니다.";return false;}
  #endif
  if(WritesBlocked){message="원본 저장 보호 중입니다. 새 인생을 명시적으로 시작하거나 저장 파일을 복구해 주세요.";return false;}
  try{
