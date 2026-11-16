@@ -1,0 +1,20 @@
+{
+  "status": "PASS",
+  "passed": [
+    "A: Windows Development permits actual legal placeholders, missing URLs and unapproved audit",
+    "A: legal review remains an explicit warning",
+    "B: Windows has no Android/iOS identifier or Store build-number validation",
+    "Windows InternalQA permits release-style build with legal warnings",
+    "C: Android Production fails with actual legal placeholders",
+    "D: iOS Production fails with actual missing Privacy URL",
+    "E: Windows Development fails without Startup Scene",
+    "Mobile release cannot inherit WindowsTest relaxation: Android",
+    "Mobile release cannot inherit WindowsTest relaxation: iOS",
+    "Explicit Production overrides Windows development/internal flags",
+    "Store distribution intent overrides internal flags",
+    "Legacy review toggle cannot bypass mobile Production",
+    "Default non-development Windows build is local WindowsTest",
+    "Invalid gacha data remains fatal in Windows Development"
+  ],
+  "scope": "Actual shared validator execution; mobile native compilation was not repeated. A/B native Windows builds recorded separately."
+}
