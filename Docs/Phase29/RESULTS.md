@@ -81,6 +81,6 @@ Bootstrap의 기존 GameManager와 기존16개 방 Scene에 모듈/화면/외형
 
 Android 결과물은 Builds/SceneArchitecture/Ian-Rooms-Development.apk입니다. 실기기 성능 및 상업 배포 검증과 구분합니다. Editor 최종 Scene은 FamilyHome_IanBedroom, 타깃 StandaloneOSX로 복원했습니다. 씬 저장과 dirty=False를 확인했고 Play/컴파일은 종료 상태입니다. 정상 수동 Play 저장 보호도 해제했으며 [최종 Editor 상태](EDITOR_FINAL_STATE.json)에 기록했습니다.
 
-시작 소스69adda3. 작업 중 기존 Update 체크포인트c0ee76a가 생성됐고 이를 유지해 이어서 작업했습니다. 최종 코드 체크포인트는 진행 문서에 기록합니다.
+시작 소스69adda3. 작업 중 기존 Update 체크포인트c0ee76a가 생성됐고 이를 유지해 이어서 작업했습니다. 최종 코드·에셋·실행 근거 체크포인트는 `97cc01f57b04f34c06ef1c8a6b2fb5422db25d3f`입니다. 이후 문서만 갱신했으며 원격 push는 하지 않았습니다.
 
 후속 항목: 개별 착용 아트/음향 리소스, 실제 기기 성능·접힘/백그라운드 검증, 카탈로그 확장·장기 밸런스 검토. 실제 현금 결제, 엔딩/환생, 전체 시스템 재작성은 이번에 추가하지 않았습니다.

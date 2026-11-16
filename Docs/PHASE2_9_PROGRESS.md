@@ -15,6 +15,13 @@
 
 후속 연결: ItemAppearanceFrame 방향/성장별 착용 리소스, AudioRequested/RareReveal 음향·연출, 실제 기기 검증, 장기 데이터 밸런스.
 
+## 저장 체크포인트
+
+- 최종 코드·에셋·테스트 근거: `97cc01f57b04f34c06ef1c8a6b2fb5422db25d3f`
+- 기존 `c0ee76a` 체크포인트 보존. 원격 push 없음.
+- Editor: FamilyHome_IanBedroom / StandaloneOSX / 저장됨 / Play 종료 / 수동 저장 접근 복원.
+- 로컬 HistoricDocs 복구 백업은 별도로 보존하고 Git에 추가하지 않았습니다.
+
 ## 단계별 작업 기록
 
 ### 시작 상태
