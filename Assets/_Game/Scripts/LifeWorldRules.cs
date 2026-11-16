@@ -6,7 +6,7 @@ namespace IanGame {
  public int schema=1;public string zone="home";public Vector2 position=new Vector2(0,-1.5f);public Vector2 facing=Vector2.down;
  public float fatigue=15,hygiene=85;public int rice=3,bread=2;public string prepared="",pendingAction="";public int lastWorkDay=-1,lastSummaryDay=1;
  public List<NPCResidentSnapshot> residents=new List<NPCResidentSnapshot>();
- public FamilyLifeSnapshot family;public long dailyIncome;public string lastSummary="";
+ public CityLifeProgress cityLife;public FamilyLifeSnapshot family;public long dailyIncome;public string lastSummary="";
 }
 [Serializable]public class WorldZoneDefinition {
  public string id,title;public SceneId location;public Vector2 origin,size=new Vector2(18,12),spawn=new Vector2(0,-1.5f);public bool outdoor;public float walkableTop=1000,cameraSize;

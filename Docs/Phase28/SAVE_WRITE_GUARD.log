@@ -1,0 +1,46 @@
+2026-11-14T04:35:30.8130440Z blocked ian-black-comedy-v4.autosave.json hold=True play=True
+  at System.Environment.get_StackTrace () [0x00000] in <2d46e6b023034f37b1d478b12927ab18>:0 
+  at IanGame.SaveManager.Save (IanGame.PlayerStats stats, IanGame.TimeManager clock, System.Boolean gameOver, System.String runId, System.Int32 settledDay, System.String& message) [0x00062] in /Users/hyunwol/IanGrowing/Assets/_Game/Scripts/SaveManager.cs:60 
+  at IanGame.SaveManager.SaveAutomatic (IanGame.PlayerStats stats, IanGame.TimeManager clock, System.Boolean gameOver, System.String runId, System.Int32 settledDay, System.String& message) [0x00007] in /Users/hyunwol/IanGrowing/Assets/_Game/Scripts/SaveManager.cs:45 
+  at IanGame.GameManager.SaveAutomaticCheckpoint (System.String& message) [0x00021] in /Users/hyunwol/IanGrowing/Assets/_Game/Scripts/GameManager.cs:62 
+  at IanGame.Editor.WorldRecoveryVerification+<Safety>d__5.MoveNext () [0x000ab] in /Users/hyunwol/IanGrowing/Assets/_Game/Scripts/Development/WorldRecoveryVerification.cs:17 
+  at IanGame.Editor.Phase26Verification+<Run>d__31.MoveNext () [0x001e0] in /Users/hyunwol/IanGrowing/Assets/_Game/Scripts/Development/Phase26Verification.cs:45 
+  at UnityEngine.SetupCoroutine.InvokeMoveNext (System.Collections.IEnumerator enumerator, System.IntPtr returnValueAddress) [0x0001d] in /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/Coroutines.cs:17 
+2026-11-14T04:35:30.8145290Z blocked ian-black-comedy-v4.autosave.json hold=True play=True
+  at System.Environment.get_StackTrace () [0x00000] in <2d46e6b023034f37b1d478b12927ab18>:0 
+  at IanGame.SaveManager.Save (IanGame.PlayerStats stats, IanGame.TimeManager clock, System.Boolean gameOver, System.String runId, System.Int32 settledDay, System.String& message) [0x00062] in /Users/hyunwol/IanGrowing/Assets/_Game/Scripts/SaveManager.cs:60 
+  at IanGame.SaveManager.SaveAutomatic (IanGame.PlayerStats stats, IanGame.TimeManager clock, System.Boolean gameOver, System.String runId, System.Int32 settledDay, System.String& message) [0x00007] in /Users/hyunwol/IanGrowing/Assets/_Game/Scripts/SaveManager.cs:45 
+  at IanGame.GameManager.SaveAutomaticCheckpoint (System.String& message) [0x00021] in /Users/hyunwol/IanGrowing/Assets/_Game/Scripts/GameManager.cs:62 
+  at IanGame.Editor.WorldRecoveryVerification+<Safety>d__5.MoveNext () [0x00140] in /Users/hyunwol/IanGrowing/Assets/_Game/Scripts/Development/WorldRecoveryVerification.cs:18 
+  at IanGame.Editor.Phase26Verification+<Run>d__31.MoveNext () [0x001e0] in /Users/hyunwol/IanGrowing/Assets/_Game/Scripts/Development/Phase26Verification.cs:45 
+  at UnityEngine.SetupCoroutine.InvokeMoveNext (System.Collections.IEnumerator enumerator, System.IntPtr returnValueAddress) [0x0001d] in /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/Coroutines.cs:17 
+2026-11-14T04:58:13.2777030Z blocked ian-black-comedy-v4.autosave.json hold=True play=False
+  at System.Environment.get_StackTrace () [0x00000] in <2d46e6b023034f37b1d478b12927ab18>:0 
+  at IanGame.SaveManager.Save (IanGame.PlayerStats stats, IanGame.TimeManager clock, System.Boolean gameOver, System.String runId, System.Int32 settledDay, System.String& message) [0x00062] in /Users/hyunwol/IanGrowing/Assets/_Game/Scripts/SaveManager.cs:60 
+  at IanGame.SaveManager.SaveAutomatic (IanGame.PlayerStats stats, IanGame.TimeManager clock, System.Boolean gameOver, System.String runId, System.Int32 settledDay, System.String& message) [0x00007] in /Users/hyunwol/IanGrowing/Assets/_Game/Scripts/SaveManager.cs:45 
+  at IanGame.Editor.Phase26EditorBridge.Tick () [0x00c6a] in /Users/hyunwol/IanGrowing/Assets/_Game/Scripts/Editor/Phase26EditorBridge.cs:23 
+  at UnityEditor.EditorApplication.Internal_CallUpdateFunctions () [0x00029] in /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:412 
+2026-11-14T09:23:29.9958720Z blocked ian-black-comedy-v4.autosave.json hold=True play=True
+  at System.Environment.get_StackTrace () [0x00000] in <2d46e6b023034f37b1d478b12927ab18>:0 
+  at IanGame.SaveManager.Save (IanGame.PlayerStats stats, IanGame.TimeManager clock, System.Boolean gameOver, System.String runId, System.Int32 settledDay, System.String& message) [0x00062] in /Users/hyunwol/IanGrowing/Assets/_Game/Scripts/SaveManager.cs:60 
+  at IanGame.SaveManager.SaveAutomatic (IanGame.PlayerStats stats, IanGame.TimeManager clock, System.Boolean gameOver, System.String runId, System.Int32 settledDay, System.String& message) [0x00007] in /Users/hyunwol/IanGrowing/Assets/_Game/Scripts/SaveManager.cs:45 
+  at IanGame.GameManager.SaveQuietly () [0x00039] in /Users/hyunwol/IanGrowing/Assets/_Game/Scripts/GameManager.cs:74 
+  at IanGame.GameManager.OnApplicationQuit () [0x00021] in /Users/hyunwol/IanGrowing/Assets/_Game/Scripts/GameManager.cs:95 
+2026-11-14T09:53:10.5369190Z blocked ian-black-comedy-v4.autosave.json hold=True play=False
+  at System.Environment.get_StackTrace () [0x00000] in <2d46e6b023034f37b1d478b12927ab18>:0 
+  at IanGame.SaveManager.Save (IanGame.PlayerStats stats, IanGame.TimeManager clock, System.Boolean gameOver, System.String runId, System.Int32 settledDay, System.String& message) [0x00062] in /Users/hyunwol/IanGrowing/Assets/_Game/Scripts/SaveManager.cs:60 
+  at IanGame.SaveManager.SaveAutomatic (IanGame.PlayerStats stats, IanGame.TimeManager clock, System.Boolean gameOver, System.String runId, System.Int32 settledDay, System.String& message) [0x00007] in /Users/hyunwol/IanGrowing/Assets/_Game/Scripts/SaveManager.cs:45 
+  at IanGame.Editor.Phase26EditorBridge.Tick () [0x00fb5] in /Users/hyunwol/IanGrowing/Assets/_Game/Scripts/Editor/Phase26EditorBridge.cs:23 
+  at UnityEditor.EditorApplication.Internal_CallUpdateFunctions () [0x00029] in /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:412 
+2026-11-14T15:23:48.7080240Z blocked ian-black-comedy-v4.autosave.json hold=True play=False
+  at System.Environment.get_StackTrace () [0x00000] in <2d46e6b023034f37b1d478b12927ab18>:0 
+  at IanGame.SaveManager.Save (IanGame.PlayerStats stats, IanGame.TimeManager clock, System.Boolean gameOver, System.String runId, System.Int32 settledDay, System.String& message) [0x00062] in /Users/hyunwol/IanGrowing/Assets/_Game/Scripts/SaveManager.cs:60 
+  at IanGame.SaveManager.SaveAutomatic (IanGame.PlayerStats stats, IanGame.TimeManager clock, System.Boolean gameOver, System.String runId, System.Int32 settledDay, System.String& message) [0x00007] in /Users/hyunwol/IanGrowing/Assets/_Game/Scripts/SaveManager.cs:45 
+  at IanGame.Editor.Phase26EditorBridge.Tick () [0x011e4] in /Users/hyunwol/IanGrowing/Assets/_Game/Scripts/Editor/Phase26EditorBridge.cs:23 
+  at UnityEditor.EditorApplication.Internal_CallUpdateFunctions () [0x00029] in /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:412 
+2026-11-16T12:14:19.8004220Z blocked ian-black-comedy-v4.autosave.json hold=True play=False
+  at System.Environment.get_StackTrace () [0x00000] in <2d46e6b023034f37b1d478b12927ab18>:0 
+  at IanGame.SaveManager.Save (IanGame.PlayerStats stats, IanGame.TimeManager clock, System.Boolean gameOver, System.String runId, System.Int32 settledDay, System.String& message) [0x00062] in /Users/hyunwol/IanGrowing/Assets/_Game/Scripts/SaveManager.cs:60 
+  at IanGame.SaveManager.SaveAutomatic (IanGame.PlayerStats stats, IanGame.TimeManager clock, System.Boolean gameOver, System.String runId, System.Int32 settledDay, System.String& message) [0x00007] in /Users/hyunwol/IanGrowing/Assets/_Game/Scripts/SaveManager.cs:45 
+  at IanGame.Editor.Phase26EditorBridge.Tick () [0x011e4] in /Users/hyunwol/IanGrowing/Assets/_Game/Scripts/Editor/Phase26EditorBridge.cs:23 
+  at UnityEditor.EditorApplication.Internal_CallUpdateFunctions () [0x00029] in /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:412 
