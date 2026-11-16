@@ -7,7 +7,7 @@ public enum WorldTransitionStyle {PixelFade,ShortSlide,LightingReveal}
 public sealed class WorldTransitionDirector:MonoBehaviour {
  public WorldHUD hud;public RectTransform mask;public Image[] strips;public WorldCameraController cameraRig;
  public WorldTransitionStyle Style{get;private set;}public bool Active{get;private set;}
- public void Begin(string from,string to){Style=to=="bathroom"||from=="bathroom"?WorldTransitionStyle.LightingReveal:to=="shop"||to=="workplace"||to=="school"?WorldTransitionStyle.ShortSlide:WorldTransitionStyle.PixelFade;Active=true;mask.gameObject.SetActive(true);hud.Dim(0);}
+ public void Begin(string from,string to){var profile=cameraRig?.world?.GetComponent<SceneVisualPresentation>()?.profile;Style=profile!=null?profile.transitionStyle:to.EndsWith("bathroom")||from.EndsWith("bathroom")?WorldTransitionStyle.LightingReveal:to=="shop"||to=="workplace"||to=="school"?WorldTransitionStyle.ShortSlide:WorldTransitionStyle.PixelFade;Active=true;mask.gameObject.SetActive(true);hud.Dim(0);}
  public void Cover(float value){value=Mathf.Clamp01(value);float stepped=Mathf.Round(value*12)/12;
   for(int i=0;i<strips.Length;i++){
    var r=strips[i].rectTransform;float x=i/(float)strips.Length,w=1f/strips.Length;

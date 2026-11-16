@@ -16,12 +16,13 @@ MonoBehaviour:
   morning: {r: 1, g: 0.94, b: 0.86, a: 1}
   day: {r: 1, g: 1, b: 1, a: 1}
   evening: {r: 1, g: 0.86, b: 0.71, a: 1}
-  night: {r: 0.77, g: 0.73, b: 0.8, a: 1}
+  night: {r: 0.52, g: 0.48, b: 0.54, a: 1}
   surround: {r: 0.12, g: 0.14, b: 0.18, a: 1}
-  paletteStrength: 0.6
+  paletteStrength: 0.75
   preferredHalfHeight: 4.5
   environmentAnimationBudget: 8
   weather: 0
   ambience: {fileID: 0}
   transitionCue: home
   audioCue: family
+  transitionStyle: 2

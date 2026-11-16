@@ -12,6 +12,7 @@ public sealed class SceneVisualProfile:ScriptableObject {
  public VisualWeather weather=VisualWeather.Clear;
  public AudioClip ambience;
  public string transitionCue="room",audioCue="home";
+ public WorldTransitionStyle transitionStyle=WorldTransitionStyle.PixelFade;
  public Color AtHour(float hour){hour=Mathf.Repeat(hour,24);if(hour<5)return night;if(hour<8)return Color.Lerp(night,morning,(hour-5)/3);if(hour<11)return Color.Lerp(morning,day,(hour-8)/3);if(hour<17)return day;if(hour<20)return Color.Lerp(day,evening,(hour-17)/3);if(hour<23)return Color.Lerp(evening,night,(hour-20)/3);return night;}
 }
 }

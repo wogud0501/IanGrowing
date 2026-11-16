@@ -1,0 +1,11 @@
+Use case: stylized-concept. Asset type: production inventory item-icon sprite atlas for a modern pixel-art life simulation. Reference image is style direction only: worn charcoal materials, cream paper, restrained antique gold, weary everyday objects. Make actual distinct ITEM ART, never generic cogwheel icons, flat vector symbols, cards or UI panels.
+Exact3 columns x4 rows equal cells, one isolated whole item per cell with consistent generous transparent gutters. Transparent background. Crisp dense hand-placed pixel art, readable at48-64px, muted colors, subtle directional shading, same three-quarter overhead viewing angle. All items visibly different, no fake text, no logos or brands.
+Row1: small charcoal canvas utility pouch with zipper and few everyday tools; small wooden desktop lucky charm/bookmark with cord and tiny blank paper; employee ID badge on dark lanyard with blank cream ID card.
+Row2: black padded wrist support and small protective pad as one overtime endurance accessory; compact dark canvas survival/first-aid kit with notebook and pencil; slim silver water can with blue water-drop pictogram.
+Row3: warm tea in a ceramic mug with restrained steam; takeaway coffee cup with black lid and cream sleeve; folded black T-shirt and folded black cargo pants, basic clothing item icon only no person.
+Row4: cream perforated gacha ticket with discreet star seal and blank center; three brushed metal collection shards with tiny gold edges; final cell EMPTY transparent.
+No characters, letters, numbers, scenery, inventory boxes, giant circles, clutter, neon, purple glow, voxel, smooth clip art, light sources or background. Real alpha. Canvas1024x1536.
+
+## Water can correction
+
+Use case: precise-object-edit. Change ONLY the item in row2 column3 of this 3-column 4-row transparent inventory sprite atlas. Replace the reusable screw-cap water bottle with a small plain SILVER 330ml DRINK CAN, cylindrical aluminum can, closed pull-tab top, blue water drop pictogram. No screw cap or neck. Keep the same style and cell center. Keep EVERY other item, layout, empty final cell, pixel edges, muted colors, full alpha background exactly as supplied. Do not add text, letters, brand names, people or background. This water item is explicitly called a can in the game data.

@@ -12,8 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c837efa657854410b942729d310548c0, type: 3}
   m_Name: CollectionTheme
   m_EditorClassIdentifier: Assembly-CSharp::IanGame.CollectionVisualTheme
-  panel: {r: 0.19, g: 0.14, b: 0.29, a: 1}
-  cell: {r: 0.31, g: 0.24, b: 0.42, a: 1}
-  button: {r: 0.51, g: 0.4, b: 0.68, a: 1}
-  ink: {r: 0.96, g: 0.92, b: 1, a: 1}
-  buttonInk: {r: 1, g: 0.96, b: 1, a: 1}
+  panelSprite: {fileID: 21300000, guid: a0f97a1ff55c8493883bdd9820ea1564, type: 3}
+  buttonSprite: {fileID: 21300000, guid: f369a7cd1e07541838c0174a6fbb6864, type: 3}
+  paperSprite: {fileID: 21300000, guid: 60e256431575646778014f78b58c1895, type: 3}
+  panel: {r: 0.2, g: 0.2, b: 0.23, a: 1}
+  cell: {r: 0.29, g: 0.28, b: 0.3, a: 1}
+  button: {r: 0.91, g: 0.83, b: 0.67, a: 1}
+  ink: {r: 0.95, g: 0.92, b: 0.86, a: 1}
+  buttonInk: {r: 0.22, g: 0.2, b: 0.18, a: 1}

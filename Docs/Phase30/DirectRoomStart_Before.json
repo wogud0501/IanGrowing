@@ -1,0 +1,20 @@
+{
+  "success": true,
+  "message": "Retrieved 2 log entries.",
+  "data": [
+    {
+      "type": "Exception",
+      "message": "NullReferenceException: Object reference not set to an instance of an object",
+      "file": "Assets/_Game/Scripts/SceneScopedResidents.cs",
+      "line": 11,
+      "stackTrace": "IanGame.WorldNPCScheduler.StartScoped () (at Assets/_Game/Scripts/SceneScopedResidents.cs:11)\nIanGame.WorldNPCScheduler.Start () (at Assets/_Game/Scripts/WorldNPCScheduler.cs:21)\nUnityEngine.StackTraceUtility:ExtractStringFromExceptionInternal(Object, String&, String&) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:50)\n"
+    },
+    {
+      "type": "Exception",
+      "message": "NullReferenceException: Object reference not set to an instance of an object",
+      "file": "Assets/_Game/Scripts/WorldNPCScheduler.cs",
+      "line": 30,
+      "stackTrace": "IanGame.WorldNPCScheduler.Update () (at Assets/_Game/Scripts/WorldNPCScheduler.cs:30)\nUnityEngine.StackTraceUtility:ExtractStringFromExceptionInternal(Object, String&, String&) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:50)\n"
+    }
+  ]
+}
