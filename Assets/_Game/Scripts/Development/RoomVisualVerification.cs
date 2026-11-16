@@ -13,6 +13,7 @@ public static class RoomVisualVerification {
  static IEnumerator Go(string room,Action<bool,string> check){check(T.NavigateRoom(room,T.roomCatalog.rules.Zone(room).spawn,Vector2.down),"Room requested "+room);yield return Wait();check(W.Room.roomId==room,"Actual room active "+room);}
  static IEnumerator Shot(string name){Directory.CreateDirectory("Docs/RoomVisual/Screenshots");ScreenCapture.CaptureScreenshot("Docs/RoomVisual/Screenshots/"+name+".png");yield return null;}
  public static IEnumerator Run(GameManager g,Action<bool,string> check,Action<GameObject,string> audit,string mode){
+  if(mode.StartsWith("roomVisualPhase30")){yield return Phase30Verification.Run(g,check,audit,mode);yield break;}
   if(mode.StartsWith("roomVisualItems")){yield return Phase29Verification.Run(g,check,audit,mode);yield break;}
   if(mode.StartsWith("roomVisualPhase28")){yield return Phase28Verification.Run(g,check,audit,mode);yield break;}
   if(mode.StartsWith("roomVisualGrowth")){yield return GrowthVerification.Run(g,check,audit,mode);yield break;}

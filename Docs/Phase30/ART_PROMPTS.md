@@ -1,0 +1,30 @@
+## middle
+
+Use case: identity-preserve. Asset type: production transparent pixel-art animation sprite atlas for a Unity life simulation. Reference image 1 is authoritative Ian identity. Make MIDDLE-AGED Ian (age 30-59): same tousled black hair, half-closed exhausted eyes, black headphones around neck, black short-sleeve shirt, black cargo pants and slippers. Slightly broader shoulders, mature tired face, subtle few grey strands, NOT elderly, NOT different clothes. Hand-pixelled dense modern indie-game art, crisp pixel edges, restrained dark charcoal palette, readable 3/4 overhead character, same recognizable man. NOT smooth illustration, not voxel.
+EXACT LAYOUT: transparent 1024x1024 sheet, 8 columns by 8 rows of equal 128px cells, one whole isolated figure per cell with generous empty margins, no labels/numbers/grid/props outside cell. Stable head/feet size through animation, feet center on shared baseline. Each sprite approximately 65px wide x100px high. All rows top to bottom:
+Rows1-4: FRONT, BACK, LEFT, RIGHT respectively; columns1-2 two neutral tired idle breathing poses, columns3-5 three actual walk frames distinct legs, columns6-8 three fastwalk frames. Do not mirror left/right front faces.
+Row5: columns1-2 lying horizontal sleeping eyes closed; columns3-4 waking seated on bed edge WITHOUT actual bed; columns5-6 seated idle without chair; columns7-8 standing up.
+Row6: pairs across columns eating with bowl/spoon; drinking mug; washing face; shower washing hair modest fully clothed stylized action no nudity.
+Row7: pairs reading/study book; typing computer without desk; opening door hand extended without door; picking up small object.
+Row8: pairs tired standing; talking small hand gesture; phone use; examining object.
+Real alpha transparent background, no white/black/checker background. No panels, text, scenery, ground shadow or extra people. Identity must match reference, mature visual distinguished by actual drawn proportions not resizing a young sprite.
+
+## elder
+
+Use case: identity-preserve. Asset type: production transparent pixel-art animation sprite atlas for a Unity life simulation. Reference image 1 is authoritative Ian identity. Make ELDERLY Ian (age 60+): same tousled black hair, half-closed exhausted eyes, black headphones around neck, black short-sleeve shirt, black cargo pants and slippers. Clearly elderly silhouette: tousled mostly silver-grey hair with charcoal roots, tired half-closed eyes and small wrinkles, slightly stooped back and shorter bent-knee posture, mature face. Same BLACK clothes, black cargo pants, black neck headphones, slippers. No glasses or beard. The person is visibly old in each direction, not a young man with a recolor. Hand-pixelled dense modern indie-game art, crisp pixel edges, restrained dark charcoal palette, readable 3/4 overhead character, same recognizable man. NOT smooth illustration, not voxel.
+EXACT LAYOUT: transparent 1024x1024 sheet, 8 columns by 8 rows of equal 128px cells, one whole isolated figure per cell with generous empty margins, no labels/numbers/grid/props outside cell. Stable head/feet size through animation, feet center on shared baseline. Each sprite approximately 65px wide x100px high. All rows top to bottom:
+Rows1-4: FRONT, BACK, LEFT, RIGHT respectively; columns1-2 two neutral tired idle breathing poses, columns3-5 three actual walk frames distinct legs, columns6-8 three fastwalk frames. Do not mirror left/right front faces.
+Row5: columns1-2 lying horizontal sleeping eyes closed; columns3-4 waking seated on bed edge WITHOUT actual bed; columns5-6 seated idle without chair; columns7-8 standing up.
+Row6: pairs across columns eating with bowl/spoon; drinking mug; washing face; shower washing hair modest fully clothed stylized action no nudity.
+Row7: pairs reading/study book; typing computer without desk; opening door hand extended without door; picking up small object.
+Row8: pairs tired standing; talking small hand gesture; phone use; examining object.
+Real alpha transparent background, no white/black/checker background. No panels, text, scenery, ground shadow or extra people. Identity must match reference, elderly visual distinguished by actual drawn proportions not resizing a young sprite.
+
+## surfaces
+
+Use case: stylized-concept. Asset type: modular production pixel-art interior surface atlas for a 2.5D modern Korean life simulation, NOT a finished room illustration.
+Create six separately reusable rectangular material swatches in an exact 3 columns x2 rows equal-cell sheet on transparent background. All six swatches axis-aligned flat square faces, no perspective skew. No labels text logos. Each swatch inset about16px from its cell edges, crisp perfect rectangle, do not join swatches.
+Top row left: seamless muted warm brown oak laminate floor with staggered narrow horizontal planks, subtle fine pixel grain, gentle variations, no giant dark seams. Top center: white/ivory painted plaster wallpaper with subtle paper texture and barely visible fine stipple, white not yellow, no objects. Top right: family home muted sage-green and warm ivory square ceramic bathroom floor tiles, subtle grout and soft worn mineral details.
+Bottom row left: white ivory plaster wall section with low narrow natural walnut wooden skirting along bottom, delicate relief/shading. Bottom center: cutaway wall top/edge section, dark walnut cap, warm white plaster face, subtle side contact shadow, long horizontal building construction strip occupying a square swatch. Bottom right: sage-green glazed bathroom wall tiling lower70%, ivory tiles upper30%, thin border, soft ceramic highlights.
+Dense hand-placed modern pixel art, restrained/desaturated palette, material texture and depth. Straight orthogonal tiles. Treat these as actual materials not framed sample cards; no drop shadows or borders around swatches. No furniture, characters, room, floor plan, UI, letters, gradients, voxel. Canvas1536x1024 if possible, exact3x2 layout. Actual transparent padding.
+

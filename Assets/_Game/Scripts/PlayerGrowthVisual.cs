@@ -4,7 +4,11 @@ namespace IanGame {
 // as a second mutable age/stage. Existing gameplay permissions remain separate.
 [DefaultExecutionOrder(-50)] public sealed class PlayerGrowthVisual:MonoBehaviour {
  public WorldPlayerMotor motor; public GrowthVisualCatalog catalog;
- public GrowthVisualProfile Current{get;private set;} public bool Young=>Current!=null&&Current.stage!=VisualGrowthStage.Adult;
+ public GrowthVisualProfile Current{get;private set;}
+ // Kept for existing furniture adapters: this means a dedicated age-art bank,
+ // including middle/elder art, rather than a gameplay age permission.
+ public bool Young=>Current!=null&&Current.stage!=VisualGrowthStage.Adult;
+ public event System.Action<GrowthVisualProfile,GrowthVisualProfile> VisualChanged;
  public bool Deferred{get;private set;} public Vector2 ActionOffset; public int ActionOrder=int.MinValue;
  public bool InBed{get;set;} public bool Seated{get;set;} public string ActivePose{get;private set;}="Idle";
  public Vector2 DisplayOffset=>ActionOffset+(Young&&Seated?Current.seatOffset:Vector2.zero);
@@ -20,9 +24,9 @@ namespace IanGame {
   RefreshAge();
  }
  public void RefreshAge(){if(game==null||catalog==null)return;var p=catalog.AtAge(game.growth.Age);if(p==null||p==Current)return;
-  if(Current!=null&&motor.world.Busy){Deferred=true;return;}Deferred=false;Current=p;
+  if(Current!=null&&motor.world.Busy){Deferred=true;return;}Deferred=false;var previous=Current;Current=p;
   motor.advanced.library=p.animations;motor.GetComponent<CircleCollider2D>().radius=p.colliderRadius;motor.GetComponent<CircleCollider2D>().offset=p.colliderOffset;
-  motor.advanced.Play(ActorMotion.Idle,motor.Facing,true);motor.advanced.Render(ActorMotion.Idle,motor.Facing);ActionOffset=Vector2.zero;ActionOrder=int.MinValue;InBed=Seated=false;
+  motor.advanced.Play(ActorMotion.Idle,motor.Facing,true);motor.advanced.Render(ActorMotion.Idle,motor.Facing);ActionOffset=Vector2.zero;ActionOrder=int.MinValue;InBed=Seated=false;VisualChanged?.Invoke(previous,p);
  }
  public string CarePose(int action)=>action==-4?"CareBath":action==3?"CareFeed":action==4?(Current?.stage==VisualGrowthStage.Newborn?"CareFeed":"Drink"):"Play";
  public void Pose(string pose){ActivePose=pose;}

@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af342260ee9d241a68b08c5af09be809, type: 3}
+  m_Name: Finance
+  m_EditorClassIdentifier: Assembly-CSharp::IanGame.SceneVisualProfile
+  identity: Finance
+  morning: {r: 1, g: 0.94, b: 0.86, a: 1}
+  day: {r: 0.94, g: 0.98, b: 1, a: 1}
+  evening: {r: 0.94, g: 0.89, b: 0.84, a: 1}
+  night: {r: 0.55, g: 0.68, b: 0.88, a: 1}
+  surround: {r: 0.12, g: 0.14, b: 0.18, a: 1}
+  paletteStrength: 0.6
+  preferredHalfHeight: 4.5
+  environmentAnimationBudget: 8
+  weather: 0
+  ambience: {fileID: 0}
+  transitionCue: facility
+  audioCue: finance

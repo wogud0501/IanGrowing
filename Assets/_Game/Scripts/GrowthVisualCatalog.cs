@@ -1,7 +1,8 @@
 using System;
 using UnityEngine;
 namespace IanGame {
-public enum VisualGrowthStage {Newborn,Toddler,Preschool,EarlyChild,SchoolChild,Preteen,Teen,LateTeen,Adult}
+// Append only: the existing values are serialized by item appearance profiles.
+public enum VisualGrowthStage {Newborn,Toddler,Preschool,EarlyChild,SchoolChild,Preteen,Teen,LateTeen,Adult,MiddleAge,Elder}
 [Serializable] public sealed class GrowthVisualProfile {
  public VisualGrowthStage stage; public string id; public int minAge,maxAge;
  public ActorAnimationSet animations; public float height,colliderRadius,speedFactor=1,stride=1;

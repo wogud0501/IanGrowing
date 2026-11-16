@@ -11,7 +11,7 @@ namespace IanGame {
  public WorldPlayerMotor player;public string HeadphoneAppearanceId{get;private set;}public string CosmeticAppearanceId{get;private set;}public bool HasRenderedOverride{get;private set;}
  ItemService items;GameManager game;SpriteRenderer headphone,cosmetic;
  void Start(){game=GameContext.Instance?.game;if(game?.items==null)return;items=game.items;items.AppearanceChanged+=Selected;Selected(null,null);headphone=Layer("Equipped headphone art");cosmetic=Layer("Equipped cosmetic art");}
- SpriteRenderer Layer(string name){var go=new GameObject(name);go.transform.SetParent(player.sprite.transform,false);return go.AddComponent<SpriteRenderer>();}
+ SpriteRenderer Layer(string name){var go=new GameObject(name);go.transform.SetParent(player.sprite.transform,false);var renderer=go.AddComponent<SpriteRenderer>();renderer.sharedMaterial=player.sprite.sharedMaterial;return renderer;}
  void Selected(string h,string c){HeadphoneAppearanceId=items.catalog.Item(items.Equipment.Current(EquipmentSlot.Headphone))?.appearanceId;CosmeticAppearanceId=items.catalog.Item(items.Equipment.Current(EquipmentSlot.Cosmetic))?.appearanceId;}
  void OnDestroy(){if(items!=null)items.AppearanceChanged-=Selected;}
  void LateUpdate(){if(items==null||player?.advanced==null||headphone==null)return;var growth=player.GetComponent<PlayerGrowthVisual>();var stage=growth?.Current?.stage??VisualGrowthStage.Adult;HasRenderedOverride=Draw(headphone,items.Equipment.Current(EquipmentSlot.Headphone),stage)|Draw(cosmetic,items.Equipment.Current(EquipmentSlot.Cosmetic),stage);}

@@ -1,0 +1,749 @@
+{
+    "rules": {
+        "instanceID": 7696581600709
+    },
+    "rooms": [
+        {
+            "roomId": "home",
+            "sceneName": "IndependentHome_Studio",
+            "title": "이안의 집",
+            "homeId": "player",
+            "legacyZone": "home",
+            "sceneId": 18,
+            "legacyOffset": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "legacyBounds": {
+                "serializedVersion": "2",
+                "x": -6.0,
+                "y": -4.0,
+                "width": 12.0,
+                "height": 8.0
+            },
+            "family": false
+        },
+        {
+            "roomId": "bathroom",
+            "sceneName": "IndependentHome_Bathroom",
+            "title": "옥색 화장실",
+            "homeId": "player",
+            "legacyZone": "bathroom",
+            "sceneId": 19,
+            "legacyOffset": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "legacyBounds": {
+                "serializedVersion": "2",
+                "x": -3.0,
+                "y": -2.75,
+                "width": 6.0,
+                "height": 5.5
+            },
+            "family": false
+        },
+        {
+            "roomId": "alley",
+            "sceneName": "ResidentialAlley",
+            "title": "주거 골목",
+            "homeId": "",
+            "legacyZone": "alley",
+            "sceneId": 21,
+            "legacyOffset": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "legacyBounds": {
+                "serializedVersion": "2",
+                "x": -12.0,
+                "y": -8.0,
+                "width": 24.0,
+                "height": 16.0
+            },
+            "family": false
+        },
+        {
+            "roomId": "city",
+            "sceneName": "City_Center",
+            "title": "도시 중심",
+            "homeId": "",
+            "legacyZone": "city",
+            "sceneId": 20,
+            "legacyOffset": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "legacyBounds": {
+                "serializedVersion": "2",
+                "x": -16.0,
+                "y": -10.0,
+                "width": 32.0,
+                "height": 20.0
+            },
+            "family": false
+        },
+        {
+            "roomId": "shop",
+            "sceneName": "NeighborhoodShop",
+            "title": "동네 상점",
+            "homeId": "",
+            "legacyZone": "shop",
+            "sceneId": 25,
+            "legacyOffset": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "legacyBounds": {
+                "serializedVersion": "2",
+                "x": -9.0,
+                "y": -6.0,
+                "width": 18.0,
+                "height": 12.0
+            },
+            "family": false
+        },
+        {
+            "roomId": "workplace",
+            "sceneName": "Workspace_Office",
+            "title": "이안 사무실",
+            "homeId": "",
+            "legacyZone": "workplace",
+            "sceneId": 22,
+            "legacyOffset": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "legacyBounds": {
+                "serializedVersion": "2",
+                "x": -9.0,
+                "y": -6.0,
+                "width": 18.0,
+                "height": 12.0
+            },
+            "family": false
+        },
+        {
+            "roomId": "school",
+            "sceneName": "School_Classroom",
+            "title": "학교",
+            "homeId": "",
+            "legacyZone": "school",
+            "sceneId": 24,
+            "legacyOffset": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "legacyBounds": {
+                "serializedVersion": "2",
+                "x": -9.0,
+                "y": -6.0,
+                "width": 18.0,
+                "height": 12.0
+            },
+            "family": false
+        },
+        {
+            "roomId": "residence",
+            "sceneName": "Resident_Housing",
+            "title": "주민 생활관",
+            "homeId": "",
+            "legacyZone": "residence",
+            "sceneId": 28,
+            "legacyOffset": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "legacyBounds": {
+                "serializedVersion": "2",
+                "x": -9.0,
+                "y": -6.0,
+                "width": 18.0,
+                "height": 12.0
+            },
+            "family": false
+        },
+        {
+            "roomId": "office-bathroom",
+            "sceneName": "Workspace_Bathroom",
+            "title": "사무실 화장실",
+            "homeId": "",
+            "legacyZone": "office-bathroom",
+            "sceneId": 23,
+            "legacyOffset": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "legacyBounds": {
+                "serializedVersion": "2",
+                "x": -3.5,
+                "y": -3.5,
+                "width": 7.0,
+                "height": 7.0
+            },
+            "family": false
+        },
+        {
+            "roomId": "finance",
+            "sceneName": "StockMarket_Interior",
+            "title": "이안 증권",
+            "homeId": "",
+            "legacyZone": "finance",
+            "sceneId": 26,
+            "legacyOffset": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "legacyBounds": {
+                "serializedVersion": "2",
+                "x": -6.0,
+                "y": -5.0,
+                "width": 12.0,
+                "height": 10.0
+            },
+            "family": false
+        },
+        {
+            "roomId": "realestate",
+            "sceneName": "RealEstate_Office",
+            "title": "이안 부동산",
+            "homeId": "",
+            "legacyZone": "realestate",
+            "sceneId": 27,
+            "legacyOffset": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "legacyBounds": {
+                "serializedVersion": "2",
+                "x": -6.0,
+                "y": -5.0,
+                "width": 12.0,
+                "height": 10.0
+            },
+            "family": false
+        },
+        {
+            "roomId": "family-parents-bedroom",
+            "sceneName": "FamilyHome_ParentsBedroom",
+            "title": "부모님 침실",
+            "homeId": "family",
+            "legacyZone": "family-home",
+            "sceneId": 15,
+            "legacyOffset": {
+                "x": -8.0,
+                "y": 5.0
+            },
+            "legacyBounds": {
+                "serializedVersion": "2",
+                "x": -12.0,
+                "y": 1.0,
+                "width": 8.0,
+                "height": 8.0
+            },
+            "family": true
+        },
+        {
+            "roomId": "family-ian-bedroom",
+            "sceneName": "FamilyHome_IanBedroom",
+            "title": "이안의 방",
+            "homeId": "family",
+            "legacyZone": "family-home",
+            "sceneId": 16,
+            "legacyOffset": {
+                "x": 0.0,
+                "y": 5.0
+            },
+            "legacyBounds": {
+                "serializedVersion": "2",
+                "x": -4.0,
+                "y": 1.0,
+                "width": 8.0,
+                "height": 8.0
+            },
+            "family": true
+        },
+        {
+            "roomId": "family-bathroom",
+            "sceneName": "FamilyHome_Bathroom",
+            "title": "가족 욕실",
+            "homeId": "family",
+            "legacyZone": "family-home",
+            "sceneId": 17,
+            "legacyOffset": {
+                "x": 8.0,
+                "y": 5.0
+            },
+            "legacyBounds": {
+                "serializedVersion": "2",
+                "x": 4.0,
+                "y": 1.0,
+                "width": 8.0,
+                "height": 8.0
+            },
+            "family": true
+        },
+        {
+            "roomId": "family-living",
+            "sceneName": "FamilyHome_LivingRoom",
+            "title": "거실",
+            "homeId": "family",
+            "legacyZone": "family-home",
+            "sceneId": 13,
+            "legacyOffset": {
+                "x": -6.0,
+                "y": -4.0
+            },
+            "legacyBounds": {
+                "serializedVersion": "2",
+                "x": -12.0,
+                "y": -9.0,
+                "width": 12.0,
+                "height": 10.0
+            },
+            "family": true
+        },
+        {
+            "roomId": "family-kitchen",
+            "sceneName": "FamilyHome_Kitchen",
+            "title": "주방 · 가족 식사",
+            "homeId": "family",
+            "legacyZone": "family-home",
+            "sceneId": 14,
+            "legacyOffset": {
+                "x": 6.0,
+                "y": -4.0
+            },
+            "legacyBounds": {
+                "serializedVersion": "2",
+                "x": 0.0,
+                "y": -9.0,
+                "width": 12.0,
+                "height": 10.0
+            },
+            "family": true
+        }
+    ],
+    "portals": [
+        {
+            "doorId": "front-door",
+            "sourceRoom": "home",
+            "destinationRoom": "alley",
+            "destinationEntryId": "house-entrance/arrival",
+            "arrival": {
+                "x": -7.0,
+                "y": 2.0
+            },
+            "facing": {
+                "x": 0.0,
+                "y": -1.0
+            }
+        },
+        {
+            "doorId": "bath-door",
+            "sourceRoom": "home",
+            "destinationRoom": "bathroom",
+            "destinationEntryId": "bath-exit/arrival",
+            "arrival": {
+                "x": 0.0,
+                "y": -1.7999999523162842
+            },
+            "facing": {
+                "x": 0.0,
+                "y": 1.0
+            }
+        },
+        {
+            "doorId": "bath-exit",
+            "sourceRoom": "bathroom",
+            "destinationRoom": "home",
+            "destinationEntryId": "bath-door/arrival",
+            "arrival": {
+                "x": 1.0,
+                "y": 1.350000023841858
+            },
+            "facing": {
+                "x": 0.0,
+                "y": -1.0
+            }
+        },
+        {
+            "doorId": "house-entrance",
+            "sourceRoom": "alley",
+            "destinationRoom": "home",
+            "destinationEntryId": "front-door/arrival",
+            "arrival": {
+                "x": 0.0,
+                "y": -2.9000000953674316
+            },
+            "facing": {
+                "x": 0.0,
+                "y": 1.0
+            }
+        },
+        {
+            "doorId": "city-path",
+            "sourceRoom": "alley",
+            "destinationRoom": "city",
+            "destinationEntryId": "alley-path/arrival",
+            "arrival": {
+                "x": -12.0,
+                "y": -7.400000095367432
+            },
+            "facing": {
+                "x": 0.0,
+                "y": -1.0
+            }
+        },
+        {
+            "doorId": "alley-path",
+            "sourceRoom": "city",
+            "destinationRoom": "alley",
+            "destinationEntryId": "city-path/arrival",
+            "arrival": {
+                "x": 7.0,
+                "y": -6.0
+            },
+            "facing": {
+                "x": 0.0,
+                "y": -1.0
+            }
+        },
+        {
+            "doorId": "shop-front",
+            "sourceRoom": "city",
+            "destinationRoom": "shop",
+            "destinationEntryId": "shop-exit/arrival",
+            "arrival": {
+                "x": 0.0,
+                "y": -3.0
+            },
+            "facing": {
+                "x": 0.0,
+                "y": 1.0
+            }
+        },
+        {
+            "doorId": "office-front",
+            "sourceRoom": "city",
+            "destinationRoom": "workplace",
+            "destinationEntryId": "work-exit/arrival",
+            "arrival": {
+                "x": 2.799999952316284,
+                "y": -4.5
+            },
+            "facing": {
+                "x": 0.0,
+                "y": 1.0
+            }
+        },
+        {
+            "doorId": "school-front",
+            "sourceRoom": "city",
+            "destinationRoom": "school",
+            "destinationEntryId": "school-exit/arrival",
+            "arrival": {
+                "x": 0.0,
+                "y": -3.0
+            },
+            "facing": {
+                "x": 0.0,
+                "y": 1.0
+            }
+        },
+        {
+            "doorId": "shop-exit",
+            "sourceRoom": "shop",
+            "destinationRoom": "city",
+            "destinationEntryId": "shop-front/arrival",
+            "arrival": {
+                "x": -8.0,
+                "y": 2.0
+            },
+            "facing": {
+                "x": 0.0,
+                "y": -1.0
+            }
+        },
+        {
+            "doorId": "work-exit",
+            "sourceRoom": "workplace",
+            "destinationRoom": "city",
+            "destinationEntryId": "office-front/arrival",
+            "arrival": {
+                "x": 9.0,
+                "y": 2.0
+            },
+            "facing": {
+                "x": 0.0,
+                "y": -1.0
+            }
+        },
+        {
+            "doorId": "school-exit",
+            "sourceRoom": "school",
+            "destinationRoom": "city",
+            "destinationEntryId": "school-front/arrival",
+            "arrival": {
+                "x": 0.0,
+                "y": 3.0
+            },
+            "facing": {
+                "x": 0.0,
+                "y": -1.0
+            }
+        },
+        {
+            "doorId": "npc-residence-front",
+            "sourceRoom": "alley",
+            "destinationRoom": "residence",
+            "destinationEntryId": "resident-exit/arrival",
+            "arrival": {
+                "x": 0.0,
+                "y": -4.5
+            },
+            "facing": {
+                "x": 0.0,
+                "y": 1.0
+            }
+        },
+        {
+            "doorId": "resident-exit",
+            "sourceRoom": "residence",
+            "destinationRoom": "alley",
+            "destinationEntryId": "npc-residence-front/arrival",
+            "arrival": {
+                "x": 7.0,
+                "y": 2.0
+            },
+            "facing": {
+                "x": 0.0,
+                "y": -1.0
+            }
+        },
+        {
+            "doorId": "office-bath-front",
+            "sourceRoom": "workplace",
+            "destinationRoom": "office-bathroom",
+            "destinationEntryId": "office-bath-exit/arrival",
+            "arrival": {
+                "x": 0.0,
+                "y": -2.0
+            },
+            "facing": {
+                "x": 0.0,
+                "y": 1.0
+            }
+        },
+        {
+            "doorId": "office-bath-exit",
+            "sourceRoom": "office-bathroom",
+            "destinationRoom": "workplace",
+            "destinationEntryId": "office-bath-front/arrival",
+            "arrival": {
+                "x": 7.800000190734863,
+                "y": 1.600000023841858
+            },
+            "facing": {
+                "x": 0.0,
+                "y": -1.0
+            }
+        },
+        {
+            "doorId": "finance-front",
+            "sourceRoom": "city",
+            "destinationRoom": "finance",
+            "destinationEntryId": "finance-exit/arrival",
+            "arrival": {
+                "x": 0.0,
+                "y": -3.5999999046325684
+            },
+            "facing": {
+                "x": 0.0,
+                "y": 1.0
+            }
+        },
+        {
+            "doorId": "finance-exit",
+            "sourceRoom": "finance",
+            "destinationRoom": "city",
+            "destinationEntryId": "finance-front/arrival",
+            "arrival": {
+                "x": -12.0,
+                "y": -0.699999988079071
+            },
+            "facing": {
+                "x": 0.0,
+                "y": -1.0
+            }
+        },
+        {
+            "doorId": "realestate-front",
+            "sourceRoom": "city",
+            "destinationRoom": "realestate",
+            "destinationEntryId": "realestate-exit/arrival",
+            "arrival": {
+                "x": 0.0,
+                "y": -3.5999999046325684
+            },
+            "facing": {
+                "x": 0.0,
+                "y": 1.0
+            }
+        },
+        {
+            "doorId": "realestate-exit",
+            "sourceRoom": "realestate",
+            "destinationRoom": "city",
+            "destinationEntryId": "realestate-front/arrival",
+            "arrival": {
+                "x": 12.0,
+                "y": -0.699999988079071
+            },
+            "facing": {
+                "x": 0.0,
+                "y": -1.0
+            }
+        },
+        {
+            "doorId": "family-front",
+            "sourceRoom": "alley",
+            "destinationRoom": "family-living",
+            "destinationEntryId": "family-exit/arrival",
+            "arrival": {
+                "x": 3.200000047683716,
+                "y": -2.5
+            },
+            "facing": {
+                "x": 0.0,
+                "y": 1.0
+            }
+        },
+        {
+            "doorId": "family-exit",
+            "sourceRoom": "family-living",
+            "destinationRoom": "alley",
+            "destinationEntryId": "family-front/arrival",
+            "arrival": {
+                "x": 2.0,
+                "y": 2.5
+            },
+            "facing": {
+                "x": 0.0,
+                "y": -1.0
+            }
+        },
+        {
+            "doorId": "family-parents-door",
+            "sourceRoom": "family-living",
+            "destinationRoom": "family-parents-bedroom",
+            "destinationEntryId": "family-parents-return/arrival",
+            "arrival": {
+                "x": 0.0,
+                "y": -2.25
+            },
+            "facing": {
+                "x": 0.0,
+                "y": 1.0
+            }
+        },
+        {
+            "doorId": "family-parents-return",
+            "sourceRoom": "family-parents-bedroom",
+            "destinationRoom": "family-living",
+            "destinationEntryId": "family-parents-door/arrival",
+            "arrival": {
+                "x": -3.299999952316284,
+                "y": 2.549999952316284
+            },
+            "facing": {
+                "x": 0.0,
+                "y": -1.0
+            }
+        },
+        {
+            "doorId": "family-ian-door",
+            "sourceRoom": "family-living",
+            "destinationRoom": "family-ian-bedroom",
+            "destinationEntryId": "family-ian-return/arrival",
+            "arrival": {
+                "x": 0.0,
+                "y": -2.25
+            },
+            "facing": {
+                "x": 0.0,
+                "y": 1.0
+            }
+        },
+        {
+            "doorId": "family-ian-return",
+            "sourceRoom": "family-ian-bedroom",
+            "destinationRoom": "family-living",
+            "destinationEntryId": "family-ian-door/arrival",
+            "arrival": {
+                "x": -1.100000023841858,
+                "y": 2.549999952316284
+            },
+            "facing": {
+                "x": 0.0,
+                "y": -1.0
+            }
+        },
+        {
+            "doorId": "family-bath-front",
+            "sourceRoom": "family-living",
+            "destinationRoom": "family-bathroom",
+            "destinationEntryId": "family-bath-exit/arrival",
+            "arrival": {
+                "x": 0.0,
+                "y": -1.3499999046325684
+            },
+            "facing": {
+                "x": 0.0,
+                "y": 1.0
+            }
+        },
+        {
+            "doorId": "family-bath-exit",
+            "sourceRoom": "family-bathroom",
+            "destinationRoom": "family-living",
+            "destinationEntryId": "family-bath-front/arrival",
+            "arrival": {
+                "x": 1.100000023841858,
+                "y": 2.549999952316284
+            },
+            "facing": {
+                "x": 0.0,
+                "y": -1.0
+            }
+        },
+        {
+            "doorId": "family-kitchen-front",
+            "sourceRoom": "family-living",
+            "destinationRoom": "family-kitchen",
+            "destinationEntryId": "family-kitchen-return/arrival",
+            "arrival": {
+                "x": -4.0,
+                "y": -2.5
+            },
+            "facing": {
+                "x": 0.0,
+                "y": 1.0
+            }
+        },
+        {
+            "doorId": "family-kitchen-return",
+            "sourceRoom": "family-kitchen",
+            "destinationRoom": "family-living",
+            "destinationEntryId": "family-kitchen-front/arrival",
+            "arrival": {
+                "x": 3.299999952316284,
+                "y": 2.549999952316284
+            },
+            "facing": {
+                "x": 0.0,
+                "y": -1.0
+            }
+        }
+    ]
+}

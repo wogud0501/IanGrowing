@@ -8,6 +8,9 @@ namespace IanGame {
  public float interiorLogicalPixelsPerUnit;
  void OnEnable(){RestoreDisplay();}
  void RestoreDisplay(){if(target==null)target=GetComponent<Camera>();if(target==null)return;target.targetTexture=null;target.targetDisplay=0;target.rect=new Rect(0,0,1,1);var old=transform.Find("Pixel world presentation");if(old!=null)old.gameObject.SetActive(false);}
- void LateUpdate(){if(target==null||world==null||world.CurrentZone==null)return;float ppu=!world.CurrentZone.outdoor&&interiorLogicalPixelsPerUnit>0?interiorLogicalPixelsPerUnit:Mathf.Max(1,target.pixelHeight/(2*target.orthographicSize));var p=target.transform.position;target.transform.position=new Vector3(Mathf.Round(p.x*ppu)/ppu,Mathf.Round(p.y*ppu)/ppu,p.z);}
+ public float RenderPixelsPerUnit=>target==null?1:Mathf.Max(1,target.pixelHeight/(2*target.orthographicSize));
+ // One screen-pixel lattice. Previously the interior camera snapped at its
+ // actual density, then this component re-snapped it at a hardcoded 40 PPU.
+ void LateUpdate(){if(target==null||world==null||world.CurrentZone==null)return;float ppu=RenderPixelsPerUnit;var p=target.transform.position;target.transform.position=new Vector3(Mathf.Round(p.x*ppu)/ppu,Mathf.Round(p.y*ppu)/ppu,p.z);}
 }
 }
