@@ -21,3 +21,9 @@
 - 실제 iOS/Android/폴더블 기기 테스트는 미검증.
 
 최종 근거 및 제한: [Phase28/RESULTS.md](Phase28/RESULTS.md).
+
+## Git 저장 기록
+
+검증한 코드·씬·근거 체크포인트: `ffa111eb23a597004b207c39d9c38c21e843460d`. 이후 커밋은 이 체크포인트 문서 기록입니다.
+
+OS `.DS_Store` 변경과 `DevelopmentBackups/Phase28-20261116` 로컬 복구 자료는 기능 커밋에서 제외했습니다. 사용자 기존 스폰 거리 변경은 유지했습니다.

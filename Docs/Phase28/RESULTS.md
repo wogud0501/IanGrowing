@@ -75,4 +75,4 @@
 
 코드·Sprite 메타데이터·16개 Scene을 실제 파일로 저장했습니다. APK는 `Builds/SceneArchitecture/Ian-Rooms-Development.apk`입니다. 빌드 후 Editor 타깃은 StandaloneOSX로 복원했습니다. 자동 검증 보호를 종료하고 정상 수동 Play 저장 접근을 복원한 최종 상태는 `EDITOR_FINAL_STATE.json`에 별도로 남깁니다. 이전 QA의 기준 스크린샷과 보고서는 복원하고, 이번 실행의 새 근거는 이 폴더에 분리했습니다.
 
-시작 HEAD는 711acd4이며 최종 Git 체크포인트는 진행 문서와 최종 응답에 기록합니다. 실제 기기 검증, 장시간 전체 인생 플레이, 모든 미션의 Android 검증과 빌드 경고 정리는 후속 항목입니다.
+시작 HEAD는 711acd4이며 검증된 코드·씬·근거 Git 체크포인트는 `ffa111eb23a597004b207c39d9c38c21e843460d`입니다. 후속 문서 커밋은 이 해시 기록만 포함합니다. 실제 기기 검증, 장시간 전체 인생 플레이, 모든 미션의 Android 검증과 빌드 경고 정리는 후속 항목입니다.
