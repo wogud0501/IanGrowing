@@ -58,3 +58,5 @@
 ## 저장·체크포인트
 
 씬·에셋 저장 완료. FamilyHome_IanBedroom에서 Play를 종료하고 StandaloneOSX와 기존 fast-play 옵션(DisableDomainReload)을 복원했습니다. 테스트용 원본 슬롯 쓰기 차단도 해제했습니다. 기존 플레이 세이브3개는 최초와 최종 SHA-256이 동일합니다. [최종 상태](EDITOR_FINAL_STATE.json), [세이브 보존](SAVE_HASH_VERIFICATION.json). 시작8cf50fd와 중간 사용자 커밋5bf2b99를 보존하고 이번 후속 변경만 별도 체크포인트에 기록합니다.
+
+구현·검증 체크포인트: `6ea9c66`. 원본 사용자 체크포인트 `5bf2b99` 보존.

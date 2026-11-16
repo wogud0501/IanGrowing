@@ -35,3 +35,5 @@
 ## 저장 완료 상태
 
 방 씬과 에셋 저장 완료. Editor는 FamilyHome_IanBedroom, Play 종료, StandaloneOSX, 기존 DisableDomainReload 옵션으로 복원했습니다. 테스트 슬롯 보호를 해제한 뒤 기존 플레이 세이브3개의 최종 해시가 모두 동일함을 확인했습니다. [최종 Editor 상태](Phase30/EDITOR_FINAL_STATE.json) · [빌드](Phase30/ANDROID_NATIVE_REPORT.txt) · [세이브 보존](Phase30/SAVE_HASH_VERIFICATION.json).
+
+구현·검증 체크포인트: `6ea9c66`. 원본 사용자 체크포인트 `5bf2b99` 보존.
