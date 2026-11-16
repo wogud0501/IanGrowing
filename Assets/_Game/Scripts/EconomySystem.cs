@@ -2,8 +2,9 @@ using System;using System.Linq;using System.Collections.Generic;using UnityEngin
 namespace IanGame {
 // Preserve serialized legacy enum values.
 public enum TransactionKind {Income,Expense,DebtIncrease,DebtRepayment,AssetValuation,Salary,Tax,StockBuy,StockSell,InvestmentPnL,EventReward,DebtInterest,TaxLateFee,PropertyBuy,PropertySell,LeaseDeposit,DepositReturn,LoanDraw,PropertyFee}
-[Serializable]public class EconomySnapshot {public long debt,otherAssets;public List<string> processedIds=new List<string>();public FinanceSnapshot finance;public HousingSnapshot housing;public PropertySnapshot property;}
+[Serializable]public class EconomySnapshot {public RubySnapshot ruby;public long debt,otherAssets;public List<string> processedIds=new List<string>();public FinanceSnapshot finance;public HousingSnapshot housing;public PropertySnapshot property;}
 public partial class EconomySystem:MonoBehaviour,IMissionFeatureSource {
+ public RubyWallet Ruby{get;}=new RubyWallet();
  [SerializeField]PlayerStats stats;public EconomyRules rules;EconomySnapshot state=new EconomySnapshot();bool busy;GameManager game;float nextTick;
  public PlayerStats Stats=>stats;public long Cash=>stats==null?0:stats.Money;public long Debt=>state.debt;public long OtherAssets=>state.otherAssets;
  public long StockValue=>state.finance==null?0:state.finance.holdings.Sum(h=>(long)h.quantity*(Quote(h.stockId)?.CurrentPrice??0));
@@ -15,14 +16,15 @@ public partial class EconomySystem:MonoBehaviour,IMissionFeatureSource {
  public bool IsAvailable=>rules!=null;public bool HasItem(MissionItemKey item)=>item==MissionItemKey.FirstFurniture&&Housing.owned.Any(id=>housingCatalog!=null&&housingCatalog.Furniture(id)!=null&&!housingCatalog.Furniture(id).starter);
  static long Add(long a,long b)=>a>long.MaxValue-b?long.MaxValue:a+b;
  static T Clone<T>(T value)where T:class=>value==null?null:JsonUtility.FromJson<T>(JsonUtility.ToJson(value));
- public void Configure(PlayerStats model){if(stats!=null)stats.MoneyChanged-=OnCash;stats=model;if(stats!=null)stats.MoneyChanged+=OnCash;}
+ void OnRuby()=>Changed?.Invoke();
+ public void Configure(PlayerStats model){Ruby.Changed-=OnRuby;Ruby.Changed+=OnRuby;if(stats!=null)stats.MoneyChanged-=OnCash;stats=model;if(stats!=null)stats.MoneyChanged+=OnCash;}
  public void ConfigureGame(GameManager owner){game=owner;game.missions.RegisterSource(this);}
- void OnDestroy(){if(stats!=null)stats.MoneyChanged-=OnCash;if(game!=null)game.missions.UnregisterSource(this);}
+ void OnDestroy(){Ruby.Changed-=OnRuby;if(stats!=null)stats.MoneyChanged-=OnCash;if(game!=null)game.missions.UnregisterSource(this);}
  void OnCash(int value){if(!busy)Changed?.Invoke();}
  public bool HasTransaction(string id)=>state.processedIds.Contains(id);
- public EconomySnapshot Capture(){EnsureHousing();var copy=Clone(state);copy.property=CopyProperty(state.property);if(state.finance==null)copy.finance=null;return copy;}
- public void Restore(EconomySnapshot value){if(value==null)return;state=Clone(value);NormalizeProperty(state);if(value.property==null)state.property=null;if(value.housing==null)state.housing=null;EnsureHousing();if(value.finance==null)state.finance=null;state.debt=Math.Max(0,state.debt);state.otherAssets=Math.Max(0,state.otherAssets);if(state.processedIds==null)state.processedIds=new List<string>();Changed?.Invoke();}
- public void ResetLife(bool newborn){Restore(new EconomySnapshot{debt=newborn?InitialLifeSettings.NewbornDebt:0,housing=new HousingSnapshot{starterRevision=1,owned=new List<string>{"basic-bed"}}});EnsureFinance(1,DateTime.UtcNow.Ticks);}
+ public EconomySnapshot Capture(){EnsureHousing();var copy=Clone(state);copy.ruby=Ruby.Capture();copy.property=CopyProperty(state.property);if(state.finance==null)copy.finance=null;return copy;}
+ public void Restore(EconomySnapshot value){if(value==null)return;if(value.ruby!=null)Ruby.Restore(value.ruby);state=Clone(value);NormalizeProperty(state);if(value.property==null)state.property=null;if(value.housing==null)state.housing=null;EnsureHousing();if(value.finance==null)state.finance=null;state.debt=Math.Max(0,state.debt);state.otherAssets=Math.Max(0,state.otherAssets);if(state.processedIds==null)state.processedIds=new List<string>();Changed?.Invoke();}
+ public void ResetLife(bool newborn){Restore(new EconomySnapshot{ruby=Ruby.Capture(),debt=newborn?InitialLifeSettings.NewbornDebt:0,housing=new HousingSnapshot{starterRevision=1,owned=new List<string>{"basic-bed"}}});EnsureFinance(1,DateTime.UtcNow.Ticks);}
  public bool CanAfford(int cost)=>stats!=null&&cost>=0&&stats.Money>=cost;
  public bool TrySpend(int cost,string reason="지출")=>TryTransaction(Guid.NewGuid().ToString("N"),TransactionKind.Expense,cost,reason);
  public bool Earn(int amount,string reason="수입")=>TryTransaction(Guid.NewGuid().ToString("N"),TransactionKind.Income,amount,reason);

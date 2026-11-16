@@ -28,3 +28,12 @@
 /DevelopmentBackups/InteriorReconstruction-20261114/
 
 /DevelopmentBackups/AgeGrowth-20261114/
+
+# Release signing secrets stay outside source control.
+*.keystore
+*.jks
+*.p12
+*.pfx
+*.mobileprovision
+.env.release*
+/DevelopmentBackups/Release-20261117/

@@ -1,0 +1,144 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fe0efca041b34c3088de29c9149322d, type: 3}
+  m_Name: IanRelease
+  m_EditorClassIdentifier: Assembly-CSharp::IanGame.ReleaseConfig
+  companyName: "[\uD68C\uC0AC\uBA85]"
+  representative: "[\uB300\uD45C\uC790\uBA85]"
+  businessNumber: "[\uC0AC\uC5C5\uC790\uB4F1\uB85D\uBC88\uD638]"
+  commerceNumber: "[\uD1B5\uC2E0\uD310\uB9E4\uC5C5 \uC2E0\uACE0\uBC88\uD638]"
+  address: "[\uC0AC\uC5C5\uC7A5 \uC8FC\uC18C]"
+  supportEmail: "[\uACE0\uAC1D\uC13C\uD130 \uC774\uBA54\uC77C]"
+  supportPhone: "[\uACE0\uAC1D\uC13C\uD130 \uC804\uD654\uBC88\uD638]"
+  privacyOfficer: "[\uAC1C\uC778\uC815\uBCF4 \uBCF4\uD638\uCC45\uC784\uC790]"
+  privacyEmail: "[\uAC1C\uC778\uC815\uBCF4 \uBB38\uC758 \uC774\uBA54\uC77C]"
+  uiTheme: {fileID: 11400000, guid: 00b1ca608f77949aa95a557b6ac73a1a, type: 2}
+  TermsUrl: 
+  PrivacyPolicyUrl: 
+  SupportUrl: 
+  RefundHelpUrl: 
+  legalReviewed: 0
+  privacyAuditApproved: 0
+  spendOrder: 0
+  missionRuby:
+  - id: M010
+    amount: 2
+  - id: M020
+    amount: 3
+  - id: M030
+    amount: 3
+  - id: M040
+    amount: 3
+  - id: M050
+    amount: 3
+  - id: M060
+    amount: 5
+  achievementRuby:
+  - id: move
+    amount: 1
+  - id: item/collection10
+    amount: 1
+  products:
+  - internalId: ruby_pack_small
+    appleProductId: 
+    googleProductId: 
+    localizedName: "\uC18C\uD615 \uB8E8\uBE44 \uC0C1\uD488"
+    localizedDescription: "Store \uC5F0\uACB0 \uD6C4 \uC81C\uACF5"
+    rubyAmount: 100
+    bonusRuby: 0
+    displayOrder: 0
+    firstPurchaseBonus: 0
+    enabled: 0
+  - internalId: ruby_pack_medium
+    appleProductId: 
+    googleProductId: 
+    localizedName: "\uC911\uD615 \uB8E8\uBE44 \uC0C1\uD488"
+    localizedDescription: "Store \uC5F0\uACB0 \uD6C4 \uC81C\uACF5"
+    rubyAmount: 300
+    bonusRuby: 0
+    displayOrder: 1
+    firstPurchaseBonus: 0
+    enabled: 0
+  - internalId: ruby_pack_large
+    appleProductId: 
+    googleProductId: 
+    localizedName: "\uB300\uD615 \uB8E8\uBE44 \uC0C1\uD488"
+    localizedDescription: "Store \uC5F0\uACB0 \uD6C4 \uC81C\uACF5"
+    rubyAmount: 1000
+    bonusRuby: 0
+    displayOrder: 2
+    firstPurchaseBonus: 0
+    enabled: 0
+  documents:
+  - documentId: terms
+    version: 0.1.0-draft
+    effectiveDate: "[\uC2DC\uD589\uC77C]"
+    title: "\uC774\uC6A9\uC57D\uAD00"
+    locale: ko
+    url: 
+    body: {fileID: 4900000, guid: 24715f52ebdb140f5aa8d3510d30c6d4, type: 3}
+    required: 1
+    requireConsent: 1
+  - documentId: privacy
+    version: 0.1.0-draft
+    effectiveDate: "[\uC2DC\uD589\uC77C]"
+    title: "\uAC1C\uC778\uC815\uBCF4\uCC98\uB9AC\uBC29\uCE68"
+    locale: ko
+    url: 
+    body: {fileID: 4900000, guid: a8c25fdfd577340dc94331021de50764, type: 3}
+    required: 1
+    requireConsent: 0
+  - documentId: paid
+    version: 0.1.0-draft
+    effectiveDate: "[\uC2DC\uD589\uC77C]"
+    title: "\uC720\uB8CC\uC11C\uBE44\uC2A4 \uC57D\uAD00"
+    locale: ko
+    url: 
+    body: {fileID: 4900000, guid: 6392763de68d9481894e61a94824af84, type: 3}
+    required: 0
+    requireConsent: 0
+  - documentId: refund
+    version: 0.1.0-draft
+    effectiveDate: "[\uC2DC\uD589\uC77C]"
+    title: "\uCCAD\uC57D\uCCA0\uD68C \uBC0F \uD658\uBD88\uC815\uCC45"
+    locale: ko
+    url: 
+    body: {fileID: 4900000, guid: 5bb1c474477fb460b8c5a565e437192c, type: 3}
+    required: 0
+    requireConsent: 0
+  - documentId: probability
+    version: 0.1.0-draft
+    effectiveDate: "[\uC2DC\uD589\uC77C]"
+    title: "\uD655\uB960\uD615 \uC544\uC774\uD15C \uC548\uB0B4"
+    locale: ko
+    url: 
+    body: {fileID: 4900000, guid: 284b103c3c8854ff0b485fb5b906b2ee, type: 3}
+    required: 0
+    requireConsent: 0
+  - documentId: operation
+    version: 0.1.0-draft
+    effectiveDate: "[\uC2DC\uD589\uC77C]"
+    title: "\uC6B4\uC601\uC815\uCC45"
+    locale: ko
+    url: 
+    body: {fileID: 4900000, guid: 1e681066b4de84e0c8783c6e7bf0ba9d, type: 3}
+    required: 0
+    requireConsent: 0
+  - documentId: licenses
+    version: 0.1.0-draft
+    effectiveDate: "[\uC2DC\uD589\uC77C]"
+    title: "\uC624\uD508\uC18C\uC2A4 \uB77C\uC774\uC120\uC2A4"
+    locale: ko
+    url: 
+    body: {fileID: 4900000, guid: ee8412b3ab6004ccbbcadc7a3a65baea, type: 3}
+    required: 0
+    requireConsent: 0

@@ -10,6 +10,6 @@ namespace IanGame {
 }
 public sealed class ItemEvent {public string transactionId,itemId,kind,poolId,ruleId;public int amount;public bool isNew,duplicate;public EquipmentSlot slot;}
 public sealed class GachaResult {public string itemId,rarityId;public bool isNew,duplicate;public string[] pityRules;}
-public sealed class GachaBatch {public string transactionId,poolId;public int tickets,cash,material;public GachaResult[] results;}
-public sealed class GachaQuote {public int count,tickets,cash,material;public string reason;public bool CanPull=>reason==null;}
+public sealed class GachaBatch {public string transactionId,poolId;public int tickets,cash,material,ruby;public GachaResult[] results;}
+public sealed class GachaQuote {public int count,tickets,cash,material,ruby;public string reason;public bool CanPull=>reason==null;}
 }

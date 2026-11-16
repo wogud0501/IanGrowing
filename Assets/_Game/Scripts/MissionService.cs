@@ -82,7 +82,7 @@ public class MissionService:MonoBehaviour {
  public bool Claim(string id){
  if(!Ready||IsBusy||!EnabledForLife||game.State!=GameState.Playing||GameContext.Instance!=null&&GameContext.Instance.transitions.IsTransitioning)return false;var mission=catalog.missions.FirstOrDefault(m=>m!=null&&m.Id==id);
  if(mission==null||!state.completedMissionIds.Contains(id)||state.claimedMissionIds.Contains(id))return false;
- busy=true;try{string error;if(!MissionRewardService.TryGrant(mission,state,game.economy,game.growth,catalog.experiencePerLevel,out error)){game.Log(error);return false;}state.claimedMissionIds.Add(id);}
+ busy=true;try{string error;if(!MissionRewardService.TryGrant(mission,state,game.economy,game.growth,catalog.experiencePerLevel,out error)){game.Log(error);return false;}state.claimedMissionIds.Add(id);var ruby=ReleaseConfig.Current;int amount=ruby==null?0:ruby.Reward(RubySource.Mission,id);if(amount>0)game.economy.Ruby.Credit("milestone/mission/"+id,amount,0,RubySource.Mission,id);}
  finally{busy=false;}RewardClaimed?.Invoke(mission);Refresh();CheckpointRequested?.Invoke();return true;
  }
  public bool DeliverPending(string id,IPendingMissionRewardGateway gateway){if(IsBusy)return false;bool result;busy=true;try{result=MissionRewardService.TryDeliver(state,id,gateway);}finally{busy=false;}if(result){Changed?.Invoke();CheckpointRequested?.Invoke();}return result;}
