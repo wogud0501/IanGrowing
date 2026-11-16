@@ -59,3 +59,5 @@ iOS Archive/IPA: **BLOCKED — IOS DISTRIBUTION SIGNING CREDENTIALS REQUIRED**, 
 Play 종료, FamilyHome_IanBedroom, StandaloneOSX, 원래 fast-play 옵션 복원, 씬 dirty=false. 테스트 저장 보호 해제. [기존 플레이 세이브3개 최종 SHA-256 동일](SAVE_VERIFICATION.json), [Editor 상태](EDITOR_FINAL.json), [보호 해제](EDITOR_SAVE_GUARD_RELEASED.json). Build 산출물·개발 백업·서명 비밀은 Git에 포함하지 않습니다.
 
 MCP 서버 transport가 응답하지 않아 기존 프로젝트의 명시적 Editor 명령 브리지를 확장해 실제 Editor authoring/컴파일/Play/export를 수행했습니다. 미실행 테스트를 PASS로 대체하지 않았습니다.
+
+구현·검증 Git 체크포인트: `ce58c3c`. 기존 사용자 변경과 개발 백업은 이 커밋에 포함하지 않았습니다.
