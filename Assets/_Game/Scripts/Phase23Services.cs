@@ -47,7 +47,7 @@ public class Phase23Services:MonoBehaviour,IMissionFeatureSource,IPendingMission
  else Education.Complete(action,id,a);
  Game.missions.Refresh();Game.RefreshAvailability();
  }
- public bool HasItem(MissionItemKey item)=>Game.items!=null?Game.items.HasItem(item):Progress.owned.Contains(item);
+ public bool HasItem(MissionItemKey item)=>Game.items!=null&&(item==MissionItemKey.StarterHeadphones||item==MissionItemKey.StarterEquipment)?Game.items.HasItem(item):Progress.owned.Contains(item);
  public bool TryDeliver(PendingMissionReward reward){if(Game.items!=null)return Game.items.TryDeliver(reward);if(reward.kind!=PendingMissionRewardKind.Item||reward.item!=MissionItemKey.StarterHeadphones&&reward.item!=MissionItemKey.StarterEquipment)return false;if(!Progress.deliveryIds.Contains(reward.id)){Progress.deliveryIds.Add(reward.id);if(!Progress.owned.Contains(reward.item))Progress.owned.Add(reward.item);}return true;}
  public void DeliverStarterRewards(){if(Game.items!=null){Game.items.DeliverPending();return;}foreach(var r in Game.missions.State.pendingRewards.Where(r=>!r.delivered&&r.kind==PendingMissionRewardKind.Item))Game.missions.DeliverPending(r.id,this);}
  public void ResetLife(){Progress=new Phase23Snapshot();SelectedNpcId="classmate";SelectedCareerId="vocational";}

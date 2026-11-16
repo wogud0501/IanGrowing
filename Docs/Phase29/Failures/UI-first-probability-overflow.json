@@ -1,0 +1,37 @@
+{
+    "mode": "roomVisualItemsUI",
+    "stage": "Completed",
+    "failure": "",
+    "passed": [
+        "New life preserves newborn age and zero cash",
+        "Main menu Home routes to connected LifeWorld",
+        "Connected playable LifeWorld is active",
+        "DAY 1 birth introduction remains visible",
+        "Actual birth confirmation starts world controls",
+        "Existing room HUD has collection adapter",
+        "Newborn inventory explains lock; gacha navigation hidden",
+        "Isolated inventory UI fixture starter-headphones",
+        "Isolated inventory UI fixture starter-equipment",
+        "Isolated inventory UI fixture drink-water",
+        "Isolated inventory UI fixture desk-charm",
+        "Isolated inventory UI fixture costume-daily",
+        "Gacha owns existing input stack",
+        "Actual UI one-pull commits before reveal",
+        "Rapid input during reveal cannot start a second request",
+        "Actual reveal coroutine shows committed item",
+        "Results route to actual inventory screen",
+        "Inventory button equips actual slot and derived stats",
+        "UI disallows dismantling equipped duplicate",
+        "UI unequip restores raw stat without resetting model",
+        "UI one-duplicate dismantle changes real inventory/material",
+        "Inventory consume button executes model action",
+        "Actual UI ten-pull generates exact grid batch",
+        "Fast reveal completes ten cards without reroll",
+        "Probability screen uses base and effective-next pool data",
+        "Closing new screens restores world control",
+        "First-use guide seen uses existing saved guide service"
+    ],
+    "uiIssues": [
+        "Probabilities / Content text / 기본 확률 · 현재 연령의 실제 Pool 데이터\n\n스타터 헤드폰  10%\n유선의 평화  10%\n스타터 장비  10%\n생수 캔  30%\n중고의 위로  8.333%\n책상 부적  8.333%\n따뜻한 차  8.333%\n집중 모드  2.5%\n월급 배지  2.5%\n퇴근 전 커피  2.5%\n이안의 기본 복장  2.5%\n정적의 퇴근길  2%\n야근 방호구  2%\n세상 음소거  0.5%\n마감 생존 키트  0.5%\n\n다음 1회의 확률 (천장 반영)\n\n스타터 헤드폰  10%\n유선의 평화  10%\n스타터 장비  10%\n생수 캔  30%\n중고의 위로  8.333%\n책상 부적  8.333%\n따뜻한 차  8.333%\n집중 모드  2.5%\n월급 배지  2.5%\n퇴근 전 커피  2.5%\n이안의 기본 복장  2.5%\n정적의 퇴근길  2%\n야근 방호구  2%\n세상 음소거  0.5%\n마감 생존 키트  0.5%\n\n겹친 천장은 결과 한 개에 가장 강한 보장을 적용합니다. 각 주기는 독립적으로 반복됩니다."
+    ]
+}

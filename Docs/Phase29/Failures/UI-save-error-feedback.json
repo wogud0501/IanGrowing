@@ -1,0 +1,14 @@
+{
+    "mode": "roomVisualItemsFailureUI",
+    "stage": "Failed",
+    "failure": "System.Exception: Existing HUD explains failed save after safe world/input restore\n  at IanGame.Editor.Phase26Verification.Check (System.Boolean condition, System.String text) [0x00021] in /Users/hyunwol/IanGrowing/Assets/_Game/Scripts/Development/Phase26Verification.cs:35 \n  at IanGame.Editor.Phase29Verification+<FailureUI>d__1.MoveNext () [0x001c1] in /Users/hyunwol/IanGrowing/Assets/_Game/Scripts/Development/Phase29Verification.cs:11 \n  at IanGame.Editor.Phase26Verification+<Run>d__31.MoveNext () [0x001e0] in /Users/hyunwol/IanGrowing/Assets/_Game/Scripts/Development/Phase26Verification.cs:45 ",
+    "passed": [
+        "New life preserves newborn age and zero cash",
+        "Main menu Home routes to connected LifeWorld",
+        "Connected playable LifeWorld is active",
+        "DAY 1 birth introduction remains visible",
+        "Actual birth confirmation starts world controls",
+        "UI failed save rolls back real currency, inventory and pity"
+    ],
+    "uiIssues": []
+}

@@ -8,7 +8,7 @@ namespace IanGame {
 public sealed class ItemService:MonoBehaviour,IMissionFeatureSource,IPendingMissionRewardGateway {
  public string LastFailure{get;private set;}
  public ItemCatalog catalog;public GameManager Game{get;private set;}
- ItemProgressSnapshot state=new ItemProgressSnapshot();bool busy,pending;float retry;
+ ItemProgressSnapshot state=new ItemProgressSnapshot();bool busy,pending,unlockGuide;float retry;
  readonly List<ItemEvent> events=new List<ItemEvent>();
  public InventoryService Inventory{get;private set;}public EquipmentService Equipment{get;private set;}public GachaService Gacha{get;private set;}
  public MissionFeature Features=>MissionFeature.Gacha|MissionFeature.Equipment;
@@ -22,9 +22,9 @@ public sealed class ItemService:MonoBehaviour,IMissionFeatureSource,IPendingMiss
  internal ItemProgressSnapshot Model=>state;
  public void Configure(GameManager game){Game=game;if(catalog==null)catalog=Resources.Load<ItemCatalog>("IanCollection");Inventory=new InventoryService(this);Equipment=new EquipmentService(this);Gacha=new GachaService(this);game.missions.RegisterSource(this);game.missions.RewardClaimed+=Reward;game.growth.Changed+=AgeChanged;}
  void OnDestroy(){if(Game==null)return;Game.missions.UnregisterSource(this);Game.missions.RewardClaimed-=Reward;Game.growth.Changed-=AgeChanged;}
- void AgeChanged(){Equipment?.RefreshModifiers();if(Unlocked&&!state.unlocked){state.unlocked=true;pending=true;}Changed?.Invoke();}
+ void AgeChanged(){Equipment?.RefreshModifiers();if(Unlocked&&!state.unlocked){state.unlocked=true;pending=true;unlockGuide=true;}Changed?.Invoke();}
  void Reward(MissionData unused){pending=true;}
- void LateUpdate(){if(!pending||Time.unscaledTime<retry||Game==null||Game.State!=GameState.Playing||Game.BirthIntroductionPending||Game.world.Busy||Game.missions.IsBusy)return;retry=Time.unscaledTime+5;DeliverPending();}
+ void LateUpdate(){if(unlockGuide&&Game!=null&&Game.State==GameState.Playing&&Unlocked&&!Game.BirthIntroductionPending){unlockGuide=false;if(!Game.world.City.Seen("items/unlocked")){Game.world.City.MarkGuide("items/unlocked");Game.Log("수집 기능이 열렸습니다. 가방에서 장비와 가챠를 살펴보세요.");}}if(!pending||Time.unscaledTime<retry||Game==null||Game.State!=GameState.Playing||Game.BirthIntroductionPending||Game.world.Busy||Game.missions.IsBusy)return;retry=Time.unscaledTime+5;DeliverPending();}
  internal bool CanUse(out string reason){reason=catalog==null?"아이템 데이터가 연결되지 않았습니다.":Game.State!=GameState.Playing||Game.BirthIntroductionPending?"정상 플레이 상태에서 이용하세요.":!Unlocked?catalog.unlockAge+"세부터 수집 기능을 이용할 수 있습니다.":GameContext.Instance!=null&&GameContext.Instance.transitions.IsTransitioning||Game.world.Busy||Game.idle.State.active?"현재 행동 또는 이동을 먼저 마쳐 주세요.":null;return reason==null;}
  internal bool Transaction(string receipt,Func<bool> mutation,out string reason,bool requireUnlock=true){
   reason=null;if(busy||string.IsNullOrWhiteSpace(receipt)||receipt.Length>160||state.receipts.Contains(receipt)||state.receipts.Count>=65536){reason="처리 중이거나 이미 처리된 요청입니다.";return false;}
@@ -44,8 +44,8 @@ public sealed class ItemService:MonoBehaviour,IMissionFeatureSource,IPendingMiss
  internal void Queue(string kind,string id,string receipt,int amount=1,EquipmentSlot slot=EquipmentSlot.Equipment){events.Add(new ItemEvent{kind=kind,itemId=id,transactionId=receipt,amount=amount,slot=slot});}
  internal void QueuePity(ItemEvent value){events.Add(value);}
  internal void Signal(string receipt,MissionCounter counter,long amount=1){ActivityProduced?.Invoke(new MissionActivityEvent{id=receipt,counter=counter,amount=amount});}
- void Publish(ItemEvent e){try{switch(e.kind){case "acquired":ItemAcquired?.Invoke(e);CollectionUpdated?.Invoke(e);if(e.isNew){NewItemDiscovered?.Invoke(e);AudioRequested?.Invoke("NewItem");}if(e.duplicate){DuplicateAcquired?.Invoke(e);AudioRequested?.Invoke("Duplicate");}break;case "equip":ItemEquipped?.Invoke(e);AudioRequested?.Invoke("Equip");NotifyAppearance();break;case "unequip":ItemUnequipped?.Invoke(e);AudioRequested?.Invoke("Unequip");NotifyAppearance();break;case "dismantle":ItemDismantled?.Invoke(e);AudioRequested?.Invoke("Dismantle");break;case "pity":PityReached?.Invoke(e);AudioRequested?.Invoke("PityReached");break;}}catch(Exception ex){Debug.LogWarning("Item subscriber: "+ex.Message);}}
- internal void PublishBatch(GachaBatch batch){AudioRequested?.Invoke("GachaStart");if(batch.results.Length==1)GachaPulled?.Invoke(batch);else GachaMultiPulled?.Invoke(batch);}
+ void Publish(ItemEvent e){try{switch(e.kind){case "acquired":ItemAcquired?.Invoke(e);CollectionUpdated?.Invoke(e);if(e.isNew){NewItemDiscovered?.Invoke(e);AudioRequested?.Invoke("NewItem");}if(e.duplicate){DuplicateAcquired?.Invoke(e);AudioRequested?.Invoke("Duplicate");if(!Game.world.City.Seen("items/duplicate")){Game.world.City.MarkGuide("items/duplicate");Game.Log("이미 발견한 아이템입니다. 가방에서 중복을 분해할 수 있습니다.");}}break;case "equip":ItemEquipped?.Invoke(e);AudioRequested?.Invoke("Equip");NotifyAppearance();break;case "unequip":ItemUnequipped?.Invoke(e);AudioRequested?.Invoke("Unequip");NotifyAppearance();break;case "dismantle":ItemDismantled?.Invoke(e);AudioRequested?.Invoke("Dismantle");break;case "pity":PityReached?.Invoke(e);AudioRequested?.Invoke("PityReached");break;}}catch(Exception ex){Debug.LogWarning("Item subscriber: "+ex.Message);}}
+ internal void PublishBatch(GachaBatch batch){try{AudioRequested?.Invoke("GachaStart");if(batch.results.Length==1)GachaPulled?.Invoke(batch);else GachaMultiPulled?.Invoke(batch);}catch(Exception ex){Debug.LogWarning("Gacha subscriber: "+ex.Message);}}
  public void Reveal(GachaResult result){AudioRequested?.Invoke("GachaReveal");if(catalog.Rarity(result.rarityId).rank>=3)AudioRequested?.Invoke("RareReveal");}
  void NotifyAppearance(){AppearanceChanged?.Invoke(catalog.Item(Equipment.Current(EquipmentSlot.Headphone))?.appearanceId,catalog.Item(Equipment.Current(EquipmentSlot.Cosmetic))?.appearanceId);}
  public bool HasItem(MissionItemKey key)=>Inventory!=null&&Inventory.Count(LegacyId(key))>0;
@@ -58,7 +58,7 @@ public sealed class ItemService:MonoBehaviour,IMissionFeatureSource,IPendingMiss
  }
  public ItemProgressSnapshot Capture()=>JsonUtility.FromJson<ItemProgressSnapshot>(JsonUtility.ToJson(state));
  public void ResetLife(){state=new ItemProgressSnapshot();pending=false;events.Clear();Equipment?.RefreshModifiers();Changed?.Invoke();NotifyAppearance();}
- public void Restore(ItemProgressSnapshot value){state=value==null?new ItemProgressSnapshot():JsonUtility.FromJson<ItemProgressSnapshot>(JsonUtility.ToJson(value));events.Clear();if(value==null&&catalog!=null){foreach(var key in Game.phase23.Progress.owned){var id=LegacyId(key);if(id!=null&&Inventory.Count(id)==0)Add(id,1,"legacy",true);}foreach(var key in Game.phase23.Progress.equipped){var id=LegacyId(key);var item=catalog.Item(id);if(item!=null&&Inventory.Count(id)>0&&!state.equipment.Any(e=>e.slot==item.equipmentSlot))state.equipment.Add(new EquipmentEntry{slot=item.equipmentSlot,itemId=id});}StarterEntitlements(true);}state.unlocked|=Unlocked;Equipment.RefreshModifiers();pending=value==null&&Unlocked||Game.missions.State.pendingRewards.Any(r=>!r.delivered);Changed?.Invoke();NotifyAppearance();}
+ public void Restore(ItemProgressSnapshot value){Gacha?.ClearResult();state=value==null?new ItemProgressSnapshot():JsonUtility.FromJson<ItemProgressSnapshot>(JsonUtility.ToJson(value));events.Clear();if(value==null&&catalog!=null){foreach(var key in Game.phase23.Progress.owned){var id=LegacyId(key);if(id!=null&&Inventory.Count(id)==0)Add(id,1,"legacy",true);}foreach(var key in Game.phase23.Progress.equipped){var id=LegacyId(key);var item=catalog.Item(id);if(item!=null&&Inventory.Count(id)>0&&!state.equipment.Any(e=>e.slot==item.equipmentSlot))state.equipment.Add(new EquipmentEntry{slot=item.equipmentSlot,itemId=id});}StarterEntitlements(true);}state.unlocked|=Unlocked;unlockGuide=Unlocked;Equipment.RefreshModifiers();pending=value==null&&Unlocked||Game.missions.State.pendingRewards.Any(r=>!r.delivered);Changed?.Invoke();NotifyAppearance();}
  internal void SyncLegacy(){var p=Game.phase23.Progress;p.owned.RemoveAll(k=>k==MissionItemKey.StarterEquipment||k==MissionItemKey.StarterHeadphones);p.equipped.RemoveAll(k=>k==MissionItemKey.StarterEquipment||k==MissionItemKey.StarterHeadphones);foreach(var key in new[]{MissionItemKey.StarterHeadphones,MissionItemKey.StarterEquipment}){var id=LegacyId(key);if(Inventory.Count(id)>0)p.owned.Add(key);if(state.equipment.Any(e=>e.itemId==id))p.equipped.Add(key);}}
  internal IEnumerable<StatModifier> Modifiers=>state.equipment.Select(e=>catalog.Item(e.itemId)).Where(i=>i!=null&&Game.growth.Age>=i.minAge).SelectMany(i=>i.statModifiers);
  public float Apply(ModifierTarget target,float basis){var mods=Modifiers.Where(m=>m.stat==target);float add=mods.Where(m=>m.operation==ModifierOperation.Add).Sum(m=>m.value),percent=mods.Where(m=>m.operation==ModifierOperation.Percent).Sum(m=>m.value);return Mathf.Clamp(basis*(1+percent/100)+add,0,1000000);}
@@ -73,7 +73,7 @@ public sealed class ItemService:MonoBehaviour,IMissionFeatureSource,IPendingMiss
 }
 public sealed class InventoryService {
  readonly ItemService owner;internal InventoryService(ItemService s){owner=s;}
- public InventoryEntry[] Entries=>owner.Capture().inventory.ToArray();
+ public InventoryEntry[] Entries=>owner.Model.inventory.Select(e=>new InventoryEntry{itemId=e.itemId,count=e.count,isNew=e.isNew,acquired=e.acquired,firstDay=e.firstDay}).ToArray();
  public int Count(string id)=>owner.Model.inventory.FirstOrDefault(i=>i.itemId==id)?.count??0;
  public bool Discover(string id)=>owner.Model.inventory.Any(i=>i.itemId==id);
  public bool MarkSeen(string id,out string reason)=>owner.Transaction("seen/"+Guid.NewGuid().ToString("N"),()=>{var e=owner.Model.inventory.FirstOrDefault(i=>i.itemId==id);if(e==null||!e.isNew)return false;e.isNew=false;return true;},out reason,false);
@@ -83,6 +83,7 @@ public sealed class InventoryService {
 }
 public sealed class EquipmentService {
  readonly ItemService owner;internal EquipmentService(ItemService s){owner=s;}
+ public EquipmentEntry[] Entries=>owner.Model.equipment.Select(e=>new EquipmentEntry{slot=e.slot,itemId=e.itemId}).ToArray();
  public string Current(EquipmentSlot slot)=>owner.Model.equipment.FirstOrDefault(e=>e.slot==slot)?.itemId;
  public bool CanEquip(string id,out string reason){var d=owner.catalog?.Item(id);if(!owner.CanUse(out reason))return false;reason=d==null||!d.Wearable||owner.Inventory.Count(id)<1?"보유 장비를 선택하세요.":owner.Game.growth.Age<d.minAge?d.minAge+"세부터 사용할 수 있습니다.":Current(d.equipmentSlot)==id?"이미 장착했습니다.":null;return reason==null;}
  public bool Equip(string receipt,string id,out string reason){if(!CanEquip(id,out reason))return false;var d=owner.catalog.Item(id);return owner.Transaction(receipt,()=>{var old=Current(d.equipmentSlot);owner.Model.equipment.RemoveAll(e=>e.slot==d.equipmentSlot);if(old!=null)owner.Queue("unequip",old,receipt,1,d.equipmentSlot);owner.Model.equipment.Add(new EquipmentEntry{slot=d.equipmentSlot,itemId=id});owner.SyncLegacy();owner.Queue("equip",id,receipt,1,d.equipmentSlot);if(d.equipmentSlot!=EquipmentSlot.Cosmetic)owner.Signal(receipt+"/mission",d.equipmentSlot==EquipmentSlot.Headphone?MissionCounter.HeadphonesEquipped:MissionCounter.EquipmentEquipped);return true;},out reason);}

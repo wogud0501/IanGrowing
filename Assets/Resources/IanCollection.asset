@@ -23,7 +23,7 @@ MonoBehaviour:
     rarityId: common
     appearanceId: starter-headphones
     itemType: 0
-    icon: {fileID: 21300000, guid: df767c7508174834698713d4d981ee88, type: 3}
+    icon: {fileID: 21300000, guid: e040ef5ba05114a8e8266fe1f22123db, type: 3}
     appearanceSprite: {fileID: 0}
     stackable: 1
     isConsumable: 0
@@ -34,6 +34,7 @@ MonoBehaviour:
     sellValue: 0
     dismantleValue: 1
     minAge: 13
+    appearanceFrames: []
     equipmentSlot: 0
     statModifiers:
     - stat: 4
@@ -55,7 +56,7 @@ MonoBehaviour:
     rarityId: common
     appearanceId: headphone-wired
     itemType: 0
-    icon: {fileID: 21300000, guid: df767c7508174834698713d4d981ee88, type: 3}
+    icon: {fileID: 21300000, guid: 70489ac4ddfe049d9ad61d79d30a00af, type: 3}
     appearanceSprite: {fileID: 0}
     stackable: 1
     isConsumable: 0
@@ -66,6 +67,7 @@ MonoBehaviour:
     sellValue: 0
     dismantleValue: 1
     minAge: 13
+    appearanceFrames: []
     equipmentSlot: 0
     statModifiers:
     - stat: 4
@@ -87,7 +89,7 @@ MonoBehaviour:
     rarityId: uncommon
     appearanceId: headphone-used
     itemType: 0
-    icon: {fileID: 21300000, guid: df767c7508174834698713d4d981ee88, type: 3}
+    icon: {fileID: 21300000, guid: d3fdab548711a44f48f2f9cbc8bc3847, type: 3}
     appearanceSprite: {fileID: 0}
     stackable: 1
     isConsumable: 0
@@ -98,6 +100,7 @@ MonoBehaviour:
     sellValue: 0
     dismantleValue: 1
     minAge: 13
+    appearanceFrames: []
     equipmentSlot: 0
     statModifiers:
     - stat: 2
@@ -122,7 +125,7 @@ MonoBehaviour:
     rarityId: rare
     appearanceId: headphone-focus
     itemType: 0
-    icon: {fileID: 21300000, guid: df767c7508174834698713d4d981ee88, type: 3}
+    icon: {fileID: 21300000, guid: adf0971cac7a04f1bacb25d16cded795, type: 3}
     appearanceSprite: {fileID: 0}
     stackable: 1
     isConsumable: 0
@@ -133,6 +136,7 @@ MonoBehaviour:
     sellValue: 0
     dismantleValue: 1
     minAge: 13
+    appearanceFrames: []
     equipmentSlot: 0
     statModifiers:
     - stat: 4
@@ -157,7 +161,7 @@ MonoBehaviour:
     rarityId: epic
     appearanceId: headphone-quiet
     itemType: 0
-    icon: {fileID: 21300000, guid: df767c7508174834698713d4d981ee88, type: 3}
+    icon: {fileID: 21300000, guid: d9f0666040ec146c6af7f6e4aedc2659, type: 3}
     appearanceSprite: {fileID: 0}
     stackable: 1
     isConsumable: 0
@@ -168,6 +172,7 @@ MonoBehaviour:
     sellValue: 0
     dismantleValue: 1
     minAge: 13
+    appearanceFrames: []
     equipmentSlot: 0
     statModifiers:
     - stat: 4
@@ -192,7 +197,7 @@ MonoBehaviour:
     rarityId: legendary
     appearanceId: headphone-silence
     itemType: 0
-    icon: {fileID: 21300000, guid: df767c7508174834698713d4d981ee88, type: 3}
+    icon: {fileID: 21300000, guid: a9f7ee1736f7749a19da7ed1a628e1bc, type: 3}
     appearanceSprite: {fileID: 0}
     stackable: 1
     isConsumable: 0
@@ -203,6 +208,7 @@ MonoBehaviour:
     sellValue: 0
     dismantleValue: 1
     minAge: 13
+    appearanceFrames: []
     equipmentSlot: 0
     statModifiers:
     - stat: 4
@@ -241,6 +247,7 @@ MonoBehaviour:
     sellValue: 0
     dismantleValue: 1
     minAge: 13
+    appearanceFrames: []
     equipmentSlot: 1
     statModifiers:
     - stat: 3
@@ -273,6 +280,7 @@ MonoBehaviour:
     sellValue: 0
     dismantleValue: 1
     minAge: 13
+    appearanceFrames: []
     equipmentSlot: 1
     statModifiers:
     - stat: 2
@@ -305,6 +313,7 @@ MonoBehaviour:
     sellValue: 0
     dismantleValue: 1
     minAge: 13
+    appearanceFrames: []
     equipmentSlot: 1
     statModifiers:
     - stat: 9
@@ -337,6 +346,7 @@ MonoBehaviour:
     sellValue: 0
     dismantleValue: 1
     minAge: 13
+    appearanceFrames: []
     equipmentSlot: 1
     statModifiers:
     - stat: 3
@@ -372,6 +382,7 @@ MonoBehaviour:
     sellValue: 0
     dismantleValue: 1
     minAge: 13
+    appearanceFrames: []
     equipmentSlot: 1
     statModifiers:
     - stat: 11
@@ -410,6 +421,7 @@ MonoBehaviour:
     sellValue: 0
     dismantleValue: 1
     minAge: 0
+    appearanceFrames: []
     equipmentSlot: 1
     statModifiers: []
     recovery:
@@ -439,6 +451,7 @@ MonoBehaviour:
     sellValue: 0
     dismantleValue: 1
     minAge: 0
+    appearanceFrames: []
     equipmentSlot: 1
     statModifiers: []
     recovery:
@@ -468,6 +481,7 @@ MonoBehaviour:
     sellValue: 0
     dismantleValue: 1
     minAge: 0
+    appearanceFrames: []
     equipmentSlot: 1
     statModifiers: []
     recovery:
@@ -486,7 +500,7 @@ MonoBehaviour:
     rarityId: rare
     appearanceId: ian/official-default
     itemType: 3
-    icon: {fileID: 21300000, guid: 51aeed96fb6a98448a61fa1be86a7b6e, type: 3}
+    icon: {fileID: 21300000, guid: eacd67f21f2f84f188e4e528cacdd41f, type: 3}
     appearanceSprite: {fileID: 0}
     stackable: 1
     isConsumable: 0
@@ -497,6 +511,7 @@ MonoBehaviour:
     sellValue: 0
     dismantleValue: 1
     minAge: 0
+    appearanceFrames: []
     equipmentSlot: 2
     statModifiers: []
     recovery:
@@ -515,7 +530,7 @@ MonoBehaviour:
     rarityId: common
     appearanceId: 
     itemType: 5
-    icon: {fileID: 21300000, guid: 51aeed96fb6a98448a61fa1be86a7b6e, type: 3}
+    icon: {fileID: 21300000, guid: d1d0fa127803c4af193181caab0e5aba, type: 3}
     appearanceSprite: {fileID: 0}
     stackable: 1
     isConsumable: 0
@@ -526,6 +541,7 @@ MonoBehaviour:
     sellValue: 0
     dismantleValue: 1
     minAge: 0
+    appearanceFrames: []
     equipmentSlot: 1
     statModifiers: []
     recovery:
@@ -544,7 +560,7 @@ MonoBehaviour:
     rarityId: common
     appearanceId: 
     itemType: 4
-    icon: {fileID: 21300000, guid: 51aeed96fb6a98448a61fa1be86a7b6e, type: 3}
+    icon: {fileID: 21300000, guid: ae7fd7c24fa5c4e8184898a67caed205, type: 3}
     appearanceSprite: {fileID: 0}
     stackable: 1
     isConsumable: 0
@@ -555,6 +571,7 @@ MonoBehaviour:
     sellValue: 0
     dismantleValue: 1
     minAge: 0
+    appearanceFrames: []
     equipmentSlot: 1
     statModifiers: []
     recovery:

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 namespace IanGame {
 public sealed class GachaService {
  readonly ItemService owner;readonly Random random=new Random();public GachaBatch LastBatch{get;private set;}
+ internal void ClearResult(){LastBatch=null;}
  internal GachaService(ItemService service){owner=service;}
  #if UNITY_EDITOR || DEVELOPMENT_BUILD
  Func<double> testRoll;public bool SetTestRoll(Func<double> source){string slot=System.IO.Path.GetFileName(owner.Game.saves.BasePath);if(!slot.StartsWith("qa-")&&!slot.StartsWith("phase26-"))return false;testRoll=source;return true;}
@@ -14,11 +15,11 @@ public sealed class GachaService {
  #endif
   return random.NextDouble();
  }
- public PoolProgress Progress(string id)=>owner.Capture().pools.FirstOrDefault(p=>p.poolId==id)??new PoolProgress{poolId=id};
+ public PoolProgress Progress(string id){var p=owner.Model.pools.FirstOrDefault(p=>p.poolId==id);return p==null?new PoolProgress{poolId=id}:new PoolProgress{poolId=p.poolId,total=p.total,pity=p.pity.Select(r=>new PityProgress{ruleId=r.ruleId,progress=r.progress,reached=r.reached,applied=r.applied}).ToList()};}
  public GachaQuote Quote(string poolId,int count,bool material=false){var q=new GachaQuote{count=count};if(!owner.CanUse(out q.reason))return q;var p=owner.catalog.Pool(poolId);q.reason=owner.catalog.Validate();if(q.reason!=null)return q;if(p==null||count!=1&&count!=10){q.reason="Pool 또는 뽑기 수량을 확인하세요.";return q;}if(owner.Game.growth.Age<p.minAge){q.reason=p.minAge+"세부터 이용할 수 있습니다.";return q;}
   if(Progress(poolId).total>1000000000-count){q.reason="누적 횟수 한도에 도달했습니다.";return q;}
   if(material){long cost=(long)p.materialCost*count;if(cost>int.MaxValue||owner.Inventory.Count(p.materialItemId)<cost){q.reason="수집 조각이 부족합니다.";return q;}q.material=(int)cost;}
-  else{q.tickets=p.ticketFirst?Math.Min(count,owner.Inventory.Count(p.ticketItemId)):0;long cash=(long)(count-q.tickets)*p.costAmount;if(cash>int.MaxValue||!owner.Game.economy.CanAfford((int)cash)){q.reason="가챠권 또는 인게임 현금이 부족합니다.";return q;}q.cash=(int)cash;}
+  else{q.tickets=p.ticketFirst?Math.Min(count,owner.Inventory.Count(p.ticketItemId)):0;long cash=(long)(count-q.tickets)*p.costAmount;if(cash>int.MaxValue){q.reason="결제 금액 한도입니다.";return q;}q.cash=(int)cash;if(!owner.Game.economy.CanAfford(q.cash)){q.reason="가챠권 또는 인게임 현금이 부족합니다.";return q;}}
   if(p.availableItems.Where(e=>owner.catalog.Item(e.itemId).minAge<=owner.Game.growth.Age).Any(e=>(long)owner.Inventory.Count(e.itemId)+count>owner.catalog.Item(e.itemId).maxStack))q.reason="보관 한도에 도달한 아이템을 먼저 정리하세요.";return q;
  }
  PoolProgress MutableProgress(string id){var p=owner.Model.pools.FirstOrDefault(p=>p.poolId==id);if(p==null){p=new PoolProgress{poolId=id};owner.Model.pools.Add(p);}return p;}
@@ -41,7 +42,7 @@ public sealed class GachaService {
    for(int i=0;i<count;i++){
     progress.total++;var reached=new List<PityRule>();foreach(var rule in pool.pityRules){var s=Pity(progress,rule);s.progress++;if(s.progress>=rule.threshold&&(rule.reset!=PityReset.Never||s.reached==0)){s.reached++;reached.Add(rule);}}
     string id=Pick(Distribution(pool,reached.ToArray()));var item=owner.catalog.Item(id);bool first=!owner.Inventory.Discover(id);if(!owner.Add(id,1,receipt+"/draw/"+i))return false;
-    foreach(var rule in pool.pityRules){var s=Pity(progress,rule);if(reached.Contains(rule)){s.applied++;var e=new ItemEvent{kind="pity",itemId=id,poolId=poolId,ruleId=rule.id,amount=rule.threshold,transactionId=receipt+"/pity/"+i+"/"+rule.id};owner.QueuePity(e);if(rule.reset==PityReset.Threshold)s.progress=0;}
+    foreach(var rule in pool.pityRules){var s=Pity(progress,rule);if(reached.Contains(rule)){s.applied++;var e=new ItemEvent{kind="pity",itemId=id,poolId=poolId,ruleId=rule.id,amount=1,transactionId=receipt+"/pity/"+i+"/"+rule.id};owner.QueuePity(e);if(rule.reset==PityReset.Threshold)s.progress=0;}
      if(rule.reset==PityReset.MatchingDrop&&(!string.IsNullOrEmpty(rule.guaranteedItem)?rule.guaranteedItem==id:!string.IsNullOrEmpty(rule.minimumRarityId)&&owner.catalog.Rarity(item.rarityId).rank>=owner.catalog.Rarity(rule.minimumRarityId).rank))s.progress=0;
     }
     output.Add(new GachaResult{itemId=id,rarityId=item.rarityId,isNew=first,duplicate=!first,pityRules=reached.Select(r=>r.id).ToArray()});
