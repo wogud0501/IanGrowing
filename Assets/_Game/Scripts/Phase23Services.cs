@@ -42,14 +42,14 @@ public class Phase23Services:MonoBehaviour,IMissionFeatureSource,IPendingMission
  if(action==9||action==18||action==19)Social.Complete(action,id,(SocialActivityData)a);
  else if(action==0)Work.Complete(id);
  else if(action>=20&&action<=23)Employment.Complete(action,id);
- else if(action==24||action==25){var item=action==24?MissionItemKey.StarterHeadphones:MissionItemKey.StarterEquipment;DeliverStarterRewards();if(!HasItem(item))TryDeliver(new PendingMissionReward{id="phase23/starter/"+item,kind=PendingMissionRewardKind.Item,item=item,amount=1});Progress.equipped.Add(item);Signal(id,a.missionEvent);}
+ else if(action==24||action==25){var item=action==24?MissionItemKey.StarterHeadphones:MissionItemKey.StarterEquipment;DeliverStarterRewards();if(!HasItem(item))TryDeliver(new PendingMissionReward{id="phase23/starter/"+item,kind=PendingMissionRewardKind.Item,item=item,amount=1});if(Game.items!=null)Game.items.Equipment.Equip(id,Game.items.LegacyId(item),out _);else{Progress.equipped.Add(item);Signal(id,a.missionEvent);}}
  else if(action==26){long amount=Math.Min(a.cost,Game.economy.Debt);Game.economy.RepayDebt(id+"/repay",amount);}
  else Education.Complete(action,id,a);
  Game.missions.Refresh();Game.RefreshAvailability();
  }
- public bool HasItem(MissionItemKey item)=>Progress.owned.Contains(item);
- public bool TryDeliver(PendingMissionReward reward){if(reward.kind!=PendingMissionRewardKind.Item||reward.item!=MissionItemKey.StarterHeadphones&&reward.item!=MissionItemKey.StarterEquipment)return false;if(!Progress.deliveryIds.Contains(reward.id)){Progress.deliveryIds.Add(reward.id);if(!Progress.owned.Contains(reward.item))Progress.owned.Add(reward.item);}return true;}
- public void DeliverStarterRewards(){foreach(var r in Game.missions.State.pendingRewards.Where(r=>!r.delivered&&r.kind==PendingMissionRewardKind.Item))Game.missions.DeliverPending(r.id,this);}
+ public bool HasItem(MissionItemKey item)=>Game.items!=null?Game.items.HasItem(item):Progress.owned.Contains(item);
+ public bool TryDeliver(PendingMissionReward reward){if(Game.items!=null)return Game.items.TryDeliver(reward);if(reward.kind!=PendingMissionRewardKind.Item||reward.item!=MissionItemKey.StarterHeadphones&&reward.item!=MissionItemKey.StarterEquipment)return false;if(!Progress.deliveryIds.Contains(reward.id)){Progress.deliveryIds.Add(reward.id);if(!Progress.owned.Contains(reward.item))Progress.owned.Add(reward.item);}return true;}
+ public void DeliverStarterRewards(){if(Game.items!=null){Game.items.DeliverPending();return;}foreach(var r in Game.missions.State.pendingRewards.Where(r=>!r.delivered&&r.kind==PendingMissionRewardKind.Item))Game.missions.DeliverPending(r.id,this);}
  public void ResetLife(){Progress=new Phase23Snapshot();SelectedNpcId="classmate";SelectedCareerId="vocational";}
  public Phase23Snapshot Capture()=>JsonUtility.FromJson<Phase23Snapshot>(JsonUtility.ToJson(Progress));
  public void Restore(Phase23Snapshot value){Progress=value==null?new Phase23Snapshot():JsonUtility.FromJson<Phase23Snapshot>(JsonUtility.ToJson(value));}

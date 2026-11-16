@@ -36,7 +36,7 @@ public class EmploymentService {
 }
 public class WorkActivityService {
  readonly Phase23Services owner;public WorkActivityService(Phase23Services value){owner=value;}
- public int Wage {get{var j=owner.Jobs.Current;return j==null?0:Math.Max(0,j.BaseDailyWage+owner.Progress.employment.rank*j.PromotionConditions.wageIncrease);}}
+ public int Wage {get{var j=owner.Jobs.Current;return j==null?0:(int)Math.Min(int.MaxValue,Math.Max(0,(long)j.BaseDailyWage+(long)owner.Progress.employment.rank*j.PromotionConditions.wageIncrease)*(double)(owner.Game.items?.Multiplier(ModifierTarget.WorkEfficiency)??1));}}
  internal void Complete(string id){if(!owner.Game.growth.EmploymentUnlocked)return;var p=owner.Progress.employment;if(p.work.Any(w=>w.id==id))return;var j=owner.Jobs.Current;
  var record=new WorkRecord{id=id,jobId=j.JobId,day=owner.Game.clock.Day,wage=Wage};p.work.Add(record);p.workCount++;p.experience+=j.ExperienceReward;
  owner.Signal(id+"/work",MissionCounter.Work);Pay(record.id);var events=j.SpecialEventIds;if(events!=null&&events.Length>0&&owner.Roll()<.25f)owner.Game.Log(events[Math.Min(events.Length-1,(int)(owner.Roll()*events.Length))]);owner.Employment.EvaluateDismissal(id);

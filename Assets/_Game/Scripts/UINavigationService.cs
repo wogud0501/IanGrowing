@@ -9,7 +9,7 @@ public class UINavigationService:MonoBehaviour {
  void Start(){if(openLocationAfterTransition){openLocationAfterTransition=false;if(locationPanel!=null)stack.Push(locationPanel);}RefreshNavigation();}
  void RefreshNavigation(){if(navigation==null)return;bool major=stack.Top==null||stack.Top==lifePanel||stack.Top==growthPanel||stack.Top==activityPanel;navigation.interactable=major;navigation.blocksRaycasts=major;}
  public void Home(){if(GameContext.Instance!=null&&GameContext.Instance.transitions.IsTransitioning)return;CloseAll();if(GameContext.Instance!=null&&GameContext.Instance.transitions.CurrentScene!=SceneId.Home)GameContext.Instance.transitions.Navigate(SceneId.Home);}
- public void Life(){Major(lifePanel);}public void Growth(){Major(growthPanel);}public void Activity(){Major(activityPanel);}public void Menu(){stack.Push(menuPanel);}public void Inventory(){stack.Push(inventoryPanel);}public void Mission(){stack.Push(missionPanel);}
+ public void Life(){Major(lifePanel);}public void Growth(){Major(growthPanel);}public void Activity(){Major(activityPanel);}public void Menu(){stack.Push(menuPanel);}public void Inventory(){var items=GetComponent<CollectionUI>();if(items!=null){items.OpenInventory();return;}stack.Push(inventoryPanel);}public void Mission(){stack.Push(missionPanel);}
  public void GrowthTab(int tab){Major(growthPanel);growthTabs.Select(tab);}
  void Major(GameObject panel){if(GameContext.Instance!=null&&GameContext.Instance.transitions.IsTransitioning)return;if(stack.Top==panel)return;CloseAll();stack.Push(panel);RefreshNavigation();}
  public void CloseAll(){while(stack.Depth>0){int before=stack.Depth;stack.Pop();if(stack.Depth==before)break;}}

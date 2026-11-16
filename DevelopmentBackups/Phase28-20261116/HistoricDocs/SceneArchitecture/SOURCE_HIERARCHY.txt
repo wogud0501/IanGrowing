@@ -1,0 +1,215 @@
+ROOT Game Canvas
+ROOT EventSystem
+ROOT ARCHIVE - 3D Elements (Inactive)
+ROOT Main Camera 2D
+ROOT 2D Stage
+ROOT Presentation Bindings
+ROOT Phase23 Scene UI
+ROOT LIFE WORLD / connected living district
+ROOT World key light
+ROOT Ian / official playable character
+이안의 집 / home pos=(0.00, 0.00, 0.00) children=5 types=Transform
+옥색 화장실 / bathroom pos=(40.00, 0.00, 0.00) children=5 types=Transform
+주거 골목 / alley pos=(80.00, 0.00, 0.00) children=5 types=Transform
+tree-alley-1 pos=(70.00, 6.00, 0.00) children=2 types=Transform,SpriteRenderer,BoxCollider2D,WorldInteractable
+tree-alley1 pos=(90.00, 6.00, 0.00) children=2 types=Transform,SpriteRenderer,BoxCollider2D,WorldInteractable
+lamp-alley pos=(70.00, -2.00, 0.00) children=2 types=Transform,SpriteRenderer,BoxCollider2D,WorldInteractable
+Night lamp glow pos=(70.00, 0.00, 0.00) children=0 types=Transform,SpriteRenderer
+도시 중심 / city pos=(130.00, 0.00, 0.00) children=5 types=Transform
+tree-city-1 pos=(116.00, 8.00, 0.00) children=2 types=Transform,SpriteRenderer,BoxCollider2D,WorldInteractable
+tree-city1 pos=(144.00, 8.00, 0.00) children=2 types=Transform,SpriteRenderer,BoxCollider2D,WorldInteractable
+lamp-city pos=(116.00, -2.00, 0.00) children=2 types=Transform,SpriteRenderer,BoxCollider2D,WorldInteractable
+Night lamp glow pos=(116.00, 0.00, 0.00) children=0 types=Transform,SpriteRenderer
+동네 상점 / shop pos=(180.00, 0.00, 0.00) children=18 types=Transform
+Workspace / workplace pos=(220.00, 0.00, 0.00) children=24 types=Transform
+배움터 / school pos=(260.00, 0.00, 0.00) children=17 types=Transform
+bed pos=(-4.75, 0.75, 0.00) children=7 types=Transform,SpriteRenderer,BoxCollider2D,WorldInteractable,WorldLifeAction
+fridge pos=(5.25, 1.25, 0.00) children=7 types=Transform,SpriteRenderer,BoxCollider2D,WorldInteractable,WorldLifeAction
+meal-table pos=(4.25, -1.80, 0.00) children=7 types=Transform,SpriteRenderer,BoxCollider2D,WorldInteractable,WorldLifeAction
+tap-home pos=(4.00, 1.25, 0.00) children=3 types=Transform,SpriteRenderer,BoxCollider2D,WorldInteractable
+closet pos=(-0.75, 1.25, 0.00) children=3 types=Transform,SpriteRenderer,BoxCollider2D,WorldInteractable
+home-chair pos=(4.25, -2.80, 0.00) children=3 types=Transform,SpriteRenderer,BoxCollider2D,WorldInteractable
+front-door pos=(0.00, -3.90, 0.00) children=7 types=Transform,SpriteRenderer,BoxCollider2D,WorldInteractable,WorldDoor
+bath-door pos=(1.00, 2.40, 0.00) children=7 types=Transform,SpriteRenderer,BoxCollider2D,WorldInteractable,WorldDoor
+bath-exit pos=(40.00, -2.60, 0.00) children=7 types=Transform,SpriteRenderer,BoxCollider2D,WorldInteractable,WorldDoor
+sink pos=(38.20, 0.40, 0.00) children=8 types=Transform,SpriteRenderer,BoxCollider2D,WorldInteractable,WorldLifeAction
+shower pos=(41.80, 0.25, 0.00) children=8 types=Transform,SpriteRenderer,BoxCollider2D,WorldInteractable,WorldLifeAction
+toilet pos=(40.00, 0.40, 0.00) children=7 types=Transform,SpriteRenderer,BoxCollider2D,WorldInteractable,WorldLifeAction
+house-entrance pos=(73.00, 4.00, 0.00) children=8 types=Transform,SpriteRenderer,BoxCollider2D,WorldInteractable,WorldDoor
+city-path pos=(89.00, -6.30, 0.00) children=2 types=Transform,SpriteRenderer,BoxCollider2D,WorldInteractable
+alley-path pos=(116.00, -7.20, 0.00) children=2 types=Transform,SpriteRenderer,BoxCollider2D,WorldInteractable
+shop-front pos=(122.00, 4.00, 0.00) children=8 types=Transform,SpriteRenderer,BoxCollider2D,WorldInteractable,WorldDoor
+office-front pos=(139.00, 4.00, 0.00) children=8 types=Transform,SpriteRenderer,BoxCollider2D,WorldInteractable,WorldDoor
+school-front pos=(130.00, 5.00, 0.00) children=8 types=Transform,SpriteRenderer,BoxCollider2D,WorldInteractable,WorldDoor
+city-bench pos=(134.30, -8.10, 0.00) children=2 types=Transform,SpriteRenderer,BoxCollider2D,WorldInteractable
+stock-terminal pos=(346.00, -2.40, 0.00) children=3 types=Transform,SpriteRenderer,BoxCollider2D,WorldInteractable
+counter pos=(174.60, 2.40, 0.00) children=2 types=Transform,SpriteRenderer,BoxCollider2D,WorldInteractable
+furniture-display pos=(174.40, -3.60, 0.00) children=2 types=Transform,SpriteRenderer,BoxCollider2D,WorldInteractable
+shop-exit pos=(180.00, -4.50, 0.00) children=6 types=Transform,SpriteRenderer,BoxCollider2D,WorldInteractable,WorldDoor
+workdesk pos=(226.00, -3.20, 0.00) children=3 types=Transform,SpriteRenderer,BoxCollider2D,WorldInteractable
+work-water pos=(226.00, 1.80, 0.00) children=3 types=Transform,SpriteRenderer,BoxCollider2D,WorldInteractable
+work-rest pos=(226.00, -0.80, 0.00) children=3 types=Transform,SpriteRenderer,BoxCollider2D,WorldInteractable
+work-exit pos=(222.80, -5.70, 0.00) children=6 types=Transform,SpriteRenderer,BoxCollider2D,WorldInteractable,WorldDoor
+study-desk pos=(265.80, 0.40, 0.00) children=2 types=Transform,SpriteRenderer,BoxCollider2D,WorldInteractable
+school-water pos=(253.40, 3.70, 0.00) children=2 types=Transform,SpriteRenderer,BoxCollider2D,WorldInteractable
+school-exit pos=(260.00, -4.50, 0.00) children=6 types=Transform,SpriteRenderer,BoxCollider2D,WorldInteractable,WorldDoor
+City avenue pos=(130.00, -4.00, 0.00) children=0 types=Transform,SpriteRenderer
+Central pedestrian street pos=(130.00, 1.00, 0.00) children=0 types=Transform,SpriteRenderer
+Road lane -5 pos=(118.00, -4.00, 0.00) children=0 types=Transform,SpriteRenderer
+Road lane -4 pos=(120.40, -4.00, 0.00) children=0 types=Transform,SpriteRenderer
+Road lane -3 pos=(122.80, -4.00, 0.00) children=0 types=Transform,SpriteRenderer
+Road lane -2 pos=(125.20, -4.00, 0.00) children=0 types=Transform,SpriteRenderer
+Road lane -1 pos=(127.60, -4.00, 0.00) children=0 types=Transform,SpriteRenderer
+Road lane 0 pos=(130.00, -4.00, 0.00) children=0 types=Transform,SpriteRenderer
+Road lane 1 pos=(132.40, -4.00, 0.00) children=0 types=Transform,SpriteRenderer
+Road lane 2 pos=(134.80, -4.00, 0.00) children=0 types=Transform,SpriteRenderer
+Road lane 3 pos=(137.20, -4.00, 0.00) children=0 types=Transform,SpriteRenderer
+Road lane 4 pos=(139.60, -4.00, 0.00) children=0 types=Transform,SpriteRenderer
+Road lane 5 pos=(142.00, -4.00, 0.00) children=0 types=Transform,SpriteRenderer
+Crosswalk -3 pos=(128.80, -4.00, 0.00) children=0 types=Transform,SpriteRenderer
+Crosswalk -2 pos=(129.20, -4.00, 0.00) children=0 types=Transform,SpriteRenderer
+Crosswalk -1 pos=(129.60, -4.00, 0.00) children=0 types=Transform,SpriteRenderer
+Crosswalk 0 pos=(130.00, -4.00, 0.00) children=0 types=Transform,SpriteRenderer
+Crosswalk 1 pos=(130.40, -4.00, 0.00) children=0 types=Transform,SpriteRenderer
+Crosswalk 2 pos=(130.80, -4.00, 0.00) children=0 types=Transform,SpriteRenderer
+Crosswalk 3 pos=(131.20, -4.00, 0.00) children=0 types=Transform,SpriteRenderer
+Sign board / 상점 07–23 pos=(122.00, 6.90, 0.00) children=0 types=Transform,SpriteRenderer
+World sign / 상점 07–23 pos=(122.00, 6.90, -0.10) children=0 types=RectTransform,MeshRenderer,TextMeshPro,MeshFilter
+Night window shop-front pos=(122.75, 6.80, 0.00) children=0 types=Transform,SpriteRenderer
+Sign board / Workspace pos=(139.00, 6.05, 0.00) children=0 types=Transform,SpriteRenderer
+World sign / Workspace pos=(139.00, 6.05, -0.10) children=0 types=RectTransform,MeshRenderer,TextMeshPro,MeshFilter
+Night window office-front pos=(139.75, 6.80, 0.00) children=0 types=Transform,SpriteRenderer
+Sign board / 배움터 pos=(130.00, 7.05, 0.00) children=0 types=Transform,SpriteRenderer
+World sign / 배움터 pos=(130.00, 7.05, -0.10) children=0 types=RectTransform,MeshRenderer,TextMeshPro,MeshFilter
+Night window school-front pos=(130.75, 7.80, 0.00) children=0 types=Transform,SpriteRenderer
+Sign board / 도시 중심 ↑ pos=(120.00, -1.00, 0.00) children=0 types=Transform,SpriteRenderer
+World sign / 도시 중심 ↑ pos=(120.00, -1.00, -0.10) children=0 types=RectTransform,MeshRenderer,TextMeshPro,MeshFilter
+Residential lane pos=(80.00, -3.50, 0.00) children=0 types=Transform,SpriteRenderer
+Sign board / 이안의 집 pos=(73.00, 2.80, 0.00) children=0 types=Transform,SpriteRenderer
+World sign / 이안의 집 pos=(73.00, 2.80, -0.10) children=0 types=RectTransform,MeshRenderer,TextMeshPro,MeshFilter
+Sign board / 도시 → pos=(86.00, -1.70, 0.00) children=0 types=Transform,SpriteRenderer
+World sign / 도시 → pos=(86.00, -1.70, -0.10) children=0 types=RectTransform,MeshRenderer,TextMeshPro,MeshFilter
+Improved residence / extra storage and desk pos=(0.00, 0.00, 0.00) children=2 types=Transform
+Owned furniture / persistent placements pos=(0.00, 0.00, 0.00) children=0 types=Transform
+npc-0 pos=(130.00, 0.00, 0.00) children=8 types=Transform,SpriteRenderer,WorldInteractable,WorldActorAnimation
+npc-1 pos=(133.00, 0.00, 0.00) children=3 types=Transform,SpriteRenderer,WorldInteractable,WorldActorAnimation
+Authored street life pos=(130.00, 0.00, 0.00) children=24 types=Transform,WorldStreetLife
+World effects pos=(0.00, 0.00, 0.00) children=0 types=Transform,AudioSource
+World ambience pos=(0.00, 0.00, 0.00) children=0 types=Transform,AudioSource
+kitchen-prep pos=(2.75, 1.25, 0.00) children=3 types=Transform,WorldInteractable,BoxCollider2D
+starter-desk pos=(-2.00, 1.50, 0.00) children=7 types=Transform,WorldInteractable,BoxCollider2D,WorldLifeAction
+writing-chair pos=(-2.00, 0.50, 0.00) children=3 types=Transform,WorldInteractable,BoxCollider2D
+bedside-table pos=(-3.25, 1.00, 0.00) children=3 types=Transform,WorldInteractable,BoxCollider2D
+entry-shoes pos=(1.25, -3.50, 0.00) children=3 types=Transform,WorldInteractable,BoxCollider2D
+kitchen-divider pos=(1.50, 0.50, 0.00) children=2 types=Transform,WorldInteractable,BoxCollider2D
+kitchen-shelf pos=(4.25, 2.80, 0.00) children=2 types=Transform,WorldInteractable,BoxCollider2D
+Visual Rebuild / authored home pos=(0.00, 0.00, 0.00) children=36 types=Transform
+living-settee pos=(-0.75, -2.25, 0.00) children=2 types=Transform,WorldInteractable,BoxCollider2D
+Visual Rebuild / authored home pos=(0.00, 0.00, 0.00) children=36 types=Transform
+Visual Rebuild / authored home pos=(0.00, 0.00, 0.00) children=36 types=Transform
+Visual Rebuild / authored home pos=(0.00, 0.00, 0.00) children=36 types=Transform
+Resident home interior pos=(310.00, 0.00, 0.00) children=7 types=Transform
+resident-bed-0 pos=(304.00, -3.00, 0.00) children=0 types=Transform,WorldInteractable,SpriteRenderer,BoxCollider2D
+resident-bed-1 pos=(308.00, -3.00, 0.00) children=0 types=Transform,WorldInteractable,SpriteRenderer,BoxCollider2D
+resident-bed-2 pos=(312.00, -3.00, 0.00) children=0 types=Transform,WorldInteractable,SpriteRenderer,BoxCollider2D
+resident-bed-3 pos=(316.00, -3.00, 0.00) children=0 types=Transform,WorldInteractable,SpriteRenderer,BoxCollider2D
+resident-bed-4 pos=(304.00, 0.00, 0.00) children=0 types=Transform,WorldInteractable,SpriteRenderer,BoxCollider2D
+resident-bed-5 pos=(308.00, 0.00, 0.00) children=0 types=Transform,WorldInteractable,SpriteRenderer,BoxCollider2D
+resident-bed-6 pos=(312.00, 0.00, 0.00) children=0 types=Transform,WorldInteractable,SpriteRenderer,BoxCollider2D
+resident-bed-7 pos=(316.00, 0.00, 0.00) children=0 types=Transform,WorldInteractable,SpriteRenderer,BoxCollider2D
+resident-bed-8 pos=(304.00, 3.00, 0.00) children=0 types=Transform,WorldInteractable,SpriteRenderer,BoxCollider2D
+resident-bed-9 pos=(308.00, 3.00, 0.00) children=0 types=Transform,WorldInteractable,SpriteRenderer,BoxCollider2D
+resident-bed-10 pos=(312.00, 3.00, 0.00) children=0 types=Transform,WorldInteractable,SpriteRenderer,BoxCollider2D
+resident-bed-11 pos=(316.00, 3.00, 0.00) children=0 types=Transform,WorldInteractable,SpriteRenderer,BoxCollider2D
+npc-residence-front pos=(87.00, 4.00, 0.00) children=6 types=Transform,WorldInteractable,SpriteRenderer,BoxCollider2D,WorldDoor
+resident-exit pos=(310.00, -5.70, 0.00) children=4 types=Transform,WorldInteractable,SpriteRenderer,WorldDoor
+cafe-table-0 pos=(182.00, -0.50, 0.00) children=5 types=Transform,WorldInteractable,SpriteRenderer,BoxCollider2D,WorldActivitySlot,WorldFacilityActivityPresentation
+cafe-table-1 pos=(185.80, -0.50, 0.00) children=5 types=Transform,WorldInteractable,SpriteRenderer,BoxCollider2D,WorldActivitySlot,WorldFacilityActivityPresentation
+cafe-table-2 pos=(182.00, -3.60, 0.00) children=5 types=Transform,WorldInteractable,SpriteRenderer,BoxCollider2D,WorldActivitySlot,WorldFacilityActivityPresentation
+cafe-table-3 pos=(185.80, -3.60, 0.00) children=5 types=Transform,WorldInteractable,SpriteRenderer,BoxCollider2D,WorldActivitySlot,WorldFacilityActivityPresentation
+City real estate agency pos=(386.00, -2.40, 0.00) children=3 types=Transform,SpriteRenderer,BoxCollider2D,WorldInteractable
+staff-desk-colleague pos=(214.40, 1.50, 0.00) children=2 types=Transform,WorldInteractable,BoxCollider2D,WorldActivitySlot,WorldWorkstationPresentation
+staff-desk-resident-0 pos=(218.80, 1.50, 0.00) children=2 types=Transform,WorldInteractable,BoxCollider2D,WorldActivitySlot,WorldWorkstationPresentation
+staff-desk-resident-1 pos=(214.40, -2.30, 0.00) children=2 types=Transform,WorldInteractable,BoxCollider2D,WorldActivitySlot,WorldWorkstationPresentation
+staff-desk-resident-3 pos=(347.00, 0.40, 0.00) children=2 types=Transform,WorldInteractable,BoxCollider2D,WorldActivitySlot,WorldWorkstationPresentation
+staff-desk-resident-4 pos=(352.50, 0.40, 0.00) children=2 types=Transform,WorldInteractable,BoxCollider2D,WorldActivitySlot,WorldWorkstationPresentation
+staff-desk-resident-5 pos=(218.80, -2.30, 0.00) children=2 types=Transform,WorldInteractable,BoxCollider2D,WorldActivitySlot,WorldWorkstationPresentation
+staff-desk-resident-6 pos=(223.20, 1.50, 0.00) children=2 types=Transform,WorldInteractable,BoxCollider2D,WorldActivitySlot,WorldWorkstationPresentation
+staff-desk-resident-8 pos=(387.00, 0.40, 0.00) children=2 types=Transform,WorldInteractable,BoxCollider2D,WorldActivitySlot,WorldWorkstationPresentation
+staff-desk-resident-9 pos=(392.50, 0.40, 0.00) children=2 types=Transform,WorldInteractable,BoxCollider2D,WorldActivitySlot,WorldWorkstationPresentation
+사무실 화장실 / office-bathroom pos=(430.00, 0.00, 0.00) children=7 types=Transform
+office-basin pos=(428.30, 0.50, 0.00) children=1 types=Transform,WorldInteractable,BoxCollider2D
+office-toilet pos=(431.70, 0.50, 0.00) children=1 types=Transform,WorldInteractable,BoxCollider2D
+office-bath-front pos=(227.80, 3.00, 0.00) children=6 types=Transform,SpriteRenderer,BoxCollider2D,WorldInteractable,WorldDoor
+office-bath-exit pos=(430.00, -3.20, 0.00) children=6 types=Transform,SpriteRenderer,BoxCollider2D,WorldInteractable,WorldDoor
+이안 증권 / finance pos=(350.00, 0.00, 0.00) children=14 types=Transform
+이안 부동산 / realestate pos=(390.00, 0.00, 0.00) children=14 types=Transform
+finance-front pos=(118.00, 0.80, 0.00) children=8 types=Transform,SpriteRenderer,BoxCollider2D,WorldInteractable,WorldDoor
+finance-exit pos=(350.00, -4.70, 0.00) children=6 types=Transform,SpriteRenderer,BoxCollider2D,WorldInteractable,WorldDoor
+realestate-front pos=(142.00, 0.80, 0.00) children=8 types=Transform,SpriteRenderer,BoxCollider2D,WorldInteractable,WorldDoor
+realestate-exit pos=(390.00, -4.70, 0.00) children=6 types=Transform,SpriteRenderer,BoxCollider2D,WorldInteractable,WorldDoor
+finance-waiting pos=(348.80, -3.00, 0.00) children=1 types=Transform,WorldInteractable,BoxCollider2D
+realestate-waiting pos=(388.80, -3.00, 0.00) children=1 types=Transform,WorldInteractable,BoxCollider2D
+Facility street signs pos=(130.00, 0.00, 0.00) children=4 types=Transform
+office-break-0 pos=(224.60, 0.00, 0.00) children=0 types=Transform,WorldInteractable,WorldActivitySlot
+office-break-1 pos=(227.20, 0.00, 0.00) children=0 types=Transform,WorldInteractable,WorldActivitySlot
+finance-staff-rest-0 pos=(353.50, -3.00, 0.00) children=5 types=Transform,WorldInteractable,BoxCollider2D,WorldActivitySlot,WorldFacilityActivityPresentation
+finance-staff-rest-1 pos=(354.00, -0.70, 0.00) children=1 types=Transform,WorldInteractable,BoxCollider2D,WorldActivitySlot
+realestate-staff-rest-0 pos=(393.50, -3.00, 0.00) children=5 types=Transform,WorldInteractable,BoxCollider2D,WorldActivitySlot,WorldFacilityActivityPresentation
+realestate-staff-rest-1 pos=(394.00, -0.70, 0.00) children=1 types=Transform,WorldInteractable,BoxCollider2D,WorldActivitySlot
+finance-consultation-point pos=(347.00, -0.60, 0.00) children=3 types=Transform,WorldInteractable,WorldActivitySlot
+realestate-consultation-point pos=(387.00, -0.60, 0.00) children=3 types=Transform,WorldInteractable,WorldActivitySlot
+teacher-lectern pos=(260.00, 1.40, 0.00) children=5 types=Transform,WorldInteractable,BoxCollider2D,WorldActivitySlot,WorldFacilityActivityPresentation
+school-seat-0 pos=(256.60, -1.10, 0.00) children=5 types=Transform,WorldInteractable,BoxCollider2D,WorldActivitySlot,WorldFacilityActivityPresentation
+school-seat-1 pos=(261.30, -1.10, 0.00) children=5 types=Transform,WorldInteractable,BoxCollider2D,WorldActivitySlot,WorldFacilityActivityPresentation
+school-seat-2 pos=(256.60, -3.70, 0.00) children=5 types=Transform,WorldInteractable,BoxCollider2D,WorldActivitySlot,WorldFacilityActivityPresentation
+school-seat-3 pos=(264.70, -3.70, 0.00) children=5 types=Transform,WorldInteractable,BoxCollider2D,WorldActivitySlot,WorldFacilityActivityPresentation
+teacher-board-point pos=(257.60, 2.00, 0.00) children=3 types=Transform,WorldInteractable,WorldActivitySlot
+school-break-0 pos=(254.40, -0.60, 0.00) children=3 types=Transform,WorldInteractable,WorldActivitySlot
+school-break-1 pos=(260.00, 0.10, 0.00) children=3 types=Transform,WorldInteractable,WorldActivitySlot
+school-teacher pos=(318.00, -3.00, 0.00) children=3 types=Transform,SpriteRenderer,WorldInteractable,WorldActorAnimation
+school-teacher-bed pos=(318.00, -3.00, 0.00) children=1 types=Transform,WorldInteractable,BoxCollider2D
+school-pupil pos=(318.00, 3.00, 0.00) children=4 types=Transform,SpriteRenderer,WorldInteractable,WorldActorAnimation
+school-pupil-bed pos=(318.00, 3.00, 0.00) children=1 types=Transform,WorldInteractable,BoxCollider2D
+shop-staff-counter pos=(174.60, 2.40, 0.00) children=5 types=Transform,WorldInteractable,BoxCollider2D,WorldActivitySlot,WorldFacilityActivityPresentation
+shop-browse-0 pos=(172.60, -0.90, 0.00) children=3 types=Transform,WorldInteractable,WorldActivitySlot
+shop-browse-1 pos=(174.40, -0.90, 0.00) children=3 types=Transform,WorldInteractable,WorldActivitySlot
+shop-browse-2 pos=(176.20, -0.90, 0.00) children=3 types=Transform,WorldInteractable,WorldActivitySlot
+shop-browse-3 pos=(172.60, -2.10, 0.00) children=3 types=Transform,WorldInteractable,WorldActivitySlot
+shop-browse-4 pos=(174.40, -2.10, 0.00) children=3 types=Transform,WorldInteractable,WorldActivitySlot
+shop-browse-5 pos=(176.20, -2.10, 0.00) children=3 types=Transform,WorldInteractable,WorldActivitySlot
+shop-clerk pos=(318.00, 0.00, 0.00) children=5 types=Transform,SpriteRenderer,WorldInteractable,WorldActorAnimation
+shop-clerk-bed pos=(318.00, 0.00, 0.00) children=1 types=Transform,WorldInteractable,BoxCollider2D
+부모님 집 / family-home pos=(500.00, 0.00, 0.00) children=42 types=Transform
+family-bed pos=(500.00, 4.20, 0.00) children=6 types=Transform,WorldInteractable,BoxCollider2D,WorldLifeAction
+family-mother-bed pos=(491.00, 5.20, 0.00) children=1 types=Transform,WorldInteractable,BoxCollider2D
+family-father-bed pos=(494.00, 5.20, 0.00) children=1 types=Transform,WorldInteractable,BoxCollider2D
+family-fridge pos=(510.00, -1.70, 0.00) children=8 types=Transform,WorldInteractable,BoxCollider2D,WorldLifeAction,WorldActivitySlot
+family-cook pos=(506.50, -1.70, 0.00) children=5 types=Transform,WorldInteractable,BoxCollider2D,WorldActivitySlot,WorldFacilityActivityPresentation
+family-dishes pos=(503.00, -1.70, 0.00) children=5 types=Transform,WorldInteractable,BoxCollider2D,WorldLifeAction
+family-player-seat pos=(508.50, -6.60, 0.00) children=8 types=Transform,WorldInteractable,BoxCollider2D,WorldActivitySlot,WorldLifeAction
+family-dine-1 pos=(504.50, -6.60, 0.00) children=5 types=Transform,WorldInteractable,BoxCollider2D,WorldActivitySlot
+family-dine-2 pos=(506.50, -6.60, 0.00) children=5 types=Transform,WorldInteractable,BoxCollider2D,WorldActivitySlot
+family-sofa pos=(492.00, -5.80, 0.00) children=5 types=Transform,WorldInteractable,BoxCollider2D,WorldLifeAction
+family-closet pos=(489.00, 5.00, 0.00) children=1 types=Transform,WorldInteractable,BoxCollider2D
+family-serve pos=(506.50, -3.50, 0.00) children=3 types=Transform,WorldInteractable,WorldActivitySlot
+family-clean pos=(497.00, -4.00, 0.00) children=3 types=Transform,WorldInteractable,WorldActivitySlot
+family-care pos=(500.80, 3.20, 0.00) children=3 types=Transform,WorldInteractable,WorldActivitySlot
+family-tv-mother pos=(491.40, -5.55, 0.00) children=3 types=Transform,WorldInteractable,WorldActivitySlot
+family-tv-father pos=(492.60, -5.55, 0.00) children=3 types=Transform,WorldInteractable,WorldActivitySlot
+가족 욕실 / family-bathroom pos=(530.00, 0.00, 0.00) children=7 types=Transform
+family-basin pos=(505.60, 5.40, 0.00) children=5 types=Transform,WorldInteractable,BoxCollider2D,WorldLifeAction
+family-shower pos=(510.50, 5.40, 0.00) children=5 types=Transform,WorldInteractable,BoxCollider2D,WorldLifeAction
+family-toilet pos=(508.00, 5.40, 0.00) children=5 types=Transform,WorldInteractable,BoxCollider2D,WorldLifeAction
+family-bath-front pos=(508.00, 1.45, 0.00) children=6 types=Transform,SpriteRenderer,BoxCollider2D,WorldInteractable,WorldDoor
+family-bath-exit pos=(530.00, -3.70, 0.00) children=6 types=Transform,SpriteRenderer,BoxCollider2D,WorldInteractable,WorldDoor
+family-exit pos=(498.00, -9.45, 0.00) children=6 types=Transform,SpriteRenderer,BoxCollider2D,WorldInteractable,WorldDoor
+family-front pos=(82.00, 4.00, 0.00) children=8 types=Transform,SpriteRenderer,BoxCollider2D,WorldInteractable,WorldDoor
+family-mother pos=(493.00, 2.00, 0.00) children=6 types=Transform,SpriteRenderer,WorldInteractable,WorldActorAnimation
+family-father pos=(496.00, 2.00, 0.00) children=7 types=Transform,SpriteRenderer,WorldInteractable,WorldActorAnimation
+family-parents-door pos=(492.00, 1.45, 0.00) children=6 types=Transform,SpriteRenderer,BoxCollider2D,WorldInteractable,WorldDoor
+family-ian-door pos=(500.00, 1.45, 0.00) children=6 types=Transform,SpriteRenderer,BoxCollider2D,WorldInteractable,WorldDoor
+family-parent-side pos=(489.00, 2.80, 0.00) children=1 types=Transform,WorldInteractable,BoxCollider2D
+family-nursery-storage pos=(502.70, 5.10, 0.00) children=1 types=Transform,WorldInteractable,BoxCollider2D
+family-nursery-side pos=(497.40, 4.30, 0.00) children=1 types=Transform,WorldInteractable,BoxCollider2D
+family-coffee-table pos=(492.00, -4.00, 0.00) children=1 types=Transform,WorldInteractable,BoxCollider2D

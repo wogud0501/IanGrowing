@@ -2,6 +2,7 @@ using System;using UnityEngine;
 namespace IanGame {
 public enum GameState {Starting,Playing,Paused,GameOver,Resolving,Ready=Playing}
 public class GameManager:MonoBehaviour {
+ public ItemService items;
  public LifeWorldService world; public IdleActivityService idle;
  public GameBalance balance;public PlayerStats stats;public TimeManager clock;public EventManager lifeEvents;public SaveManager saves;
  public Phase23Services phase23;public MissionService missions;public MissionCatalog missionCatalog;public ActivityCatalog activityCatalog;
@@ -18,7 +19,7 @@ public class GameManager:MonoBehaviour {
  missions=Module(missions);missions.catalog=missionCatalog;economy=Module(economy);actions=Module(actions);growth=Module(growth);survival=Module(survival);statuses=Module(statuses);
  economy.Configure(stats);statuses.Configure(stats);survival.Configure(stats,LifeMode?balance.survival:null,statuses);actions.Configure(balance,stats,clock,economy);actions.ConfigureLife(growth,survival);lifeEvents.Configure(economy);saves.Configure(growth,economy,survival);
  missions.Configure(this);economy.ConfigureGame(this);actions.ConfigureEducation(activityCatalog,missions,()=>GameContext.Instance==null||(world!=null&&world.Active?world.Location:GameContext.Instance.transitions.CurrentScene)==SceneId.School);saves.ConfigureMissions(missions);phase23=Module(phase23);phase23.Configure(this);actions.ConfigurePhase23(phase23);saves.ConfigurePhase23(phase23);missions.Completed+=OnMissionCompleted;missions.CheckpointRequested+=OnMissionCheckpoint;
- idle=Module(idle);idle.Configure(this);saves.ConfigureIdle(idle);world=Module(world);world.Configure(this);saves.ConfigureWorld(world);clock.SetRunning(false);clock.DayAdvanced+=OnDay;clock.SimulationAdvanced+=OnSimulation;survival.Failure+=OnFailure;
+ idle=Module(idle);idle.Configure(this);saves.ConfigureIdle(idle);world=Module(world);world.Configure(this);saves.ConfigureWorld(world);items=Module(items);items.Configure(this);saves.ConfigureItems(items);clock.SetRunning(false);clock.DayAdvanced+=OnDay;clock.SimulationAdvanced+=OnSimulation;survival.Failure+=OnFailure;
  }
  void Start(){if(enabled)StartGame();}
  void OnMissionCompleted(MissionData data){Log(data.completionMessage);}
@@ -28,7 +29,7 @@ public class GameManager:MonoBehaviour {
  void ResetModel(){
  world?.ResetLife();idle?.ResetLife();
  saves.BirthIntroCompleted=true;
- recentLogs.Clear();phase23.ResetLife();missions.BeginRestore();ConfigureMode();if(LifeMode)stats.ResetLife(balance.initialLife);else stats.ResetStats(balance);
+ recentLogs.Clear();phase23.ResetLife();items?.ResetLife();missions.BeginRestore();ConfigureMode();if(LifeMode)stats.ResetLife(balance.initialLife);else stats.ResetStats(balance);
  economy.ResetLife(LifeMode);growth.Restore(new ProgressSnapshot{age=LifeMode?0:19});survival.ResetLife();clock.Restore(1,new TimeSnapshot{subDaySeconds=world!=null&&world.rules!=null?8*3600:0});runId=Guid.NewGuid().ToString("N");settledDay=1;connectionStamp=DateTime.UtcNow.Ticks;missions.ResetLife(1);missions.EndRestore();missionCheckpointPending=false;
  }
  public void StartGame(){
@@ -48,6 +49,7 @@ public class GameManager:MonoBehaviour {
  void OnFailure(){EndGame();checkpointPending=true;}
  void LateUpdate(){if(missionCheckpointPending&&missions!=null&&!missions.IsBusy&&State!=GameState.Starting&&State!=GameState.Resolving){missionCheckpointPending=false;if(autoSaveAfterAction)SaveQuietly();}if(checkpointPending&&State==GameState.GameOver){checkpointPending=false;if(autoSaveAfterAction)SaveQuietly();}}
  public bool CanPerformAction(int action,out string reason){
+ if(items!=null&&(action==24||action==25))return items.Equipment.CanEquip(items.LegacyId(action==24?MissionItemKey.StarterHeadphones:MissionItemKey.StarterEquipment),out reason);
  if(BirthIntroductionPending){reason="출생 신고를 확인하고 인생을 시작하세요.";return false;}
  reason=null;if(world!=null&&!world.CanAction(action,out reason))return false;if(!enabled||State!=GameState.Playing){reason=State==GameState.Paused?"일시정지 중입니다.":State==GameState.GameOver?"생존 종료 상태입니다.":"행동 처리 또는 준비 중입니다.";return false;}
  if(actions==null){reason="행동 시스템 연결 누락";return false;}return actions.CanPerform(action,out reason);
@@ -57,10 +59,10 @@ public class GameManager:MonoBehaviour {
  internal bool CanAutomaticAction(int action,out string reason){if(action!=0&&action!=14){reason="허용되지 않은 자동 행동";return false;}phase23.AutomaticExecution=true;try{return CanPerformAction(action,out reason);}finally{phase23.AutomaticExecution=false;}}
  internal bool TryAutomaticAction(int action){if(action!=0&&action!=14)return false;phase23.AutomaticExecution=true;try{return Act(action);}finally{phase23.AutomaticExecution=false;}}
  internal BattleRecord ResolveIdleBattle(EnemyData enemy,string receipt){if(State!=GameState.Playing||BirthIntroductionPending||enemy==null||!clock.CanAdvance(1)||economy.HasTransaction(receipt+"/battle-gold"))return null;SetState(GameState.Resolving);try{stats.ApplyCore(new StatDelta{health=-2,mental=-1});clock.AdvanceDays(1);if(State==GameState.GameOver)return new BattleRecord{id=receipt,enemyId=enemy.id,healthBefore=stats.Health,healthAfter=stats.Health};var record=idle.Combat.Resolve(enemy,receipt);Log(record.won?"전투 승리. 마감은 내일 다시 옵니다.":"전투 패배. 수면과 식사 후 다시 도전하세요.");return record;}finally{if(State!=GameState.GameOver)SetState(GameState.Playing);}}
- public SaveData CaptureState()=>SaveManager.StampOptionalBlocks(new SaveData{world=world?.Capture(),birthIntroCompleted=saves.BirthIntroCompleted,idle=idle==null?new IdleProgressSnapshot():idle.Capture(),phase23=phase23.Capture(),day=clock.Day,stats=stats.Capture(),economy=economy.Capture(),progression=growth.Capture(),survival=survival.Capture(),time=clock.Capture(),missions=missions.Capture(),gameOver=State==GameState.GameOver,runId=runId,settledDay=settledDay,lastSeenUtcTicks=connectionStamp});
+ public SaveData CaptureState()=>SaveManager.StampOptionalBlocks(new SaveData{items=items?.Capture(),world=world?.Capture(),birthIntroCompleted=saves.BirthIntroCompleted,idle=idle==null?new IdleProgressSnapshot():idle.Capture(),phase23=phase23.Capture(),day=clock.Day,stats=stats.Capture(),economy=economy.Capture(),progression=growth.Capture(),survival=survival.Capture(),time=clock.Capture(),missions=missions.Capture(),gameOver=State==GameState.GameOver,runId=runId,settledDay=settledDay,lastSeenUtcTicks=connectionStamp});
  public void RestoreState(SaveData data){SetState(GameState.Starting);saves.ApplyToModels(data,stats,clock);runId=data.runId;settledDay=data.settledDay;connectionStamp=data.lastSeenUtcTicks;SetState(data.gameOver||survival.Failed?GameState.GameOver:GameState.Playing);RefreshAvailability();}
  public bool SaveAutomaticCheckpoint(out string message){missionCheckpointPending=false;if(State==GameState.Starting||State==GameState.Resolving){message="활동 처리 중";return false;}bool saved=saves.SaveAutomatic(stats,clock,State==GameState.GameOver,runId,settledDay,out message);if(saved)connectionStamp=saves.LastSavedUtcTicks;return saved;}
- bool Act(int action,double? seconds=null){ if(world!=null&&world.Active&&!world.Executing)return world.Host.TryLegacyAction(action);
+ bool Act(int action,double? seconds=null){if(items!=null&&(action==24||action==25)){bool equipped=items.Equipment.Equip(Guid.NewGuid().ToString("N"),items.LegacyId(action==24?MissionItemKey.StarterHeadphones:MissionItemKey.StarterEquipment),out var denied);if(!equipped)Log(denied);return equipped;} if(world!=null&&world.Active&&!world.Executing)return world.Host.TryLegacyAction(action);
  string message;if(!CanPerformAction(action,out message)){Log(message);return false;}SetState(GameState.Resolving);bool completed=false;
  try{completed=actions.Execute(action,out message,seconds);if(completed){Log(message);if(missions!=null&&(phase23==null||!phase23.Handles(action)))missions.RecordAction(missions.NextEventId(runId),action);ActionPerformed?.Invoke(action);}else Log(message);}
  finally{if(State!=GameState.GameOver){if(LifeMode?survival.Failed:balance.IsGameOver(stats))EndGame();else SetState(GameState.Playing);}}

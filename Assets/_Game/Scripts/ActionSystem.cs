@@ -41,7 +41,7 @@ public class ActionSystem:MonoBehaviour {
  if(!CanPerform(action,out message))return false;var d=Describe(action);float efficiency=balance.initialLife==null||survival==null?1:survival.Efficiency;
  if(d.money<0){if(!economy.TrySpend((int)(-(long)d.money),"행동 비용"))return false;}else economy.Earn(Mathf.FloorToInt(d.money*efficiency),"행동 수입");
  // Recovery stays fully effective at low health, avoiding a paid recovery dependency.
- stats.Apply(d.happiness>0?Mathf.FloorToInt(d.happiness*efficiency):d.happiness,d.stress,d.energy,0);var delta=d.core;if(action>=7){if(delta.knowledge>0)delta.knowledge=Mathf.FloorToInt(delta.knowledge*efficiency);if(delta.social>0)delta.social=Mathf.FloorToInt(delta.social*efficiency);}stats.ApplyCore(delta);economy.ApplyHousingRecovery(action);
+ stats.Apply(d.happiness>0?Mathf.FloorToInt(d.happiness*efficiency):d.happiness,d.stress,d.energy,0);var delta=d.core;if(action>=7){if(delta.knowledge>0)delta.knowledge=Mathf.FloorToInt(delta.knowledge*efficiency*(phase23?.Game.items?.Multiplier(ModifierTarget.StudyEfficiency)??1));if(delta.social>0)delta.social=Mathf.FloorToInt(delta.social*efficiency);}stats.ApplyCore(delta);economy.ApplyHousingRecovery(action);
  double started=clock.ElapsedSeconds;double requested=duration??d.days*TimeManager.SecondsPerDay;clock.AdvanceSimulation(requested);
  // Survival failure can interrupt a multi-day action before its promised duration.
  if(phase23!=null&&phase23.Handles(action)){if(clock.ElapsedSeconds-started+.001<requested){message="활동이 중단되었습니다. 완료 기록과 급여를 지급하지 않습니다.";return false;}phase23.Complete(action,Guid.NewGuid().ToString("N"));}message=d.message;return true;

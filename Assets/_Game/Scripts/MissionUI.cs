@@ -25,7 +25,7 @@ public class MissionUI:MonoBehaviour {
  chapterText.text="CHAPTER "+data.chapter+" / "+claimed+" / 10 · "+(data.source==MissionSource.ConfirmedV1?"원본 v1.0":"제안 데이터");
  conditionText.text=MissionGuidance.Summary(data,service);
  progressText.text=MissionRowView.StateName(p.state)+"   "+p.current.ToString("0")+" / "+p.target.ToString("0");
- rewardText.text=data.rewards.gold+"G · EXP "+data.rewards.experience+" · 성장 "+data.rewards.growthPoints+(data.rewards.gachaTickets>0?"\n가챠권 "+data.rewards.gachaTickets+" (시스템 준비 후 지급)":"");
+ rewardText.text=data.rewards.gold+"G · EXP "+data.rewards.experience+" · 성장 "+data.rewards.growthPoints+(data.rewards.gachaTickets>0?"\n가챠권 "+data.rewards.gachaTickets+"":"");
  var next=service.catalog.missions.FirstOrDefault(m=>m.number==data.number+1);nextText.text=next==null?"다음: 생애 평가 연동 대기":"다음: "+next.Id+" "+next.title;
  claimButton.interactable=p.state==MissionState.Completed&&Game!=null&&Game.State==GameState.Playing&&!service.IsBusy;
  bool canAction=data.suggestedAction>=0&&p.state!=MissionState.Planned&&p.state!=MissionState.Locked;string reason=null;

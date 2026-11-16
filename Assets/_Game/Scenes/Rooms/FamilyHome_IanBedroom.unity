@@ -5485,6 +5485,7 @@ GameObject:
   - component: {fileID: 186109973}
   - component: {fileID: 186109977}
   - component: {fileID: 186109978}
+  - component: {fileID: 186109979}
   m_Layer: 0
   m_Name: Ian / official playable character
   m_TagString: Untagged
@@ -5632,6 +5633,19 @@ MonoBehaviour:
   catalog: {fileID: 11400000, guid: 9b2d07c4d63164ce98a8e59bed22c1bf, type: 2}
   ActionOffset: {x: 0, y: 0}
   ActionOrder: -2147483648
+--- !u!114 &186109979
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 186109972}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e35bd800e50654a36b8a48fa7a2d258e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IanGame.ItemAppearanceController
+  player: {fileID: 186109973}
 --- !u!1 &188114729
 GameObject:
   m_ObjectHideFlags: 0
@@ -110304,7 +110318,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1280.2122, y: 0}
+  m_SizeDelta: {x: 1280, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &4930388838002371381
 MonoBehaviour:
@@ -145204,6 +145218,7 @@ GameObject:
   - component: {fileID: 8994981041183254206}
   - component: {fileID: 8994981041183254207}
   - component: {fileID: 8994981041183254208}
+  - component: {fileID: 8994981041183254209}
   m_Layer: 0
   m_Name: Game Canvas
   m_TagString: Untagged
@@ -145617,6 +145632,19 @@ MonoBehaviour:
   financeIcon: {fileID: 21300000, guid: c37fc4d0f887e42e8a71be3bd7db867e, type: 2}
   propertyIcon: {fileID: 21300000, guid: 4ade89adb0aa540f3a5df79067b1fd83, type: 2}
   parkIcon: {fileID: 21300000, guid: dcf1a8fbcebe64e69b2afe29d0128dcf, type: 2}
+--- !u!114 &8994981041183254209
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8994981041183254193}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3642b8a46e52a44c8b26c4597c663abe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IanGame.CollectionUI
+  world: {fileID: 2122785948}
 --- !u!224 &9000788790833570479
 RectTransform:
   m_ObjectHideFlags: 0
