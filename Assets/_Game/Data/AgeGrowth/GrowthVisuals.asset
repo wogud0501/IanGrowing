@@ -31,7 +31,8 @@ MonoBehaviour:
     basinOffset: {x: 0, y: 0}
     idlePreview: {fileID: 21300000, guid: 3f0e9b18717e34b0c975ac014611224c, type: 2}
     bodyInteractions: 0
-    headphoneAnchorOffset: {x: 0, y: 0}
+    headphoneAnchorOffset: {x: 0, y: -0.029899998}
+    headphoneDisplayHeight: 0.073599994
     sleepHorizontal: 0
     artNotes: Generated original age-specific atlas; four-direction locomotion (except newborn); interaction directions use Down fallback. Turn/Stop and care-feed are explicit aliases. Missing motions remain queryable; not authored coverage.
   - stage: 1
@@ -52,7 +53,8 @@ MonoBehaviour:
     basinOffset: {x: 0, y: 0}
     idlePreview: {fileID: 21300000, guid: f37cd50ccbd264a8f8989b0d4039c70e, type: 2}
     bodyInteractions: 0
-    headphoneAnchorOffset: {x: 0, y: 0}
+    headphoneAnchorOffset: {x: 0, y: -0.053299997}
+    headphoneDisplayHeight: 0.13119999
     sleepHorizontal: 1
     artNotes: Generated original age-specific atlas; four-direction locomotion (except newborn); interaction directions use Down fallback. Turn/Stop and care-feed are explicit aliases. Missing motions remain queryable; not authored coverage.
   - stage: 2
@@ -73,7 +75,8 @@ MonoBehaviour:
     basinOffset: {x: 0, y: 0}
     idlePreview: {fileID: 21300000, guid: 7235342a36fa24dc4af32b50a3c606f2, type: 2}
     bodyInteractions: 0
-    headphoneAnchorOffset: {x: 0, y: 0}
+    headphoneAnchorOffset: {x: 0, y: -0.065}
+    headphoneDisplayHeight: 0.16
     sleepHorizontal: 1
     artNotes: Generated original age-specific atlas; four-direction locomotion (except newborn); interaction directions use Down fallback. Turn/Stop and care-feed are explicit aliases. Missing motions remain queryable; not authored coverage.
   - stage: 3
@@ -94,7 +97,8 @@ MonoBehaviour:
     basinOffset: {x: 0, y: 0}
     idlePreview: {fileID: 21300000, guid: d156405ed8e614b59a300cb1faf76062, type: 2}
     bodyInteractions: 0
-    headphoneAnchorOffset: {x: 0, y: 0}
+    headphoneAnchorOffset: {x: 0, y: -0.07669999}
+    headphoneDisplayHeight: 0.18879998
     sleepHorizontal: 1
     artNotes: Generated original age-specific atlas; four-direction locomotion (except newborn); interaction directions use Down fallback. Turn/Stop and care-feed are explicit aliases. Missing motions remain queryable; not authored coverage.
   - stage: 4
@@ -115,7 +119,8 @@ MonoBehaviour:
     basinOffset: {x: 0, y: 0}
     idlePreview: {fileID: 21300000, guid: e89b3b8c6f8f245c1bf4a28864e38b05, type: 2}
     bodyInteractions: 0
-    headphoneAnchorOffset: {x: 0, y: 0}
+    headphoneAnchorOffset: {x: 0, y: -0.0871}
+    headphoneDisplayHeight: 0.21440001
     sleepHorizontal: 1
     artNotes: Generated original age-specific atlas; four-direction locomotion (except newborn); interaction directions use Down fallback. Turn/Stop and care-feed are explicit aliases. Missing motions remain queryable; not authored coverage.
   - stage: 5
@@ -136,7 +141,8 @@ MonoBehaviour:
     basinOffset: {x: 0, y: 0}
     idlePreview: {fileID: 21300000, guid: 91d863e55c4d345059458cb01bec7dce, type: 2}
     bodyInteractions: 0
-    headphoneAnchorOffset: {x: 0, y: 0}
+    headphoneAnchorOffset: {x: 0, y: -0.09879999}
+    headphoneDisplayHeight: 0.24319999
     sleepHorizontal: 1
     artNotes: Generated original age-specific atlas; four-direction locomotion (except newborn); interaction directions use Down fallback. Turn/Stop and care-feed are explicit aliases. Missing motions remain queryable; not authored coverage.
   - stage: 6
@@ -157,7 +163,8 @@ MonoBehaviour:
     basinOffset: {x: 0, y: 0}
     idlePreview: {fileID: 21300000, guid: 05433f43a8c834bdaa52c9ef6a11859b, type: 2}
     bodyInteractions: 0
-    headphoneAnchorOffset: {x: 0, y: 0}
+    headphoneAnchorOffset: {x: 0, y: -0.1105}
+    headphoneDisplayHeight: 0.272
     sleepHorizontal: 1
     artNotes: Generated original age-specific atlas; four-direction locomotion (except newborn); interaction directions use Down fallback. Turn/Stop and care-feed are explicit aliases. Missing motions remain queryable; not authored coverage.
   - stage: 7
@@ -178,7 +185,8 @@ MonoBehaviour:
     basinOffset: {x: 0, y: 0}
     idlePreview: {fileID: 21300000, guid: 0e79c300bd9a34d7da21fc13788aace3, type: 2}
     bodyInteractions: 0
-    headphoneAnchorOffset: {x: 0, y: 0}
+    headphoneAnchorOffset: {x: 0, y: -0.1222}
+    headphoneDisplayHeight: 0.3008
     sleepHorizontal: 1
     artNotes: Generated original age-specific atlas; four-direction locomotion (except newborn); interaction directions use Down fallback. Turn/Stop and care-feed are explicit aliases. Missing motions remain queryable; not authored coverage.
   - stage: 8
@@ -199,7 +207,8 @@ MonoBehaviour:
     basinOffset: {x: 0, y: 0}
     idlePreview: {fileID: 28776294171772349, guid: 187d56c84d77b4114af3bac280974d98, type: 3}
     bodyInteractions: 1
-    headphoneAnchorOffset: {x: 0, y: 0}
+    headphoneAnchorOffset: {x: 0, y: -0.13}
+    headphoneDisplayHeight: 0.32
     sleepHorizontal: 1
     artNotes: 'Phase31: retained official 4-direction locomotion, original independent seated life frames; rest body from original art; per-pose pivot/anchor; side/missing directions explicitly queryable.'
   - stage: 9
@@ -220,7 +229,8 @@ MonoBehaviour:
     basinOffset: {x: 0, y: 0}
     idlePreview: {fileID: 21300000, guid: 806cbe806ea06416b82badc12ca2d5de, type: 2}
     bodyInteractions: 0
-    headphoneAnchorOffset: {x: 0, y: 0}
+    headphoneAnchorOffset: {x: 0, y: -0.1323898}
+    headphoneDisplayHeight: 0.32588258
     sleepHorizontal: 1
     artNotes: Phase30 original generated age atlas. Four-way Idle/Walk/FastWalk; actions authored Down only. Turn/Stop reuse idle, Work uses typing, PutDown uses pickup. No new gameplay unlocks.
   - stage: 10
@@ -241,7 +251,8 @@ MonoBehaviour:
     basinOffset: {x: 0, y: 0}
     idlePreview: {fileID: 21300000, guid: 570204719adf846d3a6e5bf6b47265fa, type: 2}
     bodyInteractions: 0
-    headphoneAnchorOffset: {x: 0, y: 0}
+    headphoneAnchorOffset: {x: 0, y: -0.1186943}
+    headphoneDisplayHeight: 0.29217058
     sleepHorizontal: 1
     artNotes: Phase30 original generated age atlas. Four-way Idle/Walk/FastWalk; actions authored Down only. Turn/Stop reuse idle, Work uses typing, PutDown uses pickup. No new gameplay unlocks.
   emptyCrib: {fileID: 21300000, guid: c36052a164a49459db67a56aeef312a4, type: 2}
