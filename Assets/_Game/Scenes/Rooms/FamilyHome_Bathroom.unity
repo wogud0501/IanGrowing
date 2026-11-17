@@ -822,6 +822,15 @@ MonoBehaviour:
   - {fileID: 8421752044190761392, guid: 8612c5f9438e54b4d902bdb20931783a, type: 3}
   seat: {fileID: 0}
   familyOwned: 1
+  activePose: 
+  restComputer: 0
+  mealProp: {fileID: 0}
+  emptyMealProp: {fileID: 0}
+  bookProp: {fileID: 0}
+  studyProp: {fileID: 0}
+  chairSprite: {fileID: 0}
+  tableOcclusion: 0
+  propAnchor: {fileID: 0}
 --- !u!61 &15325873
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -5605,6 +5614,8 @@ GameObject:
   - component: {fileID: 186109978}
   - component: {fileID: 186109979}
   - component: {fileID: 186109980}
+  - component: {fileID: 186109982}
+  - component: {fileID: 186109981}
   m_Layer: 0
   m_Name: Ian / official playable character
   m_TagString: Untagged
@@ -5624,6 +5635,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b47d5055226326b47967cdb62ab75aa3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::IanGame.WorldPlayerMotor
+  presentation: {fileID: 186109981}
+  controlLocks: {fileID: 186109982}
   world: {fileID: 2122785948}
   sprite: {fileID: 1265790235}
   motions: {fileID: 11400000, guid: d85b994f01c0dfe4e8caf0cd510a972f, type: 2}
@@ -5779,6 +5792,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::IanGame.GrowthPresentationEffects
   growth: {fileID: 186109978}
   sparkle: {fileID: -3729492369987663617, guid: a9254af886a914d93b49210ec40ab572, type: 3}
+--- !u!114 &186109981
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 186109972}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 044d6270257bb4b4685f58388f46bb71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IanGame.PlayerAnimationPresentation
+  motor: {fileID: 186109973}
+--- !u!114 &186109982
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 186109972}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fec08cf56fc3b4a258b63970ff1ebad0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IanGame.PlayerControlLocks
 --- !u!1 &188114729
 GameObject:
   m_ObjectHideFlags: 0
@@ -26106,6 +26144,15 @@ MonoBehaviour:
   - {fileID: 8421752044190761392, guid: 8612c5f9438e54b4d902bdb20931783a, type: 3}
   seat: {fileID: 0}
   familyOwned: 1
+  activePose: 
+  restComputer: 0
+  mealProp: {fileID: 0}
+  emptyMealProp: {fileID: 0}
+  bookProp: {fileID: 0}
+  studyProp: {fileID: 0}
+  chairSprite: {fileID: 0}
+  tableOcclusion: 0
+  propAnchor: {fileID: 0}
 --- !u!61 &743716035
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -52917,6 +52964,15 @@ MonoBehaviour:
   - {fileID: 8421752044190761392, guid: 8612c5f9438e54b4d902bdb20931783a, type: 3}
   seat: {fileID: 1569859168}
   familyOwned: 1
+  activePose: 
+  restComputer: 0
+  mealProp: {fileID: 0}
+  emptyMealProp: {fileID: 0}
+  bookProp: {fileID: 0}
+  studyProp: {fileID: 0}
+  chairSprite: {fileID: 0}
+  tableOcclusion: 0
+  propAnchor: {fileID: 0}
 --- !u!61 &1569859166
 BoxCollider2D:
   m_ObjectHideFlags: 0

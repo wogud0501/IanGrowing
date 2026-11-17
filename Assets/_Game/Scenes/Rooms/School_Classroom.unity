@@ -4575,6 +4575,37 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &138604130
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 138604131}
+  m_Layer: 0
+  m_Name: WakeOrStandUpPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &138604131
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 138604130}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.95, y: -0.9, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 487383888}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &146060639
 GameObject:
   m_ObjectHideFlags: 0
@@ -5825,6 +5856,8 @@ GameObject:
   - component: {fileID: 186109978}
   - component: {fileID: 186109979}
   - component: {fileID: 186109980}
+  - component: {fileID: 186109982}
+  - component: {fileID: 186109981}
   m_Layer: 0
   m_Name: Ian / official playable character
   m_TagString: Untagged
@@ -5844,6 +5877,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b47d5055226326b47967cdb62ab75aa3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::IanGame.WorldPlayerMotor
+  presentation: {fileID: 186109981}
+  controlLocks: {fileID: 186109982}
   world: {fileID: 2122785948}
   sprite: {fileID: 1265790235}
   motions: {fileID: 11400000, guid: d85b994f01c0dfe4e8caf0cd510a972f, type: 2}
@@ -5999,6 +6034,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::IanGame.GrowthPresentationEffects
   growth: {fileID: 186109978}
   sparkle: {fileID: -3729492369987663617, guid: a9254af886a914d93b49210ec40ab572, type: 3}
+--- !u!114 &186109981
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 186109972}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 044d6270257bb4b4685f58388f46bb71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IanGame.PlayerAnimationPresentation
+  motor: {fileID: 186109973}
+--- !u!114 &186109982
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 186109972}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fec08cf56fc3b4a258b63970ff1ebad0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IanGame.PlayerControlLocks
 --- !u!1 &188114729
 GameObject:
   m_ObjectHideFlags: 0
@@ -16956,6 +17016,8 @@ GameObject:
   - component: {fileID: 487383890}
   - component: {fileID: 487383889}
   - component: {fileID: 487383891}
+  - component: {fileID: 487383893}
+  - component: {fileID: 487383892}
   m_Layer: 0
   m_Name: study-desk
   m_TagString: Untagged
@@ -16978,6 +17040,10 @@ Transform:
   m_Children:
   - {fileID: 1463235341}
   - {fileID: 562371570}
+  - {fileID: 1092161536}
+  - {fileID: 1809666110}
+  - {fileID: 138604131}
+  - {fileID: 1972604120}
   m_Father: {fileID: 2122785949}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &487383889
@@ -17112,6 +17178,58 @@ MonoBehaviour:
   activityEffect: {fileID: 0}
   animateDoorLeaf: 1
   UsePoint: {x: 0, y: -0.7}
+--- !u!114 &487383892
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 487383887}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90a7e3dd959164ee08d30b720996785c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IanGame.WorldActivitySlot
+  seat: {fileID: 0}
+  staffId: 
+  facing: {x: 0, y: 1}
+  useSeatAnchors: 1
+  seated: 0
+  seatAnchor: {fileID: 1809666110}
+  approachAnchor: {fileID: 1092161536}
+  standUpAnchor: {fileID: 138604131}
+  activityMotion: 14
+--- !u!114 &487383893
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 487383887}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28250ed7a84264c70a7b99a4d0d1d095, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IanGame.WorldLifeAction
+  mode: 5
+  approach: {fileID: 1092161536}
+  anchor: {fileID: 1809666110}
+  standUp: {fileID: 138604131}
+  facing: {x: 0, y: 1}
+  booth: {fileID: 0}
+  overlay: {fileID: 0}
+  frames: []
+  seat: {fileID: 487383892}
+  familyOwned: 0
+  activePose: 
+  restComputer: 0
+  mealProp: {fileID: 0}
+  emptyMealProp: {fileID: 0}
+  bookProp: {fileID: 0}
+  studyProp: {fileID: 21300000, guid: 4ddc102b94b164fab9f2a27cbdf8a4f3, type: 2}
+  chairSprite: {fileID: 1391849852316778699, guid: e50cda9e68c7a8f48bc2f777d976ea8e, type: 3}
+  tableOcclusion: 0
+  propAnchor: {fileID: 1972604120}
 --- !u!1 &489544240
 GameObject:
   m_ObjectHideFlags: 0
@@ -37709,6 +37827,37 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::IanGame.UITypeScale
   baseSize: 18
   platformScale: 1
+--- !u!1 &1092161535
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1092161536}
+  m_Layer: 0
+  m_Name: InteractionApproach
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1092161536
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1092161535}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.95, y: -0.9, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 487383888}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1093554999
 GameObject:
   m_ObjectHideFlags: 0
@@ -60704,6 +60853,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
   m_BlendShapeWeights: []
+--- !u!1 &1809666109
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1809666110}
+  m_Layer: 0
+  m_Name: ActionAnchor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1809666110
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1809666109}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 487383888}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1812049292
 GameObject:
   m_ObjectHideFlags: 0
@@ -66735,6 +66915,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1972281964}
   m_CullTransparentMesh: 1
+--- !u!1 &1972604119
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1972604120}
+  m_Layer: 0
+  m_Name: PropAnchor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1972604120
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1972604119}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.15, y: 0.65, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 487383888}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1976483702
 GameObject:
   m_ObjectHideFlags: 0

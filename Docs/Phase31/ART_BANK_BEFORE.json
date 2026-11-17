@@ -1,0 +1,2422 @@
+[
+  {
+    "id": "Newborn",
+    "minAge": 0,
+    "maxAge": 0,
+    "height": 0.392975867,
+    "sleepHorizontal": false,
+    "library": "Assets/_Game/Data/AgeGrowth/01_newborn_Animations.asset",
+    "clips": [
+      {
+        "motion": "Idle",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/01_newborn.png"
+      },
+      {
+        "motion": "InfantCry",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/01_newborn.png"
+      },
+      {
+        "motion": "Carried",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/01_newborn.png"
+      },
+      {
+        "motion": "CareFeed",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/01_newborn.png"
+      },
+      {
+        "motion": "CareBath",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/01_newborn.png"
+      },
+      {
+        "motion": "Play",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/01_newborn.png"
+      },
+      {
+        "motion": "Interact",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/01_newborn.png"
+      },
+      {
+        "motion": "Sleep",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/01_newborn.png"
+      },
+      {
+        "motion": "WakeUp",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/01_newborn.png"
+      }
+    ]
+  },
+  {
+    "id": "Toddler",
+    "minAge": 1,
+    "maxAge": 2,
+    "height": 0.7005222,
+    "sleepHorizontal": true,
+    "library": "Assets/_Game/Data/AgeGrowth/02_toddler_Animations.asset",
+    "clips": [
+      {
+        "motion": "Idle",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/02_toddler.png"
+      },
+      {
+        "motion": "Walk",
+        "direction": "Down",
+        "frames": 3,
+        "texture": "Assets/_Game/Art/AgeGrowth/02_toddler.png"
+      },
+      {
+        "motion": "Run",
+        "direction": "Down",
+        "frames": 3,
+        "texture": "Assets/_Game/Art/AgeGrowth/02_toddler.png"
+      },
+      {
+        "motion": "Turn",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/02_toddler.png"
+      },
+      {
+        "motion": "Stop",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/02_toddler.png"
+      },
+      {
+        "motion": "Idle",
+        "direction": "Up",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/02_toddler.png"
+      },
+      {
+        "motion": "Walk",
+        "direction": "Up",
+        "frames": 3,
+        "texture": "Assets/_Game/Art/AgeGrowth/02_toddler.png"
+      },
+      {
+        "motion": "Run",
+        "direction": "Up",
+        "frames": 3,
+        "texture": "Assets/_Game/Art/AgeGrowth/02_toddler.png"
+      },
+      {
+        "motion": "Turn",
+        "direction": "Up",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/02_toddler.png"
+      },
+      {
+        "motion": "Stop",
+        "direction": "Up",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/02_toddler.png"
+      },
+      {
+        "motion": "Idle",
+        "direction": "Left",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/02_toddler.png"
+      },
+      {
+        "motion": "Walk",
+        "direction": "Left",
+        "frames": 3,
+        "texture": "Assets/_Game/Art/AgeGrowth/02_toddler.png"
+      },
+      {
+        "motion": "Run",
+        "direction": "Left",
+        "frames": 3,
+        "texture": "Assets/_Game/Art/AgeGrowth/02_toddler.png"
+      },
+      {
+        "motion": "Turn",
+        "direction": "Left",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/02_toddler.png"
+      },
+      {
+        "motion": "Stop",
+        "direction": "Left",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/02_toddler.png"
+      },
+      {
+        "motion": "Idle",
+        "direction": "Right",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/02_toddler.png"
+      },
+      {
+        "motion": "Walk",
+        "direction": "Right",
+        "frames": 3,
+        "texture": "Assets/_Game/Art/AgeGrowth/02_toddler.png"
+      },
+      {
+        "motion": "Run",
+        "direction": "Right",
+        "frames": 3,
+        "texture": "Assets/_Game/Art/AgeGrowth/02_toddler.png"
+      },
+      {
+        "motion": "Turn",
+        "direction": "Right",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/02_toddler.png"
+      },
+      {
+        "motion": "Stop",
+        "direction": "Right",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/02_toddler.png"
+      },
+      {
+        "motion": "SitDown",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/02_toddler.png"
+      },
+      {
+        "motion": "StandUp",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/02_toddler.png"
+      },
+      {
+        "motion": "Eat",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/02_toddler.png"
+      },
+      {
+        "motion": "Drink",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/02_toddler.png"
+      },
+      {
+        "motion": "WashFace",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/02_toddler.png"
+      },
+      {
+        "motion": "Shower",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/02_toddler.png"
+      },
+      {
+        "motion": "Study",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/02_toddler.png"
+      },
+      {
+        "motion": "UseComputer",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/02_toddler.png"
+      },
+      {
+        "motion": "OpenDoor",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/02_toddler.png"
+      },
+      {
+        "motion": "PickUpItem",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/02_toddler.png"
+      },
+      {
+        "motion": "PutDownItem",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/02_toddler.png"
+      },
+      {
+        "motion": "Talk",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/02_toddler.png"
+      },
+      {
+        "motion": "Interact",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/02_toddler.png"
+      },
+      {
+        "motion": "Play",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/02_toddler.png"
+      },
+      {
+        "motion": "CareFeed",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/02_toddler.png"
+      },
+      {
+        "motion": "CareBath",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/ToddlerGuardianBath.png"
+      },
+      {
+        "motion": "Sleep",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/02_toddler.png"
+      },
+      {
+        "motion": "WakeUp",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/02_toddler.png"
+      }
+    ]
+  },
+  {
+    "id": "Preschool",
+    "minAge": 3,
+    "maxAge": 4,
+    "height": 0.8542954,
+    "sleepHorizontal": true,
+    "library": "Assets/_Game/Data/AgeGrowth/03_preschool_Animations.asset",
+    "clips": [
+      {
+        "motion": "Idle",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/03_preschool.png"
+      },
+      {
+        "motion": "Walk",
+        "direction": "Down",
+        "frames": 3,
+        "texture": "Assets/_Game/Art/AgeGrowth/03_preschool.png"
+      },
+      {
+        "motion": "Run",
+        "direction": "Down",
+        "frames": 3,
+        "texture": "Assets/_Game/Art/AgeGrowth/03_preschool.png"
+      },
+      {
+        "motion": "Turn",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/03_preschool.png"
+      },
+      {
+        "motion": "Stop",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/03_preschool.png"
+      },
+      {
+        "motion": "Idle",
+        "direction": "Up",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/03_preschool.png"
+      },
+      {
+        "motion": "Walk",
+        "direction": "Up",
+        "frames": 3,
+        "texture": "Assets/_Game/Art/AgeGrowth/03_preschool.png"
+      },
+      {
+        "motion": "Run",
+        "direction": "Up",
+        "frames": 3,
+        "texture": "Assets/_Game/Art/AgeGrowth/03_preschool.png"
+      },
+      {
+        "motion": "Turn",
+        "direction": "Up",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/03_preschool.png"
+      },
+      {
+        "motion": "Stop",
+        "direction": "Up",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/03_preschool.png"
+      },
+      {
+        "motion": "Idle",
+        "direction": "Left",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/03_preschool.png"
+      },
+      {
+        "motion": "Walk",
+        "direction": "Left",
+        "frames": 3,
+        "texture": "Assets/_Game/Art/AgeGrowth/03_preschool.png"
+      },
+      {
+        "motion": "Run",
+        "direction": "Left",
+        "frames": 3,
+        "texture": "Assets/_Game/Art/AgeGrowth/03_preschool.png"
+      },
+      {
+        "motion": "Turn",
+        "direction": "Left",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/03_preschool.png"
+      },
+      {
+        "motion": "Stop",
+        "direction": "Left",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/03_preschool.png"
+      },
+      {
+        "motion": "Idle",
+        "direction": "Right",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/03_preschool.png"
+      },
+      {
+        "motion": "Walk",
+        "direction": "Right",
+        "frames": 3,
+        "texture": "Assets/_Game/Art/AgeGrowth/03_preschool.png"
+      },
+      {
+        "motion": "Run",
+        "direction": "Right",
+        "frames": 3,
+        "texture": "Assets/_Game/Art/AgeGrowth/03_preschool.png"
+      },
+      {
+        "motion": "Turn",
+        "direction": "Right",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/03_preschool.png"
+      },
+      {
+        "motion": "Stop",
+        "direction": "Right",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/03_preschool.png"
+      },
+      {
+        "motion": "SitDown",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/03_preschool.png"
+      },
+      {
+        "motion": "StandUp",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/03_preschool.png"
+      },
+      {
+        "motion": "Eat",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/03_preschool.png"
+      },
+      {
+        "motion": "Drink",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/03_preschool.png"
+      },
+      {
+        "motion": "WashFace",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/03_preschool.png"
+      },
+      {
+        "motion": "Shower",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/03_preschool.png"
+      },
+      {
+        "motion": "Study",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/03_preschool.png"
+      },
+      {
+        "motion": "UseComputer",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/03_preschool.png"
+      },
+      {
+        "motion": "OpenDoor",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/03_preschool.png"
+      },
+      {
+        "motion": "PickUpItem",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/03_preschool.png"
+      },
+      {
+        "motion": "PutDownItem",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/03_preschool.png"
+      },
+      {
+        "motion": "Talk",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/03_preschool.png"
+      },
+      {
+        "motion": "Interact",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/03_preschool.png"
+      },
+      {
+        "motion": "Play",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/03_preschool.png"
+      },
+      {
+        "motion": "CareFeed",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/03_preschool.png"
+      },
+      {
+        "motion": "Sleep",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/03_preschool.png"
+      },
+      {
+        "motion": "WakeUp",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/03_preschool.png"
+      }
+    ]
+  },
+  {
+    "id": "EarlyChild",
+    "minAge": 5,
+    "maxAge": 7,
+    "height": 1.00806844,
+    "sleepHorizontal": true,
+    "library": "Assets/_Game/Data/AgeGrowth/04_child_Animations.asset",
+    "clips": [
+      {
+        "motion": "Idle",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/04_child.png"
+      },
+      {
+        "motion": "Walk",
+        "direction": "Down",
+        "frames": 3,
+        "texture": "Assets/_Game/Art/AgeGrowth/04_child.png"
+      },
+      {
+        "motion": "Run",
+        "direction": "Down",
+        "frames": 3,
+        "texture": "Assets/_Game/Art/AgeGrowth/04_child.png"
+      },
+      {
+        "motion": "Turn",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/04_child.png"
+      },
+      {
+        "motion": "Stop",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/04_child.png"
+      },
+      {
+        "motion": "Idle",
+        "direction": "Up",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/04_child.png"
+      },
+      {
+        "motion": "Walk",
+        "direction": "Up",
+        "frames": 3,
+        "texture": "Assets/_Game/Art/AgeGrowth/04_child.png"
+      },
+      {
+        "motion": "Run",
+        "direction": "Up",
+        "frames": 3,
+        "texture": "Assets/_Game/Art/AgeGrowth/04_child.png"
+      },
+      {
+        "motion": "Turn",
+        "direction": "Up",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/04_child.png"
+      },
+      {
+        "motion": "Stop",
+        "direction": "Up",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/04_child.png"
+      },
+      {
+        "motion": "Idle",
+        "direction": "Left",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/04_child.png"
+      },
+      {
+        "motion": "Walk",
+        "direction": "Left",
+        "frames": 3,
+        "texture": "Assets/_Game/Art/AgeGrowth/04_child.png"
+      },
+      {
+        "motion": "Run",
+        "direction": "Left",
+        "frames": 3,
+        "texture": "Assets/_Game/Art/AgeGrowth/04_child.png"
+      },
+      {
+        "motion": "Turn",
+        "direction": "Left",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/04_child.png"
+      },
+      {
+        "motion": "Stop",
+        "direction": "Left",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/04_child.png"
+      },
+      {
+        "motion": "Idle",
+        "direction": "Right",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/04_child.png"
+      },
+      {
+        "motion": "Walk",
+        "direction": "Right",
+        "frames": 3,
+        "texture": "Assets/_Game/Art/AgeGrowth/04_child.png"
+      },
+      {
+        "motion": "Run",
+        "direction": "Right",
+        "frames": 3,
+        "texture": "Assets/_Game/Art/AgeGrowth/04_child.png"
+      },
+      {
+        "motion": "Turn",
+        "direction": "Right",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/04_child.png"
+      },
+      {
+        "motion": "Stop",
+        "direction": "Right",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/04_child.png"
+      },
+      {
+        "motion": "SitDown",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/04_child.png"
+      },
+      {
+        "motion": "StandUp",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/04_child.png"
+      },
+      {
+        "motion": "Eat",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/04_child.png"
+      },
+      {
+        "motion": "Drink",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/04_child.png"
+      },
+      {
+        "motion": "WashFace",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/04_child.png"
+      },
+      {
+        "motion": "Shower",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/04_child.png"
+      },
+      {
+        "motion": "Study",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/04_child.png"
+      },
+      {
+        "motion": "UseComputer",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/04_child.png"
+      },
+      {
+        "motion": "OpenDoor",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/04_child.png"
+      },
+      {
+        "motion": "PickUpItem",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/04_child.png"
+      },
+      {
+        "motion": "PutDownItem",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/04_child.png"
+      },
+      {
+        "motion": "Talk",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/04_child.png"
+      },
+      {
+        "motion": "Interact",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/04_child.png"
+      },
+      {
+        "motion": "Play",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/04_child.png"
+      },
+      {
+        "motion": "CareFeed",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/04_child.png"
+      },
+      {
+        "motion": "Sleep",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/04_child.png"
+      },
+      {
+        "motion": "WakeUp",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/04_child.png"
+      }
+    ]
+  },
+  {
+    "id": "SchoolChild",
+    "minAge": 8,
+    "maxAge": 10,
+    "height": 1.14475584,
+    "sleepHorizontal": true,
+    "library": "Assets/_Game/Data/AgeGrowth/05_schoolchild_Animations.asset",
+    "clips": [
+      {
+        "motion": "Idle",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/05_schoolchild.png"
+      },
+      {
+        "motion": "Walk",
+        "direction": "Down",
+        "frames": 3,
+        "texture": "Assets/_Game/Art/AgeGrowth/05_schoolchild.png"
+      },
+      {
+        "motion": "Run",
+        "direction": "Down",
+        "frames": 3,
+        "texture": "Assets/_Game/Art/AgeGrowth/05_schoolchild.png"
+      },
+      {
+        "motion": "Turn",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/05_schoolchild.png"
+      },
+      {
+        "motion": "Stop",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/05_schoolchild.png"
+      },
+      {
+        "motion": "Idle",
+        "direction": "Up",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/05_schoolchild.png"
+      },
+      {
+        "motion": "Walk",
+        "direction": "Up",
+        "frames": 3,
+        "texture": "Assets/_Game/Art/AgeGrowth/05_schoolchild.png"
+      },
+      {
+        "motion": "Run",
+        "direction": "Up",
+        "frames": 3,
+        "texture": "Assets/_Game/Art/AgeGrowth/05_schoolchild.png"
+      },
+      {
+        "motion": "Turn",
+        "direction": "Up",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/05_schoolchild.png"
+      },
+      {
+        "motion": "Stop",
+        "direction": "Up",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/05_schoolchild.png"
+      },
+      {
+        "motion": "Idle",
+        "direction": "Left",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/05_schoolchild.png"
+      },
+      {
+        "motion": "Walk",
+        "direction": "Left",
+        "frames": 3,
+        "texture": "Assets/_Game/Art/AgeGrowth/05_schoolchild.png"
+      },
+      {
+        "motion": "Run",
+        "direction": "Left",
+        "frames": 3,
+        "texture": "Assets/_Game/Art/AgeGrowth/05_schoolchild.png"
+      },
+      {
+        "motion": "Turn",
+        "direction": "Left",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/05_schoolchild.png"
+      },
+      {
+        "motion": "Stop",
+        "direction": "Left",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/05_schoolchild.png"
+      },
+      {
+        "motion": "Idle",
+        "direction": "Right",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/05_schoolchild.png"
+      },
+      {
+        "motion": "Walk",
+        "direction": "Right",
+        "frames": 3,
+        "texture": "Assets/_Game/Art/AgeGrowth/05_schoolchild.png"
+      },
+      {
+        "motion": "Run",
+        "direction": "Right",
+        "frames": 3,
+        "texture": "Assets/_Game/Art/AgeGrowth/05_schoolchild.png"
+      },
+      {
+        "motion": "Turn",
+        "direction": "Right",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/05_schoolchild.png"
+      },
+      {
+        "motion": "Stop",
+        "direction": "Right",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/05_schoolchild.png"
+      },
+      {
+        "motion": "SitDown",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/05_schoolchild.png"
+      },
+      {
+        "motion": "StandUp",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/05_schoolchild.png"
+      },
+      {
+        "motion": "Eat",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/05_schoolchild.png"
+      },
+      {
+        "motion": "Drink",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/05_schoolchild.png"
+      },
+      {
+        "motion": "WashFace",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/05_schoolchild.png"
+      },
+      {
+        "motion": "Shower",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/05_schoolchild.png"
+      },
+      {
+        "motion": "Study",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/05_schoolchild.png"
+      },
+      {
+        "motion": "UseComputer",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/05_schoolchild.png"
+      },
+      {
+        "motion": "OpenDoor",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/05_schoolchild.png"
+      },
+      {
+        "motion": "PickUpItem",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/05_schoolchild.png"
+      },
+      {
+        "motion": "PutDownItem",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/05_schoolchild.png"
+      },
+      {
+        "motion": "Talk",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/05_schoolchild.png"
+      },
+      {
+        "motion": "Interact",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/05_schoolchild.png"
+      },
+      {
+        "motion": "Play",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/05_schoolchild.png"
+      },
+      {
+        "motion": "CareFeed",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/05_schoolchild.png"
+      },
+      {
+        "motion": "Sleep",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/05_schoolchild.png"
+      },
+      {
+        "motion": "WakeUp",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/05_schoolchild.png"
+      }
+    ]
+  },
+  {
+    "id": "Preteen",
+    "minAge": 11,
+    "maxAge": 13,
+    "height": 1.29852891,
+    "sleepHorizontal": true,
+    "library": "Assets/_Game/Data/AgeGrowth/06_preteen_Animations.asset",
+    "clips": [
+      {
+        "motion": "Idle",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/06_preteen.png"
+      },
+      {
+        "motion": "Walk",
+        "direction": "Down",
+        "frames": 3,
+        "texture": "Assets/_Game/Art/AgeGrowth/06_preteen.png"
+      },
+      {
+        "motion": "Run",
+        "direction": "Down",
+        "frames": 3,
+        "texture": "Assets/_Game/Art/AgeGrowth/06_preteen.png"
+      },
+      {
+        "motion": "Turn",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/06_preteen.png"
+      },
+      {
+        "motion": "Stop",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/06_preteen.png"
+      },
+      {
+        "motion": "Idle",
+        "direction": "Up",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/06_preteen.png"
+      },
+      {
+        "motion": "Walk",
+        "direction": "Up",
+        "frames": 3,
+        "texture": "Assets/_Game/Art/AgeGrowth/06_preteen.png"
+      },
+      {
+        "motion": "Run",
+        "direction": "Up",
+        "frames": 3,
+        "texture": "Assets/_Game/Art/AgeGrowth/06_preteen.png"
+      },
+      {
+        "motion": "Turn",
+        "direction": "Up",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/06_preteen.png"
+      },
+      {
+        "motion": "Stop",
+        "direction": "Up",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/06_preteen.png"
+      },
+      {
+        "motion": "Idle",
+        "direction": "Left",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/06_preteen.png"
+      },
+      {
+        "motion": "Walk",
+        "direction": "Left",
+        "frames": 3,
+        "texture": "Assets/_Game/Art/AgeGrowth/06_preteen.png"
+      },
+      {
+        "motion": "Run",
+        "direction": "Left",
+        "frames": 3,
+        "texture": "Assets/_Game/Art/AgeGrowth/06_preteen.png"
+      },
+      {
+        "motion": "Turn",
+        "direction": "Left",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/06_preteen.png"
+      },
+      {
+        "motion": "Stop",
+        "direction": "Left",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/06_preteen.png"
+      },
+      {
+        "motion": "Idle",
+        "direction": "Right",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/06_preteen.png"
+      },
+      {
+        "motion": "Walk",
+        "direction": "Right",
+        "frames": 3,
+        "texture": "Assets/_Game/Art/AgeGrowth/06_preteen.png"
+      },
+      {
+        "motion": "Run",
+        "direction": "Right",
+        "frames": 3,
+        "texture": "Assets/_Game/Art/AgeGrowth/06_preteen.png"
+      },
+      {
+        "motion": "Turn",
+        "direction": "Right",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/06_preteen.png"
+      },
+      {
+        "motion": "Stop",
+        "direction": "Right",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/06_preteen.png"
+      },
+      {
+        "motion": "SitDown",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/06_preteen.png"
+      },
+      {
+        "motion": "StandUp",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/06_preteen.png"
+      },
+      {
+        "motion": "Eat",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/06_preteen.png"
+      },
+      {
+        "motion": "Drink",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/06_preteen.png"
+      },
+      {
+        "motion": "WashFace",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/06_preteen.png"
+      },
+      {
+        "motion": "Shower",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/06_preteen.png"
+      },
+      {
+        "motion": "Study",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/06_preteen.png"
+      },
+      {
+        "motion": "UseComputer",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/06_preteen.png"
+      },
+      {
+        "motion": "OpenDoor",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/06_preteen.png"
+      },
+      {
+        "motion": "PickUpItem",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/06_preteen.png"
+      },
+      {
+        "motion": "PutDownItem",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/06_preteen.png"
+      },
+      {
+        "motion": "Talk",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/06_preteen.png"
+      },
+      {
+        "motion": "Interact",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/06_preteen.png"
+      },
+      {
+        "motion": "Play",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/06_preteen.png"
+      },
+      {
+        "motion": "CareFeed",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/06_preteen.png"
+      },
+      {
+        "motion": "Sleep",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/06_preteen.png"
+      },
+      {
+        "motion": "WakeUp",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/06_preteen.png"
+      }
+    ]
+  },
+  {
+    "id": "Teen",
+    "minAge": 14,
+    "maxAge": 16,
+    "height": 1.45230222,
+    "sleepHorizontal": true,
+    "library": "Assets/_Game/Data/AgeGrowth/07_teen_Animations.asset",
+    "clips": [
+      {
+        "motion": "Idle",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/07_teen.png"
+      },
+      {
+        "motion": "Walk",
+        "direction": "Down",
+        "frames": 3,
+        "texture": "Assets/_Game/Art/AgeGrowth/07_teen.png"
+      },
+      {
+        "motion": "Run",
+        "direction": "Down",
+        "frames": 3,
+        "texture": "Assets/_Game/Art/AgeGrowth/07_teen.png"
+      },
+      {
+        "motion": "Turn",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/07_teen.png"
+      },
+      {
+        "motion": "Stop",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/07_teen.png"
+      },
+      {
+        "motion": "Idle",
+        "direction": "Up",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/07_teen.png"
+      },
+      {
+        "motion": "Walk",
+        "direction": "Up",
+        "frames": 3,
+        "texture": "Assets/_Game/Art/AgeGrowth/07_teen.png"
+      },
+      {
+        "motion": "Run",
+        "direction": "Up",
+        "frames": 3,
+        "texture": "Assets/_Game/Art/AgeGrowth/07_teen.png"
+      },
+      {
+        "motion": "Turn",
+        "direction": "Up",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/07_teen.png"
+      },
+      {
+        "motion": "Stop",
+        "direction": "Up",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/07_teen.png"
+      },
+      {
+        "motion": "Idle",
+        "direction": "Left",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/07_teen.png"
+      },
+      {
+        "motion": "Walk",
+        "direction": "Left",
+        "frames": 3,
+        "texture": "Assets/_Game/Art/AgeGrowth/07_teen.png"
+      },
+      {
+        "motion": "Run",
+        "direction": "Left",
+        "frames": 3,
+        "texture": "Assets/_Game/Art/AgeGrowth/07_teen.png"
+      },
+      {
+        "motion": "Turn",
+        "direction": "Left",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/07_teen.png"
+      },
+      {
+        "motion": "Stop",
+        "direction": "Left",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/07_teen.png"
+      },
+      {
+        "motion": "Idle",
+        "direction": "Right",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/07_teen.png"
+      },
+      {
+        "motion": "Walk",
+        "direction": "Right",
+        "frames": 3,
+        "texture": "Assets/_Game/Art/AgeGrowth/07_teen.png"
+      },
+      {
+        "motion": "Run",
+        "direction": "Right",
+        "frames": 3,
+        "texture": "Assets/_Game/Art/AgeGrowth/07_teen.png"
+      },
+      {
+        "motion": "Turn",
+        "direction": "Right",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/07_teen.png"
+      },
+      {
+        "motion": "Stop",
+        "direction": "Right",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/07_teen.png"
+      },
+      {
+        "motion": "SitDown",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/07_teen.png"
+      },
+      {
+        "motion": "StandUp",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/07_teen.png"
+      },
+      {
+        "motion": "Eat",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/07_teen.png"
+      },
+      {
+        "motion": "Drink",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/07_teen.png"
+      },
+      {
+        "motion": "WashFace",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/07_teen.png"
+      },
+      {
+        "motion": "Shower",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/07_teen.png"
+      },
+      {
+        "motion": "Study",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/07_teen.png"
+      },
+      {
+        "motion": "UseComputer",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/07_teen.png"
+      },
+      {
+        "motion": "OpenDoor",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/07_teen.png"
+      },
+      {
+        "motion": "PickUpItem",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/07_teen.png"
+      },
+      {
+        "motion": "PutDownItem",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/07_teen.png"
+      },
+      {
+        "motion": "Talk",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/07_teen.png"
+      },
+      {
+        "motion": "Interact",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/07_teen.png"
+      },
+      {
+        "motion": "Play",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/07_teen.png"
+      },
+      {
+        "motion": "CareFeed",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/07_teen.png"
+      },
+      {
+        "motion": "Sleep",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/07_teen.png"
+      },
+      {
+        "motion": "WakeUp",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/07_teen.png"
+      }
+    ]
+  },
+  {
+    "id": "LateTeen",
+    "minAge": 17,
+    "maxAge": 18,
+    "height": 1.60607529,
+    "sleepHorizontal": true,
+    "library": "Assets/_Game/Data/AgeGrowth/08_late_teen_Animations.asset",
+    "clips": [
+      {
+        "motion": "Idle",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/08_late_teen.png"
+      },
+      {
+        "motion": "Walk",
+        "direction": "Down",
+        "frames": 3,
+        "texture": "Assets/_Game/Art/AgeGrowth/08_late_teen.png"
+      },
+      {
+        "motion": "Run",
+        "direction": "Down",
+        "frames": 3,
+        "texture": "Assets/_Game/Art/AgeGrowth/08_late_teen.png"
+      },
+      {
+        "motion": "Turn",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/08_late_teen.png"
+      },
+      {
+        "motion": "Stop",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/08_late_teen.png"
+      },
+      {
+        "motion": "Idle",
+        "direction": "Up",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/08_late_teen.png"
+      },
+      {
+        "motion": "Walk",
+        "direction": "Up",
+        "frames": 3,
+        "texture": "Assets/_Game/Art/AgeGrowth/08_late_teen.png"
+      },
+      {
+        "motion": "Run",
+        "direction": "Up",
+        "frames": 3,
+        "texture": "Assets/_Game/Art/AgeGrowth/08_late_teen.png"
+      },
+      {
+        "motion": "Turn",
+        "direction": "Up",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/08_late_teen.png"
+      },
+      {
+        "motion": "Stop",
+        "direction": "Up",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/08_late_teen.png"
+      },
+      {
+        "motion": "Idle",
+        "direction": "Left",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/08_late_teen.png"
+      },
+      {
+        "motion": "Walk",
+        "direction": "Left",
+        "frames": 3,
+        "texture": "Assets/_Game/Art/AgeGrowth/08_late_teen.png"
+      },
+      {
+        "motion": "Run",
+        "direction": "Left",
+        "frames": 3,
+        "texture": "Assets/_Game/Art/AgeGrowth/08_late_teen.png"
+      },
+      {
+        "motion": "Turn",
+        "direction": "Left",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/08_late_teen.png"
+      },
+      {
+        "motion": "Stop",
+        "direction": "Left",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/08_late_teen.png"
+      },
+      {
+        "motion": "Idle",
+        "direction": "Right",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/08_late_teen.png"
+      },
+      {
+        "motion": "Walk",
+        "direction": "Right",
+        "frames": 3,
+        "texture": "Assets/_Game/Art/AgeGrowth/08_late_teen.png"
+      },
+      {
+        "motion": "Run",
+        "direction": "Right",
+        "frames": 3,
+        "texture": "Assets/_Game/Art/AgeGrowth/08_late_teen.png"
+      },
+      {
+        "motion": "Turn",
+        "direction": "Right",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/08_late_teen.png"
+      },
+      {
+        "motion": "Stop",
+        "direction": "Right",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/08_late_teen.png"
+      },
+      {
+        "motion": "SitDown",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/08_late_teen.png"
+      },
+      {
+        "motion": "StandUp",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/08_late_teen.png"
+      },
+      {
+        "motion": "Eat",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/08_late_teen.png"
+      },
+      {
+        "motion": "Drink",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/08_late_teen.png"
+      },
+      {
+        "motion": "WashFace",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/08_late_teen.png"
+      },
+      {
+        "motion": "Shower",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/08_late_teen.png"
+      },
+      {
+        "motion": "Study",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/08_late_teen.png"
+      },
+      {
+        "motion": "UseComputer",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/08_late_teen.png"
+      },
+      {
+        "motion": "OpenDoor",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/08_late_teen.png"
+      },
+      {
+        "motion": "PickUpItem",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/08_late_teen.png"
+      },
+      {
+        "motion": "PutDownItem",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/08_late_teen.png"
+      },
+      {
+        "motion": "Talk",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/08_late_teen.png"
+      },
+      {
+        "motion": "Interact",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/08_late_teen.png"
+      },
+      {
+        "motion": "Play",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/08_late_teen.png"
+      },
+      {
+        "motion": "CareFeed",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/08_late_teen.png"
+      },
+      {
+        "motion": "Sleep",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/08_late_teen.png"
+      },
+      {
+        "motion": "WakeUp",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/AgeGrowth/08_late_teen.png"
+      }
+    ]
+  },
+  {
+    "id": "Adult",
+    "minAge": 19,
+    "maxAge": 29,
+    "height": 1.70859075,
+    "sleepHorizontal": false,
+    "library": "Assets/_Game/Data/Phase26/Advanced/IanAdvanced.asset",
+    "clips": [
+      {
+        "motion": "Walk",
+        "direction": "Down",
+        "frames": 6,
+        "texture": "Assets/_Game/Art/Characters/Ian/Animations/WorldWalkAtlas.png"
+      },
+      {
+        "motion": "Run",
+        "direction": "Down",
+        "frames": 4,
+        "texture": "Assets/_Game/Art/AdvancedLife/IanRunTurnStop.png"
+      },
+      {
+        "motion": "Walk",
+        "direction": "Up",
+        "frames": 6,
+        "texture": "Assets/_Game/Art/Characters/Ian/Animations/WorldWalkAtlas.png"
+      },
+      {
+        "motion": "Idle",
+        "direction": "Up",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/Characters/Ian/Animations/WorldWalkAtlas.png"
+      },
+      {
+        "motion": "Run",
+        "direction": "Up",
+        "frames": 4,
+        "texture": "Assets/_Game/Art/AdvancedLife/IanRunTurnStop.png"
+      },
+      {
+        "motion": "Walk",
+        "direction": "Left",
+        "frames": 6,
+        "texture": "Assets/_Game/Art/Characters/Ian/Animations/WorldWalkAtlas.png"
+      },
+      {
+        "motion": "Idle",
+        "direction": "Left",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/Characters/Ian/Animations/WorldWalkAtlas.png"
+      },
+      {
+        "motion": "Run",
+        "direction": "Left",
+        "frames": 4,
+        "texture": "Assets/_Game/Art/AdvancedLife/IanRunTurnStop.png"
+      },
+      {
+        "motion": "Walk",
+        "direction": "Right",
+        "frames": 6,
+        "texture": "Assets/_Game/Art/Characters/Ian/Animations/WorldWalkAtlas.png"
+      },
+      {
+        "motion": "Idle",
+        "direction": "Right",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/Characters/Ian/Animations/WorldWalkAtlas.png"
+      },
+      {
+        "motion": "Run",
+        "direction": "Right",
+        "frames": 4,
+        "texture": "Assets/_Game/Art/AdvancedLife/IanRunTurnStop.png"
+      },
+      {
+        "motion": "Sleep",
+        "direction": "Down",
+        "frames": 4,
+        "texture": "Assets/_Game/Art/AdvancedLife/IanActions.png"
+      },
+      {
+        "motion": "WakeUp",
+        "direction": "Down",
+        "frames": 5,
+        "texture": "Assets/_Game/Art/AdvancedLife/IanActions.png"
+      },
+      {
+        "motion": "SitDown",
+        "direction": "Down",
+        "frames": 4,
+        "texture": "Assets/_Game/Art/AdvancedLife/IanActions.png"
+      },
+      {
+        "motion": "StandUp",
+        "direction": "Down",
+        "frames": 4,
+        "texture": "Assets/_Game/Art/AdvancedLife/IanActions.png"
+      },
+      {
+        "motion": "Eat",
+        "direction": "Down",
+        "frames": 4,
+        "texture": "Assets/_Game/Art/AdvancedLife/IanActions.png"
+      },
+      {
+        "motion": "Drink",
+        "direction": "Down",
+        "frames": 4,
+        "texture": "Assets/_Game/Art/AdvancedLife/IanActions.png"
+      },
+      {
+        "motion": "WashFace",
+        "direction": "Down",
+        "frames": 4,
+        "texture": "Assets/_Game/Art/AdvancedLife/IanActions.png"
+      },
+      {
+        "motion": "Shower",
+        "direction": "Down",
+        "frames": 4,
+        "texture": "Assets/_Game/Art/AdvancedLife/IanActions.png"
+      },
+      {
+        "motion": "Work",
+        "direction": "Down",
+        "frames": 4,
+        "texture": "Assets/_Game/Art/AdvancedLife/IanActions.png"
+      },
+      {
+        "motion": "UseComputer",
+        "direction": "Down",
+        "frames": 4,
+        "texture": "Assets/_Game/Art/AdvancedLife/IanActions.png"
+      },
+      {
+        "motion": "UsePhone",
+        "direction": "Down",
+        "frames": 4,
+        "texture": "Assets/_Game/Art/AdvancedLife/IanActions.png"
+      },
+      {
+        "motion": "Interact",
+        "direction": "Down",
+        "frames": 4,
+        "texture": "Assets/_Game/Art/AdvancedLife/IanActions.png"
+      },
+      {
+        "motion": "OpenDoor",
+        "direction": "Right",
+        "frames": 4,
+        "texture": "Assets/_Game/Art/AdvancedLife/IanActions.png"
+      },
+      {
+        "motion": "PickUpItem",
+        "direction": "Down",
+        "frames": 4,
+        "texture": "Assets/_Game/Art/AdvancedLife/IanActions.png"
+      },
+      {
+        "motion": "PutDownItem",
+        "direction": "Down",
+        "frames": 4,
+        "texture": "Assets/_Game/Art/AdvancedLife/IanActions.png"
+      },
+      {
+        "motion": "Thinking",
+        "direction": "Down",
+        "frames": 4,
+        "texture": "Assets/_Game/Art/AdvancedLife/IanActions.png"
+      },
+      {
+        "motion": "Happy",
+        "direction": "Down",
+        "frames": 4,
+        "texture": "Assets/_Game/Art/AdvancedLife/IanEmotions.png"
+      },
+      {
+        "motion": "Sad",
+        "direction": "Down",
+        "frames": 4,
+        "texture": "Assets/_Game/Art/AdvancedLife/IanEmotions.png"
+      },
+      {
+        "motion": "Tired",
+        "direction": "Down",
+        "frames": 4,
+        "texture": "Assets/_Game/Art/AdvancedLife/IanEmotions.png"
+      },
+      {
+        "motion": "Angry",
+        "direction": "Down",
+        "frames": 4,
+        "texture": "Assets/_Game/Art/AdvancedLife/IanEmotions.png"
+      },
+      {
+        "motion": "Stressed",
+        "direction": "Down",
+        "frames": 4,
+        "texture": "Assets/_Game/Art/AdvancedLife/IanEmotions.png"
+      },
+      {
+        "motion": "Surprised",
+        "direction": "Down",
+        "frames": 4,
+        "texture": "Assets/_Game/Art/AdvancedLife/IanEmotions.png"
+      },
+      {
+        "motion": "Thinking",
+        "direction": "Down",
+        "frames": 4,
+        "texture": "Assets/_Game/Art/AdvancedLife/IanEmotions.png"
+      },
+      {
+        "motion": "Turn",
+        "direction": "Up",
+        "frames": 4,
+        "texture": "Assets/_Game/Art/AdvancedLife/IanRunTurnStop.png"
+      },
+      {
+        "motion": "Turn",
+        "direction": "Down",
+        "frames": 4,
+        "texture": "Assets/_Game/Art/AdvancedLife/IanRunTurnStop.png"
+      },
+      {
+        "motion": "Stop",
+        "direction": "Down",
+        "frames": 4,
+        "texture": "Assets/_Game/Art/AdvancedLife/IanRunTurnStop.png"
+      },
+      {
+        "motion": "Stop",
+        "direction": "Right",
+        "frames": 4,
+        "texture": "Assets/_Game/Art/AdvancedLife/IanRunTurnStop.png"
+      },
+      {
+        "motion": "Stop",
+        "direction": "Left",
+        "frames": 4,
+        "texture": "Assets/_Game/Art/AdvancedLife/IanRunTurnStop.png"
+      },
+      {
+        "motion": "Idle",
+        "direction": "Down",
+        "frames": 4,
+        "texture": "Assets/_Game/Art/AdvancedLife/IanEmotions.png"
+      }
+    ]
+  },
+  {
+    "id": "MiddleAge",
+    "minAge": 30,
+    "maxAge": 59,
+    "height": 1.74,
+    "sleepHorizontal": true,
+    "library": "Assets/_Game/Data/Phase30/Ian_MiddleAge_Animations.asset",
+    "clips": [
+      {
+        "motion": "Idle",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/Phase30/Ian_MiddleAge.png"
+      },
+      {
+        "motion": "Walk",
+        "direction": "Down",
+        "frames": 3,
+        "texture": "Assets/_Game/Art/Phase30/Ian_MiddleAge.png"
+      },
+      {
+        "motion": "Run",
+        "direction": "Down",
+        "frames": 3,
+        "texture": "Assets/_Game/Art/Phase30/Ian_MiddleAge.png"
+      },
+      {
+        "motion": "Turn",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/Phase30/Ian_MiddleAge.png"
+      },
+      {
+        "motion": "Stop",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/Phase30/Ian_MiddleAge.png"
+      },
+      {
+        "motion": "Idle",
+        "direction": "Up",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/Phase30/Ian_MiddleAge.png"
+      },
+      {
+        "motion": "Walk",
+        "direction": "Up",
+        "frames": 3,
+        "texture": "Assets/_Game/Art/Phase30/Ian_MiddleAge.png"
+      },
+      {
+        "motion": "Run",
+        "direction": "Up",
+        "frames": 3,
+        "texture": "Assets/_Game/Art/Phase30/Ian_MiddleAge.png"
+      },
+      {
+        "motion": "Turn",
+        "direction": "Up",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/Phase30/Ian_MiddleAge.png"
+      },
+      {
+        "motion": "Stop",
+        "direction": "Up",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/Phase30/Ian_MiddleAge.png"
+      },
+      {
+        "motion": "Idle",
+        "direction": "Left",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/Phase30/Ian_MiddleAge.png"
+      },
+      {
+        "motion": "Walk",
+        "direction": "Left",
+        "frames": 3,
+        "texture": "Assets/_Game/Art/Phase30/Ian_MiddleAge.png"
+      },
+      {
+        "motion": "Run",
+        "direction": "Left",
+        "frames": 3,
+        "texture": "Assets/_Game/Art/Phase30/Ian_MiddleAge.png"
+      },
+      {
+        "motion": "Turn",
+        "direction": "Left",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/Phase30/Ian_MiddleAge.png"
+      },
+      {
+        "motion": "Stop",
+        "direction": "Left",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/Phase30/Ian_MiddleAge.png"
+      },
+      {
+        "motion": "Idle",
+        "direction": "Right",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/Phase30/Ian_MiddleAge.png"
+      },
+      {
+        "motion": "Walk",
+        "direction": "Right",
+        "frames": 3,
+        "texture": "Assets/_Game/Art/Phase30/Ian_MiddleAge.png"
+      },
+      {
+        "motion": "Run",
+        "direction": "Right",
+        "frames": 3,
+        "texture": "Assets/_Game/Art/Phase30/Ian_MiddleAge.png"
+      },
+      {
+        "motion": "Turn",
+        "direction": "Right",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/Phase30/Ian_MiddleAge.png"
+      },
+      {
+        "motion": "Stop",
+        "direction": "Right",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/Phase30/Ian_MiddleAge.png"
+      },
+      {
+        "motion": "Sleep",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/Phase30/Ian_MiddleAge.png"
+      },
+      {
+        "motion": "WakeUp",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/Phase30/Ian_MiddleAge.png"
+      },
+      {
+        "motion": "SitDown",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/Phase30/Ian_MiddleAge.png"
+      },
+      {
+        "motion": "StandUp",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/Phase30/Ian_MiddleAge.png"
+      },
+      {
+        "motion": "Eat",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/Phase30/Ian_MiddleAge.png"
+      },
+      {
+        "motion": "Drink",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/Phase30/Ian_MiddleAge.png"
+      },
+      {
+        "motion": "WashFace",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/Phase30/Ian_MiddleAge.png"
+      },
+      {
+        "motion": "Shower",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/Phase30/Ian_MiddleAge.png"
+      },
+      {
+        "motion": "Study",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/Phase30/Ian_MiddleAge.png"
+      },
+      {
+        "motion": "UseComputer",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/Phase30/Ian_MiddleAge.png"
+      },
+      {
+        "motion": "OpenDoor",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/Phase30/Ian_MiddleAge.png"
+      },
+      {
+        "motion": "PickUpItem",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/Phase30/Ian_MiddleAge.png"
+      },
+      {
+        "motion": "Tired",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/Phase30/Ian_MiddleAge.png"
+      },
+      {
+        "motion": "Talk",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/Phase30/Ian_MiddleAge.png"
+      },
+      {
+        "motion": "UsePhone",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/Phase30/Ian_MiddleAge.png"
+      },
+      {
+        "motion": "Interact",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/Phase30/Ian_MiddleAge.png"
+      },
+      {
+        "motion": "Work",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/Phase30/Ian_MiddleAge.png"
+      },
+      {
+        "motion": "PutDownItem",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/Phase30/Ian_MiddleAge.png"
+      }
+    ]
+  },
+  {
+    "id": "Elder",
+    "minAge": 60,
+    "maxAge": 2147483647,
+    "height": 1.56,
+    "sleepHorizontal": true,
+    "library": "Assets/_Game/Data/Phase30/Ian_Elder_Animations.asset",
+    "clips": [
+      {
+        "motion": "Idle",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/Phase30/Ian_Elder.png"
+      },
+      {
+        "motion": "Walk",
+        "direction": "Down",
+        "frames": 3,
+        "texture": "Assets/_Game/Art/Phase30/Ian_Elder.png"
+      },
+      {
+        "motion": "Run",
+        "direction": "Down",
+        "frames": 3,
+        "texture": "Assets/_Game/Art/Phase30/Ian_Elder.png"
+      },
+      {
+        "motion": "Turn",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/Phase30/Ian_Elder.png"
+      },
+      {
+        "motion": "Stop",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/Phase30/Ian_Elder.png"
+      },
+      {
+        "motion": "Idle",
+        "direction": "Up",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/Phase30/Ian_Elder.png"
+      },
+      {
+        "motion": "Walk",
+        "direction": "Up",
+        "frames": 3,
+        "texture": "Assets/_Game/Art/Phase30/Ian_Elder.png"
+      },
+      {
+        "motion": "Run",
+        "direction": "Up",
+        "frames": 3,
+        "texture": "Assets/_Game/Art/Phase30/Ian_Elder.png"
+      },
+      {
+        "motion": "Turn",
+        "direction": "Up",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/Phase30/Ian_Elder.png"
+      },
+      {
+        "motion": "Stop",
+        "direction": "Up",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/Phase30/Ian_Elder.png"
+      },
+      {
+        "motion": "Idle",
+        "direction": "Left",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/Phase30/Ian_Elder.png"
+      },
+      {
+        "motion": "Walk",
+        "direction": "Left",
+        "frames": 3,
+        "texture": "Assets/_Game/Art/Phase30/Ian_Elder.png"
+      },
+      {
+        "motion": "Run",
+        "direction": "Left",
+        "frames": 3,
+        "texture": "Assets/_Game/Art/Phase30/Ian_Elder.png"
+      },
+      {
+        "motion": "Turn",
+        "direction": "Left",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/Phase30/Ian_Elder.png"
+      },
+      {
+        "motion": "Stop",
+        "direction": "Left",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/Phase30/Ian_Elder.png"
+      },
+      {
+        "motion": "Idle",
+        "direction": "Right",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/Phase30/Ian_Elder.png"
+      },
+      {
+        "motion": "Walk",
+        "direction": "Right",
+        "frames": 3,
+        "texture": "Assets/_Game/Art/Phase30/Ian_Elder.png"
+      },
+      {
+        "motion": "Run",
+        "direction": "Right",
+        "frames": 3,
+        "texture": "Assets/_Game/Art/Phase30/Ian_Elder.png"
+      },
+      {
+        "motion": "Turn",
+        "direction": "Right",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/Phase30/Ian_Elder.png"
+      },
+      {
+        "motion": "Stop",
+        "direction": "Right",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/Phase30/Ian_Elder.png"
+      },
+      {
+        "motion": "Sleep",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/Phase30/Ian_Elder.png"
+      },
+      {
+        "motion": "WakeUp",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/Phase30/Ian_Elder.png"
+      },
+      {
+        "motion": "SitDown",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/Phase30/Ian_Elder.png"
+      },
+      {
+        "motion": "StandUp",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/Phase30/Ian_Elder.png"
+      },
+      {
+        "motion": "Eat",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/Phase30/Ian_Elder.png"
+      },
+      {
+        "motion": "Drink",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/Phase30/Ian_Elder.png"
+      },
+      {
+        "motion": "WashFace",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/Phase30/Ian_Elder.png"
+      },
+      {
+        "motion": "Shower",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/Phase30/Ian_Elder.png"
+      },
+      {
+        "motion": "Study",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/Phase30/Ian_Elder.png"
+      },
+      {
+        "motion": "UseComputer",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/Phase30/Ian_Elder.png"
+      },
+      {
+        "motion": "OpenDoor",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/Phase30/Ian_Elder.png"
+      },
+      {
+        "motion": "PickUpItem",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/Phase30/Ian_Elder.png"
+      },
+      {
+        "motion": "Tired",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/Phase30/Ian_Elder.png"
+      },
+      {
+        "motion": "Talk",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/Phase30/Ian_Elder.png"
+      },
+      {
+        "motion": "UsePhone",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/Phase30/Ian_Elder.png"
+      },
+      {
+        "motion": "Interact",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/Phase30/Ian_Elder.png"
+      },
+      {
+        "motion": "Work",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/Phase30/Ian_Elder.png"
+      },
+      {
+        "motion": "PutDownItem",
+        "direction": "Down",
+        "frames": 2,
+        "texture": "Assets/_Game/Art/Phase30/Ian_Elder.png"
+      }
+    ]
+  }
+]

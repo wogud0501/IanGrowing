@@ -1,0 +1,1277 @@
+[
+  {
+    "scene": "IndependentHome_Studio",
+    "player": {
+      "position": {
+        "x": 0.0,
+        "y": -2.9,
+        "normalized": {
+          "x": 0.0,
+          "y": -1.0,
+          "magnitude": 1.0,
+          "sqrMagnitude": 1.0
+        },
+        "magnitude": 2.9,
+        "sqrMagnitude": 8.410001
+      },
+      "visual": "Official sprite",
+      "scale": 0.8,
+      "parent": "Animated body pivot",
+      "library": "IanAdvanced"
+    },
+    "objects": [
+      {
+        "id": "bed",
+        "kind": "Sleep",
+        "position": {
+          "x": -4.75,
+          "y": 0.75,
+          "z": 0.0,
+          "normalized": {
+            "x": -0.987763,
+            "y": 0.155962572,
+            "z": 0.0,
+            "magnitude": 1.0,
+            "sqrMagnitude": 1.0
+          },
+          "magnitude": 4.808846,
+          "sqrMagnitude": 23.125
+        },
+        "use": {
+          "x": 1.25,
+          "y": -0.25,
+          "normalized": {
+            "x": 0.9805807,
+            "y": -0.196116135,
+            "magnitude": 1.0,
+            "sqrMagnitude": 1.0
+          },
+          "magnitude": 1.27475488,
+          "sqrMagnitude": 1.625
+        },
+        "bounds": {
+          "center": {
+            "x": -4.75,
+            "y": 1.503125,
+            "z": 0.0,
+            "normalized": {
+              "x": -0.95340234,
+              "y": 0.301701665,
+              "z": 0.0,
+              "normalized": {
+                "x": -0.9534024,
+                "y": 0.3017017,
+                "z": 0.0,
+                "magnitude": 1.0,
+                "sqrMagnitude": 1.0
+              },
+              "magnitude": 0.99999994,
+              "sqrMagnitude": 0.99999994
+            },
+            "magnitude": 4.98215675,
+            "sqrMagnitude": 24.8218842
+          },
+          "size": {
+            "x": 1.075,
+            "y": 1.50625,
+            "z": 0.2,
+            "normalized": {
+              "x": 0.5775553,
+              "y": 0.809249,
+              "z": 0.107452147,
+              "magnitude": 1.0,
+              "sqrMagnitude": 1.0
+            },
+            "magnitude": 1.86129367,
+            "sqrMagnitude": 3.46441412
+          },
+          "extents": {
+            "x": 0.5375,
+            "y": 0.753125,
+            "z": 0.1,
+            "normalized": {
+              "x": 0.5775553,
+              "y": 0.809249,
+              "z": 0.107452147,
+              "magnitude": 1.0,
+              "sqrMagnitude": 1.0
+            },
+            "magnitude": 0.930646837,
+            "sqrMagnitude": 0.86610353
+          },
+          "min": {
+            "x": -5.2875,
+            "y": 0.74999994,
+            "z": -0.1,
+            "normalized": {
+              "x": -0.989915967,
+              "y": 0.1404136,
+              "z": -0.0187218152,
+              "magnitude": 1.0,
+              "sqrMagnitude": 1.00000012
+            },
+            "magnitude": 5.34136248,
+            "sqrMagnitude": 28.5301552
+          },
+          "max": {
+            "x": -4.2125,
+            "y": 2.25625,
+            "z": 0.1,
+            "normalized": {
+              "x": -0.8813259,
+              "y": 0.472045451,
+              "z": 0.0209216829,
+              "magnitude": 1.0,
+              "sqrMagnitude": 0.99999994
+            },
+            "magnitude": 4.77973032,
+            "sqrMagnitude": 22.8458214
+          }
+        },
+        "sprite": "Bed",
+        "texture": "Assets/_Game/Art/VisualRebuild/Furniture.png",
+        "action": {
+          "mode": "Bed",
+          "approach": {
+            "x": 1.25,
+            "y": -0.25,
+            "z": 0.0,
+            "normalized": {
+              "x": 0.9805807,
+              "y": -0.196116135,
+              "z": 0.0,
+              "magnitude": 1.0,
+              "sqrMagnitude": 1.0
+            },
+            "magnitude": 1.27475488,
+            "sqrMagnitude": 1.625
+          },
+          "anchor": {
+            "x": 0.0,
+            "y": 1.2,
+            "z": 0.0,
+            "normalized": {
+              "x": 0.0,
+              "y": 1.0,
+              "z": 0.0,
+              "magnitude": 1.0,
+              "sqrMagnitude": 1.0
+            },
+            "magnitude": 1.2,
+            "sqrMagnitude": 1.44
+          },
+          "facing": {
+            "x": 0.0,
+            "y": 1.0,
+            "magnitude": 1.0,
+            "sqrMagnitude": 1.0
+          }
+        },
+        "slot": null
+      },
+      {
+        "id": "fridge",
+        "kind": "Fridge",
+        "position": {
+          "x": 5.25,
+          "y": 1.25,
+          "z": 0.0,
+          "normalized": {
+            "x": 0.9728063,
+            "y": 0.231620535,
+            "z": 0.0,
+            "normalized": {
+              "x": 0.972806156,
+              "y": 0.2316205,
+              "z": 0.0,
+              "normalized": {
+                "x": 0.9728062,
+                "y": 0.23162052,
+                "z": 0.0,
+                "magnitude": 1.0,
+                "sqrMagnitude": 1.0
+              },
+              "magnitude": 0.99999994,
+              "sqrMagnitude": 0.9999999
+            },
+            "magnitude": 1.00000012,
+            "sqrMagnitude": 1.00000012
+          },
+          "magnitude": 5.396758,
+          "sqrMagnitude": 29.125
+        },
+        "use": {
+          "x": 0.0,
+          "y": -0.8,
+          "normalized": {
+            "x": 0.0,
+            "y": -1.0,
+            "magnitude": 1.0,
+            "sqrMagnitude": 1.0
+          },
+          "magnitude": 0.8,
+          "sqrMagnitude": 0.640000045
+        },
+        "bounds": {
+          "center": {
+            "x": 5.25,
+            "y": 2.4782114,
+            "z": 0.0,
+            "normalized": {
+              "x": 0.9043122,
+              "y": 0.426871777,
+              "z": 0.0,
+              "magnitude": 1.0,
+              "sqrMagnitude": 1.0
+            },
+            "magnitude": 5.805517,
+            "sqrMagnitude": 33.7040329
+          },
+          "size": {
+            "x": 2.7,
+            "y": 2.670024,
+            "z": 0.2,
+            "normalized": {
+              "x": 0.7100586,
+              "y": 0.7021754,
+              "z": 0.0525969379,
+              "magnitude": 1.0,
+              "sqrMagnitude": 0.99999994
+            },
+            "magnitude": 3.80250287,
+            "sqrMagnitude": 14.4590282
+          },
+          "extents": {
+            "x": 1.35,
+            "y": 1.335012,
+            "z": 0.1,
+            "normalized": {
+              "x": 0.7100586,
+              "y": 0.7021754,
+              "z": 0.0525969379,
+              "magnitude": 1.0,
+              "sqrMagnitude": 0.99999994
+            },
+            "magnitude": 1.90125144,
+            "sqrMagnitude": 3.614757
+          },
+          "min": {
+            "x": 3.9,
+            "y": 1.14319944,
+            "z": -0.1,
+            "normalized": {
+              "x": 0.95933187,
+              "y": 0.281207085,
+              "z": -0.024598252,
+              "normalized": {
+                "x": 0.959331751,
+                "y": 0.281207055,
+                "z": -0.0245982483,
+                "normalized": {
+                  "x": 0.9593318,
+                  "y": 0.281207085,
+                  "z": -0.02459825,
+                  "magnitude": 1.0,
+                  "sqrMagnitude": 1.0
+                },
+                "magnitude": 0.99999994,
+                "sqrMagnitude": 0.9999999
+              },
+              "magnitude": 1.00000012,
+              "sqrMagnitude": 1.00000012
+            },
+            "magnitude": 4.06532955,
+            "sqrMagnitude": 16.5269051
+          },
+          "max": {
+            "x": 6.6,
+            "y": 3.81322336,
+            "z": 0.1,
+            "normalized": {
+              "x": 0.8657968,
+              "y": 0.500223756,
+              "z": 0.0131181339,
+              "magnitude": 1.0,
+              "sqrMagnitude": 1.0
+            },
+            "magnitude": 7.62303543,
+            "sqrMagnitude": 58.110672
+          }
+        },
+        "sprite": "Appliances_00",
+        "texture": "Assets/_Game/Art/FamilyLife/Appliances.png",
+        "action": {
+          "mode": "Appliance",
+          "approach": {
+            "x": 0.0,
+            "y": -0.8,
+            "z": 0.0,
+            "normalized": {
+              "x": 0.0,
+              "y": -1.0,
+              "z": 0.0,
+              "magnitude": 1.0,
+              "sqrMagnitude": 1.0
+            },
+            "magnitude": 0.8,
+            "sqrMagnitude": 0.640000045
+          },
+          "anchor": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0,
+            "magnitude": 0.0,
+            "sqrMagnitude": 0.0
+          },
+          "facing": {
+            "x": 0.0,
+            "y": 1.0,
+            "magnitude": 1.0,
+            "sqrMagnitude": 1.0
+          }
+        },
+        "slot": null
+      },
+      {
+        "id": "meal-table",
+        "kind": "Meal",
+        "position": {
+          "x": 4.25,
+          "y": -1.8,
+          "z": 0.0,
+          "normalized": {
+            "x": 0.9208177,
+            "y": -0.38999334,
+            "z": 0.0,
+            "magnitude": 1.0,
+            "sqrMagnitude": 1.0
+          },
+          "magnitude": 4.61546326,
+          "sqrMagnitude": 21.3025
+        },
+        "use": {
+          "x": -1.2,
+          "y": 0.15,
+          "normalized": {
+            "x": -0.9922779,
+            "y": 0.12403474,
+            "magnitude": 1.0,
+            "sqrMagnitude": 1.00000012
+          },
+          "magnitude": 1.20933867,
+          "sqrMagnitude": 1.4625001
+        },
+        "bounds": {
+          "center": {
+            "x": 4.25,
+            "y": -1.2562499,
+            "z": 0.0,
+            "normalized": {
+              "x": 0.9589829,
+              "y": -0.283464,
+              "z": 0.0,
+              "magnitude": 1.0,
+              "sqrMagnitude": 1.0
+            },
+            "magnitude": 4.431779,
+            "sqrMagnitude": 19.6406631
+          },
+          "size": {
+            "x": 1.38125,
+            "y": 1.0875,
+            "z": 0.2,
+            "normalized": {
+              "x": 0.7806654,
+              "y": 0.6146415,
+              "z": 0.113037519,
+              "magnitude": 1.0,
+              "sqrMagnitude": 1.00000012
+            },
+            "magnitude": 1.76932406,
+            "sqrMagnitude": 3.130508
+          },
+          "extents": {
+            "x": 0.690625,
+            "y": 0.54375,
+            "z": 0.1,
+            "normalized": {
+              "x": 0.7806654,
+              "y": 0.6146415,
+              "z": 0.113037519,
+              "magnitude": 1.0,
+              "sqrMagnitude": 1.00000012
+            },
+            "magnitude": 0.884662032,
+            "sqrMagnitude": 0.782627
+          },
+          "min": {
+            "x": 3.559375,
+            "y": -1.8,
+            "z": -0.1,
+            "normalized": {
+              "x": 0.8921006,
+              "y": -0.451141268,
+              "z": -0.0250634048,
+              "magnitude": 1.0,
+              "sqrMagnitude": 1.0
+            },
+            "magnitude": 3.989881,
+            "sqrMagnitude": 15.91915
+          },
+          "max": {
+            "x": 4.940625,
+            "y": -0.7124999,
+            "z": 0.1,
+            "normalized": {
+              "x": 0.9895622,
+              "y": -0.142707244,
+              "z": 0.02002909,
+              "normalized": {
+                "x": 0.9895623,
+                "y": -0.142707258,
+                "z": 0.0200290922,
+                "magnitude": 1.0,
+                "sqrMagnitude": 1.0
+              },
+              "magnitude": 0.99999994,
+              "sqrMagnitude": 0.9999999
+            },
+            "magnitude": 4.99273825,
+            "sqrMagnitude": 24.927433
+          }
+        },
+        "sprite": "DiningTable",
+        "texture": "Assets/_Game/Art/VisualRebuild/Furniture.png",
+        "action": {
+          "mode": "Dining",
+          "approach": {
+            "x": -1.2,
+            "y": 0.15,
+            "z": 0.0,
+            "normalized": {
+              "x": -0.9922779,
+              "y": 0.12403474,
+              "z": 0.0,
+              "magnitude": 1.0,
+              "sqrMagnitude": 1.00000012
+            },
+            "magnitude": 1.20933867,
+            "sqrMagnitude": 1.4625001
+          },
+          "anchor": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0,
+            "magnitude": 0.0,
+            "sqrMagnitude": 0.0
+          },
+          "facing": {
+            "x": 0.0,
+            "y": 1.0,
+            "magnitude": 1.0,
+            "sqrMagnitude": 1.0
+          }
+        },
+        "slot": null
+      },
+      {
+        "id": "home-chair",
+        "kind": "Rest",
+        "position": {
+          "x": 4.25,
+          "y": -2.8,
+          "z": 0.0,
+          "normalized": {
+            "x": 0.8350608,
+            "y": -0.550157666,
+            "z": 0.0,
+            "magnitude": 1.0,
+            "sqrMagnitude": 0.99999994
+          },
+          "magnitude": 5.08945,
+          "sqrMagnitude": 25.9025
+        },
+        "use": {
+          "x": 0.0,
+          "y": -0.65,
+          "normalized": {
+            "x": 0.0,
+            "y": -1.0,
+            "magnitude": 1.0,
+            "sqrMagnitude": 1.0
+          },
+          "magnitude": 0.65,
+          "sqrMagnitude": 0.422499955
+        },
+        "bounds": {
+          "center": {
+            "x": 4.25,
+            "y": -2.25,
+            "z": 0.0,
+            "normalized": {
+              "x": 0.88378793,
+              "y": -0.467887729,
+              "z": 0.0,
+              "magnitude": 1.0,
+              "sqrMagnitude": 1.0
+            },
+            "magnitude": 4.808846,
+            "sqrMagnitude": 23.125
+          },
+          "size": {
+            "x": 0.68125,
+            "y": 1.1,
+            "z": 0.2,
+            "normalized": {
+              "x": 0.5203412,
+              "y": 0.840184033,
+              "z": 0.152760729,
+              "magnitude": 1.0,
+              "sqrMagnitude": 1.0
+            },
+            "magnitude": 1.309237,
+            "sqrMagnitude": 1.71410155
+          },
+          "extents": {
+            "x": 0.340625,
+            "y": 0.55,
+            "z": 0.1,
+            "normalized": {
+              "x": 0.5203412,
+              "y": 0.840184033,
+              "z": 0.152760729,
+              "magnitude": 1.0,
+              "sqrMagnitude": 1.0
+            },
+            "magnitude": 0.6546185,
+            "sqrMagnitude": 0.4285254
+          },
+          "min": {
+            "x": 3.909375,
+            "y": -2.8,
+            "z": -0.1,
+            "normalized": {
+              "x": 0.81281054,
+              "y": -0.5821569,
+              "z": -0.0207913183,
+              "normalized": {
+                "x": 0.8128106,
+                "y": -0.582156956,
+                "z": -0.02079132,
+                "magnitude": 1.0,
+                "sqrMagnitude": 1.00000012
+              },
+              "magnitude": 0.99999994,
+              "sqrMagnitude": 0.9999999
+            },
+            "magnitude": 4.8097,
+            "sqrMagnitude": 23.133213
+          },
+          "max": {
+            "x": 4.590625,
+            "y": -1.7,
+            "z": 0.1,
+            "normalized": {
+              "x": 0.937568545,
+              "y": -0.347200364,
+              "z": 0.02042355,
+              "magnitude": 1.0,
+              "sqrMagnitude": 1.0
+            },
+            "magnitude": 4.89630842,
+            "sqrMagnitude": 23.9738369
+          }
+        },
+        "sprite": "Chair",
+        "texture": "Assets/_Game/Art/VisualRebuild/Furniture.png",
+        "action": null,
+        "slot": null
+      },
+      {
+        "id": "starter-desk",
+        "kind": "Rest",
+        "position": {
+          "x": -2.0,
+          "y": 1.5,
+          "z": 0.0,
+          "normalized": {
+            "x": -0.8,
+            "y": 0.6,
+            "z": 0.0,
+            "magnitude": 1.0,
+            "sqrMagnitude": 1.0
+          },
+          "magnitude": 2.5,
+          "sqrMagnitude": 6.25
+        },
+        "use": {
+          "x": 1.0,
+          "y": -0.7,
+          "normalized": {
+            "x": 0.8192319,
+            "y": -0.5734623,
+            "magnitude": 1.0,
+            "sqrMagnitude": 0.99999994
+          },
+          "magnitude": 1.22065556,
+          "sqrMagnitude": 1.49
+        },
+        "bounds": {
+          "center": {
+            "x": -2.0,
+            "y": 2.03125,
+            "z": 0.0,
+            "normalized": {
+              "x": -0.701604247,
+              "y": 0.712566853,
+              "z": 0.0,
+              "magnitude": 1.0,
+              "sqrMagnitude": 1.0
+            },
+            "magnitude": 2.85060978,
+            "sqrMagnitude": 8.125977
+          },
+          "size": {
+            "x": 1.49375,
+            "y": 1.0625,
+            "z": 0.2,
+            "normalized": {
+              "x": 0.8100764,
+              "y": 0.576204956,
+              "z": 0.108462118,
+              "magnitude": 1.0,
+              "sqrMagnitude": 1.0
+            },
+            "magnitude": 1.84396183,
+            "sqrMagnitude": 3.40019536
+          },
+          "extents": {
+            "x": 0.746875,
+            "y": 0.53125,
+            "z": 0.1,
+            "normalized": {
+              "x": 0.8100764,
+              "y": 0.576204956,
+              "z": 0.108462118,
+              "magnitude": 1.0,
+              "sqrMagnitude": 1.0
+            },
+            "magnitude": 0.9219809,
+            "sqrMagnitude": 0.85004884
+          },
+          "min": {
+            "x": -2.746875,
+            "y": 1.5,
+            "z": -0.1,
+            "normalized": {
+              "x": -0.877218843,
+              "y": 0.479027331,
+              "z": -0.0319351554,
+              "normalized": {
+                "x": -0.8772189,
+                "y": 0.479027361,
+                "z": -0.03193516,
+                "magnitude": 1.0,
+                "sqrMagnitude": 1.00000012
+              },
+              "magnitude": 0.99999994,
+              "sqrMagnitude": 0.99999994
+            },
+            "magnitude": 3.13134527,
+            "sqrMagnitude": 9.805323
+          },
+          "max": {
+            "x": -1.253125,
+            "y": 2.5625,
+            "z": 0.1,
+            "normalized": {
+              "x": -0.439038664,
+              "y": 0.8977848,
+              "z": 0.0350355059,
+              "magnitude": 1.0,
+              "sqrMagnitude": 1.0
+            },
+            "magnitude": 2.85424733,
+            "sqrMagnitude": 8.14672852
+          }
+        },
+        "sprite": "WritingDesk",
+        "texture": "Assets/_Game/Art/VisualRebuild/Furniture.png",
+        "action": {
+          "mode": "AlignOnly",
+          "approach": {
+            "x": 1.0,
+            "y": -0.7,
+            "z": 0.0,
+            "normalized": {
+              "x": 0.8192319,
+              "y": -0.5734623,
+              "z": 0.0,
+              "magnitude": 1.0,
+              "sqrMagnitude": 0.99999994
+            },
+            "magnitude": 1.22065556,
+            "sqrMagnitude": 1.49
+          },
+          "anchor": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0,
+            "magnitude": 0.0,
+            "sqrMagnitude": 0.0
+          },
+          "facing": {
+            "x": 0.0,
+            "y": 1.0,
+            "magnitude": 1.0,
+            "sqrMagnitude": 1.0
+          }
+        },
+        "slot": null
+      },
+      {
+        "id": "writing-chair",
+        "kind": "Rest",
+        "position": {
+          "x": -2.0,
+          "y": 0.5,
+          "z": 0.0,
+          "normalized": {
+            "x": -0.970142543,
+            "y": 0.242535636,
+            "z": 0.0,
+            "magnitude": 1.0,
+            "sqrMagnitude": 1.00000012
+          },
+          "magnitude": 2.06155276,
+          "sqrMagnitude": 4.25
+        },
+        "use": {
+          "x": 0.0,
+          "y": -0.7,
+          "normalized": {
+            "x": 0.0,
+            "y": -1.0,
+            "magnitude": 1.0,
+            "sqrMagnitude": 1.0
+          },
+          "magnitude": 0.7,
+          "sqrMagnitude": 0.48999998
+        },
+        "bounds": {
+          "center": {
+            "x": -2.0,
+            "y": 1.05,
+            "z": 0.0,
+            "normalized": {
+              "x": -0.8853979,
+              "y": 0.4648339,
+              "z": 0.0,
+              "magnitude": 1.0,
+              "sqrMagnitude": 1.0
+            },
+            "magnitude": 2.25887132,
+            "sqrMagnitude": 5.1025
+          },
+          "size": {
+            "x": 0.68125,
+            "y": 1.1,
+            "z": 0.2,
+            "normalized": {
+              "x": 0.5203412,
+              "y": 0.840184033,
+              "z": 0.152760729,
+              "magnitude": 1.0,
+              "sqrMagnitude": 1.0
+            },
+            "magnitude": 1.309237,
+            "sqrMagnitude": 1.71410155
+          },
+          "extents": {
+            "x": 0.340625,
+            "y": 0.55,
+            "z": 0.1,
+            "normalized": {
+              "x": 0.5203412,
+              "y": 0.840184033,
+              "z": 0.152760729,
+              "magnitude": 1.0,
+              "sqrMagnitude": 1.0
+            },
+            "magnitude": 0.6546185,
+            "sqrMagnitude": 0.4285254
+          },
+          "min": {
+            "x": -2.340625,
+            "y": 0.49999994,
+            "z": -0.1,
+            "normalized": {
+              "x": -0.977083564,
+              "y": 0.208722755,
+              "z": -0.0417445563,
+              "magnitude": 1.0,
+              "sqrMagnitude": 1.00000012
+            },
+            "magnitude": 2.39552188,
+            "sqrMagnitude": 5.73852539
+          },
+          "max": {
+            "x": -1.659375,
+            "y": 1.5999999,
+            "z": 0.1,
+            "normalized": {
+              "x": -0.7191921,
+              "y": 0.693458259,
+              "z": 0.0433411449,
+              "magnitude": 1.0,
+              "sqrMagnitude": 1.00000012
+            },
+            "magnitude": 2.30727649,
+            "sqrMagnitude": 5.323525
+          }
+        },
+        "sprite": "Chair",
+        "texture": "Assets/_Game/Art/VisualRebuild/Furniture.png",
+        "action": null,
+        "slot": null
+      }
+    ]
+  },
+  {
+    "scene": "FamilyHome_IanBedroom",
+    "player": {
+      "position": {
+        "x": 500.0,
+        "y": 3.5,
+        "normalized": {
+          "x": 0.9999755,
+          "y": 0.006999829,
+          "magnitude": 1.0,
+          "sqrMagnitude": 1.0
+        },
+        "magnitude": 500.012238,
+        "sqrMagnitude": 250012.25
+      },
+      "visual": "Official sprite",
+      "scale": 0.8,
+      "parent": "Animated body pivot",
+      "library": "IanAdvanced"
+    },
+    "objects": [
+      {
+        "id": "family-bed",
+        "kind": "Sleep",
+        "position": {
+          "x": 499.4,
+          "y": 5.1,
+          "z": 0.0,
+          "normalized": {
+            "x": 0.9999479,
+            "y": 0.010211722,
+            "z": 0.0,
+            "magnitude": 1.0,
+            "sqrMagnitude": 1.00000012
+          },
+          "magnitude": 499.426025,
+          "sqrMagnitude": 249426.359
+        },
+        "use": {
+          "x": 0.0,
+          "y": -0.75,
+          "normalized": {
+            "x": 0.0,
+            "y": -1.0,
+            "magnitude": 1.0,
+            "sqrMagnitude": 1.0
+          },
+          "magnitude": 0.75,
+          "sqrMagnitude": 0.5625
+        },
+        "bounds": {
+          "center": {
+            "x": 499.4,
+            "y": 6.328211,
+            "z": 0.0,
+            "normalized": {
+              "x": 0.9999197,
+              "y": 0.01267061,
+              "z": 0.0,
+              "magnitude": 1.0,
+              "sqrMagnitude": 1.0
+            },
+            "magnitude": 499.4401,
+            "sqrMagnitude": 249440.4
+          },
+          "size": {
+            "x": 2.7,
+            "y": 2.670024,
+            "z": 0.2,
+            "normalized": {
+              "x": 0.7100586,
+              "y": 0.7021754,
+              "z": 0.0525969379,
+              "magnitude": 1.0,
+              "sqrMagnitude": 0.99999994
+            },
+            "magnitude": 3.80250287,
+            "sqrMagnitude": 14.4590282
+          },
+          "extents": {
+            "x": 1.35,
+            "y": 1.335012,
+            "z": 0.1,
+            "normalized": {
+              "x": 0.7100586,
+              "y": 0.7021754,
+              "z": 0.0525969379,
+              "magnitude": 1.0,
+              "sqrMagnitude": 0.99999994
+            },
+            "magnitude": 1.90125144,
+            "sqrMagnitude": 3.614757
+          },
+          "min": {
+            "x": 498.05,
+            "y": 4.993199,
+            "z": -0.1,
+            "normalized": {
+              "x": 0.999949753,
+              "y": 0.0100249937,
+              "z": -0.000200772978,
+              "magnitude": 1.0,
+              "sqrMagnitude": 1.0
+            },
+            "magnitude": 498.075,
+            "sqrMagnitude": 248078.734
+          },
+          "max": {
+            "x": 500.75,
+            "y": 7.663223,
+            "z": 0.1,
+            "normalized": {
+              "x": 0.9998829,
+              "y": 0.0153016979,
+              "z": 0.000199677059,
+              "magnitude": 1.0,
+              "sqrMagnitude": 0.99999994
+            },
+            "magnitude": 500.808655,
+            "sqrMagnitude": 250809.3
+          }
+        },
+        "sprite": "Appliances_12",
+        "texture": "Assets/_Game/Art/FamilyLife/Appliances.png",
+        "action": {
+          "mode": "Bed",
+          "approach": {
+            "x": 0.0,
+            "y": -0.75,
+            "z": 0.0,
+            "normalized": {
+              "x": 0.0,
+              "y": -1.0,
+              "z": 0.0,
+              "magnitude": 1.0,
+              "sqrMagnitude": 1.0
+            },
+            "magnitude": 0.75,
+            "sqrMagnitude": 0.5625
+          },
+          "anchor": {
+            "x": 0.0,
+            "y": 1.2,
+            "z": 0.0,
+            "normalized": {
+              "x": 0.0,
+              "y": 1.0,
+              "z": 0.0,
+              "magnitude": 1.0,
+              "sqrMagnitude": 1.0
+            },
+            "magnitude": 1.2,
+            "sqrMagnitude": 1.44
+          },
+          "facing": {
+            "x": 0.0,
+            "y": 1.0,
+            "magnitude": 1.0,
+            "sqrMagnitude": 1.0
+          }
+        },
+        "slot": false
+      }
+    ]
+  },
+  {
+    "scene": "Workspace_Office",
+    "player": {
+      "position": {
+        "x": 222.8,
+        "y": -4.5,
+        "normalized": {
+          "x": 0.9997961,
+          "y": -0.0201933682,
+          "magnitude": 1.0,
+          "sqrMagnitude": 1.0
+        },
+        "magnitude": 222.845444,
+        "sqrMagnitude": 49660.09
+      },
+      "visual": "Official sprite",
+      "scale": 0.8,
+      "parent": "Animated body pivot",
+      "library": "IanAdvanced"
+    },
+    "objects": [
+      {
+        "id": "workdesk",
+        "kind": "Work",
+        "position": {
+          "x": 226.0,
+          "y": -3.2,
+          "z": 0.0,
+          "normalized": {
+            "x": 0.999899745,
+            "y": -0.0141578726,
+            "z": 0.0,
+            "magnitude": 1.0,
+            "sqrMagnitude": 0.99999994
+          },
+          "magnitude": 226.022659,
+          "sqrMagnitude": 51086.24
+        },
+        "use": {
+          "x": 0.0,
+          "y": -0.65,
+          "normalized": {
+            "x": 0.0,
+            "y": -1.0,
+            "magnitude": 1.0,
+            "sqrMagnitude": 1.0
+          },
+          "magnitude": 0.65,
+          "sqrMagnitude": 0.422499955
+        },
+        "bounds": {
+          "center": {
+            "x": 226.00766,
+            "y": -2.18947363,
+            "z": 0.0,
+            "normalized": {
+              "x": 0.9999531,
+              "y": -0.009687154,
+              "z": 0.0,
+              "magnitude": 1.0,
+              "sqrMagnitude": 1.0
+            },
+            "magnitude": 226.018265,
+            "sqrMagnitude": 51084.2578
+          },
+          "size": {
+            "x": 2.20478487,
+            "y": 2.05933046,
+            "z": 0.15,
+            "normalized": {
+              "x": 0.7299005,
+              "y": 0.6817473,
+              "z": 0.0496579371,
+              "magnitude": 1.0,
+              "sqrMagnitude": 1.0
+            },
+            "magnitude": 3.02066517,
+            "sqrMagnitude": 9.124418
+          },
+          "extents": {
+            "x": 1.10239244,
+            "y": 1.02966523,
+            "z": 0.075,
+            "normalized": {
+              "x": 0.7299005,
+              "y": 0.6817473,
+              "z": 0.0496579371,
+              "magnitude": 1.0,
+              "sqrMagnitude": 1.0
+            },
+            "magnitude": 1.51033258,
+            "sqrMagnitude": 2.28110456
+          },
+          "min": {
+            "x": 224.905273,
+            "y": -3.21913886,
+            "z": -0.075,
+            "normalized": {
+              "x": 0.9998975,
+              "y": -0.0143118426,
+              "z": -0.000333439559,
+              "normalized": {
+                "x": 0.99989754,
+                "y": -0.0143118436,
+                "z": -0.0003334396,
+                "magnitude": 1.0,
+                "sqrMagnitude": 1.0
+              },
+              "magnitude": 0.99999994,
+              "sqrMagnitude": 0.9999999
+            },
+            "magnitude": 224.928329,
+            "sqrMagnitude": 50592.75
+          },
+          "max": {
+            "x": 227.110046,
+            "y": -1.1598084,
+            "z": 0.075,
+            "normalized": {
+              "x": 0.9999869,
+              "y": -0.00510674529,
+              "z": 0.000330232055,
+              "magnitude": 1.0,
+              "sqrMagnitude": 0.99999994
+            },
+            "magnitude": 227.113022,
+            "sqrMagnitude": 51580.3242
+          }
+        },
+        "sprite": "Desk",
+        "texture": "Assets/_Game/Art/Phase26Recovery/FurnitureAtlas.png",
+        "action": null,
+        "slot": null
+      }
+    ]
+  },
+  {
+    "scene": "School_Classroom",
+    "player": {
+      "position": {
+        "x": 260.0,
+        "y": -4.6,
+        "normalized": {
+          "x": 0.999843538,
+          "y": -0.01768954,
+          "magnitude": 1.0,
+          "sqrMagnitude": 1.0
+        },
+        "magnitude": 260.04068,
+        "sqrMagnitude": 67621.16
+      },
+      "visual": "Official sprite",
+      "scale": 0.8,
+      "parent": "Animated body pivot",
+      "library": "IanAdvanced"
+    },
+    "objects": [
+      {
+        "id": "study-desk",
+        "kind": "Study",
+        "position": {
+          "x": 265.8,
+          "y": 0.4,
+          "z": 0.0,
+          "normalized": {
+            "x": 0.999998868,
+            "y": 0.00150488922,
+            "z": 0.0,
+            "magnitude": 1.0,
+            "sqrMagnitude": 1.0
+          },
+          "magnitude": 265.8003,
+          "sqrMagnitude": 70649.8
+        },
+        "use": {
+          "x": 0.0,
+          "y": -0.7,
+          "normalized": {
+            "x": 0.0,
+            "y": -1.0,
+            "magnitude": 1.0,
+            "sqrMagnitude": 1.0
+          },
+          "magnitude": 0.7,
+          "sqrMagnitude": 0.48999998
+        },
+        "bounds": {
+          "center": {
+            "x": 265.8,
+            "y": 1.38256872,
+            "z": 0.0,
+            "normalized": {
+              "x": 0.99998647,
+              "y": 0.00520146731,
+              "z": 0.0,
+              "magnitude": 1.0,
+              "sqrMagnitude": 1.0
+            },
+            "magnitude": 265.8036,
+            "sqrMagnitude": 70651.55
+          },
+          "size": {
+            "x": 2.16,
+            "y": 2.13601923,
+            "z": 0.160000011,
+            "normalized": {
+              "x": 0.7100586,
+              "y": 0.7021754,
+              "z": 0.0525969379,
+              "magnitude": 1.0,
+              "sqrMagnitude": 0.99999994
+            },
+            "magnitude": 3.04200244,
+            "sqrMagnitude": 9.253778
+          },
+          "extents": {
+            "x": 1.08,
+            "y": 1.06800961,
+            "z": 0.0800000057,
+            "normalized": {
+              "x": 0.7100586,
+              "y": 0.7021754,
+              "z": 0.0525969379,
+              "magnitude": 1.0,
+              "sqrMagnitude": 0.99999994
+            },
+            "magnitude": 1.52100122,
+            "sqrMagnitude": 2.31344461
+          },
+          "min": {
+            "x": 264.72,
+            "y": 0.3145591,
+            "z": -0.0800000057,
+            "normalized": {
+              "x": 0.999999166,
+              "y": 0.00118827,
+              "z": -0.000302205881,
+              "normalized": {
+                "x": 0.9999992,
+                "y": 0.00118827017,
+                "z": -0.0003022059,
+                "magnitude": 1.0,
+                "sqrMagnitude": 0.99999994
+              },
+              "magnitude": 0.99999994,
+              "sqrMagnitude": 0.9999998
+            },
+            "magnitude": 264.7202,
+            "sqrMagnitude": 70076.78
+          },
+          "max": {
+            "x": 266.879974,
+            "y": 2.45057821,
+            "z": 0.0800000057,
+            "normalized": {
+              "x": 0.9999578,
+              "y": 0.009181936,
+              "z": 0.0002997476,
+              "magnitude": 1.0,
+              "sqrMagnitude": 1.0
+            },
+            "magnitude": 266.891235,
+            "sqrMagnitude": 71230.93
+          }
+        },
+        "sprite": "Furniture_15",
+        "texture": "Assets/_Game/Art/FacilityStandardization/Furniture.png",
+        "action": null,
+        "slot": null
+      }
+    ]
+  }
+]

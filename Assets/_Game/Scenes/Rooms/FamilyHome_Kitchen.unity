@@ -6006,6 +6006,15 @@ MonoBehaviour:
   - {fileID: 8421752044190761392, guid: 8612c5f9438e54b4d902bdb20931783a, type: 3}
   seat: {fileID: 0}
   familyOwned: 1
+  activePose: 
+  restComputer: 0
+  mealProp: {fileID: 0}
+  emptyMealProp: {fileID: 0}
+  bookProp: {fileID: 0}
+  studyProp: {fileID: 0}
+  chairSprite: {fileID: 0}
+  tableOcclusion: 0
+  propAnchor: {fileID: 0}
 --- !u!61 &180968510
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -6321,6 +6330,8 @@ GameObject:
   - component: {fileID: 186109978}
   - component: {fileID: 186109979}
   - component: {fileID: 186109980}
+  - component: {fileID: 186109982}
+  - component: {fileID: 186109981}
   m_Layer: 0
   m_Name: Ian / official playable character
   m_TagString: Untagged
@@ -6340,6 +6351,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b47d5055226326b47967cdb62ab75aa3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::IanGame.WorldPlayerMotor
+  presentation: {fileID: 186109981}
+  controlLocks: {fileID: 186109982}
   world: {fileID: 2122785948}
   sprite: {fileID: 1265790235}
   motions: {fileID: 11400000, guid: d85b994f01c0dfe4e8caf0cd510a972f, type: 2}
@@ -6495,6 +6508,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::IanGame.GrowthPresentationEffects
   growth: {fileID: 186109978}
   sparkle: {fileID: -3729492369987663617, guid: a9254af886a914d93b49210ec40ab572, type: 3}
+--- !u!114 &186109981
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 186109972}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 044d6270257bb4b4685f58388f46bb71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IanGame.PlayerAnimationPresentation
+  motor: {fileID: 186109973}
+--- !u!114 &186109982
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 186109972}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fec08cf56fc3b4a258b63970ff1ebad0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IanGame.PlayerControlLocks
 --- !u!1 &188114729
 GameObject:
   m_ObjectHideFlags: 0
@@ -15604,7 +15642,7 @@ Transform:
   m_GameObject: {fileID: 447103729}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.75, y: 0.65, z: 0}
+  m_LocalPosition: {x: -1.05, y: 0.65, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -16867,7 +16905,7 @@ Transform:
   m_GameObject: {fileID: 480294173}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.6, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -43500,9 +43538,9 @@ MonoBehaviour:
   facing: {x: 0, y: 1}
   useSeatAnchors: 1
   seated: 0
-  seatAnchor: {fileID: 145918939}
-  approachAnchor: {fileID: 1225608249}
-  standUpAnchor: {fileID: 1665849547}
+  seatAnchor: {fileID: 744687792}
+  approachAnchor: {fileID: 806599331}
+  standUpAnchor: {fileID: 262994415}
   activityMotion: 16
 --- !u!114 &1305446942
 MonoBehaviour:
@@ -43542,6 +43580,15 @@ MonoBehaviour:
   - {fileID: -9075672709794964827, guid: 5eaf9f3b34abf4cc89fa04b0edea4325, type: 3}
   seat: {fileID: 1305446941}
   familyOwned: 1
+  activePose: Pick Up Item
+  restComputer: 0
+  mealProp: {fileID: 0}
+  emptyMealProp: {fileID: 0}
+  bookProp: {fileID: 0}
+  studyProp: {fileID: 0}
+  chairSprite: {fileID: 0}
+  tableOcclusion: 0
+  propAnchor: {fileID: 0}
 --- !u!61 &1305446943
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -49857,6 +49904,37 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::IanGame.UITypeScale
   baseSize: 18
   platformScale: 1
+--- !u!1 &1483556572
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1483556573}
+  m_Layer: 0
+  m_Name: PropAnchor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1483556573
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1483556572}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.45, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1954408251}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1492400294
 GameObject:
   m_ObjectHideFlags: 0
@@ -59635,7 +59713,7 @@ Transform:
   m_GameObject: {fileID: 1785916845}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.75, y: 0.65, z: 0}
+  m_LocalPosition: {x: -1.05, y: 0.65, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -65372,6 +65450,7 @@ Transform:
   - {fileID: 480294174}
   - {fileID: 447103730}
   - {fileID: 493213811}
+  - {fileID: 1483556573}
   m_Father: {fileID: 2122785949}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1954408252
@@ -65396,6 +65475,15 @@ MonoBehaviour:
   frames: []
   seat: {fileID: 1954408253}
   familyOwned: 1
+  activePose: 
+  restComputer: 0
+  mealProp: {fileID: 21300000, guid: 9dccd213c95514c3db5d1021a85ba39b, type: 2}
+  emptyMealProp: {fileID: 21300000, guid: efb398585f72847d9a69b95807234f59, type: 2}
+  bookProp: {fileID: 0}
+  studyProp: {fileID: 0}
+  chairSprite: {fileID: 1391849852316778699, guid: e50cda9e68c7a8f48bc2f777d976ea8e, type: 3}
+  tableOcclusion: 1
+  propAnchor: {fileID: 1483556573}
 --- !u!114 &1954408253
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -65413,9 +65501,9 @@ MonoBehaviour:
   facing: {x: 0, y: -1}
   useSeatAnchors: 1
   seated: 1
-  seatAnchor: {fileID: 1760507314}
-  approachAnchor: {fileID: 1912499919}
-  standUpAnchor: {fileID: 1499930330}
+  seatAnchor: {fileID: 480294174}
+  approachAnchor: {fileID: 1785916846}
+  standUpAnchor: {fileID: 447103730}
   activityMotion: 9
 --- !u!61 &1954408254
 BoxCollider2D:

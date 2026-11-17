@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 namespace IanGame {
-public enum ActorMotion {Idle,Walk,Run,Turn,Stop,Sleep,WakeUp,SitDown,StandUp,Eat,Drink,WashFace,Shower,Work,UseComputer,UsePhone,Interact,OpenDoor,PickUpItem,PutDownItem,Happy,Sad,Tired,Angry,Stressed,Surprised,Thinking,Study,Talk,Play,InfantCry,Carried,CareFeed,CareBath}
+public enum ActorMotion {Idle,Walk,Run,Turn,Stop,Sleep,WakeUp,SitDown,StandUp,Eat,Drink,WashFace,Shower,Work,UseComputer,UsePhone,Interact,OpenDoor,PickUpItem,PutDownItem,Happy,Sad,Tired,Angry,Stressed,Surprised,Thinking,Study,Talk,Play,InfantCry,Carried,CareFeed,CareBath,SeatedIdle,Sick,Exhausted,LieDown}
 public enum ActorDirection {Down,Up,Left,Right}
 [Serializable] public sealed class ActorSpriteClip {
  public ActorMotion motion;public ActorDirection direction;public Sprite[] frames=Array.Empty<Sprite>();

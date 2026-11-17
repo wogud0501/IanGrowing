@@ -4,6 +4,7 @@ using IanGame.Commercial;
 namespace IanGame {
 [RequireComponent(typeof(Rigidbody2D),typeof(CircleCollider2D))]
 public sealed class WorldPlayerMotor:MonoBehaviour {
+ public PlayerAnimationPresentation presentation;public PlayerControlLocks controlLocks;public string PoseName=>pose;
  public LifeWorldController world;public SpriteRenderer sprite;public SpriteMotionLibrary motions;public CharacterIdentity identity;public Transform bodyVisual;public Vector2 Facing=Vector2.down;
  public InputActionAsset controls;public Animator locomotion;public WorldWalkSet walkSet;public SpriteRenderer contactShadow;public WorldActorAnimation advanced;
  [Min(.1f)]public float visualScale=1;[Min(1)]public float acceleration=40,braking=64;[Min(1)]public float runMultiplier=1.65f;
@@ -19,7 +20,7 @@ public sealed class WorldPlayerMotor:MonoBehaviour {
  public bool InteractPressed=>OwnsKeyboardFocus()&&interact!=null&&interact.WasPressedThisFrame();
  public bool InventoryPressed=>OwnsKeyboardFocus()&&inventory!=null&&inventory.WasPressedThisFrame();
  public bool MenuPressed=>OwnsKeyboardFocus()&&menu!=null&&menu.WasPressedThisFrame();
- void Awake(){body=GetComponent<Rigidbody2D>();body.gravityScale=0;body.freezeRotation=true;body.interpolation=RigidbodyInterpolation2D.Interpolate;}
+ void Awake(){controlLocks=GetComponent<PlayerControlLocks>()??gameObject.AddComponent<PlayerControlLocks>();presentation=GetComponent<PlayerAnimationPresentation>()??gameObject.AddComponent<PlayerAnimationPresentation>();presentation.motor=this;body=GetComponent<Rigidbody2D>();body.gravityScale=0;body.freezeRotation=true;body.interpolation=RigidbodyInterpolation2D.Interpolate;}
  void OnEnable(){
   if(controls==null){Debug.LogError("LifeWorld: gameplay InputActionAsset is missing.",this);return;}
   runtimeControls=Instantiate(controls);gameplay=runtimeControls.FindActionMap("World",true);
@@ -45,18 +46,9 @@ public sealed class WorldPlayerMotor:MonoBehaviour {
   if(actualSpeed>.03f&&velocity.sqrMagnitude>.0001f)Facing=velocity.normalized;
   bool moving=actualSpeed>.06f;bool running=controlling&&run!=null&&run.IsPressed()&&world.Service.State.fatigue<85;
   if(wasMoving&&!moving)stopUntil=Time.unscaledTime+.24f;wasMoving=moving;
-  if(advanced!=null&&advanced.library!=null){
-   ActorMotion motion=Parse(pose);
-   if(pose=="Idle")motion=moving?(running?ActorMotion.Run:ActorMotion.Walk):Time.unscaledTime<stopUntil?ActorMotion.Stop:Time.unscaledTime<turnUntil?ActorMotion.Turn:reactionRemaining>0?reaction:ActorMotion.Idle;
-   if(pose=="Idle"&&!moving&&reactionRemaining>0)reactionRemaining=Mathf.Max(0,reactionRemaining-Time.unscaledDeltaTime);
-   if(!MovementAllowed&&(motion==ActorMotion.Walk||motion==ActorMotion.Run||motion==ActorMotion.Turn||motion==ActorMotion.Stop))motion=ActorMotion.Idle;
-   bool walking=motion==ActorMotion.Walk||motion==ActorMotion.Run;
-   advanced.Render(motion,Facing,pendingDistance,walking);pendingDistance=0;
-   bodyVisual.localPosition=growthVisual==null?Vector3.zero:(Vector3)growthVisual.DisplayOffset;bodyVisual.localScale=Vector3.one*visualScale;bodyVisual.localRotation=growthVisual==null?Quaternion.identity:growthVisual.DisplayRotation;
-  }else if(locomotion!=null&&walkSet!=null&&walkSet.Complete){
-   locomotion.enabled=true;locomotion.speed=0;locomotion.Play((moving?"Walk_":"Idle_")+walkSet.Direction(Facing),0,moving?Mathf.Repeat(Time.unscaledTime*actualSpeed/walkSet.strideLength,1):0);locomotion.Update(0);
-  }
-  sprite.sortingOrder=growthVisual!=null&&growthVisual.ActionOrder!=int.MinValue?growthVisual.ActionOrder:1000-Mathf.RoundToInt(transform.position.y*100)+(pose=="Sleep"||pose=="Wake Up"?50:0);
+  ActorMotion idleMotion=Time.unscaledTime<stopUntil?ActorMotion.Stop:Time.unscaledTime<turnUntil?ActorMotion.Turn:reactionRemaining>0?reaction:ActorMotion.Idle;
+  if(pose=="Idle"&&!moving&&reactionRemaining>0)reactionRemaining=Mathf.Max(0,reactionRemaining-Time.unscaledDeltaTime);
+  presentation?.Render(pose,moving,running,pendingDistance,idleMotion);pendingDistance=0;
  }
  void FixedUpdate(){
   if(!MovementAllowed||world.Service.Game.State!=GameState.Playing||!scripted&&(!world.CanControl||!OwnsKeyboardFocus())){StopMotion();return;}
@@ -70,11 +62,12 @@ public sealed class WorldPlayerMotor:MonoBehaviour {
   var next=body.position+velocity*Time.fixedDeltaTime;if(scripted&&(traversalTarget-body.position).sqrMagnitude<(next-body.position).sqrMagnitude)next=traversalTarget;
   body.MovePosition(next);
  }
- public void Warp(Vector2 point){if(body==null)body=GetComponent<Rigidbody2D>();scripted=false;StopMotion();body.position=point;transform.position=point;}
+ public void StopForControlLock(){StopMotion();}
+ public void Warp(Vector2 point){if(body==null)body=GetComponent<Rigidbody2D>();scripted=false;StopMotion();presentation?.ResetTransient();body.position=point;transform.position=point;}
  void LateUpdate(){if(contactShadow!=null)contactShadow.sortingOrder=sprite.sortingOrder-1;}
  public void Face(Vector2 direction){if(direction.sqrMagnitude<.0001f)return;if(ActorAnimationSet.Direction(direction)!=ActorAnimationSet.Direction(Facing))turnUntil=Time.unscaledTime+.18f;Facing=direction.normalized;}
  public void React(ActorMotion motion,float seconds=.8f){reaction=motion;reactionRemaining=seconds;}public void ClearReaction(){reactionRemaining=0;}
- public void Pose(string state){if(!MovementAllowed&&(state=="Walk"||state=="Run"||state=="Turn"||state=="Stop"))state="Idle";pose=state;growthVisual?.Pose(state);if(advanced!=null)advanced.Play(Parse(state),Facing,true);}
- static ActorMotion Parse(string state){switch(state){case "Wake Up":return ActorMotion.WakeUp;case "Sit":return ActorMotion.SitDown;case "Wash":return ActorMotion.WashFace;case "Stand Up":return ActorMotion.StandUp;case "Open Door":return ActorMotion.OpenDoor;case "Use Computer":return ActorMotion.UseComputer;case "Use Phone":return ActorMotion.UsePhone;default:return System.Enum.TryParse(state.Replace(" ",""),out ActorMotion motion)?motion:ActorMotion.Interact;}}
+ public void Pose(string state){if(!MovementAllowed&&(state=="Walk"||state=="Run"||state=="Turn"||state=="Stop"))state="Idle";pose=state;growthVisual?.Pose(state);if(advanced!=null)advanced.Play(ParsePose(state),Facing,true);}
+ public static ActorMotion ParsePose(string state){switch(state){case "Wake Up":return ActorMotion.WakeUp;case "Sit":return ActorMotion.SitDown;case "Wash":return ActorMotion.WashFace;case "Stand Up":return ActorMotion.StandUp;case "Open Door":return ActorMotion.OpenDoor;case "Use Computer":return ActorMotion.UseComputer;case "Use Phone":return ActorMotion.UsePhone;default:return System.Enum.TryParse(state.Replace(" ",""),out ActorMotion motion)?motion:ActorMotion.Interact;}}
 }
 }

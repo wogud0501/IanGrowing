@@ -1032,7 +1032,7 @@ Transform:
   m_GameObject: {fileID: 13203523}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1, y: -0.7, z: 0}
+  m_LocalPosition: {x: 0.95, y: -0.9, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6268,6 +6268,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 155118962}
   m_CullTransparentMesh: 1
+--- !u!1 &160277637
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 160277638}
+  m_Layer: 0
+  m_Name: InteractionApproach
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &160277638
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 160277637}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.7, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 167273752}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &160542979
 GameObject:
   m_ObjectHideFlags: 0
@@ -6995,6 +7026,8 @@ GameObject:
   - component: {fileID: 167273754}
   - component: {fileID: 167273753}
   - component: {fileID: 167273755}
+  - component: {fileID: 167273757}
+  - component: {fileID: 167273756}
   m_Layer: 0
   m_Name: home-chair
   m_TagString: Untagged
@@ -7018,6 +7051,8 @@ Transform:
   - {fileID: 50208670}
   - {fileID: 1905688083}
   - {fileID: 568037562}
+  - {fileID: 160277638}
+  - {fileID: 1919735609}
   m_Father: {fileID: 2122785949}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &167273753
@@ -7152,6 +7187,58 @@ MonoBehaviour:
   activityEffect: {fileID: 0}
   animateDoorLeaf: 1
   UsePoint: {x: 0, y: -0.65}
+--- !u!114 &167273756
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 167273751}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90a7e3dd959164ee08d30b720996785c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IanGame.WorldActivitySlot
+  seat: {fileID: 0}
+  staffId: 
+  facing: {x: 0, y: -1}
+  useSeatAnchors: 1
+  seated: 0
+  seatAnchor: {fileID: 1919735609}
+  approachAnchor: {fileID: 160277638}
+  standUpAnchor: {fileID: 160277638}
+  activityMotion: 14
+--- !u!114 &167273757
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 167273751}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28250ed7a84264c70a7b99a4d0d1d095, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IanGame.WorldLifeAction
+  mode: 5
+  approach: {fileID: 160277638}
+  anchor: {fileID: 1919735609}
+  standUp: {fileID: 160277638}
+  facing: {x: 0, y: -1}
+  booth: {fileID: 0}
+  overlay: {fileID: 0}
+  frames: []
+  seat: {fileID: 167273756}
+  familyOwned: 0
+  activePose: SeatedIdle
+  restComputer: 0
+  mealProp: {fileID: 0}
+  emptyMealProp: {fileID: 0}
+  bookProp: {fileID: 0}
+  studyProp: {fileID: 0}
+  chairSprite: {fileID: 0}
+  tableOcclusion: 0
+  propAnchor: {fileID: 0}
 --- !u!1 &171021804
 GameObject:
   m_ObjectHideFlags: 0
@@ -7708,6 +7795,8 @@ GameObject:
   - component: {fileID: 186109978}
   - component: {fileID: 186109979}
   - component: {fileID: 186109980}
+  - component: {fileID: 186109982}
+  - component: {fileID: 186109981}
   m_Layer: 0
   m_Name: Ian / official playable character
   m_TagString: Untagged
@@ -7727,6 +7816,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b47d5055226326b47967cdb62ab75aa3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::IanGame.WorldPlayerMotor
+  presentation: {fileID: 186109981}
+  controlLocks: {fileID: 186109982}
   world: {fileID: 2122785948}
   sprite: {fileID: 1265790235}
   motions: {fileID: 11400000, guid: d85b994f01c0dfe4e8caf0cd510a972f, type: 2}
@@ -7882,6 +7973,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::IanGame.GrowthPresentationEffects
   growth: {fileID: 186109978}
   sparkle: {fileID: -3729492369987663617, guid: a9254af886a914d93b49210ec40ab572, type: 3}
+--- !u!114 &186109981
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 186109972}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 044d6270257bb4b4685f58388f46bb71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IanGame.PlayerAnimationPresentation
+  motor: {fileID: 186109973}
+--- !u!114 &186109982
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 186109972}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fec08cf56fc3b4a258b63970ff1ebad0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IanGame.PlayerControlLocks
 --- !u!1 &188114729
 GameObject:
   m_ObjectHideFlags: 0
@@ -10713,6 +10829,7 @@ GameObject:
   - component: {fileID: 243569478}
   - component: {fileID: 243569477}
   - component: {fileID: 243569479}
+  - component: {fileID: 243569480}
   m_Layer: 0
   m_Name: starter-desk
   m_TagString: Untagged
@@ -10740,6 +10857,7 @@ Transform:
   - {fileID: 1242502422}
   - {fileID: 1411617091}
   - {fileID: 181635097}
+  - {fileID: 590958559}
   m_Father: {fileID: 2122785949}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &243569477
@@ -10801,7 +10919,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::IanGame.WorldInteractable
   id: starter-desk
-  title: "\uCC45\uC0C1\uC5D0\uC11C \uC26C\uAE30"
+  title: "\uCEF4\uD4E8\uD130\uB85C \uC26C\uAE30"
   zone: home
   targetZone: 
   npcId: 
@@ -10826,7 +10944,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28250ed7a84264c70a7b99a4d0d1d095, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::IanGame.WorldLifeAction
-  mode: 0
+  mode: 5
   approach: {fileID: 13203524}
   anchor: {fileID: 1242502422}
   standUp: {fileID: 1411617091}
@@ -10850,8 +10968,38 @@ MonoBehaviour:
   - {fileID: 1172404870785764280, guid: 8612c5f9438e54b4d902bdb20931783a, type: 3}
   - {fileID: -9223058066564512222, guid: 8612c5f9438e54b4d902bdb20931783a, type: 3}
   - {fileID: 8421752044190761392, guid: 8612c5f9438e54b4d902bdb20931783a, type: 3}
-  seat: {fileID: 0}
+  seat: {fileID: 243569480}
   familyOwned: 0
+  activePose: Use Computer
+  restComputer: 1
+  mealProp: {fileID: 0}
+  emptyMealProp: {fileID: 0}
+  bookProp: {fileID: 21300000, guid: 024740b0160be414593007262a9852f8, type: 2}
+  studyProp: {fileID: 21300000, guid: 4ddc102b94b164fab9f2a27cbdf8a4f3, type: 2}
+  chairSprite: {fileID: 1391849852316778699, guid: e50cda9e68c7a8f48bc2f777d976ea8e, type: 3}
+  tableOcclusion: 0
+  propAnchor: {fileID: 590958559}
+--- !u!114 &243569480
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 243569475}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90a7e3dd959164ee08d30b720996785c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IanGame.WorldActivitySlot
+  seat: {fileID: 0}
+  staffId: 
+  facing: {x: 0, y: 1}
+  useSeatAnchors: 1
+  seated: 0
+  seatAnchor: {fileID: 1242502422}
+  approachAnchor: {fileID: 13203524}
+  standUpAnchor: {fileID: 1411617091}
+  activityMotion: 14
 --- !u!1 &246597988
 GameObject:
   m_ObjectHideFlags: 0
@@ -16164,7 +16312,7 @@ Transform:
   m_GameObject: {fileID: 365746913}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.6, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -25472,6 +25620,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
   m_BlendShapeWeights: []
+--- !u!1 &590958558
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 590958559}
+  m_Layer: 0
+  m_Name: PropAnchor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &590958559
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 590958558}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.15, y: 0.65, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 243569476}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &593811522
 GameObject:
   m_ObjectHideFlags: 0
@@ -28290,6 +28469,37 @@ MonoBehaviour:
     - m_ControlPath: <XRController>
       m_Flags: 0
   m_IsProjectWide: 0
+--- !u!1 &636669789
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 636669790}
+  m_Layer: 0
+  m_Name: InteractionApproach
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &636669790
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 636669789}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.7, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 904619624}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &640371561
 GameObject:
   m_ObjectHideFlags: 0
@@ -38701,6 +38911,8 @@ GameObject:
   - component: {fileID: 904619624}
   - component: {fileID: 904619626}
   - component: {fileID: 904619625}
+  - component: {fileID: 904619628}
+  - component: {fileID: 904619627}
   m_Layer: 0
   m_Name: writing-chair
   m_TagString: Untagged
@@ -38724,6 +38936,8 @@ Transform:
   - {fileID: 670783497}
   - {fileID: 1765129595}
   - {fileID: 921613476}
+  - {fileID: 636669790}
+  - {fileID: 1719050672}
   m_Father: {fileID: 2122785949}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &904619625
@@ -38798,6 +39012,58 @@ MonoBehaviour:
   activityEffect: {fileID: 0}
   animateDoorLeaf: 1
   UsePoint: {x: 0, y: -0.7}
+--- !u!114 &904619627
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 904619623}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90a7e3dd959164ee08d30b720996785c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IanGame.WorldActivitySlot
+  seat: {fileID: 0}
+  staffId: 
+  facing: {x: 0, y: -1}
+  useSeatAnchors: 1
+  seated: 0
+  seatAnchor: {fileID: 1719050672}
+  approachAnchor: {fileID: 636669790}
+  standUpAnchor: {fileID: 636669790}
+  activityMotion: 14
+--- !u!114 &904619628
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 904619623}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28250ed7a84264c70a7b99a4d0d1d095, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IanGame.WorldLifeAction
+  mode: 5
+  approach: {fileID: 636669790}
+  anchor: {fileID: 1719050672}
+  standUp: {fileID: 636669790}
+  facing: {x: 0, y: -1}
+  booth: {fileID: 0}
+  overlay: {fileID: 0}
+  frames: []
+  seat: {fileID: 904619627}
+  familyOwned: 0
+  activePose: SeatedIdle
+  restComputer: 0
+  mealProp: {fileID: 0}
+  emptyMealProp: {fileID: 0}
+  bookProp: {fileID: 0}
+  studyProp: {fileID: 0}
+  chairSprite: {fileID: 0}
+  tableOcclusion: 0
+  propAnchor: {fileID: 0}
 --- !u!1 &904852402
 GameObject:
   m_ObjectHideFlags: 0
@@ -52066,7 +52332,7 @@ Transform:
   m_GameObject: {fileID: 1242502421}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -58272,7 +58538,7 @@ Transform:
   m_GameObject: {fileID: 1388888064}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.2, y: 0.15, z: 0}
+  m_LocalPosition: {x: -1.05, y: 0.65, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -59193,7 +59459,7 @@ Transform:
   m_GameObject: {fileID: 1411617090}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1, y: -0.7, z: 0}
+  m_LocalPosition: {x: 0.95, y: -0.9, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -69068,6 +69334,15 @@ MonoBehaviour:
   - {fileID: -9075672709794964827, guid: 5eaf9f3b34abf4cc89fa04b0edea4325, type: 3}
   seat: {fileID: 0}
   familyOwned: 0
+  activePose: Pick Up Item
+  restComputer: 0
+  mealProp: {fileID: 0}
+  emptyMealProp: {fileID: 0}
+  bookProp: {fileID: 0}
+  studyProp: {fileID: 0}
+  chairSprite: {fileID: 0}
+  tableOcclusion: 0
+  propAnchor: {fileID: 0}
 --- !u!1 &1663936313
 GameObject:
   m_ObjectHideFlags: 0
@@ -71326,6 +71601,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
   m_BlendShapeWeights: []
+--- !u!1 &1719050671
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1719050672}
+  m_Layer: 0
+  m_Name: ActionAnchor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1719050672
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1719050671}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 904619624}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1720527700
 GameObject:
   m_ObjectHideFlags: 0
@@ -73379,7 +73685,7 @@ Transform:
   m_GameObject: {fileID: 1756131099}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.2, y: 0.15, z: 0}
+  m_LocalPosition: {x: -1.05, y: 0.65, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -78154,6 +78460,37 @@ MonoBehaviour:
   m_EffectColor: {r: 0.10980392, g: 0.14509805, b: 0.21568628, a: 1}
   m_EffectDistance: {x: 3, y: -3}
   m_UseGraphicAlpha: 1
+--- !u!1 &1853891145
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1853891146}
+  m_Layer: 0
+  m_Name: PropAnchor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1853891146
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1853891145}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.45, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2044075212}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1855589382
 GameObject:
   m_ObjectHideFlags: 0
@@ -79202,6 +79539,7 @@ GameObject:
   - component: {fileID: 1873447872}
   - component: {fileID: 1873447874}
   - component: {fileID: 1873447875}
+  - component: {fileID: 1873447876}
   m_Layer: 0
   m_Name: bed
   m_TagString: Untagged
@@ -79401,6 +79739,29 @@ MonoBehaviour:
   - {fileID: 8421752044190761392, guid: 8612c5f9438e54b4d902bdb20931783a, type: 3}
   seat: {fileID: 0}
   familyOwned: 0
+  activePose: 
+  restComputer: 0
+  mealProp: {fileID: 0}
+  emptyMealProp: {fileID: 0}
+  bookProp: {fileID: 0}
+  studyProp: {fileID: 0}
+  chairSprite: {fileID: 0}
+  tableOcclusion: 0
+  propAnchor: {fileID: 0}
+--- !u!114 &1873447876
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1873447870}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc41e0d38324e4e7ba6cad934f2b006a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IanGame.GrowthBedPresentation
+  world: {fileID: 2122785948}
+  bed: {fileID: 1873447874}
 --- !u!1 &1879778983
 GameObject:
   m_ObjectHideFlags: 0
@@ -81470,6 +81831,37 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::IanGame.UITypeScale
   baseSize: 18
   platformScale: 1
+--- !u!1 &1919735608
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1919735609}
+  m_Layer: 0
+  m_Name: ActionAnchor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1919735609
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1919735608}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 167273752}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1924320093
 GameObject:
   m_ObjectHideFlags: 0
@@ -86645,6 +87037,7 @@ GameObject:
   - component: {fileID: 2044075213}
   - component: {fileID: 2044075215}
   - component: {fileID: 2044075216}
+  - component: {fileID: 2044075217}
   m_Layer: 0
   m_Name: meal-table
   m_TagString: Untagged
@@ -86672,6 +87065,7 @@ Transform:
   - {fileID: 365746914}
   - {fileID: 1756131100}
   - {fileID: 898790291}
+  - {fileID: 1853891146}
   m_Father: {fileID: 2122785949}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &2044075213
@@ -86822,7 +87216,7 @@ MonoBehaviour:
   approach: {fileID: 1388888065}
   anchor: {fileID: 365746914}
   standUp: {fileID: 1756131100}
-  facing: {x: 0, y: 1}
+  facing: {x: 0, y: -1}
   booth: {fileID: 0}
   overlay: {fileID: 898790292}
   frames:
@@ -86842,8 +87236,38 @@ MonoBehaviour:
   - {fileID: 1172404870785764280, guid: 8612c5f9438e54b4d902bdb20931783a, type: 3}
   - {fileID: -9223058066564512222, guid: 8612c5f9438e54b4d902bdb20931783a, type: 3}
   - {fileID: 8421752044190761392, guid: 8612c5f9438e54b4d902bdb20931783a, type: 3}
-  seat: {fileID: 0}
+  seat: {fileID: 2044075217}
   familyOwned: 0
+  activePose: 
+  restComputer: 0
+  mealProp: {fileID: 21300000, guid: 9dccd213c95514c3db5d1021a85ba39b, type: 2}
+  emptyMealProp: {fileID: 21300000, guid: efb398585f72847d9a69b95807234f59, type: 2}
+  bookProp: {fileID: 0}
+  studyProp: {fileID: 0}
+  chairSprite: {fileID: 1391849852316778699, guid: e50cda9e68c7a8f48bc2f777d976ea8e, type: 3}
+  tableOcclusion: 1
+  propAnchor: {fileID: 1853891146}
+--- !u!114 &2044075217
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2044075211}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90a7e3dd959164ee08d30b720996785c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IanGame.WorldActivitySlot
+  seat: {fileID: 0}
+  staffId: 
+  facing: {x: 0, y: -1}
+  useSeatAnchors: 1
+  seated: 0
+  seatAnchor: {fileID: 365746914}
+  approachAnchor: {fileID: 1388888065}
+  standUpAnchor: {fileID: 1756131100}
+  activityMotion: 14
 --- !u!1 &2044464471
 GameObject:
   m_ObjectHideFlags: 0

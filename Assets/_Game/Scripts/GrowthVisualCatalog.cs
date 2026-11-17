@@ -7,7 +7,7 @@ public enum VisualGrowthStage {Newborn,Toddler,Preschool,EarlyChild,SchoolChild,
  public VisualGrowthStage stage; public string id; public int minAge,maxAge;
  public ActorAnimationSet animations; public float height,colliderRadius,speedFactor=1,stride=1;
  public Vector2 colliderOffset,foot,hand,eye,seatOffset,showerOffset,basinOffset;
- public Sprite idlePreview; public bool sleepHorizontal; public string artNotes;
+ public Sprite idlePreview;public bool bodyInteractions;public Vector2 headphoneAnchorOffset;public float headphoneDisplayHeight; public bool sleepHorizontal; public string artNotes;
 }
 [CreateAssetMenu(menuName="Ian/Growth/Visual catalog")]
 public sealed class GrowthVisualCatalog:ScriptableObject {

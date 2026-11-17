@@ -30,6 +30,8 @@ MonoBehaviour:
     showerOffset: {x: 0, y: 0}
     basinOffset: {x: 0, y: 0}
     idlePreview: {fileID: 21300000, guid: 3f0e9b18717e34b0c975ac014611224c, type: 2}
+    bodyInteractions: 0
+    headphoneAnchorOffset: {x: 0, y: 0}
     sleepHorizontal: 0
     artNotes: Generated original age-specific atlas; four-direction locomotion (except newborn); interaction directions use Down fallback. Turn/Stop and care-feed are explicit aliases. Missing motions remain queryable; not authored coverage.
   - stage: 1
@@ -49,6 +51,8 @@ MonoBehaviour:
     showerOffset: {x: 0, y: 0}
     basinOffset: {x: 0, y: 0}
     idlePreview: {fileID: 21300000, guid: f37cd50ccbd264a8f8989b0d4039c70e, type: 2}
+    bodyInteractions: 0
+    headphoneAnchorOffset: {x: 0, y: 0}
     sleepHorizontal: 1
     artNotes: Generated original age-specific atlas; four-direction locomotion (except newborn); interaction directions use Down fallback. Turn/Stop and care-feed are explicit aliases. Missing motions remain queryable; not authored coverage.
   - stage: 2
@@ -68,6 +72,8 @@ MonoBehaviour:
     showerOffset: {x: 0, y: 0}
     basinOffset: {x: 0, y: 0}
     idlePreview: {fileID: 21300000, guid: 7235342a36fa24dc4af32b50a3c606f2, type: 2}
+    bodyInteractions: 0
+    headphoneAnchorOffset: {x: 0, y: 0}
     sleepHorizontal: 1
     artNotes: Generated original age-specific atlas; four-direction locomotion (except newborn); interaction directions use Down fallback. Turn/Stop and care-feed are explicit aliases. Missing motions remain queryable; not authored coverage.
   - stage: 3
@@ -87,6 +93,8 @@ MonoBehaviour:
     showerOffset: {x: 0, y: 0}
     basinOffset: {x: 0, y: 0}
     idlePreview: {fileID: 21300000, guid: d156405ed8e614b59a300cb1faf76062, type: 2}
+    bodyInteractions: 0
+    headphoneAnchorOffset: {x: 0, y: 0}
     sleepHorizontal: 1
     artNotes: Generated original age-specific atlas; four-direction locomotion (except newborn); interaction directions use Down fallback. Turn/Stop and care-feed are explicit aliases. Missing motions remain queryable; not authored coverage.
   - stage: 4
@@ -106,6 +114,8 @@ MonoBehaviour:
     showerOffset: {x: 0, y: 0}
     basinOffset: {x: 0, y: 0}
     idlePreview: {fileID: 21300000, guid: e89b3b8c6f8f245c1bf4a28864e38b05, type: 2}
+    bodyInteractions: 0
+    headphoneAnchorOffset: {x: 0, y: 0}
     sleepHorizontal: 1
     artNotes: Generated original age-specific atlas; four-direction locomotion (except newborn); interaction directions use Down fallback. Turn/Stop and care-feed are explicit aliases. Missing motions remain queryable; not authored coverage.
   - stage: 5
@@ -125,6 +135,8 @@ MonoBehaviour:
     showerOffset: {x: 0, y: 0}
     basinOffset: {x: 0, y: 0}
     idlePreview: {fileID: 21300000, guid: 91d863e55c4d345059458cb01bec7dce, type: 2}
+    bodyInteractions: 0
+    headphoneAnchorOffset: {x: 0, y: 0}
     sleepHorizontal: 1
     artNotes: Generated original age-specific atlas; four-direction locomotion (except newborn); interaction directions use Down fallback. Turn/Stop and care-feed are explicit aliases. Missing motions remain queryable; not authored coverage.
   - stage: 6
@@ -144,6 +156,8 @@ MonoBehaviour:
     showerOffset: {x: 0, y: 0}
     basinOffset: {x: 0, y: 0}
     idlePreview: {fileID: 21300000, guid: 05433f43a8c834bdaa52c9ef6a11859b, type: 2}
+    bodyInteractions: 0
+    headphoneAnchorOffset: {x: 0, y: 0}
     sleepHorizontal: 1
     artNotes: Generated original age-specific atlas; four-direction locomotion (except newborn); interaction directions use Down fallback. Turn/Stop and care-feed are explicit aliases. Missing motions remain queryable; not authored coverage.
   - stage: 7
@@ -163,13 +177,15 @@ MonoBehaviour:
     showerOffset: {x: 0, y: 0}
     basinOffset: {x: 0, y: 0}
     idlePreview: {fileID: 21300000, guid: 0e79c300bd9a34d7da21fc13788aace3, type: 2}
+    bodyInteractions: 0
+    headphoneAnchorOffset: {x: 0, y: 0}
     sleepHorizontal: 1
     artNotes: Generated original age-specific atlas; four-direction locomotion (except newborn); interaction directions use Down fallback. Turn/Stop and care-feed are explicit aliases. Missing motions remain queryable; not authored coverage.
   - stage: 8
     id: Adult
     minAge: 19
     maxAge: 29
-    animations: {fileID: 11400000, guid: bdb276a2e1f51449799ed882c852f5a6, type: 2}
+    animations: {fileID: 11400000, guid: 18498fed06e084255b60990305a9079f, type: 2}
     height: 1.7085907
     colliderRadius: 0.28
     speedFactor: 1
@@ -182,8 +198,10 @@ MonoBehaviour:
     showerOffset: {x: 0, y: 0}
     basinOffset: {x: 0, y: 0}
     idlePreview: {fileID: 28776294171772349, guid: 187d56c84d77b4114af3bac280974d98, type: 3}
-    sleepHorizontal: 0
-    artNotes: Original adult art retained unchanged
+    bodyInteractions: 1
+    headphoneAnchorOffset: {x: 0, y: 0}
+    sleepHorizontal: 1
+    artNotes: 'Phase31: retained official 4-direction locomotion, original independent seated life frames; rest body from original art; per-pose pivot/anchor; side/missing directions explicitly queryable.'
   - stage: 9
     id: MiddleAge
     minAge: 30
@@ -201,6 +219,8 @@ MonoBehaviour:
     showerOffset: {x: 0, y: 0}
     basinOffset: {x: 0, y: 0}
     idlePreview: {fileID: 21300000, guid: 806cbe806ea06416b82badc12ca2d5de, type: 2}
+    bodyInteractions: 0
+    headphoneAnchorOffset: {x: 0, y: 0}
     sleepHorizontal: 1
     artNotes: Phase30 original generated age atlas. Four-way Idle/Walk/FastWalk; actions authored Down only. Turn/Stop reuse idle, Work uses typing, PutDown uses pickup. No new gameplay unlocks.
   - stage: 10
@@ -220,6 +240,8 @@ MonoBehaviour:
     showerOffset: {x: 0, y: 0}
     basinOffset: {x: 0, y: 0}
     idlePreview: {fileID: 21300000, guid: 570204719adf846d3a6e5bf6b47265fa, type: 2}
+    bodyInteractions: 0
+    headphoneAnchorOffset: {x: 0, y: 0}
     sleepHorizontal: 1
     artNotes: Phase30 original generated age atlas. Four-way Idle/Walk/FastWalk; actions authored Down only. Turn/Stop reuse idle, Work uses typing, PutDown uses pickup. No new gameplay unlocks.
   emptyCrib: {fileID: 21300000, guid: c36052a164a49459db67a56aeef312a4, type: 2}
