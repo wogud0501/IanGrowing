@@ -1,21 +1,319 @@
 #if UNITY_EDITOR
-using System;using System.IO;using System.Linq;using System.Reflection;using System.Collections;using System.Collections.Generic;using UnityEngine;using TMPro;
-namespace IanGame.Editor {
-public sealed class FinalIntegrationVerification:MonoBehaviour {
- public static bool Finished;public static string Failure,Progress;public static List<string> Passed=new List<string>();GameManager g;SaveData screenOriginal;string screenSlot;bool screenAuto,screenLife,screenRealtime;
- public bool ScreensOnly;public void BeginScreens(){ScreensOnly=true;Begin();}public void Begin(){StartCoroutine(Run());}void Check(bool value,string label){if(!value)throw new Exception(label);Passed.Add(label);}
- IEnumerator Run(){Passed.Clear();Finished=false;Failure=null;var stack=new Stack<IEnumerator>();stack.Push(Scenario());while(stack.Count>0){bool more=false;object next=null;try{more=stack.Peek().MoveNext();if(more)next=stack.Peek().Current;}catch(Exception e){Failure=e.ToString();break;}if(!more){stack.Pop();continue;}if(next is IEnumerator){stack.Push((IEnumerator)next);continue;}yield return next;}File.WriteAllText(ScreensOnly?"Docs/Phase24/UI_FINAL_INTEGRATION.txt":"Docs/Phase24/FINAL_INTEGRATION.txt",string.Join("\n",Passed)+"\nFailure: "+Failure);Finished=true;Progress="Complete";Destroy(gameObject);}
- IEnumerator Frames(int n=8){for(int i=0;i<n;i++)yield return null;}
- IEnumerator Route(SceneId id){var nav=UnityEngine.Object.FindAnyObjectByType<UINavigationService>();if(nav!=null)nav.CloseAll();GameContext.Instance.transitions.Navigate(id);while(GameContext.Instance.transitions.IsTransitioning)yield return null;yield return Frames();}
- IEnumerator Scenario(){g=GameContext.Instance.game;double deadline;if(!ScreensOnly){
-  Progress="Phase24 activity and persistence checks";var go=new GameObject("Final idle integration");DontDestroyOnLoad(go);go.AddComponent<Phase24Verification>().Begin();deadline=Time.realtimeSinceStartupAsDouble+180;while(!Phase24Verification.Finished){if(Time.realtimeSinceStartupAsDouble>deadline)throw new Exception("Idle test timeout");yield return null;}Check(Phase24Verification.Failure==null,"Phase24 "+Phase24Verification.Passed.Count+" passed");
-  Progress="Birth/font UI";go=new GameObject("Final birth UI");DontDestroyOnLoad(go);go.AddComponent<BirthAndFontVerification>().Begin();while(!BirthAndFontVerification.Finished)yield return null;Check(BirthAndFontVerification.Failure==null,"Birth/font "+BirthAndFontVerification.Passed.Count+" passed");
-  Progress="Phase23 mandatory audit";go=new GameObject("Final phase23");DontDestroyOnLoad(go);go.AddComponent<Phase23Runner>().BeginFeatureAudit();while(!Phase23Runner.Finished)yield return null;Check(Phase23Runner.Failure==null,"Phase23 "+Phase23Runner.Passed.Count+" passed after idle integration");File.Copy("Docs/PHASE2_3_TEST_RESULTS.json","Docs/Phase24/PHASE23_AUDIT_TESTS.json",true);
-  yield return Route(SceneId.Home);Progress="Original Phase2.1 and 2.2";var original=g.CaptureState();var field=typeof(SaveManager).GetField("fileName",BindingFlags.Instance|BindingFlags.NonPublic);string slot=(string)field.GetValue(g.saves);bool auto=g.autoSaveAfterAction,life=g.autoSaveOnLifecycle,realtime=g.clock.realtimeEnabled;var catalog=g.phase23.catalog;field.SetValue(g.saves,"final-regression-"+Guid.NewGuid().ToString("N")+".json");g.autoSaveAfterAction=g.autoSaveOnLifecycle=g.clock.realtimeEnabled=false;
-  try{g.phase23.catalog=null;var type=Type.GetType("IanGame.Editor.Phase2Verification, Assembly-CSharp-Editor");var results=(string[])type.GetMethod("Run").Invoke(null,null);File.WriteAllLines("Docs/Phase24/PHASE21_REGRESSION.txt",results);Check(results.Length==45,"Phase2.1 45 passed");g.phase23.catalog=catalog;g.RestoreState(original);g.phase23.catalog=null;Phase22Verification.Begin();while(!Phase22Verification.Finished)yield return null;File.WriteAllLines("Docs/Phase24/PHASE22_REGRESSION.txt",Phase22Verification.Passed);Check(Phase22Verification.Failure==null,"Phase2.2 "+Phase22Verification.Passed.Count+" passed");}finally{g.phase23.catalog=catalog;g.RestoreState(original);field.SetValue(g.saves,slot);g.autoSaveAfterAction=auto;g.autoSaveOnLifecycle=life;g.clock.realtimeEnabled=realtime;}
-  }Progress="All primary windows and screenshots";screenOriginal=g.CaptureState();var screenField=typeof(SaveManager).GetField("fileName",BindingFlags.Instance|BindingFlags.NonPublic);screenSlot=(string)screenField.GetValue(g.saves);screenAuto=g.autoSaveAfterAction;screenLife=g.autoSaveOnLifecycle;screenRealtime=g.clock.realtimeEnabled;g.autoSaveAfterAction=g.autoSaveOnLifecycle=g.clock.realtimeEnabled=false;screenField.SetValue(g.saves,"ui-screen-review-"+Guid.NewGuid().ToString("N")+".json");if(g.idle.State.report!=null)g.idle.AcknowledgeReport();yield return Route(SceneId.Home);yield return new WaitForSecondsRealtime(.25f);CommercialSliceVerification.SetSize(1920,1080);yield return Frames();var p=UnityEngine.Object.FindAnyObjectByType<PixelHomePresenter>();var shell=p.navigation.stack;var overflow=new List<string>();foreach(var view in new[]{p.navigation.lifePanel,p.navigation.growthPanel,p.navigation.activityPanel,p.navigation.inventoryPanel,p.navigation.menuPanel,p.navigation.missionPanel,shell.settingsPanel,shell.statusPanel,p.navigation.locationPanel}){if(view==null)continue;shell.Push(view);yield return Frames(12);foreach(var t in view.GetComponentsInChildren<TMP_Text>()){if(!t.gameObject.activeInHierarchy)continue;t.ForceMeshUpdate();Check(!t.text.Any(c=>!char.IsControl(c)&&!t.font.HasCharacter(c,true,true)),"Glyphs "+view.name+"/"+t.name);if(t.preferredHeight>t.rectTransform.rect.height+2&&t.rectTransform.rect.height>0)overflow.Add(view.name+" / "+t.name+" h="+t.rectTransform.rect.height+" preferred="+t.preferredHeight+" text="+t.text);}shell.Close(view);yield return new WaitForSecondsRealtime(.2f);}File.WriteAllLines("Docs/Phase24/UI_OVERFLOW_AUDIT.txt",overflow);Check(overflow.Count==0,"All visible primary modal text containers fit");
-  foreach(var id in new[]{SceneId.Home,SceneId.School,SceneId.City,SceneId.Workplace}){yield return Route(id);yield return new WaitForSecondsRealtime(.25f);ScreenCapture.CaptureScreenshot("Docs/Phase24/Screenshots/"+id+"-1920x1080.png");yield return Frames();}yield return Route(SceneId.Home);yield return new WaitForSecondsRealtime(.25f);p=UnityEngine.Object.FindAnyObjectByType<PixelHomePresenter>();p.quickTips[0].OnPointerEnter(new UnityEngine.EventSystems.PointerEventData(UnityEngine.EventSystems.EventSystem.current));yield return Frames();ScreenCapture.CaptureScreenshot("Docs/Phase24/Screenshots/Quick-action-font.png");yield return Frames();p.quickTips[0].OnPointerExit(null);g.RestoreState(screenOriginal);screenField.SetValue(g.saves,screenSlot);g.autoSaveAfterAction=screenAuto;g.autoSaveOnLifecycle=screenLife;g.clock.realtimeEnabled=screenRealtime;
- }
-}
+using System;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using TMPro;
+
+namespace IanGame.Editor
+{
+    public sealed class FinalIntegrationVerification : MonoBehaviour
+    {
+        public static bool Finished;
+        public static string Failure;
+        public static string Progress;
+        public static List<string> Passed = new List<string>();
+        GameManager g;
+        SaveData screenOriginal;
+        string screenSlot;
+        bool screenAuto;
+        bool screenLife;
+        bool screenRealtime;
+        public bool ScreensOnly;
+
+        public void BeginScreens()
+        {
+            ScreensOnly = true;
+            Begin();
+        }
+
+        public void Begin()
+        {
+            StartCoroutine(Run());
+        }
+
+        void Check(bool value, string label)
+        {
+            if (!value)
+            {
+                throw new Exception(label);
+            }
+
+            Passed.Add(label);
+        }
+
+        IEnumerator Run()
+        {
+            Passed.Clear();
+            Finished = false;
+            Failure = null;
+            var stack = new Stack<IEnumerator>();
+            stack.Push(Scenario());
+            while (stack.Count > 0)
+            {
+                bool more = false;
+                object next = null;
+                try
+                {
+                    more = stack.Peek().MoveNext();
+                    if (more)
+                    {
+                        next = stack.Peek().Current;
+                    }
+                }
+                catch (Exception e)
+                {
+                    Failure = e.ToString();
+                    break;
+                }
+
+                if (!more)
+                {
+                    stack.Pop();
+                    continue;
+                }
+
+                if (next is IEnumerator)
+                {
+                    stack.Push((IEnumerator)next);
+                    continue;
+                }
+
+                yield return next;
+            }
+
+            File.WriteAllText(
+                ScreensOnly ? "Docs/Phase24/UI_FINAL_INTEGRATION.txt" : "Docs/Phase24/FINAL_INTEGRATION.txt",
+                string.Join("\n", Passed) + "\nFailure: " + Failure
+            );
+            Finished = true;
+            Progress = "Complete";
+            Destroy(gameObject);
+        }
+
+        IEnumerator Frames(int n = 8)
+        {
+            for (int i = 0; i < n; i++)
+            {
+                yield return null;
+            }
+        }
+
+        IEnumerator Route(SceneId id)
+        {
+            var nav = UnityEngine.Object.FindAnyObjectByType<UINavigationService>();
+            if (nav != null)
+            {
+                nav.CloseAll();
+            }
+
+            GameContext.Instance.transitions.Navigate(id);
+            while (GameContext.Instance.transitions.IsTransitioning)
+            {
+                yield return null;
+            }
+
+            yield return Frames();
+        }
+
+        IEnumerator Scenario()
+        {
+            g = GameContext.Instance.game;
+            double deadline;
+            if (!ScreensOnly)
+            {
+                Progress = "Phase24 activity and persistence checks";
+                var go = new GameObject("Final idle integration");
+                DontDestroyOnLoad(go);
+                go.AddComponent<Phase24Verification>().Begin();
+                deadline = Time.realtimeSinceStartupAsDouble + 180;
+                while (!Phase24Verification.Finished)
+                {
+                    if (Time.realtimeSinceStartupAsDouble > deadline)
+                    {
+                        throw new Exception("Idle test timeout");
+                    }
+
+                    yield return null;
+                }
+
+                Check(Phase24Verification.Failure == null, "Phase24 " + Phase24Verification.Passed.Count + " passed");
+                Progress = "Birth/font UI";
+                go = new GameObject("Final birth UI");
+                DontDestroyOnLoad(go);
+                go.AddComponent<BirthAndFontVerification>().Begin();
+                while (!BirthAndFontVerification.Finished)
+                {
+                    yield return null;
+                }
+
+                Check(
+                    BirthAndFontVerification.Failure == null,
+                    "Birth/font " + BirthAndFontVerification.Passed.Count + " passed"
+                );
+                Progress = "Phase23 mandatory audit";
+                go = new GameObject("Final phase23");
+                DontDestroyOnLoad(go);
+                go.AddComponent<Phase23Runner>().BeginFeatureAudit();
+                while (!Phase23Runner.Finished)
+                {
+                    yield return null;
+                }
+
+                Check(
+                    Phase23Runner.Failure == null,
+                    "Phase23 " + Phase23Runner.Passed.Count + " passed after idle integration"
+                );
+                File.Copy("Docs/PHASE2_3_TEST_RESULTS.json", "Docs/Phase24/PHASE23_AUDIT_TESTS.json", true);
+                yield return Route(SceneId.Home);
+                Progress = "Original Phase2.1 and 2.2";
+                var original = g.CaptureState();
+                var field = typeof(SaveManager).GetField("fileName", BindingFlags.Instance | BindingFlags.NonPublic);
+                string slot = (string)field.GetValue(g.saves);
+                bool auto = g.autoSaveAfterAction,
+                    life = g.autoSaveOnLifecycle,
+                    realtime = g.clock.realtimeEnabled;
+                var catalog = g.phase23.catalog;
+                field.SetValue(g.saves, "final-regression-" + Guid.NewGuid().ToString("N") + ".json");
+                g.autoSaveAfterAction = g.autoSaveOnLifecycle = g.clock.realtimeEnabled = false;
+                try
+                {
+                    g.phase23.catalog = null;
+                    var type = Type.GetType("IanGame.Editor.Phase2Verification, Assembly-CSharp-Editor");
+                    var results = (string[])type.GetMethod("Run").Invoke(null, null);
+                    File.WriteAllLines("Docs/Phase24/PHASE21_REGRESSION.txt", results);
+                    Check(results.Length == 45, "Phase2.1 45 passed");
+                    g.phase23.catalog = catalog;
+                    g.RestoreState(original);
+                    g.phase23.catalog = null;
+                    Phase22Verification.Begin();
+                    while (!Phase22Verification.Finished)
+                    {
+                        yield return null;
+                    }
+
+                    File.WriteAllLines("Docs/Phase24/PHASE22_REGRESSION.txt", Phase22Verification.Passed);
+                    Check(
+                        Phase22Verification.Failure == null,
+                        "Phase2.2 " + Phase22Verification.Passed.Count + " passed"
+                    );
+                }
+                finally
+                {
+                    g.phase23.catalog = catalog;
+                    g.RestoreState(original);
+                    field.SetValue(g.saves, slot);
+                    g.autoSaveAfterAction = auto;
+                    g.autoSaveOnLifecycle = life;
+                    g.clock.realtimeEnabled = realtime;
+                }
+            }
+
+            Progress = "All primary windows and screenshots";
+            screenOriginal = g.CaptureState();
+            var screenField = typeof(SaveManager).GetField("fileName", BindingFlags.Instance | BindingFlags.NonPublic);
+            screenSlot = (string)screenField.GetValue(g.saves);
+            screenAuto = g.autoSaveAfterAction;
+            screenLife = g.autoSaveOnLifecycle;
+            screenRealtime = g.clock.realtimeEnabled;
+            g.autoSaveAfterAction = g.autoSaveOnLifecycle = g.clock.realtimeEnabled = false;
+            screenField.SetValue(g.saves, "ui-screen-review-" + Guid.NewGuid().ToString("N") + ".json");
+            if (g.idle.State.report != null)
+            {
+                g.idle.AcknowledgeReport();
+            }
+
+            yield return Route(SceneId.Home);
+            yield return new WaitForSecondsRealtime(.25f);
+            CommercialSliceVerification.SetSize(1920, 1080);
+            yield return Frames();
+            var p = UnityEngine.Object.FindAnyObjectByType<PixelHomePresenter>();
+            var shell = p.navigation.stack;
+            var overflow = new List<string>();
+            foreach (
+                var view in new[]
+                {
+                    p.navigation.lifePanel,
+                    p.navigation.growthPanel,
+                    p.navigation.activityPanel,
+                    p.navigation.inventoryPanel,
+                    p.navigation.menuPanel,
+                    p.navigation.missionPanel,
+                    shell.settingsPanel,
+                    shell.statusPanel,
+                    p.navigation.locationPanel,
+                }
+            )
+            {
+                if (view == null)
+                {
+                    continue;
+                }
+
+                shell.Push(view);
+                yield return Frames(12);
+                foreach (var t in view.GetComponentsInChildren<TMP_Text>())
+                {
+                    if (!t.gameObject.activeInHierarchy)
+                    {
+                        continue;
+                    }
+
+                    t.ForceMeshUpdate();
+                    Check(
+                        !t.text.Any(c => !char.IsControl(c) && !t.font.HasCharacter(c, true, true)),
+                        "Glyphs " + view.name + "/" + t.name
+                    );
+                    if (t.preferredHeight > t.rectTransform.rect.height + 2 && t.rectTransform.rect.height > 0)
+                    {
+                        overflow.Add(
+                            view.name
+                                + " / "
+                                + t.name
+                                + " h="
+                                + t.rectTransform.rect.height
+                                + " preferred="
+                                + t.preferredHeight
+                                + " text="
+                                + t.text
+                        );
+                    }
+                }
+
+                shell.Close(view);
+                yield return new WaitForSecondsRealtime(.2f);
+            }
+
+            File.WriteAllLines("Docs/Phase24/UI_OVERFLOW_AUDIT.txt", overflow);
+            Check(overflow.Count == 0, "All visible primary modal text containers fit");
+            foreach (var id in new[] { SceneId.Home, SceneId.School, SceneId.City, SceneId.Workplace })
+            {
+                yield return Route(id);
+                yield return new WaitForSecondsRealtime(.25f);
+                ScreenCapture.CaptureScreenshot("Docs/Phase24/Screenshots/" + id + "-1920x1080.png");
+                yield return Frames();
+            }
+
+            yield return Route(SceneId.Home);
+            yield return new WaitForSecondsRealtime(.25f);
+            p = UnityEngine.Object.FindAnyObjectByType<PixelHomePresenter>();
+            p.quickTips[0]
+                .OnPointerEnter(
+                    new UnityEngine.EventSystems.PointerEventData(UnityEngine.EventSystems.EventSystem.current)
+                );
+            yield return Frames();
+            ScreenCapture.CaptureScreenshot("Docs/Phase24/Screenshots/Quick-action-font.png");
+            yield return Frames();
+            p.quickTips[0].OnPointerExit(null);
+            g.RestoreState(screenOriginal);
+            screenField.SetValue(g.saves, screenSlot);
+            g.autoSaveAfterAction = screenAuto;
+            g.autoSaveOnLifecycle = screenLife;
+            g.clock.realtimeEnabled = screenRealtime;
+        }
+    }
 }
 #endif

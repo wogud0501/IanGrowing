@@ -5,22 +5,381 @@ using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-namespace IanGame.Editor {
-public static class Phase28Verification {
- [Serializable]public class Sample {public int hour,count,endCount,overlapFrames,reversals,walkIdleChanges,rapidReversals;public float minGap=100;public int steps;}
- static LifeWorldController W=>GameContext.Instance.game.world.Host;
- public static IEnumerator Run(GameManager g,Action<bool,string> check,Action<GameObject,string> audit,string mode){if(mode=="roomVisualPhase28Registry"){yield return Registry(g,check,audit);yield break;}if(mode=="roomVisualPhase28UX"){yield return UX(g,check,audit);yield break;}g.clock.realtimeEnabled=false;g.growth.Restore(new ProgressSnapshot{age=19});g.clock.Restore(4,new TimeSnapshot{subDaySeconds=8*3600});var t=GameContext.Instance.transitions;check(t.NavigateRoom("city",t.roomCatalog.rules.Zone("city").spawn,Vector2.down),"Actual city load");while(t.IsTransitioning)yield return null;yield return null;W.Player.Warp(W.CurrentZone.origin+new Vector2(-12,-7));var rows=new List<Sample>();foreach(int hour in new[]{8,12,18,23}){g.clock.Restore(4,new TimeSnapshot{subDaySeconds=hour*3600+(hour==23?40*60:0)});yield return new WaitForSecondsRealtime(1);var scheduler=W.GetComponent<WorldNPCScheduler>();var row=new Sample{hour=hour};var last=new Dictionary<string,Vector2>();var directions=new Dictionary<string,Vector2>();var moving=new Dictionary<string,bool>();var reversed=new Dictionary<string,float>();float until=Time.unscaledTime+(hour==23?60:8);while(Time.unscaledTime<until){var actors=scheduler.actors.Where(a=>a!=null&&a.visual.enabled).ToArray();row.count=Math.Max(row.count,actors.Length);foreach(var a in actors){var p=(Vector2)a.transform.position;if(last.TryGetValue(a.npcId,out var prior)){var delta=p-prior;bool walk=delta.sqrMagnitude>.0000001f;if(walk){row.steps++;if(directions.TryGetValue(a.npcId,out var d)&&Vector2.Dot(d.normalized,delta.normalized)<-.5f){row.reversals++;if(reversed.TryGetValue(a.npcId,out var priorTurn)&&Time.unscaledTime-priorTurn<.5f)row.rapidReversals++;reversed[a.npcId]=Time.unscaledTime;}directions[a.npcId]=delta;}if(moving.TryGetValue(a.npcId,out var was)&&walk!=was)row.walkIdleChanges++;moving[a.npcId]=walk;}last[a.npcId]=p;}for(int i=0;i<actors.Length;i++)for(int j=i+1;j<actors.Length;j++){float gap=Vector2.Distance(actors[i].transform.position,actors[j].transform.position);row.minGap=Mathf.Min(row.minGap,gap);if(gap<.4f)row.overlapFrames++;}yield return null;}row.endCount=scheduler.actors.Count(a=>a!=null&&a.visual.enabled);rows.Add(row);Directory.CreateDirectory("Docs/Phase28/Screenshots");ScreenCapture.CaptureScreenshot("Docs/Phase28/Screenshots/"+mode+"-"+hour+".png");yield return null;}
- File.WriteAllText("Docs/Phase28/"+mode+".json","["+string.Join(",",rows.Select(r=>JsonUtility.ToJson(r,true)))+"]");if(!mode.EndsWith("Before")){check(rows.All(r=>r.overlapFrames==0),"Personal space maintained during all city population samples");check(rows.All(r=>r.rapidReversals<4),"No rapid back-and-forth crowd jitter");}check(rows.Last().endCount<=rows.Last().count/2,"Night crowd returns through existing exit routes");check(W.CanControl,"City sampling preserves controls");}
- static IEnumerator Registry(GameManager g,Action<bool,string> check,Action<GameObject,string> audit){var qa=DeveloperQACenter.Ensure();qa.Open();yield return null;check(qa.Visible&&qa.Sandbox.Active,"Existing QA dedicated sandbox opens");var selected=qa.Registry.Scenarios.Where(s=>s.id.StartsWith("city/")||new[]{"property/trade","property/Jeonse","property/MonthlyRent"}.Contains(s.id)).ToArray();check(selected.Length==6,"City and connected property scenarios registered");qa.Run(selected);float until=Time.unscaledTime+90;while(qa.Runner.Running&&Time.unscaledTime<until)yield return null;check(!qa.Runner.Running,"City QA scenarios finish");foreach(var s in selected){var r=qa.Reporter.Get(s);check(r.status==QAStatus.PASS,s.id+" "+r.reason);}check(qa.Sandbox.VerifyFiles(),"QA source saves byte-identical");yield return qa.CloseAndRestore();g.growth.Restore(new ProgressSnapshot{age=19});yield return Go("city",check);W.hud.shell.Push(W.hud.menuPanel);yield return new WaitForSecondsRealtime(.2f);audit(W.hud.menuPanel,"Existing menu with city navigation");yield return Shot("Menu");W.hud.shell.Close(W.hud.menuPanel);}
- static IEnumerator Ready(){float end=Time.unscaledTime+30;while((GameContext.Instance.transitions.IsTransitioning||W.Busy)&&Time.unscaledTime<end)yield return null;if(GameContext.Instance.transitions.IsTransitioning||W.Busy)throw new Exception("Phase28 transition/action timeout");yield return null;yield return null;}
- static IEnumerator Go(string id,Action<bool,string> check){var t=GameContext.Instance.transitions;check(t.NavigateRoom(id,t.roomCatalog.rules.Zone(id).spawn,Vector2.down),"Phase28 actual room "+id);yield return Ready();}
- static IEnumerator Shot(string name){W.hud.Notify("",2);yield return new WaitForEndOfFrame();ScreenCapture.CaptureScreenshot("Docs/Phase28/Screenshots/"+name+".png");yield return null;}
- static UnityEngine.UI.Button B(GameObject panel,string name)=>panel.GetComponentsInChildren<UnityEngine.UI.Button>(true).First(b=>b.name==name);
- static IEnumerator UX(GameManager g,Action<bool,string> check,Action<GameObject,string> audit){g.clock.realtimeEnabled=false;Directory.CreateDirectory("Docs/Phase28/Screenshots");var city=g.world.City;foreach(int age in new[]{0,1,6,7,18,19}){g.growth.Restore(new ProgressSnapshot{age=age});var s=city.Suggest();check(age>=7||s.room==null||FamilyLife.IsFamilyRoom(s.room),"Age-safe suggestion "+age);check(city.Track("finance",out _)==(age>=19),"Actual destination finance age gate "+age);check(city.Track("city",out _)==(age>=7),"Actual destination outdoor age gate "+age);}g.growth.Restore(new ProgressSnapshot{age=19});g.clock.Restore(4,new TimeSnapshot{subDaySeconds=10*3600});var st=g.stats.Capture();st.money=2000;g.stats.Restore(st);yield return Go("city",check);yield return new WaitForSecondsRealtime(.3f);var ui=W.hud.GetComponent<CityLifeHUD>();check(ui!=null&&ui.MiniMap.activeSelf,"Outdoor minimap visible in actual city");check(ui.MiniMap.GetComponentsInChildren<UnityEngine.UI.Button>().Count(b=>b.name.StartsWith("POI "))==6,"Six real city facilities mapped without fake cafes/hospitals");yield return Shot("City-HUD");ui.OpenMap();yield return new WaitForSecondsRealtime(.3f);check(W.hud.shell.Top==ui.MapPanel&&!W.CanControl,"Existing UI stack owns map focus and world input");B(ui.MapPanel,"POI school").onClick.Invoke();check(ui.Detail.text.Contains("학교")&&ui.Detail.text.Contains("공부"),"Selected map facility explains actual actions");B(ui.MapPanel,"Track destination").onClick.Invoke();yield return new WaitForSecondsRealtime(.3f);check(city.Data.destination=="school"&&W.CanControl,"Map tracks route without teleport or quest prerequisite");ui.OpenMap();yield return new WaitForSecondsRealtime(.2f);yield return Shot("Map");W.hud.shell.Close(ui.MapPanel);ui.OpenAchievements();yield return new WaitForSecondsRealtime(.2f);check(W.hud.shell.Top==ui.AchievementPanel,"Achievements are a separate screen");yield return Shot("Achievements");W.hud.shell.Close(ui.AchievementPanel);ui.OpenGuide();yield return new WaitForSecondsRealtime(.2f);check(city.Seen("screen/guide"),"Guide seen is recorded");yield return Shot("Guide");W.hud.shell.Close(ui.GuidePanel);yield return new WaitForSecondsRealtime(.2f);
-  yield return Go("shop",check);var shop=W.objects.First(o=>o.kind==WorldInteractionKind.FoodShop);W.Player.Warp(shop.Point);yield return null;long cash=g.economy.Cash;int bread=g.world.State.bread;long purchases=city.Counter("purchase");check(g.world.PurchaseFood("bread",out var reason),"Actual existing food purchase succeeds "+reason);check(g.economy.Cash==cash-g.world.rules.breadPrice&&g.world.State.bread==bread+1&&city.Counter("purchase")==purchases+1,"Achievement progress follows real debit/inventory exactly once");check(city.Data.achievements.Count(id=>id=="purchase")==1,"First purchase achievement has no duplicate completion/reward");check(city.Data.discovered.Contains("shop")&&!W.hud.GetComponent<CityLifeHUD>().MiniMap.activeSelf,"Real facility visit discovered, indoor minimap hidden");city.MarkGuide("qa/persist");city.Track("school",out _);g.Save();string saved=JsonUtility.ToJson(city.Data);city.Track(null,out _);city.Data.discovered.Clear();g.Load();yield return Ready();check(JsonUtility.ToJson(city.Data)==saved,"Actual QA disk load preserves discovery, progress, guide and destination");long old=city.Counter("placement");check(!g.world.Durable(()=>{city.Record("placement");return false;},out _)&&city.Counter("placement")==old,"Failed durable mutation rolls back achievement progress");
-  yield return Go("city",check);foreach(var size in new[]{new[]{1280,720},new[]{1920,1080},new[]{904,2316}}){CommercialSliceVerification.SetSize(size[0],size[1]);var mobile=W.hud.GetComponent<WorldMobileHUD>();mobile.simulateMobile=size[0]<size[1];mobile.Apply(true);yield return new WaitForSecondsRealtime(.5f);ui=W.hud.GetComponent<CityLifeHUD>();audit(W.hud.gameObject,"Phase28 HUD "+size[0]);ui.OpenMap();yield return new WaitForSecondsRealtime(.3f);audit(ui.MapPanel,"Phase28 map "+size[0]);yield return Shot("Map-"+size[0]);W.hud.shell.Close(ui.MapPanel);yield return new WaitForSecondsRealtime(.2f);}CommercialSliceVerification.SetSize(1280,720);W.hud.GetComponent<WorldMobileHUD>().simulateMobile=false;W.hud.GetComponent<WorldMobileHUD>().Apply(true);PlayerPrefs.SetInt("ian.ui.largeText",1);foreach(var type in W.hud.GetComponentsInChildren<UITypeScale>(true))type.Apply();ui.Reflow();ui.OpenGuide();yield return new WaitForSecondsRealtime(.3f);audit(ui.GuidePanel,"Phase28 large guide");yield return Shot("Guide-Large");W.hud.shell.Close(ui.GuidePanel);ui.OpenAchievements();ui.Reflow();yield return new WaitForSecondsRealtime(.2f);audit(ui.AchievementPanel,"Phase28 large achievements");W.hud.shell.Close(ui.AchievementPanel);PlayerPrefs.SetInt("ian.ui.largeText",0);foreach(var type in W.hud.GetComponentsInChildren<UITypeScale>(true))type.Apply();check(g.growth.Age==19&&g.economy.Cash==cash-g.world.rules.breadPrice,"UI resize and discovery preserve authoritative age and cash");
- }
 
-}
+namespace IanGame.Editor
+{
+    public static class Phase28Verification
+    {
+        [Serializable]
+        public class Sample
+        {
+            public int hour;
+            public int count;
+            public int endCount;
+            public int overlapFrames;
+            public int reversals;
+            public int walkIdleChanges;
+            public int rapidReversals;
+            public float minGap = 100;
+            public int steps;
+        }
+
+        static LifeWorldController W => GameContext.Instance.game.world.Host;
+
+        public static IEnumerator Run(
+            GameManager g,
+            Action<bool, string> check,
+            Action<GameObject, string> audit,
+            string mode
+        )
+        {
+            if (mode == "roomVisualPhase28Registry")
+            {
+                yield return Registry(g, check, audit);
+                yield break;
+            }
+
+            if (mode == "roomVisualPhase28UX")
+            {
+                yield return UX(g, check, audit);
+                yield break;
+            }
+
+            g.clock.realtimeEnabled = false;
+            g.growth.Restore(new ProgressSnapshot { age = 19 });
+            g.clock.Restore(4, new TimeSnapshot { subDaySeconds = 8 * 3600 });
+            var t = GameContext.Instance.transitions;
+            check(t.NavigateRoom("city", t.roomCatalog.rules.Zone("city").spawn, Vector2.down), "Actual city load");
+            while (t.IsTransitioning)
+            {
+                yield return null;
+            }
+
+            yield return null;
+            W.Player.Warp(W.CurrentZone.origin + new Vector2(-12, -7));
+            var rows = new List<Sample>();
+            foreach (int hour in new[] { 8, 12, 18, 23 })
+            {
+                g.clock.Restore(4, new TimeSnapshot { subDaySeconds = hour * 3600 + (hour == 23 ? 40 * 60 : 0) });
+                yield return new WaitForSecondsRealtime(1);
+                var scheduler = W.GetComponent<WorldNPCScheduler>();
+                var row = new Sample { hour = hour };
+                var last = new Dictionary<string, Vector2>();
+                var directions = new Dictionary<string, Vector2>();
+                var moving = new Dictionary<string, bool>();
+                var reversed = new Dictionary<string, float>();
+                float until = Time.unscaledTime + (hour == 23 ? 60 : 8);
+                while (Time.unscaledTime < until)
+                {
+                    var actors = scheduler.actors.Where(a => a != null && a.visual.enabled).ToArray();
+                    row.count = Math.Max(row.count, actors.Length);
+                    foreach (var a in actors)
+                    {
+                        var p = (Vector2)a.transform.position;
+                        if (last.TryGetValue(a.npcId, out var prior))
+                        {
+                            var delta = p - prior;
+                            bool walk = delta.sqrMagnitude > .0000001f;
+                            if (walk)
+                            {
+                                row.steps++;
+                                if (
+                                    directions.TryGetValue(a.npcId, out var d)
+                                    && Vector2.Dot(d.normalized, delta.normalized) < -.5f
+                                )
+                                {
+                                    row.reversals++;
+                                    if (
+                                        reversed.TryGetValue(a.npcId, out var priorTurn)
+                                        && Time.unscaledTime - priorTurn < .5f
+                                    )
+                                    {
+                                        row.rapidReversals++;
+                                    }
+
+                                    reversed[a.npcId] = Time.unscaledTime;
+                                }
+
+                                directions[a.npcId] = delta;
+                            }
+
+                            if (moving.TryGetValue(a.npcId, out var was) && walk != was)
+                            {
+                                row.walkIdleChanges++;
+                            }
+
+                            moving[a.npcId] = walk;
+                        }
+
+                        last[a.npcId] = p;
+                    }
+
+                    for (int i = 0; i < actors.Length; i++)
+                    {
+                        for (int j = i + 1; j < actors.Length; j++)
+                        {
+                            float gap = Vector2.Distance(actors[i].transform.position, actors[j].transform.position);
+                            row.minGap = Mathf.Min(row.minGap, gap);
+                            if (gap < .4f)
+                            {
+                                row.overlapFrames++;
+                            }
+                        }
+                    }
+
+                    yield return null;
+                }
+
+                row.endCount = scheduler.actors.Count(a => a != null && a.visual.enabled);
+                rows.Add(row);
+                Directory.CreateDirectory("Docs/Phase28/Screenshots");
+                ScreenCapture.CaptureScreenshot("Docs/Phase28/Screenshots/" + mode + "-" + hour + ".png");
+                yield return null;
+            }
+
+            File.WriteAllText(
+                "Docs/Phase28/" + mode + ".json",
+                "[" + string.Join(",", rows.Select(r => JsonUtility.ToJson(r, true))) + "]"
+            );
+            if (!mode.EndsWith("Before"))
+            {
+                check(
+                    rows.All(r => r.overlapFrames == 0),
+                    "Personal space maintained during all city population samples"
+                );
+                check(rows.All(r => r.rapidReversals < 4), "No rapid back-and-forth crowd jitter");
+            }
+
+            check(rows.Last().endCount <= rows.Last().count / 2, "Night crowd returns through existing exit routes");
+            check(W.CanControl, "City sampling preserves controls");
+        }
+
+        static IEnumerator Registry(GameManager g, Action<bool, string> check, Action<GameObject, string> audit)
+        {
+            var qa = DeveloperQACenter.Ensure();
+            qa.Open();
+            yield return null;
+            check(qa.Visible && qa.Sandbox.Active, "Existing QA dedicated sandbox opens");
+            var selected = qa
+                .Registry.Scenarios.Where(s =>
+                    s.id.StartsWith("city/")
+                    || new[] { "property/trade", "property/Jeonse", "property/MonthlyRent" }.Contains(s.id)
+                )
+                .ToArray();
+            check(selected.Length == 6, "City and connected property scenarios registered");
+            qa.Run(selected);
+            float until = Time.unscaledTime + 90;
+            while (qa.Runner.Running && Time.unscaledTime < until)
+            {
+                yield return null;
+            }
+
+            check(!qa.Runner.Running, "City QA scenarios finish");
+            foreach (var s in selected)
+            {
+                var r = qa.Reporter.Get(s);
+                check(r.status == QAStatus.PASS, s.id + " " + r.reason);
+            }
+
+            check(qa.Sandbox.VerifyFiles(), "QA source saves byte-identical");
+            yield return qa.CloseAndRestore();
+            g.growth.Restore(new ProgressSnapshot { age = 19 });
+            yield return Go("city", check);
+            W.hud.shell.Push(W.hud.menuPanel);
+            yield return new WaitForSecondsRealtime(.2f);
+            audit(W.hud.menuPanel, "Existing menu with city navigation");
+            yield return Shot("Menu");
+            W.hud.shell.Close(W.hud.menuPanel);
+        }
+
+        static IEnumerator Ready()
+        {
+            float end = Time.unscaledTime + 30;
+            while ((GameContext.Instance.transitions.IsTransitioning || W.Busy) && Time.unscaledTime < end)
+            {
+                yield return null;
+            }
+
+            if (GameContext.Instance.transitions.IsTransitioning || W.Busy)
+            {
+                throw new Exception("Phase28 transition/action timeout");
+            }
+
+            yield return null;
+            yield return null;
+        }
+
+        static IEnumerator Go(string id, Action<bool, string> check)
+        {
+            var t = GameContext.Instance.transitions;
+            check(t.NavigateRoom(id, t.roomCatalog.rules.Zone(id).spawn, Vector2.down), "Phase28 actual room " + id);
+            yield return Ready();
+        }
+
+        static IEnumerator Shot(string name)
+        {
+            W.hud.Notify("", 2);
+            yield return new WaitForEndOfFrame();
+            ScreenCapture.CaptureScreenshot("Docs/Phase28/Screenshots/" + name + ".png");
+            yield return null;
+        }
+
+        static UnityEngine.UI.Button B(GameObject panel, string name) =>
+            panel.GetComponentsInChildren<UnityEngine.UI.Button>(true).First(b => b.name == name);
+
+        static IEnumerator UX(GameManager g, Action<bool, string> check, Action<GameObject, string> audit)
+        {
+            g.clock.realtimeEnabled = false;
+            Directory.CreateDirectory("Docs/Phase28/Screenshots");
+            var city = g.world.City;
+            foreach (int age in new[] { 0, 1, 6, 7, 18, 19 })
+            {
+                g.growth.Restore(new ProgressSnapshot { age = age });
+                var s = city.Suggest();
+                check(age >= 7 || s.room == null || FamilyLife.IsFamilyRoom(s.room), "Age-safe suggestion " + age);
+                check(city.Track("finance", out _) == (age >= 19), "Actual destination finance age gate " + age);
+                check(city.Track("city", out _) == (age >= 7), "Actual destination outdoor age gate " + age);
+            }
+
+            g.growth.Restore(new ProgressSnapshot { age = 19 });
+            g.clock.Restore(4, new TimeSnapshot { subDaySeconds = 10 * 3600 });
+            var st = g.stats.Capture();
+            st.money = 2000;
+            g.stats.Restore(st);
+            yield return Go("city", check);
+            yield return new WaitForSecondsRealtime(.3f);
+            var ui = W.hud.GetComponent<CityLifeHUD>();
+            check(ui != null && ui.MiniMap.activeSelf, "Outdoor minimap visible in actual city");
+            check(
+                ui.MiniMap.GetComponentsInChildren<UnityEngine.UI.Button>().Count(b => b.name.StartsWith("POI ")) == 6,
+                "Six real city facilities mapped without fake cafes/hospitals"
+            );
+            yield return Shot("City-HUD");
+            ui.OpenMap();
+            yield return new WaitForSecondsRealtime(.3f);
+            check(W.hud.shell.Top == ui.MapPanel && !W.CanControl, "Existing UI stack owns map focus and world input");
+            B(ui.MapPanel, "POI school").onClick.Invoke();
+            check(
+                ui.Detail.text.Contains("학교") && ui.Detail.text.Contains("공부"),
+                "Selected map facility explains actual actions"
+            );
+            B(ui.MapPanel, "Track destination").onClick.Invoke();
+            yield return new WaitForSecondsRealtime(.3f);
+            check(
+                city.Data.destination == "school" && W.CanControl,
+                "Map tracks route without teleport or quest prerequisite"
+            );
+            ui.OpenMap();
+            yield return new WaitForSecondsRealtime(.2f);
+            yield return Shot("Map");
+            W.hud.shell.Close(ui.MapPanel);
+            ui.OpenAchievements();
+            yield return new WaitForSecondsRealtime(.2f);
+            check(W.hud.shell.Top == ui.AchievementPanel, "Achievements are a separate screen");
+            yield return Shot("Achievements");
+            W.hud.shell.Close(ui.AchievementPanel);
+            ui.OpenGuide();
+            yield return new WaitForSecondsRealtime(.2f);
+            check(city.Seen("screen/guide"), "Guide seen is recorded");
+            yield return Shot("Guide");
+            W.hud.shell.Close(ui.GuidePanel);
+            yield return new WaitForSecondsRealtime(.2f);
+            yield return Go("shop", check);
+            var shop = W.objects.First(o => o.kind == WorldInteractionKind.FoodShop);
+            W.Player.Warp(shop.Point);
+            yield return null;
+            long cash = g.economy.Cash;
+            int bread = g.world.State.bread;
+            long purchases = city.Counter("purchase");
+            check(g.world.PurchaseFood("bread", out var reason), "Actual existing food purchase succeeds " + reason);
+            check(
+                g.economy.Cash == cash - g.world.rules.breadPrice
+                    && g.world.State.bread == bread + 1
+                    && city.Counter("purchase") == purchases + 1,
+                "Achievement progress follows real debit/inventory exactly once"
+            );
+            check(
+                city.Data.achievements.Count(id => id == "purchase") == 1,
+                "First purchase achievement has no duplicate completion/reward"
+            );
+            check(
+                city.Data.discovered.Contains("shop") && !W.hud.GetComponent<CityLifeHUD>().MiniMap.activeSelf,
+                "Real facility visit discovered, indoor minimap hidden"
+            );
+            city.MarkGuide("qa/persist");
+            city.Track("school", out _);
+            g.Save();
+            string saved = JsonUtility.ToJson(city.Data);
+            city.Track(null, out _);
+            city.Data.discovered.Clear();
+            g.Load();
+            yield return Ready();
+            check(
+                JsonUtility.ToJson(city.Data) == saved,
+                "Actual QA disk load preserves discovery, progress, guide and destination"
+            );
+            long old = city.Counter("placement");
+            check(
+                !g.world.Durable(
+                    () =>
+                    {
+                        city.Record("placement");
+                        return false;
+                    },
+                    out _
+                )
+                    && city.Counter("placement") == old,
+                "Failed durable mutation rolls back achievement progress"
+            );
+            yield return Go("city", check);
+            foreach (var size in new[] { new[] { 1280, 720 }, new[] { 1920, 1080 }, new[] { 904, 2316 } })
+            {
+                CommercialSliceVerification.SetSize(size[0], size[1]);
+                var mobile = W.hud.GetComponent<WorldMobileHUD>();
+                mobile.simulateMobile = size[0] < size[1];
+                mobile.Apply(true);
+                yield return new WaitForSecondsRealtime(.5f);
+                ui = W.hud.GetComponent<CityLifeHUD>();
+                audit(W.hud.gameObject, "Phase28 HUD " + size[0]);
+                ui.OpenMap();
+                yield return new WaitForSecondsRealtime(.3f);
+                audit(ui.MapPanel, "Phase28 map " + size[0]);
+                yield return Shot("Map-" + size[0]);
+                W.hud.shell.Close(ui.MapPanel);
+                yield return new WaitForSecondsRealtime(.2f);
+            }
+
+            CommercialSliceVerification.SetSize(1280, 720);
+            W.hud.GetComponent<WorldMobileHUD>().simulateMobile = false;
+            W.hud.GetComponent<WorldMobileHUD>().Apply(true);
+            PlayerPrefs.SetInt("ian.ui.largeText", 1);
+            foreach (var type in W.hud.GetComponentsInChildren<UITypeScale>(true))
+            {
+                type.Apply();
+            }
+
+            ui.Reflow();
+            ui.OpenGuide();
+            yield return new WaitForSecondsRealtime(.3f);
+            audit(ui.GuidePanel, "Phase28 large guide");
+            yield return Shot("Guide-Large");
+            W.hud.shell.Close(ui.GuidePanel);
+            ui.OpenAchievements();
+            ui.Reflow();
+            yield return new WaitForSecondsRealtime(.2f);
+            audit(ui.AchievementPanel, "Phase28 large achievements");
+            W.hud.shell.Close(ui.AchievementPanel);
+            PlayerPrefs.SetInt("ian.ui.largeText", 0);
+            foreach (var type in W.hud.GetComponentsInChildren<UITypeScale>(true))
+            {
+                type.Apply();
+            }
+
+            check(
+                g.growth.Age == 19 && g.economy.Cash == cash - g.world.rules.breadPrice,
+                "UI resize and discovery preserve authoritative age and cash"
+            );
+        }
+    }
 }
 #endif

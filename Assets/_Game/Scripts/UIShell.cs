@@ -1,34 +1,538 @@
-using System;using System.Linq;using System.Collections;using System.Collections.Generic;using TMPro;using UnityEngine;using UnityEngine.UI;using UnityEngine.EventSystems;using UnityEngine.InputSystem;
-namespace IanGame {
-public class UIShell:MonoBehaviour,ICancelHandler {
- class ScreenEntry {public GameObject view;public GameObject previousFocus;public bool resume;}
- readonly List<ScreenEntry> stack=new List<ScreenEntry>();
- public CanvasGroup baseGroup;public RectTransform overlayRoot;public GameObject pausePanel,settingsPanel,statusPanel,confirmPanel;public Button motionButton,textSizeButton;public bool mainMenu;
- public static bool ReducedMotion=>PlayerPrefs.GetInt("ian.ui.reduceMotion",0)==1;
- public event Action Changed;public int Depth=>stack.Count;public GameObject Top=>stack.Count==0?null:stack[stack.Count-1].view;
- bool focusDirty;public void InvalidateFocus(){focusDirty=true;}void LateUpdate(){if(!focusDirty)return;focusDirty=false;Focus(Top==null?baseGroup.gameObject:Top,false);} GameManager game;int lastBackFrame=-1;readonly Dictionary<GameObject,Coroutine> animations=new Dictionary<GameObject,Coroutine>();
- public static UIShell For(Component target){if(target==null)return UnityEngine.Object.FindFirstObjectByType<UIShell>();var canvas=target.GetComponentInParent<Canvas>();var all=UnityEngine.Object.FindObjectsByType<UIShell>(FindObjectsSortMode.None);return all.FirstOrDefault(s=>canvas!=null&&s.GetComponentInParent<Canvas>()==canvas)??all.FirstOrDefault();}
- void Start(){game=GameContext.Instance==null?null:GameContext.Instance.game;Focus(baseGroup.gameObject);RefreshSettings();ReleaseUI.Attach(this);}
- void OnDisable(){StopAllCoroutines();animations.Clear();stack.Clear();if(baseGroup!=null){baseGroup.interactable=true;baseGroup.blocksRaycasts=true;}}
- public void Push(GameObject panel){if(panel==null)return;if(Top==panel)return;int existing=stack.FindIndex(s=>s.view==panel);if(existing>=0){while(stack.Count>existing+1){int depth=stack.Count;Pop();if(stack.Count==depth)break;}return;}
- var entry=new ScreenEntry{view=panel,previousFocus=EventSystem.current==null?null:EventSystem.current.currentSelectedGameObject};stack.Add(entry);panel.SetActive(true);panel.transform.SetAsLastSibling();Sync();Animate(panel,true);Focus(panel);
- }
- public void Close(GameObject panel){int index=stack.FindIndex(s=>s.view==panel);if(index<0){if(panel!=null)panel.SetActive(false);return;}while(stack.Count>index){int depth=stack.Count;Pop();if(stack.Count==depth)break;}}
- public void ReplaceMajor(GameObject panel){if(panel==null||Top!=null&&Top.name=="BirthIntroductionPopup")return;Push(panel);while(stack.Count>1){var old=stack[0];stack.RemoveAt(0);Coroutine running;if(animations.TryGetValue(old.view,out running)&&running!=null)StopCoroutine(running);animations.Remove(old.view);old.view.SetActive(false);}Sync();Focus(panel);}
- public void Pop(){if(stack.Count==0)return;if(LegalDocumentService.NeedsConsent&&Top.name=="Release Consent")return;if(Top.name=="BirthIntroductionPopup"&&GameContext.Instance!=null&&GameContext.Instance.game.BirthIntroductionPending)return;var entry=stack[stack.Count-1];stack.RemoveAt(stack.Count-1);Animate(entry.view,false);Sync();if(entry.resume&&game!=null&&game.State==GameState.Paused)game.Resume();if(EventSystem.current!=null&&entry.previousFocus!=null&&entry.previousFocus.activeInHierarchy&&entry.previousFocus.GetComponent<Selectable>()!=null&&entry.previousFocus.GetComponent<Selectable>().IsInteractable())EventSystem.current.SetSelectedGameObject(entry.previousFocus);else Focus(Top==null?baseGroup.gameObject:Top);}
- void Sync(){if(baseGroup!=null){baseGroup.interactable=stack.Count==0;baseGroup.blocksRaycasts=stack.Count==0;}foreach(var entry in stack){var group=Group(entry.view);group.interactable=entry==stack.Last();group.blocksRaycasts=group.interactable;}Changed?.Invoke();}
- static CanvasGroup Group(GameObject view){var group=view.GetComponent<CanvasGroup>();return group!=null?group:view.AddComponent<CanvasGroup>();}
- void Animate(GameObject view,bool show){if(view==null)return;Coroutine current;if(animations.TryGetValue(view,out current)&&current!=null)StopCoroutine(current);if(!isActiveAndEnabled||ReducedMotion){Group(view).alpha=show?1:0;view.SetActive(show);return;}animations[view]=StartCoroutine(Fade(view,show));}
- IEnumerator Fade(GameObject view,bool show){var group=Group(view);bool input=show&&Top==view;group.interactable=input;group.blocksRaycasts=input;float start=show?0:group.alpha;for(float t=0;t<1;t+=Time.unscaledDeltaTime/.15f){group.alpha=Mathf.Lerp(start,show?1:0,1-(1-t)*(1-t));yield return null;}group.alpha=show?1:0;if(!show)view.SetActive(false);animations.Remove(view);}
- public void OpenPause(){if(game==null&&GameContext.Instance!=null)game=GameContext.Instance.game;if(mainMenu){Push(settingsPanel);return;}bool resume=game!=null&&game.State==GameState.Playing;if(resume)game.Pause();Push(pausePanel);if(stack.Count>0)stack.Last().resume=resume;}
- public void OpenSettings(){Push(settingsPanel);RefreshSettings();}public void OpenStatus(){Push(statusPanel);}public void ConfirmNewLife(){Push(confirmPanel);}
- public void AcceptNewLife(){if(GameContext.Instance!=null&&GameContext.Instance.game.BirthIntroductionPending)return;while(stack.Count>0)Pop();if(GameContext.Instance!=null){GameContext.Instance.game.NewGame();if(mainMenu)GameContext.Instance.transitions.Navigate(SceneId.Home);}}
- public void ToggleMotion(){PlayerPrefs.SetInt("ian.ui.reduceMotion",ReducedMotion?0:1);PlayerPrefs.Save();RefreshSettings();}
- public void ToggleText(){int value=PlayerPrefs.GetInt("ian.ui.largeText",0)==0?1:0;PlayerPrefs.SetInt("ian.ui.largeText",value);PlayerPrefs.Save();foreach(var text in GetComponentsInChildren<TMP_Text>(true)){var mark=text.GetComponent<UITypeScale>();if(mark!=null)mark.Apply();}RefreshSettings();}
- void RefreshSettings(){if(motionButton!=null)motionButton.GetComponentInChildren<TMP_Text>().text="모션 줄이기  "+(ReducedMotion?"켜짐":"꺼짐");if(textSizeButton!=null)textSizeButton.GetComponentInChildren<TMP_Text>().text="글자 크기  "+(PlayerPrefs.GetInt("ian.ui.largeText",0)==1?"크게 (115%)":"기본 (100%)");}
- public static void Focus(GameObject view,bool selectFirst=true){if(view==null||EventSystem.current==null)return;var buttons=view.GetComponentsInChildren<Selectable>(false).Where(b=>b.IsInteractable()&&b.gameObject.activeInHierarchy).ToArray();for(int i=0;i<buttons.Length;i++){var n=buttons[i].navigation;n.mode=Navigation.Mode.Explicit;n.selectOnUp=buttons[(i-1+buttons.Length)%buttons.Length];n.selectOnLeft=n.selectOnUp;n.selectOnDown=buttons[(i+1)%buttons.Length];n.selectOnRight=n.selectOnDown;buttons[i].navigation=n;}if(buttons.Length>0&&(selectFirst||!buttons.Any(b=>b.gameObject==EventSystem.current.currentSelectedGameObject)))EventSystem.current.SetSelectedGameObject(buttons[0].gameObject);}
- public void OnCancel(BaseEventData data){Back();}
- void Back(){if(GameContext.Instance!=null&&GameContext.Instance.game.world!=null&&GameContext.Instance.game.world.Busy){GameContext.Instance.game.world.Host.CancelAction();return;}if(GameContext.Instance!=null&&GameContext.Instance.transitions.IsTransitioning)return;if(lastBackFrame==Time.frameCount)return;lastBackFrame=Time.frameCount;if(stack.Count>0)Pop();else if(!mainMenu)OpenPause();}
- void ScrollInput(Keyboard keyboard,Gamepad pad){if(Top==null)return;float step=keyboard!=null&&keyboard.pageDownKey.wasPressedThisFrame?-1:keyboard!=null&&keyboard.pageUpKey.wasPressedThisFrame?1:0;float stick=pad==null?0:pad.rightStick.ReadValue().y;if(step==0&&Mathf.Abs(stick)<.2f)return;var scroll=Top.GetComponentsInChildren<ScrollRect>(false).FirstOrDefault(s=>s.content!=null&&s.viewport!=null&&s.content.rect.height>s.viewport.rect.height+1);if(scroll==null)return;float height=Mathf.Max(1,scroll.content.rect.height-scroll.viewport.rect.height);float amount=step!=0?step*scroll.viewport.rect.height/height:stick*600*Time.unscaledDeltaTime/height;scroll.verticalNormalizedPosition=Mathf.Clamp01(scroll.verticalNormalizedPosition+amount);} void Update(){if(DeveloperInputLock.Active)return;var keyboard=Keyboard.current;var pad=Gamepad.current;ScrollInput(keyboard,pad);if(keyboard!=null&&keyboard.escapeKey.wasPressedThisFrame||pad!=null&&pad.buttonEast.wasPressedThisFrame)Back();if(keyboard!=null&&keyboard.tabKey.wasPressedThisFrame){var root=Top==null?baseGroup.gameObject:Top;var buttons=root.GetComponentsInChildren<Selectable>().Where(b=>b.IsInteractable()).ToArray();if(buttons.Length==0)return;var selected=EventSystem.current==null?null:EventSystem.current.currentSelectedGameObject;int index=Array.FindIndex(buttons,b=>b.gameObject==selected);int offset=keyboard.shiftKey.isPressed?-1:1;EventSystem.current.SetSelectedGameObject(buttons[(index+offset+buttons.Length)%buttons.Length].gameObject);}}
-}
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using TMPro;
+using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
+using UnityEngine.UI;
+
+namespace IanGame
+{
+    public class UIShell : MonoBehaviour, ICancelHandler
+    {
+        class ScreenEntry
+        {
+            public GameObject view;
+            public GameObject previousFocus;
+            public bool resume;
+        }
+
+        readonly List<ScreenEntry> stack = new List<ScreenEntry>();
+        public CanvasGroup baseGroup;
+        public RectTransform overlayRoot;
+        public GameObject pausePanel;
+        public GameObject settingsPanel;
+        public GameObject statusPanel;
+        public GameObject confirmPanel;
+        public Button motionButton;
+        public Button textSizeButton;
+        public bool mainMenu;
+        public static bool ReducedMotion => PlayerPrefs.GetInt("ian.ui.reduceMotion", 0) == 1;
+
+        public event Action Changed;
+        public int Depth => stack.Count;
+        public GameObject Top => stack.Count == 0 ? null : stack[stack.Count - 1].view;
+
+        bool focusDirty;
+
+        public void InvalidateFocus()
+        {
+            focusDirty = true;
+        }
+
+        void LateUpdate()
+        {
+            if (!focusDirty)
+            {
+                return;
+            }
+
+            focusDirty = false;
+            Focus(Top == null ? baseGroup.gameObject : Top, false);
+        }
+
+        GameManager game;
+        int lastBackFrame = -1;
+        readonly Dictionary<GameObject, Coroutine> animations = new Dictionary<GameObject, Coroutine>();
+
+        public static UIShell For(Component target)
+        {
+            if (target == null)
+            {
+                return UnityEngine.Object.FindFirstObjectByType<UIShell>();
+            }
+
+            var canvas = target.GetComponentInParent<Canvas>();
+            var all = UnityEngine.Object.FindObjectsByType<UIShell>(FindObjectsSortMode.None);
+            return all.FirstOrDefault(s => canvas != null && s.GetComponentInParent<Canvas>() == canvas)
+                ?? all.FirstOrDefault();
+        }
+
+        void Start()
+        {
+            game = GameContext.Instance == null ? null : GameContext.Instance.game;
+            Focus(baseGroup.gameObject);
+            RefreshSettings();
+            ReleaseUI.Attach(this);
+        }
+
+        void OnDisable()
+        {
+            StopAllCoroutines();
+            animations.Clear();
+            stack.Clear();
+            if (baseGroup != null)
+            {
+                baseGroup.interactable = true;
+                baseGroup.blocksRaycasts = true;
+            }
+        }
+
+        public void Push(GameObject panel)
+        {
+            if (panel == null)
+            {
+                return;
+            }
+
+            if (Top == panel)
+            {
+                return;
+            }
+
+            int existing = stack.FindIndex(s => s.view == panel);
+            if (existing >= 0)
+            {
+                while (stack.Count > existing + 1)
+                {
+                    int depth = stack.Count;
+                    Pop();
+                    if (stack.Count == depth)
+                    {
+                        break;
+                    }
+                }
+
+                return;
+            }
+
+            var entry = new ScreenEntry
+            {
+                view = panel,
+                previousFocus = EventSystem.current == null ? null : EventSystem.current.currentSelectedGameObject,
+            };
+            stack.Add(entry);
+            panel.SetActive(true);
+            panel.transform.SetAsLastSibling();
+            Sync();
+            Animate(panel, true);
+            Focus(panel);
+        }
+
+        public void Close(GameObject panel)
+        {
+            int index = stack.FindIndex(s => s.view == panel);
+            if (index < 0)
+            {
+                if (panel != null)
+                {
+                    panel.SetActive(false);
+                }
+
+                return;
+            }
+
+            while (stack.Count > index)
+            {
+                int depth = stack.Count;
+                Pop();
+                if (stack.Count == depth)
+                {
+                    break;
+                }
+            }
+        }
+
+        public void ReplaceMajor(GameObject panel)
+        {
+            if (panel == null || Top != null && Top.name == "BirthIntroductionPopup")
+            {
+                return;
+            }
+
+            Push(panel);
+            while (stack.Count > 1)
+            {
+                var old = stack[0];
+                stack.RemoveAt(0);
+                Coroutine running;
+                if (animations.TryGetValue(old.view, out running) && running != null)
+                {
+                    StopCoroutine(running);
+                }
+
+                animations.Remove(old.view);
+                old.view.SetActive(false);
+            }
+
+            Sync();
+            Focus(panel);
+        }
+
+        public void Pop()
+        {
+            if (stack.Count == 0)
+            {
+                return;
+            }
+
+            if (LegalDocumentService.NeedsConsent && Top.name == "Release Consent")
+            {
+                return;
+            }
+
+            if (
+                Top.name == "BirthIntroductionPopup"
+                && GameContext.Instance != null
+                && GameContext.Instance.game.BirthIntroductionPending
+            )
+            {
+                return;
+            }
+
+            var entry = stack[stack.Count - 1];
+            stack.RemoveAt(stack.Count - 1);
+            Animate(entry.view, false);
+            Sync();
+            if (entry.resume && game != null && game.State == GameState.Paused)
+            {
+                game.Resume();
+            }
+
+            if (
+                EventSystem.current != null
+                && entry.previousFocus != null
+                && entry.previousFocus.activeInHierarchy
+                && entry.previousFocus.GetComponent<Selectable>() != null
+                && entry.previousFocus.GetComponent<Selectable>().IsInteractable()
+            )
+            {
+                EventSystem.current.SetSelectedGameObject(entry.previousFocus);
+            }
+            else
+            {
+                Focus(Top == null ? baseGroup.gameObject : Top);
+            }
+        }
+
+        void Sync()
+        {
+            if (baseGroup != null)
+            {
+                baseGroup.interactable = stack.Count == 0;
+                baseGroup.blocksRaycasts = stack.Count == 0;
+            }
+
+            foreach (var entry in stack)
+            {
+                var group = Group(entry.view);
+                group.interactable = entry == stack.Last();
+                group.blocksRaycasts = group.interactable;
+            }
+
+            Changed?.Invoke();
+        }
+
+        static CanvasGroup Group(GameObject view)
+        {
+            var group = view.GetComponent<CanvasGroup>();
+            return group != null ? group : view.AddComponent<CanvasGroup>();
+        }
+
+        void Animate(GameObject view, bool show)
+        {
+            if (view == null)
+            {
+                return;
+            }
+
+            Coroutine current;
+            if (animations.TryGetValue(view, out current) && current != null)
+            {
+                StopCoroutine(current);
+            }
+
+            if (!isActiveAndEnabled || ReducedMotion)
+            {
+                Group(view).alpha = show ? 1 : 0;
+                view.SetActive(show);
+                return;
+            }
+
+            animations[view] = StartCoroutine(Fade(view, show));
+        }
+
+        IEnumerator Fade(GameObject view, bool show)
+        {
+            var group = Group(view);
+            bool input = show && Top == view;
+            group.interactable = input;
+            group.blocksRaycasts = input;
+            float start = show ? 0 : group.alpha;
+            for (float t = 0; t < 1; t += Time.unscaledDeltaTime / .15f)
+            {
+                group.alpha = Mathf.Lerp(start, show ? 1 : 0, 1 - (1 - t) * (1 - t));
+                yield return null;
+            }
+
+            group.alpha = show ? 1 : 0;
+            if (!show)
+            {
+                view.SetActive(false);
+            }
+
+            animations.Remove(view);
+        }
+
+        public void OpenPause()
+        {
+            if (game == null && GameContext.Instance != null)
+            {
+                game = GameContext.Instance.game;
+            }
+
+            if (mainMenu)
+            {
+                Push(settingsPanel);
+                return;
+            }
+
+            bool resume = game != null && game.State == GameState.Playing;
+            if (resume)
+            {
+                game.Pause();
+            }
+
+            Push(pausePanel);
+            if (stack.Count > 0)
+            {
+                stack.Last().resume = resume;
+            }
+        }
+
+        public void OpenSettings()
+        {
+            Push(settingsPanel);
+            RefreshSettings();
+        }
+
+        public void OpenStatus()
+        {
+            Push(statusPanel);
+        }
+
+        public void ConfirmNewLife()
+        {
+            Push(confirmPanel);
+        }
+
+        public void AcceptNewLife()
+        {
+            if (GameContext.Instance != null && GameContext.Instance.game.BirthIntroductionPending)
+            {
+                return;
+            }
+
+            while (stack.Count > 0)
+            {
+                Pop();
+            }
+
+            if (GameContext.Instance != null)
+            {
+                GameContext.Instance.game.NewGame();
+                if (mainMenu)
+                {
+                    GameContext.Instance.transitions.Navigate(SceneId.Home);
+                }
+            }
+        }
+
+        public void ToggleMotion()
+        {
+            PlayerPrefs.SetInt("ian.ui.reduceMotion", ReducedMotion ? 0 : 1);
+            PlayerPrefs.Save();
+            RefreshSettings();
+        }
+
+        public void ToggleText()
+        {
+            int value = PlayerPrefs.GetInt("ian.ui.largeText", 0) == 0 ? 1 : 0;
+            PlayerPrefs.SetInt("ian.ui.largeText", value);
+            PlayerPrefs.Save();
+            foreach (var text in GetComponentsInChildren<TMP_Text>(true))
+            {
+                var mark = text.GetComponent<UITypeScale>();
+                if (mark != null)
+                {
+                    mark.Apply();
+                }
+            }
+
+            RefreshSettings();
+        }
+
+        void RefreshSettings()
+        {
+            if (motionButton != null)
+            {
+                motionButton.GetComponentInChildren<TMP_Text>().text =
+                    "모션 줄이기  " + (ReducedMotion ? "켜짐" : "꺼짐");
+            }
+
+            if (textSizeButton != null)
+            {
+                textSizeButton.GetComponentInChildren<TMP_Text>().text =
+                    "글자 크기  " + (PlayerPrefs.GetInt("ian.ui.largeText", 0) == 1 ? "크게 (115%)" : "기본 (100%)");
+            }
+        }
+
+        public static void Focus(GameObject view, bool selectFirst = true)
+        {
+            if (view == null || EventSystem.current == null)
+            {
+                return;
+            }
+
+            var buttons = view.GetComponentsInChildren<Selectable>(false)
+                .Where(b => b.IsInteractable() && b.gameObject.activeInHierarchy)
+                .ToArray();
+            for (int i = 0; i < buttons.Length; i++)
+            {
+                var n = buttons[i].navigation;
+                n.mode = Navigation.Mode.Explicit;
+                n.selectOnUp = buttons[(i - 1 + buttons.Length) % buttons.Length];
+                n.selectOnLeft = n.selectOnUp;
+                n.selectOnDown = buttons[(i + 1) % buttons.Length];
+                n.selectOnRight = n.selectOnDown;
+                buttons[i].navigation = n;
+            }
+
+            if (
+                buttons.Length > 0
+                && (selectFirst || !buttons.Any(b => b.gameObject == EventSystem.current.currentSelectedGameObject))
+            )
+            {
+                EventSystem.current.SetSelectedGameObject(buttons[0].gameObject);
+            }
+        }
+
+        public void OnCancel(BaseEventData data)
+        {
+            Back();
+        }
+
+        void Back()
+        {
+            if (
+                GameContext.Instance != null
+                && GameContext.Instance.game.world != null
+                && GameContext.Instance.game.world.Busy
+            )
+            {
+                GameContext.Instance.game.world.Host.CancelAction();
+                return;
+            }
+
+            if (GameContext.Instance != null && GameContext.Instance.transitions.IsTransitioning)
+            {
+                return;
+            }
+
+            if (lastBackFrame == Time.frameCount)
+            {
+                return;
+            }
+
+            lastBackFrame = Time.frameCount;
+            if (stack.Count > 0)
+            {
+                Pop();
+            }
+            else if (!mainMenu)
+            {
+                OpenPause();
+            }
+        }
+
+        void ScrollInput(Keyboard keyboard, Gamepad pad)
+        {
+            if (Top == null)
+            {
+                return;
+            }
+
+            float step =
+                keyboard != null && keyboard.pageDownKey.wasPressedThisFrame ? -1
+                : keyboard != null && keyboard.pageUpKey.wasPressedThisFrame ? 1
+                : 0;
+            float stick = pad == null ? 0 : pad.rightStick.ReadValue().y;
+            if (step == 0 && Mathf.Abs(stick) < .2f)
+            {
+                return;
+            }
+
+            var scroll = Top.GetComponentsInChildren<ScrollRect>(false)
+                .FirstOrDefault(s =>
+                    s.content != null && s.viewport != null && s.content.rect.height > s.viewport.rect.height + 1
+                );
+            if (scroll == null)
+            {
+                return;
+            }
+
+            float height = Mathf.Max(1, scroll.content.rect.height - scroll.viewport.rect.height);
+            float amount =
+                step != 0 ? step * scroll.viewport.rect.height / height : stick * 600 * Time.unscaledDeltaTime / height;
+            scroll.verticalNormalizedPosition = Mathf.Clamp01(scroll.verticalNormalizedPosition + amount);
+        }
+
+        void Update()
+        {
+            if (DeveloperInputLock.Active)
+            {
+                return;
+            }
+
+            var keyboard = Keyboard.current;
+            var pad = Gamepad.current;
+            ScrollInput(keyboard, pad);
+            if (
+                keyboard != null && keyboard.escapeKey.wasPressedThisFrame
+                || pad != null && pad.buttonEast.wasPressedThisFrame
+            )
+            {
+                Back();
+            }
+
+            if (keyboard != null && keyboard.tabKey.wasPressedThisFrame)
+            {
+                var root = Top == null ? baseGroup.gameObject : Top;
+                var buttons = root.GetComponentsInChildren<Selectable>().Where(b => b.IsInteractable()).ToArray();
+                if (buttons.Length == 0)
+                {
+                    return;
+                }
+
+                var selected = EventSystem.current == null ? null : EventSystem.current.currentSelectedGameObject;
+                int index = Array.FindIndex(buttons, b => b.gameObject == selected);
+                int offset = keyboard.shiftKey.isPressed ? -1 : 1;
+                EventSystem.current.SetSelectedGameObject(
+                    buttons[(index + offset + buttons.Length) % buttons.Length].gameObject
+                );
+            }
+        }
+    }
 }

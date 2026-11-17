@@ -7,89 +7,1080 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
-namespace IanGame {
-// Development-only, persistent across all scenes. Every mutation requires an active QA save channel.
-public sealed class DeveloperQACenter:MonoBehaviour {
- public static DeveloperQACenter Instance{get;private set;}public bool Visible{get;private set;}public bool Restoring{get;private set;}
- [SerializeField]TestSaveSandbox sandbox=new TestSaveSandbox();public TestSaveSandbox Sandbox=>sandbox;public DebugCommandService Commands{get;private set;}public TestScenarioRegistry Registry{get;private set;}public TestScenarioRunner Runner{get;private set;}public TestResultReporter Reporter{get;private set;}
- Canvas canvas;GameObject window,banner;RectTransform safe,main,listPane,detailPane,logPane;TMP_Text title,diagnostics,detail,log,status,selectionLabel;TMP_InputField number,search,mission;ScrollRect listScroll;Transform listContent,commandContent;GridLayoutGroup categoryGrid;Button selectedRun;TMP_FontAsset font;Sprite frame;string category="상태 조작";QAScenario selected;readonly Dictionary<string,Button> testButtons=new Dictionary<string,Button>();readonly List<string> errors=new List<string>();float nextDiagnosis;int oldWidth,oldHeight;bool ready;int shortcutFrame=-1;
- [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]static void Install(){Ensure();}
- public static DeveloperQACenter Ensure(){if(Instance!=null)return Instance;var existing=FindFirstObjectByType<DeveloperQACenter>();if(existing!=null){Instance=existing;return existing;}var go=new GameObject("Developer QA Center (Development only)");DontDestroyOnLoad(go);return go.AddComponent<DeveloperQACenter>();}
- void Awake(){if(Instance!=null&&Instance!=this){Destroy(gameObject);return;}Instance=this;DontDestroyOnLoad(gameObject);Application.logMessageReceived+=ConsoleLog;}
- void OnEnable(){if(Instance==null)Instance=this;if(ready&&Commands==null){ready=false;Visible=false;if(canvas!=null)Destroy(canvas.gameObject);canvas=null;testButtons.Clear();}}
- void OnDestroy(){Application.logMessageReceived-=ConsoleLog;if(Instance==this)Instance=null;sandbox.Shutdown();}void OnApplicationQuit()=>sandbox.Shutdown();
- void ConsoleLog(string condition,string trace,LogType type){if(type!=LogType.Error&&type!=LogType.Exception&&type!=LogType.Assert)return;string line=condition.Length>500?condition.Substring(0,500):condition;errors.Add(line);if(errors.Count>12)errors.RemoveAt(0);Reporter?.Note("Console ["+(string.IsNullOrEmpty(Runner?.Current)?"idle":Runner.Current)+"] "+line);}
- bool Ready(){if(ready)return true;var context=GameContext.Instance;if(context==null||context.game==null||context.game.State==GameState.Starting)return false;Commands=new DebugCommandService(context.game,sandbox);Reporter=new TestResultReporter();Commands.Log=Reporter.Note;Registry=TestScenarioRegistry.Create(context.game);foreach(var s in Registry.Scenarios)Reporter.Get(s);Runner=new TestScenarioRunner(Reporter);Runner.Changed+=ResultsChanged;Build();ready=true;return true;}
- public void Open(){try{if(!Ready())return;sandbox.Enter(Commands.Game);Commands.Game.clock.SetRunning(false);Visible=true;window.SetActive(true);window.GetComponent<CanvasGroup>().interactable=true;banner.SetActive(false);Reflow();RefreshList();UIShell.Focus(window);Diagnose();}catch(Exception e){Debug.LogWarning("QA: "+e.Message);Reporter?.Note(e.Message);}}
- public void Toggle(){if(Restoring)return;if(Visible)StartCoroutine(CloseAndRestore());else Open();}
- // Same shortcut path is used by Update and the isolated input test.
- public bool HandleShortcut(){var keyboard=Keyboard.current;if(keyboard!=null&&keyboard.f10Key.wasPressedThisFrame&&shortcutFrame!=Time.frameCount){shortcutFrame=Time.frameCount;Toggle();return true;}return false;}
- void Update(){HandleShortcut();
+
+namespace IanGame
+{
+    // Development-only, persistent across all scenes. Every mutation requires an active QA save channel.
+    public sealed class DeveloperQACenter : MonoBehaviour
+    {
+        public static DeveloperQACenter Instance { get; private set; }
+        public bool Visible { get; private set; }
+        public bool Restoring { get; private set; }
+
+        [SerializeField]
+        TestSaveSandbox sandbox = new TestSaveSandbox();
+        public TestSaveSandbox Sandbox => sandbox;
+        public DebugCommandService Commands { get; private set; }
+        public TestScenarioRegistry Registry { get; private set; }
+        public TestScenarioRunner Runner { get; private set; }
+        public TestResultReporter Reporter { get; private set; }
+
+        Canvas canvas;
+        GameObject window;
+        GameObject banner;
+        RectTransform safe;
+        RectTransform main;
+        RectTransform listPane;
+        RectTransform detailPane;
+        RectTransform logPane;
+        TMP_Text title;
+        TMP_Text diagnostics;
+        TMP_Text detail;
+        TMP_Text log;
+        TMP_Text status;
+        TMP_Text selectionLabel;
+        TMP_InputField number;
+        TMP_InputField search;
+        TMP_InputField mission;
+        ScrollRect listScroll;
+        Transform listContent;
+        Transform commandContent;
+        GridLayoutGroup categoryGrid;
+        Button selectedRun;
+        TMP_FontAsset font;
+        Sprite frame;
+        string category = "상태 조작";
+        QAScenario selected;
+        readonly Dictionary<string, Button> testButtons = new Dictionary<string, Button>();
+        readonly List<string> errors = new List<string>();
+        float nextDiagnosis;
+        int oldWidth;
+        int oldHeight;
+        bool ready;
+        int shortcutFrame = -1;
+
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
+        static void Install()
+        {
+            Ensure();
+        }
+
+        public static DeveloperQACenter Ensure()
+        {
+            if (Instance != null)
+            {
+                return Instance;
+            }
+
+            var existing = FindFirstObjectByType<DeveloperQACenter>();
+            if (existing != null)
+            {
+                Instance = existing;
+                return existing;
+            }
+
+            var go = new GameObject("Developer QA Center (Development only)");
+            DontDestroyOnLoad(go);
+            return go.AddComponent<DeveloperQACenter>();
+        }
+
+        void Awake()
+        {
+            if (Instance != null && Instance != this)
+            {
+                Destroy(gameObject);
+                return;
+            }
+
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+            Application.logMessageReceived += ConsoleLog;
+        }
+
+        void OnEnable()
+        {
+            if (Instance == null)
+            {
+                Instance = this;
+            }
+
+            if (ready && Commands == null)
+            {
+                ready = false;
+                Visible = false;
+                if (canvas != null)
+                {
+                    Destroy(canvas.gameObject);
+                }
+
+                canvas = null;
+                testButtons.Clear();
+            }
+        }
+
+        void OnDestroy()
+        {
+            Application.logMessageReceived -= ConsoleLog;
+            if (Instance == this)
+            {
+                Instance = null;
+            }
+
+            sandbox.Shutdown();
+        }
+
+        void OnApplicationQuit() => sandbox.Shutdown();
+
+        void ConsoleLog(string condition, string trace, LogType type)
+        {
+            if (type != LogType.Error && type != LogType.Exception && type != LogType.Assert)
+            {
+                return;
+            }
+
+            string line = condition.Length > 500 ? condition.Substring(0, 500) : condition;
+            errors.Add(line);
+            if (errors.Count > 12)
+            {
+                errors.RemoveAt(0);
+            }
+
+            Reporter?.Note(
+                "Console [" + (string.IsNullOrEmpty(Runner?.Current) ? "idle" : Runner.Current) + "] " + line
+            );
+        }
+
+        bool Ready()
+        {
+            if (ready)
+            {
+                return true;
+            }
+
+            var context = GameContext.Instance;
+            if (context == null || context.game == null || context.game.State == GameState.Starting)
+            {
+                return false;
+            }
+
+            Commands = new DebugCommandService(context.game, sandbox);
+            Reporter = new TestResultReporter();
+            Commands.Log = Reporter.Note;
+            Registry = TestScenarioRegistry.Create(context.game);
+            foreach (var s in Registry.Scenarios)
+            {
+                Reporter.Get(s);
+            }
+
+            Runner = new TestScenarioRunner(Reporter);
+            Runner.Changed += ResultsChanged;
+            Build();
+            ready = true;
+            return true;
+        }
+
+        public void Open()
+        {
+            try
+            {
+                if (!Ready())
+                {
+                    return;
+                }
+
+                sandbox.Enter(Commands.Game);
+                Commands.Game.clock.SetRunning(false);
+                Visible = true;
+                window.SetActive(true);
+                window.GetComponent<CanvasGroup>().interactable = true;
+                banner.SetActive(false);
+                Reflow();
+                RefreshList();
+                UIShell.Focus(window);
+                Diagnose();
+            }
+            catch (Exception e)
+            {
+                Debug.LogWarning("QA: " + e.Message);
+                Reporter?.Note(e.Message);
+            }
+        }
+
+        public void Toggle()
+        {
+            if (Restoring)
+            {
+                return;
+            }
+
+            if (Visible)
+            {
+                StartCoroutine(CloseAndRestore());
+            }
+            else
+            {
+                Open();
+            }
+        }
+
+        // Same shortcut path is used by Update and the isolated input test.
+        public bool HandleShortcut()
+        {
+            var keyboard = Keyboard.current;
+            if (keyboard != null && keyboard.f10Key.wasPressedThisFrame && shortcutFrame != Time.frameCount)
+            {
+                shortcutFrame = Time.frameCount;
+                Toggle();
+                return true;
+            }
+
+            return false;
+        }
+
+        void Update()
+        {
+            HandleShortcut();
 #if UNITY_EDITOR
-  if(UnityEditor.SessionState.GetBool("ian.qa.open",false)&&GameContext.Instance!=null&&!GameContext.Instance.transitions.IsTransitioning&&GameContext.Instance.game.State!=GameState.Starting){UnityEditor.SessionState.SetBool("ian.qa.open",false);Open();}
+            if (
+                UnityEditor.SessionState.GetBool("ian.qa.open", false)
+                && GameContext.Instance != null
+                && !GameContext.Instance.transitions.IsTransitioning
+                && GameContext.Instance.game.State != GameState.Starting
+            )
+            {
+                UnityEditor.SessionState.SetBool("ian.qa.open", false);
+                Open();
+            }
+
 #endif
-  if(!ready){if(sandbox.Active&&Ready()){banner.SetActive(true);Reporter.Note("스크립트 재컴파일 후 QA 채널을 유지했습니다. F10으로 복귀하세요.");}return;}if((Screen.width!=oldWidth||Screen.height!=oldHeight)&&Visible)Reflow();if(Visible&&Time.unscaledTime>=nextDiagnosis){nextDiagnosis=Time.unscaledTime+.4f;Diagnose();}}
- public IEnumerator CloseAndRestore(){if(Restoring||!sandbox.Active){Visible=false;if(window!=null)window.SetActive(false);yield break;}Restoring=true;window.GetComponent<CanvasGroup>().interactable=false;if(Runner.Running){Runner.CancelRequested=true;while(Runner.Running)yield return null;}var routine=sandbox.Exit();Exception failure=null;while(true){bool more=false;object current=null;try{more=routine.MoveNext();if(more)current=routine.Current;}catch(Exception e){failure=e;}if(failure!=null||!more)break;yield return current;}Restoring=false;if(failure!=null){window.GetComponent<CanvasGroup>().interactable=true;Reporter.Note("복구 실패: "+failure.Message);Diagnose();yield break;}Reporter.Note("원상복구 완료 / 원본 저장 해시 "+(sandbox.LastFilesUnchanged?"동일":"차이 발견"));Reporter.Save(sandbox.LastFilesUnchanged);Visible=false;window.SetActive(false);banner.SetActive(false);}
- public void Minimize(){if(!ready)return;Commands.Game.clock.SetRunning(true);Visible=false;window.SetActive(false);banner.SetActive(sandbox.Active);}
- public void Run(IEnumerable<QAScenario> scenarios){if(!Ready()||Runner.Running)return;try{sandbox.Enter(Commands.Game);StartCoroutine(Runner.Run(scenarios,Commands));}catch(Exception e){Reporter.Note(e.Message);}}
- public void RunAll()=>Run(Registry.Scenarios);public void RunCategory()=>Run(Registry.Scenarios.Where(s=>category=="상태 조작"||s.category==category));public void RetryFailed()=>Run(Registry.Scenarios.Where(s=>Reporter.Get(s).status==QAStatus.FAIL));
- public void ResetTestData(){if(Runner.Running||Restoring)return;Safe(()=>{sandbox.ResetData();Reporter.Note("QA 데이터만 진입 스냅샷으로 복원했습니다. 실제 저장 파일 삭제 없음.");});}
- void ResultsChanged(){RefreshList();Diagnose();if(selected!=null)Select(selected);}
- void Safe(Action command){try{if(Restoring||Runner!=null&&Runner.Running)throw new InvalidOperationException("테스트 실행 중에는 수동 조작을 기다리세요.");sandbox.Enter(Commands.Game);command();Reporter.Note("명령 완료 (QA 슬롯)");}catch(Exception e){Reporter?.Note("명령 실패: "+e.Message);}Diagnose();}
- void Require(bool value,string reason){if(!value)throw new InvalidOperationException(reason);}
- long Number(){if(!long.TryParse(number.text,out var n))throw new ArgumentException("숫자를 입력하세요.");return n;}
- void Select(QAScenario s){selected=s;var result=Reporter.Get(s);selectionLabel.text=s.id+" · "+s.title;detail.text=s.description+"\n\n성공 조건\n"+s.success+"\n\n현재 판정 "+result.status+"\n"+result.reason+"\n검사 "+result.checks+" / "+result.seconds.ToString("0.00")+"초";selectedRun.interactable=!Runner.Running;}
- void Related(){if(selected?.related==null){Reporter.Note("관련 화면이 정의되지 않았습니다.");return;}StartCoroutine(PreviewRelated(selected));}
- IEnumerator PreviewRelated(QAScenario s){if(Runner.Running)yield break;sandbox.Enter(Commands.Game);Minimize();yield return s.related(Commands);if(s.category=="2.7 부동산"){var ui=FindFirstObjectByType<PropertyPresenter>();if(ui!=null)ui.Open();}else if(s.id.StartsWith("mission/")){var nav=FindFirstObjectByType<PolishedNavigation>();if(nav!=null)nav.Open(6);}Commands.Game.clock.SetRunning(true);Reporter.Note("관련 화면 미리보기 · QA 세션 유지 · F10으로 복귀");}
- IEnumerator PreviewLocation(SceneId destination){Minimize();yield return Commands.Navigate(destination);Commands.Game.clock.SetRunning(true);}
- void Diagnose(){if(!ready&&Commands==null)return;var g=Commands.Game;var e=g.economy;diagnostics.text=$"{UnityEngine.SceneManagement.SceneManager.GetActiveScene().name} · {g.growth.Age}세 · DAY {g.clock.Day} · {e.Cash:N0}G · 부채 {e.Debt:N0}G · 순자산 {e.NetWorth:N0}G";
-  int pass=Reporter.Results.Count(r=>r.status==QAStatus.PASS),fail=Reporter.Results.Count(r=>r.status==QAStatus.FAIL);status.text=$"이번 {Runner.Completed}/{Runner.Total} · 누적 PASS {pass} / FAIL {fail} · {Runner.Current}\n"+(sandbox.Active?"격리: "+System.IO.Path.GetFileName(sandbox.Slot):"실제 데이터 변경 명령은 격리 시작 후에만 실행");
-  var stats=string.Join(" / ",Enum.GetValues(typeof(CoreStat)).Cast<CoreStat>().Select(s=>s+" "+g.stats.Get(s)));log.text=$"저장 {g.saves.LastLoadStatus} / 쓰기 차단 {g.saves.WritesBlocked}\n직업 {g.phase23.Progress.employment.currentJobId}\n미션 {g.missions.ActiveMission?.Id} / 자동 {g.idle.State.activityId} ({g.idle.State.active})\n{stats}\n\n"+string.Join("\n",Reporter.Log.TakeLast(35))+"\n\n최근 오류\n"+string.Join("\n",errors.TakeLast(4));}
- void RefreshList(){if(listContent==null)return;string query=search.text??"";foreach(var s in Registry.Scenarios){bool show=(category=="상태 조작"||s.category==category)&&(string.IsNullOrEmpty(query)||(s.id+" "+s.title+" "+s.description).IndexOf(query,StringComparison.OrdinalIgnoreCase)>=0);if(!testButtons.TryGetValue(s.id,out var button)){var item=s;button=Button(listContent,s.id,()=>Select(item));testButtons.Add(s.id,button);}button.gameObject.SetActive(show);var r=Reporter.Get(s);button.GetComponentInChildren<TMP_Text>().text="["+r.status+"] "+s.id+"\n"+s.title;button.GetComponent<Image>().color=r.status==QAStatus.FAIL?new Color(.8f,.4f,.4f):r.status==QAStatus.PASS?new Color(.65f,.85f,.65f):Color.white;}commandContent.gameObject.SetActive(category=="상태 조작");if(selected==null)Select(Registry.Scenarios[0]);}
- RectTransform Rect(Transform parent,string name){var r=new GameObject(name,typeof(RectTransform)).GetComponent<RectTransform>();r.SetParent(parent,false);return r;}
- void Fill(RectTransform r,Vector2 min,Vector2 max){r.anchorMin=min;r.anchorMax=max;r.offsetMin=r.offsetMax=Vector2.zero;}
- void Height(Component c,float value){var le=c.GetComponent<LayoutElement>()??c.gameObject.AddComponent<LayoutElement>();le.minHeight=le.preferredHeight=value;}
- Image Panel(Transform parent,string name){var r=Rect(parent,name);var i=r.gameObject.AddComponent<Image>();i.sprite=frame;i.type=Image.Type.Sliced;i.color=frame==null?new Color(.07f,.10f,.15f,.98f):Color.white;return i;}
- TMP_Text Text(Transform p,string value,float size=18){var r=Rect(p,"Text");Fill(r,Vector2.zero,Vector2.one);var t=r.gameObject.AddComponent<TextMeshProUGUI>();t.font=font;t.fontSize=size;t.color=new Color32(255,238,205,255);t.text=value;t.margin=new Vector4(10,5,10,5);t.textWrappingMode=TextWrappingModes.Normal;t.raycastTarget=false;return t;}
- TMP_Text Flow(Transform p,string value){var t=Text(p,value);t.gameObject.AddComponent<LayoutElement>();t.gameObject.AddComponent<PixelTextFlow>();return t;}
- Button Button(Transform p,string text,Action action){var image=Panel(p,text);var b=image.gameObject.AddComponent<Button>();b.targetGraphic=image;var label=Text(image.transform,text);label.alignment=TextAlignmentOptions.Center;b.onClick.AddListener(()=>action());image.gameObject.AddComponent<PixelButton>();Height(b,60);image.gameObject.AddComponent<QAButtonRowHeight>();return b;}
- TMP_InputField Input(Transform p,string value,string name){var image=Panel(p,name);Height(image,50);var view=Rect(image.transform,"Viewport");Fill(view,new Vector2(.01f,.01f),new Vector2(.99f,.99f));view.gameObject.AddComponent<RectMask2D>();var text=Text(view,value);text.alignment=TextAlignmentOptions.MidlineLeft;var input=image.gameObject.AddComponent<TMP_InputField>();input.textViewport=view;input.textComponent=(TextMeshProUGUI)text;input.text=value;input.targetGraphic=image;return input;}
- ScrollRect Scroll(Transform p,string name,out Transform content){var root=Rect(p,name);Fill(root,Vector2.zero,Vector2.one);var scroll=root.gameObject.AddComponent<ScrollRect>();scroll.horizontal=false;scroll.movementType=ScrollRect.MovementType.Clamped;scroll.scrollSensitivity=40;var viewport=Rect(root,"Viewport");Fill(viewport,Vector2.zero,Vector2.one);viewport.gameObject.AddComponent<Image>();viewport.gameObject.AddComponent<Mask>().showMaskGraphic=false;var body=Rect(viewport,"Content");Fill(body,new Vector2(0,1),new Vector2(1,1));body.pivot=new Vector2(.5f,1);var layout=body.gameObject.AddComponent<VerticalLayoutGroup>();layout.padding=new RectOffset(8,8,8,12);layout.spacing=8;layout.childControlWidth=layout.childControlHeight=true;layout.childForceExpandHeight=false;body.gameObject.AddComponent<ContentSizeFitter>().verticalFit=ContentSizeFitter.FitMode.PreferredSize;scroll.viewport=viewport;scroll.content=body;content=body;return scroll;}
- void Build(){font=Resources.FindObjectsOfTypeAll<TMP_FontAsset>().FirstOrDefault(f=>f.name=="IanBodyPixel")??GameContext.Instance.transitions.loadingText.font;frame=Resources.FindObjectsOfTypeAll<Sprite>().FirstOrDefault(s=>s.name=="Panel_64");
-  var root=Rect(transform,"QA Canvas");canvas=root.gameObject.AddComponent<Canvas>();canvas.renderMode=RenderMode.ScreenSpaceOverlay;canvas.sortingOrder=30000;var scaler=root.gameObject.AddComponent<CanvasScaler>();scaler.uiScaleMode=CanvasScaler.ScaleMode.ScaleWithScreenSize;scaler.referenceResolution=new Vector2(1280,720);scaler.matchWidthOrHeight=.5f;root.gameObject.AddComponent<GraphicRaycaster>();safe=Rect(root,"QA Safe Area");Fill(safe,Vector2.zero,Vector2.one);
-  var backdrop=Panel(safe,"QA Center");window=backdrop.gameObject;window.AddComponent<CanvasGroup>();Fill((RectTransform)window.transform,new Vector2(.015f,.015f),new Vector2(.985f,.985f));var layout=window.AddComponent<VerticalLayoutGroup>();layout.padding=new RectOffset(14,14,8,8);layout.spacing=6;layout.childControlWidth=layout.childControlHeight=true;layout.childForceExpandHeight=false;
-  title=Text(window.transform,"DEVELOPER QA CENTER · F10 · 원본 데이터 격리",20);Height(title,36);title.gameObject.AddComponent<PixelTextFlow>().minimumHeight=36;
-  var tools=Rect(window.transform,"Run tools");Height(tools,50);var toolLayout=tools.gameObject.AddComponent<HorizontalLayoutGroup>();toolLayout.spacing=8;toolLayout.childControlWidth=toolLayout.childControlHeight=true;toolLayout.childForceExpandWidth=true;toolLayout.childForceExpandHeight=false;Button(tools,"전체 자동 실행",RunAll);Button(tools,"분류 실행",RunCategory);Button(tools,"원상복구 · 닫기",()=>StartCoroutine(CloseAndRestore()));
-  var categories=Rect(window.transform,"Categories");categoryGrid=categories.gameObject.AddComponent<GridLayoutGroup>();categoryGrid.spacing=new Vector2(6,6);Height(categories,90);foreach(var name in new[]{"상태 조작"}.Concat(Registry.Scenarios.Select(s=>s.category).Distinct())){var cat=name;Button(categories,name,()=>{category=cat;RefreshList();});}
-  search=Input(window.transform,"","Search scenarios");search.characterLimit=100;search.onValueChanged.AddListener(_=>RefreshList());var placeholder=Text(search.textViewport,"테스트 ID / 이름 검색");placeholder.color=new Color(1,1,1,.5f);search.placeholder=placeholder;
-  diagnostics=Text(window.transform,"");Height(diagnostics,48);diagnostics.gameObject.AddComponent<PixelTextFlow>().minimumHeight=48;main=Rect(window.transform,"QA workspace");var flexible=main.gameObject.AddComponent<LayoutElement>();flexible.minHeight=120;flexible.flexibleHeight=1;
-  listPane=(RectTransform)Panel(main,"Test list").transform;listScroll=Scroll(listPane,"Scenario scroll",out listContent);
-  detailPane=(RectTransform)Panel(main,"Selected scenario").transform;Scroll(detailPane,"Detail scroll",out var details);selectionLabel=Flow(details,"선택한 검사");detail=Flow(details,"");selectedRun=Button(details,"테스트 실행",()=>{if(selected!=null)Run(new[]{selected});});Button(details,"관련 화면 열기",Related);Button(details,"성공 조건 확인",()=>{Reporter.Note("조건: "+selected?.success+"\n"+Commands.Observe(selected?.id??"")+"\n관찰은 실행 결과의 PASS/FAIL을 변경하지 않습니다.");Diagnose();});Button(details,"테스트 데이터 초기화",ResetTestData);var controls=Rect(details,"State commands");commandContent=controls;var commandsLayout=controls.gameObject.AddComponent<VerticalLayoutGroup>();commandsLayout.spacing=8;commandsLayout.childControlWidth=commandsLayout.childControlHeight=true;commandsLayout.childForceExpandHeight=false;controls.gameObject.AddComponent<ContentSizeFitter>().verticalFit=ContentSizeFitter.FitMode.PreferredSize;BuildCommands(controls);
-  logPane=(RectTransform)Panel(main,"Results and log").transform;Scroll(logPane,"Result scroll",out var logs);status=Flow(logs,"");Button(logs,"실패한 테스트만 재실행",RetryFailed);Button(logs,"실행 중지",()=>Runner.CancelRequested=true);Button(logs,"결과 복사",()=>GUIUtility.systemCopyBuffer=Reporter.Text());Button(logs,"보고서 저장",()=>{Reporter.Note(Reporter.Save(sandbox.VerifyFiles()));Diagnose();});log=Flow(logs,"");
-  banner=Button(safe,"QA 격리 세션 · F10 복귀",Open).gameObject;Fill((RectTransform)banner.transform,new Vector2(.01f,.92f),new Vector2(.35f,.99f));window.SetActive(false);banner.SetActive(false);
- }
- void BuildCommands(Transform p){Flow(p,"수동 명령 · 모든 변경은 QA 슬롯에만 적용됩니다. 숫자 입력값을 아래 명령에서 사용합니다.");number=Input(p,"1000","Numeric value");number.contentType=TMP_InputField.ContentType.IntegerNumber;number.characterLimit=12;
-  foreach(int value in new[]{1000,10000,1000000}){int n=value;Button(p,"현금 +"+n.ToString("N0")+"G",()=>Safe(()=>Commands.AddCash(n)));}Button(p,"입력값으로 현금 설정",()=>Safe(()=>Commands.SetCash(Number())));Button(p,"현금 0G",()=>Safe(()=>Commands.SetCash(0)));Button(p,"입력값으로 부채 설정",()=>Safe(()=>Commands.SetDebt(Number())));Button(p,"부채 전액 상환 (잔액 필요)",()=>Safe(()=>Require(Commands.Game.economy.RepayDebt(Guid.NewGuid().ToString("N"),Commands.Game.economy.Debt),"잔액/부채 확인")));
-  foreach(int value in new[]{0,7,13,20,30}){int age=value;Button(p,"나이 "+age+"세",()=>Safe(()=>Commands.SetAge(age)));}Button(p,"입력값으로 나이 설정",()=>Safe(()=>Commands.SetAge(checked((int)Number()))));Button(p,"입력값으로 날짜 설정",()=>Safe(()=>Commands.SetDay(checked((int)Number()))));
-  foreach(CoreStat value in Enum.GetValues(typeof(CoreStat))){var stat=value;Button(p,stat+" = 입력값 (0~100)",()=>Safe(()=>Commands.SetStat(stat,checked((int)Number()))));}Button(p,"8개 능력치 최대",()=>Safe(()=>Commands.SetAllStats(100)));Button(p,"8개 능력치 최소",()=>Safe(()=>Commands.SetAllStats(0)));Button(p,"체력 회복",()=>Safe(()=>Commands.SetStat(CoreStat.Health,100)));Button(p,"스트레스 최대",()=>Safe(()=>Commands.SetStat(CoreStat.Mental,0)));Button(p,"스트레스 최소",()=>Safe(()=>Commands.SetStat(CoreStat.Mental,100)));
-  foreach(double value in new[]{3600d,86400d,7*86400d,30*86400d}){double seconds=value;Button(p,"게임 시간 +"+(seconds/3600)+"시간",()=>Safe(()=>Commands.Advance(seconds)));}foreach(int value in new[]{1,24,168}){int hours=value;Button(p,"오프라인 +"+hours+"시간 (활동 시작 필요)",()=>Safe(()=>Require(Commands.Offline(hours*3600d),"정산 중단 · 활동/저장 상태 확인")));}
-  Flow(p,"생애주기 fixture · 보행 1세 / 독립 외출 7세");foreach(var item in Commands.LifecyclePresets){var preset=item;Button(p,preset.title+" ("+preset.age+"세)",()=>Safe(()=>Commands.ApplyLifecyclePreset(preset.id)));}
-  Button(p,"30세 건강·현금·선행조건 fixture",()=>Safe(()=>Commands.Fixture()));Button(p,"격리 새 게임 · 출생 안내",()=>Safe(()=>Commands.Game.NewGame()));Button(p,"QA 저장",()=>Safe(()=>Require(Commands.Save(),"저장 실패")));Button(p,"QA 불러오기·이어하기",()=>Safe(()=>Require(Commands.Load(),"저장 파일 없음/검증 실패")));
-  Button(p,"원본 저장 복사 불러오기 (QA에만 기록)",()=>Safe(()=>Require(Commands.ImportOriginalCopy(),"기존 파일 검증 실패")));
-  foreach(SceneId scene in new[]{SceneId.Home,SceneId.City,SceneId.School,SceneId.Workplace,SceneId.Battle,SceneId.StockMarket}){var destination=scene;Button(p,"장소 열기 · "+scene,()=>StartCoroutine(PreviewLocation(destination)));}foreach(var a in Commands.Game.idle.settings.activities){var activity=a;Button(p,"자동 "+a.title+" 시작 (기존 조건 적용)",()=>Safe(()=>Require(Commands.StartIdle(activity.id),"관련 학교/직장/전투 씬 및 조건을 먼저 준비하세요.")));}Button(p,"자동 활동 중지",()=>Safe(()=>Commands.Game.idle.StopActivity()));
-  mission=Input(p,"M001","Mission ID");Button(p,"선택 미션 카운터 = 입력값",()=>Safe(()=>Commands.SetMissionProgress(mission.text.Trim(),Number())));Button(p,"미션 조건 fixture 구성",()=>Safe(()=>Commands.PrepareMission(mission.text.Trim())));Button(p,"해당 미션 실제 보상 수령",()=>Safe(()=>Require(Commands.Game.missions.Claim(mission.text.Trim()),"완료 상태/선행 조건/이미 수령 여부 확인")));
- }
- void Reflow(){if(safe==null)return;oldWidth=Screen.width;oldHeight=Screen.height;var area=Screen.safeArea;safe.anchorMin=new Vector2(area.x/Screen.width,area.y/Screen.height);safe.anchorMax=new Vector2(area.xMax/Screen.width,area.yMax/Screen.height);safe.offsetMin=safe.offsetMax=Vector2.zero;bool portrait=Screen.width<Screen.height;int cols=portrait?3:5;categoryGrid.constraint=GridLayoutGroup.Constraint.FixedColumnCount;categoryGrid.constraintCount=cols;float width=((RectTransform)window.transform).rect.width-28;categoryGrid.cellSize=new Vector2(Mathf.Max(80,(width-(cols-1)*6)/cols),42);Height(categoryGrid,Mathf.CeilToInt(categoryGrid.transform.childCount/(float)cols)*48-6);
-  Fill(listPane,portrait?new Vector2(0,.73f):Vector2.zero,portrait?Vector2.one:new Vector2(.26f,1));Fill(detailPane,portrait?new Vector2(0,.26f):new Vector2(.27f,0),portrait?new Vector2(1,.72f):new Vector2(.64f,1));Fill(logPane,portrait?Vector2.zero:new Vector2(.65f,0),portrait?new Vector2(1,.25f):Vector2.one);}
-}
-public sealed class QAButtonRowHeight:MonoBehaviour,UnityEngine.EventSystems.ISelectHandler {
- TMP_Text label;LayoutElement layout;bool dirty=true;
- void OnEnable(){label=GetComponentInChildren<TMP_Text>();layout=GetComponent<LayoutElement>();TMPro_EventManager.TEXT_CHANGED_EVENT.Add(Changed);dirty=true;}
- void OnDisable(){TMPro_EventManager.TEXT_CHANGED_EVENT.Remove(Changed);}
- public void OnSelect(UnityEngine.EventSystems.BaseEventData eventData){var scroll=GetComponentInParent<ScrollRect>();if(scroll==null||scroll.viewport==null||scroll.content==null)return;var bounds=RectTransformUtility.CalculateRelativeRectTransformBounds(scroll.viewport,(RectTransform)transform);var rect=scroll.viewport.rect;float shift=bounds.min.y<rect.yMin?rect.yMin-bounds.min.y:bounds.max.y>rect.yMax?rect.yMax-bounds.max.y:0;float range=Mathf.Max(1,scroll.content.rect.height-rect.height);scroll.verticalNormalizedPosition=Mathf.Clamp01(scroll.verticalNormalizedPosition-shift/range);}
- void Changed(UnityEngine.Object target){if(target==label)dirty=true;}
- void OnRectTransformDimensionsChange(){dirty=true;}
- void LateUpdate(){if(!dirty||label==null||layout==null)return;dirty=false;float width=Mathf.Max(1,label.rectTransform.rect.width-label.margin.x-label.margin.z-4);float height=Mathf.Max(60,label.GetPreferredValues(label.text,width,Mathf.Infinity).y+label.margin.y+label.margin.w+12);if(Mathf.Abs(layout.preferredHeight-height)>1)layout.minHeight=layout.preferredHeight=height;}
-}
+            if (!ready)
+            {
+                if (sandbox.Active && Ready())
+                {
+                    banner.SetActive(true);
+                    Reporter.Note("스크립트 재컴파일 후 QA 채널을 유지했습니다. F10으로 복귀하세요.");
+                }
+
+                return;
+            }
+
+            if ((Screen.width != oldWidth || Screen.height != oldHeight) && Visible)
+            {
+                Reflow();
+            }
+
+            if (Visible && Time.unscaledTime >= nextDiagnosis)
+            {
+                nextDiagnosis = Time.unscaledTime + .4f;
+                Diagnose();
+            }
+        }
+
+        public IEnumerator CloseAndRestore()
+        {
+            if (Restoring || !sandbox.Active)
+            {
+                Visible = false;
+                if (window != null)
+                {
+                    window.SetActive(false);
+                }
+
+                yield break;
+            }
+
+            Restoring = true;
+            window.GetComponent<CanvasGroup>().interactable = false;
+            if (Runner.Running)
+            {
+                Runner.CancelRequested = true;
+                while (Runner.Running)
+                {
+                    yield return null;
+                }
+            }
+
+            var routine = sandbox.Exit();
+            Exception failure = null;
+            while (true)
+            {
+                bool more = false;
+                object current = null;
+                try
+                {
+                    more = routine.MoveNext();
+                    if (more)
+                    {
+                        current = routine.Current;
+                    }
+                }
+                catch (Exception e)
+                {
+                    failure = e;
+                }
+
+                if (failure != null || !more)
+                {
+                    break;
+                }
+
+                yield return current;
+            }
+
+            Restoring = false;
+            if (failure != null)
+            {
+                window.GetComponent<CanvasGroup>().interactable = true;
+                Reporter.Note("복구 실패: " + failure.Message);
+                Diagnose();
+                yield break;
+            }
+
+            Reporter.Note("원상복구 완료 / 원본 저장 해시 " + (sandbox.LastFilesUnchanged ? "동일" : "차이 발견"));
+            Reporter.Save(sandbox.LastFilesUnchanged);
+            Visible = false;
+            window.SetActive(false);
+            banner.SetActive(false);
+        }
+
+        public void Minimize()
+        {
+            if (!ready)
+            {
+                return;
+            }
+
+            Commands.Game.clock.SetRunning(true);
+            Visible = false;
+            window.SetActive(false);
+            banner.SetActive(sandbox.Active);
+        }
+
+        public void Run(IEnumerable<QAScenario> scenarios)
+        {
+            if (!Ready() || Runner.Running)
+            {
+                return;
+            }
+
+            try
+            {
+                sandbox.Enter(Commands.Game);
+                StartCoroutine(Runner.Run(scenarios, Commands));
+            }
+            catch (Exception e)
+            {
+                Reporter.Note(e.Message);
+            }
+        }
+
+        public void RunAll() => Run(Registry.Scenarios);
+
+        public void RunCategory() =>
+            Run(Registry.Scenarios.Where(s => category == "상태 조작" || s.category == category));
+
+        public void RetryFailed() => Run(Registry.Scenarios.Where(s => Reporter.Get(s).status == QAStatus.FAIL));
+
+        public void ResetTestData()
+        {
+            if (Runner.Running || Restoring)
+            {
+                return;
+            }
+
+            Safe(() =>
+            {
+                sandbox.ResetData();
+                Reporter.Note("QA 데이터만 진입 스냅샷으로 복원했습니다. 실제 저장 파일 삭제 없음.");
+            });
+        }
+
+        void ResultsChanged()
+        {
+            RefreshList();
+            Diagnose();
+            if (selected != null)
+            {
+                Select(selected);
+            }
+        }
+
+        void Safe(Action command)
+        {
+            try
+            {
+                if (Restoring || Runner != null && Runner.Running)
+                {
+                    throw new InvalidOperationException("테스트 실행 중에는 수동 조작을 기다리세요.");
+                }
+
+                sandbox.Enter(Commands.Game);
+                command();
+                Reporter.Note("명령 완료 (QA 슬롯)");
+            }
+            catch (Exception e)
+            {
+                Reporter?.Note("명령 실패: " + e.Message);
+            }
+
+            Diagnose();
+        }
+
+        void Require(bool value, string reason)
+        {
+            if (!value)
+            {
+                throw new InvalidOperationException(reason);
+            }
+        }
+
+        long Number()
+        {
+            if (!long.TryParse(number.text, out var n))
+            {
+                throw new ArgumentException("숫자를 입력하세요.");
+            }
+
+            return n;
+        }
+
+        void Select(QAScenario s)
+        {
+            selected = s;
+            var result = Reporter.Get(s);
+            selectionLabel.text = s.id + " · " + s.title;
+            detail.text =
+                s.description
+                + "\n\n성공 조건\n"
+                + s.success
+                + "\n\n현재 판정 "
+                + result.status
+                + "\n"
+                + result.reason
+                + "\n검사 "
+                + result.checks
+                + " / "
+                + result.seconds.ToString("0.00")
+                + "초";
+            selectedRun.interactable = !Runner.Running;
+        }
+
+        void Related()
+        {
+            if (selected?.related == null)
+            {
+                Reporter.Note("관련 화면이 정의되지 않았습니다.");
+                return;
+            }
+
+            StartCoroutine(PreviewRelated(selected));
+        }
+
+        IEnumerator PreviewRelated(QAScenario s)
+        {
+            if (Runner.Running)
+            {
+                yield break;
+            }
+
+            sandbox.Enter(Commands.Game);
+            Minimize();
+            yield return s.related(Commands);
+            if (s.category == "2.7 부동산")
+            {
+                var ui = FindFirstObjectByType<PropertyPresenter>();
+                if (ui != null)
+                {
+                    ui.Open();
+                }
+            }
+            else if (s.id.StartsWith("mission/"))
+            {
+                var nav = FindFirstObjectByType<PolishedNavigation>();
+                if (nav != null)
+                {
+                    nav.Open(6);
+                }
+            }
+
+            Commands.Game.clock.SetRunning(true);
+            Reporter.Note("관련 화면 미리보기 · QA 세션 유지 · F10으로 복귀");
+        }
+
+        IEnumerator PreviewLocation(SceneId destination)
+        {
+            Minimize();
+            yield return Commands.Navigate(destination);
+            Commands.Game.clock.SetRunning(true);
+        }
+
+        void Diagnose()
+        {
+            if (!ready && Commands == null)
+            {
+                return;
+            }
+
+            var g = Commands.Game;
+            var e = g.economy;
+            diagnostics.text =
+                $"{UnityEngine.SceneManagement.SceneManager.GetActiveScene().name} · {g.growth.Age}세 · DAY {g.clock.Day} · {e.Cash:N0}G · 부채 {e.Debt:N0}G · 순자산 {e.NetWorth:N0}G";
+            int pass = Reporter.Results.Count(r => r.status == QAStatus.PASS),
+                fail = Reporter.Results.Count(r => r.status == QAStatus.FAIL);
+            status.text =
+                $"이번 {Runner.Completed}/{Runner.Total} · 누적 PASS {pass} / FAIL {fail} · {Runner.Current}\n"
+                + (
+                    sandbox.Active
+                        ? "격리: " + System.IO.Path.GetFileName(sandbox.Slot)
+                        : "실제 데이터 변경 명령은 격리 시작 후에만 실행"
+                );
+            var stats = string.Join(
+                " / ",
+                Enum.GetValues(typeof(CoreStat)).Cast<CoreStat>().Select(s => s + " " + g.stats.Get(s))
+            );
+            log.text =
+                $"저장 {g.saves.LastLoadStatus} / 쓰기 차단 {g.saves.WritesBlocked}\n직업 {g.phase23.Progress.employment.currentJobId}\n미션 {g.missions.ActiveMission?.Id} / 자동 {g.idle.State.activityId} ({g.idle.State.active})\n{stats}\n\n"
+                + string.Join("\n", Reporter.Log.TakeLast(35))
+                + "\n\n최근 오류\n"
+                + string.Join("\n", errors.TakeLast(4));
+        }
+
+        void RefreshList()
+        {
+            if (listContent == null)
+            {
+                return;
+            }
+
+            string query = search.text ?? "";
+            foreach (var s in Registry.Scenarios)
+            {
+                bool show =
+                    (category == "상태 조작" || s.category == category)
+                    && (
+                        string.IsNullOrEmpty(query)
+                        || (s.id + " " + s.title + " " + s.description).IndexOf(
+                            query,
+                            StringComparison.OrdinalIgnoreCase
+                        ) >= 0
+                    );
+                if (!testButtons.TryGetValue(s.id, out var button))
+                {
+                    var item = s;
+                    button = Button(listContent, s.id, () => Select(item));
+                    testButtons.Add(s.id, button);
+                }
+
+                button.gameObject.SetActive(show);
+                var r = Reporter.Get(s);
+                button.GetComponentInChildren<TMP_Text>().text = "[" + r.status + "] " + s.id + "\n" + s.title;
+                button.GetComponent<Image>().color =
+                    r.status == QAStatus.FAIL ? new Color(.8f, .4f, .4f)
+                    : r.status == QAStatus.PASS ? new Color(.65f, .85f, .65f)
+                    : Color.white;
+            }
+
+            commandContent.gameObject.SetActive(category == "상태 조작");
+            if (selected == null)
+            {
+                Select(Registry.Scenarios[0]);
+            }
+        }
+
+        RectTransform Rect(Transform parent, string name)
+        {
+            var r = new GameObject(name, typeof(RectTransform)).GetComponent<RectTransform>();
+            r.SetParent(parent, false);
+            return r;
+        }
+
+        void Fill(RectTransform r, Vector2 min, Vector2 max)
+        {
+            r.anchorMin = min;
+            r.anchorMax = max;
+            r.offsetMin = r.offsetMax = Vector2.zero;
+        }
+
+        void Height(Component c, float value)
+        {
+            var le = c.GetComponent<LayoutElement>() ?? c.gameObject.AddComponent<LayoutElement>();
+            le.minHeight = le.preferredHeight = value;
+        }
+
+        Image Panel(Transform parent, string name)
+        {
+            var r = Rect(parent, name);
+            var i = r.gameObject.AddComponent<Image>();
+            i.sprite = frame;
+            i.type = Image.Type.Sliced;
+            i.color = frame == null ? new Color(.07f, .10f, .15f, .98f) : Color.white;
+            return i;
+        }
+
+        TMP_Text Text(Transform p, string value, float size = 18)
+        {
+            var r = Rect(p, "Text");
+            Fill(r, Vector2.zero, Vector2.one);
+            var t = r.gameObject.AddComponent<TextMeshProUGUI>();
+            t.font = font;
+            t.fontSize = size;
+            t.color = new Color32(255, 238, 205, 255);
+            t.text = value;
+            t.margin = new Vector4(10, 5, 10, 5);
+            t.textWrappingMode = TextWrappingModes.Normal;
+            t.raycastTarget = false;
+            return t;
+        }
+
+        TMP_Text Flow(Transform p, string value)
+        {
+            var t = Text(p, value);
+            t.gameObject.AddComponent<LayoutElement>();
+            t.gameObject.AddComponent<PixelTextFlow>();
+            return t;
+        }
+
+        Button Button(Transform p, string text, Action action)
+        {
+            var image = Panel(p, text);
+            var b = image.gameObject.AddComponent<Button>();
+            b.targetGraphic = image;
+            var label = Text(image.transform, text);
+            label.alignment = TextAlignmentOptions.Center;
+            b.onClick.AddListener(() => action());
+            image.gameObject.AddComponent<PixelButton>();
+            Height(b, 60);
+            image.gameObject.AddComponent<QAButtonRowHeight>();
+            return b;
+        }
+
+        TMP_InputField Input(Transform p, string value, string name)
+        {
+            var image = Panel(p, name);
+            Height(image, 50);
+            var view = Rect(image.transform, "Viewport");
+            Fill(view, new Vector2(.01f, .01f), new Vector2(.99f, .99f));
+            view.gameObject.AddComponent<RectMask2D>();
+            var text = Text(view, value);
+            text.alignment = TextAlignmentOptions.MidlineLeft;
+            var input = image.gameObject.AddComponent<TMP_InputField>();
+            input.textViewport = view;
+            input.textComponent = (TextMeshProUGUI)text;
+            input.text = value;
+            input.targetGraphic = image;
+            return input;
+        }
+
+        ScrollRect Scroll(Transform p, string name, out Transform content)
+        {
+            var root = Rect(p, name);
+            Fill(root, Vector2.zero, Vector2.one);
+            var scroll = root.gameObject.AddComponent<ScrollRect>();
+            scroll.horizontal = false;
+            scroll.movementType = ScrollRect.MovementType.Clamped;
+            scroll.scrollSensitivity = 40;
+            var viewport = Rect(root, "Viewport");
+            Fill(viewport, Vector2.zero, Vector2.one);
+            viewport.gameObject.AddComponent<Image>();
+            viewport.gameObject.AddComponent<Mask>().showMaskGraphic = false;
+            var body = Rect(viewport, "Content");
+            Fill(body, new Vector2(0, 1), new Vector2(1, 1));
+            body.pivot = new Vector2(.5f, 1);
+            var layout = body.gameObject.AddComponent<VerticalLayoutGroup>();
+            layout.padding = new RectOffset(8, 8, 8, 12);
+            layout.spacing = 8;
+            layout.childControlWidth = layout.childControlHeight = true;
+            layout.childForceExpandHeight = false;
+            body.gameObject.AddComponent<ContentSizeFitter>().verticalFit = ContentSizeFitter.FitMode.PreferredSize;
+            scroll.viewport = viewport;
+            scroll.content = body;
+            content = body;
+            return scroll;
+        }
+
+        void Build()
+        {
+            font =
+                Resources.FindObjectsOfTypeAll<TMP_FontAsset>().FirstOrDefault(f => f.name == "IanBodyPixel")
+                ?? GameContext.Instance.transitions.loadingText.font;
+            frame = Resources.FindObjectsOfTypeAll<Sprite>().FirstOrDefault(s => s.name == "Panel_64");
+            var root = Rect(transform, "QA Canvas");
+            canvas = root.gameObject.AddComponent<Canvas>();
+            canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+            canvas.sortingOrder = 30000;
+            var scaler = root.gameObject.AddComponent<CanvasScaler>();
+            scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+            scaler.referenceResolution = new Vector2(1280, 720);
+            scaler.matchWidthOrHeight = .5f;
+            root.gameObject.AddComponent<GraphicRaycaster>();
+            safe = Rect(root, "QA Safe Area");
+            Fill(safe, Vector2.zero, Vector2.one);
+            var backdrop = Panel(safe, "QA Center");
+            window = backdrop.gameObject;
+            window.AddComponent<CanvasGroup>();
+            Fill((RectTransform)window.transform, new Vector2(.015f, .015f), new Vector2(.985f, .985f));
+            var layout = window.AddComponent<VerticalLayoutGroup>();
+            layout.padding = new RectOffset(14, 14, 8, 8);
+            layout.spacing = 6;
+            layout.childControlWidth = layout.childControlHeight = true;
+            layout.childForceExpandHeight = false;
+            title = Text(window.transform, "DEVELOPER QA CENTER · F10 · 원본 데이터 격리", 20);
+            Height(title, 36);
+            title.gameObject.AddComponent<PixelTextFlow>().minimumHeight = 36;
+            var tools = Rect(window.transform, "Run tools");
+            Height(tools, 50);
+            var toolLayout = tools.gameObject.AddComponent<HorizontalLayoutGroup>();
+            toolLayout.spacing = 8;
+            toolLayout.childControlWidth = toolLayout.childControlHeight = true;
+            toolLayout.childForceExpandWidth = true;
+            toolLayout.childForceExpandHeight = false;
+            Button(tools, "전체 자동 실행", RunAll);
+            Button(tools, "분류 실행", RunCategory);
+            Button(tools, "원상복구 · 닫기", () => StartCoroutine(CloseAndRestore()));
+            var categories = Rect(window.transform, "Categories");
+            categoryGrid = categories.gameObject.AddComponent<GridLayoutGroup>();
+            categoryGrid.spacing = new Vector2(6, 6);
+            Height(categories, 90);
+            foreach (var name in new[] { "상태 조작" }.Concat(Registry.Scenarios.Select(s => s.category).Distinct()))
+            {
+                var cat = name;
+                Button(
+                    categories,
+                    name,
+                    () =>
+                    {
+                        category = cat;
+                        RefreshList();
+                    }
+                );
+            }
+
+            search = Input(window.transform, "", "Search scenarios");
+            search.characterLimit = 100;
+            search.onValueChanged.AddListener(_ => RefreshList());
+            var placeholder = Text(search.textViewport, "테스트 ID / 이름 검색");
+            placeholder.color = new Color(1, 1, 1, .5f);
+            search.placeholder = placeholder;
+            diagnostics = Text(window.transform, "");
+            Height(diagnostics, 48);
+            diagnostics.gameObject.AddComponent<PixelTextFlow>().minimumHeight = 48;
+            main = Rect(window.transform, "QA workspace");
+            var flexible = main.gameObject.AddComponent<LayoutElement>();
+            flexible.minHeight = 120;
+            flexible.flexibleHeight = 1;
+            listPane = (RectTransform)Panel(main, "Test list").transform;
+            listScroll = Scroll(listPane, "Scenario scroll", out listContent);
+            detailPane = (RectTransform)Panel(main, "Selected scenario").transform;
+            Scroll(detailPane, "Detail scroll", out var details);
+            selectionLabel = Flow(details, "선택한 검사");
+            detail = Flow(details, "");
+            selectedRun = Button(
+                details,
+                "테스트 실행",
+                () =>
+                {
+                    if (selected != null)
+                    {
+                        Run(new[] { selected });
+                    }
+                }
+            );
+            Button(details, "관련 화면 열기", Related);
+            Button(
+                details,
+                "성공 조건 확인",
+                () =>
+                {
+                    Reporter.Note(
+                        "조건: "
+                            + selected?.success
+                            + "\n"
+                            + Commands.Observe(selected?.id ?? "")
+                            + "\n관찰은 실행 결과의 PASS/FAIL을 변경하지 않습니다."
+                    );
+                    Diagnose();
+                }
+            );
+            Button(details, "테스트 데이터 초기화", ResetTestData);
+            var controls = Rect(details, "State commands");
+            commandContent = controls;
+            var commandsLayout = controls.gameObject.AddComponent<VerticalLayoutGroup>();
+            commandsLayout.spacing = 8;
+            commandsLayout.childControlWidth = commandsLayout.childControlHeight = true;
+            commandsLayout.childForceExpandHeight = false;
+            controls.gameObject.AddComponent<ContentSizeFitter>().verticalFit = ContentSizeFitter.FitMode.PreferredSize;
+            BuildCommands(controls);
+            logPane = (RectTransform)Panel(main, "Results and log").transform;
+            Scroll(logPane, "Result scroll", out var logs);
+            status = Flow(logs, "");
+            Button(logs, "실패한 테스트만 재실행", RetryFailed);
+            Button(logs, "실행 중지", () => Runner.CancelRequested = true);
+            Button(logs, "결과 복사", () => GUIUtility.systemCopyBuffer = Reporter.Text());
+            Button(
+                logs,
+                "보고서 저장",
+                () =>
+                {
+                    Reporter.Note(Reporter.Save(sandbox.VerifyFiles()));
+                    Diagnose();
+                }
+            );
+            log = Flow(logs, "");
+            banner = Button(safe, "QA 격리 세션 · F10 복귀", Open).gameObject;
+            Fill((RectTransform)banner.transform, new Vector2(.01f, .92f), new Vector2(.35f, .99f));
+            window.SetActive(false);
+            banner.SetActive(false);
+        }
+
+        void BuildCommands(Transform p)
+        {
+            Flow(p, "수동 명령 · 모든 변경은 QA 슬롯에만 적용됩니다. 숫자 입력값을 아래 명령에서 사용합니다.");
+            number = Input(p, "1000", "Numeric value");
+            number.contentType = TMP_InputField.ContentType.IntegerNumber;
+            number.characterLimit = 12;
+            foreach (int value in new[] { 1000, 10000, 1000000 })
+            {
+                int n = value;
+                Button(p, "현금 +" + n.ToString("N0") + "G", () => Safe(() => Commands.AddCash(n)));
+            }
+
+            Button(p, "입력값으로 현금 설정", () => Safe(() => Commands.SetCash(Number())));
+            Button(p, "현금 0G", () => Safe(() => Commands.SetCash(0)));
+            Button(p, "입력값으로 부채 설정", () => Safe(() => Commands.SetDebt(Number())));
+            Button(
+                p,
+                "부채 전액 상환 (잔액 필요)",
+                () =>
+                    Safe(
+                        () =>
+                            Require(
+                                Commands.Game.economy.RepayDebt(
+                                    Guid.NewGuid().ToString("N"),
+                                    Commands.Game.economy.Debt
+                                ),
+                                "잔액/부채 확인"
+                            )
+                    )
+            );
+            foreach (int value in new[] { 0, 7, 13, 20, 30 })
+            {
+                int age = value;
+                Button(p, "나이 " + age + "세", () => Safe(() => Commands.SetAge(age)));
+            }
+
+            Button(p, "입력값으로 나이 설정", () => Safe(() => Commands.SetAge(checked((int)Number()))));
+            Button(p, "입력값으로 날짜 설정", () => Safe(() => Commands.SetDay(checked((int)Number()))));
+            foreach (CoreStat value in Enum.GetValues(typeof(CoreStat)))
+            {
+                var stat = value;
+                Button(p, stat + " = 입력값 (0~100)", () => Safe(() => Commands.SetStat(stat, checked((int)Number()))));
+            }
+
+            Button(p, "8개 능력치 최대", () => Safe(() => Commands.SetAllStats(100)));
+            Button(p, "8개 능력치 최소", () => Safe(() => Commands.SetAllStats(0)));
+            Button(p, "체력 회복", () => Safe(() => Commands.SetStat(CoreStat.Health, 100)));
+            Button(p, "스트레스 최대", () => Safe(() => Commands.SetStat(CoreStat.Mental, 0)));
+            Button(p, "스트레스 최소", () => Safe(() => Commands.SetStat(CoreStat.Mental, 100)));
+            foreach (double value in new[] { 3600d, 86400d, 7 * 86400d, 30 * 86400d })
+            {
+                double seconds = value;
+                Button(p, "게임 시간 +" + (seconds / 3600) + "시간", () => Safe(() => Commands.Advance(seconds)));
+            }
+
+            foreach (int value in new[] { 1, 24, 168 })
+            {
+                int hours = value;
+                Button(
+                    p,
+                    "오프라인 +" + hours + "시간 (활동 시작 필요)",
+                    () => Safe(() => Require(Commands.Offline(hours * 3600d), "정산 중단 · 활동/저장 상태 확인"))
+                );
+            }
+
+            Flow(p, "생애주기 fixture · 보행 1세 / 독립 외출 7세");
+            foreach (var item in Commands.LifecyclePresets)
+            {
+                var preset = item;
+                Button(
+                    p,
+                    preset.title + " (" + preset.age + "세)",
+                    () => Safe(() => Commands.ApplyLifecyclePreset(preset.id))
+                );
+            }
+
+            Button(p, "30세 건강·현금·선행조건 fixture", () => Safe(() => Commands.Fixture()));
+            Button(p, "격리 새 게임 · 출생 안내", () => Safe(() => Commands.Game.NewGame()));
+            Button(p, "QA 저장", () => Safe(() => Require(Commands.Save(), "저장 실패")));
+            Button(p, "QA 불러오기·이어하기", () => Safe(() => Require(Commands.Load(), "저장 파일 없음/검증 실패")));
+            Button(
+                p,
+                "원본 저장 복사 불러오기 (QA에만 기록)",
+                () => Safe(() => Require(Commands.ImportOriginalCopy(), "기존 파일 검증 실패"))
+            );
+            foreach (
+                SceneId scene in new[]
+                {
+                    SceneId.Home,
+                    SceneId.City,
+                    SceneId.School,
+                    SceneId.Workplace,
+                    SceneId.Battle,
+                    SceneId.StockMarket,
+                }
+            )
+            {
+                var destination = scene;
+                Button(p, "장소 열기 · " + scene, () => StartCoroutine(PreviewLocation(destination)));
+            }
+
+            foreach (var a in Commands.Game.idle.settings.activities)
+            {
+                var activity = a;
+                Button(
+                    p,
+                    "자동 " + a.title + " 시작 (기존 조건 적용)",
+                    () =>
+                        Safe(
+                            () =>
+                                Require(
+                                    Commands.StartIdle(activity.id),
+                                    "관련 학교/직장/전투 씬 및 조건을 먼저 준비하세요."
+                                )
+                        )
+                );
+            }
+
+            Button(p, "자동 활동 중지", () => Safe(() => Commands.Game.idle.StopActivity()));
+            mission = Input(p, "M001", "Mission ID");
+            Button(
+                p,
+                "선택 미션 카운터 = 입력값",
+                () => Safe(() => Commands.SetMissionProgress(mission.text.Trim(), Number()))
+            );
+            Button(p, "미션 조건 fixture 구성", () => Safe(() => Commands.PrepareMission(mission.text.Trim())));
+            Button(
+                p,
+                "해당 미션 실제 보상 수령",
+                () =>
+                    Safe(
+                        () =>
+                            Require(
+                                Commands.Game.missions.Claim(mission.text.Trim()),
+                                "완료 상태/선행 조건/이미 수령 여부 확인"
+                            )
+                    )
+            );
+        }
+
+        void Reflow()
+        {
+            if (safe == null)
+            {
+                return;
+            }
+
+            oldWidth = Screen.width;
+            oldHeight = Screen.height;
+            var area = Screen.safeArea;
+            safe.anchorMin = new Vector2(area.x / Screen.width, area.y / Screen.height);
+            safe.anchorMax = new Vector2(area.xMax / Screen.width, area.yMax / Screen.height);
+            safe.offsetMin = safe.offsetMax = Vector2.zero;
+            bool portrait = Screen.width < Screen.height;
+            int cols = portrait ? 3 : 5;
+            categoryGrid.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
+            categoryGrid.constraintCount = cols;
+            float width = ((RectTransform)window.transform).rect.width - 28;
+            categoryGrid.cellSize = new Vector2(Mathf.Max(80, (width - (cols - 1) * 6) / cols), 42);
+            Height(categoryGrid, Mathf.CeilToInt(categoryGrid.transform.childCount / (float)cols) * 48 - 6);
+            Fill(
+                listPane,
+                portrait ? new Vector2(0, .73f) : Vector2.zero,
+                portrait ? Vector2.one : new Vector2(.26f, 1)
+            );
+            Fill(
+                detailPane,
+                portrait ? new Vector2(0, .26f) : new Vector2(.27f, 0),
+                portrait ? new Vector2(1, .72f) : new Vector2(.64f, 1)
+            );
+            Fill(
+                logPane,
+                portrait ? Vector2.zero : new Vector2(.65f, 0),
+                portrait ? new Vector2(1, .25f) : Vector2.one
+            );
+        }
+    }
+
+    public sealed class QAButtonRowHeight : MonoBehaviour, UnityEngine.EventSystems.ISelectHandler
+    {
+        TMP_Text label;
+        LayoutElement layout;
+        bool dirty = true;
+
+        void OnEnable()
+        {
+            label = GetComponentInChildren<TMP_Text>();
+            layout = GetComponent<LayoutElement>();
+            TMPro_EventManager.TEXT_CHANGED_EVENT.Add(Changed);
+            dirty = true;
+        }
+
+        void OnDisable()
+        {
+            TMPro_EventManager.TEXT_CHANGED_EVENT.Remove(Changed);
+        }
+
+        public void OnSelect(UnityEngine.EventSystems.BaseEventData eventData)
+        {
+            var scroll = GetComponentInParent<ScrollRect>();
+            if (scroll == null || scroll.viewport == null || scroll.content == null)
+            {
+                return;
+            }
+
+            var bounds = RectTransformUtility.CalculateRelativeRectTransformBounds(
+                scroll.viewport,
+                (RectTransform)transform
+            );
+            var rect = scroll.viewport.rect;
+            float shift =
+                bounds.min.y < rect.yMin ? rect.yMin - bounds.min.y
+                : bounds.max.y > rect.yMax ? rect.yMax - bounds.max.y
+                : 0;
+            float range = Mathf.Max(1, scroll.content.rect.height - rect.height);
+            scroll.verticalNormalizedPosition = Mathf.Clamp01(scroll.verticalNormalizedPosition - shift / range);
+        }
+
+        void Changed(UnityEngine.Object target)
+        {
+            if (target == label)
+            {
+                dirty = true;
+            }
+        }
+
+        void OnRectTransformDimensionsChange()
+        {
+            dirty = true;
+        }
+
+        void LateUpdate()
+        {
+            if (!dirty || label == null || layout == null)
+            {
+                return;
+            }
+
+            dirty = false;
+            float width = Mathf.Max(1, label.rectTransform.rect.width - label.margin.x - label.margin.z - 4);
+            float height = Mathf.Max(
+                60,
+                label.GetPreferredValues(label.text, width, Mathf.Infinity).y + label.margin.y + label.margin.w + 12
+            );
+            if (Mathf.Abs(layout.preferredHeight - height) > 1)
+            {
+                layout.minHeight = layout.preferredHeight = height;
+            }
+        }
+    }
 }
 #endif

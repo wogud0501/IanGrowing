@@ -1,56 +1,804 @@
 using System;
 using System.Linq;
 using UnityEngine;
-namespace IanGame {
-// Optional v4 snapshot extension. Existing wallet, ledger, debt interest and credit remain authoritative.
-public partial class EconomySystem {
- public PropertyCatalog propertyCatalog;
- public PropertySnapshot Properties {get{EnsureFinance(Day,DateTime.UtcNow.Ticks);EnsureProperty(Day,DateTime.UtcNow.Ticks);return CopyProperty(state.property);}}
- public long PropertyValue=>state.property==null?0:state.property.owned.Sum(h=>(long)(PropertyQuote(h.PropertyId)?.MarketPrice??0));
- public long HousingDeposit=>state.property?.contract?.deposit??0;
- public long HousingArrears=>state.property==null?0:state.property.bills.Sum(b=>b.Remaining);
- public long HousingLoanPrincipal=>state.property==null?0:state.property.loans.Sum(l=>l.remainingPrincipal);
- void EnsureProperty(int day,long utc){if(state.property!=null)return;state.property=new PropertySnapshot{lastSettledDay=day,marketUtcTicks=utc};if(propertyCatalog!=null)foreach(var p in propertyCatalog.properties)state.property.quotes.Add(new PropertyQuote{PropertyId=p.PropertyId,MarketPrice=p.PurchasePrice,PreviousPrice=p.PurchasePrice,PriceHistory=new System.Collections.Generic.List<int>{p.PurchasePrice}});}
- static PropertySnapshot CopyProperty(PropertySnapshot value){if(value==null)return null;var wrapper=new EconomySnapshot{property=Clone(value)};NormalizeProperty(wrapper);return wrapper.property;}
- public static void NormalizeProperty(EconomySnapshot e){var s=e?.property;if(s==null)return;
-  if(s.lastSettledDay==0&&s.marketUtcTicks==0&&s.marketSequence==0&&s.realizedPnL==0&&string.IsNullOrEmpty(s.occupiedPropertyId)&&s.quotes?.Count==0&&s.owned?.Count==0&&s.bills?.Count==0&&s.loans?.Count==0&&(s.contract==null||EmptyContract(s.contract))){e.property=null;return;}
-  if(s.contract!=null&&EmptyContract(s.contract))s.contract=null;
- }
- static bool EmptyContract(HousingContract c)=>string.IsNullOrEmpty(c.id)&&string.IsNullOrEmpty(c.PropertyId)&&c.deposit==0&&c.monthlyRent==0&&c.maintenance==0&&c.startDay==0&&c.endDay==0&&c.nextPaymentDay==0;
- PropertyQuote PropertyQuote(string id)=>state.property?.quotes.Find(q=>q.PropertyId==id);
- public PropertyQuote GetPropertyQuote(string id){EnsureProperty(Day,DateTime.UtcNow.Ticks);return Clone(PropertyQuote(id));}
- public PropertyOccupancy Occupancy(string id)=>state.property?.contract?.PropertyId==id?PropertyOccupancy.Leased:state.property?.occupiedPropertyId==id?PropertyOccupancy.OwnerOccupied:PropertyOccupancy.Vacant;
- public bool CanBuyProperty(string id,out string reason){EnsureProperty(Day,DateTime.UtcNow.Ticks);var p=propertyCatalog?.Find(id);var q=PropertyQuote(id);reason=(!HousingReady||!GrowthAccess.Adult(game))?"거래 가능한 상태가 아닙니다.":p==null||q==null?"등록되지 않은 매물입니다.":game.growth.Age<p.minAge?$"{p.minAge}세부터 계약할 수 있습니다.":state.property.owned.Any(h=>h.PropertyId==id)?"이미 소유한 매물입니다.":state.property.contract?.PropertyId==id?"임대 계약을 먼저 종료하세요.":!CanAfford(q.MarketPrice)?"매수 자금이 부족합니다.":null;return reason==null;}
- public bool BuyProperty(string receipt,string id,int expectedPrice=-1){if(!CanBuyProperty(id,out var reason)||expectedPrice>=0&&PropertyQuote(id).MarketPrice!=expectedPrice)return false;int price=PropertyQuote(id).MarketPrice;bool ok=Commit(receipt,TransactionKind.PropertyBuy,price,"부동산 매수",id,()=>state.property.owned.Add(new PropertyHolding{PropertyId=id,costBasis=price,acquiredDay=Day,nextMaintenanceDay=Day+Math.Max(1,propertyCatalog.paymentPeriodDays)}));if(ok)Signal(receipt+"/mission",MissionCounter.PropertyBought);return ok;}
- public bool SellProperty(string receipt,string id,int expectedPrice=-1){EnsureProperty(Day,DateTime.UtcNow.Ticks);var h=state.property.owned.Find(v=>v.PropertyId==id);var q=PropertyQuote(id);if((!HousingReady||!GrowthAccess.Adult(game))||h==null||q==null||expectedPrice>=0&&q.MarketPrice!=expectedPrice)return false;bool ok=Commit(receipt,TransactionKind.PropertySell,q.MarketPrice,"부동산 매각",id,()=>{state.property.realizedPnL+=q.MarketPrice-h.costBasis;state.property.owned.Remove(h);if(state.property.occupiedPropertyId==id)SetPropertyHome(null);});if(ok)Signal(receipt+"/mission",MissionCounter.PropertySold);return ok;}
- void SetPropertyHome(string id){EnsureHousing();var p=propertyCatalog?.Find(id);state.property.occupiedPropertyId=id??"";state.housing.residenceId=p?.residenceId??"starter";var family=FamilyLife.State(game);if(family!=null){family.residency=HomeResidency.IndependentHome;family.independenceChosen=true;}state.housing.placed.Clear();state.housing.layoutVersion=0;if(!string.IsNullOrEmpty(id))game.world.City?.Record("move");}
- public bool OccupyProperty(string receipt,string id){EnsureProperty(Day,DateTime.UtcNow.Ticks);var p=propertyCatalog?.Find(id);if((!HousingReady||!GrowthAccess.Adult(game))||p==null||state.property.contract!=null||state.property.occupiedPropertyId==id||!state.property.owned.Any(h=>h.PropertyId==id))return false;int cost=housingCatalog.Residence(p.residenceId)?.movingCost??500;return Commit(receipt,TransactionKind.PropertyFee,cost,"소유 주택 입주 · 이사",id,()=>SetPropertyHome(id));}
- public bool CanLease(string id,HousingTenure tenure,out string reason){EnsureProperty(Day,DateTime.UtcNow.Ticks);var p=propertyCatalog?.Find(id);long deposit=p==null?0:tenure==HousingTenure.Jeonse?p.JeonseDeposit:p.MonthlyDeposit;long cost=deposit+(housingCatalog?.Residence(p?.residenceId)?.movingCost??500);reason=(!HousingReady||!GrowthAccess.Adult(game))?"계약 가능한 상태가 아닙니다.":!Enum.IsDefined(typeof(HousingTenure),tenure)||p==null?"계약 정보를 확인하세요.":game.growth.Age<p.minAge?$"{p.minAge}세부터 계약할 수 있습니다.":state.property.contract!=null?"기존 계약을 먼저 종료하세요.":HousingArrears>0?"미납 주거비를 먼저 납부하세요.":state.property.owned.Any(h=>h.PropertyId==id)?"이미 소유한 주택입니다.":cost>Cash?"보증금과 이사 비용이 부족합니다.":Day+(long)Math.Max(1,propertyCatalog.paymentPeriodDays)*Math.Max(1,propertyCatalog.contractPeriods)>TimeManager.MaximumDay?"계약 기간을 진행할 수 없습니다.":null;return reason==null;}
- public bool LeaseProperty(string receipt,string id,HousingTenure tenure){if(!CanLease(id,tenure,out var reason))return false;var p=propertyCatalog.Find(id);int period=Math.Max(1,propertyCatalog.paymentPeriodDays);long deposit=tenure==HousingTenure.Jeonse?p.JeonseDeposit:p.MonthlyDeposit;int move=housingCatalog.Residence(p.residenceId)?.movingCost??500;bool ok=Commit(receipt,TransactionKind.LeaseDeposit,deposit+move,"주거 계약 · 보증금 및 이사",id,()=>{state.property.contract=new HousingContract{id=receipt,PropertyId=id,tenure=tenure,deposit=deposit,monthlyRent=tenure==HousingTenure.MonthlyRent?p.MonthlyRent:0,maintenance=p.MaintenanceCost,startDay=Day,endDay=Day+period*Math.Max(1,propertyCatalog.contractPeriods),nextPaymentDay=Day+period};SetPropertyHome(id);});if(ok)Signal(receipt+"/mission",MissionCounter.HousingContracts);return ok;}
- void RentSignal(PropertyBill b){if(b.Remaining==0&&b.rent>0)Signal(b.id+"/paid",MissionCounter.RentPaid,b.periods);}
- public bool PayPropertyBill(string receipt,string billId){EnsureProperty(Day,DateTime.UtcNow.Ticks);var b=state.property.bills.Find(x=>x.id==billId);if(b==null||b.Remaining<=0)return false;bool ok=Commit(receipt,TransactionKind.PropertyFee,b.Remaining,"주거비 납부 · 월세/관리비",b.id,()=>b.paid=b.rent+b.maintenance);if(ok)RentSignal(b);return ok;}
- public bool EndLease(string receipt){EnsureProperty(Day,DateTime.UtcNow.Ticks);if((!HousingReady||!GrowthAccess.Adult(game))||state.property.contract==null)return false;AccruePropertyBills(Day);return ReturnDeposit(receipt);}
- bool ReturnDeposit(string receipt){var c=state.property.contract;if(c==null)return false;var bills=state.property.bills.Where(b=>b.contractId==c.id&&b.Remaining>0).ToArray();long withheld=Math.Min(c.deposit,bills.Sum(b=>b.Remaining)),refund=c.deposit-withheld;bool ok=Commit(receipt,TransactionKind.DepositReturn,refund,"보증금 반환 · 미납 상계 "+withheld.ToString("N0")+"G",c.id,()=>{long left=withheld;foreach(var b in bills){long paid=Math.Min(left,b.Remaining);b.paid+=paid;left-=paid;}state.finance.totalExpenses=Add(state.finance.totalExpenses,withheld);state.property.contract=null;SetPropertyHome(null);});if(ok)foreach(var b in bills)RentSignal(b);return ok;}
- void AccruePropertyBills(int day){var s=state.property;int period=Math.Max(1,propertyCatalog.paymentPeriodDays);var c=s.contract;if(c!=null)while(c.nextPaymentDay<=Math.Min(day,c.endDay)){int due=c.nextPaymentDay;c.nextPaymentDay+=period;s.bills.Add(new PropertyBill{id=c.id+"/due/"+due,contractId=c.id,PropertyId=c.PropertyId,dueDay=due,rent=c.monthlyRent,maintenance=c.maintenance});}
-  foreach(var h in s.owned){if(day<h.nextMaintenanceDay)continue;int n=(day-h.nextMaintenanceDay)/period+1,last=h.nextMaintenanceDay+(n-1)*period;h.nextMaintenanceDay+=n*period;int fee=propertyCatalog.Find(h.PropertyId)?.MaintenanceCost??0;if(fee>0)s.bills.Add(new PropertyBill{id="owner/"+h.PropertyId+"/"+h.acquiredDay+"/"+last,PropertyId=h.PropertyId,dueDay=last,periods=n,maintenance=(long)fee*n});}}
- public void SettlePropertyDay(int day){if(propertyCatalog==null||busy)return;EnsureProperty(day,DateTime.UtcNow.Ticks);var s=state.property;if(day<s.lastSettledDay)return;s.lastSettledDay=day;AccruePropertyBills(day);foreach(var b in s.bills.Where(b=>b.Remaining>0).ToArray()){PayPropertyBill(b.id+"/auto",b.id);if(b.Remaining>0&&!b.lateCreditApplied&&day>b.dueDay+Math.Max(0,propertyCatalog.graceDays)){b.lateCreditApplied=true;stats.ApplyCore(new StatDelta{credit=-Math.Max(0,rules.overdueCreditPenalty)});}}
-  if(s.contract!=null&&day>=s.contract.endDay)ReturnDeposit(s.contract.id+"/expired");Changed?.Invoke();}
- public long AvailableHousingLoan {get{if(propertyCatalog==null||game==null||!game.growth.MeetsLoanRequirements(stats,propertyCatalog.minimumLoanCredit))return 0;return Math.Max(0,(long)propertyCatalog.baseLoanLimit*stats.Credit/100-Debt);}}
- public bool BorrowHousing(string receipt,long amount){EnsureProperty(Day,DateTime.UtcNow.Ticks);if((!HousingReady||!GrowthAccess.Adult(game))||amount<=0||amount>AvailableHousingLoan)return false;bool ok=Commit(receipt,TransactionKind.LoanDraw,amount,"주거자금 대출 · 기존 부채 계정",null,()=>state.property.loans.Add(new HousingLoan{id=receipt,originalPrincipal=amount,remainingPrincipal=amount,day=Day}));if(ok)Signal(receipt+"/mission",MissionCounter.HousingLoans);return ok;}
- void ApplyHousingPrincipalPayment(long amount){if(state.property==null)return;foreach(var l in state.property.loans){long paid=Math.Min(amount,l.remainingPrincipal);l.remainingPrincipal-=paid;amount-=paid;if(amount==0)break;}}
- public void LearnHousingInsurance(){if((!HousingReady||!GrowthAccess.Adult(game)))return;Signal("housing/insurance/read",MissionCounter.InsuranceLearned);}
- public void ApplyHousingRecovery(int action){if(action!=1&&action!=5||game==null||propertyCatalog==null||state.property==null||game.world.Active&&game.world.State.zone!="home"||!game.world.Active&&GameContext.Instance!=null&&GameContext.Instance.transitions.CurrentScene!=SceneId.Home)return;var p=propertyCatalog.Find(state.property.occupiedPropertyId);if(p!=null)stats.ApplyCore(action==5?p.sleepBonus:p.restBonus);}
- public void SettlePropertyMarket(long utc){if(propertyCatalog==null||busy||utc<0||utc>DateTime.MaxValue.Ticks)return;EnsureProperty(Day,utc);var s=state.property;long interval=(long)Math.Max(1,propertyCatalog.marketIntervalSeconds)*TimeSpan.TicksPerSecond,count=(utc-s.marketUtcTicks)/interval;if(count<=0)return;long skip=Math.Max(0,count-Math.Max(1,propertyCatalog.maximumCatchupTicks));s.marketUtcTicks+=skip*interval;s.marketSequence+=skip;for(long i=skip;i<count;i++){s.marketUtcTicks+=interval;s.marketSequence++;foreach(var q in s.quotes){var p=propertyCatalog.Find(q.PropertyId);if(p==null)continue;double news=0;if(state.finance!=null&&rules!=null)foreach(var n in state.finance.news.Where(n=>n.tick<=state.finance.marketSequence-(state.finance.marketUtcTicks-s.marketUtcTicks)/((long)Math.Max(1,rules.marketIntervalSeconds)*TimeSpan.TicksPerSecond)&&n.expiresTick>state.finance.marketSequence-(state.finance.marketUtcTicks-s.marketUtcTicks)/((long)Math.Max(1,rules.marketIntervalSeconds)*TimeSpan.TicksPerSecond))){var d=Array.Find(rules.news,x=>x.NewsId==n.newsId);if(d!=null&&(d.Kind==EconomicNewsKind.General||d.Kind==EconomicNewsKind.Market))news+=d.PriceImpact*p.newsSensitivity;}
-   double move=(Sample(p.Location+"/"+p.PropertyType,s.marketUtcTicks/interval)*2-1)*Mathf.Clamp(p.volatility,0,.1f)+p.regionalTrend+news-propertyCatalog.marketInterestBasisPoints/10000d*.05;move=Math.Max(-.08,Math.Min(.08,move));q.PreviousPrice=q.MarketPrice;q.MarketPrice=(int)Math.Max(Math.Max(1,p.PurchasePrice/4),Math.Min(Math.Min(int.MaxValue/4,(long)p.PurchasePrice*4),Math.Round(q.MarketPrice*(1+move))));q.PriceHistory.Add(q.MarketPrice);while(q.PriceHistory.Count>Math.Max(2,propertyCatalog.historyLimit))q.PriceHistory.RemoveAt(0);}}Changed?.Invoke();
- }
- public static bool ValidProperty(EconomySnapshot economy){var s=economy?.property;if(s==null)return true;if(s.schema!=1||s.lastSettledDay<1||s.marketUtcTicks<0||s.marketUtcTicks>DateTime.MaxValue.Ticks||s.marketSequence<0||s.quotes==null||s.owned==null||s.bills==null||s.loans==null)return false;
-  if(s.quotes.Any(q=>q==null||string.IsNullOrEmpty(q.PropertyId)||q.MarketPrice<1||q.PreviousPrice<1||q.PriceHistory==null||q.PriceHistory.Count>1024||q.PriceHistory.Any(p=>p<1))||s.quotes.Select(q=>q.PropertyId).Distinct().Count()!=s.quotes.Count)return false;
-  if(s.owned.Any(h=>h==null||h.costBasis<0||h.acquiredDay<1||h.nextMaintenanceDay<=h.acquiredDay||!s.quotes.Any(q=>q.PropertyId==h.PropertyId))||s.owned.Select(h=>h.PropertyId).Distinct().Count()!=s.owned.Count)return false;
-  var c=s.contract;if(c!=null&&(string.IsNullOrEmpty(c.id)||!s.quotes.Any(q=>q.PropertyId==c.PropertyId)||s.owned.Any(h=>h.PropertyId==c.PropertyId)||!Enum.IsDefined(typeof(HousingTenure),c.tenure)||c.deposit<0||c.deposit>int.MaxValue||c.monthlyRent<0||c.maintenance<0||c.startDay<1||c.endDay<=c.startDay||c.nextPaymentDay<=c.startDay))return false;
-  if(!string.IsNullOrEmpty(s.occupiedPropertyId)&&c?.PropertyId!=s.occupiedPropertyId&&!s.owned.Any(h=>h.PropertyId==s.occupiedPropertyId))return false;
-  if(s.bills.Any(b=>b==null||string.IsNullOrEmpty(b.id)||b.dueDay<1||b.periods<1||b.rent<0||b.maintenance<0||b.rent>long.MaxValue-b.maintenance||b.paid<0||b.paid>b.rent+b.maintenance)||s.bills.Select(b=>b.id).Distinct().Count()!=s.bills.Count)return false;
-  if(s.bills.Sum(b=>(decimal)b.Remaining)>long.MaxValue)return false;
-  return !s.loans.Any(l=>l==null||string.IsNullOrEmpty(l.id)||l.originalPrincipal<=0||l.remainingPrincipal<0||l.remainingPrincipal>l.originalPrincipal||l.day<1)&&s.loans.Select(l=>l.id).Distinct().Count()==s.loans.Count&&s.loans.Sum(l=>(decimal)l.remainingPrincipal)<=economy.debt-(economy.finance?.outstandingInterest??0);
- }
-}
+
+namespace IanGame
+{
+    // Optional v4 snapshot extension. Existing wallet, ledger, debt interest and credit remain authoritative.
+    public partial class EconomySystem
+    {
+        public PropertyCatalog propertyCatalog;
+        public PropertySnapshot Properties
+        {
+            get
+            {
+                EnsureFinance(Day, DateTime.UtcNow.Ticks);
+                EnsureProperty(Day, DateTime.UtcNow.Ticks);
+                return CopyProperty(state.property);
+            }
+        }
+
+        public long PropertyValue =>
+            state.property == null
+                ? 0
+                : state.property.owned.Sum(h => (long)(PropertyQuote(h.PropertyId)?.MarketPrice ?? 0));
+        public long HousingDeposit => state.property?.contract?.deposit ?? 0;
+        public long HousingArrears => state.property == null ? 0 : state.property.bills.Sum(b => b.Remaining);
+        public long HousingLoanPrincipal =>
+            state.property == null ? 0 : state.property.loans.Sum(l => l.remainingPrincipal);
+
+        void EnsureProperty(int day, long utc)
+        {
+            if (state.property != null)
+            {
+                return;
+            }
+
+            state.property = new PropertySnapshot { lastSettledDay = day, marketUtcTicks = utc };
+            if (propertyCatalog != null)
+            {
+                foreach (var p in propertyCatalog.properties)
+                {
+                    state.property.quotes.Add(
+                        new PropertyQuote
+                        {
+                            PropertyId = p.PropertyId,
+                            MarketPrice = p.PurchasePrice,
+                            PreviousPrice = p.PurchasePrice,
+                            PriceHistory = new System.Collections.Generic.List<int> { p.PurchasePrice },
+                        }
+                    );
+                }
+            }
+        }
+
+        static PropertySnapshot CopyProperty(PropertySnapshot value)
+        {
+            if (value == null)
+            {
+                return null;
+            }
+
+            var wrapper = new EconomySnapshot { property = Clone(value) };
+            NormalizeProperty(wrapper);
+            return wrapper.property;
+        }
+
+        public static void NormalizeProperty(EconomySnapshot e)
+        {
+            var s = e?.property;
+            if (s == null)
+            {
+                return;
+            }
+
+            if (
+                s.lastSettledDay == 0
+                && s.marketUtcTicks == 0
+                && s.marketSequence == 0
+                && s.realizedPnL == 0
+                && string.IsNullOrEmpty(s.occupiedPropertyId)
+                && s.quotes?.Count == 0
+                && s.owned?.Count == 0
+                && s.bills?.Count == 0
+                && s.loans?.Count == 0
+                && (s.contract == null || EmptyContract(s.contract))
+            )
+            {
+                e.property = null;
+                return;
+            }
+
+            if (s.contract != null && EmptyContract(s.contract))
+            {
+                s.contract = null;
+            }
+        }
+
+        static bool EmptyContract(HousingContract c) =>
+            string.IsNullOrEmpty(c.id)
+            && string.IsNullOrEmpty(c.PropertyId)
+            && c.deposit == 0
+            && c.monthlyRent == 0
+            && c.maintenance == 0
+            && c.startDay == 0
+            && c.endDay == 0
+            && c.nextPaymentDay == 0;
+
+        PropertyQuote PropertyQuote(string id) => state.property?.quotes.Find(q => q.PropertyId == id);
+
+        public PropertyQuote GetPropertyQuote(string id)
+        {
+            EnsureProperty(Day, DateTime.UtcNow.Ticks);
+            return Clone(PropertyQuote(id));
+        }
+
+        public PropertyOccupancy Occupancy(string id) =>
+            state.property?.contract?.PropertyId == id ? PropertyOccupancy.Leased
+            : state.property?.occupiedPropertyId == id ? PropertyOccupancy.OwnerOccupied
+            : PropertyOccupancy.Vacant;
+
+        public bool CanBuyProperty(string id, out string reason)
+        {
+            EnsureProperty(Day, DateTime.UtcNow.Ticks);
+            var p = propertyCatalog?.Find(id);
+            var q = PropertyQuote(id);
+            reason =
+                (!HousingReady || !GrowthAccess.Adult(game)) ? "거래 가능한 상태가 아닙니다."
+                : p == null || q == null ? "등록되지 않은 매물입니다."
+                : game.growth.Age < p.minAge ? $"{p.minAge}세부터 계약할 수 있습니다."
+                : state.property.owned.Any(h => h.PropertyId == id) ? "이미 소유한 매물입니다."
+                : state.property.contract?.PropertyId == id ? "임대 계약을 먼저 종료하세요."
+                : !CanAfford(q.MarketPrice) ? "매수 자금이 부족합니다."
+                : null;
+            return reason == null;
+        }
+
+        public bool BuyProperty(string receipt, string id, int expectedPrice = -1)
+        {
+            if (
+                !CanBuyProperty(id, out var reason)
+                || expectedPrice >= 0 && PropertyQuote(id).MarketPrice != expectedPrice
+            )
+            {
+                return false;
+            }
+
+            int price = PropertyQuote(id).MarketPrice;
+            bool ok = Commit(
+                receipt,
+                TransactionKind.PropertyBuy,
+                price,
+                "부동산 매수",
+                id,
+                () =>
+                    state.property.owned.Add(
+                        new PropertyHolding
+                        {
+                            PropertyId = id,
+                            costBasis = price,
+                            acquiredDay = Day,
+                            nextMaintenanceDay = Day + Math.Max(1, propertyCatalog.paymentPeriodDays),
+                        }
+                    )
+            );
+            if (ok)
+            {
+                Signal(receipt + "/mission", MissionCounter.PropertyBought);
+            }
+
+            return ok;
+        }
+
+        public bool SellProperty(string receipt, string id, int expectedPrice = -1)
+        {
+            EnsureProperty(Day, DateTime.UtcNow.Ticks);
+            var h = state.property.owned.Find(v => v.PropertyId == id);
+            var q = PropertyQuote(id);
+            if (
+                (!HousingReady || !GrowthAccess.Adult(game))
+                || h == null
+                || q == null
+                || expectedPrice >= 0 && q.MarketPrice != expectedPrice
+            )
+            {
+                return false;
+            }
+
+            bool ok = Commit(
+                receipt,
+                TransactionKind.PropertySell,
+                q.MarketPrice,
+                "부동산 매각",
+                id,
+                () =>
+                {
+                    state.property.realizedPnL += q.MarketPrice - h.costBasis;
+                    state.property.owned.Remove(h);
+                    if (state.property.occupiedPropertyId == id)
+                    {
+                        SetPropertyHome(null);
+                    }
+                }
+            );
+            if (ok)
+            {
+                Signal(receipt + "/mission", MissionCounter.PropertySold);
+            }
+
+            return ok;
+        }
+
+        void SetPropertyHome(string id)
+        {
+            EnsureHousing();
+            var p = propertyCatalog?.Find(id);
+            state.property.occupiedPropertyId = id ?? "";
+            state.housing.residenceId = p?.residenceId ?? "starter";
+            var family = FamilyLife.State(game);
+            if (family != null)
+            {
+                family.residency = HomeResidency.IndependentHome;
+                family.independenceChosen = true;
+            }
+
+            state.housing.placed.Clear();
+            state.housing.layoutVersion = 0;
+            if (!string.IsNullOrEmpty(id))
+            {
+                game.world.City?.Record("move");
+            }
+        }
+
+        public bool OccupyProperty(string receipt, string id)
+        {
+            EnsureProperty(Day, DateTime.UtcNow.Ticks);
+            var p = propertyCatalog?.Find(id);
+            if (
+                (!HousingReady || !GrowthAccess.Adult(game))
+                || p == null
+                || state.property.contract != null
+                || state.property.occupiedPropertyId == id
+                || !state.property.owned.Any(h => h.PropertyId == id)
+            )
+            {
+                return false;
+            }
+
+            int cost = housingCatalog.Residence(p.residenceId)?.movingCost ?? 500;
+            return Commit(
+                receipt,
+                TransactionKind.PropertyFee,
+                cost,
+                "소유 주택 입주 · 이사",
+                id,
+                () => SetPropertyHome(id)
+            );
+        }
+
+        public bool CanLease(string id, HousingTenure tenure, out string reason)
+        {
+            EnsureProperty(Day, DateTime.UtcNow.Ticks);
+            var p = propertyCatalog?.Find(id);
+            long deposit =
+                p == null ? 0
+                : tenure == HousingTenure.Jeonse ? p.JeonseDeposit
+                : p.MonthlyDeposit;
+            long cost = deposit + (housingCatalog?.Residence(p?.residenceId)?.movingCost ?? 500);
+            reason =
+                (!HousingReady || !GrowthAccess.Adult(game)) ? "계약 가능한 상태가 아닙니다."
+                : !Enum.IsDefined(typeof(HousingTenure), tenure) || p == null ? "계약 정보를 확인하세요."
+                : game.growth.Age < p.minAge ? $"{p.minAge}세부터 계약할 수 있습니다."
+                : state.property.contract != null ? "기존 계약을 먼저 종료하세요."
+                : HousingArrears > 0 ? "미납 주거비를 먼저 납부하세요."
+                : state.property.owned.Any(h => h.PropertyId == id) ? "이미 소유한 주택입니다."
+                : cost > Cash ? "보증금과 이사 비용이 부족합니다."
+                : Day
+                    + (long)Math.Max(1, propertyCatalog.paymentPeriodDays)
+                        * Math.Max(1, propertyCatalog.contractPeriods)
+                > TimeManager.MaximumDay
+                    ? "계약 기간을 진행할 수 없습니다."
+                : null;
+            return reason == null;
+        }
+
+        public bool LeaseProperty(string receipt, string id, HousingTenure tenure)
+        {
+            if (!CanLease(id, tenure, out var reason))
+            {
+                return false;
+            }
+
+            var p = propertyCatalog.Find(id);
+            int period = Math.Max(1, propertyCatalog.paymentPeriodDays);
+            long deposit = tenure == HousingTenure.Jeonse ? p.JeonseDeposit : p.MonthlyDeposit;
+            int move = housingCatalog.Residence(p.residenceId)?.movingCost ?? 500;
+            bool ok = Commit(
+                receipt,
+                TransactionKind.LeaseDeposit,
+                deposit + move,
+                "주거 계약 · 보증금 및 이사",
+                id,
+                () =>
+                {
+                    state.property.contract = new HousingContract
+                    {
+                        id = receipt,
+                        PropertyId = id,
+                        tenure = tenure,
+                        deposit = deposit,
+                        monthlyRent = tenure == HousingTenure.MonthlyRent ? p.MonthlyRent : 0,
+                        maintenance = p.MaintenanceCost,
+                        startDay = Day,
+                        endDay = Day + period * Math.Max(1, propertyCatalog.contractPeriods),
+                        nextPaymentDay = Day + period,
+                    };
+                    SetPropertyHome(id);
+                }
+            );
+            if (ok)
+            {
+                Signal(receipt + "/mission", MissionCounter.HousingContracts);
+            }
+
+            return ok;
+        }
+
+        void RentSignal(PropertyBill b)
+        {
+            if (b.Remaining == 0 && b.rent > 0)
+            {
+                Signal(b.id + "/paid", MissionCounter.RentPaid, b.periods);
+            }
+        }
+
+        public bool PayPropertyBill(string receipt, string billId)
+        {
+            EnsureProperty(Day, DateTime.UtcNow.Ticks);
+            var b = state.property.bills.Find(x => x.id == billId);
+            if (b == null || b.Remaining <= 0)
+            {
+                return false;
+            }
+
+            bool ok = Commit(
+                receipt,
+                TransactionKind.PropertyFee,
+                b.Remaining,
+                "주거비 납부 · 월세/관리비",
+                b.id,
+                () => b.paid = b.rent + b.maintenance
+            );
+            if (ok)
+            {
+                RentSignal(b);
+            }
+
+            return ok;
+        }
+
+        public bool EndLease(string receipt)
+        {
+            EnsureProperty(Day, DateTime.UtcNow.Ticks);
+            if ((!HousingReady || !GrowthAccess.Adult(game)) || state.property.contract == null)
+            {
+                return false;
+            }
+
+            AccruePropertyBills(Day);
+            return ReturnDeposit(receipt);
+        }
+
+        bool ReturnDeposit(string receipt)
+        {
+            var c = state.property.contract;
+            if (c == null)
+            {
+                return false;
+            }
+
+            var bills = state.property.bills.Where(b => b.contractId == c.id && b.Remaining > 0).ToArray();
+            long withheld = Math.Min(c.deposit, bills.Sum(b => b.Remaining)),
+                refund = c.deposit - withheld;
+            bool ok = Commit(
+                receipt,
+                TransactionKind.DepositReturn,
+                refund,
+                "보증금 반환 · 미납 상계 " + withheld.ToString("N0") + "G",
+                c.id,
+                () =>
+                {
+                    long left = withheld;
+                    foreach (var b in bills)
+                    {
+                        long paid = Math.Min(left, b.Remaining);
+                        b.paid += paid;
+                        left -= paid;
+                    }
+
+                    state.finance.totalExpenses = Add(state.finance.totalExpenses, withheld);
+                    state.property.contract = null;
+                    SetPropertyHome(null);
+                }
+            );
+            if (ok)
+            {
+                foreach (var b in bills)
+                {
+                    RentSignal(b);
+                }
+            }
+
+            return ok;
+        }
+
+        void AccruePropertyBills(int day)
+        {
+            var s = state.property;
+            int period = Math.Max(1, propertyCatalog.paymentPeriodDays);
+            var c = s.contract;
+            if (c != null)
+            {
+                while (c.nextPaymentDay <= Math.Min(day, c.endDay))
+                {
+                    int due = c.nextPaymentDay;
+                    c.nextPaymentDay += period;
+                    s.bills.Add(
+                        new PropertyBill
+                        {
+                            id = c.id + "/due/" + due,
+                            contractId = c.id,
+                            PropertyId = c.PropertyId,
+                            dueDay = due,
+                            rent = c.monthlyRent,
+                            maintenance = c.maintenance,
+                        }
+                    );
+                }
+            }
+
+            foreach (var h in s.owned)
+            {
+                if (day < h.nextMaintenanceDay)
+                {
+                    continue;
+                }
+
+                int n = (day - h.nextMaintenanceDay) / period + 1,
+                    last = h.nextMaintenanceDay + (n - 1) * period;
+                h.nextMaintenanceDay += n * period;
+                int fee = propertyCatalog.Find(h.PropertyId)?.MaintenanceCost ?? 0;
+                if (fee > 0)
+                {
+                    s.bills.Add(
+                        new PropertyBill
+                        {
+                            id = "owner/" + h.PropertyId + "/" + h.acquiredDay + "/" + last,
+                            PropertyId = h.PropertyId,
+                            dueDay = last,
+                            periods = n,
+                            maintenance = (long)fee * n,
+                        }
+                    );
+                }
+            }
+        }
+
+        public void SettlePropertyDay(int day)
+        {
+            if (propertyCatalog == null || busy)
+            {
+                return;
+            }
+
+            EnsureProperty(day, DateTime.UtcNow.Ticks);
+            var s = state.property;
+            if (day < s.lastSettledDay)
+            {
+                return;
+            }
+
+            s.lastSettledDay = day;
+            AccruePropertyBills(day);
+            foreach (var b in s.bills.Where(b => b.Remaining > 0).ToArray())
+            {
+                PayPropertyBill(b.id + "/auto", b.id);
+                if (b.Remaining > 0 && !b.lateCreditApplied && day > b.dueDay + Math.Max(0, propertyCatalog.graceDays))
+                {
+                    b.lateCreditApplied = true;
+                    stats.ApplyCore(new StatDelta { credit = -Math.Max(0, rules.overdueCreditPenalty) });
+                }
+            }
+
+            if (s.contract != null && day >= s.contract.endDay)
+            {
+                ReturnDeposit(s.contract.id + "/expired");
+            }
+
+            Changed?.Invoke();
+        }
+
+        public long AvailableHousingLoan
+        {
+            get
+            {
+                if (
+                    propertyCatalog == null
+                    || game == null
+                    || !game.growth.MeetsLoanRequirements(stats, propertyCatalog.minimumLoanCredit)
+                )
+                {
+                    return 0;
+                }
+
+                return Math.Max(0, (long)propertyCatalog.baseLoanLimit * stats.Credit / 100 - Debt);
+            }
+        }
+
+        public bool BorrowHousing(string receipt, long amount)
+        {
+            EnsureProperty(Day, DateTime.UtcNow.Ticks);
+            if ((!HousingReady || !GrowthAccess.Adult(game)) || amount <= 0 || amount > AvailableHousingLoan)
+            {
+                return false;
+            }
+
+            bool ok = Commit(
+                receipt,
+                TransactionKind.LoanDraw,
+                amount,
+                "주거자금 대출 · 기존 부채 계정",
+                null,
+                () =>
+                    state.property.loans.Add(
+                        new HousingLoan
+                        {
+                            id = receipt,
+                            originalPrincipal = amount,
+                            remainingPrincipal = amount,
+                            day = Day,
+                        }
+                    )
+            );
+            if (ok)
+            {
+                Signal(receipt + "/mission", MissionCounter.HousingLoans);
+            }
+
+            return ok;
+        }
+
+        void ApplyHousingPrincipalPayment(long amount)
+        {
+            if (state.property == null)
+            {
+                return;
+            }
+
+            foreach (var l in state.property.loans)
+            {
+                long paid = Math.Min(amount, l.remainingPrincipal);
+                l.remainingPrincipal -= paid;
+                amount -= paid;
+                if (amount == 0)
+                {
+                    break;
+                }
+            }
+        }
+
+        public void LearnHousingInsurance()
+        {
+            if ((!HousingReady || !GrowthAccess.Adult(game)))
+            {
+                return;
+            }
+
+            Signal("housing/insurance/read", MissionCounter.InsuranceLearned);
+        }
+
+        public void ApplyHousingRecovery(int action)
+        {
+            if (
+                action != 1 && action != 5
+                || game == null
+                || propertyCatalog == null
+                || state.property == null
+                || game.world.Active && game.world.State.zone != "home"
+                || !game.world.Active
+                    && GameContext.Instance != null
+                    && GameContext.Instance.transitions.CurrentScene != SceneId.Home
+            )
+            {
+                return;
+            }
+
+            var p = propertyCatalog.Find(state.property.occupiedPropertyId);
+            if (p != null)
+            {
+                stats.ApplyCore(action == 5 ? p.sleepBonus : p.restBonus);
+            }
+        }
+
+        public void SettlePropertyMarket(long utc)
+        {
+            if (propertyCatalog == null || busy || utc < 0 || utc > DateTime.MaxValue.Ticks)
+            {
+                return;
+            }
+
+            EnsureProperty(Day, utc);
+            var s = state.property;
+            long interval = (long)Math.Max(1, propertyCatalog.marketIntervalSeconds) * TimeSpan.TicksPerSecond,
+                count = (utc - s.marketUtcTicks) / interval;
+            if (count <= 0)
+            {
+                return;
+            }
+
+            long skip = Math.Max(0, count - Math.Max(1, propertyCatalog.maximumCatchupTicks));
+            s.marketUtcTicks += skip * interval;
+            s.marketSequence += skip;
+            for (long i = skip; i < count; i++)
+            {
+                s.marketUtcTicks += interval;
+                s.marketSequence++;
+                foreach (var q in s.quotes)
+                {
+                    var p = propertyCatalog.Find(q.PropertyId);
+                    if (p == null)
+                    {
+                        continue;
+                    }
+
+                    double news = 0;
+                    if (state.finance != null && rules != null)
+                    {
+                        foreach (
+                            var n in state.finance.news.Where(n =>
+                                n.tick
+                                    <= state.finance.marketSequence
+                                        - (state.finance.marketUtcTicks - s.marketUtcTicks)
+                                            / ((long)Math.Max(1, rules.marketIntervalSeconds) * TimeSpan.TicksPerSecond)
+                                && n.expiresTick
+                                    > state.finance.marketSequence
+                                        - (state.finance.marketUtcTicks - s.marketUtcTicks)
+                                            / ((long)Math.Max(1, rules.marketIntervalSeconds) * TimeSpan.TicksPerSecond)
+                            )
+                        )
+                        {
+                            var d = Array.Find(rules.news, x => x.NewsId == n.newsId);
+                            if (d != null && (d.Kind == EconomicNewsKind.General || d.Kind == EconomicNewsKind.Market))
+                            {
+                                news += d.PriceImpact * p.newsSensitivity;
+                            }
+                        }
+                    }
+
+                    double move =
+                        (Sample(p.Location + "/" + p.PropertyType, s.marketUtcTicks / interval) * 2 - 1)
+                            * Mathf.Clamp(p.volatility, 0, .1f)
+                        + p.regionalTrend
+                        + news
+                        - propertyCatalog.marketInterestBasisPoints / 10000d * .05;
+                    move = Math.Max(-.08, Math.Min(.08, move));
+                    q.PreviousPrice = q.MarketPrice;
+                    q.MarketPrice = (int)
+                        Math.Max(
+                            Math.Max(1, p.PurchasePrice / 4),
+                            Math.Min(
+                                Math.Min(int.MaxValue / 4, (long)p.PurchasePrice * 4),
+                                Math.Round(q.MarketPrice * (1 + move))
+                            )
+                        );
+                    q.PriceHistory.Add(q.MarketPrice);
+                    while (q.PriceHistory.Count > Math.Max(2, propertyCatalog.historyLimit))
+                    {
+                        q.PriceHistory.RemoveAt(0);
+                    }
+                }
+            }
+
+            Changed?.Invoke();
+        }
+
+        public static bool ValidProperty(EconomySnapshot economy)
+        {
+            var s = economy?.property;
+            if (s == null)
+            {
+                return true;
+            }
+
+            if (
+                s.schema != 1
+                || s.lastSettledDay < 1
+                || s.marketUtcTicks < 0
+                || s.marketUtcTicks > DateTime.MaxValue.Ticks
+                || s.marketSequence < 0
+                || s.quotes == null
+                || s.owned == null
+                || s.bills == null
+                || s.loans == null
+            )
+            {
+                return false;
+            }
+
+            if (
+                s.quotes.Any(q =>
+                    q == null
+                    || string.IsNullOrEmpty(q.PropertyId)
+                    || q.MarketPrice < 1
+                    || q.PreviousPrice < 1
+                    || q.PriceHistory == null
+                    || q.PriceHistory.Count > 1024
+                    || q.PriceHistory.Any(p => p < 1)
+                )
+                || s.quotes.Select(q => q.PropertyId).Distinct().Count() != s.quotes.Count
+            )
+            {
+                return false;
+            }
+
+            if (
+                s.owned.Any(h =>
+                    h == null
+                    || h.costBasis < 0
+                    || h.acquiredDay < 1
+                    || h.nextMaintenanceDay <= h.acquiredDay
+                    || !s.quotes.Any(q => q.PropertyId == h.PropertyId)
+                )
+                || s.owned.Select(h => h.PropertyId).Distinct().Count() != s.owned.Count
+            )
+            {
+                return false;
+            }
+
+            var c = s.contract;
+            if (
+                c != null
+                && (
+                    string.IsNullOrEmpty(c.id)
+                    || !s.quotes.Any(q => q.PropertyId == c.PropertyId)
+                    || s.owned.Any(h => h.PropertyId == c.PropertyId)
+                    || !Enum.IsDefined(typeof(HousingTenure), c.tenure)
+                    || c.deposit < 0
+                    || c.deposit > int.MaxValue
+                    || c.monthlyRent < 0
+                    || c.maintenance < 0
+                    || c.startDay < 1
+                    || c.endDay <= c.startDay
+                    || c.nextPaymentDay <= c.startDay
+                )
+            )
+            {
+                return false;
+            }
+
+            if (
+                !string.IsNullOrEmpty(s.occupiedPropertyId)
+                && c?.PropertyId != s.occupiedPropertyId
+                && !s.owned.Any(h => h.PropertyId == s.occupiedPropertyId)
+            )
+            {
+                return false;
+            }
+
+            if (
+                s.bills.Any(b =>
+                    b == null
+                    || string.IsNullOrEmpty(b.id)
+                    || b.dueDay < 1
+                    || b.periods < 1
+                    || b.rent < 0
+                    || b.maintenance < 0
+                    || b.rent > long.MaxValue - b.maintenance
+                    || b.paid < 0
+                    || b.paid > b.rent + b.maintenance
+                )
+                || s.bills.Select(b => b.id).Distinct().Count() != s.bills.Count
+            )
+            {
+                return false;
+            }
+
+            if (s.bills.Sum(b => (decimal)b.Remaining) > long.MaxValue)
+            {
+                return false;
+            }
+
+            return !s.loans.Any(l =>
+                    l == null
+                    || string.IsNullOrEmpty(l.id)
+                    || l.originalPrincipal <= 0
+                    || l.remainingPrincipal < 0
+                    || l.remainingPrincipal > l.originalPrincipal
+                    || l.day < 1
+                )
+                && s.loans.Select(l => l.id).Distinct().Count() == s.loans.Count
+                && s.loans.Sum(l => (decimal)l.remainingPrincipal)
+                    <= economy.debt - (economy.finance?.outstandingInterest ?? 0);
+        }
+    }
 }

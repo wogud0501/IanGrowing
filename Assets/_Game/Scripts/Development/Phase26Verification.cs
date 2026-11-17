@@ -10,199 +10,1911 @@ using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.LowLevel;
 using UnityEngine.UI;
 using TMPro;
-namespace IanGame.Editor {
-public sealed class Phase26Verification:MonoBehaviour {
- // Isolate before GameManager.Start: waiting for MainMenu is too late for
- // load/offline-progress lifecycle writes. Never load the user's slot in tests.
- [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
- static void ProtectStartup(){
-  if(string.IsNullOrEmpty(UnityEditor.SessionState.GetString("ian.phase26.pendingTest","")))return;
-  UnityEditor.SessionState.SetBool("ian.phase26.protectWrites",true);UnityEngine.SceneManagement.SceneManager.sceneLoaded+=IsolateStartup;
- }
- static void IsolateStartup(UnityEngine.SceneManagement.Scene scene,UnityEngine.SceneManagement.LoadSceneMode mode){
-  if(scene.name!="Bootstrap")return;
-  UnityEngine.SceneManagement.SceneManager.sceneLoaded-=IsolateStartup;
-  var context=GameContext.Instance;if(context==null)return;var game=context.game;
-  typeof(SaveManager).GetField("fileName",BindingFlags.Instance|BindingFlags.NonPublic).SetValue(game.saves,"phase26-startup-"+Guid.NewGuid().ToString("N")+".json");
-  game.autoLoadOnStart=false;game.autoSaveAfterAction=game.autoSaveOnLifecycle=false;
-  game.realtimeLifeEnabled=game.clock.realtimeEnabled=false;
- }
- [Serializable]class Results {public string mode,stage,failure;public List<string> passed=new List<string>(),uiIssues=new List<string>();}
- bool ControllerMode=>result.mode.StartsWith("roomVisual")||result.mode.StartsWith("scene")||result.mode.StartsWith("family")||result.mode.StartsWith("advanced")||result.mode=="masterCapture"||result.mode=="master"||result.mode=="quality"||result.mode=="home"||result.mode=="visual";
- Results result=new Results();GameManager g;LifeWorldController world;SaveData original;string originalSlot;bool auto,lifecycle,realtime,realLife;float animation,eventChance;InputSettings.BackgroundBehavior background;InputSettings.EditorInputBehaviorInPlayMode editorInput;int large;string consentBefore;bool hadConsent;
- FieldInfo Slot=>typeof(SaveManager).GetField("fileName",BindingFlags.Instance|BindingFlags.NonPublic);
- public void Begin(string mode){result.mode=mode;DontDestroyOnLoad(gameObject);StartCoroutine(Run());}
- void Check(bool condition,string text){if(!condition)throw new Exception(text);result.passed.Add(text);Flush();}
- void Flush(){Directory.CreateDirectory("Docs/Phase26");File.WriteAllText("Docs/Phase26/"+result.mode.ToUpperInvariant()+"_RESULTS.json",JsonUtility.ToJson(result,true));}
- IEnumerator Frames(int n=6){for(int i=0;i<n;i++)yield return null;}
- IEnumerator WaitWorld(){while(GameContext.Instance.transitions.IsTransitioning)yield return null;yield return Frames();world=UnityEngine.Object.FindAnyObjectByType<LifeWorldController>();Check(world!=null&&g.world.Active,"Connected playable LifeWorld is active");}
- void Keys(params Key[] keys){InputSystem.QueueStateEvent(Keyboard.current,new KeyboardState(keys));}
- string inputFocusEvidence="";
- IEnumerator Hold(Key key,float seconds){Keys(key);float until=Time.unscaledTime+seconds;inputFocusEvidence="";while(Time.unscaledTime<until){if(!Application.isFocused||UnityEditor.EditorWindow.focusedWindow==null||UnityEditor.EditorWindow.focusedWindow.GetType().Name!="GameView")inputFocusEvidence=" [automation lost application/Game View focus]";yield return null;}Keys();yield return Frames();}
- IEnumerator Use(string id){var o=world.objects.First(x=>x.id==id);Check(o.zone==g.world.State.zone,"Object in current zone "+id);world.Player.Warp(ControllerMode?Reachable(o):o.Point+Vector2.down*.05f);world.follow.Snap();yield return Frames();Check(world.Nearest==o,"Nearest interaction selected "+id);if(ControllerMode){Check(world.Use(o),"Controller interaction accepted in reach "+id);}else{Keys(Key.E);yield return Frames(2);Keys();}while(world.Busy)yield return null;yield return new WaitForSecondsRealtime(.2f);}
- IEnumerator ActionChoice(string id,int index){yield return Use(id);var buttons=world.hud.choices.GetComponentsInChildren<Button>().Where(b=>b.gameObject.activeInHierarchy).ToArray();Check(index<buttons.Length,"Object exposes contextual choices "+id);buttons[index].onClick.Invoke();while(world.Busy)yield return null;yield return new WaitForSecondsRealtime(.2f);}
- IEnumerator Run(){hadConsent=PlayerPrefs.HasKey("ian.release.legal.acceptance");consentBefore=PlayerPrefs.GetString("ian.release.legal.acceptance","");Application.runInBackground=true;g=GameContext.Instance.game;original=g.CaptureState();originalSlot=(string)Slot.GetValue(g.saves);auto=g.autoSaveAfterAction;lifecycle=g.autoSaveOnLifecycle;realtime=g.clock.realtimeEnabled;realLife=g.realtimeLifeEnabled;eventChance=g.balance.eventChance;animation=g.world.rules.activityAnimationScale;large=PlayerPrefs.GetInt("ian.ui.largeText",0);background=InputSystem.settings.backgroundBehavior;editorInput=InputSystem.settings.editorInputBehaviorInPlayMode;if(!ControllerMode){InputSystem.settings.backgroundBehavior=InputSettings.BackgroundBehavior.IgnoreFocus;InputSystem.settings.editorInputBehaviorInPlayMode=InputSettings.EditorInputBehaviorInPlayMode.AllDeviceInputAlwaysGoesToGameView;}Slot.SetValue(g.saves,"phase26-"+Guid.NewGuid().ToString("N")+".json");g.autoSaveAfterAction=g.autoSaveOnLifecycle=g.realtimeLifeEnabled=g.clock.realtimeEnabled=false;g.balance.eventChance=0;
-  var stack=new Stack<IEnumerator>();stack.Push(Scenario());while(stack.Count>0){bool more=false;object next=null;try{more=stack.Peek().MoveNext();if(more)next=stack.Peek().Current;}catch(Exception ex){result.failure=ex.ToString();break;}if(!more){stack.Pop();continue;}if(next is IEnumerator){stack.Push((IEnumerator)next);continue;}yield return next;}
-  while(stack.Count>0){try{(stack.Pop() as IDisposable)?.Dispose();}catch(Exception ex){result.failure+=" DISPOSE "+ex;}}
-  try{if(!ControllerMode)Keys();g.world.rules.activityAnimationScale=animation;g.RestoreState(original);Slot.SetValue(g.saves,originalSlot);g.autoSaveAfterAction=auto;g.autoSaveOnLifecycle=lifecycle;g.realtimeLifeEnabled=realLife;g.clock.realtimeEnabled=realtime;g.balance.eventChance=eventChance;PlayerPrefs.SetInt("ian.ui.largeText",large);InputSystem.settings.backgroundBehavior=background;InputSystem.settings.editorInputBehaviorInPlayMode=editorInput;}catch(Exception ex){result.failure+=" RESTORE "+ex;}if(hadConsent)PlayerPrefs.SetString("ian.release.legal.acceptance",consentBefore);else PlayerPrefs.DeleteKey("ian.release.legal.acceptance");PlayerPrefs.Save();result.stage=result.failure==null?"Completed":"Failed";Flush();
-  // Test slots are isolated during the scenario. OnApplicationQuit is also sent
-  // when exiting Play: do not let that final lifecycle callback write the user's
-  // original slot after we have restored their model. Serialized flags revert
-  // with Play Mode exit; do not leave a modified gameplay session running.
-  g.autoSaveAfterAction=g.autoSaveOnLifecycle=false;g.realtimeLifeEnabled=g.clock.realtimeEnabled=false;
-  UnityEditor.EditorApplication.delayCall+=()=>UnityEditor.EditorApplication.isPlaying=false;Destroy(gameObject);
- }
- IEnumerator Scenario(){if(result.mode=="roomVisualRelease"){yield return ReleaseFoundationVerification.Run(g,Check,Audit);yield break;}LegalDocumentService.AcceptRequired();result.stage="Stage A";g.NewGame();if(!result.mode.StartsWith("scene")&&!result.mode.StartsWith("roomVisual")){GameContext.Instance.transitions.UseLegacyTesting();}Check(g.growth.Age==0&&g.economy.Cash==0,"New life preserves newborn age and zero cash");Check(GameContext.Instance.transitions.Navigate(SceneId.Home),"Main menu Home routes to connected LifeWorld");yield return WaitWorld();var birth=UnityEngine.Object.FindAnyObjectByType<BirthIntroductionPopup>();Check(birth!=null&&birth.IsShowing,"DAY 1 birth introduction remains visible");if(result.mode=="masterCapture"){yield return new WaitForSecondsRealtime(.3f);ScreenCapture.CaptureScreenshot("Docs/Phase26/MasterScreenshots/00-Day1-Birth.png");yield return Frames();}if(result.mode.StartsWith("pre28")){Audit(birth.gameObject,"Birth Korean/layout");System.IO.Directory.CreateDirectory("Docs/PrePhase28/Screenshots");ScreenCapture.CaptureScreenshot("Docs/PrePhase28/Screenshots/Birth.png");yield return Frames();}birth.begin.onClick.Invoke();yield return new WaitForSecondsRealtime(.3f);Check(!g.BirthIntroductionPending,"Actual birth confirmation starts world controls");g.clock.realtimeEnabled=false;CommercialSliceVerification.SetSize(1280,720);yield return Frames();
-  if(result.mode.StartsWith("roomVisual")){yield return RoomVisualVerification.Run(g,Check,Audit,result.mode);yield break;}
-  if(result.mode=="sceneMeal"){yield return SceneArchitectureVerification.Meal(g,Check);yield break;}
-  if(result.mode=="sceneCapture"){yield return SceneArchitectureVerification.CaptureRooms(g,Check);yield break;}
-  if(result.mode=="sceneFinal"){yield return SceneArchitectureVerification.Final(g,Check,Audit);yield break;}
-  if(result.mode=="sceneHousing"){yield return SceneArchitectureVerification.Housing(g,Check,Audit);yield break;}
-  if(result.mode=="sceneRegistry"){yield return QACenterVerification.Run(world,g,Check,Audit,false,new[]{"scene/catalog","scene/migration","scene/receipts","scene/load","core/save","family/save","family/independence","property/trade","stocks/up","growth/world-access","education/study"});yield break;}
-  if(result.mode.StartsWith("scene")){yield return SceneArchitectureVerification.Run(g,Check,Audit,result.mode);yield break;}
-  if(result.mode=="stageA"){var before=world.Player.Position;yield return Hold(Key.D,.45f);Check(world.Player.Position.x>before.x+.5f,"Actual keyboard D moves rigidbody in world");world.Player.Warp(new Vector2(7.6f,-3));yield return Hold(Key.D,.9f);Check(world.Player.Position.x<8.6f,"Wall collider stops physical movement");world.Player.Warp(new Vector2(2,-1.4f));yield return Hold(Key.W,.9f);Check(world.Player.Position.y<.1f,"Table footprint blocks movement while upper sprite occludes correctly");world.Player.Warp(new Vector2(0,-2));yield return Frames();var bed=world.objects.First(o=>o.id=="bed");Check(!world.Use(bed),"Distant bed cannot be used");Shot("StageA-Home");yield return Frames();yield return Use("front-door");Check(g.world.State.zone=="alley","E at front door enters residential alley");yield return Use("city-path");Check(g.world.State.zone=="city","Alley door connects to city");Check(Vector2.Distance(world.follow.transform.position,world.Player.Position)<8,"Camera moves to destination without exposing other zones");Shot("StageA-City");yield return Frames();yield break;}
-  if(result.mode=="familyArchitecture"||result.mode=="familyHousehold"){yield return FamilyArchitectureVerification.Run(world,g,Check,Audit,result.mode=="familyHousehold");yield break;}
-  if(result.mode=="familyCheck"||result.mode=="familyActions"||result.mode=="familyInteraction"||result.mode=="familyDoors"){yield return FamilyLifeVerification.Run(world,g,Check,Audit,result.mode);yield break;}
-  if(result.mode=="facilityCompanyShift"){yield return FacilityTerminalVerification.CompanyShift(world,g,Check);yield break;}
-  if(result.mode=="facilityClerkExit"){yield return FacilityActorVerification.ClerkExit(world,g,Check);yield break;}
-  if(result.mode=="facilityTerminals"){yield return FacilityTerminalVerification.Run(world,g,Check,Audit);yield break;}
-  if(result.mode=="facilityActorsRemaining"){yield return FacilityActorVerification.Run(world,g,Check,true);yield break;}
-  if(result.mode=="facilityCaptureAfter"){yield return FacilityQualityVerification.Capture(world,g,Check,false);yield break;}
-  if(result.mode=="facilityActors"){yield return FacilityActorVerification.Run(world,g,Check);yield break;}
-  if(result.mode=="facilityFunctions"){yield return FacilityQualityPlayVerification.Run(world,g,Check,Audit,true);yield break;}
-  if(result.mode=="facilityRegistry"){yield return QACenterVerification.Run(world,g,Check,Audit,false,new[]{"world/facility-seats","world/facility-age","world/facility-layout","growth/world-access","education/study","property/trade","property/Jeonse","property/MonthlyRent","stocks/up","social/talk","equipment/starter","core/save"});yield break;}
-  if(result.mode=="facilityMobile"){g.growth.Restore(new ProgressSnapshot{age=19});world.Travel("shop");while(world.Busy)yield return null;yield return AdvancedWorldVerification.Mobile(world,g,Check,Audit);yield break;}
-  if(result.mode=="facilityCheck"){yield return FacilityQualityPlayVerification.Run(world,g,Check,Audit);yield break;}
-  if(result.mode=="facilityCaptureBefore"){yield return FacilityQualityVerification.Capture(world,g,Check,true);yield break;}
-  if(result.mode=="pre28SaveGuard"){yield return WorldRecoveryVerification.Safety(world,g,Check);yield break;}
-  if(result.mode=="pre28DoorRetest"){yield return CriticalRecoveryVerification.Doors(world,g,Check,"office-bath");yield break;}
-  if(result.mode=="pre28World"){g.growth.Restore(new ProgressSnapshot{age=19});yield return ResidentLifeVerification.Run(world,g,Check);yield return AdvancedWorldVerification.Mobile(world,g,Check,Audit);yield return PrePhase28Verification.Traffic(world,g,Check);yield break;}
-  if(result.mode=="pre28Walking"){yield return PrePhase28WalkingVerification.Run(world,g,Check,Audit);yield break;}
-  if(result.mode=="pre28Growth"){yield return QACenterVerification.Run(world,g,Check,Audit,false,new[]{"growth/data-boundaries","growth/world-access","growth/newborn-motor","growth/unlocks","core/new-life","core/save","save/version/1","save/version/2","save/version/3","save/version/4","preset/walk-before","preset/walk-after"});yield break;}
-  if(result.mode=="pre28UI"){yield return PrePhase28UIAudit.Run(world,g,Check,Audit);yield break;}
-  if(result.mode=="pre28FinanceGate"){yield return PrePhase28Verification.FinanceGate(g,Check);yield break;}
-  if(result.mode=="pre28Full"){yield return QACenterVerification.Run(world,g,Check,Audit);yield break;}
-  if(result.mode=="pre28Failed"){yield return QACenterVerification.Run(world,g,Check,Audit,true);yield break;}
-  if(result.mode=="pre28LifeResume"){yield return PrePhase28Verification.Natural(world,g,Check,true);yield break;}
-  if(result.mode=="pre28Life"){yield return PrePhase28Verification.Natural(world,g,Check);yield break;}
-  if(result.mode=="pre28Birth"){yield return PrePhase28Verification.Birth(world,g,Check);yield break;}
-  if(result.mode=="doorEntryCapture"){yield return DoorVisualVerification.Run(world,g,Check,true);yield break;}
-  if(result.mode=="doorVisual"){yield return DoorVisualVerification.Run(world,g,Check);yield break;}
-  if(result.mode=="criticalVisitors"){yield return CriticalRecoveryVerification.Visitors(world,g,Check);yield break;}
-  if(result.mode=="criticalCapture"){yield return CriticalRecoveryVerification.Capture(world,g);yield break;}
-  if(result.mode=="criticalDoorCycles"){yield return CriticalRecoveryVerification.Cycles(world,g,Check);yield return CriticalRecoveryVerification.Capture(world,g);yield return AdvancedWorldVerification.Mobile(world,g,Check,Audit);yield break;}
-  if(result.mode=="criticalFacilities"){yield return CriticalRecoveryVerification.Facilities(world,g,Check,Audit);yield break;}
-  if(result.mode=="criticalGrowth"){yield return CriticalRecoveryVerification.Growth(world,g,Check);yield break;}
-  if(result.mode=="criticalDoors"){yield return CriticalRecoveryVerification.Doors(world,g,Check);yield break;}
-  if(result.mode=="advancedRecoverySafety"){yield return WorldRecoveryVerification.Safety(world,g,Check);yield break;}
-  if(result.mode=="advancedRecoveryPolish"){yield return WorldRecoveryVerification.Polish(world,g,Check,Audit);yield break;}
-  if(result.mode=="advancedRecovery"){yield return WorldRecoveryVerification.Run(world,g,Check,Audit);yield break;}
-  if(result.mode=="advancedQAFailed"){yield return QACenterVerification.Run(world,g,Check,Audit,true);yield break;}
-  if(result.mode=="advancedQA"){yield return QACenterVerification.Run(world,g,Check,Audit);yield break;}
-  if(result.mode=="advancedProperty"){yield return PropertyVerification.Run(world,g,Check,Audit);yield break;}
-  if(result.mode=="advancedResidentVisual"){yield return ResidentLifeVerification.Visual(world,g,Check);yield break;}
-  if(result.mode=="advancedResidents"){yield return ResidentLifeVerification.Run(world,g,Check);yield break;}
-  if(result.mode=="advancedMobile"){yield return AdvancedWorldVerification.Mobile(world,g,Check,Audit);yield break;}
-  if(result.mode=="advancedDoors"){yield return AdvancedWorldVerification.Doors(world,g,Check);yield break;}
-  if(result.mode=="advancedAnimation"){yield return AdvancedWorldVerification.Animation(world,g,Check);yield break;}
-  if(result.mode=="masterCapture"){yield return MasterDirectiveVerification.Capture(world,g,Check,Audit);yield break;}
-  if(result.mode=="master"){yield return MasterDirectiveVerification.Run(world,g,Check,Audit);yield break;}
-  if(result.mode=="home"||result.mode=="visual")yield return Home();else if(result.mode=="quality")yield return Quality();else if(result.mode=="input")yield return InputRecovery();else if(result.mode=="cycle")yield return Cycle();else if(result.mode=="edge")yield return Edge();else if(result.mode=="integration")yield return Integration();else if(result.mode=="capture")yield return Capture();else yield return UI();
- }
- Vector2 Reachable(WorldInteractable target){
-  for(float radius=0;radius<=1.21f;radius+=.3f)for(int i=0;i<12;i++){var p=target.Point+new Vector2(Mathf.Cos(i*Mathf.PI/6),Mathf.Sin(i*Mathf.PI/6))*radius;var safe=world.Safe(world.CurrentZone,p-world.CurrentZone.origin);if(Vector2.Distance(safe,p)<.04f&&Vector2.Distance(p,target.Point)<=target.radius)return p;}
-  throw new Exception("No clear reachable interaction approach: "+target.id);
- }
- IEnumerator Home(){
-  result.stage="Urgent home layout and display camera";Flush();
-  Check(world.follow.target.targetTexture==null&&world.follow.target.enabled&&world.follow.target.targetDisplay==0,"Existing main camera renders Display 1 without offscreen texture");
-  Check(Camera.allCameras.Count(c=>c.targetTexture==null&&c.targetDisplay==0)==1,"Exactly one active camera renders the display");
-  var catalog=g.economy.housingCatalog;var plan=catalog.placementPlan;Check(plan!=null,"Housing placement plan is connected to existing economy");
-  foreach(var rule in plan.furniture){Vector2 p;string why;Check(plan.Find(rule.id,g.economy.Housing,null,out p,out why),"Clear accessible placement exists for "+rule.id+" / "+why);Check(!plan.Validate(rule.id,new Vector2(0,-3.75f),g.economy.Housing,out why),"Furniture cannot block entrance: "+rule.id);}
-  var old=new HousingSnapshot{owned=new List<string>{"bookshelf","lamp","chair"},placed=new List<FurniturePlacement>{new FurniturePlacement{id="bookshelf",position=new Vector2(-1.5f,-.7f)},new FurniturePlacement{id="lamp",position=new Vector2(1.6f,-.7f)},new FurniturePlacement{id="chair",position=new Vector2(1,-1)}}};plan.Migrate(old);Check(old.owned.Count==3&&old.layoutVersion==plan.version,"Legacy layout migrates without losing owned furniture");foreach(var p in old.placed){string why;Check(plan.Validate(p.id,p.position*2,old,out why),"Migrated furniture has safe layout "+p.id);}
-  foreach(var id in new[]{"bed","fridge","tap-home","closet","meal-table","front-door","bath-door"})Check(Vector2.Distance(Reachable(world.objects.First(o=>o.id==id)),world.objects.First(o=>o.id==id).Point)<1.3f,"Clear physical approach to "+id);
-  if(UnityEditor.SessionState.GetBool("ian.phase26.homeRoutes",false)){UnityEditor.SessionState.SetBool("ian.phase26.homeRoutes",false);yield return HomeTraversalVerification.Run(world,Check);}
-  g.clock.Restore(g.clock.Day,new TimeSnapshot{subDaySeconds=12*3600,elapsedSeconds=g.clock.ElapsedSeconds});world.Player.Warp(result.mode=="visual"?new Vector2(1.5f,-1.8f):new Vector2(0,-1.8f));world.follow.Snap();yield return new WaitForSecondsRealtime(.5f);HomeCapture("Home");yield return Frames();
-  if(UnityEditor.SessionState.GetBool("ian.phase26.homeVisualOnly",false)){
-   UnityEditor.SessionState.SetBool("ian.phase26.homeVisualOnly",false);Audit(world.hud.gameObject,"Direct camera home HUD 1280x720");
-   g.clock.Restore(g.clock.Day,new TimeSnapshot{subDaySeconds=23*3600,elapsedSeconds=g.clock.ElapsedSeconds});yield return new WaitForSecondsRealtime(.4f);Check(world.roomBackdrops.Where(b=>b.floor.enabled).All(b=>b.floor.sprite==b.night),"Visible room windows and backdrops switch to their night sprites");HomeCapture("Home-Night");yield return Frames();
-   Check(world.Travel("bathroom"),"Separate jade bathroom remains connected");while(world.Busy)yield return null;world.Player.Warp(world.Safe(world.CurrentZone,new Vector2(0,-1.6f)));world.follow.Snap();yield return new WaitForSecondsRealtime(.4f);foreach(var id in new[]{"sink","shower","toilet","bath-exit"})Check(Vector2.Distance(Reachable(world.objects.First(o=>o.id==id)),world.objects.First(o=>o.id==id).Point)<1.3f,"Clear bathroom approach "+id);HomeCapture("Bathroom");yield return Frames();yield break;
-  }
-  yield return Cycle();
- }
- IEnumerator Quality(){
-  result.stage="Recovery quality: controller integration, not physical keyboard automation";Flush();
-  Check(world.Player.walkSet!=null&&world.Player.walkSet.Complete&&world.Player.locomotion!=null,"Eight-state directional animation is connected in actual scene");
-  Check(world.follow.target.targetTexture==null&&world.follow.target.enabled&&world.follow.target.targetDisplay==0,"Existing main camera renders directly to Display 1");
-  Check(world.Travel("city"),"Travel to authored city");while(world.Busy)yield return null;world.Player.Warp(world.Safe(world.CurrentZone,new Vector2(0,1.5f)));world.follow.Snap();
-  g.clock.Restore(g.clock.Day,new TimeSnapshot{subDaySeconds=12*3600,elapsedSeconds=g.clock.ElapsedSeconds});yield return new WaitForSecondsRealtime(.4f);
-  var street=world.GetComponentInChildren<WorldStreetLife>();Check(street!=null&&street.pedestrians.Length==10&&street.vehicles.Length==4,"Ten background citizens and four vehicles connected");
-  var start=street.vehicles.Select(v=>v.body.position).ToArray();var moved=new bool[start.Length];var signals=new HashSet<Sprite>();var frames=new HashSet<Sprite>();bool stopped=false;float end=Time.unscaledTime+27;
-  while(Time.unscaledTime<end){for(int i=0;i<moved.Length;i++)moved[i]|=Vector2.Distance(start[i],street.vehicles[i].body.position)>1;if(street.signal!=null)signals.Add(street.signal.sprite);foreach(var person in street.pedestrians)if(person.visual.enabled)frames.Add(person.visual.sprite);if(!street.VehicleGreen&&street.vehicles.Any(v=>v.velocity<.01f))stopped=true;yield return null;}
-  Check(moved.All(x=>x),"Every real Rigidbody vehicle moved over a full traffic cycle");Check(signals.Count==3&&stopped,"Three visible signal states and vehicle waiting observed");Check(frames.Count>=12,"Citizens visibly advance multiple authored walking frames");Shot("City-Day-Live");yield return Frames();
-  g.clock.Restore(g.clock.Day,new TimeSnapshot{subDaySeconds=23*3600,elapsedSeconds=g.clock.ElapsedSeconds});yield return new WaitForSecondsRealtime(.4f);
-  Check(street.pedestrians.Count(p=>p.visual.enabled)==3&&street.vehicles.Count(v=>v.body.simulated)==2,"Night reduces actual citizen and vehicle density");Shot("City-Night-Live");yield return Frames();
-  Check(world.Travel("home"),"Return home after traffic observation");while(world.Busy)yield return null;yield return new WaitForSecondsRealtime(.4f);
-  Check(world.roomBackdrops.Length>0&&world.roomBackdrops.All(b=>b.floor.sprite==b.night),"Night swaps indoor sky and removes daytime sunbeam");Shot("Home-Night-Live");yield return Frames();
-  yield return Cycle();result.stage="Recovery four-resolution UI audit";Flush();yield return UI();
- }
- IEnumerator InputRecovery(){
-  result.stage="Injected input integration only — NOT physical keyboard verification";
-  Check(world.Player.controls!=null,"Existing scene references persistent WorldControls asset");
-  var map=world.Player.controls.FindActionMap("World",true);
-  Check(map.FindAction("Move").bindings.Count>=11,"Move includes two keyboard composites and gamepad stick");
-  var origin=new Vector2(0,-2);float straight=0;
-  var keys=new[]{Key.W,Key.A,Key.S,Key.D,Key.UpArrow,Key.LeftArrow,Key.DownArrow,Key.RightArrow};
-  var directions=new[]{Vector2.up,Vector2.left,Vector2.down,Vector2.right,Vector2.up,Vector2.left,Vector2.down,Vector2.right};
-  for(int i=0;i<keys.Length;i++){
-   world.Player.Warp(origin);yield return Frames();yield return Hold(keys[i],.35f);var delta=world.Player.Position-origin;
-   Check(delta.magnitude>.5f&&Vector2.Dot(delta.normalized,directions[i])>.95f,"Injected "+keys[i]+" drives Rigidbody in expected direction; delta="+delta+inputFocusEvidence);
-   if(i==0)straight=delta.magnitude;yield return new WaitForSecondsRealtime(.12f);var stop=world.Player.Position;yield return new WaitForSecondsRealtime(.2f);
-   Check(Vector2.Distance(stop,world.Player.Position)<.02f,"Injected "+keys[i]+" release stops without drift");
-  }
-  world.Player.Warp(origin);yield return Frames();Keys(Key.W,Key.D);yield return new WaitForSecondsRealtime(.35f);Keys();yield return Frames();
-  Check(Mathf.Abs(Vector2.Distance(origin,world.Player.Position)-straight)<.15f,"Injected diagonal has normalized world speed");
-  Keys(Key.I);yield return Frames(2);Keys();yield return Frames();
-  Check(world.hud.shell.Top!=null&&world.hud.shell.Top.name=="InventoryPanel","Injected I opens existing inventory");
-  var blocked=world.Player.Position;yield return Hold(Key.D,.3f);Check(Vector2.Distance(blocked,world.Player.Position)<.02f,"Inventory blocks movement");
-  Keys(Key.Escape);yield return Frames(2);Keys();yield return Frames();Check(world.CanControl,"Injected Esc closes inventory and restores control");
-  Keys(Key.Escape);yield return Frames(2);Keys();yield return Frames();Check(g.State==GameState.Paused&&world.hud.shell.Depth==1,"Injected Esc opens exactly one pause menu");
-  Keys(Key.Escape);yield return Frames(2);Keys();yield return Frames();Check(world.CanControl&&g.State==GameState.Playing,"Injected Esc resumes after menu");
-  yield return Use("front-door");Check(g.world.State.zone=="alley","Injected E enters alley through existing portal");
-  world.Player.Warp(world.CurrentZone.origin+new Vector2(0,-3));yield return Frames();var before=world.Player.Position;yield return Hold(Key.D,.35f);
-  Check(world.Player.Position.x>before.x+.5f,"Injected movement remains enabled after portal");
- }
- IEnumerator Cycle(){result.stage="Stage B/C complete day";g.world.rules.activityAnimationScale=ControllerMode?1:.18f;var fixture=g.CaptureState();fixture.progression.age=30;fixture.stats.money=5000;fixture.stats.knowledge=50;fixture.stats.social=50;fixture.stats.energy=65;fixture.stats.hunger=60;fixture.world.fatigue=65;fixture.world.hygiene=25;fixture.phase23.employment.currentJobId="convenience";fixture.time.subDaySeconds=23*3600;g.RestoreState(fixture);g.clock.realtimeEnabled=false;int startDay=g.clock.Day;yield return Use("bed");Check(g.clock.Day==startDay+1&&g.world.Hour==7,"Sleep advances eight hours across exactly one day boundary");Check(g.world.State.fatigue<15&&world.CanControl,"Wake restores fatigue and player control");yield return Use("bath-door");yield return Use("shower");Check(g.world.State.hygiene>80,"Physical shower restores hygiene");Shot("Bathroom");yield return Frames();yield return Use("bath-exit");int rice=g.world.State.rice;yield return ActionChoice("fridge",0);Check(g.world.State.rice==rice-1&&g.world.State.prepared=="rice","Fridge choice prepares and consumes one real rice inventory item");int hunger=g.stats.Hunger;yield return Use("meal-table");Check(g.stats.Hunger>hunger&&g.world.State.prepared=="","Meal consumes prepared food and updates existing hunger stat");yield return Use("front-door");yield return Use("city-path");yield return Use("shop-front");long money=g.economy.Cash;int bread=g.world.State.bread;yield return ActionChoice("counter",1);Check(g.economy.Cash==money-g.world.rules.breadPrice&&g.world.State.bread==bread+1,"Actual shop button charges existing wallet and grants food");world.hud.CloseContext();yield return Frames();
-  yield return Use("furniture-display");var home=world.hud.home;home.buy[2].onClick.Invoke();yield return new WaitForSecondsRealtime(.2f);home.accept.onClick.Invoke();yield return new WaitForSecondsRealtime(.2f);money=g.economy.Cash;home.place[2].onClick.Invoke();yield return new WaitForSecondsRealtime(.2f);Check(g.economy.Housing.owned.Contains("bookshelf")&&g.economy.Cash==money,"Purchased furniture ownership and free placement reuse economy");var furniture=GameObject.Find("Owned furniture / bookshelf");Check(furniture!=null&&furniture.GetComponent<Collider2D>()!=null&&furniture.GetComponent<WorldInteractable>()!=null,"Owned furniture has world collision and interaction");world.hud.shell.Close(home.panel);yield return new WaitForSecondsRealtime(.2f);yield return Use("shop-exit");yield return Use("city-bench");Check(g.world.Hour==9,"Morning preparation and rest naturally reach work hours");yield return Use("office-front");long beforeCash=g.economy.Cash;int workCount=g.phase23.Progress.employment.workCount;double seconds=g.clock.ElapsedSeconds;yield return ActionChoice("workdesk",0);Check(g.economy.Cash==beforeCash+g.phase23.Work.Wage&&g.phase23.Progress.employment.workCount==workCount+1,"Actual workstation completes existing work record and pays one salary");Check(Math.Abs(g.clock.ElapsedSeconds-seconds-8*3600)<.01,"Work advances eight hours, not a duplicate day");string why;Check(!g.CanPerformAction(0,out why),"Second same-day paid shift is refused");var npc=world.objects.First(o=>o.npcId=="colleague");world.Player.Warp(npc.Point);yield return Frames();Check(world.Use(npc),"Scheduled colleague can be approached in workplace");yield return new WaitForSecondsRealtime(.2f);int social=g.phase23.Progress.social.history.Count;var choices=world.hud.choices.GetComponentsInChildren<Button>();choices[0].onClick.Invoke();while(world.Busy)yield return null;yield return Frames();Check(g.phase23.Progress.social.history.Count==social+1,"World NPC dialogue uses existing social history and affinity");yield return Use("work-exit");yield return Use("alley-path");yield return Use("house-entrance");for(int i=0;i<5;i++)yield return Use("home-chair");Check(g.world.Hour>=22,"Free evening activities reach bedtime");int day=g.clock.Day;yield return Use("bed");Check(g.clock.Day==day+1&&g.world.Hour<9&&g.world.State.zone=="home","Complete working day returns home, sleeps and wakes next day");Check(g.missions.Counter(MissionCounter.Meal)>0&&g.missions.Counter(MissionCounter.Sleep)>0&&g.missions.Counter(MissionCounter.Work)>0,"Existing meal, sleep and work mission counters track world activities");
-  SaveData saved;string message;Check(g.saves.TryReadAutomatic(out saved,out message)&&saved.world!=null&&saved.world.zone=="home"&&saved.world.pendingAction=="","Actual saved world resumes at home without pending reward");world.Player.Warp(new Vector2(7,4));g.RestoreState(saved);g.clock.realtimeEnabled=false;yield return Frames();Check(g.world.State.zone=="home"&&Vector2.Distance(world.Player.Position,saved.world.position)<.1f,"Load restores safe physical position and zone");Shot("Home-After-Day");yield return Frames();
- }
- IEnumerator UI(){result.stage="Stage D UI";foreach(var size in new[]{new[]{1280,720},new[]{1920,1080},new[]{2400,1080},new[]{1080,1920}}){CommercialSliceVerification.SetSize(size[0],size[1]);yield return Frames(12);Audit(world.hud.gameObject,"HUD "+size[0]);foreach(int n in Enumerable.Range(0,7)){world.hud.navigation.Open(n);yield return new WaitForSecondsRealtime(.2f);Audit(world.hud.navigation.panels[n],"Menu "+n+" "+size[0]);}while(world.hud.shell.Depth>0)world.hud.shell.Pop();yield return Frames();Check(world.CanControl,"Closing all windows restores movement "+size[0]);}CommercialSliceVerification.SetSize(1280,720);yield return Frames();Shot("World-HUD");yield return Frames();var maximum=g.CaptureState();maximum.stats.money=int.MaxValue;maximum.world.fatigue=100;maximum.day=TimeManager.MaximumDay-1;maximum.time.subDaySeconds=23*3600+59*60;g.RestoreState(maximum);g.clock.realtimeEnabled=false;PlayerPrefs.SetInt("ian.ui.largeText",1);foreach(var scale in world.hud.GetComponentsInChildren<UITypeScale>(true))scale.Apply();yield return new WaitForSecondsRealtime(.35f);Check(world.hud.cash.text.Contains("2,147"),"Maximum wallet value is actually rendered");Audit(world.hud.gameObject,"Maximum cash/day/needs with large text");Check(world.hud.cash.fontSize>18,"Large font remains readable at maximum wallet balance");}
- IEnumerator Integration(){result.stage="Education, large text and legacy market";g.world.rules.activityAnimationScale=.15f;var child=g.CaptureState();child.progression.age=7;child.stats.money=1000;child.stats.hunger=100;child.stats.thirst=100;child.stats.energy=100;child.stats.mental=100;child.stats.stress=0;foreach(var m in g.missionCatalog.missions.Where(m=>m.number<=10)){child.missions.completedMissionIds.Add(m.Id);child.missions.claimedMissionIds.Add(m.Id);}g.RestoreState(child);g.clock.realtimeEnabled=false;string reason;Check(!g.CanPerformAction(0,out reason),"Child growth stage still rejects adult employment");Check(world.Travel("school"),"World school is an existing School activity location");while(world.Busy)yield return null;double before=g.clock.ElapsedSeconds;yield return ActionChoice("study-desk",0);Check(g.phase23.Progress.education.currentEducationId=="elementary"&&g.missions.Counter(MissionCounter.SchoolEnrollment)>0,"Actual school desk enrollment uses existing course, prerequisites and mission");Check(Math.Abs(g.clock.ElapsedSeconds-before-3600)<.01,"World enrollment consumes an hour rather than a duplicate day");int studies=g.phase23.Progress.education.studies,knowledge=g.stats.Knowledge;yield return ActionChoice("study-desk",6);Check(g.phase23.Progress.education.studies==studies+1&&g.stats.Knowledge>knowledge,"Actual study increases existing education progress and knowledge");
-  PlayerPrefs.SetInt("ian.ui.largeText",1);foreach(var scale in world.hud.GetComponentsInChildren<UITypeScale>(true))scale.Apply();foreach(int n in Enumerable.Range(0,7)){world.hud.navigation.Open(n);yield return new WaitForSecondsRealtime(.2f);var panel=world.hud.navigation.panels[n];Audit(panel,"Large menu "+n);foreach(var tab in panel.GetComponentsInChildren<PixelTabGroup>(true).Where(t=>t.enabled&&t.pages!=null)){for(int i=0;i<tab.pages.Length;i++){tab.Select(i);yield return Frames();Audit(panel,"Large nested "+n+" / "+i);}}if(n==5)for(int i=0;i<3;i++){world.hud.home.Tab(i);yield return Frames();Audit(panel,"Large housing tab "+i);}}
-  while(world.hud.shell.Depth>0)world.hud.shell.Pop();yield return new WaitForSecondsRealtime(.2f);Audit(world.hud.gameObject,"Large world HUD");yield return Use("study-desk");Audit(world.hud.contextPanel,"Large school context");world.hud.CloseContext();yield return new WaitForSecondsRealtime(.2f);
-  Check(world.Travel("workplace"),"World job terminal remains available for inspecting age restrictions");while(world.Busy)yield return null;yield return Use("workdesk");Audit(world.hud.contextPanel,"Large job context");world.hud.CloseContext();yield return new WaitForSecondsRealtime(.2f);
-  Check(world.Travel("home"),"Return home for large birth popup");while(world.Busy)yield return null;g.NewGame();g.clock.realtimeEnabled=false;yield return new WaitForSecondsRealtime(.25f);var birth=world.hud.GetComponent<BirthIntroductionPopup>();Audit(birth.view,"Large birth popup");Check(birth.IsShowing&&!world.CanControl,"New life reopens actual birth popup and blocks movement");Shot("Birth-Large");yield return Frames();birth.begin.onClick.Invoke();yield return new WaitForSecondsRealtime(.2f);
-  Check(GameContext.Instance.transitions.Navigate(SceneId.StockMarket),"Existing stock market scene remains connected to world");while(GameContext.Instance.transitions.IsTransitioning)yield return null;yield return Frames(12);var finance=UnityEngine.Object.FindAnyObjectByType<FinancePresenter>();foreach(var size in new[]{new[]{1280,720},new[]{2400,1080},new[]{1080,1920}}){CommercialSliceVerification.SetSize(size[0],size[1]);yield return Frames(12);for(int page=0;page<4;page++){finance.ShowTab(page);yield return Frames();Audit(finance.marketPanel,"Large market "+page+" / "+size[0]);}foreach(var bar in finance.GetComponentsInChildren<CompactWorldStatusBar>())Audit(bar.gameObject,"Legacy compact status "+size[0]);}finance.marketClose.onClick.Invoke();yield return WaitWorld();Check(g.world.State.zone=="city","Legacy stock market exit returns to actual city world");
-  CommercialSliceVerification.SetSize(1280,720);PlayerPrefs.SetInt("ian.ui.largeText",large);foreach(var scale in world.hud.GetComponentsInChildren<UITypeScale>(true))scale.Apply();yield return Frames();
- }
- IEnumerator Capture(){result.stage="Settled Game View captures";g.world.rules.activityAnimationScale=1;world.Player.Warp(new Vector2(0,-.5f));world.follow.Snap();world.hud.Notify("");yield return new WaitForSecondsRealtime(.4f);Shot("Home-World");yield return Frames();yield return Use("bath-door");world.Player.Warp(world.CurrentZone.origin+new Vector2(0,-1));world.follow.Snap();yield return new WaitForSecondsRealtime(.4f);Shot("Bathroom-World");yield return Frames();yield return Use("bath-exit");yield return Use("front-door");world.Player.Warp(world.CurrentZone.origin+new Vector2(0,0));world.follow.Snap();yield return new WaitForSecondsRealtime(.4f);Shot("Alley-World");yield return Frames();yield return Use("city-path");world.Player.Warp(world.CurrentZone.origin+new Vector2(0,3.4f));world.follow.Snap();g.clock.Restore(g.clock.Day,new TimeSnapshot{subDaySeconds=18*3600,elapsedSeconds=g.clock.ElapsedSeconds});yield return new WaitForSecondsRealtime(.6f);Shot("City-World");yield return Frames();g.clock.Restore(g.clock.Day,new TimeSnapshot{subDaySeconds=23*3600,elapsedSeconds=g.clock.ElapsedSeconds});yield return new WaitForSecondsRealtime(.6f);Shot("City-World-Night");yield return Frames();g.clock.Restore(g.clock.Day,new TimeSnapshot{subDaySeconds=9*3600,elapsedSeconds=g.clock.ElapsedSeconds});yield return Use("office-front");world.Player.Warp(world.CurrentZone.origin+new Vector2(0,-1));world.follow.Snap();yield return new WaitForSecondsRealtime(.4f);Shot("Workspace-World");yield return Frames();yield return Use("workdesk");yield return new WaitForSecondsRealtime(.3f);Shot("Work-Context");yield return Frames();world.hud.CloseContext();yield return new WaitForSecondsRealtime(.2f);yield return Use("work-exit");yield return Use("shop-front");yield return Use("counter");yield return new WaitForSecondsRealtime(.3f);Shot("Shop-Context");yield return Frames();world.hud.CloseContext();yield return new WaitForSecondsRealtime(.2f);world.hud.OpenHousing();yield return new WaitForSecondsRealtime(.3f);Shot("Housing-Furniture");yield return Frames();world.hud.shell.Close(world.hud.home.panel);yield return new WaitForSecondsRealtime(.2f);
-  foreach(var t in world.GetComponentsInChildren<TMP_Text>(true))Check(t.font!=null&&!t.text.Any(c=>!char.IsControl(c)&&!t.font.HasCharacter(c,true,true)),"World sign glyphs complete "+t.name);Check(world.Travel("home"),"Capture returns through connected world home");while(world.Busy)yield return null;CommercialSliceVerification.SetSize(1080,1920);yield return Frames(12);Shot("World-Portrait");yield return Frames();CommercialSliceVerification.SetSize(1280,720);yield return Frames();
- }
- IEnumerator Edge(){result.stage="Stage F recovery and compatibility";g.world.rules.activityAnimationScale=.5f;var bed=world.objects.First(o=>o.id=="bed");world.Player.Warp(bed.Point);yield return Frames();var before=g.CaptureState();Check(world.Begin(bed),"Begin physical sleep for cancellation");yield return Frames(5);Check(world.Busy&&!world.CanControl,"Activity locks movement");world.CancelAction();while(world.Busy)yield return null;yield return Frames();Check(Math.Abs(g.clock.ElapsedSeconds-before.time.elapsedSeconds)<.01&&g.stats.Health==before.stats.energy&&world.CanControl,"Cancel sleep grants no time, health or reward and restores controls");
-  Check(world.Begin(bed),"Begin physical sleep for interrupted-save recovery");yield return Frames(4);string message;Check(g.SaveAutomaticCheckpoint(out message),"Lifecycle-style checkpoint can save a pending visual activity");SaveData pending;Check(g.saves.TryReadAutomatic(out pending,out message)&&pending.world.pendingAction!="","Actual file retains pending activity marker");g.RestoreState(pending);g.clock.realtimeEnabled=false;while(world.Busy)yield return null;yield return Frames();Check(g.world.State.pendingAction==""&&Math.Abs(g.clock.ElapsedSeconds-before.time.elapsedSeconds)<.01&&world.CanControl,"Load cancels unfinished activity without replaying rewards");Check(Vector2.Distance(world.Player.Position,pending.world.position)<.1f,"Interrupted load retains saved safe entry position");
-  var unsafeSave=g.CaptureState();unsafeSave.world.position=new Vector2(-5,2);g.RestoreState(unsafeSave);g.clock.realtimeEnabled=false;yield return Frames();Check(Vector2.Distance(world.Player.Position,new Vector2(-5,2))>.5f,"Saved position inside bed footprint is repaired");var ownBody=world.Player.GetComponent<Rigidbody2D>();Check(!Physics2D.OverlapCircleAll(world.Player.Position,.27f).Any(c=>!c.isTrigger&&c.attachedRigidbody!=ownBody),"Restored player is outside all solid colliders");
-  var legacy=g.CaptureState();string serialized=JsonUtility.ToJson(legacy.world);string json=JsonUtility.ToJson(legacy).Replace("\"world\":"+serialized+",","").Replace(",\"world\":"+serialized,"");Check(!json.Contains("\"world\":"),"Legacy fixture truly omits new world field");File.WriteAllText(g.saves.BasePath,json);SaveData read;Check(g.saves.TryRead(out read,out message)&&read.world==null,"Real old v4 file loads with absent optional world data");g.RestoreState(read);g.clock.realtimeEnabled=false;Check(g.world.State.zone=="home"&&g.world.State.rice==3&&g.economy.Cash==legacy.stats.money,"Legacy defaults preserve existing money and progression");
-  Check(world.Travel("shop"),"Travel to shop for persistence fault test");while(world.Busy)yield return null;yield return Frames();var counter=world.objects.First(o=>o.id=="counter");world.Player.Warp(counter.Point);g.clock.Restore(g.clock.Day,new TimeSnapshot{subDaySeconds=8*3600,elapsedSeconds=g.clock.ElapsedSeconds});var rich=g.CaptureState();rich.stats.money=1000;g.RestoreState(rich);g.clock.realtimeEnabled=false;yield return Frames();string goodSlot=(string)Slot.GetValue(g.saves),badSlot="phase26-io-failure-"+Guid.NewGuid().ToString("N")+".json";Directory.CreateDirectory(Path.Combine(Application.persistentDataPath,Path.GetFileNameWithoutExtension(badSlot)+".autosave.json"));Slot.SetValue(g.saves,badSlot);long cash=g.economy.Cash;int bread=g.world.State.bread;Check(!g.world.PurchaseFood("bread",out message)&&g.economy.Cash==cash&&g.world.State.bread==bread,"Failed real food checkpoint rolls back wallet, receipt and inventory");Slot.SetValue(g.saves,goodSlot);
-  var poor=g.CaptureState();poor.stats.money=0;g.RestoreState(poor);g.clock.realtimeEnabled=false;yield return Frames();Check(!g.world.PurchaseFood("bread",out message)&&g.economy.Cash==0&&g.world.State.bread==bread,"Poor shopper cannot receive food or acquire a negative balance");g.clock.Restore(g.clock.Day,new TimeSnapshot{subDaySeconds=2*3600,elapsedSeconds=g.clock.ElapsedSeconds});Check(!g.world.PurchaseFood("bread",out message),"Closed shop rejects purchase");
-  Check(world.Travel("city"),"Travel to city for day/night and schedules");while(world.Busy)yield return null;g.clock.Restore(g.clock.Day,new TimeSnapshot{subDaySeconds=12*3600,elapsedSeconds=g.clock.ElapsedSeconds});yield return new WaitForSecondsRealtime(.4f);var bench=world.objects.First(o=>o.id=="city-bench");float dayColor=bench.visual.color.r;var colleague=world.objects.First(o=>o.npcId=="colleague");Check(colleague.zone=="workplace","NPC schedule places colleague at workplace at noon");Check(world.lamps.All(l=>!l.enabled),"Daytime emissive windows and lamp glows are off");g.clock.Restore(g.clock.Day,new TimeSnapshot{subDaySeconds=23*3600,elapsedSeconds=g.clock.ElapsedSeconds});yield return new WaitForSecondsRealtime(.4f);Check(bench.visual.color.r<dayColor-.2f&&world.lamps.Any(l=>l.enabled),"Night visibly dims environment and lights windows/lamps");Check(colleague.zone=="alley","Night schedule returns colleague to residential alley");Shot("City-Night");yield return Frames();
-  g.clock.Restore(g.clock.Day,new TimeSnapshot{subDaySeconds=12*3600,elapsedSeconds=g.clock.ElapsedSeconds});double sim=g.clock.ElapsedSeconds,start=Time.realtimeSinceStartupAsDouble;g.clock.realtimeEnabled=true;g.clock.realSecondsPerGameDay=g.world.rules.realSecondsPerGameDay;yield return new WaitForSecondsRealtime(1);g.clock.realtimeEnabled=false;double elapsed=Time.realtimeSinceStartupAsDouble-start,expected=elapsed*86400/g.world.rules.realSecondsPerGameDay;Check(Math.Abs(g.clock.ElapsedSeconds-sim-expected)<expected*.2+5,"Realtime clock runs once at the configured world speed");Shot("City-Day");yield return Frames();
-  var adult=g.CaptureState();adult.progression.age=30;adult.stats.money=20000;adult.phase23.employment.currentJobId="convenience";g.RestoreState(adult);g.clock.realtimeEnabled=false;Check(world.Travel("workplace"),"Travel to workplace for late attendance");while(world.Busy)yield return null;g.clock.Restore(g.clock.Day,new TimeSnapshot{subDaySeconds=19*3600,elapsedSeconds=g.clock.ElapsedSeconds});string reason;Check(!g.CanPerformAction(0,out reason)&&reason.Contains("출근"),"Late arrival cannot claim an immediate shift salary");
-  Check(g.economy.MoveResidence("edge-move","improved"),"Existing paid move model upgrades residence");Check(world.upgradedHome.activeSelf,"Paid upgraded residence enables real extra storage and desk");Check(!g.economy.MoveResidence("edge-repeat","improved"),"Current residence rejects duplicate move payment");
-  world.hud.shell.Push(world.hud.menuPanel);yield return Frames();Check(!world.CanControl,"Detailed menu blocks world movement");world.hud.shell.Pop();yield return new WaitForSecondsRealtime(.2f);Check(world.CanControl,"Closing detailed menu restores world movement");
- }
- void Audit(GameObject root,string label){foreach(var t in root.GetComponentsInChildren<TMP_Text>(false)){t.ForceMeshUpdate();if(t.isTextOverflowing)result.uiIssues.Add(label+" / "+t.name+" / "+t.text);if(t.text.Any(c=>!char.IsControl(c)&&!t.font.HasCharacter(c,true,true)))result.uiIssues.Add(label+" glyph "+t.name);}Flush();}
- void HomeCapture(string name){ScreenCapture.CaptureScreenshot("Docs/Phase26/Screenshots/"+(result.mode=="visual"?"VisualRebuild-":"Urgent-")+name+"-1280x720.png");}
- void Shot(string name){ScreenCapture.CaptureScreenshot("Docs/Phase26/Screenshots/"+(result.mode=="visual"?"VisualRebuild-":ControllerMode?"Recovery-":"")+name+".png");}
-}
+
+namespace IanGame.Editor
+{
+    public sealed class Phase26Verification : MonoBehaviour
+    {
+        // Isolate before GameManager.Start: waiting for MainMenu is too late for
+        // load/offline-progress lifecycle writes. Never load the user's slot in tests.
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+        static void ProtectStartup()
+        {
+            if (string.IsNullOrEmpty(UnityEditor.SessionState.GetString("ian.phase26.pendingTest", "")))
+            {
+                return;
+            }
+
+            UnityEditor.SessionState.SetBool("ian.phase26.protectWrites", true);
+            UnityEngine.SceneManagement.SceneManager.sceneLoaded += IsolateStartup;
+        }
+
+        static void IsolateStartup(
+            UnityEngine.SceneManagement.Scene scene,
+            UnityEngine.SceneManagement.LoadSceneMode mode
+        )
+        {
+            if (scene.name != "Bootstrap")
+            {
+                return;
+            }
+
+            UnityEngine.SceneManagement.SceneManager.sceneLoaded -= IsolateStartup;
+            var context = GameContext.Instance;
+            if (context == null)
+            {
+                return;
+            }
+
+            var game = context.game;
+            typeof(SaveManager)
+                .GetField("fileName", BindingFlags.Instance | BindingFlags.NonPublic)
+                .SetValue(game.saves, "phase26-startup-" + Guid.NewGuid().ToString("N") + ".json");
+            game.autoLoadOnStart = false;
+            game.autoSaveAfterAction = game.autoSaveOnLifecycle = false;
+            game.realtimeLifeEnabled = game.clock.realtimeEnabled = false;
+        }
+
+        [Serializable]
+        class Results
+        {
+            public string mode;
+            public string stage;
+            public string failure;
+            public List<string> passed = new List<string>();
+            public List<string> uiIssues = new List<string>();
+        }
+
+        bool ControllerMode =>
+            result.mode.StartsWith("roomVisual")
+            || result.mode.StartsWith("scene")
+            || result.mode.StartsWith("family")
+            || result.mode.StartsWith("advanced")
+            || result.mode == "masterCapture"
+            || result.mode == "master"
+            || result.mode == "quality"
+            || result.mode == "home"
+            || result.mode == "visual";
+
+        Results result = new Results();
+        GameManager g;
+        LifeWorldController world;
+        SaveData original;
+        string originalSlot;
+        bool auto;
+        bool lifecycle;
+        bool realtime;
+        bool realLife;
+        float animation;
+        float eventChance;
+        InputSettings.BackgroundBehavior background;
+        InputSettings.EditorInputBehaviorInPlayMode editorInput;
+        int large;
+        string consentBefore;
+        bool hadConsent;
+        FieldInfo Slot => typeof(SaveManager).GetField("fileName", BindingFlags.Instance | BindingFlags.NonPublic);
+
+        public void Begin(string mode)
+        {
+            result.mode = mode;
+            DontDestroyOnLoad(gameObject);
+            StartCoroutine(Run());
+        }
+
+        void Check(bool condition, string text)
+        {
+            if (!condition)
+            {
+                throw new Exception(text);
+            }
+
+            result.passed.Add(text);
+            Flush();
+        }
+
+        void Flush()
+        {
+            Directory.CreateDirectory("Docs/Phase26");
+            File.WriteAllText(
+                "Docs/Phase26/" + result.mode.ToUpperInvariant() + "_RESULTS.json",
+                JsonUtility.ToJson(result, true)
+            );
+        }
+
+        IEnumerator Frames(int n = 6)
+        {
+            for (int i = 0; i < n; i++)
+            {
+                yield return null;
+            }
+        }
+
+        IEnumerator WaitWorld()
+        {
+            while (GameContext.Instance.transitions.IsTransitioning)
+            {
+                yield return null;
+            }
+
+            yield return Frames();
+            world = UnityEngine.Object.FindAnyObjectByType<LifeWorldController>();
+            Check(world != null && g.world.Active, "Connected playable LifeWorld is active");
+        }
+
+        void Keys(params Key[] keys)
+        {
+            InputSystem.QueueStateEvent(Keyboard.current, new KeyboardState(keys));
+        }
+
+        string inputFocusEvidence = "";
+
+        IEnumerator Hold(Key key, float seconds)
+        {
+            Keys(key);
+            float until = Time.unscaledTime + seconds;
+            inputFocusEvidence = "";
+            while (Time.unscaledTime < until)
+            {
+                if (
+                    !Application.isFocused
+                    || UnityEditor.EditorWindow.focusedWindow == null
+                    || UnityEditor.EditorWindow.focusedWindow.GetType().Name != "GameView"
+                )
+                {
+                    inputFocusEvidence = " [automation lost application/Game View focus]";
+                }
+
+                yield return null;
+            }
+
+            Keys();
+            yield return Frames();
+        }
+
+        IEnumerator Use(string id)
+        {
+            var o = world.objects.First(x => x.id == id);
+            Check(o.zone == g.world.State.zone, "Object in current zone " + id);
+            world.Player.Warp(ControllerMode ? Reachable(o) : o.Point + Vector2.down * .05f);
+            world.follow.Snap();
+            yield return Frames();
+            Check(world.Nearest == o, "Nearest interaction selected " + id);
+            if (ControllerMode)
+            {
+                Check(world.Use(o), "Controller interaction accepted in reach " + id);
+            }
+            else
+            {
+                Keys(Key.E);
+                yield return Frames(2);
+                Keys();
+            }
+
+            while (world.Busy)
+            {
+                yield return null;
+            }
+
+            yield return new WaitForSecondsRealtime(.2f);
+        }
+
+        IEnumerator ActionChoice(string id, int index)
+        {
+            yield return Use(id);
+            var buttons = world
+                .hud.choices.GetComponentsInChildren<Button>()
+                .Where(b => b.gameObject.activeInHierarchy)
+                .ToArray();
+            Check(index < buttons.Length, "Object exposes contextual choices " + id);
+            buttons[index].onClick.Invoke();
+            while (world.Busy)
+            {
+                yield return null;
+            }
+
+            yield return new WaitForSecondsRealtime(.2f);
+        }
+
+        IEnumerator Run()
+        {
+            hadConsent = PlayerPrefs.HasKey("ian.release.legal.acceptance");
+            consentBefore = PlayerPrefs.GetString("ian.release.legal.acceptance", "");
+            Application.runInBackground = true;
+            g = GameContext.Instance.game;
+            original = g.CaptureState();
+            originalSlot = (string)Slot.GetValue(g.saves);
+            auto = g.autoSaveAfterAction;
+            lifecycle = g.autoSaveOnLifecycle;
+            realtime = g.clock.realtimeEnabled;
+            realLife = g.realtimeLifeEnabled;
+            eventChance = g.balance.eventChance;
+            animation = g.world.rules.activityAnimationScale;
+            large = PlayerPrefs.GetInt("ian.ui.largeText", 0);
+            background = InputSystem.settings.backgroundBehavior;
+            editorInput = InputSystem.settings.editorInputBehaviorInPlayMode;
+            if (!ControllerMode)
+            {
+                InputSystem.settings.backgroundBehavior = InputSettings.BackgroundBehavior.IgnoreFocus;
+                InputSystem.settings.editorInputBehaviorInPlayMode = InputSettings
+                    .EditorInputBehaviorInPlayMode
+                    .AllDeviceInputAlwaysGoesToGameView;
+            }
+
+            Slot.SetValue(g.saves, "phase26-" + Guid.NewGuid().ToString("N") + ".json");
+            g.autoSaveAfterAction = g.autoSaveOnLifecycle = g.realtimeLifeEnabled = g.clock.realtimeEnabled = false;
+            g.balance.eventChance = 0;
+            var stack = new Stack<IEnumerator>();
+            stack.Push(Scenario());
+            while (stack.Count > 0)
+            {
+                bool more = false;
+                object next = null;
+                try
+                {
+                    more = stack.Peek().MoveNext();
+                    if (more)
+                    {
+                        next = stack.Peek().Current;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    result.failure = ex.ToString();
+                    break;
+                }
+
+                if (!more)
+                {
+                    stack.Pop();
+                    continue;
+                }
+
+                if (next is IEnumerator)
+                {
+                    stack.Push((IEnumerator)next);
+                    continue;
+                }
+
+                yield return next;
+            }
+
+            while (stack.Count > 0)
+            {
+                try
+                {
+                    (stack.Pop() as IDisposable)?.Dispose();
+                }
+                catch (Exception ex)
+                {
+                    result.failure += " DISPOSE " + ex;
+                }
+            }
+
+            try
+            {
+                if (!ControllerMode)
+                {
+                    Keys();
+                }
+
+                g.world.rules.activityAnimationScale = animation;
+                g.RestoreState(original);
+                Slot.SetValue(g.saves, originalSlot);
+                g.autoSaveAfterAction = auto;
+                g.autoSaveOnLifecycle = lifecycle;
+                g.realtimeLifeEnabled = realLife;
+                g.clock.realtimeEnabled = realtime;
+                g.balance.eventChance = eventChance;
+                PlayerPrefs.SetInt("ian.ui.largeText", large);
+                InputSystem.settings.backgroundBehavior = background;
+                InputSystem.settings.editorInputBehaviorInPlayMode = editorInput;
+            }
+            catch (Exception ex)
+            {
+                result.failure += " RESTORE " + ex;
+            }
+
+            if (hadConsent)
+            {
+                PlayerPrefs.SetString("ian.release.legal.acceptance", consentBefore);
+            }
+            else
+            {
+                PlayerPrefs.DeleteKey("ian.release.legal.acceptance");
+            }
+
+            PlayerPrefs.Save();
+            result.stage = result.failure == null ? "Completed" : "Failed";
+            Flush();
+            // Test slots are isolated during the scenario. OnApplicationQuit is also sent
+            // when exiting Play: do not let that final lifecycle callback write the user's
+            // original slot after we have restored their model. Serialized flags revert
+            // with Play Mode exit; do not leave a modified gameplay session running.
+            g.autoSaveAfterAction = g.autoSaveOnLifecycle = false;
+            g.realtimeLifeEnabled = g.clock.realtimeEnabled = false;
+            UnityEditor.EditorApplication.delayCall += () => UnityEditor.EditorApplication.isPlaying = false;
+            Destroy(gameObject);
+        }
+
+        IEnumerator Scenario()
+        {
+            if (result.mode == "roomVisualRelease")
+            {
+                yield return ReleaseFoundationVerification.Run(g, Check, Audit);
+                yield break;
+            }
+
+            LegalDocumentService.AcceptRequired();
+            result.stage = "Stage A";
+            g.NewGame();
+            if (!result.mode.StartsWith("scene") && !result.mode.StartsWith("roomVisual"))
+            {
+                GameContext.Instance.transitions.UseLegacyTesting();
+            }
+
+            Check(g.growth.Age == 0 && g.economy.Cash == 0, "New life preserves newborn age and zero cash");
+            Check(
+                GameContext.Instance.transitions.Navigate(SceneId.Home),
+                "Main menu Home routes to connected LifeWorld"
+            );
+            yield return WaitWorld();
+            var birth = UnityEngine.Object.FindAnyObjectByType<BirthIntroductionPopup>();
+            Check(birth != null && birth.IsShowing, "DAY 1 birth introduction remains visible");
+            if (result.mode == "masterCapture")
+            {
+                yield return new WaitForSecondsRealtime(.3f);
+                ScreenCapture.CaptureScreenshot("Docs/Phase26/MasterScreenshots/00-Day1-Birth.png");
+                yield return Frames();
+            }
+
+            if (result.mode.StartsWith("pre28"))
+            {
+                Audit(birth.gameObject, "Birth Korean/layout");
+                System.IO.Directory.CreateDirectory("Docs/PrePhase28/Screenshots");
+                ScreenCapture.CaptureScreenshot("Docs/PrePhase28/Screenshots/Birth.png");
+                yield return Frames();
+            }
+
+            birth.begin.onClick.Invoke();
+            yield return new WaitForSecondsRealtime(.3f);
+            Check(!g.BirthIntroductionPending, "Actual birth confirmation starts world controls");
+            g.clock.realtimeEnabled = false;
+            CommercialSliceVerification.SetSize(1280, 720);
+            yield return Frames();
+            if (result.mode.StartsWith("roomVisual"))
+            {
+                yield return RoomVisualVerification.Run(g, Check, Audit, result.mode);
+                yield break;
+            }
+
+            if (result.mode == "sceneMeal")
+            {
+                yield return SceneArchitectureVerification.Meal(g, Check);
+                yield break;
+            }
+
+            if (result.mode == "sceneCapture")
+            {
+                yield return SceneArchitectureVerification.CaptureRooms(g, Check);
+                yield break;
+            }
+
+            if (result.mode == "sceneFinal")
+            {
+                yield return SceneArchitectureVerification.Final(g, Check, Audit);
+                yield break;
+            }
+
+            if (result.mode == "sceneHousing")
+            {
+                yield return SceneArchitectureVerification.Housing(g, Check, Audit);
+                yield break;
+            }
+
+            if (result.mode == "sceneRegistry")
+            {
+                yield return QACenterVerification.Run(
+                    world,
+                    g,
+                    Check,
+                    Audit,
+                    false,
+                    new[]
+                    {
+                        "scene/catalog",
+                        "scene/migration",
+                        "scene/receipts",
+                        "scene/load",
+                        "core/save",
+                        "family/save",
+                        "family/independence",
+                        "property/trade",
+                        "stocks/up",
+                        "growth/world-access",
+                        "education/study",
+                    }
+                );
+                yield break;
+            }
+
+            if (result.mode.StartsWith("scene"))
+            {
+                yield return SceneArchitectureVerification.Run(g, Check, Audit, result.mode);
+                yield break;
+            }
+
+            if (result.mode == "stageA")
+            {
+                var before = world.Player.Position;
+                yield return Hold(Key.D, .45f);
+                Check(world.Player.Position.x > before.x + .5f, "Actual keyboard D moves rigidbody in world");
+                world.Player.Warp(new Vector2(7.6f, -3));
+                yield return Hold(Key.D, .9f);
+                Check(world.Player.Position.x < 8.6f, "Wall collider stops physical movement");
+                world.Player.Warp(new Vector2(2, -1.4f));
+                yield return Hold(Key.W, .9f);
+                Check(
+                    world.Player.Position.y < .1f,
+                    "Table footprint blocks movement while upper sprite occludes correctly"
+                );
+                world.Player.Warp(new Vector2(0, -2));
+                yield return Frames();
+                var bed = world.objects.First(o => o.id == "bed");
+                Check(!world.Use(bed), "Distant bed cannot be used");
+                Shot("StageA-Home");
+                yield return Frames();
+                yield return Use("front-door");
+                Check(g.world.State.zone == "alley", "E at front door enters residential alley");
+                yield return Use("city-path");
+                Check(g.world.State.zone == "city", "Alley door connects to city");
+                Check(
+                    Vector2.Distance(world.follow.transform.position, world.Player.Position) < 8,
+                    "Camera moves to destination without exposing other zones"
+                );
+                Shot("StageA-City");
+                yield return Frames();
+                yield break;
+            }
+
+            if (result.mode == "familyArchitecture" || result.mode == "familyHousehold")
+            {
+                yield return FamilyArchitectureVerification.Run(
+                    world,
+                    g,
+                    Check,
+                    Audit,
+                    result.mode == "familyHousehold"
+                );
+                yield break;
+            }
+
+            if (
+                result.mode == "familyCheck"
+                || result.mode == "familyActions"
+                || result.mode == "familyInteraction"
+                || result.mode == "familyDoors"
+            )
+            {
+                yield return FamilyLifeVerification.Run(world, g, Check, Audit, result.mode);
+                yield break;
+            }
+
+            if (result.mode == "facilityCompanyShift")
+            {
+                yield return FacilityTerminalVerification.CompanyShift(world, g, Check);
+                yield break;
+            }
+
+            if (result.mode == "facilityClerkExit")
+            {
+                yield return FacilityActorVerification.ClerkExit(world, g, Check);
+                yield break;
+            }
+
+            if (result.mode == "facilityTerminals")
+            {
+                yield return FacilityTerminalVerification.Run(world, g, Check, Audit);
+                yield break;
+            }
+
+            if (result.mode == "facilityActorsRemaining")
+            {
+                yield return FacilityActorVerification.Run(world, g, Check, true);
+                yield break;
+            }
+
+            if (result.mode == "facilityCaptureAfter")
+            {
+                yield return FacilityQualityVerification.Capture(world, g, Check, false);
+                yield break;
+            }
+
+            if (result.mode == "facilityActors")
+            {
+                yield return FacilityActorVerification.Run(world, g, Check);
+                yield break;
+            }
+
+            if (result.mode == "facilityFunctions")
+            {
+                yield return FacilityQualityPlayVerification.Run(world, g, Check, Audit, true);
+                yield break;
+            }
+
+            if (result.mode == "facilityRegistry")
+            {
+                yield return QACenterVerification.Run(
+                    world,
+                    g,
+                    Check,
+                    Audit,
+                    false,
+                    new[]
+                    {
+                        "world/facility-seats",
+                        "world/facility-age",
+                        "world/facility-layout",
+                        "growth/world-access",
+                        "education/study",
+                        "property/trade",
+                        "property/Jeonse",
+                        "property/MonthlyRent",
+                        "stocks/up",
+                        "social/talk",
+                        "equipment/starter",
+                        "core/save",
+                    }
+                );
+                yield break;
+            }
+
+            if (result.mode == "facilityMobile")
+            {
+                g.growth.Restore(new ProgressSnapshot { age = 19 });
+                world.Travel("shop");
+                while (world.Busy)
+                {
+                    yield return null;
+                }
+
+                yield return AdvancedWorldVerification.Mobile(world, g, Check, Audit);
+                yield break;
+            }
+
+            if (result.mode == "facilityCheck")
+            {
+                yield return FacilityQualityPlayVerification.Run(world, g, Check, Audit);
+                yield break;
+            }
+
+            if (result.mode == "facilityCaptureBefore")
+            {
+                yield return FacilityQualityVerification.Capture(world, g, Check, true);
+                yield break;
+            }
+
+            if (result.mode == "pre28SaveGuard")
+            {
+                yield return WorldRecoveryVerification.Safety(world, g, Check);
+                yield break;
+            }
+
+            if (result.mode == "pre28DoorRetest")
+            {
+                yield return CriticalRecoveryVerification.Doors(world, g, Check, "office-bath");
+                yield break;
+            }
+
+            if (result.mode == "pre28World")
+            {
+                g.growth.Restore(new ProgressSnapshot { age = 19 });
+                yield return ResidentLifeVerification.Run(world, g, Check);
+                yield return AdvancedWorldVerification.Mobile(world, g, Check, Audit);
+                yield return PrePhase28Verification.Traffic(world, g, Check);
+                yield break;
+            }
+
+            if (result.mode == "pre28Walking")
+            {
+                yield return PrePhase28WalkingVerification.Run(world, g, Check, Audit);
+                yield break;
+            }
+
+            if (result.mode == "pre28Growth")
+            {
+                yield return QACenterVerification.Run(
+                    world,
+                    g,
+                    Check,
+                    Audit,
+                    false,
+                    new[]
+                    {
+                        "growth/data-boundaries",
+                        "growth/world-access",
+                        "growth/newborn-motor",
+                        "growth/unlocks",
+                        "core/new-life",
+                        "core/save",
+                        "save/version/1",
+                        "save/version/2",
+                        "save/version/3",
+                        "save/version/4",
+                        "preset/walk-before",
+                        "preset/walk-after",
+                    }
+                );
+                yield break;
+            }
+
+            if (result.mode == "pre28UI")
+            {
+                yield return PrePhase28UIAudit.Run(world, g, Check, Audit);
+                yield break;
+            }
+
+            if (result.mode == "pre28FinanceGate")
+            {
+                yield return PrePhase28Verification.FinanceGate(g, Check);
+                yield break;
+            }
+
+            if (result.mode == "pre28Full")
+            {
+                yield return QACenterVerification.Run(world, g, Check, Audit);
+                yield break;
+            }
+
+            if (result.mode == "pre28Failed")
+            {
+                yield return QACenterVerification.Run(world, g, Check, Audit, true);
+                yield break;
+            }
+
+            if (result.mode == "pre28LifeResume")
+            {
+                yield return PrePhase28Verification.Natural(world, g, Check, true);
+                yield break;
+            }
+
+            if (result.mode == "pre28Life")
+            {
+                yield return PrePhase28Verification.Natural(world, g, Check);
+                yield break;
+            }
+
+            if (result.mode == "pre28Birth")
+            {
+                yield return PrePhase28Verification.Birth(world, g, Check);
+                yield break;
+            }
+
+            if (result.mode == "doorEntryCapture")
+            {
+                yield return DoorVisualVerification.Run(world, g, Check, true);
+                yield break;
+            }
+
+            if (result.mode == "doorVisual")
+            {
+                yield return DoorVisualVerification.Run(world, g, Check);
+                yield break;
+            }
+
+            if (result.mode == "criticalVisitors")
+            {
+                yield return CriticalRecoveryVerification.Visitors(world, g, Check);
+                yield break;
+            }
+
+            if (result.mode == "criticalCapture")
+            {
+                yield return CriticalRecoveryVerification.Capture(world, g);
+                yield break;
+            }
+
+            if (result.mode == "criticalDoorCycles")
+            {
+                yield return CriticalRecoveryVerification.Cycles(world, g, Check);
+                yield return CriticalRecoveryVerification.Capture(world, g);
+                yield return AdvancedWorldVerification.Mobile(world, g, Check, Audit);
+                yield break;
+            }
+
+            if (result.mode == "criticalFacilities")
+            {
+                yield return CriticalRecoveryVerification.Facilities(world, g, Check, Audit);
+                yield break;
+            }
+
+            if (result.mode == "criticalGrowth")
+            {
+                yield return CriticalRecoveryVerification.Growth(world, g, Check);
+                yield break;
+            }
+
+            if (result.mode == "criticalDoors")
+            {
+                yield return CriticalRecoveryVerification.Doors(world, g, Check);
+                yield break;
+            }
+
+            if (result.mode == "advancedRecoverySafety")
+            {
+                yield return WorldRecoveryVerification.Safety(world, g, Check);
+                yield break;
+            }
+
+            if (result.mode == "advancedRecoveryPolish")
+            {
+                yield return WorldRecoveryVerification.Polish(world, g, Check, Audit);
+                yield break;
+            }
+
+            if (result.mode == "advancedRecovery")
+            {
+                yield return WorldRecoveryVerification.Run(world, g, Check, Audit);
+                yield break;
+            }
+
+            if (result.mode == "advancedQAFailed")
+            {
+                yield return QACenterVerification.Run(world, g, Check, Audit, true);
+                yield break;
+            }
+
+            if (result.mode == "advancedQA")
+            {
+                yield return QACenterVerification.Run(world, g, Check, Audit);
+                yield break;
+            }
+
+            if (result.mode == "advancedProperty")
+            {
+                yield return PropertyVerification.Run(world, g, Check, Audit);
+                yield break;
+            }
+
+            if (result.mode == "advancedResidentVisual")
+            {
+                yield return ResidentLifeVerification.Visual(world, g, Check);
+                yield break;
+            }
+
+            if (result.mode == "advancedResidents")
+            {
+                yield return ResidentLifeVerification.Run(world, g, Check);
+                yield break;
+            }
+
+            if (result.mode == "advancedMobile")
+            {
+                yield return AdvancedWorldVerification.Mobile(world, g, Check, Audit);
+                yield break;
+            }
+
+            if (result.mode == "advancedDoors")
+            {
+                yield return AdvancedWorldVerification.Doors(world, g, Check);
+                yield break;
+            }
+
+            if (result.mode == "advancedAnimation")
+            {
+                yield return AdvancedWorldVerification.Animation(world, g, Check);
+                yield break;
+            }
+
+            if (result.mode == "masterCapture")
+            {
+                yield return MasterDirectiveVerification.Capture(world, g, Check, Audit);
+                yield break;
+            }
+
+            if (result.mode == "master")
+            {
+                yield return MasterDirectiveVerification.Run(world, g, Check, Audit);
+                yield break;
+            }
+
+            if (result.mode == "home" || result.mode == "visual")
+            {
+                yield return Home();
+            }
+            else if (result.mode == "quality")
+            {
+                yield return Quality();
+            }
+            else if (result.mode == "input")
+            {
+                yield return InputRecovery();
+            }
+            else if (result.mode == "cycle")
+            {
+                yield return Cycle();
+            }
+            else if (result.mode == "edge")
+            {
+                yield return Edge();
+            }
+            else if (result.mode == "integration")
+            {
+                yield return Integration();
+            }
+            else if (result.mode == "capture")
+            {
+                yield return Capture();
+            }
+            else
+            {
+                yield return UI();
+            }
+        }
+
+        Vector2 Reachable(WorldInteractable target)
+        {
+            for (float radius = 0; radius <= 1.21f; radius += .3f)
+            {
+                for (int i = 0; i < 12; i++)
+                {
+                    var p =
+                        target.Point + new Vector2(Mathf.Cos(i * Mathf.PI / 6), Mathf.Sin(i * Mathf.PI / 6)) * radius;
+                    var safe = world.Safe(world.CurrentZone, p - world.CurrentZone.origin);
+                    if (Vector2.Distance(safe, p) < .04f && Vector2.Distance(p, target.Point) <= target.radius)
+                    {
+                        return p;
+                    }
+                }
+            }
+
+            throw new Exception("No clear reachable interaction approach: " + target.id);
+        }
+
+        IEnumerator Home()
+        {
+            result.stage = "Urgent home layout and display camera";
+            Flush();
+            Check(
+                world.follow.target.targetTexture == null
+                    && world.follow.target.enabled
+                    && world.follow.target.targetDisplay == 0,
+                "Existing main camera renders Display 1 without offscreen texture"
+            );
+            Check(
+                Camera.allCameras.Count(c => c.targetTexture == null && c.targetDisplay == 0) == 1,
+                "Exactly one active camera renders the display"
+            );
+            var catalog = g.economy.housingCatalog;
+            var plan = catalog.placementPlan;
+            Check(plan != null, "Housing placement plan is connected to existing economy");
+            foreach (var rule in plan.furniture)
+            {
+                Vector2 p;
+                string why;
+                Check(
+                    plan.Find(rule.id, g.economy.Housing, null, out p, out why),
+                    "Clear accessible placement exists for " + rule.id + " / " + why
+                );
+                Check(
+                    !plan.Validate(rule.id, new Vector2(0, -3.75f), g.economy.Housing, out why),
+                    "Furniture cannot block entrance: " + rule.id
+                );
+            }
+
+            var old = new HousingSnapshot
+            {
+                owned = new List<string> { "bookshelf", "lamp", "chair" },
+                placed = new List<FurniturePlacement>
+                {
+                    new FurniturePlacement { id = "bookshelf", position = new Vector2(-1.5f, -.7f) },
+                    new FurniturePlacement { id = "lamp", position = new Vector2(1.6f, -.7f) },
+                    new FurniturePlacement { id = "chair", position = new Vector2(1, -1) },
+                },
+            };
+            plan.Migrate(old);
+            Check(
+                old.owned.Count == 3 && old.layoutVersion == plan.version,
+                "Legacy layout migrates without losing owned furniture"
+            );
+            foreach (var p in old.placed)
+            {
+                string why;
+                Check(plan.Validate(p.id, p.position * 2, old, out why), "Migrated furniture has safe layout " + p.id);
+            }
+
+            foreach (var id in new[] { "bed", "fridge", "tap-home", "closet", "meal-table", "front-door", "bath-door" })
+            {
+                Check(
+                    Vector2.Distance(
+                        Reachable(world.objects.First(o => o.id == id)),
+                        world.objects.First(o => o.id == id).Point
+                    ) < 1.3f,
+                    "Clear physical approach to " + id
+                );
+            }
+
+            if (UnityEditor.SessionState.GetBool("ian.phase26.homeRoutes", false))
+            {
+                UnityEditor.SessionState.SetBool("ian.phase26.homeRoutes", false);
+                yield return HomeTraversalVerification.Run(world, Check);
+            }
+
+            g.clock.Restore(
+                g.clock.Day,
+                new TimeSnapshot { subDaySeconds = 12 * 3600, elapsedSeconds = g.clock.ElapsedSeconds }
+            );
+            world.Player.Warp(result.mode == "visual" ? new Vector2(1.5f, -1.8f) : new Vector2(0, -1.8f));
+            world.follow.Snap();
+            yield return new WaitForSecondsRealtime(.5f);
+            HomeCapture("Home");
+            yield return Frames();
+            if (UnityEditor.SessionState.GetBool("ian.phase26.homeVisualOnly", false))
+            {
+                UnityEditor.SessionState.SetBool("ian.phase26.homeVisualOnly", false);
+                Audit(world.hud.gameObject, "Direct camera home HUD 1280x720");
+                g.clock.Restore(
+                    g.clock.Day,
+                    new TimeSnapshot { subDaySeconds = 23 * 3600, elapsedSeconds = g.clock.ElapsedSeconds }
+                );
+                yield return new WaitForSecondsRealtime(.4f);
+                Check(
+                    world.roomBackdrops.Where(b => b.floor.enabled).All(b => b.floor.sprite == b.night),
+                    "Visible room windows and backdrops switch to their night sprites"
+                );
+                HomeCapture("Home-Night");
+                yield return Frames();
+                Check(world.Travel("bathroom"), "Separate jade bathroom remains connected");
+                while (world.Busy)
+                {
+                    yield return null;
+                }
+
+                world.Player.Warp(world.Safe(world.CurrentZone, new Vector2(0, -1.6f)));
+                world.follow.Snap();
+                yield return new WaitForSecondsRealtime(.4f);
+                foreach (var id in new[] { "sink", "shower", "toilet", "bath-exit" })
+                {
+                    Check(
+                        Vector2.Distance(
+                            Reachable(world.objects.First(o => o.id == id)),
+                            world.objects.First(o => o.id == id).Point
+                        ) < 1.3f,
+                        "Clear bathroom approach " + id
+                    );
+                }
+
+                HomeCapture("Bathroom");
+                yield return Frames();
+                yield break;
+            }
+
+            yield return Cycle();
+        }
+
+        IEnumerator Quality()
+        {
+            result.stage = "Recovery quality: controller integration, not physical keyboard automation";
+            Flush();
+            Check(
+                world.Player.walkSet != null && world.Player.walkSet.Complete && world.Player.locomotion != null,
+                "Eight-state directional animation is connected in actual scene"
+            );
+            Check(
+                world.follow.target.targetTexture == null
+                    && world.follow.target.enabled
+                    && world.follow.target.targetDisplay == 0,
+                "Existing main camera renders directly to Display 1"
+            );
+            Check(world.Travel("city"), "Travel to authored city");
+            while (world.Busy)
+            {
+                yield return null;
+            }
+
+            world.Player.Warp(world.Safe(world.CurrentZone, new Vector2(0, 1.5f)));
+            world.follow.Snap();
+            g.clock.Restore(
+                g.clock.Day,
+                new TimeSnapshot { subDaySeconds = 12 * 3600, elapsedSeconds = g.clock.ElapsedSeconds }
+            );
+            yield return new WaitForSecondsRealtime(.4f);
+            var street = world.GetComponentInChildren<WorldStreetLife>();
+            Check(
+                street != null && street.pedestrians.Length == 10 && street.vehicles.Length == 4,
+                "Ten background citizens and four vehicles connected"
+            );
+            var start = street.vehicles.Select(v => v.body.position).ToArray();
+            var moved = new bool[start.Length];
+            var signals = new HashSet<Sprite>();
+            var frames = new HashSet<Sprite>();
+            bool stopped = false;
+            float end = Time.unscaledTime + 27;
+            while (Time.unscaledTime < end)
+            {
+                for (int i = 0; i < moved.Length; i++)
+                {
+                    moved[i] |= Vector2.Distance(start[i], street.vehicles[i].body.position) > 1;
+                }
+
+                if (street.signal != null)
+                {
+                    signals.Add(street.signal.sprite);
+                }
+
+                foreach (var person in street.pedestrians)
+                {
+                    if (person.visual.enabled)
+                    {
+                        frames.Add(person.visual.sprite);
+                    }
+                }
+
+                if (!street.VehicleGreen && street.vehicles.Any(v => v.velocity < .01f))
+                {
+                    stopped = true;
+                }
+
+                yield return null;
+            }
+
+            Check(moved.All(x => x), "Every real Rigidbody vehicle moved over a full traffic cycle");
+            Check(signals.Count == 3 && stopped, "Three visible signal states and vehicle waiting observed");
+            Check(frames.Count >= 12, "Citizens visibly advance multiple authored walking frames");
+            Shot("City-Day-Live");
+            yield return Frames();
+            g.clock.Restore(
+                g.clock.Day,
+                new TimeSnapshot { subDaySeconds = 23 * 3600, elapsedSeconds = g.clock.ElapsedSeconds }
+            );
+            yield return new WaitForSecondsRealtime(.4f);
+            Check(
+                street.pedestrians.Count(p => p.visual.enabled) == 3
+                    && street.vehicles.Count(v => v.body.simulated) == 2,
+                "Night reduces actual citizen and vehicle density"
+            );
+            Shot("City-Night-Live");
+            yield return Frames();
+            Check(world.Travel("home"), "Return home after traffic observation");
+            while (world.Busy)
+            {
+                yield return null;
+            }
+
+            yield return new WaitForSecondsRealtime(.4f);
+            Check(
+                world.roomBackdrops.Length > 0 && world.roomBackdrops.All(b => b.floor.sprite == b.night),
+                "Night swaps indoor sky and removes daytime sunbeam"
+            );
+            Shot("Home-Night-Live");
+            yield return Frames();
+            yield return Cycle();
+            result.stage = "Recovery four-resolution UI audit";
+            Flush();
+            yield return UI();
+        }
+
+        IEnumerator InputRecovery()
+        {
+            result.stage = "Injected input integration only — NOT physical keyboard verification";
+            Check(world.Player.controls != null, "Existing scene references persistent WorldControls asset");
+            var map = world.Player.controls.FindActionMap("World", true);
+            Check(
+                map.FindAction("Move").bindings.Count >= 11,
+                "Move includes two keyboard composites and gamepad stick"
+            );
+            var origin = new Vector2(0, -2);
+            float straight = 0;
+            var keys = new[] { Key.W, Key.A, Key.S, Key.D, Key.UpArrow, Key.LeftArrow, Key.DownArrow, Key.RightArrow };
+            var directions = new[]
+            {
+                Vector2.up,
+                Vector2.left,
+                Vector2.down,
+                Vector2.right,
+                Vector2.up,
+                Vector2.left,
+                Vector2.down,
+                Vector2.right,
+            };
+            for (int i = 0; i < keys.Length; i++)
+            {
+                world.Player.Warp(origin);
+                yield return Frames();
+                yield return Hold(keys[i], .35f);
+                var delta = world.Player.Position - origin;
+                Check(
+                    delta.magnitude > .5f && Vector2.Dot(delta.normalized, directions[i]) > .95f,
+                    "Injected "
+                        + keys[i]
+                        + " drives Rigidbody in expected direction; delta="
+                        + delta
+                        + inputFocusEvidence
+                );
+                if (i == 0)
+                {
+                    straight = delta.magnitude;
+                }
+
+                yield return new WaitForSecondsRealtime(.12f);
+                var stop = world.Player.Position;
+                yield return new WaitForSecondsRealtime(.2f);
+                Check(
+                    Vector2.Distance(stop, world.Player.Position) < .02f,
+                    "Injected " + keys[i] + " release stops without drift"
+                );
+            }
+
+            world.Player.Warp(origin);
+            yield return Frames();
+            Keys(Key.W, Key.D);
+            yield return new WaitForSecondsRealtime(.35f);
+            Keys();
+            yield return Frames();
+            Check(
+                Mathf.Abs(Vector2.Distance(origin, world.Player.Position) - straight) < .15f,
+                "Injected diagonal has normalized world speed"
+            );
+            Keys(Key.I);
+            yield return Frames(2);
+            Keys();
+            yield return Frames();
+            Check(
+                world.hud.shell.Top != null && world.hud.shell.Top.name == "InventoryPanel",
+                "Injected I opens existing inventory"
+            );
+            var blocked = world.Player.Position;
+            yield return Hold(Key.D, .3f);
+            Check(Vector2.Distance(blocked, world.Player.Position) < .02f, "Inventory blocks movement");
+            Keys(Key.Escape);
+            yield return Frames(2);
+            Keys();
+            yield return Frames();
+            Check(world.CanControl, "Injected Esc closes inventory and restores control");
+            Keys(Key.Escape);
+            yield return Frames(2);
+            Keys();
+            yield return Frames();
+            Check(
+                g.State == GameState.Paused && world.hud.shell.Depth == 1,
+                "Injected Esc opens exactly one pause menu"
+            );
+            Keys(Key.Escape);
+            yield return Frames(2);
+            Keys();
+            yield return Frames();
+            Check(world.CanControl && g.State == GameState.Playing, "Injected Esc resumes after menu");
+            yield return Use("front-door");
+            Check(g.world.State.zone == "alley", "Injected E enters alley through existing portal");
+            world.Player.Warp(world.CurrentZone.origin + new Vector2(0, -3));
+            yield return Frames();
+            var before = world.Player.Position;
+            yield return Hold(Key.D, .35f);
+            Check(world.Player.Position.x > before.x + .5f, "Injected movement remains enabled after portal");
+        }
+
+        IEnumerator Cycle()
+        {
+            result.stage = "Stage B/C complete day";
+            g.world.rules.activityAnimationScale = ControllerMode ? 1 : .18f;
+            var fixture = g.CaptureState();
+            fixture.progression.age = 30;
+            fixture.stats.money = 5000;
+            fixture.stats.knowledge = 50;
+            fixture.stats.social = 50;
+            fixture.stats.energy = 65;
+            fixture.stats.hunger = 60;
+            fixture.world.fatigue = 65;
+            fixture.world.hygiene = 25;
+            fixture.phase23.employment.currentJobId = "convenience";
+            fixture.time.subDaySeconds = 23 * 3600;
+            g.RestoreState(fixture);
+            g.clock.realtimeEnabled = false;
+            int startDay = g.clock.Day;
+            yield return Use("bed");
+            Check(
+                g.clock.Day == startDay + 1 && g.world.Hour == 7,
+                "Sleep advances eight hours across exactly one day boundary"
+            );
+            Check(g.world.State.fatigue < 15 && world.CanControl, "Wake restores fatigue and player control");
+            yield return Use("bath-door");
+            yield return Use("shower");
+            Check(g.world.State.hygiene > 80, "Physical shower restores hygiene");
+            Shot("Bathroom");
+            yield return Frames();
+            yield return Use("bath-exit");
+            int rice = g.world.State.rice;
+            yield return ActionChoice("fridge", 0);
+            Check(
+                g.world.State.rice == rice - 1 && g.world.State.prepared == "rice",
+                "Fridge choice prepares and consumes one real rice inventory item"
+            );
+            int hunger = g.stats.Hunger;
+            yield return Use("meal-table");
+            Check(
+                g.stats.Hunger > hunger && g.world.State.prepared == "",
+                "Meal consumes prepared food and updates existing hunger stat"
+            );
+            yield return Use("front-door");
+            yield return Use("city-path");
+            yield return Use("shop-front");
+            long money = g.economy.Cash;
+            int bread = g.world.State.bread;
+            yield return ActionChoice("counter", 1);
+            Check(
+                g.economy.Cash == money - g.world.rules.breadPrice && g.world.State.bread == bread + 1,
+                "Actual shop button charges existing wallet and grants food"
+            );
+            world.hud.CloseContext();
+            yield return Frames();
+            yield return Use("furniture-display");
+            var home = world.hud.home;
+            home.buy[2].onClick.Invoke();
+            yield return new WaitForSecondsRealtime(.2f);
+            home.accept.onClick.Invoke();
+            yield return new WaitForSecondsRealtime(.2f);
+            money = g.economy.Cash;
+            home.place[2].onClick.Invoke();
+            yield return new WaitForSecondsRealtime(.2f);
+            Check(
+                g.economy.Housing.owned.Contains("bookshelf") && g.economy.Cash == money,
+                "Purchased furniture ownership and free placement reuse economy"
+            );
+            var furniture = GameObject.Find("Owned furniture / bookshelf");
+            Check(
+                furniture != null
+                    && furniture.GetComponent<Collider2D>() != null
+                    && furniture.GetComponent<WorldInteractable>() != null,
+                "Owned furniture has world collision and interaction"
+            );
+            world.hud.shell.Close(home.panel);
+            yield return new WaitForSecondsRealtime(.2f);
+            yield return Use("shop-exit");
+            yield return Use("city-bench");
+            Check(g.world.Hour == 9, "Morning preparation and rest naturally reach work hours");
+            yield return Use("office-front");
+            long beforeCash = g.economy.Cash;
+            int workCount = g.phase23.Progress.employment.workCount;
+            double seconds = g.clock.ElapsedSeconds;
+            yield return ActionChoice("workdesk", 0);
+            Check(
+                g.economy.Cash == beforeCash + g.phase23.Work.Wage
+                    && g.phase23.Progress.employment.workCount == workCount + 1,
+                "Actual workstation completes existing work record and pays one salary"
+            );
+            Check(
+                Math.Abs(g.clock.ElapsedSeconds - seconds - 8 * 3600) < .01,
+                "Work advances eight hours, not a duplicate day"
+            );
+            string why;
+            Check(!g.CanPerformAction(0, out why), "Second same-day paid shift is refused");
+            var npc = world.objects.First(o => o.npcId == "colleague");
+            world.Player.Warp(npc.Point);
+            yield return Frames();
+            Check(world.Use(npc), "Scheduled colleague can be approached in workplace");
+            yield return new WaitForSecondsRealtime(.2f);
+            int social = g.phase23.Progress.social.history.Count;
+            var choices = world.hud.choices.GetComponentsInChildren<Button>();
+            choices[0].onClick.Invoke();
+            while (world.Busy)
+            {
+                yield return null;
+            }
+
+            yield return Frames();
+            Check(
+                g.phase23.Progress.social.history.Count == social + 1,
+                "World NPC dialogue uses existing social history and affinity"
+            );
+            yield return Use("work-exit");
+            yield return Use("alley-path");
+            yield return Use("house-entrance");
+            for (int i = 0; i < 5; i++)
+            {
+                yield return Use("home-chair");
+            }
+
+            Check(g.world.Hour >= 22, "Free evening activities reach bedtime");
+            int day = g.clock.Day;
+            yield return Use("bed");
+            Check(
+                g.clock.Day == day + 1 && g.world.Hour < 9 && g.world.State.zone == "home",
+                "Complete working day returns home, sleeps and wakes next day"
+            );
+            Check(
+                g.missions.Counter(MissionCounter.Meal) > 0
+                    && g.missions.Counter(MissionCounter.Sleep) > 0
+                    && g.missions.Counter(MissionCounter.Work) > 0,
+                "Existing meal, sleep and work mission counters track world activities"
+            );
+            SaveData saved;
+            string message;
+            Check(
+                g.saves.TryReadAutomatic(out saved, out message)
+                    && saved.world != null
+                    && saved.world.zone == "home"
+                    && saved.world.pendingAction == "",
+                "Actual saved world resumes at home without pending reward"
+            );
+            world.Player.Warp(new Vector2(7, 4));
+            g.RestoreState(saved);
+            g.clock.realtimeEnabled = false;
+            yield return Frames();
+            Check(
+                g.world.State.zone == "home" && Vector2.Distance(world.Player.Position, saved.world.position) < .1f,
+                "Load restores safe physical position and zone"
+            );
+            Shot("Home-After-Day");
+            yield return Frames();
+        }
+
+        IEnumerator UI()
+        {
+            result.stage = "Stage D UI";
+            foreach (
+                var size in new[]
+                {
+                    new[] { 1280, 720 },
+                    new[] { 1920, 1080 },
+                    new[] { 2400, 1080 },
+                    new[] { 1080, 1920 },
+                }
+            )
+            {
+                CommercialSliceVerification.SetSize(size[0], size[1]);
+                yield return Frames(12);
+                Audit(world.hud.gameObject, "HUD " + size[0]);
+                foreach (int n in Enumerable.Range(0, 7))
+                {
+                    world.hud.navigation.Open(n);
+                    yield return new WaitForSecondsRealtime(.2f);
+                    Audit(world.hud.navigation.panels[n], "Menu " + n + " " + size[0]);
+                }
+
+                while (world.hud.shell.Depth > 0)
+                {
+                    world.hud.shell.Pop();
+                }
+
+                yield return Frames();
+                Check(world.CanControl, "Closing all windows restores movement " + size[0]);
+            }
+
+            CommercialSliceVerification.SetSize(1280, 720);
+            yield return Frames();
+            Shot("World-HUD");
+            yield return Frames();
+            var maximum = g.CaptureState();
+            maximum.stats.money = int.MaxValue;
+            maximum.world.fatigue = 100;
+            maximum.day = TimeManager.MaximumDay - 1;
+            maximum.time.subDaySeconds = 23 * 3600 + 59 * 60;
+            g.RestoreState(maximum);
+            g.clock.realtimeEnabled = false;
+            PlayerPrefs.SetInt("ian.ui.largeText", 1);
+            foreach (var scale in world.hud.GetComponentsInChildren<UITypeScale>(true))
+            {
+                scale.Apply();
+            }
+
+            yield return new WaitForSecondsRealtime(.35f);
+            Check(world.hud.cash.text.Contains("2,147"), "Maximum wallet value is actually rendered");
+            Audit(world.hud.gameObject, "Maximum cash/day/needs with large text");
+            Check(world.hud.cash.fontSize > 18, "Large font remains readable at maximum wallet balance");
+        }
+
+        IEnumerator Integration()
+        {
+            result.stage = "Education, large text and legacy market";
+            g.world.rules.activityAnimationScale = .15f;
+            var child = g.CaptureState();
+            child.progression.age = 7;
+            child.stats.money = 1000;
+            child.stats.hunger = 100;
+            child.stats.thirst = 100;
+            child.stats.energy = 100;
+            child.stats.mental = 100;
+            child.stats.stress = 0;
+            foreach (var m in g.missionCatalog.missions.Where(m => m.number <= 10))
+            {
+                child.missions.completedMissionIds.Add(m.Id);
+                child.missions.claimedMissionIds.Add(m.Id);
+            }
+
+            g.RestoreState(child);
+            g.clock.realtimeEnabled = false;
+            string reason;
+            Check(!g.CanPerformAction(0, out reason), "Child growth stage still rejects adult employment");
+            Check(world.Travel("school"), "World school is an existing School activity location");
+            while (world.Busy)
+            {
+                yield return null;
+            }
+
+            double before = g.clock.ElapsedSeconds;
+            yield return ActionChoice("study-desk", 0);
+            Check(
+                g.phase23.Progress.education.currentEducationId == "elementary"
+                    && g.missions.Counter(MissionCounter.SchoolEnrollment) > 0,
+                "Actual school desk enrollment uses existing course, prerequisites and mission"
+            );
+            Check(
+                Math.Abs(g.clock.ElapsedSeconds - before - 3600) < .01,
+                "World enrollment consumes an hour rather than a duplicate day"
+            );
+            int studies = g.phase23.Progress.education.studies,
+                knowledge = g.stats.Knowledge;
+            yield return ActionChoice("study-desk", 6);
+            Check(
+                g.phase23.Progress.education.studies == studies + 1 && g.stats.Knowledge > knowledge,
+                "Actual study increases existing education progress and knowledge"
+            );
+            PlayerPrefs.SetInt("ian.ui.largeText", 1);
+            foreach (var scale in world.hud.GetComponentsInChildren<UITypeScale>(true))
+            {
+                scale.Apply();
+            }
+
+            foreach (int n in Enumerable.Range(0, 7))
+            {
+                world.hud.navigation.Open(n);
+                yield return new WaitForSecondsRealtime(.2f);
+                var panel = world.hud.navigation.panels[n];
+                Audit(panel, "Large menu " + n);
+                foreach (
+                    var tab in panel
+                        .GetComponentsInChildren<PixelTabGroup>(true)
+                        .Where(t => t.enabled && t.pages != null)
+                )
+                {
+                    for (int i = 0; i < tab.pages.Length; i++)
+                    {
+                        tab.Select(i);
+                        yield return Frames();
+                        Audit(panel, "Large nested " + n + " / " + i);
+                    }
+                }
+
+                if (n == 5)
+                {
+                    for (int i = 0; i < 3; i++)
+                    {
+                        world.hud.home.Tab(i);
+                        yield return Frames();
+                        Audit(panel, "Large housing tab " + i);
+                    }
+                }
+            }
+
+            while (world.hud.shell.Depth > 0)
+            {
+                world.hud.shell.Pop();
+            }
+
+            yield return new WaitForSecondsRealtime(.2f);
+            Audit(world.hud.gameObject, "Large world HUD");
+            yield return Use("study-desk");
+            Audit(world.hud.contextPanel, "Large school context");
+            world.hud.CloseContext();
+            yield return new WaitForSecondsRealtime(.2f);
+            Check(world.Travel("workplace"), "World job terminal remains available for inspecting age restrictions");
+            while (world.Busy)
+            {
+                yield return null;
+            }
+
+            yield return Use("workdesk");
+            Audit(world.hud.contextPanel, "Large job context");
+            world.hud.CloseContext();
+            yield return new WaitForSecondsRealtime(.2f);
+            Check(world.Travel("home"), "Return home for large birth popup");
+            while (world.Busy)
+            {
+                yield return null;
+            }
+
+            g.NewGame();
+            g.clock.realtimeEnabled = false;
+            yield return new WaitForSecondsRealtime(.25f);
+            var birth = world.hud.GetComponent<BirthIntroductionPopup>();
+            Audit(birth.view, "Large birth popup");
+            Check(birth.IsShowing && !world.CanControl, "New life reopens actual birth popup and blocks movement");
+            Shot("Birth-Large");
+            yield return Frames();
+            birth.begin.onClick.Invoke();
+            yield return new WaitForSecondsRealtime(.2f);
+            Check(
+                GameContext.Instance.transitions.Navigate(SceneId.StockMarket),
+                "Existing stock market scene remains connected to world"
+            );
+            while (GameContext.Instance.transitions.IsTransitioning)
+            {
+                yield return null;
+            }
+
+            yield return Frames(12);
+            var finance = UnityEngine.Object.FindAnyObjectByType<FinancePresenter>();
+            foreach (var size in new[] { new[] { 1280, 720 }, new[] { 2400, 1080 }, new[] { 1080, 1920 } })
+            {
+                CommercialSliceVerification.SetSize(size[0], size[1]);
+                yield return Frames(12);
+                for (int page = 0; page < 4; page++)
+                {
+                    finance.ShowTab(page);
+                    yield return Frames();
+                    Audit(finance.marketPanel, "Large market " + page + " / " + size[0]);
+                }
+
+                foreach (var bar in finance.GetComponentsInChildren<CompactWorldStatusBar>())
+                {
+                    Audit(bar.gameObject, "Legacy compact status " + size[0]);
+                }
+            }
+
+            finance.marketClose.onClick.Invoke();
+            yield return WaitWorld();
+            Check(g.world.State.zone == "city", "Legacy stock market exit returns to actual city world");
+            CommercialSliceVerification.SetSize(1280, 720);
+            PlayerPrefs.SetInt("ian.ui.largeText", large);
+            foreach (var scale in world.hud.GetComponentsInChildren<UITypeScale>(true))
+            {
+                scale.Apply();
+            }
+
+            yield return Frames();
+        }
+
+        IEnumerator Capture()
+        {
+            result.stage = "Settled Game View captures";
+            g.world.rules.activityAnimationScale = 1;
+            world.Player.Warp(new Vector2(0, -.5f));
+            world.follow.Snap();
+            world.hud.Notify("");
+            yield return new WaitForSecondsRealtime(.4f);
+            Shot("Home-World");
+            yield return Frames();
+            yield return Use("bath-door");
+            world.Player.Warp(world.CurrentZone.origin + new Vector2(0, -1));
+            world.follow.Snap();
+            yield return new WaitForSecondsRealtime(.4f);
+            Shot("Bathroom-World");
+            yield return Frames();
+            yield return Use("bath-exit");
+            yield return Use("front-door");
+            world.Player.Warp(world.CurrentZone.origin + new Vector2(0, 0));
+            world.follow.Snap();
+            yield return new WaitForSecondsRealtime(.4f);
+            Shot("Alley-World");
+            yield return Frames();
+            yield return Use("city-path");
+            world.Player.Warp(world.CurrentZone.origin + new Vector2(0, 3.4f));
+            world.follow.Snap();
+            g.clock.Restore(
+                g.clock.Day,
+                new TimeSnapshot { subDaySeconds = 18 * 3600, elapsedSeconds = g.clock.ElapsedSeconds }
+            );
+            yield return new WaitForSecondsRealtime(.6f);
+            Shot("City-World");
+            yield return Frames();
+            g.clock.Restore(
+                g.clock.Day,
+                new TimeSnapshot { subDaySeconds = 23 * 3600, elapsedSeconds = g.clock.ElapsedSeconds }
+            );
+            yield return new WaitForSecondsRealtime(.6f);
+            Shot("City-World-Night");
+            yield return Frames();
+            g.clock.Restore(
+                g.clock.Day,
+                new TimeSnapshot { subDaySeconds = 9 * 3600, elapsedSeconds = g.clock.ElapsedSeconds }
+            );
+            yield return Use("office-front");
+            world.Player.Warp(world.CurrentZone.origin + new Vector2(0, -1));
+            world.follow.Snap();
+            yield return new WaitForSecondsRealtime(.4f);
+            Shot("Workspace-World");
+            yield return Frames();
+            yield return Use("workdesk");
+            yield return new WaitForSecondsRealtime(.3f);
+            Shot("Work-Context");
+            yield return Frames();
+            world.hud.CloseContext();
+            yield return new WaitForSecondsRealtime(.2f);
+            yield return Use("work-exit");
+            yield return Use("shop-front");
+            yield return Use("counter");
+            yield return new WaitForSecondsRealtime(.3f);
+            Shot("Shop-Context");
+            yield return Frames();
+            world.hud.CloseContext();
+            yield return new WaitForSecondsRealtime(.2f);
+            world.hud.OpenHousing();
+            yield return new WaitForSecondsRealtime(.3f);
+            Shot("Housing-Furniture");
+            yield return Frames();
+            world.hud.shell.Close(world.hud.home.panel);
+            yield return new WaitForSecondsRealtime(.2f);
+            foreach (var t in world.GetComponentsInChildren<TMP_Text>(true))
+            {
+                Check(
+                    t.font != null && !t.text.Any(c => !char.IsControl(c) && !t.font.HasCharacter(c, true, true)),
+                    "World sign glyphs complete " + t.name
+                );
+            }
+
+            Check(world.Travel("home"), "Capture returns through connected world home");
+            while (world.Busy)
+            {
+                yield return null;
+            }
+
+            CommercialSliceVerification.SetSize(1080, 1920);
+            yield return Frames(12);
+            Shot("World-Portrait");
+            yield return Frames();
+            CommercialSliceVerification.SetSize(1280, 720);
+            yield return Frames();
+        }
+
+        IEnumerator Edge()
+        {
+            result.stage = "Stage F recovery and compatibility";
+            g.world.rules.activityAnimationScale = .5f;
+            var bed = world.objects.First(o => o.id == "bed");
+            world.Player.Warp(bed.Point);
+            yield return Frames();
+            var before = g.CaptureState();
+            Check(world.Begin(bed), "Begin physical sleep for cancellation");
+            yield return Frames(5);
+            Check(world.Busy && !world.CanControl, "Activity locks movement");
+            world.CancelAction();
+            while (world.Busy)
+            {
+                yield return null;
+            }
+
+            yield return Frames();
+            Check(
+                Math.Abs(g.clock.ElapsedSeconds - before.time.elapsedSeconds) < .01
+                    && g.stats.Health == before.stats.energy
+                    && world.CanControl,
+                "Cancel sleep grants no time, health or reward and restores controls"
+            );
+            Check(world.Begin(bed), "Begin physical sleep for interrupted-save recovery");
+            yield return Frames(4);
+            string message;
+            Check(
+                g.SaveAutomaticCheckpoint(out message),
+                "Lifecycle-style checkpoint can save a pending visual activity"
+            );
+            SaveData pending;
+            Check(
+                g.saves.TryReadAutomatic(out pending, out message) && pending.world.pendingAction != "",
+                "Actual file retains pending activity marker"
+            );
+            g.RestoreState(pending);
+            g.clock.realtimeEnabled = false;
+            while (world.Busy)
+            {
+                yield return null;
+            }
+
+            yield return Frames();
+            Check(
+                g.world.State.pendingAction == ""
+                    && Math.Abs(g.clock.ElapsedSeconds - before.time.elapsedSeconds) < .01
+                    && world.CanControl,
+                "Load cancels unfinished activity without replaying rewards"
+            );
+            Check(
+                Vector2.Distance(world.Player.Position, pending.world.position) < .1f,
+                "Interrupted load retains saved safe entry position"
+            );
+            var unsafeSave = g.CaptureState();
+            unsafeSave.world.position = new Vector2(-5, 2);
+            g.RestoreState(unsafeSave);
+            g.clock.realtimeEnabled = false;
+            yield return Frames();
+            Check(
+                Vector2.Distance(world.Player.Position, new Vector2(-5, 2)) > .5f,
+                "Saved position inside bed footprint is repaired"
+            );
+            var ownBody = world.Player.GetComponent<Rigidbody2D>();
+            Check(
+                !Physics2D
+                    .OverlapCircleAll(world.Player.Position, .27f)
+                    .Any(c => !c.isTrigger && c.attachedRigidbody != ownBody),
+                "Restored player is outside all solid colliders"
+            );
+            var legacy = g.CaptureState();
+            string serialized = JsonUtility.ToJson(legacy.world);
+            string json = JsonUtility
+                .ToJson(legacy)
+                .Replace("\"world\":" + serialized + ",", "")
+                .Replace(",\"world\":" + serialized, "");
+            Check(!json.Contains("\"world\":"), "Legacy fixture truly omits new world field");
+            File.WriteAllText(g.saves.BasePath, json);
+            SaveData read;
+            Check(
+                g.saves.TryRead(out read, out message) && read.world == null,
+                "Real old v4 file loads with absent optional world data"
+            );
+            g.RestoreState(read);
+            g.clock.realtimeEnabled = false;
+            Check(
+                g.world.State.zone == "home" && g.world.State.rice == 3 && g.economy.Cash == legacy.stats.money,
+                "Legacy defaults preserve existing money and progression"
+            );
+            Check(world.Travel("shop"), "Travel to shop for persistence fault test");
+            while (world.Busy)
+            {
+                yield return null;
+            }
+
+            yield return Frames();
+            var counter = world.objects.First(o => o.id == "counter");
+            world.Player.Warp(counter.Point);
+            g.clock.Restore(
+                g.clock.Day,
+                new TimeSnapshot { subDaySeconds = 8 * 3600, elapsedSeconds = g.clock.ElapsedSeconds }
+            );
+            var rich = g.CaptureState();
+            rich.stats.money = 1000;
+            g.RestoreState(rich);
+            g.clock.realtimeEnabled = false;
+            yield return Frames();
+            string goodSlot = (string)Slot.GetValue(g.saves),
+                badSlot = "phase26-io-failure-" + Guid.NewGuid().ToString("N") + ".json";
+            Directory.CreateDirectory(
+                Path.Combine(
+                    Application.persistentDataPath,
+                    Path.GetFileNameWithoutExtension(badSlot) + ".autosave.json"
+                )
+            );
+            Slot.SetValue(g.saves, badSlot);
+            long cash = g.economy.Cash;
+            int bread = g.world.State.bread;
+            Check(
+                !g.world.PurchaseFood("bread", out message) && g.economy.Cash == cash && g.world.State.bread == bread,
+                "Failed real food checkpoint rolls back wallet, receipt and inventory"
+            );
+            Slot.SetValue(g.saves, goodSlot);
+            var poor = g.CaptureState();
+            poor.stats.money = 0;
+            g.RestoreState(poor);
+            g.clock.realtimeEnabled = false;
+            yield return Frames();
+            Check(
+                !g.world.PurchaseFood("bread", out message) && g.economy.Cash == 0 && g.world.State.bread == bread,
+                "Poor shopper cannot receive food or acquire a negative balance"
+            );
+            g.clock.Restore(
+                g.clock.Day,
+                new TimeSnapshot { subDaySeconds = 2 * 3600, elapsedSeconds = g.clock.ElapsedSeconds }
+            );
+            Check(!g.world.PurchaseFood("bread", out message), "Closed shop rejects purchase");
+            Check(world.Travel("city"), "Travel to city for day/night and schedules");
+            while (world.Busy)
+            {
+                yield return null;
+            }
+
+            g.clock.Restore(
+                g.clock.Day,
+                new TimeSnapshot { subDaySeconds = 12 * 3600, elapsedSeconds = g.clock.ElapsedSeconds }
+            );
+            yield return new WaitForSecondsRealtime(.4f);
+            var bench = world.objects.First(o => o.id == "city-bench");
+            float dayColor = bench.visual.color.r;
+            var colleague = world.objects.First(o => o.npcId == "colleague");
+            Check(colleague.zone == "workplace", "NPC schedule places colleague at workplace at noon");
+            Check(world.lamps.All(l => !l.enabled), "Daytime emissive windows and lamp glows are off");
+            g.clock.Restore(
+                g.clock.Day,
+                new TimeSnapshot { subDaySeconds = 23 * 3600, elapsedSeconds = g.clock.ElapsedSeconds }
+            );
+            yield return new WaitForSecondsRealtime(.4f);
+            Check(
+                bench.visual.color.r < dayColor - .2f && world.lamps.Any(l => l.enabled),
+                "Night visibly dims environment and lights windows/lamps"
+            );
+            Check(colleague.zone == "alley", "Night schedule returns colleague to residential alley");
+            Shot("City-Night");
+            yield return Frames();
+            g.clock.Restore(
+                g.clock.Day,
+                new TimeSnapshot { subDaySeconds = 12 * 3600, elapsedSeconds = g.clock.ElapsedSeconds }
+            );
+            double sim = g.clock.ElapsedSeconds,
+                start = Time.realtimeSinceStartupAsDouble;
+            g.clock.realtimeEnabled = true;
+            g.clock.realSecondsPerGameDay = g.world.rules.realSecondsPerGameDay;
+            yield return new WaitForSecondsRealtime(1);
+            g.clock.realtimeEnabled = false;
+            double elapsed = Time.realtimeSinceStartupAsDouble - start,
+                expected = elapsed * 86400 / g.world.rules.realSecondsPerGameDay;
+            Check(
+                Math.Abs(g.clock.ElapsedSeconds - sim - expected) < expected * .2 + 5,
+                "Realtime clock runs once at the configured world speed"
+            );
+            Shot("City-Day");
+            yield return Frames();
+            var adult = g.CaptureState();
+            adult.progression.age = 30;
+            adult.stats.money = 20000;
+            adult.phase23.employment.currentJobId = "convenience";
+            g.RestoreState(adult);
+            g.clock.realtimeEnabled = false;
+            Check(world.Travel("workplace"), "Travel to workplace for late attendance");
+            while (world.Busy)
+            {
+                yield return null;
+            }
+
+            g.clock.Restore(
+                g.clock.Day,
+                new TimeSnapshot { subDaySeconds = 19 * 3600, elapsedSeconds = g.clock.ElapsedSeconds }
+            );
+            string reason;
+            Check(
+                !g.CanPerformAction(0, out reason) && reason.Contains("출근"),
+                "Late arrival cannot claim an immediate shift salary"
+            );
+            Check(g.economy.MoveResidence("edge-move", "improved"), "Existing paid move model upgrades residence");
+            Check(world.upgradedHome.activeSelf, "Paid upgraded residence enables real extra storage and desk");
+            Check(
+                !g.economy.MoveResidence("edge-repeat", "improved"),
+                "Current residence rejects duplicate move payment"
+            );
+            world.hud.shell.Push(world.hud.menuPanel);
+            yield return Frames();
+            Check(!world.CanControl, "Detailed menu blocks world movement");
+            world.hud.shell.Pop();
+            yield return new WaitForSecondsRealtime(.2f);
+            Check(world.CanControl, "Closing detailed menu restores world movement");
+        }
+
+        void Audit(GameObject root, string label)
+        {
+            foreach (var t in root.GetComponentsInChildren<TMP_Text>(false))
+            {
+                t.ForceMeshUpdate();
+                if (t.isTextOverflowing)
+                {
+                    result.uiIssues.Add(label + " / " + t.name + " / " + t.text);
+                }
+
+                if (t.text.Any(c => !char.IsControl(c) && !t.font.HasCharacter(c, true, true)))
+                {
+                    result.uiIssues.Add(label + " glyph " + t.name);
+                }
+            }
+
+            Flush();
+        }
+
+        void HomeCapture(string name)
+        {
+            ScreenCapture.CaptureScreenshot(
+                "Docs/Phase26/Screenshots/"
+                    + (result.mode == "visual" ? "VisualRebuild-" : "Urgent-")
+                    + name
+                    + "-1280x720.png"
+            );
+        }
+
+        void Shot(string name)
+        {
+            ScreenCapture.CaptureScreenshot(
+                "Docs/Phase26/Screenshots/"
+                    + (
+                        result.mode == "visual" ? "VisualRebuild-"
+                        : ControllerMode ? "Recovery-"
+                        : ""
+                    )
+                    + name
+                    + ".png"
+            );
+        }
+    }
 }
 #endif

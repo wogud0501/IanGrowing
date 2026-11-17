@@ -1,0 +1,2001 @@
+{
+  "baseline": "deaa974",
+  "configurations": [
+    "none",
+    "UNITY_EDITOR",
+    "DEVELOPMENT_BUILD",
+    "UNITY_EDITOR_WIN",
+    "all other combinations of these three symbols"
+  ],
+  "configurationCount": 8,
+  "fileCount": 331,
+  "allPassed": true,
+  "checks": [
+    {
+      "path": "Assets/_Game/Scripts/ActionSystem.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/ActivityCatalog.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/ActivityData.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/ActorAnimationSet.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/BirthIntroductionPopup.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/BirthPopupSafeArea.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/BootstrapEntry.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Character2DPresentation.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Character2DVisuals.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/CharacterIdentity.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/CharacterPortraitView.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/CharacterPresentation.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/CityLifeHUD.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/CityLifeQAScenarios.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/CityLifeService.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/CollectionQAScenarios.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/CollectionUI.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/CollectionVisualTheme.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/CombatService.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Commercial/AudioTransitionService.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Commercial/CommercialHUD.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Commercial/EnvironmentSpriteLibrary.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Commercial/LayeredLocationPresentation.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Commercial/PixelViewportMatte.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Commercial/RoomAtmosphere.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Commercial/SceneEntryPoint.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Commercial/SceneExitPoint.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Commercial/SceneLoadingService.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Commercial/SpriteMotionLibrary.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Commercial/SpriteMotionPlayer.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Commercial/TransitionController.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Commercial/TransitionOverlay.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Commercial/TransitionProfile.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Commercial/WorkplaceThemePresenter.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Commercial/WorkplaceVisualTheme.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/CompactWorldStatusBar.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/DebugCommandService.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/DeveloperInputLock.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/DeveloperQACenter.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Development/AddendumVisualVerification.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Development/AdvancedWorldVerification.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Development/BirthAndFontVerification.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Development/CommercialSliceVerification.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Development/CriticalRecoveryVerification.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Development/DoorVisualVerification.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Development/FacilityActorVerification.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Development/FacilityQualityPlayVerification.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Development/FacilityQualityVerification.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Development/FacilityTerminalVerification.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Development/FamilyArchitectureVerification.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Development/FamilyLifeVerification.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Development/FinalIntegrationVerification.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Development/GrowthVerification.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Development/HomeTraversalVerification.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Development/MasterDirectiveVerification.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Development/Phase22Runner.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Development/Phase22Verification.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Development/Phase23Runner.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Development/Phase24Verification.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Development/Phase256Verification.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Development/Phase25Verification.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Development/Phase26Verification.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Development/Phase28Verification.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Development/Phase29Verification.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Development/Phase30Verification.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Development/Phase31ExtendedVerification.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Development/Phase31Verification.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Development/PixelUIRunner.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Development/PrePhase28UIAudit.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Development/PrePhase28Verification.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Development/PrePhase28WalkingVerification.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Development/PropertyVerification.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Development/QACenterVerification.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Development/ReleaseFoundationVerification.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Development/ResidentLifeVerification.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Development/RoomVisualVerification.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Development/SceneArchitectureVerification.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Development/WorldRecoveryVerification.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/DoorSpriteGeometryData.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/EconomyFinance.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/EconomyHousing.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/EconomyProperty.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/EconomyRules.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/EconomySystem.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Editor/AdvancedDoorSetup.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Editor/AdvancedLifeSetup.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Editor/AdvancedMobileSetup.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Editor/AdvancedNPCSetup.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Editor/AdvancedOverhaulSetup.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Editor/BathroomArtReconstruction.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Editor/BuildValidationContext.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Editor/CollectionIconBuilder.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Editor/Commercial/CommercialAtlasPrebuild.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Editor/Commercial/CommercialSliceBuilder.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Editor/Commercial/CommercialSlicePolish.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Editor/Commercial/MultiLocationVisualBuilder.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Editor/Commercial/PixelFontSystemBuilder.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Editor/ConvertTo2D.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Editor/CriticalFacilitySetup.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Editor/DeveloperQAMenu.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Editor/DoorSpriteGeometry.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Editor/DoorVisualAudit.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Editor/FacilityStandardizationSetup.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Editor/FamilyArchitectureSetup.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Editor/FamilyLifeSetup.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Editor/GrowthVisualSetup.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Editor/IndieUIBuilder.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Editor/LifeWorldArtBuilder.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Editor/LifeWorldBuilder.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Editor/MasterHomeSetup.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Editor/MissionDataBuilder.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Editor/MissionDataInspector.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Editor/MissionUIBuilder.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Editor/MultiSceneBuilder.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Editor/Phase23Builder.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Editor/Phase24Builder.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Editor/Phase24PlayerBuild.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Editor/Phase256Builder.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Editor/Phase25Builder.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Editor/Phase25CoreVerification.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Editor/Phase26ArtSetup.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Editor/Phase26AudioSetup.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Editor/Phase26EditorBridge.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Editor/Phase26HomeSetup.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Editor/Phase26InputSetup.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Editor/Phase26InputTrace.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Editor/Phase26NativeInputProbe.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Editor/Phase26VisualRebuild.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Editor/Phase26WalkSetup.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Editor/Phase27Builder.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Editor/Phase28Setup.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Editor/Phase29Setup.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Editor/Phase2Verification.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Editor/Phase30Setup.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Editor/Phase31Atlas.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Editor/Phase31Setup.Production.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Editor/Phase31Setup.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Editor/PixelAssetBuilder.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Editor/PixelUIBuilder.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Editor/PixelUIEditorTools.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Editor/PixelUIFontBuilder.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Editor/PixelUIRefinements.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Editor/PrototypeBuilder.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Editor/PrototypeVerification.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Editor/QATestFrameworkProtection.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Editor/ReadabilityAndBirthBuilder.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Editor/ReleaseFoundationSetup.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Editor/ResidentialRoomLayout.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Editor/RoomPlatformBuild.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Editor/RoomVisualSetup.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Editor/SaveCheckpointVerification.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Editor/Scene3DBuilder.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Editor/SceneArchitectureBuilder.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Editor/SceneArchitectureExport.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Editor/Stage1Verification.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Editor/WindowsBuildValidationVerification.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Editor/WorldQualityRecoverySetup.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Editor/WorldRecoveryBuildCheck.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/EducationData.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/EducationProgress.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/EducationService.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/EnemyData.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/EventManager.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/FacilityQualityScenarios.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/FamilyHomeArchitecturePlan.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/FamilyHomeRuntime.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/FamilyLife.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/FamilyQAScenarios.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/FamilySharedDiningPresentation.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/FinanceData.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/FinancePresenter.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/GachaService.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/GameBalance.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/GameContext.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/GameManager.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/GameplaySceneBindings.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/GrowthAccess.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/GrowthBedPresentation.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/GrowthPresentationEffects.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/GrowthQAScenarios.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/GrowthVisualCatalog.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/HomeEnvironmentPresenter.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/HomeLayoutPlan.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/HomeManagementPresenter.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/HousingCatalog.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/IdleActivityPresenter.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/IdleActivityService.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/IdleActivitySettings.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/IdleProgressData.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/IndieHUD.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/IndieUITheme.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/IndoorCameraSettings.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/InitialLifeSettings.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/InteriorSurround.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/ItemAchievementDefinitions.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/ItemAppearanceController.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/ItemCatalog.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/ItemProgressSnapshot.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/ItemService.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/JobData.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/JobService.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/LifeEventCatalog.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/LifeProgression.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/LifeStageService.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/LifeWorldController.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/LifeWorldRules.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/LifeWorldService.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/LocationPresenter.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/MainMenuPresenter.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/MissionCatalog.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/MissionCatalogValidator.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/MissionConditionEvaluator.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/MissionData.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/MissionGrowthDefinition.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/MissionGuidance.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/MissionProgress.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/MissionRewardService.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/MissionRowView.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/MissionService.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/MissionUI.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/NPCCrowdSpace.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Phase23Catalog.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Phase23Presenter.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Phase23Services.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/PixelButton.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/PixelButtonTextFlow.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/PixelCanvasScale.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/PixelControlFeedback.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/PixelFocusScroll.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/PixelHomePresenter.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/PixelMenuLayout.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/PixelNavigationButton.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/PixelNotificationLayout.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/PixelProgressBar.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/PixelStockChart.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/PixelTabGroup.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/PixelTextFlow.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/PixelTooltip.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/PixelUITheme.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/PixelWindowPalette.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/PlayerAnimationPresentation.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/PlayerControlLocks.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/PlayerGrowthVisual.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/PlayerStats.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/PolishedNavigation.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/PrePhase28RiskScenarios.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/PrePhase28Scenarios.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/PresentationFeedback.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/PropertyActionDock.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/PropertyCatalog.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/PropertyDetailsLayout.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/PropertyPresenter.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/PropertyUIFlow.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/RelationshipData.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Release/GachaProbabilityDisclosure.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Release/LegalDocumentService.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Release/PurchaseService.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Release/ReleaseConfig.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Release/ReleaseUI.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/Release/RubyWallet.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/ResidenceAccess.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/ResidentPersonalSpace.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/ResidentialEntrancePresentation.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/RoomEntryPoint.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/RoomQAScenarios.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/RoomResidentState.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/RoomSceneCatalog.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/RoomSceneIdentity.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/RoomSceneTransitions.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/SaveManager.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/SceneCatalog.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/SceneScopedResidents.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/SceneTransitionService.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/SceneVisualPresentation.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/SceneVisualProfile.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/SchoolActivityData.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/ShowerBoothVisual.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/SocialActivityData.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/SocialService.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/StarterHomePresentation.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/StatusEffectDefinition.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/StatusEffectSystem.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/SurvivalSettings.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/SurvivalSystem.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/TestSaveSandbox.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/TestScenarioRegistry.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/TestScenarioRunner.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/TimeManager.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/UIAccentGraphic.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/UIAdaptiveLayout.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/UIButtonFeel.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/UICommand.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/UIManager.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/UINavigationService.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/UIResponsiveGrid.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/UIResponsiveHUD.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/UISafeLayout.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/UIShell.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/UITypeScale.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/WorldActivitySlot.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/WorldActorAnimation.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/WorldCameraController.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/WorldDoor.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/WorldDoorLeafVisual.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/WorldDoorStyle.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/WorldFacilityActivityPresentation.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/WorldFacilityInformation.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/WorldFurniturePlacement.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/WorldHUD.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/WorldHUDLayout.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/WorldInteractable.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/WorldLifeAction.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/WorldLifeAudio.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/WorldMobileHUD.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/WorldNPCNavigation.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/WorldNPCScheduler.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/WorldPixelViewport.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/WorldPlayerMotor.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/WorldRecoveryChecks.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/WorldRoomBackdrop.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/WorldStreetLife.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/WorldTransitionDirector.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/WorldUIRecoveryTheme.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/WorldVisualCatalog.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/WorldWalkSet.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Scripts/WorldWorkstationPresentation.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Tests/EditorTools/GrowthFrameworkRunner.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Tests/PlayMode/CityLifeRulesTests.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Tests/PlayMode/CollectionRulesTests.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Tests/PlayMode/DeveloperQASandboxTests.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    },
+    {
+      "path": "Assets/_Game/Tests/PlayMode/GrowthVisualCatalogTests.cs",
+      "configurations": 8,
+      "passed": true,
+      "errors": []
+    }
+  ]
+}

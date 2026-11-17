@@ -5,40 +5,688 @@ using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-namespace IanGame.Editor {
-public static class Phase29Verification {
- public static IEnumerator Run(GameManager g,Action<bool,string> check,Action<GameObject,string> audit,string mode){if(mode=="roomVisualItemsScroll"){yield return Scroll(g,check,audit);yield break;}if(mode=="roomVisualItemsFailureUI"){yield return FailureUI(g,check);yield break;}if(mode=="roomVisualItemsMobile"){g.growth.Restore(new ProgressSnapshot{age=19});g.clock.realtimeEnabled=false;var t=GameContext.Instance.transitions;check(t.NavigateRoom("family-living",t.roomCatalog.rules.Zone("family-living").spawn,Vector2.down),"Mobile room fixture");while(t.IsTransitioning)yield return null;yield return new WaitForSecondsRealtime(.3f);yield return AdvancedWorldVerification.Mobile(W,g,check,audit);yield break;}if(mode=="roomVisualItemsRegistry"){yield return Registry(g,check);yield break;}if(mode=="roomVisualItemsUI"){yield return UI(g,check,audit);yield break;}yield return Core(g,check);}
- static IEnumerator Scroll(GameManager g,Action<bool,string> check,Action<GameObject,string> audit){g.growth.Restore(new ProgressSnapshot{age=19});g.clock.realtimeEnabled=false;var ui=W.hud.GetComponent<CollectionUI>();ui.OpenGacha();yield return new WaitForSecondsRealtime(.2f);check(!B(ui.GachaPanel,"Pull one").interactable&&B(ui.GachaPanel,"Pull one").GetComponentInChildren<TMPro.TMP_Text>().text.Contains("100G")&&B(ui.GachaPanel,"Pull ten").GetComponentInChildren<TMPro.TMP_Text>().text.Contains("1000G"),"Insufficient funds disables pulls while retaining actual quoted prices");ui.OpenProbabilities();yield return new WaitForSecondsRealtime(.2f);var scroll=ui.ProbabilityPanel.GetComponentInChildren<UnityEngine.UI.ScrollRect>();var pointer=new UnityEngine.EventSystems.PointerEventData(UnityEngine.EventSystems.EventSystem.current){position=RectTransformUtility.WorldToScreenPoint(null,scroll.viewport.TransformPoint(scroll.viewport.rect.center)),scrollDelta=new Vector2(0,-8)};var hits=new List<UnityEngine.EventSystems.RaycastResult>();UnityEngine.EventSystems.EventSystem.current.RaycastAll(pointer,hits);var hit=hits.FirstOrDefault();check(hit.gameObject!=null&&hit.gameObject.GetComponentInParent<UnityEngine.UI.ScrollRect>()==scroll,"Real GraphicRaycaster routes probability viewport input to ScrollRect");float before=scroll.verticalNormalizedPosition;UnityEngine.EventSystems.ExecuteEvents.ExecuteHierarchy(hit.gameObject,pointer,UnityEngine.EventSystems.ExecuteEvents.scrollHandler);yield return new WaitForSecondsRealtime(.1f);check(scroll.verticalNormalizedPosition<before,"Synthetic wheel event follows actual hierarchy and scrolls long probabilities");audit(ui.ProbabilityPanel,"Scrolled probability text");yield return Shot("Probabilities-Scrolled");W.hud.shell.Close(ui.ProbabilityPanel);W.hud.shell.Close(ui.GachaPanel);yield return new WaitForSecondsRealtime(.2f);check(W.CanControl,"Scrolled screens close and restore world input");}
- static IEnumerator FailureUI(GameManager g,Action<bool,string> check){g.growth.Restore(new ProgressSnapshot{age=19});g.clock.realtimeEnabled=false;var stats=g.stats.Capture();stats.money=1000;g.stats.Restore(stats);var ui=W.hud.GetComponent<CollectionUI>();ui.OpenGacha();yield return new WaitForSecondsRealtime(.2f);var prior=g.items.Capture();long cash=g.economy.Cash;var channel=g.saves.EnterTestingChannel("qa-phase29-ui-failure.json");string path=g.saves.AutomaticSavePath;Directory.CreateDirectory(path);try{ui.Pull(1,false);yield return new WaitForSecondsRealtime(.3f);check(JsonUtility.ToJson(g.items.Capture())==JsonUtility.ToJson(prior)&&g.economy.Cash==cash,"UI failed save rolls back real currency, inventory and pity");check(W.hud.shell.Top==ui.GachaPanel&&ui.GachaPanel.GetComponentsInChildren<TMPro.TMP_Text>().Any(t=>t.text.Contains("저장하지 못해"))&&!ui.Revealing,"Gacha screen retains clear failed-save explanation without revealing uncommitted items");yield return Shot("Save-Failure-Recovered");W.hud.shell.Close(ui.GachaPanel);yield return new WaitForSecondsRealtime(.2f);check(W.CanControl,"Closing failed-save screen restores world control");}finally{Directory.Delete(path);g.saves.RestoreTestingChannel(channel);if(File.Exists(path+".tmp"))File.Delete(path+".tmp");}}
- static IEnumerator Registry(GameManager g,Action<bool,string> check){var qa=DeveloperQACenter.Ensure();qa.Open();yield return null;check(qa.Visible&&qa.Sandbox.Active,"Actual QA sandbox opens");var scenarios=qa.Registry.Scenarios.Where(s=>s.id.StartsWith("items/")||s.id=="gacha/draw"||s.id=="equipment/starter").ToArray();check(scenarios.Length==6,"New and legacy equipment scenarios registered");qa.Run(scenarios);float end=Time.unscaledTime+90;while(qa.Runner.Running&&Time.unscaledTime<end)yield return null;check(!qa.Runner.Running,"Item QA scenarios finish");foreach(var s in scenarios){var r=qa.Reporter.Get(s);check(r.status==QAStatus.PASS,s.id+": "+r.reason);}check(qa.Sandbox.VerifyFiles(),"QA scenarios preserve production files");File.Copy("Docs/DeveloperQA/LATEST_RESULTS.json","Docs/Phase29/QA_REGISTRY_RESULTS.json",true);yield return qa.CloseAndRestore();}
- static LifeWorldController W=>GameContext.Instance.game.world.Host;
- static IEnumerator Shot(string name){Directory.CreateDirectory("Docs/Phase29/Screenshots");W.hud.Notify("",0);yield return new WaitForEndOfFrame();ScreenCapture.CaptureScreenshot("Docs/Phase29/Screenshots/"+name+".png");yield return null;}
- static UnityEngine.UI.Button B(GameObject p,string name)=>p.GetComponentsInChildren<UnityEngine.UI.Button>(true).First(b=>b.name==name);
- static IEnumerator UI(GameManager g,Action<bool,string> check,Action<GameObject,string> audit){g.clock.realtimeEnabled=false;var ui=W.hud.GetComponent<CollectionUI>();check(ui!=null,"Existing room HUD has collection adapter");ui.OpenInventory();yield return new WaitForSecondsRealtime(.2f);check(W.hud.shell.Top==ui.InventoryPanel&&!B(ui.InventoryPanel,"Section 2").gameObject.activeSelf,"Newborn inventory explains lock; gacha navigation hidden");W.hud.shell.Close(ui.InventoryPanel);g.growth.Restore(new ProgressSnapshot{age=19});var funded=g.stats.Capture();funded.money=5000;funded.mental=45;funded.stress=55;g.stats.Restore(funded);foreach(var row in new[]{new[]{"starter-headphones","2"},new[]{"starter-equipment","1"},new[]{"drink-water","2"},new[]{"desk-charm","1"},new[]{"costume-daily","1"}})check(g.items.DebugGive(row[0],int.Parse(row[1])),"Isolated inventory UI fixture "+row[0]);
- ui.OpenGacha();yield return new WaitForSecondsRealtime(.2f);check(W.hud.shell.Top==ui.GachaPanel&&!W.CanControl,"Gacha owns existing input stack");g.items.Gacha.SetTestRoll(()=>.65);long before=g.economy.Cash;ui.Pull(1,false);check(ui.Revealing&&g.items.Gacha.Progress("life-collection").total==1&&g.economy.Cash==before-100,"Actual UI one-pull commits before reveal");ui.Pull(10,false);check(g.items.Gacha.Progress("life-collection").total==1,"Rapid input during reveal cannot start a second request");yield return new WaitForSecondsRealtime(.4f);check(ui.VisibleResults==1,"Actual reveal coroutine shows committed item");yield return Shot("Gacha-One");B(ui.ResultPanel,"Results inventory").onClick.Invoke();yield return new WaitForSecondsRealtime(.2f);check(W.hud.shell.Top==ui.InventoryPanel,"Results route to actual inventory screen");
- ui.Select("starter-headphones");B(ui.InventoryPanel,"Equip").onClick.Invoke();check(g.items.Equipment.Current(EquipmentSlot.Headphone)=="starter-headphones"&&g.stats.Mental==47,"Inventory button equips actual slot and derived stats");check(!B(ui.InventoryPanel,"Dismantle").interactable,"UI disallows dismantling equipped duplicate");B(ui.InventoryPanel,"Unequip").onClick.Invoke();check(g.stats.Mental==45,"UI unequip restores raw stat without resetting model");B(ui.InventoryPanel,"Dismantle").onClick.Invoke();check(g.items.Inventory.Count("starter-headphones")==1&&g.items.Inventory.Count("collection-scrap")==2,"UI one-duplicate dismantle changes real inventory/material");ui.Select("drink-water");int water=g.items.Inventory.Count("drink-water");B(ui.InventoryPanel,"Use").onClick.Invoke();check(g.items.Inventory.Count("drink-water")==water-1,"Inventory consume button executes model action");
- ui.OpenGacha();yield return new WaitForSecondsRealtime(.2f);ui.Pull(10,false);check(g.items.Gacha.LastBatch.results.Length==10,"Actual UI ten-pull generates exact grid batch");ui.FastReveal();yield return new WaitForSecondsRealtime(.2f);audit(ui.ResultPanel,"Actual ten-result grid");check(ui.VisibleResults==10&&!ui.Revealing,"Fast reveal completes ten cards without reroll");yield return Shot("Gacha-Ten");B(ui.ResultPanel,"Close").onClick.Invoke();yield return new WaitForSecondsRealtime(.2f);audit(ui.GachaPanel,"Gacha desktop");yield return Shot("Gacha");ui.OpenProbabilities();yield return new WaitForSecondsRealtime(.2f);check(ui.ProbabilityPanel.GetComponentsInChildren<TMPro.TMP_Text>().Any(t=>t.text.Contains("다음 1회의 확률")),"Probability screen uses base and effective-next pool data");audit(ui.ProbabilityPanel,"Probabilities");yield return Shot("Probabilities");W.hud.shell.Close(ui.ProbabilityPanel);
- foreach(var size in new[]{new[]{1280,720},new[]{1920,1080},new[]{904,2316}}){CommercialSliceVerification.SetSize(size[0],size[1]);var mobile=W.hud.GetComponent<WorldMobileHUD>();mobile.simulateMobile=size[0]<size[1];mobile.Apply(true);yield return new WaitForSecondsRealtime(.3f);foreach(var panel in new[]{"inventory","equipment","collection","gacha"}){if(panel=="inventory")ui.OpenInventory();if(panel=="equipment")ui.OpenEquipment();if(panel=="collection")ui.OpenCollection();if(panel=="gacha")ui.OpenGacha();ui.Reflow();yield return new WaitForSecondsRealtime(.2f);audit(W.hud.shell.Top,"Items "+panel+" "+size[0]);yield return Shot(panel+"-"+size[0]);}}
- CommercialSliceVerification.SetSize(1280,720);W.hud.GetComponent<WorldMobileHUD>().simulateMobile=false;W.hud.GetComponent<WorldMobileHUD>().Apply(true);PlayerPrefs.SetInt("ian.ui.largeText",1);foreach(var type in W.hud.GetComponentsInChildren<UITypeScale>(true))type.Apply();ui.OpenInventory();ui.Reflow();yield return new WaitForSecondsRealtime(.3f);audit(ui.InventoryPanel,"Inventory115percent");yield return Shot("Inventory-Large");PlayerPrefs.SetInt("ian.ui.largeText",0);foreach(var type in W.hud.GetComponentsInChildren<UITypeScale>(true))type.Apply();W.hud.shell.Close(ui.InventoryPanel);yield return new WaitForSecondsRealtime(.2f);check(W.CanControl,"Closing new screens restores world control");check(g.world.City.Seen("items/inventory")&&g.world.City.Seen("items/gacha"),"First-use guide seen uses existing saved guide service");g.items.Gacha.SetTestRoll(null);
- }
- static void Prerequisites(GameManager g,int through){var s=g.missions.Capture();s.completedMissionIds=Enumerable.Range(1,through).Select(n=>"M"+n.ToString("000")).ToList();s.claimedMissionIds=s.completedMissionIds.ToList();s.milestoneIds=s.completedMissionIds.ToList();g.missions.BeginRestore();g.missions.Restore(s,g.clock.Day);g.missions.EndRestore();}
- static IEnumerator Core(GameManager g,Action<bool,string> check){
-  Directory.CreateDirectory("Docs/Phase29");g.clock.realtimeEnabled=false;var items=g.items;check(items!=null&&items.catalog.Validate()==null,"Actual data catalog and service configured");int rolls=0;items.Gacha.SetTestRoll(()=>{rolls++;return .65;});check(!items.Gacha.Pull("p29/newborn","life-collection",1,false,out _,out _)&&rolls==0,"Newborn cannot spend or roll through execution API");g.growth.Restore(new ProgressSnapshot{age=12});check(!items.Unlocked,"Existing pre-13 collection lock");g.growth.Restore(new ProgressSnapshot{age=13});check(items.Unlocked,"Existing age13 equipment/content unlock");var stats=g.stats.Capture();stats.money=50000;stats.mental=45;stats.stress=55;stats.energy=70;stats.thirst=20;g.stats.Restore(stats);
-  Prerequisites(g,19);var ms=g.missions.Capture();if(!ms.completedMissionIds.Contains("M020"))ms.completedMissionIds.Add("M020");if(!ms.milestoneIds.Contains("M020"))ms.milestoneIds.Add("M020");g.missions.BeginRestore();g.missions.Restore(ms,g.clock.Day);g.missions.EndRestore();check(g.missions.Claim("M020"),"Actual M020 reward claim");bool delivered=items.DeliverPending();check(delivered,"Actual reward gateway drains queued ticket and starter entitlement: "+items.LastFailure);check(items.Inventory.Count("gacha-ticket")==1&&items.Inventory.Count("starter-headphones")==1&&items.Inventory.Count("starter-equipment")==1,"Legacy M020 guarantees usable starters and real ticket");check(g.missions.State.pendingRewards.All(r=>r.delivered),"Gacha ticket pending receipt delivered");items.DeliverPending();check(items.Inventory.Count("gacha-ticket")==1,"Repeated pending delivery never duplicates ticket");
-  long cash=g.economy.Cash;check(items.Gacha.Pull("p29/first","life-collection",1,false,out var first,out var reason),"Scenario A actual ticket pull: "+reason);check(first.results.Length==1&&first.tickets==1&&first.cash==0&&g.economy.Cash==cash&&items.Inventory.Count(first.results[0].itemId)==1&&first.results[0].isNew,"Ticket-first cost, NEW, inventory and collection");check(items.Gacha.Pull("p29/duplicate","life-collection",1,false,out var duplicate,out _)&&duplicate.results[0].duplicate&&items.Inventory.Count(first.results[0].itemId)==2,"Actual duplicate increments quantity without NEW result");cash=g.economy.Cash;long total=items.Gacha.Progress("life-collection").total;check(!items.Gacha.Pull("p29/duplicate","life-collection",1,false,out _,out _)&&g.economy.Cash==cash&&items.Gacha.Progress("life-collection").total==total,"Duplicate transaction does not spend, grant or increment pity");
-  check(items.Gacha.Pull("p29/ten","life-collection",10,false,out var ten,out _)&&ten.results.Length==10&&ten.cash==1000&&items.Gacha.Progress("life-collection").total==total+10,"Scenario B exactly ten paid results and +10 progress");
-  var odds=items.Gacha.Probabilities("life-collection");check(Math.Abs(odds.Values.Sum()-1)<.0000001&&odds.Values.Distinct().Count()>1,"Actual pool probabilities normalize and are not uniform per item");var poor=g.stats.Capture();poor.money=0;g.stats.Restore(poor);int priorRolls=rolls;check(!items.Gacha.Pull("p29/poor","life-collection",1,false,out _,out _)&&rolls==priorRolls,"Insufficient funds rejected before any random roll");poor.money=50000;g.stats.Restore(poor);
-  // Exercise all three thresholds with real paid transactions, not fake grants.
-  items.Gacha.SetTestRoll(()=>0);var results=new List<GachaResult>();int pityEvents=0;Action<ItemEvent> listener=e=>pityEvents++;items.PityReached+=listener;long start=items.Gacha.Progress("life-collection").total;
-  while(items.Gacha.Progress("life-collection").total<300){int count=items.Gacha.Progress("life-collection").total<=290?10:1;long before=items.Gacha.Progress("life-collection").total;check(items.Gacha.Pull("p29/series/"+before,"life-collection",count,false,out var batch,out _),"Paid pity series "+before);for(int i=0;i<batch.results.Length;i++){long n=before+i+1;var result=batch.results[i];results.Add(result);if(n%50==0)check(items.catalog.Rarity(result.rarityId).rank>=3,"50 interval guarantees epic+ at "+n);if(n%100==0)check(items.catalog.Rarity(result.rarityId).rank>=4,"100 interval guarantees legendary at "+n);if(n==300)check(result.itemId=="headphone-silence"&&result.pityRules.Length==3,"300 overlap uses one designated headphone for all three rules");}}
-  items.PityReached-=listener;var progress=items.Gacha.Progress("life-collection");check(progress.total==300&&progress.pity.All(p=>p.progress==0&&p.applied==p.reached)&&progress.pity.Sum(p=>p.applied)==10&&pityEvents==10,"50/100/300 independent repeated counters; exactly six+three+one pity events");File.WriteAllText("Docs/Phase29/PITY_EXECUTION.json",JsonUtility.ToJson(progress,true));
-  Prerequisites(g,23);check(!g.missions.State.completedMissionIds.Contains("M024")&&g.missions.Counter(MissionCounter.HeadphonesEquipped)==0,"Acquisition alone does not complete Mission024");int rawMental=g.stats.Capture().mental;check(items.Equipment.Equip("p29/equip-headphone","starter-headphones",out _),"Scenario C actual headphone slot equip");check(g.stats.Mental==Math.Min(100,rawMental+2)&&g.stats.Capture().mental==rawMental&&g.missions.State.completedMissionIds.Contains("M024"),"Derived modifier preserves raw mental and real equip completes M024");check(g.missions.Claim("M024"),"Actual M024 claim advances to M025");check(items.Equipment.Equip("p29/equip-gear","starter-equipment",out _)&&g.missions.State.completedMissionIds.Contains("M025"),"Scenario D equipment slot emits real M025 completion");check(!items.Equipment.Equip("p29/redundant","starter-headphones",out _),"Already equipped item rejected");
-  check(!items.Inventory.Dismantle("p29/protected-equipped","starter-headphones",1,out _),"Equipped duplicates cannot be dismantled");check(items.Equipment.Unequip("p29/unequip",EquipmentSlot.Headphone,out _)&&g.stats.Mental==rawMental,"Unequip removes only the item's derived modifier");int copies=items.Inventory.Count("starter-headphones");check(!items.Inventory.Dismantle("p29/protected-last","starter-headphones",copies,out _),"Last copy protection");check(items.Inventory.Dismantle("p29/dismantle","starter-headphones",copies-1,out _)&&items.Inventory.Count("starter-headphones")==1&&items.Inventory.Count("collection-scrap")==2*(copies-1),"Scenario E duplicate salvage debits quantity and grants exact material");check(items.Inventory.Discover("starter-headphones"),"Collection survives consumption or dismantling");check(!items.Inventory.Dismantle("p29/dismantle","starter-headphones",1,out _),"Dismantle receipt cannot repeat");check(items.Gacha.Pull("p29/scrap-draw","life-collection",1,true,out var scrapDraw,out _)&&scrapDraw.material==30&&scrapDraw.cash==0,"Salvage materials re-enter the real draw loop");
-  items.Gacha.SetTestRoll(()=>.59);check(items.Gacha.Pull("p29/drink-draw","life-collection",1,false,out var water,out _)&&water.results[0].itemId=="drink-water","Drink obtained through actual weighted pool");int thirst=g.stats.Thirst;check(items.Inventory.Use("p29/drink","drink-water",out _)&&g.stats.Thirst==Math.Min(100,thirst+25),"Data-driven drink consumption applies real recovery");items.Gacha.SetTestRoll(()=>.9499);check(items.Gacha.Pull("p29/costume-draw","life-collection",1,false,out var costume,out _)&&costume.results[0].itemId=="costume-daily","Cosmetic obtained through pool");string appearance=null;Action<string,string> visual=(h,c)=>appearance=c;items.AppearanceChanged+=visual;check(items.Equipment.Equip("p29/costume-equip","costume-daily",out _)&&appearance=="ian/official-default","Cosmetic slot persists selection and emits real appearance request");items.AppearanceChanged-=visual;items.Gacha.SetTestRoll(null);
-  check(items.Equipment.Equip("p29/reequip","starter-headphones",out _),"Headphone restored before save scenario");string saved=JsonUtility.ToJson(items.Capture());g.Save();items.ResetLife();g.Load();while(GameContext.Instance.transitions.IsTransitioning)yield return null;check(JsonUtility.ToJson(items.Capture())==saved&&items.Equipment.Current(EquipmentSlot.Headphone)=="starter-headphones"&&g.stats.Mental==rawMental+2,"Scenario G real disk save/load preserves inventory, slots, pity and derived stats");
-  var beforeFailure=g.CaptureState();string beforeItems=JsonUtility.ToJson(items.Capture());var channel=g.saves.EnterTestingChannel("qa-phase29-failed-write.json");string failPath=g.saves.AutomaticSavePath;Directory.CreateDirectory(failPath);try{check(!items.Gacha.Pull("p29/failing-save","life-collection",1,false,out _,out _)&&JsonUtility.ToJson(items.Capture())==beforeItems&&g.economy.Cash==beforeFailure.stats.money,"Failed disk commit rolls back payment, items, pity and missions");}finally{Directory.Delete(failPath);g.saves.RestoreTestingChannel(channel);if(File.Exists(failPath+".tmp"))File.Delete(failPath+".tmp");}
-  var legacy=g.CaptureState();legacy.items=null;legacy.phase23.owned=new List<MissionItemKey>{MissionItemKey.StarterHeadphones,MissionItemKey.StarterEquipment};legacy.phase23.equipped=new List<MissionItemKey>{MissionItemKey.StarterHeadphones};g.RestoreState(legacy);check(items.Inventory.Count("starter-headphones")==1&&items.Equipment.Current(EquipmentSlot.Headphone)=="starter-headphones"&&g.missions.Claimed("M024"),"Old missing-block save migrates starter ownership/equip and completed mission without resetting progress");check(ItemService.Valid(null)&&ItemService.Valid(items.Capture()),"Legacy optional block and current structure validate");items.Gacha.SetTestRoll(null);check(g.world.Host.CanControl,"Core item transactions restore existing world control");
- }
-}
+
+namespace IanGame.Editor
+{
+    public static class Phase29Verification
+    {
+        public static IEnumerator Run(
+            GameManager g,
+            Action<bool, string> check,
+            Action<GameObject, string> audit,
+            string mode
+        )
+        {
+            if (mode == "roomVisualItemsScroll")
+            {
+                yield return Scroll(g, check, audit);
+                yield break;
+            }
+
+            if (mode == "roomVisualItemsFailureUI")
+            {
+                yield return FailureUI(g, check);
+                yield break;
+            }
+
+            if (mode == "roomVisualItemsMobile")
+            {
+                g.growth.Restore(new ProgressSnapshot { age = 19 });
+                g.clock.realtimeEnabled = false;
+                var t = GameContext.Instance.transitions;
+                check(
+                    t.NavigateRoom("family-living", t.roomCatalog.rules.Zone("family-living").spawn, Vector2.down),
+                    "Mobile room fixture"
+                );
+                while (t.IsTransitioning)
+                {
+                    yield return null;
+                }
+
+                yield return new WaitForSecondsRealtime(.3f);
+                yield return AdvancedWorldVerification.Mobile(W, g, check, audit);
+                yield break;
+            }
+
+            if (mode == "roomVisualItemsRegistry")
+            {
+                yield return Registry(g, check);
+                yield break;
+            }
+
+            if (mode == "roomVisualItemsUI")
+            {
+                yield return UI(g, check, audit);
+                yield break;
+            }
+
+            yield return Core(g, check);
+        }
+
+        static IEnumerator Scroll(GameManager g, Action<bool, string> check, Action<GameObject, string> audit)
+        {
+            g.growth.Restore(new ProgressSnapshot { age = 19 });
+            g.clock.realtimeEnabled = false;
+            var ui = W.hud.GetComponent<CollectionUI>();
+            ui.OpenGacha();
+            yield return new WaitForSecondsRealtime(.2f);
+            check(
+                !B(ui.GachaPanel, "Pull one").interactable
+                    && B(ui.GachaPanel, "Pull one").GetComponentInChildren<TMPro.TMP_Text>().text.Contains("100G")
+                    && B(ui.GachaPanel, "Pull ten").GetComponentInChildren<TMPro.TMP_Text>().text.Contains("1000G"),
+                "Insufficient funds disables pulls while retaining actual quoted prices"
+            );
+            ui.OpenProbabilities();
+            yield return new WaitForSecondsRealtime(.2f);
+            var scroll = ui.ProbabilityPanel.GetComponentInChildren<UnityEngine.UI.ScrollRect>();
+            var pointer = new UnityEngine.EventSystems.PointerEventData(UnityEngine.EventSystems.EventSystem.current)
+            {
+                position = RectTransformUtility.WorldToScreenPoint(
+                    null,
+                    scroll.viewport.TransformPoint(scroll.viewport.rect.center)
+                ),
+                scrollDelta = new Vector2(0, -8),
+            };
+            var hits = new List<UnityEngine.EventSystems.RaycastResult>();
+            UnityEngine.EventSystems.EventSystem.current.RaycastAll(pointer, hits);
+            var hit = hits.FirstOrDefault();
+            check(
+                hit.gameObject != null && hit.gameObject.GetComponentInParent<UnityEngine.UI.ScrollRect>() == scroll,
+                "Real GraphicRaycaster routes probability viewport input to ScrollRect"
+            );
+            float before = scroll.verticalNormalizedPosition;
+            UnityEngine.EventSystems.ExecuteEvents.ExecuteHierarchy(
+                hit.gameObject,
+                pointer,
+                UnityEngine.EventSystems.ExecuteEvents.scrollHandler
+            );
+            yield return new WaitForSecondsRealtime(.1f);
+            check(
+                scroll.verticalNormalizedPosition < before,
+                "Synthetic wheel event follows actual hierarchy and scrolls long probabilities"
+            );
+            audit(ui.ProbabilityPanel, "Scrolled probability text");
+            yield return Shot("Probabilities-Scrolled");
+            W.hud.shell.Close(ui.ProbabilityPanel);
+            W.hud.shell.Close(ui.GachaPanel);
+            yield return new WaitForSecondsRealtime(.2f);
+            check(W.CanControl, "Scrolled screens close and restore world input");
+        }
+
+        static IEnumerator FailureUI(GameManager g, Action<bool, string> check)
+        {
+            g.growth.Restore(new ProgressSnapshot { age = 19 });
+            g.clock.realtimeEnabled = false;
+            var stats = g.stats.Capture();
+            stats.money = 1000;
+            g.stats.Restore(stats);
+            var ui = W.hud.GetComponent<CollectionUI>();
+            ui.OpenGacha();
+            yield return new WaitForSecondsRealtime(.2f);
+            var prior = g.items.Capture();
+            long cash = g.economy.Cash;
+            var channel = g.saves.EnterTestingChannel("qa-phase29-ui-failure.json");
+            string path = g.saves.AutomaticSavePath;
+            Directory.CreateDirectory(path);
+            try
+            {
+                ui.Pull(1, false);
+                yield return new WaitForSecondsRealtime(.3f);
+                check(
+                    JsonUtility.ToJson(g.items.Capture()) == JsonUtility.ToJson(prior) && g.economy.Cash == cash,
+                    "UI failed save rolls back real currency, inventory and pity"
+                );
+                check(
+                    W.hud.shell.Top == ui.GachaPanel
+                        && ui.GachaPanel.GetComponentsInChildren<TMPro.TMP_Text>()
+                            .Any(t => t.text.Contains("저장하지 못해"))
+                        && !ui.Revealing,
+                    "Gacha screen retains clear failed-save explanation without revealing uncommitted items"
+                );
+                yield return Shot("Save-Failure-Recovered");
+                W.hud.shell.Close(ui.GachaPanel);
+                yield return new WaitForSecondsRealtime(.2f);
+                check(W.CanControl, "Closing failed-save screen restores world control");
+            }
+            finally
+            {
+                Directory.Delete(path);
+                g.saves.RestoreTestingChannel(channel);
+                if (File.Exists(path + ".tmp"))
+                {
+                    File.Delete(path + ".tmp");
+                }
+            }
+        }
+
+        static IEnumerator Registry(GameManager g, Action<bool, string> check)
+        {
+            var qa = DeveloperQACenter.Ensure();
+            qa.Open();
+            yield return null;
+            check(qa.Visible && qa.Sandbox.Active, "Actual QA sandbox opens");
+            var scenarios = qa
+                .Registry.Scenarios.Where(s =>
+                    s.id.StartsWith("items/") || s.id == "gacha/draw" || s.id == "equipment/starter"
+                )
+                .ToArray();
+            check(scenarios.Length == 6, "New and legacy equipment scenarios registered");
+            qa.Run(scenarios);
+            float end = Time.unscaledTime + 90;
+            while (qa.Runner.Running && Time.unscaledTime < end)
+            {
+                yield return null;
+            }
+
+            check(!qa.Runner.Running, "Item QA scenarios finish");
+            foreach (var s in scenarios)
+            {
+                var r = qa.Reporter.Get(s);
+                check(r.status == QAStatus.PASS, s.id + ": " + r.reason);
+            }
+
+            check(qa.Sandbox.VerifyFiles(), "QA scenarios preserve production files");
+            File.Copy("Docs/DeveloperQA/LATEST_RESULTS.json", "Docs/Phase29/QA_REGISTRY_RESULTS.json", true);
+            yield return qa.CloseAndRestore();
+        }
+
+        static LifeWorldController W => GameContext.Instance.game.world.Host;
+
+        static IEnumerator Shot(string name)
+        {
+            Directory.CreateDirectory("Docs/Phase29/Screenshots");
+            W.hud.Notify("", 0);
+            yield return new WaitForEndOfFrame();
+            ScreenCapture.CaptureScreenshot("Docs/Phase29/Screenshots/" + name + ".png");
+            yield return null;
+        }
+
+        static UnityEngine.UI.Button B(GameObject p, string name) =>
+            p.GetComponentsInChildren<UnityEngine.UI.Button>(true).First(b => b.name == name);
+
+        static IEnumerator UI(GameManager g, Action<bool, string> check, Action<GameObject, string> audit)
+        {
+            g.clock.realtimeEnabled = false;
+            var ui = W.hud.GetComponent<CollectionUI>();
+            check(ui != null, "Existing room HUD has collection adapter");
+            ui.OpenInventory();
+            yield return new WaitForSecondsRealtime(.2f);
+            check(
+                W.hud.shell.Top == ui.InventoryPanel && !B(ui.InventoryPanel, "Section 2").gameObject.activeSelf,
+                "Newborn inventory explains lock; gacha navigation hidden"
+            );
+            W.hud.shell.Close(ui.InventoryPanel);
+            g.growth.Restore(new ProgressSnapshot { age = 19 });
+            var funded = g.stats.Capture();
+            funded.money = 5000;
+            funded.mental = 45;
+            funded.stress = 55;
+            g.stats.Restore(funded);
+            foreach (
+                var row in new[]
+                {
+                    new[] { "starter-headphones", "2" },
+                    new[] { "starter-equipment", "1" },
+                    new[] { "drink-water", "2" },
+                    new[] { "desk-charm", "1" },
+                    new[] { "costume-daily", "1" },
+                }
+            )
+            {
+                check(g.items.DebugGive(row[0], int.Parse(row[1])), "Isolated inventory UI fixture " + row[0]);
+            }
+
+            ui.OpenGacha();
+            yield return new WaitForSecondsRealtime(.2f);
+            check(W.hud.shell.Top == ui.GachaPanel && !W.CanControl, "Gacha owns existing input stack");
+            g.items.Gacha.SetTestRoll(() => .65);
+            long before = g.economy.Cash;
+            ui.Pull(1, false);
+            check(
+                ui.Revealing && g.items.Gacha.Progress("life-collection").total == 1 && g.economy.Cash == before - 100,
+                "Actual UI one-pull commits before reveal"
+            );
+            ui.Pull(10, false);
+            check(
+                g.items.Gacha.Progress("life-collection").total == 1,
+                "Rapid input during reveal cannot start a second request"
+            );
+            yield return new WaitForSecondsRealtime(.4f);
+            check(ui.VisibleResults == 1, "Actual reveal coroutine shows committed item");
+            yield return Shot("Gacha-One");
+            B(ui.ResultPanel, "Results inventory").onClick.Invoke();
+            yield return new WaitForSecondsRealtime(.2f);
+            check(W.hud.shell.Top == ui.InventoryPanel, "Results route to actual inventory screen");
+            ui.Select("starter-headphones");
+            B(ui.InventoryPanel, "Equip").onClick.Invoke();
+            check(
+                g.items.Equipment.Current(EquipmentSlot.Headphone) == "starter-headphones" && g.stats.Mental == 47,
+                "Inventory button equips actual slot and derived stats"
+            );
+            check(!B(ui.InventoryPanel, "Dismantle").interactable, "UI disallows dismantling equipped duplicate");
+            B(ui.InventoryPanel, "Unequip").onClick.Invoke();
+            check(g.stats.Mental == 45, "UI unequip restores raw stat without resetting model");
+            B(ui.InventoryPanel, "Dismantle").onClick.Invoke();
+            check(
+                g.items.Inventory.Count("starter-headphones") == 1 && g.items.Inventory.Count("collection-scrap") == 2,
+                "UI one-duplicate dismantle changes real inventory/material"
+            );
+            ui.Select("drink-water");
+            int water = g.items.Inventory.Count("drink-water");
+            B(ui.InventoryPanel, "Use").onClick.Invoke();
+            check(
+                g.items.Inventory.Count("drink-water") == water - 1,
+                "Inventory consume button executes model action"
+            );
+            ui.OpenGacha();
+            yield return new WaitForSecondsRealtime(.2f);
+            ui.Pull(10, false);
+            check(g.items.Gacha.LastBatch.results.Length == 10, "Actual UI ten-pull generates exact grid batch");
+            ui.FastReveal();
+            yield return new WaitForSecondsRealtime(.2f);
+            audit(ui.ResultPanel, "Actual ten-result grid");
+            check(ui.VisibleResults == 10 && !ui.Revealing, "Fast reveal completes ten cards without reroll");
+            yield return Shot("Gacha-Ten");
+            B(ui.ResultPanel, "Close").onClick.Invoke();
+            yield return new WaitForSecondsRealtime(.2f);
+            audit(ui.GachaPanel, "Gacha desktop");
+            yield return Shot("Gacha");
+            ui.OpenProbabilities();
+            yield return new WaitForSecondsRealtime(.2f);
+            check(
+                ui.ProbabilityPanel.GetComponentsInChildren<TMPro.TMP_Text>()
+                    .Any(t => t.text.Contains("다음 1회의 확률")),
+                "Probability screen uses base and effective-next pool data"
+            );
+            audit(ui.ProbabilityPanel, "Probabilities");
+            yield return Shot("Probabilities");
+            W.hud.shell.Close(ui.ProbabilityPanel);
+            foreach (var size in new[] { new[] { 1280, 720 }, new[] { 1920, 1080 }, new[] { 904, 2316 } })
+            {
+                CommercialSliceVerification.SetSize(size[0], size[1]);
+                var mobile = W.hud.GetComponent<WorldMobileHUD>();
+                mobile.simulateMobile = size[0] < size[1];
+                mobile.Apply(true);
+                yield return new WaitForSecondsRealtime(.3f);
+                foreach (var panel in new[] { "inventory", "equipment", "collection", "gacha" })
+                {
+                    if (panel == "inventory")
+                    {
+                        ui.OpenInventory();
+                    }
+
+                    if (panel == "equipment")
+                    {
+                        ui.OpenEquipment();
+                    }
+
+                    if (panel == "collection")
+                    {
+                        ui.OpenCollection();
+                    }
+
+                    if (panel == "gacha")
+                    {
+                        ui.OpenGacha();
+                    }
+
+                    ui.Reflow();
+                    yield return new WaitForSecondsRealtime(.2f);
+                    audit(W.hud.shell.Top, "Items " + panel + " " + size[0]);
+                    yield return Shot(panel + "-" + size[0]);
+                }
+            }
+
+            CommercialSliceVerification.SetSize(1280, 720);
+            W.hud.GetComponent<WorldMobileHUD>().simulateMobile = false;
+            W.hud.GetComponent<WorldMobileHUD>().Apply(true);
+            PlayerPrefs.SetInt("ian.ui.largeText", 1);
+            foreach (var type in W.hud.GetComponentsInChildren<UITypeScale>(true))
+            {
+                type.Apply();
+            }
+
+            ui.OpenInventory();
+            ui.Reflow();
+            yield return new WaitForSecondsRealtime(.3f);
+            audit(ui.InventoryPanel, "Inventory115percent");
+            yield return Shot("Inventory-Large");
+            PlayerPrefs.SetInt("ian.ui.largeText", 0);
+            foreach (var type in W.hud.GetComponentsInChildren<UITypeScale>(true))
+            {
+                type.Apply();
+            }
+
+            W.hud.shell.Close(ui.InventoryPanel);
+            yield return new WaitForSecondsRealtime(.2f);
+            check(W.CanControl, "Closing new screens restores world control");
+            check(
+                g.world.City.Seen("items/inventory") && g.world.City.Seen("items/gacha"),
+                "First-use guide seen uses existing saved guide service"
+            );
+            g.items.Gacha.SetTestRoll(null);
+        }
+
+        static void Prerequisites(GameManager g, int through)
+        {
+            var s = g.missions.Capture();
+            s.completedMissionIds = Enumerable.Range(1, through).Select(n => "M" + n.ToString("000")).ToList();
+            s.claimedMissionIds = s.completedMissionIds.ToList();
+            s.milestoneIds = s.completedMissionIds.ToList();
+            g.missions.BeginRestore();
+            g.missions.Restore(s, g.clock.Day);
+            g.missions.EndRestore();
+        }
+
+        static IEnumerator Core(GameManager g, Action<bool, string> check)
+        {
+            Directory.CreateDirectory("Docs/Phase29");
+            g.clock.realtimeEnabled = false;
+            var items = g.items;
+            check(items != null && items.catalog.Validate() == null, "Actual data catalog and service configured");
+            int rolls = 0;
+            items.Gacha.SetTestRoll(() =>
+            {
+                rolls++;
+                return .65;
+            });
+            check(
+                !items.Gacha.Pull("p29/newborn", "life-collection", 1, false, out _, out _) && rolls == 0,
+                "Newborn cannot spend or roll through execution API"
+            );
+            g.growth.Restore(new ProgressSnapshot { age = 12 });
+            check(!items.Unlocked, "Existing pre-13 collection lock");
+            g.growth.Restore(new ProgressSnapshot { age = 13 });
+            check(items.Unlocked, "Existing age13 equipment/content unlock");
+            var stats = g.stats.Capture();
+            stats.money = 50000;
+            stats.mental = 45;
+            stats.stress = 55;
+            stats.energy = 70;
+            stats.thirst = 20;
+            g.stats.Restore(stats);
+            Prerequisites(g, 19);
+            var ms = g.missions.Capture();
+            if (!ms.completedMissionIds.Contains("M020"))
+            {
+                ms.completedMissionIds.Add("M020");
+            }
+
+            if (!ms.milestoneIds.Contains("M020"))
+            {
+                ms.milestoneIds.Add("M020");
+            }
+
+            g.missions.BeginRestore();
+            g.missions.Restore(ms, g.clock.Day);
+            g.missions.EndRestore();
+            check(g.missions.Claim("M020"), "Actual M020 reward claim");
+            bool delivered = items.DeliverPending();
+            check(
+                delivered,
+                "Actual reward gateway drains queued ticket and starter entitlement: " + items.LastFailure
+            );
+            check(
+                items.Inventory.Count("gacha-ticket") == 1
+                    && items.Inventory.Count("starter-headphones") == 1
+                    && items.Inventory.Count("starter-equipment") == 1,
+                "Legacy M020 guarantees usable starters and real ticket"
+            );
+            check(g.missions.State.pendingRewards.All(r => r.delivered), "Gacha ticket pending receipt delivered");
+            items.DeliverPending();
+            check(items.Inventory.Count("gacha-ticket") == 1, "Repeated pending delivery never duplicates ticket");
+            long cash = g.economy.Cash;
+            check(
+                items.Gacha.Pull("p29/first", "life-collection", 1, false, out var first, out var reason),
+                "Scenario A actual ticket pull: " + reason
+            );
+            check(
+                first.results.Length == 1
+                    && first.tickets == 1
+                    && first.cash == 0
+                    && g.economy.Cash == cash
+                    && items.Inventory.Count(first.results[0].itemId) == 1
+                    && first.results[0].isNew,
+                "Ticket-first cost, NEW, inventory and collection"
+            );
+            check(
+                items.Gacha.Pull("p29/duplicate", "life-collection", 1, false, out var duplicate, out _)
+                    && duplicate.results[0].duplicate
+                    && items.Inventory.Count(first.results[0].itemId) == 2,
+                "Actual duplicate increments quantity without NEW result"
+            );
+            cash = g.economy.Cash;
+            long total = items.Gacha.Progress("life-collection").total;
+            check(
+                !items.Gacha.Pull("p29/duplicate", "life-collection", 1, false, out _, out _)
+                    && g.economy.Cash == cash
+                    && items.Gacha.Progress("life-collection").total == total,
+                "Duplicate transaction does not spend, grant or increment pity"
+            );
+            check(
+                items.Gacha.Pull("p29/ten", "life-collection", 10, false, out var ten, out _)
+                    && ten.results.Length == 10
+                    && ten.cash == 1000
+                    && items.Gacha.Progress("life-collection").total == total + 10,
+                "Scenario B exactly ten paid results and +10 progress"
+            );
+            var odds = items.Gacha.Probabilities("life-collection");
+            check(
+                Math.Abs(odds.Values.Sum() - 1) < .0000001 && odds.Values.Distinct().Count() > 1,
+                "Actual pool probabilities normalize and are not uniform per item"
+            );
+            var poor = g.stats.Capture();
+            poor.money = 0;
+            g.stats.Restore(poor);
+            int priorRolls = rolls;
+            check(
+                !items.Gacha.Pull("p29/poor", "life-collection", 1, false, out _, out _) && rolls == priorRolls,
+                "Insufficient funds rejected before any random roll"
+            );
+            poor.money = 50000;
+            g.stats.Restore(poor);
+            // Exercise all three thresholds with real paid transactions, not fake grants.
+            items.Gacha.SetTestRoll(() => 0);
+            var results = new List<GachaResult>();
+            int pityEvents = 0;
+            Action<ItemEvent> listener = e => pityEvents++;
+            items.PityReached += listener;
+            long start = items.Gacha.Progress("life-collection").total;
+            while (items.Gacha.Progress("life-collection").total < 300)
+            {
+                int count = items.Gacha.Progress("life-collection").total <= 290 ? 10 : 1;
+                long before = items.Gacha.Progress("life-collection").total;
+                check(
+                    items.Gacha.Pull("p29/series/" + before, "life-collection", count, false, out var batch, out _),
+                    "Paid pity series " + before
+                );
+                for (int i = 0; i < batch.results.Length; i++)
+                {
+                    long n = before + i + 1;
+                    var result = batch.results[i];
+                    results.Add(result);
+                    if (n % 50 == 0)
+                    {
+                        check(items.catalog.Rarity(result.rarityId).rank >= 3, "50 interval guarantees epic+ at " + n);
+                    }
+
+                    if (n % 100 == 0)
+                    {
+                        check(
+                            items.catalog.Rarity(result.rarityId).rank >= 4,
+                            "100 interval guarantees legendary at " + n
+                        );
+                    }
+
+                    if (n == 300)
+                    {
+                        check(
+                            result.itemId == "headphone-silence" && result.pityRules.Length == 3,
+                            "300 overlap uses one designated headphone for all three rules"
+                        );
+                    }
+                }
+            }
+
+            items.PityReached -= listener;
+            var progress = items.Gacha.Progress("life-collection");
+            check(
+                progress.total == 300
+                    && progress.pity.All(p => p.progress == 0 && p.applied == p.reached)
+                    && progress.pity.Sum(p => p.applied) == 10
+                    && pityEvents == 10,
+                "50/100/300 independent repeated counters; exactly six+three+one pity events"
+            );
+            File.WriteAllText("Docs/Phase29/PITY_EXECUTION.json", JsonUtility.ToJson(progress, true));
+            Prerequisites(g, 23);
+            check(
+                !g.missions.State.completedMissionIds.Contains("M024")
+                    && g.missions.Counter(MissionCounter.HeadphonesEquipped) == 0,
+                "Acquisition alone does not complete Mission024"
+            );
+            int rawMental = g.stats.Capture().mental;
+            check(
+                items.Equipment.Equip("p29/equip-headphone", "starter-headphones", out _),
+                "Scenario C actual headphone slot equip"
+            );
+            check(
+                g.stats.Mental == Math.Min(100, rawMental + 2)
+                    && g.stats.Capture().mental == rawMental
+                    && g.missions.State.completedMissionIds.Contains("M024"),
+                "Derived modifier preserves raw mental and real equip completes M024"
+            );
+            check(g.missions.Claim("M024"), "Actual M024 claim advances to M025");
+            check(
+                items.Equipment.Equip("p29/equip-gear", "starter-equipment", out _)
+                    && g.missions.State.completedMissionIds.Contains("M025"),
+                "Scenario D equipment slot emits real M025 completion"
+            );
+            check(
+                !items.Equipment.Equip("p29/redundant", "starter-headphones", out _),
+                "Already equipped item rejected"
+            );
+            check(
+                !items.Inventory.Dismantle("p29/protected-equipped", "starter-headphones", 1, out _),
+                "Equipped duplicates cannot be dismantled"
+            );
+            check(
+                items.Equipment.Unequip("p29/unequip", EquipmentSlot.Headphone, out _) && g.stats.Mental == rawMental,
+                "Unequip removes only the item's derived modifier"
+            );
+            int copies = items.Inventory.Count("starter-headphones");
+            check(
+                !items.Inventory.Dismantle("p29/protected-last", "starter-headphones", copies, out _),
+                "Last copy protection"
+            );
+            check(
+                items.Inventory.Dismantle("p29/dismantle", "starter-headphones", copies - 1, out _)
+                    && items.Inventory.Count("starter-headphones") == 1
+                    && items.Inventory.Count("collection-scrap") == 2 * (copies - 1),
+                "Scenario E duplicate salvage debits quantity and grants exact material"
+            );
+            check(items.Inventory.Discover("starter-headphones"), "Collection survives consumption or dismantling");
+            check(
+                !items.Inventory.Dismantle("p29/dismantle", "starter-headphones", 1, out _),
+                "Dismantle receipt cannot repeat"
+            );
+            check(
+                items.Gacha.Pull("p29/scrap-draw", "life-collection", 1, true, out var scrapDraw, out _)
+                    && scrapDraw.material == 30
+                    && scrapDraw.cash == 0,
+                "Salvage materials re-enter the real draw loop"
+            );
+            items.Gacha.SetTestRoll(() => .59);
+            check(
+                items.Gacha.Pull("p29/drink-draw", "life-collection", 1, false, out var water, out _)
+                    && water.results[0].itemId == "drink-water",
+                "Drink obtained through actual weighted pool"
+            );
+            int thirst = g.stats.Thirst;
+            check(
+                items.Inventory.Use("p29/drink", "drink-water", out _) && g.stats.Thirst == Math.Min(100, thirst + 25),
+                "Data-driven drink consumption applies real recovery"
+            );
+            items.Gacha.SetTestRoll(() => .9499);
+            check(
+                items.Gacha.Pull("p29/costume-draw", "life-collection", 1, false, out var costume, out _)
+                    && costume.results[0].itemId == "costume-daily",
+                "Cosmetic obtained through pool"
+            );
+            string appearance = null;
+            Action<string, string> visual = (h, c) => appearance = c;
+            items.AppearanceChanged += visual;
+            check(
+                items.Equipment.Equip("p29/costume-equip", "costume-daily", out _)
+                    && appearance == "ian/official-default",
+                "Cosmetic slot persists selection and emits real appearance request"
+            );
+            items.AppearanceChanged -= visual;
+            items.Gacha.SetTestRoll(null);
+            check(
+                items.Equipment.Equip("p29/reequip", "starter-headphones", out _),
+                "Headphone restored before save scenario"
+            );
+            string saved = JsonUtility.ToJson(items.Capture());
+            g.Save();
+            items.ResetLife();
+            g.Load();
+            while (GameContext.Instance.transitions.IsTransitioning)
+            {
+                yield return null;
+            }
+
+            check(
+                JsonUtility.ToJson(items.Capture()) == saved
+                    && items.Equipment.Current(EquipmentSlot.Headphone) == "starter-headphones"
+                    && g.stats.Mental == rawMental + 2,
+                "Scenario G real disk save/load preserves inventory, slots, pity and derived stats"
+            );
+            var beforeFailure = g.CaptureState();
+            string beforeItems = JsonUtility.ToJson(items.Capture());
+            var channel = g.saves.EnterTestingChannel("qa-phase29-failed-write.json");
+            string failPath = g.saves.AutomaticSavePath;
+            Directory.CreateDirectory(failPath);
+            try
+            {
+                check(
+                    !items.Gacha.Pull("p29/failing-save", "life-collection", 1, false, out _, out _)
+                        && JsonUtility.ToJson(items.Capture()) == beforeItems
+                        && g.economy.Cash == beforeFailure.stats.money,
+                    "Failed disk commit rolls back payment, items, pity and missions"
+                );
+            }
+            finally
+            {
+                Directory.Delete(failPath);
+                g.saves.RestoreTestingChannel(channel);
+                if (File.Exists(failPath + ".tmp"))
+                {
+                    File.Delete(failPath + ".tmp");
+                }
+            }
+
+            var legacy = g.CaptureState();
+            legacy.items = null;
+            legacy.phase23.owned = new List<MissionItemKey>
+            {
+                MissionItemKey.StarterHeadphones,
+                MissionItemKey.StarterEquipment,
+            };
+            legacy.phase23.equipped = new List<MissionItemKey> { MissionItemKey.StarterHeadphones };
+            g.RestoreState(legacy);
+            check(
+                items.Inventory.Count("starter-headphones") == 1
+                    && items.Equipment.Current(EquipmentSlot.Headphone) == "starter-headphones"
+                    && g.missions.Claimed("M024"),
+                "Old missing-block save migrates starter ownership/equip and completed mission without resetting progress"
+            );
+            check(
+                ItemService.Valid(null) && ItemService.Valid(items.Capture()),
+                "Legacy optional block and current structure validate"
+            );
+            items.Gacha.SetTestRoll(null);
+            check(g.world.Host.CanControl, "Core item transactions restore existing world control");
+        }
+    }
 }
 #endif

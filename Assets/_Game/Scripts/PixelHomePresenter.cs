@@ -1,27 +1,353 @@
-using System;using System.Linq;using System.Collections;using TMPro;using UnityEngine;using UnityEngine.UI;
-namespace IanGame {
-public class PixelHomePresenter:MonoBehaviour {
- public UIManager hud;public MissionUI mission;public PixelUITheme theme;public TMP_Text debt,age,cash,location,caption,missionTitle,missionProgress,recent,detail,inventory,growth,noticeText;public Image missionFill;public GameObject notice;public TMP_Text[] vitalLabels,fullValues;public Image[] vitalFills;public Button[] quickButtons;public TMP_Text[] quickLabels;public PixelTooltip[] quickTips;public UINavigationService navigation;
- readonly int[] quickIds=new int[3];GameManager game;bool attached,quickWired;long lastGold=-1;Coroutine moneyAnimation,noticeAnimation;
- void Start(){Attach();Refresh();}void OnEnable(){Attach();}void OnDisable(){Detach();StopAllCoroutines();moneyAnimation=noticeAnimation=null;}
- void Attach(){if(attached||hud==null||hud.game==null)return;game=hud.game;attached=true;hud.Refreshed+=Refresh;game.missions.Changed+=Refresh;game.missions.Completed+=Complete;game.missions.RewardClaimed+=Reward;game.growth.AgeChanged+=AgeChanged;game.Logged+=OnLog;if(!quickWired){quickWired=true;for(int i=0;i<quickButtons.Length;i++){int index=i;quickButtons[i].onClick.AddListener(()=>RunQuick(index));}}}
- void Detach(){if(!attached)return;attached=false;hud.Refreshed-=Refresh;if(game!=null){game.missions.Changed-=Refresh;game.missions.Completed-=Complete;game.missions.RewardClaimed-=Reward;game.growth.AgeChanged-=AgeChanged;game.Logged-=OnLog;}}
- void RunQuick(int index){if(game!=null)game.TryAction(quickIds[index]);}
- public void Refresh(){if(!attached){Attach();if(!attached)return;}navigation.stack.InvalidateFocus();var g=game;if(debt!=null)debt.text="부채 "+g.economy.Debt.ToString("N0")+"G / 순자산 "+g.economy.NetWorth.ToString("N0")+"G";age.text=g.growth.Age+"세 · "+g.clock.Day.ToString("000")+"일";if(lastGold!=g.economy.Cash){if(moneyAnimation!=null)StopCoroutine(moneyAnimation);long from=lastGold<0?g.economy.Cash:lastGold;lastGold=g.economy.Cash;if(isActiveAndEnabled)moneyAnimation=StartCoroutine(Gold(from,lastGold));}
- location.text=(GameContext.Instance==null?"HOME":GameContext.Instance.transitions.CurrentScene.ToString().ToUpperInvariant())+" / IAN-001";caption.text=g.State==GameState.Paused?"업무 일시 중단. 부채는 그대로입니다.":g.survival.InDanger?"긴급! 식사와 음료로 생존을 회복하세요.":"생존 중. 행복은 별도 구매입니다.";
- int[] values={g.stats.Hunger,g.stats.Thirst,g.stats.Health,g.stats.Mental};string[] names={"허기","수분","체력","멘탈"};for(int i=0;i<4;i++){vitalLabels[i].text=names[i]+" "+values[i];var gauge=vitalFills[i].GetComponent<PixelProgressBar>();if(gauge!=null)gauge.Set(values[i]/100f);else vitalFills[i].rectTransform.anchorMax=new Vector2(values[i]/100f,1);}
- for(int i=0;i<fullValues.Length;i++){fullValues[i].text=g.stats.Get((CoreStat)i)+" /100";if(hud.coreLabels!=null&&i<hud.coreLabels.Length)hud.coreLabels[i].text=StatName((CoreStat)i);}
- if(detail!=null)detail.text="나이 "+g.growth.Age+"세 · Lv."+g.growth.Level+" · EXP "+g.growth.Experience+"\n부채 "+g.economy.Debt.ToString("N0")+"G / 순자산 "+g.economy.NetWorth.ToString("N0")+"G\n"+string.Join("\n",Enum.GetValues(typeof(CoreStat)).Cast<CoreStat>().Select(s=>StatName(s)+"   "+g.stats.Get(s)+" /100"));
- if(growth!=null)growth.text="Lv."+g.growth.Level+"  /  EXP "+g.growth.Experience+"\n"+g.growth.Age+"세 · "+Stage(g.growth.Stage)+"\n\n나이는 메인 미션 완료로 성장합니다.\n날짜만 진행해도 나이가 오르지는 않습니다.";
- if(inventory!=null){var p=g.phase23.Progress;inventory.text="기본 장비 보관함\n\n스타터 헤드폰: "+(p.owned.Contains(MissionItemKey.StarterHeadphones)?"보유":"미수령")+"\n스타터 장비: "+(p.owned.Contains(MissionItemKey.StarterEquipment)?"보유":"미수령")+"\n\n보유 아이템 "+p.owned.Count+"종 / 장착 "+p.equipped.Count+"종\n정식 인벤토리 확장은 추후 업데이트 예정입니다.";}
- var m=g.missions.ActiveMission;if(m!=null){var progress=g.missions.GetProgress(m);missionTitle.text=m.Id+"  "+m.title;missionProgress.text=MissionRowView.StateName(progress.state)+"  "+progress.current.ToString("0")+"/"+progress.target.ToString("0");missionFill.fillAmount=(float)(progress.current/Math.Max(1,progress.target));}
- recent.text=g.RecentLogs.LastOrDefault()??"인생 관리국에 오신 것을 환영합니다.";
- quickIds[0]=g.stats.Thirst<55?4:g.stats.Hunger<55?3:g.stats.Health<45||g.stats.Mental<35?5:m!=null&&m.suggestedAction>=0&&m.suggestedAction<=6?m.suggestedAction:4;quickIds[1]=quickIds[0]==5?3:5;quickIds[2]=quickIds[0]==1?4:1;
- for(int i=0;i<3;i++){string reason;bool can=g.CanPerformAction(quickIds[i],out reason);quickButtons[i].interactable=can;quickLabels[i].text=MissionGuidance.ActionName(quickIds[i],g);var spec=g.actions.Describe(quickIds[i]);quickTips[i].message=can?"빠른 행동 / "+spec.days+"일 · "+(spec.money<0?(-(long)spec.money)+"G":"무료"):reason;}
- }
- static string StatName(CoreStat stat){string[] names={"허기","목마름","지식","체력","멘탈","사회성","신용도","행복도"};return names[(int)stat];}static string Stage(LifeStage stage){string[] names={"유아기","아동기","청소년기","청년기","중년기","노년기"};return names[(int)stage];}
- IEnumerator Gold(long from,long to){float duration=UIShell.ReducedMotion?.001f:.2f;for(float t=0;t<1;t+=Time.unscaledDeltaTime/duration){cash.text=((long)(from+(to-from)*(1-Math.Pow(1-t,3)))).ToString("N0")+" G";yield return null;}cash.text=to.ToString("N0")+" G";}
- void Complete(MissionData m){Notify("미션 승인!\n"+m.Id+"  "+m.title+"\n보상 수령 후 다음 업무가 배정됩니다.");}void Reward(MissionData m){Notify("입금 완료  +"+m.rewards.gold+"G\n이안의 노동 가치는 계속 산정 중입니다.");}void AgeChanged(int age,LifeStage stage){if(game!=null&&game.State==GameState.Starting)return;Notify("성장 통보\n"+age+"세 · "+Stage(stage)+"\n새 인생 구간이 해금되었습니다.");}void OnLog(string text){if(text.Contains("위험")||text.Contains("실패")||text.Contains("부족"))Notify("시스템 경고\n"+text);}
- void Notify(string text){if(game!=null&&game.world!=null&&game.world.Active){game.world.Host.hud.Notify(text,1);return;}if(notice==null||!isActiveAndEnabled)return;if(noticeAnimation!=null)StopCoroutine(noticeAnimation);noticeText.text=text;notice.SetActive(true);noticeAnimation=StartCoroutine(HideNotice());}IEnumerator HideNotice(){yield return new WaitForSecondsRealtime(2.8f);notice.SetActive(false);}
-}
+using System;
+using System.Collections;
+using System.Linq;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
+
+namespace IanGame
+{
+    public class PixelHomePresenter : MonoBehaviour
+    {
+        public UIManager hud;
+        public MissionUI mission;
+        public PixelUITheme theme;
+        public TMP_Text debt;
+        public TMP_Text age;
+        public TMP_Text cash;
+        public TMP_Text location;
+        public TMP_Text caption;
+        public TMP_Text missionTitle;
+        public TMP_Text missionProgress;
+        public TMP_Text recent;
+        public TMP_Text detail;
+        public TMP_Text inventory;
+        public TMP_Text growth;
+        public TMP_Text noticeText;
+        public Image missionFill;
+        public GameObject notice;
+        public TMP_Text[] vitalLabels;
+        public TMP_Text[] fullValues;
+        public Image[] vitalFills;
+        public Button[] quickButtons;
+        public TMP_Text[] quickLabels;
+        public PixelTooltip[] quickTips;
+        public UINavigationService navigation;
+        readonly int[] quickIds = new int[3];
+        GameManager game;
+        bool attached;
+        bool quickWired;
+        long lastGold = -1;
+        Coroutine moneyAnimation;
+        Coroutine noticeAnimation;
+
+        void Start()
+        {
+            Attach();
+            Refresh();
+        }
+
+        void OnEnable()
+        {
+            Attach();
+        }
+
+        void OnDisable()
+        {
+            Detach();
+            StopAllCoroutines();
+            moneyAnimation = noticeAnimation = null;
+        }
+
+        void Attach()
+        {
+            if (attached || hud == null || hud.game == null)
+            {
+                return;
+            }
+
+            game = hud.game;
+            attached = true;
+            hud.Refreshed += Refresh;
+            game.missions.Changed += Refresh;
+            game.missions.Completed += Complete;
+            game.missions.RewardClaimed += Reward;
+            game.growth.AgeChanged += AgeChanged;
+            game.Logged += OnLog;
+            if (!quickWired)
+            {
+                quickWired = true;
+                for (int i = 0; i < quickButtons.Length; i++)
+                {
+                    int index = i;
+                    quickButtons[i].onClick.AddListener(() => RunQuick(index));
+                }
+            }
+        }
+
+        void Detach()
+        {
+            if (!attached)
+            {
+                return;
+            }
+
+            attached = false;
+            hud.Refreshed -= Refresh;
+            if (game != null)
+            {
+                game.missions.Changed -= Refresh;
+                game.missions.Completed -= Complete;
+                game.missions.RewardClaimed -= Reward;
+                game.growth.AgeChanged -= AgeChanged;
+                game.Logged -= OnLog;
+            }
+        }
+
+        void RunQuick(int index)
+        {
+            if (game != null)
+            {
+                game.TryAction(quickIds[index]);
+            }
+        }
+
+        public void Refresh()
+        {
+            if (!attached)
+            {
+                Attach();
+                if (!attached)
+                {
+                    return;
+                }
+            }
+
+            navigation.stack.InvalidateFocus();
+            var g = game;
+            if (debt != null)
+            {
+                debt.text =
+                    "부채 " + g.economy.Debt.ToString("N0") + "G / 순자산 " + g.economy.NetWorth.ToString("N0") + "G";
+            }
+
+            age.text = g.growth.Age + "세 · " + g.clock.Day.ToString("000") + "일";
+            if (lastGold != g.economy.Cash)
+            {
+                if (moneyAnimation != null)
+                {
+                    StopCoroutine(moneyAnimation);
+                }
+
+                long from = lastGold < 0 ? g.economy.Cash : lastGold;
+                lastGold = g.economy.Cash;
+                if (isActiveAndEnabled)
+                {
+                    moneyAnimation = StartCoroutine(Gold(from, lastGold));
+                }
+            }
+
+            location.text =
+                (
+                    GameContext.Instance == null
+                        ? "HOME"
+                        : GameContext.Instance.transitions.CurrentScene.ToString().ToUpperInvariant()
+                ) + " / IAN-001";
+            caption.text =
+                g.State == GameState.Paused ? "업무 일시 중단. 부채는 그대로입니다."
+                : g.survival.InDanger ? "긴급! 식사와 음료로 생존을 회복하세요."
+                : "생존 중. 행복은 별도 구매입니다.";
+            int[] values = { g.stats.Hunger, g.stats.Thirst, g.stats.Health, g.stats.Mental };
+            string[] names = { "허기", "수분", "체력", "멘탈" };
+            for (int i = 0; i < 4; i++)
+            {
+                vitalLabels[i].text = names[i] + " " + values[i];
+                var gauge = vitalFills[i].GetComponent<PixelProgressBar>();
+                if (gauge != null)
+                {
+                    gauge.Set(values[i] / 100f);
+                }
+                else
+                {
+                    vitalFills[i].rectTransform.anchorMax = new Vector2(values[i] / 100f, 1);
+                }
+            }
+
+            for (int i = 0; i < fullValues.Length; i++)
+            {
+                fullValues[i].text = g.stats.Get((CoreStat)i) + " /100";
+                if (hud.coreLabels != null && i < hud.coreLabels.Length)
+                {
+                    hud.coreLabels[i].text = StatName((CoreStat)i);
+                }
+            }
+
+            if (detail != null)
+            {
+                detail.text =
+                    "나이 "
+                    + g.growth.Age
+                    + "세 · Lv."
+                    + g.growth.Level
+                    + " · EXP "
+                    + g.growth.Experience
+                    + "\n부채 "
+                    + g.economy.Debt.ToString("N0")
+                    + "G / 순자산 "
+                    + g.economy.NetWorth.ToString("N0")
+                    + "G\n"
+                    + string.Join(
+                        "\n",
+                        Enum.GetValues(typeof(CoreStat))
+                            .Cast<CoreStat>()
+                            .Select(s => StatName(s) + "   " + g.stats.Get(s) + " /100")
+                    );
+            }
+
+            if (growth != null)
+            {
+                growth.text =
+                    "Lv."
+                    + g.growth.Level
+                    + "  /  EXP "
+                    + g.growth.Experience
+                    + "\n"
+                    + g.growth.Age
+                    + "세 · "
+                    + Stage(g.growth.Stage)
+                    + "\n\n나이는 메인 미션 완료로 성장합니다.\n날짜만 진행해도 나이가 오르지는 않습니다.";
+            }
+
+            if (inventory != null)
+            {
+                var p = g.phase23.Progress;
+                inventory.text =
+                    "기본 장비 보관함\n\n스타터 헤드폰: "
+                    + (p.owned.Contains(MissionItemKey.StarterHeadphones) ? "보유" : "미수령")
+                    + "\n스타터 장비: "
+                    + (p.owned.Contains(MissionItemKey.StarterEquipment) ? "보유" : "미수령")
+                    + "\n\n보유 아이템 "
+                    + p.owned.Count
+                    + "종 / 장착 "
+                    + p.equipped.Count
+                    + "종\n정식 인벤토리 확장은 추후 업데이트 예정입니다.";
+            }
+
+            var m = g.missions.ActiveMission;
+            if (m != null)
+            {
+                var progress = g.missions.GetProgress(m);
+                missionTitle.text = m.Id + "  " + m.title;
+                missionProgress.text =
+                    MissionRowView.StateName(progress.state)
+                    + "  "
+                    + progress.current.ToString("0")
+                    + "/"
+                    + progress.target.ToString("0");
+                missionFill.fillAmount = (float)(progress.current / Math.Max(1, progress.target));
+            }
+
+            recent.text = g.RecentLogs.LastOrDefault() ?? "인생 관리국에 오신 것을 환영합니다.";
+            quickIds[0] =
+                g.stats.Thirst < 55 ? 4
+                : g.stats.Hunger < 55 ? 3
+                : g.stats.Health < 45 || g.stats.Mental < 35 ? 5
+                : m != null && m.suggestedAction >= 0 && m.suggestedAction <= 6 ? m.suggestedAction
+                : 4;
+            quickIds[1] = quickIds[0] == 5 ? 3 : 5;
+            quickIds[2] = quickIds[0] == 1 ? 4 : 1;
+            for (int i = 0; i < 3; i++)
+            {
+                string reason;
+                bool can = g.CanPerformAction(quickIds[i], out reason);
+                quickButtons[i].interactable = can;
+                quickLabels[i].text = MissionGuidance.ActionName(quickIds[i], g);
+                var spec = g.actions.Describe(quickIds[i]);
+                quickTips[i].message = can
+                    ? "빠른 행동 / " + spec.days + "일 · " + (spec.money < 0 ? (-(long)spec.money) + "G" : "무료")
+                    : reason;
+            }
+        }
+
+        static string StatName(CoreStat stat)
+        {
+            string[] names = { "허기", "목마름", "지식", "체력", "멘탈", "사회성", "신용도", "행복도" };
+            return names[(int)stat];
+        }
+
+        static string Stage(LifeStage stage)
+        {
+            string[] names = { "유아기", "아동기", "청소년기", "청년기", "중년기", "노년기" };
+            return names[(int)stage];
+        }
+
+        IEnumerator Gold(long from, long to)
+        {
+            float duration = UIShell.ReducedMotion ? .001f : .2f;
+            for (float t = 0; t < 1; t += Time.unscaledDeltaTime / duration)
+            {
+                cash.text = ((long)(from + (to - from) * (1 - Math.Pow(1 - t, 3)))).ToString("N0") + " G";
+                yield return null;
+            }
+
+            cash.text = to.ToString("N0") + " G";
+        }
+
+        void Complete(MissionData m)
+        {
+            Notify("미션 승인!\n" + m.Id + "  " + m.title + "\n보상 수령 후 다음 업무가 배정됩니다.");
+        }
+
+        void Reward(MissionData m)
+        {
+            Notify("입금 완료  +" + m.rewards.gold + "G\n이안의 노동 가치는 계속 산정 중입니다.");
+        }
+
+        void AgeChanged(int age, LifeStage stage)
+        {
+            if (game != null && game.State == GameState.Starting)
+            {
+                return;
+            }
+
+            Notify("성장 통보\n" + age + "세 · " + Stage(stage) + "\n새 인생 구간이 해금되었습니다.");
+        }
+
+        void OnLog(string text)
+        {
+            if (text.Contains("위험") || text.Contains("실패") || text.Contains("부족"))
+            {
+                Notify("시스템 경고\n" + text);
+            }
+        }
+
+        void Notify(string text)
+        {
+            if (game != null && game.world != null && game.world.Active)
+            {
+                game.world.Host.hud.Notify(text, 1);
+                return;
+            }
+
+            if (notice == null || !isActiveAndEnabled)
+            {
+                return;
+            }
+
+            if (noticeAnimation != null)
+            {
+                StopCoroutine(noticeAnimation);
+            }
+
+            noticeText.text = text;
+            notice.SetActive(true);
+            noticeAnimation = StartCoroutine(HideNotice());
+        }
+
+        IEnumerator HideNotice()
+        {
+            yield return new WaitForSecondsRealtime(2.8f);
+            notice.SetActive(false);
+        }
+    }
 }

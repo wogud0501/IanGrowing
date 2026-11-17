@@ -1,45 +1,507 @@
-using System;using System.IO;using System.Linq;using UnityEngine;using UnityEngine.UI;using UnityEngine.EventSystems;using UnityEngine.InputSystem.UI;using TMPro;using UnityEditor;using UnityEditor.SceneManagement;using UnityEditor.Build.Profile;
-namespace IanGame.Editor {
-public static class Phase23Builder {
- const string Folder="Assets/_Game/Data/Phase23/";static Color Ink=new Color32(24,31,36,255),Cream=new Color32(236,232,215,255),Lime=new Color32(210,230,116,255);
- static T Asset<T>(string name,Action<T> init)where T:ScriptableObject {string path=Folder+name+".asset";var a=AssetDatabase.LoadAssetAtPath<T>(path);if(a!=null)return a;a=ScriptableObject.CreateInstance<T>();init(a);AssetDatabase.CreateAsset(a,path);return a;}
- [MenuItem("Ian/Phase 2.3/Build Missing Data and Add Scene UI")]
- public static void Build(){
- if(Application.isPlaying)throw new Exception("Stop Play Mode first.");Directory.CreateDirectory(Folder);
- var catalog=Asset<Phase23Catalog>("LifeCatalog",c=>{});
- catalog.education=new[]{Curriculum("basics","기초 생활 학습",0,6,null,MissionCounter.SchoolEnrollment,0),Curriculum("elementary","초등교육",7,12,"M010",MissionCounter.SchoolEnrollment,1),Curriculum("secondary","중등·고등교육",13,18,"M020",MissionCounter.MiddleSchool,2),Curriculum("vocational","직업 교육·자기계발",19,29,null,MissionCounter.SchoolEnrollment,3),Curriculum("lifelong","평생교육",30,150,null,MissionCounter.SchoolEnrollment,4)};
- var acts=new System.Collections.Generic.List<LifeActivityData>();
- foreach(var old in AssetDatabase.LoadAssetAtPath<ActivityCatalog>("Assets/_Game/Data/BasicActivities.asset").activities){
- if((int)old.action==9)continue;int id=(int)old.action;var a=Asset<SchoolActivityData>("Activity"+id,c=>{c.action=(LifeActivity)id;c.displayName=old.displayName;c.message=old.message;c.minAge=old.minAge;c.maxAge=150;c.days=old.days;c.cost=old.cost;c.delta=old.delta;c.missionEvent=old.producedCounter;c.locations=new[]{SceneId.School};});acts.Add(a);}
- acts.Add(School(15,"진로 선택",13,MissionCounter.CareerChosen));acts.Add(School(16,"졸업",7,MissionCounter.Graduation));acts.Add(School(17,"자기계발",0,MissionCounter.Study));
- foreach(int id in new[]{9,18,19})acts.Add(Asset<SocialActivityData>("Activity"+id,a=>{a.action=(LifeActivity)id;a.displayName=id==9?"친구 만들기":id==18?"NPC와 대화":"관계 유지";a.message="사회활동 완료";a.minAge=7;a.delta=new StatDelta{social=5,mental=-1,happiness=2,health=-1};a.locations=new[]{SceneId.School,SceneId.City};a.cost=id==19?10:0;a.successMessages=new[]{"친구가 생겼습니다. 유지보수 비용이 발생합니다.","사회성이 상승했습니다. 이제 불필요한 회식에 참석할 수 있습니다.","친구가 답장을 보냈습니다. 17일 만입니다."};a.failureMessage="이안이 인사했습니다. 상대방은 이를 고객센터 문의로 인식했습니다.";}));
- foreach(int id in new[]{0,20,21,22,23,24,25,26})acts.Add(Asset<SchoolActivityData>("Activity"+id,a=>{a.action=(LifeActivity)id;a.displayName=id==0?"근무·급여 수령":id==20?"이력서 작성":id==21?"선택 직업 면접":id==22?"승진 신청":id==23?"퇴사":id==24?"스타터 헤드폰 장착":id==25?"스타터 장비 장착":"부채 100G 상환";a.message=a.displayName+" 완료";a.minAge=id==24||id==25?13:19;a.requiredStage=LifeProgression.StageAtAge(a.minAge);a.locations=id==24||id==25?new[]{SceneId.School,SceneId.Home}:id==20||id==21?new[]{SceneId.Workplace,SceneId.City}:new[]{SceneId.Workplace};if(id==26)a.cost=100;if(id==24)a.missionEvent=MissionCounter.HeadphonesEquipped;if(id==25)a.missionEvent=MissionCounter.EquipmentEquipped;}));
- catalog.activities=acts.ToArray();catalog.npcs=new[]{NPC("classmate","옆자리 민수",7,150,0),NPC("clubmate","동아리 지우",13,150,-.1f),NPC("colleague","동네 선배 수연",19,150,.05f)};
- string[] ids={"unemployed","convenience","office","developer","analyst","ceo","unemployed-king"},names={"무직","편의점 직원","사무직","개발자","투자 분석가","기업 대표","백수의 왕"},events={"","진상 손님의 무리한 요구","퇴근 직전 긴급 업무","긴급 서버 장애","시장 예측 실패","직원 파업 및 세무 조사",""};int[] wage={0,1000,3000,7000,10000,0,0},knowledge={0,10,30,60,80,90,0},social={0,0,15,20,35,50,0};
- catalog.jobs=Enumerable.Range(0,7).Select(i=>Asset<JobData>("Job-"+ids[i],j=>{j.JobId=ids[i];j.DisplayName=names[i];j.BaseDailyWage=wage[i];j.RequiredKnowledge=knowledge[i];j.RequiredSocial=social[i];j.RequiredExperience=i==3?30:i==4?60:0;j.HealthCost=8+i*2;j.MentalCost=3+i;j.specialUnlock=i==0||i>=5;j.businessIncome=i==5;j.SpecialEventIds=new[]{events[i]};j.DismissalConditions.mentalBelow=5+i*2;j.DismissalConditions.strikes=i==1?4:3;})).ToArray();EditorUtility.SetDirty(catalog);
- string prefabPath="Assets/_Game/Prefabs/GameContext.prefab";var root=PrefabUtility.LoadPrefabContents(prefabPath);try{var g=root.GetComponent<GameManager>();var module=root.GetComponent<Phase23Services>()??root.AddComponent<Phase23Services>();module.catalog=catalog;g.phase23=module;PrefabUtility.SaveAsPrefabAsset(root,prefabPath);}finally{PrefabUtility.UnloadPrefabContents(root);}
- var routes=AssetDatabase.LoadAssetAtPath<SceneCatalog>("Assets/_Game/Data/SceneRoutes.asset");foreach(var r in routes.routes)if(r.id==SceneId.City||r.id==SceneId.Workplace)r.implemented=true;EditorUtility.SetDirty(routes);
- foreach(string name in new[]{"Home","School","City","Workplace"}){
- string path="Assets/_Game/Scenes/"+name+".unity";bool exists=File.Exists(path);var scene=exists?EditorSceneManager.OpenScene(path,OpenSceneMode.Single):EditorSceneManager.NewScene(NewSceneSetup.EmptyScene,NewSceneMode.Single);
- if(!exists){var cam=new GameObject("Main Camera",typeof(Camera),typeof(AudioListener));cam.tag="MainCamera";cam.transform.position=new Vector3(0,0,-10);cam.GetComponent<Camera>().orthographic=true;cam.GetComponent<Camera>().clearFlags=CameraClearFlags.SolidColor;cam.GetComponent<Camera>().backgroundColor=Ink;var light=new GameObject("Main Light",typeof(Light));light.GetComponent<Light>().type=LightType.Directional;new GameObject("EventSystem",typeof(EventSystem),typeof(InputSystemUIInputModule)).GetComponent<InputSystemUIInputModule>().AssignDefaultActions();var hud=(GameObject)PrefabUtility.InstantiatePrefab(AssetDatabase.LoadAssetAtPath<GameObject>("Assets/_Game/Prefabs/GameHUD.prefab"));var bindings=new GameObject("Scene Bindings",typeof(GameplaySceneBindings)).GetComponent<GameplaySceneBindings>();bindings.hud=hud.GetComponent<UIManager>();bindings.missionUI=hud.GetComponentInChildren<MissionUI>(true);hud.GetComponent<UIManager>().game=null;}
- if(UnityEngine.Object.FindAnyObjectByType<Phase23Presenter>()==null)AddUI(name);EditorSceneManager.MarkSceneDirty(scene);EditorSceneManager.SaveScene(scene,path);
- }
- var added=new[]{"City","Workplace"}.Select(n=>new EditorBuildSettingsScene("Assets/_Game/Scenes/"+n+".unity",true)).ToArray();EditorBuildSettings.scenes=EditorBuildSettings.scenes.Concat(added.Where(a=>!EditorBuildSettings.scenes.Any(s=>s.path==a.path))).ToArray();var profile=BuildProfile.GetActiveBuildProfile();if(profile!=null&&profile.overrideGlobalScenes){profile.scenes=profile.scenes.Concat(added.Where(a=>!profile.scenes.Any(s=>s.path==a.path))).ToArray();EditorUtility.SetDirty(profile);}
- PatchMissions();AssetDatabase.SaveAssets();EditorSceneManager.OpenScene("Assets/_Game/Scenes/Bootstrap.unity",OpenSceneMode.Single);
- }
- static EducationData Curriculum(string id,string title,int min,int max,string prerequisite,MissionCounter counter,int studies)=>Asset<EducationData>(id,e=>{e.educationId=id;e.displayName=title;e.minAge=min;e.maxAge=max;e.requiredStage=LifeProgression.StageAtAge(min);e.prerequisiteMission=prerequisite;e.enrollmentEvent=counter;e.graduationStudies=studies;});
- static RelationshipData NPC(string id,string title,int min,int max,float modifier)=>Asset<RelationshipData>(id,n=>{n.npcId=id;n.displayName=title;n.relationshipType="지인";n.personality=modifier<0?"무심함":"느긋함";n.minAge=min;n.maxAge=max;n.responseModifier=modifier;});
- static SchoolActivityData School(int id,string name,int min,MissionCounter counter)=>Asset<SchoolActivityData>("Activity"+id,a=>{a.action=(LifeActivity)id;a.displayName=name;a.message=name+" 완료";a.minAge=min;a.requiredStage=LifeProgression.StageAtAge(min);a.missionEvent=counter;a.locations=new[]{SceneId.School};if(id==17){a.locations=new[]{SceneId.School,SceneId.Home};a.delta=new StatDelta{knowledge=3,health=-2,mental=-1};}});
- static void PatchMissions(){var catalog=AssetDatabase.LoadAssetAtPath<MissionCatalog>("Assets/_Game/Data/MainMissions.asset");int[] numbers={21,22,23,24,25,26,27,28,29,31,32,33,34,36,37};int[] actions={7,14,14,24,25,18,11,15,5,20,21,21,0,26,0};for(int i=0;i<numbers.Length;i++){var m=catalog.missions[numbers[i]-1];m.suggestedAction=actions[i];m.futurePhase="";if(m.number==36)m.requiredFeatures=MissionFeature.DebtRepayment;EditorUtility.SetDirty(m);}
- var tax=catalog.missions[34];tax.requiredFeatures=MissionFeature.Taxation;tax.futurePhase="Phase 2.5";EditorUtility.SetDirty(tax);
- var graduation=catalog.missions[29];if(!graduation.condition.children.Any(c=>c.kind==MissionConditionKind.CounterAtLeast&&c.counter==MissionCounter.SecondaryGraduation))graduation.condition.children=graduation.condition.children.Concat(new[]{new MissionCondition{kind=MissionConditionKind.CounterAtLeast,counter=MissionCounter.SecondaryGraduation,target=1}}).ToArray();graduation.suggestedAction=16;graduation.futurePhase="";EditorUtility.SetDirty(graduation);
- }
- static void AddUI(string location){var canvas=new GameObject("Phase23 Scene UI",typeof(RectTransform),typeof(Canvas),typeof(CanvasScaler),typeof(GraphicRaycaster));canvas.GetComponent<Canvas>().renderMode=RenderMode.ScreenSpaceOverlay;canvas.GetComponent<Canvas>().sortingOrder=30;var scaler=canvas.GetComponent<CanvasScaler>();scaler.uiScaleMode=CanvasScaler.ScaleMode.ScaleWithScreenSize;scaler.referenceResolution=new Vector2(1440,900);scaler.screenMatchMode=CanvasScaler.ScreenMatchMode.Expand;var frame=MissionUIBuilder.Rect(canvas.transform,"Frame",0,0,1440,900);frame.anchorMin=frame.anchorMax=new Vector2(.5f,.5f);frame.pivot=new Vector2(.5f,.5f);frame.anchoredPosition=Vector2.zero;
- var p=canvas.AddComponent<Phase23Presenter>();p.openButton=MissionUIBuilder.Button(frame,"Life Activities",location+" · 생활 / 이동",350,198,260,32);var panel=MissionUIBuilder.Panel(frame,"Life Window",120,50,1200,800,Ink);p.panel=panel.gameObject;var t=panel.transform;p.closeButton=MissionUIBuilder.Button(t,"Close","닫기",1090,15,95,36);MissionUIBuilder.Text(t,"Title",location+" / 교육 · 사회 · 직업",20,12,1000,36,26,Lime);
- p.navigationButtons=new Button[4];string[] routes={"Home","School","City","Workplace"};for(int i=0;i<4;i++)p.navigationButtons[i]=MissionUIBuilder.Button(t,"Go "+routes[i],routes[i],20+i*190,60,175,40);
- p.status=MissionUIBuilder.Text(t,"Status","",20,110,1160,94,19,Cream);p.details=MissionUIBuilder.Text(t,"Details","",20,205,1160,115,17,Cream);p.result=MissionUIBuilder.Text(t,"Result","활동을 선택하세요. 미구현 미션은 미션 목록에서 예정으로 표시됩니다.",20,735,1160,60,16,Lime);
- p.npcButton=MissionUIBuilder.Button(t,"NPC","NPC 변경",20,325,240,36);p.jobButton=MissionUIBuilder.Button(t,"Job","지원 직업 변경",280,325,240,36);p.careerButton=MissionUIBuilder.Button(t,"Career","진로 변경 (직업교육 / 진학)",540,325,390,36);
- int[] ids=location=="School"?new[]{7,8,14,10,11,12,13,15,16,17,9,18,19,24,25}:location=="Workplace"?new[]{20,21,0,22,23,26}:location=="City"?new[]{18,9,19,20,21}:new[]{17,24,25,1,3,4,5,6};p.actionIds=ids;p.activityButtons=new Button[ids.Length];for(int i=0;i<ids.Length;i++)p.activityButtons[i]=MissionUIBuilder.Button(t,"Action "+ids[i],"활동",20+i%3*390,375+i/3*68,375,60);panel.gameObject.SetActive(location=="City"||location=="Workplace");
- }
-}
+using System;
+using System.IO;
+using System.Linq;
+using TMPro;
+using UnityEditor;
+using UnityEditor.Build.Profile;
+using UnityEditor.SceneManagement;
+using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem.UI;
+using UnityEngine.UI;
+
+namespace IanGame.Editor
+{
+    public static class Phase23Builder
+    {
+        const string Folder = "Assets/_Game/Data/Phase23/";
+        static Color Ink = new Color32(24, 31, 36, 255);
+        static Color Cream = new Color32(236, 232, 215, 255);
+        static Color Lime = new Color32(210, 230, 116, 255);
+
+        static T Asset<T>(string name, Action<T> init)
+            where T : ScriptableObject
+        {
+            string path = Folder + name + ".asset";
+            var a = AssetDatabase.LoadAssetAtPath<T>(path);
+            if (a != null)
+            {
+                return a;
+            }
+
+            a = ScriptableObject.CreateInstance<T>();
+            init(a);
+            AssetDatabase.CreateAsset(a, path);
+            return a;
+        }
+
+        [MenuItem("Ian/Phase 2.3/Build Missing Data and Add Scene UI")]
+        public static void Build()
+        {
+            if (Application.isPlaying)
+            {
+                throw new Exception("Stop Play Mode first.");
+            }
+
+            Directory.CreateDirectory(Folder);
+            var catalog = Asset<Phase23Catalog>("LifeCatalog", c => { });
+            catalog.education = new[]
+            {
+                Curriculum("basics", "기초 생활 학습", 0, 6, null, MissionCounter.SchoolEnrollment, 0),
+                Curriculum("elementary", "초등교육", 7, 12, "M010", MissionCounter.SchoolEnrollment, 1),
+                Curriculum("secondary", "중등·고등교육", 13, 18, "M020", MissionCounter.MiddleSchool, 2),
+                Curriculum("vocational", "직업 교육·자기계발", 19, 29, null, MissionCounter.SchoolEnrollment, 3),
+                Curriculum("lifelong", "평생교육", 30, 150, null, MissionCounter.SchoolEnrollment, 4),
+            };
+            var acts = new System.Collections.Generic.List<LifeActivityData>();
+            foreach (
+                var old in AssetDatabase
+                    .LoadAssetAtPath<ActivityCatalog>("Assets/_Game/Data/BasicActivities.asset")
+                    .activities
+            )
+            {
+                if ((int)old.action == 9)
+                {
+                    continue;
+                }
+
+                int id = (int)old.action;
+                var a = Asset<SchoolActivityData>(
+                    "Activity" + id,
+                    c =>
+                    {
+                        c.action = (LifeActivity)id;
+                        c.displayName = old.displayName;
+                        c.message = old.message;
+                        c.minAge = old.minAge;
+                        c.maxAge = 150;
+                        c.days = old.days;
+                        c.cost = old.cost;
+                        c.delta = old.delta;
+                        c.missionEvent = old.producedCounter;
+                        c.locations = new[] { SceneId.School };
+                    }
+                );
+                acts.Add(a);
+            }
+
+            acts.Add(School(15, "진로 선택", 13, MissionCounter.CareerChosen));
+            acts.Add(School(16, "졸업", 7, MissionCounter.Graduation));
+            acts.Add(School(17, "자기계발", 0, MissionCounter.Study));
+            foreach (int id in new[] { 9, 18, 19 })
+            {
+                acts.Add(
+                    Asset<SocialActivityData>(
+                        "Activity" + id,
+                        a =>
+                        {
+                            a.action = (LifeActivity)id;
+                            a.displayName =
+                                id == 9 ? "친구 만들기"
+                                : id == 18 ? "NPC와 대화"
+                                : "관계 유지";
+                            a.message = "사회활동 완료";
+                            a.minAge = 7;
+                            a.delta = new StatDelta
+                            {
+                                social = 5,
+                                mental = -1,
+                                happiness = 2,
+                                health = -1,
+                            };
+                            a.locations = new[] { SceneId.School, SceneId.City };
+                            a.cost = id == 19 ? 10 : 0;
+                            a.successMessages = new[]
+                            {
+                                "친구가 생겼습니다. 유지보수 비용이 발생합니다.",
+                                "사회성이 상승했습니다. 이제 불필요한 회식에 참석할 수 있습니다.",
+                                "친구가 답장을 보냈습니다. 17일 만입니다.",
+                            };
+                            a.failureMessage = "이안이 인사했습니다. 상대방은 이를 고객센터 문의로 인식했습니다.";
+                        }
+                    )
+                );
+            }
+
+            foreach (int id in new[] { 0, 20, 21, 22, 23, 24, 25, 26 })
+            {
+                acts.Add(
+                    Asset<SchoolActivityData>(
+                        "Activity" + id,
+                        a =>
+                        {
+                            a.action = (LifeActivity)id;
+                            a.displayName =
+                                id == 0 ? "근무·급여 수령"
+                                : id == 20 ? "이력서 작성"
+                                : id == 21 ? "선택 직업 면접"
+                                : id == 22 ? "승진 신청"
+                                : id == 23 ? "퇴사"
+                                : id == 24 ? "스타터 헤드폰 장착"
+                                : id == 25 ? "스타터 장비 장착"
+                                : "부채 100G 상환";
+                            a.message = a.displayName + " 완료";
+                            a.minAge = id == 24 || id == 25 ? 13 : 19;
+                            a.requiredStage = LifeProgression.StageAtAge(a.minAge);
+                            a.locations =
+                                id == 24 || id == 25 ? new[] { SceneId.School, SceneId.Home }
+                                : id == 20 || id == 21 ? new[] { SceneId.Workplace, SceneId.City }
+                                : new[] { SceneId.Workplace };
+                            if (id == 26)
+                            {
+                                a.cost = 100;
+                            }
+
+                            if (id == 24)
+                            {
+                                a.missionEvent = MissionCounter.HeadphonesEquipped;
+                            }
+
+                            if (id == 25)
+                            {
+                                a.missionEvent = MissionCounter.EquipmentEquipped;
+                            }
+                        }
+                    )
+                );
+            }
+
+            catalog.activities = acts.ToArray();
+            catalog.npcs = new[]
+            {
+                NPC("classmate", "옆자리 민수", 7, 150, 0),
+                NPC("clubmate", "동아리 지우", 13, 150, -.1f),
+                NPC("colleague", "동네 선배 수연", 19, 150, .05f),
+            };
+            string[] ids =  { "unemployed", "convenience", "office", "developer", "analyst", "ceo", "unemployed-king" },
+                names =  { "무직", "편의점 직원", "사무직", "개발자", "투자 분석가", "기업 대표", "백수의 왕" },
+                events =
+                {
+                    "",
+                    "진상 손님의 무리한 요구",
+                    "퇴근 직전 긴급 업무",
+                    "긴급 서버 장애",
+                    "시장 예측 실패",
+                    "직원 파업 및 세무 조사",
+                    "",
+                };
+            int[] wage =  { 0, 1000, 3000, 7000, 10000, 0, 0 },
+                knowledge =  { 0, 10, 30, 60, 80, 90, 0 },
+                social =  { 0, 0, 15, 20, 35, 50, 0 };
+            catalog.jobs = Enumerable
+                .Range(0, 7)
+                .Select(i =>
+                    Asset<JobData>(
+                        "Job-" + ids[i],
+                        j =>
+                        {
+                            j.JobId = ids[i];
+                            j.DisplayName = names[i];
+                            j.BaseDailyWage = wage[i];
+                            j.RequiredKnowledge = knowledge[i];
+                            j.RequiredSocial = social[i];
+                            j.RequiredExperience =
+                                i == 3 ? 30
+                                : i == 4 ? 60
+                                : 0;
+                            j.HealthCost = 8 + i * 2;
+                            j.MentalCost = 3 + i;
+                            j.specialUnlock = i == 0 || i >= 5;
+                            j.businessIncome = i == 5;
+                            j.SpecialEventIds = new[] { events[i] };
+                            j.DismissalConditions.mentalBelow = 5 + i * 2;
+                            j.DismissalConditions.strikes = i == 1 ? 4 : 3;
+                        }
+                    )
+                )
+                .ToArray();
+            EditorUtility.SetDirty(catalog);
+            string prefabPath = "Assets/_Game/Prefabs/GameContext.prefab";
+            var root = PrefabUtility.LoadPrefabContents(prefabPath);
+            try
+            {
+                var g = root.GetComponent<GameManager>();
+                var module = root.GetComponent<Phase23Services>() ?? root.AddComponent<Phase23Services>();
+                module.catalog = catalog;
+                g.phase23 = module;
+                PrefabUtility.SaveAsPrefabAsset(root, prefabPath);
+            }
+            finally
+            {
+                PrefabUtility.UnloadPrefabContents(root);
+            }
+
+            var routes = AssetDatabase.LoadAssetAtPath<SceneCatalog>("Assets/_Game/Data/SceneRoutes.asset");
+            foreach (var r in routes.routes)
+            {
+                if (r.id == SceneId.City || r.id == SceneId.Workplace)
+                {
+                    r.implemented = true;
+                }
+            }
+
+            EditorUtility.SetDirty(routes);
+            foreach (string name in new[] { "Home", "School", "City", "Workplace" })
+            {
+                string path = "Assets/_Game/Scenes/" + name + ".unity";
+                bool exists = File.Exists(path);
+                var scene = exists
+                    ? EditorSceneManager.OpenScene(path, OpenSceneMode.Single)
+                    : EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
+                if (!exists)
+                {
+                    var cam = new GameObject("Main Camera", typeof(Camera), typeof(AudioListener));
+                    cam.tag = "MainCamera";
+                    cam.transform.position = new Vector3(0, 0, -10);
+                    cam.GetComponent<Camera>().orthographic = true;
+                    cam.GetComponent<Camera>().clearFlags = CameraClearFlags.SolidColor;
+                    cam.GetComponent<Camera>().backgroundColor = Ink;
+                    var light = new GameObject("Main Light", typeof(Light));
+                    light.GetComponent<Light>().type = LightType.Directional;
+                    new GameObject("EventSystem", typeof(EventSystem), typeof(InputSystemUIInputModule))
+                        .GetComponent<InputSystemUIInputModule>()
+                        .AssignDefaultActions();
+                    var hud = (GameObject)
+                        PrefabUtility.InstantiatePrefab(
+                            AssetDatabase.LoadAssetAtPath<GameObject>("Assets/_Game/Prefabs/GameHUD.prefab")
+                        );
+                    var bindings = new GameObject(
+                        "Scene Bindings",
+                        typeof(GameplaySceneBindings)
+                    ).GetComponent<GameplaySceneBindings>();
+                    bindings.hud = hud.GetComponent<UIManager>();
+                    bindings.missionUI = hud.GetComponentInChildren<MissionUI>(true);
+                    hud.GetComponent<UIManager>().game = null;
+                }
+
+                if (UnityEngine.Object.FindAnyObjectByType<Phase23Presenter>() == null)
+                {
+                    AddUI(name);
+                }
+
+                EditorSceneManager.MarkSceneDirty(scene);
+                EditorSceneManager.SaveScene(scene, path);
+            }
+
+            var added = new[] { "City", "Workplace" }
+                .Select(n => new EditorBuildSettingsScene("Assets/_Game/Scenes/" + n + ".unity", true))
+                .ToArray();
+            EditorBuildSettings.scenes = EditorBuildSettings
+                .scenes.Concat(added.Where(a => !EditorBuildSettings.scenes.Any(s => s.path == a.path)))
+                .ToArray();
+            var profile = BuildProfile.GetActiveBuildProfile();
+            if (profile != null && profile.overrideGlobalScenes)
+            {
+                profile.scenes = profile
+                    .scenes.Concat(added.Where(a => !profile.scenes.Any(s => s.path == a.path)))
+                    .ToArray();
+                EditorUtility.SetDirty(profile);
+            }
+
+            PatchMissions();
+            AssetDatabase.SaveAssets();
+            EditorSceneManager.OpenScene("Assets/_Game/Scenes/Bootstrap.unity", OpenSceneMode.Single);
+        }
+
+        static EducationData Curriculum(
+            string id,
+            string title,
+            int min,
+            int max,
+            string prerequisite,
+            MissionCounter counter,
+            int studies
+        ) =>
+            Asset<EducationData>(
+                id,
+                e =>
+                {
+                    e.educationId = id;
+                    e.displayName = title;
+                    e.minAge = min;
+                    e.maxAge = max;
+                    e.requiredStage = LifeProgression.StageAtAge(min);
+                    e.prerequisiteMission = prerequisite;
+                    e.enrollmentEvent = counter;
+                    e.graduationStudies = studies;
+                }
+            );
+
+        static RelationshipData NPC(string id, string title, int min, int max, float modifier) =>
+            Asset<RelationshipData>(
+                id,
+                n =>
+                {
+                    n.npcId = id;
+                    n.displayName = title;
+                    n.relationshipType = "지인";
+                    n.personality = modifier < 0 ? "무심함" : "느긋함";
+                    n.minAge = min;
+                    n.maxAge = max;
+                    n.responseModifier = modifier;
+                }
+            );
+
+        static SchoolActivityData School(int id, string name, int min, MissionCounter counter) =>
+            Asset<SchoolActivityData>(
+                "Activity" + id,
+                a =>
+                {
+                    a.action = (LifeActivity)id;
+                    a.displayName = name;
+                    a.message = name + " 완료";
+                    a.minAge = min;
+                    a.requiredStage = LifeProgression.StageAtAge(min);
+                    a.missionEvent = counter;
+                    a.locations = new[] { SceneId.School };
+                    if (id == 17)
+                    {
+                        a.locations = new[] { SceneId.School, SceneId.Home };
+                        a.delta = new StatDelta
+                        {
+                            knowledge = 3,
+                            health = -2,
+                            mental = -1,
+                        };
+                    }
+                }
+            );
+
+        static void PatchMissions()
+        {
+            var catalog = AssetDatabase.LoadAssetAtPath<MissionCatalog>("Assets/_Game/Data/MainMissions.asset");
+            int[] numbers = { 21, 22, 23, 24, 25, 26, 27, 28, 29, 31, 32, 33, 34, 36, 37 };
+            int[] actions = { 7, 14, 14, 24, 25, 18, 11, 15, 5, 20, 21, 21, 0, 26, 0 };
+            for (int i = 0; i < numbers.Length; i++)
+            {
+                var m = catalog.missions[numbers[i] - 1];
+                m.suggestedAction = actions[i];
+                m.futurePhase = "";
+                if (m.number == 36)
+                {
+                    m.requiredFeatures = MissionFeature.DebtRepayment;
+                }
+
+                EditorUtility.SetDirty(m);
+            }
+
+            var tax = catalog.missions[34];
+            tax.requiredFeatures = MissionFeature.Taxation;
+            tax.futurePhase = "Phase 2.5";
+            EditorUtility.SetDirty(tax);
+            var graduation = catalog.missions[29];
+            if (
+                !graduation.condition.children.Any(c =>
+                    c.kind == MissionConditionKind.CounterAtLeast && c.counter == MissionCounter.SecondaryGraduation
+                )
+            )
+            {
+                graduation.condition.children = graduation
+                    .condition.children.Concat(
+                        new[]
+                        {
+                            new MissionCondition
+                            {
+                                kind = MissionConditionKind.CounterAtLeast,
+                                counter = MissionCounter.SecondaryGraduation,
+                                target = 1,
+                            },
+                        }
+                    )
+                    .ToArray();
+            }
+
+            graduation.suggestedAction = 16;
+            graduation.futurePhase = "";
+            EditorUtility.SetDirty(graduation);
+        }
+
+        static void AddUI(string location)
+        {
+            var canvas = new GameObject(
+                "Phase23 Scene UI",
+                typeof(RectTransform),
+                typeof(Canvas),
+                typeof(CanvasScaler),
+                typeof(GraphicRaycaster)
+            );
+            canvas.GetComponent<Canvas>().renderMode = RenderMode.ScreenSpaceOverlay;
+            canvas.GetComponent<Canvas>().sortingOrder = 30;
+            var scaler = canvas.GetComponent<CanvasScaler>();
+            scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+            scaler.referenceResolution = new Vector2(1440, 900);
+            scaler.screenMatchMode = CanvasScaler.ScreenMatchMode.Expand;
+            var frame = MissionUIBuilder.Rect(canvas.transform, "Frame", 0, 0, 1440, 900);
+            frame.anchorMin = frame.anchorMax = new Vector2(.5f, .5f);
+            frame.pivot = new Vector2(.5f, .5f);
+            frame.anchoredPosition = Vector2.zero;
+            var p = canvas.AddComponent<Phase23Presenter>();
+            p.openButton = MissionUIBuilder.Button(
+                frame,
+                "Life Activities",
+                location + " · 생활 / 이동",
+                350,
+                198,
+                260,
+                32
+            );
+            var panel = MissionUIBuilder.Panel(frame, "Life Window", 120, 50, 1200, 800, Ink);
+            p.panel = panel.gameObject;
+            var t = panel.transform;
+            p.closeButton = MissionUIBuilder.Button(t, "Close", "닫기", 1090, 15, 95, 36);
+            MissionUIBuilder.Text(t, "Title", location + " / 교육 · 사회 · 직업", 20, 12, 1000, 36, 26, Lime);
+            p.navigationButtons = new Button[4];
+            string[] routes = { "Home", "School", "City", "Workplace" };
+            for (int i = 0; i < 4; i++)
+            {
+                p.navigationButtons[i] = MissionUIBuilder.Button(
+                    t,
+                    "Go " + routes[i],
+                    routes[i],
+                    20 + i * 190,
+                    60,
+                    175,
+                    40
+                );
+            }
+
+            p.status = MissionUIBuilder.Text(t, "Status", "", 20, 110, 1160, 94, 19, Cream);
+            p.details = MissionUIBuilder.Text(t, "Details", "", 20, 205, 1160, 115, 17, Cream);
+            p.result = MissionUIBuilder.Text(
+                t,
+                "Result",
+                "활동을 선택하세요. 미구현 미션은 미션 목록에서 예정으로 표시됩니다.",
+                20,
+                735,
+                1160,
+                60,
+                16,
+                Lime
+            );
+            p.npcButton = MissionUIBuilder.Button(t, "NPC", "NPC 변경", 20, 325, 240, 36);
+            p.jobButton = MissionUIBuilder.Button(t, "Job", "지원 직업 변경", 280, 325, 240, 36);
+            p.careerButton = MissionUIBuilder.Button(t, "Career", "진로 변경 (직업교육 / 진학)", 540, 325, 390, 36);
+            int[] ids =
+                location == "School" ? new[] { 7, 8, 14, 10, 11, 12, 13, 15, 16, 17, 9, 18, 19, 24, 25 }
+                : location == "Workplace" ? new[] { 20, 21, 0, 22, 23, 26 }
+                : location == "City" ? new[] { 18, 9, 19, 20, 21 }
+                : new[] { 17, 24, 25, 1, 3, 4, 5, 6 };
+            p.actionIds = ids;
+            p.activityButtons = new Button[ids.Length];
+            for (int i = 0; i < ids.Length; i++)
+            {
+                p.activityButtons[i] = MissionUIBuilder.Button(
+                    t,
+                    "Action " + ids[i],
+                    "활동",
+                    20 + i % 3 * 390,
+                    375 + i / 3 * 68,
+                    375,
+                    60
+                );
+            }
+
+            panel.gameObject.SetActive(location == "City" || location == "Workplace");
+        }
+    }
 }

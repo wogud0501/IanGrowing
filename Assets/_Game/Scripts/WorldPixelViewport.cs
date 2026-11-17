@@ -1,16 +1,61 @@
 using UnityEngine;
-namespace IanGame {
-// The world camera must render directly to Display 1. Point-filtered artwork and
-// pixel-aligned camera motion are retained without an off-screen UI presentation.
-[DefaultExecutionOrder(1000)]public sealed class WorldPixelViewport:MonoBehaviour {
- public LifeWorldController world;public Camera target;
- public int referenceHeight=360;public float indoorPixelsPerUnit=32,outdoorPixelsPerUnit=22;
- public float interiorLogicalPixelsPerUnit;
- void OnEnable(){RestoreDisplay();}
- void RestoreDisplay(){if(target==null)target=GetComponent<Camera>();if(target==null)return;target.targetTexture=null;target.targetDisplay=0;target.rect=new Rect(0,0,1,1);var old=transform.Find("Pixel world presentation");if(old!=null)old.gameObject.SetActive(false);}
- public float RenderPixelsPerUnit=>target==null?1:Mathf.Max(1,target.pixelHeight/(2*target.orthographicSize));
- // One screen-pixel lattice. Previously the interior camera snapped at its
- // actual density, then this component re-snapped it at a hardcoded 40 PPU.
- void LateUpdate(){if(target==null||world==null||world.CurrentZone==null)return;float ppu=RenderPixelsPerUnit;var p=target.transform.position;target.transform.position=new Vector3(Mathf.Round(p.x*ppu)/ppu,Mathf.Round(p.y*ppu)/ppu,p.z);}
-}
+
+namespace IanGame
+{
+    // The world camera must render directly to Display 1. Point-filtered artwork and
+    // pixel-aligned camera motion are retained without an off-screen UI presentation.
+    [DefaultExecutionOrder(1000)]
+    public sealed class WorldPixelViewport : MonoBehaviour
+    {
+        public LifeWorldController world;
+        public Camera target;
+        public int referenceHeight = 360;
+        public float indoorPixelsPerUnit = 32;
+        public float outdoorPixelsPerUnit = 22;
+        public float interiorLogicalPixelsPerUnit;
+
+        void OnEnable()
+        {
+            RestoreDisplay();
+        }
+
+        void RestoreDisplay()
+        {
+            if (target == null)
+            {
+                target = GetComponent<Camera>();
+            }
+
+            if (target == null)
+            {
+                return;
+            }
+
+            target.targetTexture = null;
+            target.targetDisplay = 0;
+            target.rect = new Rect(0, 0, 1, 1);
+            var old = transform.Find("Pixel world presentation");
+            if (old != null)
+            {
+                old.gameObject.SetActive(false);
+            }
+        }
+
+        public float RenderPixelsPerUnit =>
+            target == null ? 1 : Mathf.Max(1, target.pixelHeight / (2 * target.orthographicSize));
+
+        // One screen-pixel lattice. Previously the interior camera snapped at its
+        // actual density, then this component re-snapped it at a hardcoded 40 PPU.
+        void LateUpdate()
+        {
+            if (target == null || world == null || world.CurrentZone == null)
+            {
+                return;
+            }
+
+            float ppu = RenderPixelsPerUnit;
+            var p = target.transform.position;
+            target.transform.position = new Vector3(Mathf.Round(p.x * ppu) / ppu, Mathf.Round(p.y * ppu) / ppu, p.z);
+        }
+    }
 }

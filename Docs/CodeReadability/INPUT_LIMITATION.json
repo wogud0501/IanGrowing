@@ -1,0 +1,16 @@
+{
+  "rawKeyInjectionVerified": false,
+  "reason": "Unity GameView focusedWindow remains null; CGPreflightPostEventAccess returns false. Production input focus gate was retained.",
+  "attempt": {
+    "passed": [
+      "Home startup route accepted",
+      "Original newborn Home introduction works",
+      "Existing qualified independence succeeds",
+      "Independent Home scene requested",
+      "Actual Home scene entered",
+      "Unity owns OS focus for injected input"
+    ],
+    "failure": "System.Exception: Injected D moves actual Rigidbody player; delta=(0.00, 0.00) focus= can=True age=19 state=Ready timescale=1 simulated=True\n  at MCPDynamicCode+<>c__DisplayClass0_0.<Execute>b__0 (System.Boolean condition, System.String label) [0x0000a] in <2c922bc8ae414ad28d0d207ec5f0d79c>:0 \n  at MCPDynamicCode+<>c__DisplayClass0_0.<Execute>b__1 () [0x0050e] in <2c922bc8ae414ad28d0d207ec5f0d79c>:0 ",
+    "complete": false
+  }
+}

@@ -4,25 +4,265 @@ using System.Collections;
 using System.IO;
 using System.Linq;
 using UnityEngine;
-namespace IanGame {
-public static class PrePhase28RiskScenarios {
- static IEnumerator Once(Action a){a();yield break;}
- public static void Register(TestScenarioRegistry r){
-  void Add(string id,string title,Func<QAScenarioContext,IEnumerator> run,string category)=>r.Register(new QAScenario{id="audit/"+id,title=title,category=category,description="격리 경계 fixture와 실제 서비스의 위험 경로 검사",success="실제 실행 assertion",initial=QAStatus.NOT_RUN,run=run});
-  Add("job-reject-rehire","면접 탈락·재응시·퇴사·재취업",Interview,"2.3 교육·직업");
-  Add("job-promotion","실제 근무 후 승진·상한",Promotion,"2.3 교육·직업");
-  Add("job-dismissal","저멘탈 근무·해고·재취업",Dismissal,"2.3 교육·직업");
-  Add("survival-recovery","체력 차단·무료 회복·생존 유예",Recovery,"2.1 생존");
-  Add("offline-infant","부적합 연령 자동 활동 로드·정산 거부",InfantOffline,"2.4 자동·오프라인");
-  Add("stock-negative","잔액·보유량 부족·거래 영수증 중복",c=>Once(()=>{var e=c.Game.economy;e.EnsureFinance(c.Game.clock.Day,DateTime.UtcNow.Ticks);c.Commands.SetCash(0);c.Check(!e.Trade("audit/no-cash","IAN",1,true),"잔액 부족 매수 거부");c.Commands.SetCash(10000);c.Check(e.Trade("audit/order","IAN",1,true),"실제 매수");long cash=e.Cash;c.Check(!e.Trade("audit/order","IAN",1,true)&&e.Cash==cash,"같은 주문 ID 중복 매수 거부");c.Check(!e.Trade("audit/excess","IAN",2,false),"보유량 초과 매도 거부");c.Check(e.Trade("audit/sale","IAN",1,false),"실제 매도");cash=e.Cash;c.Check(!e.Trade("audit/sale","IAN",1,false)&&e.Cash==cash,"중복 매도 영수증 거부");}),"2.5 경제");
-  Add("housing-expiry","주거 잔액 부족·계약 만료·비용 보존",c=>Once(()=>{var e=c.Game.economy;e.EnsureFinance(c.Game.clock.Day,DateTime.UtcNow.Ticks);c.Commands.SetCash(0);c.Check(!e.BuyProperty("audit/poor-buy","property-0")&&!e.LeaseProperty("audit/poor-lease","property-0",HousingTenure.MonthlyRent),"매수/계약 잔액 부족 거부");c.Commands.SetCash(1000000);long cash=e.Cash,expenses=e.Finance.totalExpenses;c.Check(e.LeaseProperty("audit/term","property-0",HousingTenure.MonthlyRent),"실제 월세 계약");int end=e.Properties.contract.endDay;e.SettlePropertyDay(end);c.Check(e.Properties.contract==null&&e.HousingDeposit==0,"계약 만료 및 보증금 정산");c.Check(e.Cash==cash-(e.Finance.totalExpenses-expenses),"보증금 중복 자산 없이 순지출만 감소");var before=JsonUtility.ToJson(e.Capture());e.SettlePropertyDay(end);c.Check(before==JsonUtility.ToJson(e.Capture()),"동일 만료일 중복 정산 없음");}),"2.7 부동산");
-  Add("corrupt-future-save","손상/미지원 저장·현재 모델 보호",c=>Once(()=>{foreach(string raw in new[]{"{broken","{\"version\":99,\"day\":1,\"stats\":{\"happiness\":50,\"stress\":0,\"energy\":100,\"money\":1}}"}){var s=c.Game.saves;var old=s.EnterTestingChannel("qa-invalid-"+Guid.NewGuid().ToString("N")+".json");try{File.WriteAllText(s.BasePath,raw);long cash=c.Game.economy.Cash;c.Check(!s.TryRead(out _,out _)&&s.WritesBlocked,"손상 또는 미래 버전 읽기 거부");c.Check(!s.Save(c.Game.stats,c.Game.clock,out _)&&File.ReadAllText(s.BasePath)==raw,"실패 후 원본 덮어쓰기 금지");c.Check(c.Game.economy.Cash==cash,"현재 모델 초기화 없음");}finally{s.RestoreTestingChannel(old);}}}),"1 기본");
- }
- static IEnumerator Interview(QAScenarioContext c){yield return c.Commands.Navigate(SceneId.Workplace,true);var s=c.Game.phase23;var prior=s.TestRollSource;try{s.TestRollSource=()=>1;c.Check(c.Commands.Act(20)&&c.Commands.Act(21)&&s.Progress.employment.currentJobId=="unemployed","실제 면접 탈락");c.Check(!c.Game.CanPerformAction(21,out _),"같은 날 재면접 거부");c.Check(c.Commands.Act(5),"다음 날 회복");s.TestRollSource=()=>0;c.Check(c.Commands.Act(21)&&s.Progress.employment.currentJobId!="unemployed","실제 재응시 채용");c.Check(c.Commands.Act(23)&&c.Commands.Act(21)&&s.Progress.employment.currentJobId!="unemployed","퇴사 및 실제 재취업");}finally{s.TestRollSource=prior;}}
- static IEnumerator Promotion(QAScenarioContext c){yield return c.Commands.Navigate(SceneId.Workplace,true);var s=c.Game.phase23;s.Progress.employment.currentJobId="convenience";var conditions=s.Jobs.Current.PromotionConditions;int needed=Math.Max(conditions.workCount,(conditions.experience+Math.Max(1,s.Jobs.Current.ExperienceReward)-1)/Math.Max(1,s.Jobs.Current.ExperienceReward));for(int n=0;n<needed;n++){c.Commands.SetAllStats(100);c.Check(c.Commands.Act(0),"승진용 실제 근무");}int wage=s.Work.Wage;c.Check(c.Commands.Act(22)&&s.Work.Wage>wage,"실제 승진과 임금 증가");long cash=c.Game.economy.Cash;c.Check(!s.Work.Pay(s.Progress.employment.work[0].id)&&c.Game.economy.Cash==cash,"급여 재지급 거부");s.Progress.employment.rank=conditions.maxRank;c.Check(!c.Game.CanPerformAction(22,out _),"최대 승진 상한");}
- static IEnumerator Dismissal(QAScenarioContext c){yield return c.Commands.Navigate(SceneId.Workplace,true);var s=c.Game.phase23;s.Progress.employment.currentJobId="convenience";int strikes=s.Jobs.Current.DismissalConditions.strikes;c.Commands.SetStat(CoreStat.Mental,0);for(int n=0;n<strikes;n++)c.Check(c.Commands.Act(0),"낮은 멘탈의 실제 근무");c.Check(s.Progress.employment.currentJobId=="unemployed"&&s.Progress.employment.history.Any(h=>h.kind=="dismissed"),"실제 해고 기록");c.Commands.SetAllStats(100);var prior=s.TestRollSource;s.TestRollSource=()=>0;try{c.Check(c.Commands.Act(20)&&c.Commands.Act(21),"회복 후 실제 재취업");}finally{s.TestRollSource=prior;}}
- static IEnumerator Recovery(QAScenarioContext c){yield return c.Commands.Navigate(SceneId.Workplace,true);c.Game.phase23.Progress.employment.currentJobId="convenience";c.Commands.SetStat(CoreStat.Health,0);long cash=c.Game.economy.Cash;c.Check(!c.Commands.Act(0)&&c.Game.economy.Cash==cash,"체력 부족 업무/급여 거부");c.Check(c.Commands.Act(6)&&c.Game.stats.Health>0,"무료 건강 회복");c.Commands.SetStat(CoreStat.Hunger,0);c.Commands.SetStat(CoreStat.Thirst,0);c.Commands.Advance(3600);c.Check(c.Game.State==GameState.Playing&&c.Game.survival.InDanger,"생존 유예 유지");c.Check(c.Commands.Act(4)&&c.Commands.Act(3)&&!c.Game.survival.InDanger,"실제 음식/수분 회복");}
- static IEnumerator InfantOffline(QAScenarioContext c){foreach(var a in c.Game.idle.settings.activities){c.Commands.Fixture(30);yield return c.Commands.Navigate(a.startLocation,true);c.Game.phase23.Progress.employment.currentJobId="convenience";c.Commands.SetAge(0);long cash=c.Game.economy.Cash;long now=DateTime.UtcNow.Ticks;c.Game.idle.Restore(new IdleProgressSnapshot{active=true,activityId=a.id,jobId="convenience",educationId="primary",sessionId=Guid.NewGuid().ToString("N"),accountedUtcTicks=now-TimeSpan.TicksPerHour});c.Commands.TimeSource=new QAManualTimeSource{utc=now};c.Commands.Offline(0);c.Check(!c.Game.idle.State.active&&c.Game.economy.Cash==cash&&(c.Game.idle.State.report?.cycles??0)==0,"0세 불법 로드 활동 정산 거부 "+a.kind);yield return null;while(GameContext.Instance.transitions.IsTransitioning)yield return null;}}
-}
+
+namespace IanGame
+{
+    public static class PrePhase28RiskScenarios
+    {
+        static IEnumerator Once(Action a)
+        {
+            a();
+            yield break;
+        }
+
+        public static void Register(TestScenarioRegistry r)
+        {
+            void Add(string id, string title, Func<QAScenarioContext, IEnumerator> run, string category) =>
+                r.Register(
+                    new QAScenario
+                    {
+                        id = "audit/" + id,
+                        title = title,
+                        category = category,
+                        description = "격리 경계 fixture와 실제 서비스의 위험 경로 검사",
+                        success = "실제 실행 assertion",
+                        initial = QAStatus.NOT_RUN,
+                        run = run,
+                    }
+                );
+            Add("job-reject-rehire", "면접 탈락·재응시·퇴사·재취업", Interview, "2.3 교육·직업");
+            Add("job-promotion", "실제 근무 후 승진·상한", Promotion, "2.3 교육·직업");
+            Add("job-dismissal", "저멘탈 근무·해고·재취업", Dismissal, "2.3 교육·직업");
+            Add("survival-recovery", "체력 차단·무료 회복·생존 유예", Recovery, "2.1 생존");
+            Add("offline-infant", "부적합 연령 자동 활동 로드·정산 거부", InfantOffline, "2.4 자동·오프라인");
+            Add(
+                "stock-negative",
+                "잔액·보유량 부족·거래 영수증 중복",
+                c =>
+                    Once(() =>
+                    {
+                        var e = c.Game.economy;
+                        e.EnsureFinance(c.Game.clock.Day, DateTime.UtcNow.Ticks);
+                        c.Commands.SetCash(0);
+                        c.Check(!e.Trade("audit/no-cash", "IAN", 1, true), "잔액 부족 매수 거부");
+                        c.Commands.SetCash(10000);
+                        c.Check(e.Trade("audit/order", "IAN", 1, true), "실제 매수");
+                        long cash = e.Cash;
+                        c.Check(
+                            !e.Trade("audit/order", "IAN", 1, true) && e.Cash == cash,
+                            "같은 주문 ID 중복 매수 거부"
+                        );
+                        c.Check(!e.Trade("audit/excess", "IAN", 2, false), "보유량 초과 매도 거부");
+                        c.Check(e.Trade("audit/sale", "IAN", 1, false), "실제 매도");
+                        cash = e.Cash;
+                        c.Check(!e.Trade("audit/sale", "IAN", 1, false) && e.Cash == cash, "중복 매도 영수증 거부");
+                    }),
+                "2.5 경제"
+            );
+            Add(
+                "housing-expiry",
+                "주거 잔액 부족·계약 만료·비용 보존",
+                c =>
+                    Once(() =>
+                    {
+                        var e = c.Game.economy;
+                        e.EnsureFinance(c.Game.clock.Day, DateTime.UtcNow.Ticks);
+                        c.Commands.SetCash(0);
+                        c.Check(
+                            !e.BuyProperty("audit/poor-buy", "property-0")
+                                && !e.LeaseProperty("audit/poor-lease", "property-0", HousingTenure.MonthlyRent),
+                            "매수/계약 잔액 부족 거부"
+                        );
+                        c.Commands.SetCash(1000000);
+                        long cash = e.Cash,
+                            expenses = e.Finance.totalExpenses;
+                        c.Check(
+                            e.LeaseProperty("audit/term", "property-0", HousingTenure.MonthlyRent),
+                            "실제 월세 계약"
+                        );
+                        int end = e.Properties.contract.endDay;
+                        e.SettlePropertyDay(end);
+                        c.Check(e.Properties.contract == null && e.HousingDeposit == 0, "계약 만료 및 보증금 정산");
+                        c.Check(
+                            e.Cash == cash - (e.Finance.totalExpenses - expenses),
+                            "보증금 중복 자산 없이 순지출만 감소"
+                        );
+                        var before = JsonUtility.ToJson(e.Capture());
+                        e.SettlePropertyDay(end);
+                        c.Check(before == JsonUtility.ToJson(e.Capture()), "동일 만료일 중복 정산 없음");
+                    }),
+                "2.7 부동산"
+            );
+            Add(
+                "corrupt-future-save",
+                "손상/미지원 저장·현재 모델 보호",
+                c =>
+                    Once(() =>
+                    {
+                        foreach (
+                            string raw in new[]
+                            {
+                                "{broken",
+                                "{\"version\":99,\"day\":1,\"stats\":{\"happiness\":50,\"stress\":0,\"energy\":100,\"money\":1}}",
+                            }
+                        )
+                        {
+                            var s = c.Game.saves;
+                            var old = s.EnterTestingChannel("qa-invalid-" + Guid.NewGuid().ToString("N") + ".json");
+                            try
+                            {
+                                File.WriteAllText(s.BasePath, raw);
+                                long cash = c.Game.economy.Cash;
+                                c.Check(!s.TryRead(out _, out _) && s.WritesBlocked, "손상 또는 미래 버전 읽기 거부");
+                                c.Check(
+                                    !s.Save(c.Game.stats, c.Game.clock, out _) && File.ReadAllText(s.BasePath) == raw,
+                                    "실패 후 원본 덮어쓰기 금지"
+                                );
+                                c.Check(c.Game.economy.Cash == cash, "현재 모델 초기화 없음");
+                            }
+                            finally
+                            {
+                                s.RestoreTestingChannel(old);
+                            }
+                        }
+                    }),
+                "1 기본"
+            );
+        }
+
+        static IEnumerator Interview(QAScenarioContext c)
+        {
+            yield return c.Commands.Navigate(SceneId.Workplace, true);
+            var s = c.Game.phase23;
+            var prior = s.TestRollSource;
+            try
+            {
+                s.TestRollSource = () => 1;
+                c.Check(
+                    c.Commands.Act(20) && c.Commands.Act(21) && s.Progress.employment.currentJobId == "unemployed",
+                    "실제 면접 탈락"
+                );
+                c.Check(!c.Game.CanPerformAction(21, out _), "같은 날 재면접 거부");
+                c.Check(c.Commands.Act(5), "다음 날 회복");
+                s.TestRollSource = () => 0;
+                c.Check(c.Commands.Act(21) && s.Progress.employment.currentJobId != "unemployed", "실제 재응시 채용");
+                c.Check(
+                    c.Commands.Act(23) && c.Commands.Act(21) && s.Progress.employment.currentJobId != "unemployed",
+                    "퇴사 및 실제 재취업"
+                );
+            }
+            finally
+            {
+                s.TestRollSource = prior;
+            }
+        }
+
+        static IEnumerator Promotion(QAScenarioContext c)
+        {
+            yield return c.Commands.Navigate(SceneId.Workplace, true);
+            var s = c.Game.phase23;
+            s.Progress.employment.currentJobId = "convenience";
+            var conditions = s.Jobs.Current.PromotionConditions;
+            int needed = Math.Max(
+                conditions.workCount,
+                (conditions.experience + Math.Max(1, s.Jobs.Current.ExperienceReward) - 1)
+                    / Math.Max(1, s.Jobs.Current.ExperienceReward)
+            );
+            for (int n = 0; n < needed; n++)
+            {
+                c.Commands.SetAllStats(100);
+                c.Check(c.Commands.Act(0), "승진용 실제 근무");
+            }
+
+            int wage = s.Work.Wage;
+            c.Check(c.Commands.Act(22) && s.Work.Wage > wage, "실제 승진과 임금 증가");
+            long cash = c.Game.economy.Cash;
+            c.Check(!s.Work.Pay(s.Progress.employment.work[0].id) && c.Game.economy.Cash == cash, "급여 재지급 거부");
+            s.Progress.employment.rank = conditions.maxRank;
+            c.Check(!c.Game.CanPerformAction(22, out _), "최대 승진 상한");
+        }
+
+        static IEnumerator Dismissal(QAScenarioContext c)
+        {
+            yield return c.Commands.Navigate(SceneId.Workplace, true);
+            var s = c.Game.phase23;
+            s.Progress.employment.currentJobId = "convenience";
+            int strikes = s.Jobs.Current.DismissalConditions.strikes;
+            c.Commands.SetStat(CoreStat.Mental, 0);
+            for (int n = 0; n < strikes; n++)
+            {
+                c.Check(c.Commands.Act(0), "낮은 멘탈의 실제 근무");
+            }
+
+            c.Check(
+                s.Progress.employment.currentJobId == "unemployed"
+                    && s.Progress.employment.history.Any(h => h.kind == "dismissed"),
+                "실제 해고 기록"
+            );
+            c.Commands.SetAllStats(100);
+            var prior = s.TestRollSource;
+            s.TestRollSource = () => 0;
+            try
+            {
+                c.Check(c.Commands.Act(20) && c.Commands.Act(21), "회복 후 실제 재취업");
+            }
+            finally
+            {
+                s.TestRollSource = prior;
+            }
+        }
+
+        static IEnumerator Recovery(QAScenarioContext c)
+        {
+            yield return c.Commands.Navigate(SceneId.Workplace, true);
+            c.Game.phase23.Progress.employment.currentJobId = "convenience";
+            c.Commands.SetStat(CoreStat.Health, 0);
+            long cash = c.Game.economy.Cash;
+            c.Check(!c.Commands.Act(0) && c.Game.economy.Cash == cash, "체력 부족 업무/급여 거부");
+            c.Check(c.Commands.Act(6) && c.Game.stats.Health > 0, "무료 건강 회복");
+            c.Commands.SetStat(CoreStat.Hunger, 0);
+            c.Commands.SetStat(CoreStat.Thirst, 0);
+            c.Commands.Advance(3600);
+            c.Check(c.Game.State == GameState.Playing && c.Game.survival.InDanger, "생존 유예 유지");
+            c.Check(c.Commands.Act(4) && c.Commands.Act(3) && !c.Game.survival.InDanger, "실제 음식/수분 회복");
+        }
+
+        static IEnumerator InfantOffline(QAScenarioContext c)
+        {
+            foreach (var a in c.Game.idle.settings.activities)
+            {
+                c.Commands.Fixture(30);
+                yield return c.Commands.Navigate(a.startLocation, true);
+                c.Game.phase23.Progress.employment.currentJobId = "convenience";
+                c.Commands.SetAge(0);
+                long cash = c.Game.economy.Cash;
+                long now = DateTime.UtcNow.Ticks;
+                c.Game.idle.Restore(
+                    new IdleProgressSnapshot
+                    {
+                        active = true,
+                        activityId = a.id,
+                        jobId = "convenience",
+                        educationId = "primary",
+                        sessionId = Guid.NewGuid().ToString("N"),
+                        accountedUtcTicks = now - TimeSpan.TicksPerHour,
+                    }
+                );
+                c.Commands.TimeSource = new QAManualTimeSource { utc = now };
+                c.Commands.Offline(0);
+                c.Check(
+                    !c.Game.idle.State.active
+                        && c.Game.economy.Cash == cash
+                        && (c.Game.idle.State.report?.cycles ?? 0) == 0,
+                    "0세 불법 로드 활동 정산 거부 " + a.kind
+                );
+                yield return null;
+                while (GameContext.Instance.transitions.IsTransitioning)
+                {
+                    yield return null;
+                }
+            }
+        }
+    }
 }
 #endif

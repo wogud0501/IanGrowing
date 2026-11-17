@@ -4,40 +4,366 @@ using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-namespace IanGame.Editor {
-public static class ResidentLifeVerification {
- static NPCResidentSnapshot At(string id,string zone,Vector2 p,long minute,NPCDailyAction action=NPCDailyAction.Walk)=>new NPCResidentSnapshot{id=id,zone=zone,position=p,minute=minute,action=action,completedUseKey=-1};
- public static IEnumerator Visual(LifeWorldController w,GameManager g,Action<bool,string> check){
-  check(!g.autoLoadOnStart&&g.saves.BasePath.Contains("phase26-"),"Startup is isolated before original save loading");
-  var context=GameContext.Instance;typeof(GameContext).GetField("<Instance>k__BackingField",System.Reflection.BindingFlags.Static|System.Reflection.BindingFlags.NonPublic).SetValue(null,null);context.enabled=false;context.enabled=true;
-  check(GameContext.Instance==context,"Context reconnects after static loss and component re-enable");
-  var scheduler=w.GetComponent<WorldNPCScheduler>();var data=g.CaptureState();data.time.subDaySeconds=21*3600+60;data.world.zone="alley";data.world.position=new Vector2(-7,-2);data.world.residents=new List<NPCResidentSnapshot>{At("colleague","alley",new Vector2(7,1.4f),1261)};g.RestoreState(data);g.clock.realtimeEnabled=false;yield return new WaitForSecondsRealtime(.3f);
-  var actor=scheduler.actors.First(a=>a.npcId=="colleague");float end=Time.unscaledTime+12;while(actor.zone=="alley"&&Time.unscaledTime<end)yield return null;check(actor.zone=="residence","Visible resident uses the residential doorway to return home");
-  g.clock.Restore(g.clock.Day,new TimeSnapshot{subDaySeconds=23*3600+50*60,elapsedSeconds=g.clock.ElapsedSeconds});yield return new WaitForSecondsRealtime(.4f);check(w.Travel("residence"),"Visit sleeping residents for final visual review");while(w.Busy)yield return null;yield return new WaitForSecondsRealtime(.7f);check(scheduler.actors.Count(a=>a.zone=="residence"&&a.visual.enabled)>5,"Night home activates the scheduled sleeping residents");ScreenCapture.CaptureScreenshot("Docs/Phase26/Advanced/Screenshots/Residents-Night-Home.png");yield return null;
- }
- public static IEnumerator Run(LifeWorldController w,GameManager g,Action<bool,string> check){
-  var rules=g.world.rules;var scheduler=w.GetComponent<WorldNPCScheduler>();check(rules.npcs.Length>=12&&scheduler.actors.Length==rules.npcs.Length,"All authored residents use the single existing scheduler");check(rules.npcs.Select(n=>n.npcId).Distinct().Count()==rules.npcs.Length,"Resident identities are unique");check(rules.npcs.Select(n=>n.personality).Distinct().Count()>=4,"Residents have distinct day/night/student/homebody patterns");check(rules.npcs.Any(n=>n.schedule.Any(s=>s.dayMask!=127)),"Weekend-specific schedule is authored");check(rules.npcs.All(n=>n.animations.Find(ActorMotion.Sleep,ActorDirection.Right)!=null&&n.animations.Find(ActorMotion.Eat,ActorDirection.Right)!=null),"Residents have real sleep and eating drawings");
-  var fixture=g.CaptureState();fixture.time.subDaySeconds=9*3600;fixture.world.zone="city";fixture.world.position=new Vector2(-10,.5f);fixture.world.residents=new List<NPCResidentSnapshot>{At("colleague","city",new Vector2(9,1.4f),540)};g.RestoreState(fixture);g.clock.realtimeEnabled=false;yield return new WaitForSecondsRealtime(.3f);
-  var actor=scheduler.actors.First(a=>a.npcId=="colleague");var animation=actor.GetComponent<WorldActorAnimation>();var gate=w.objects.First(o=>o.id=="office-front").GetComponent<WorldDoor>();int passages=scheduler.DoorPassages;var sprites=new HashSet<Sprite>();var doorFrames=new HashSet<Sprite>();var from=(Vector2)actor.transform.position;float until=Time.unscaledTime+12;
-  while(actor.zone=="city"&&Time.unscaledTime<until){sprites.Add(actor.visual.sprite);doorFrames.Add(gate.leaf.sprite);yield return null;}
-  check(actor.zone=="workplace"&&scheduler.DoorPassages>passages,"Visible colleague walks to office and uses an actual portal");check(sprites.Count>=3&&doorFrames.Count>=3,"NPC walk frames and real door aperture animate during commute");yield return new WaitForSecondsRealtime(.6f);var state=scheduler.Inspect("colleague");var definitionAtWork=rules.npcs.First(n=>n.npcId==actor.npcId);var workTarget=definitionAtWork.schedule[WorldNPCScheduler.Schedule(definitionAtWork,g.clock.Day,9*60)].objectId;check(state.action==NPCDailyAction.Work&&state.objectId==workTarget,"Offscreen arrival begins work at assigned workstation "+workTarget);check(w.objects.First(o=>o.id==workTarget).NPCUses>0,"NPC activity is recorded on actual assigned world object");
-  long cash=g.economy.Cash;check(g.SaveAutomaticCheckpoint(out var why),"Save actual resident positions and current intentions");SaveData saved;check(g.saves.TryReadAutomatic(out saved,out why)&&saved.world.residents.Count==rules.npcs.Length,"Disk save contains every authored resident snapshot");var expected=saved.world.residents.First(n=>n.id=="colleague");actor.transform.position=Vector2.zero;int uses=scheduler.ObjectUses;g.RestoreState(saved);g.clock.realtimeEnabled=false;yield return new WaitForSecondsRealtime(.3f);state=scheduler.Inspect("colleague");check(state.zone==expected.zone&&Vector2.Distance(state.position,expected.position)<.1f&&state.completedUseKey==expected.completedUseKey,"Load retains NPC position and completed-use marker");check(g.economy.Cash==cash,"NPC jobs never pay into the player wallet");
-  var authoredLunch=rules.npcs.First(n=>n.npcId=="colleague").schedule.First(e=>e.action==NPCDailyAction.Eat);g.clock.Restore(g.clock.Day,new TimeSnapshot{subDaySeconds=authoredLunch.hour*3600+(authoredLunch.minute+5)*60,elapsedSeconds=g.clock.ElapsedSeconds});yield return new WaitForSecondsRealtime(.4f);check(scheduler.Inspect("colleague").destinationZone=="shop"&&scheduler.Inspect("colleague").action==NPCDailyAction.Eat,"Lunch schedule advances logically offscreen");check(w.Travel("shop"),"Player can visit residents at lunch");while(w.Busy)yield return null;yield return new WaitForSecondsRealtime(.5f);actor=scheduler.actors.First(a=>a.npcId=="colleague");sprites.Clear();until=Time.unscaledTime+.8f;while(Time.unscaledTime<until){sprites.Add(actor.visual.sprite);yield return null;}check(actor.zone=="shop"&&actor.visual.enabled&&sprites.Count>=2,"Lunch residents visibly play eating frames in shop");ScreenCapture.CaptureScreenshot("Docs/Phase26/Advanced/Screenshots/Residents-Lunch.png");yield return null;
-  check(w.Travel("home"),"Return player home to inspect abstract residents");while(w.Busy)yield return null;g.clock.Restore(g.clock.Day,new TimeSnapshot{subDaySeconds=8*3600+55*60,elapsedSeconds=g.clock.ElapsedSeconds});yield return new WaitForSecondsRealtime(.4f);int morning=scheduler.actors.Count(a=>a.zone=="city");g.clock.Restore(g.clock.Day,new TimeSnapshot{subDaySeconds=23*3600+50*60,elapsedSeconds=g.clock.ElapsedSeconds});yield return new WaitForSecondsRealtime(.4f);int night=scheduler.actors.Count(a=>a.zone=="city");check(morning>night&&rules.npcs.Count(n=>n.personality==NPCPersonality.NightWorker)>0,"City density follows individual daytime and night-worker locations");check(scheduler.AbstractUpdates>0&&scheduler.actors.Where(a=>a.zone=="residence").Select(a=>a.transform.position).Distinct().Count()>5,"Offscreen home positions stay distinct rather than stacking at one spawn");
-  check(w.Travel("residence"),"Visit separate NPC residence at night");while(w.Busy)yield return null;yield return new WaitForSecondsRealtime(.6f);check(scheduler.actors.Count(n=>n.zone=="residence"&&n.visual.enabled)>5,"Residents sleep in their individual home locations");ScreenCapture.CaptureScreenshot("Docs/Phase26/Advanced/Screenshots/Residents-Night-Home.png");yield return null;
-  var legacy=g.CaptureState();legacy.world.residents=null;g.RestoreState(legacy);g.clock.realtimeEnabled=false;yield return new WaitForSecondsRealtime(.3f);check(g.CaptureState().world.residents.Count==rules.npcs.Length&&g.economy.Cash==cash,"Legacy save without residents safely reconstructs schedules and preserves wallet");
-  var talk=g.CaptureState();talk.world.zone="city";talk.world.position=new Vector2(-10,1);talk.time.subDaySeconds=20*3600;talk.world.residents=new List<NPCResidentSnapshot>{At("colleague","city",new Vector2(-2,1.2f),1200,NPCDailyAction.Talk),At("classmate","city",new Vector2(-.5f,1.2f),1200,NPCDailyAction.Talk)};g.RestoreState(talk);g.clock.realtimeEnabled=false;yield return new WaitForSecondsRealtime(.5f);var a=scheduler.Inspect("colleague");var b=scheduler.Inspect("classmate");check(a.action==NPCDailyAction.Talk&&b.action==NPCDailyAction.Talk&&a.facing.x>0&&b.facing.x<0,"Companions face each other during their shared conversation");ScreenCapture.CaptureScreenshot("Docs/Phase26/Advanced/Screenshots/Residents-Conversation.png");yield return null;
-  var definition=rules.npcs.First(n=>n.npcId=="colleague");var previousSchedule=definition.schedule;
-  try{
-   foreach(var vector in new[]{Vector2.right,Vector2.left,Vector2.up,Vector2.down,new Vector2(1,1).normalized}){
-    var origin=new Vector2(-3,.5f);definition.schedule=new[]{new NPCScheduleEntry{hour=0,zone="city",position=origin+vector*1.4f,action=NPCDailyAction.Walk}};
-    var motion=g.CaptureState();motion.world.zone="city";motion.world.position=new Vector2(-10,1);motion.world.residents=new List<NPCResidentSnapshot>{At("colleague","city",origin,1200)};g.RestoreState(motion);g.clock.realtimeEnabled=false;actor=scheduler.actors.First(n=>n.npcId=="colleague");animation=actor.GetComponent<WorldActorAnimation>();from=actor.transform.position;var last=from;bool aligned=true;int samples=0;until=Time.unscaledTime+2.5f;
-    while(Time.unscaledTime<until){yield return null;var now=(Vector2)actor.transform.position;var delta=now-last;if(delta.sqrMagnitude>.0000001f){aligned&=Vector2.Dot(new Vector2(animation.Direction==ActorDirection.Left?-1:animation.Direction==ActorDirection.Right?1:0,animation.Direction==ActorDirection.Down?-1:animation.Direction==ActorDirection.Up?1:0),delta.normalized)>.5f;samples++;}last=now;}
-    check(Vector2.Distance(from,actor.transform.position)>.8f&&samples>3&&aligned,"Observed direction and drawn facing match through route: "+vector);
-   }
-  }finally{definition.schedule=previousSchedule;}
-  check(scheduler.NavigationBakes<30,"Navigation occupancy is cached across resident movement");
- }
-}
+
+namespace IanGame.Editor
+{
+    public static class ResidentLifeVerification
+    {
+        static NPCResidentSnapshot At(
+            string id,
+            string zone,
+            Vector2 p,
+            long minute,
+            NPCDailyAction action = NPCDailyAction.Walk
+        ) =>
+            new NPCResidentSnapshot
+            {
+                id = id,
+                zone = zone,
+                position = p,
+                minute = minute,
+                action = action,
+                completedUseKey = -1,
+            };
+
+        public static IEnumerator Visual(LifeWorldController w, GameManager g, Action<bool, string> check)
+        {
+            check(
+                !g.autoLoadOnStart && g.saves.BasePath.Contains("phase26-"),
+                "Startup is isolated before original save loading"
+            );
+            var context = GameContext.Instance;
+            typeof(GameContext)
+                .GetField(
+                    "<Instance>k__BackingField",
+                    System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic
+                )
+                .SetValue(null, null);
+            context.enabled = false;
+            context.enabled = true;
+            check(GameContext.Instance == context, "Context reconnects after static loss and component re-enable");
+            var scheduler = w.GetComponent<WorldNPCScheduler>();
+            var data = g.CaptureState();
+            data.time.subDaySeconds = 21 * 3600 + 60;
+            data.world.zone = "alley";
+            data.world.position = new Vector2(-7, -2);
+            data.world.residents = new List<NPCResidentSnapshot>
+            {
+                At("colleague", "alley", new Vector2(7, 1.4f), 1261),
+            };
+            g.RestoreState(data);
+            g.clock.realtimeEnabled = false;
+            yield return new WaitForSecondsRealtime(.3f);
+            var actor = scheduler.actors.First(a => a.npcId == "colleague");
+            float end = Time.unscaledTime + 12;
+            while (actor.zone == "alley" && Time.unscaledTime < end)
+            {
+                yield return null;
+            }
+
+            check(actor.zone == "residence", "Visible resident uses the residential doorway to return home");
+            g.clock.Restore(
+                g.clock.Day,
+                new TimeSnapshot { subDaySeconds = 23 * 3600 + 50 * 60, elapsedSeconds = g.clock.ElapsedSeconds }
+            );
+            yield return new WaitForSecondsRealtime(.4f);
+            check(w.Travel("residence"), "Visit sleeping residents for final visual review");
+            while (w.Busy)
+            {
+                yield return null;
+            }
+
+            yield return new WaitForSecondsRealtime(.7f);
+            check(
+                scheduler.actors.Count(a => a.zone == "residence" && a.visual.enabled) > 5,
+                "Night home activates the scheduled sleeping residents"
+            );
+            ScreenCapture.CaptureScreenshot("Docs/Phase26/Advanced/Screenshots/Residents-Night-Home.png");
+            yield return null;
+        }
+
+        public static IEnumerator Run(LifeWorldController w, GameManager g, Action<bool, string> check)
+        {
+            var rules = g.world.rules;
+            var scheduler = w.GetComponent<WorldNPCScheduler>();
+            check(
+                rules.npcs.Length >= 12 && scheduler.actors.Length == rules.npcs.Length,
+                "All authored residents use the single existing scheduler"
+            );
+            check(
+                rules.npcs.Select(n => n.npcId).Distinct().Count() == rules.npcs.Length,
+                "Resident identities are unique"
+            );
+            check(
+                rules.npcs.Select(n => n.personality).Distinct().Count() >= 4,
+                "Residents have distinct day/night/student/homebody patterns"
+            );
+            check(rules.npcs.Any(n => n.schedule.Any(s => s.dayMask != 127)), "Weekend-specific schedule is authored");
+            check(
+                rules.npcs.All(n =>
+                    n.animations.Find(ActorMotion.Sleep, ActorDirection.Right) != null
+                    && n.animations.Find(ActorMotion.Eat, ActorDirection.Right) != null
+                ),
+                "Residents have real sleep and eating drawings"
+            );
+            var fixture = g.CaptureState();
+            fixture.time.subDaySeconds = 9 * 3600;
+            fixture.world.zone = "city";
+            fixture.world.position = new Vector2(-10, .5f);
+            fixture.world.residents = new List<NPCResidentSnapshot>
+            {
+                At("colleague", "city", new Vector2(9, 1.4f), 540),
+            };
+            g.RestoreState(fixture);
+            g.clock.realtimeEnabled = false;
+            yield return new WaitForSecondsRealtime(.3f);
+            var actor = scheduler.actors.First(a => a.npcId == "colleague");
+            var animation = actor.GetComponent<WorldActorAnimation>();
+            var gate = w.objects.First(o => o.id == "office-front").GetComponent<WorldDoor>();
+            int passages = scheduler.DoorPassages;
+            var sprites = new HashSet<Sprite>();
+            var doorFrames = new HashSet<Sprite>();
+            var from = (Vector2)actor.transform.position;
+            float until = Time.unscaledTime + 12;
+            while (actor.zone == "city" && Time.unscaledTime < until)
+            {
+                sprites.Add(actor.visual.sprite);
+                doorFrames.Add(gate.leaf.sprite);
+                yield return null;
+            }
+
+            check(
+                actor.zone == "workplace" && scheduler.DoorPassages > passages,
+                "Visible colleague walks to office and uses an actual portal"
+            );
+            check(
+                sprites.Count >= 3 && doorFrames.Count >= 3,
+                "NPC walk frames and real door aperture animate during commute"
+            );
+            yield return new WaitForSecondsRealtime(.6f);
+            var state = scheduler.Inspect("colleague");
+            var definitionAtWork = rules.npcs.First(n => n.npcId == actor.npcId);
+            var workTarget = definitionAtWork
+                .schedule[WorldNPCScheduler.Schedule(definitionAtWork, g.clock.Day, 9 * 60)]
+                .objectId;
+            check(
+                state.action == NPCDailyAction.Work && state.objectId == workTarget,
+                "Offscreen arrival begins work at assigned workstation " + workTarget
+            );
+            check(
+                w.objects.First(o => o.id == workTarget).NPCUses > 0,
+                "NPC activity is recorded on actual assigned world object"
+            );
+            long cash = g.economy.Cash;
+            check(g.SaveAutomaticCheckpoint(out var why), "Save actual resident positions and current intentions");
+            SaveData saved;
+            check(
+                g.saves.TryReadAutomatic(out saved, out why) && saved.world.residents.Count == rules.npcs.Length,
+                "Disk save contains every authored resident snapshot"
+            );
+            var expected = saved.world.residents.First(n => n.id == "colleague");
+            actor.transform.position = Vector2.zero;
+            int uses = scheduler.ObjectUses;
+            g.RestoreState(saved);
+            g.clock.realtimeEnabled = false;
+            yield return new WaitForSecondsRealtime(.3f);
+            state = scheduler.Inspect("colleague");
+            check(
+                state.zone == expected.zone
+                    && Vector2.Distance(state.position, expected.position) < .1f
+                    && state.completedUseKey == expected.completedUseKey,
+                "Load retains NPC position and completed-use marker"
+            );
+            check(g.economy.Cash == cash, "NPC jobs never pay into the player wallet");
+            var authoredLunch = rules
+                .npcs.First(n => n.npcId == "colleague")
+                .schedule.First(e => e.action == NPCDailyAction.Eat);
+            g.clock.Restore(
+                g.clock.Day,
+                new TimeSnapshot
+                {
+                    subDaySeconds = authoredLunch.hour * 3600 + (authoredLunch.minute + 5) * 60,
+                    elapsedSeconds = g.clock.ElapsedSeconds,
+                }
+            );
+            yield return new WaitForSecondsRealtime(.4f);
+            check(
+                scheduler.Inspect("colleague").destinationZone == "shop"
+                    && scheduler.Inspect("colleague").action == NPCDailyAction.Eat,
+                "Lunch schedule advances logically offscreen"
+            );
+            check(w.Travel("shop"), "Player can visit residents at lunch");
+            while (w.Busy)
+            {
+                yield return null;
+            }
+
+            yield return new WaitForSecondsRealtime(.5f);
+            actor = scheduler.actors.First(a => a.npcId == "colleague");
+            sprites.Clear();
+            until = Time.unscaledTime + .8f;
+            while (Time.unscaledTime < until)
+            {
+                sprites.Add(actor.visual.sprite);
+                yield return null;
+            }
+
+            check(
+                actor.zone == "shop" && actor.visual.enabled && sprites.Count >= 2,
+                "Lunch residents visibly play eating frames in shop"
+            );
+            ScreenCapture.CaptureScreenshot("Docs/Phase26/Advanced/Screenshots/Residents-Lunch.png");
+            yield return null;
+            check(w.Travel("home"), "Return player home to inspect abstract residents");
+            while (w.Busy)
+            {
+                yield return null;
+            }
+
+            g.clock.Restore(
+                g.clock.Day,
+                new TimeSnapshot { subDaySeconds = 8 * 3600 + 55 * 60, elapsedSeconds = g.clock.ElapsedSeconds }
+            );
+            yield return new WaitForSecondsRealtime(.4f);
+            int morning = scheduler.actors.Count(a => a.zone == "city");
+            g.clock.Restore(
+                g.clock.Day,
+                new TimeSnapshot { subDaySeconds = 23 * 3600 + 50 * 60, elapsedSeconds = g.clock.ElapsedSeconds }
+            );
+            yield return new WaitForSecondsRealtime(.4f);
+            int night = scheduler.actors.Count(a => a.zone == "city");
+            check(
+                morning > night && rules.npcs.Count(n => n.personality == NPCPersonality.NightWorker) > 0,
+                "City density follows individual daytime and night-worker locations"
+            );
+            check(
+                scheduler.AbstractUpdates > 0
+                    && scheduler
+                        .actors.Where(a => a.zone == "residence")
+                        .Select(a => a.transform.position)
+                        .Distinct()
+                        .Count() > 5,
+                "Offscreen home positions stay distinct rather than stacking at one spawn"
+            );
+            check(w.Travel("residence"), "Visit separate NPC residence at night");
+            while (w.Busy)
+            {
+                yield return null;
+            }
+
+            yield return new WaitForSecondsRealtime(.6f);
+            check(
+                scheduler.actors.Count(n => n.zone == "residence" && n.visual.enabled) > 5,
+                "Residents sleep in their individual home locations"
+            );
+            ScreenCapture.CaptureScreenshot("Docs/Phase26/Advanced/Screenshots/Residents-Night-Home.png");
+            yield return null;
+            var legacy = g.CaptureState();
+            legacy.world.residents = null;
+            g.RestoreState(legacy);
+            g.clock.realtimeEnabled = false;
+            yield return new WaitForSecondsRealtime(.3f);
+            check(
+                g.CaptureState().world.residents.Count == rules.npcs.Length && g.economy.Cash == cash,
+                "Legacy save without residents safely reconstructs schedules and preserves wallet"
+            );
+            var talk = g.CaptureState();
+            talk.world.zone = "city";
+            talk.world.position = new Vector2(-10, 1);
+            talk.time.subDaySeconds = 20 * 3600;
+            talk.world.residents = new List<NPCResidentSnapshot>
+            {
+                At("colleague", "city", new Vector2(-2, 1.2f), 1200, NPCDailyAction.Talk),
+                At("classmate", "city", new Vector2(-.5f, 1.2f), 1200, NPCDailyAction.Talk),
+            };
+            g.RestoreState(talk);
+            g.clock.realtimeEnabled = false;
+            yield return new WaitForSecondsRealtime(.5f);
+            var a = scheduler.Inspect("colleague");
+            var b = scheduler.Inspect("classmate");
+            check(
+                a.action == NPCDailyAction.Talk && b.action == NPCDailyAction.Talk && a.facing.x > 0 && b.facing.x < 0,
+                "Companions face each other during their shared conversation"
+            );
+            ScreenCapture.CaptureScreenshot("Docs/Phase26/Advanced/Screenshots/Residents-Conversation.png");
+            yield return null;
+            var definition = rules.npcs.First(n => n.npcId == "colleague");
+            var previousSchedule = definition.schedule;
+            try
+            {
+                foreach (
+                    var vector in new[]
+                    {
+                        Vector2.right,
+                        Vector2.left,
+                        Vector2.up,
+                        Vector2.down,
+                        new Vector2(1, 1).normalized,
+                    }
+                )
+                {
+                    var origin = new Vector2(-3, .5f);
+                    definition.schedule = new[]
+                    {
+                        new NPCScheduleEntry
+                        {
+                            hour = 0,
+                            zone = "city",
+                            position = origin + vector * 1.4f,
+                            action = NPCDailyAction.Walk,
+                        },
+                    };
+                    var motion = g.CaptureState();
+                    motion.world.zone = "city";
+                    motion.world.position = new Vector2(-10, 1);
+                    motion.world.residents = new List<NPCResidentSnapshot> { At("colleague", "city", origin, 1200) };
+                    g.RestoreState(motion);
+                    g.clock.realtimeEnabled = false;
+                    actor = scheduler.actors.First(n => n.npcId == "colleague");
+                    animation = actor.GetComponent<WorldActorAnimation>();
+                    from = actor.transform.position;
+                    var last = from;
+                    bool aligned = true;
+                    int samples = 0;
+                    until = Time.unscaledTime + 2.5f;
+                    while (Time.unscaledTime < until)
+                    {
+                        yield return null;
+                        var now = (Vector2)actor.transform.position;
+                        var delta = now - last;
+                        if (delta.sqrMagnitude > .0000001f)
+                        {
+                            aligned &=
+                                Vector2.Dot(
+                                    new Vector2(
+                                        animation.Direction == ActorDirection.Left ? -1
+                                            : animation.Direction == ActorDirection.Right ? 1
+                                            : 0,
+                                        animation.Direction == ActorDirection.Down ? -1
+                                            : animation.Direction == ActorDirection.Up ? 1
+                                            : 0
+                                    ),
+                                    delta.normalized
+                                ) > .5f;
+                            samples++;
+                        }
+
+                        last = now;
+                    }
+
+                    check(
+                        Vector2.Distance(from, actor.transform.position) > .8f && samples > 3 && aligned,
+                        "Observed direction and drawn facing match through route: " + vector
+                    );
+                }
+            }
+            finally
+            {
+                definition.schedule = previousSchedule;
+            }
+
+            check(scheduler.NavigationBakes < 30, "Navigation occupancy is cached across resident movement");
+        }
+    }
 }
 #endif

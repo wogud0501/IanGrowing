@@ -4,70 +4,1029 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-namespace IanGame {
-public sealed class TestScenarioRegistry {
- public readonly List<QAScenario> Scenarios=new List<QAScenario>();
- public void Register(QAScenario scenario){if(Scenarios.Any(s=>s.id==scenario.id))throw new ArgumentException("Duplicate scenario: "+scenario.id);Scenarios.Add(scenario);}
- static IEnumerator Once(Action action){action();yield break;}
- public static TestScenarioRegistry Create(GameManager g){var r=new TestScenarioRegistry();
-  void Add(string phase,string id,string title,string description,string success,Func<QAScenarioContext,IEnumerator> run,SceneId related=SceneId.Home,bool legacy=false){r.Register(new QAScenario{id=id,title=title,category=phase,description=description,success=success,initial=QAStatus.NOT_RUN,run=run,related=c=>c.Navigate(related,legacy)});}
-  void Simple(string p,string id,string title,Action<QAScenarioContext> test,SceneId scene=SceneId.Home,bool legacy=false)=>Add(p,id,title,"격리 fixture → 기존 게임 서비스 실행 → 결과 검사","실제 검사가 모두 통과해야 PASS",c=>Once(()=>test(c)),scene,legacy);
-  void Pending(string phase,string id,string title,QAStatus status,string reason){r.Register(new QAScenario{id=id,title=title,category=phase,description=reason,success=reason,initial=status});}
-  Simple("1 기본","core/new-life","새 게임·DAY 1",c=>{c.Game.NewGame();c.Check(c.Game.growth.Age==0&&c.Game.economy.Cash==0&&c.Game.economy.Debt==InitialLifeSettings.NewbornDebt&&c.Game.BirthIntroductionPending,"실제 새 게임의 나이/현금/출생 안내");c.Check(c.Game.economy.Housing.owned.SequenceEqual(new[]{"basic-bed"}),"새 게임은 침대 하나만 소유");c.Check(c.Game.CompleteBirthIntroduction(),"실제 출생 확인 저장");c.Check(c.Commands.Save()&&c.Commands.Load()&&!c.Game.BirthIntroductionPending,"QA 저장 복원 후 출생 안내 반복 없음");});
-  Simple("1 기본","core/save","저장·불러오기·이어하기",c=>{c.Commands.SetCash(123456);c.Commands.SetAge(20);c.Check(c.Commands.Save(),"전용 자동 슬롯 저장");c.Commands.SetCash(0);c.Check(c.Commands.Load()&&c.Game.economy.Cash==123456&&c.Game.growth.Age==20,"실제 디스크에서 현금/나이 복원");c.Check(c.Commands.Sandbox.VerifyFiles(),"원본 저장 파일 해시 보존");});
-  Simple("1 기본","core/source-copy","기존 파일 복사 불러오기",c=>{c.Check(c.Commands.ImportOriginalCopy(),"원본을 QA 파일로 복사 후 실제 SaveManager 검증/로드");c.Check(c.Commands.Sandbox.VerifyFiles(),"원본 파일 해시 유지");});
-  Add("1 기본","core/scene","씬·UI 스택 왕복","기존 씬 전환과 UIShell 사용","장소와 메뉴 입력 잠금/복원이 일치",SceneAndUI);
-  Pending("1 기본","core/movement","물리 키보드·캐릭터 이동",QAStatus.MANUAL,"관련 화면에서 WASD/방향키/걷기 방향과 실제 발걸음을 확인하세요. 자동 PASS 아님.");
-  Pending("1 기본","core/legacy-import","기존 세이브 가져오기",QAStatus.MANUAL,"진단 화면의 원본 복사 불러오기는 원본 파일을 읽어서 QA 슬롯에 복사한 뒤 기존 SaveManager로 읽습니다. 원본 버전별 결과를 직접 확인하세요.");
-  Simple("2.1 생존","survival/stats","8개 능력치·범위",c=>{foreach(CoreStat s in Enum.GetValues(typeof(CoreStat))){c.Commands.SetStat(s,0);c.Check(c.Game.stats.Get(s)==0,s+" 최소");c.Commands.SetStat(s,100);c.Check(c.Game.stats.Get(s)==100,s+" 최대");}c.Commands.SetStat(CoreStat.Mental,0);c.Check(c.Game.stats.Stress==100,"정신력과 스트레스 연동");});
-  Simple("2.1 생존","survival/day","소모·회복·위험 판정",c=>{int hunger=c.Game.stats.Hunger;c.Commands.Advance(86400);c.Check(c.Game.stats.Hunger<hunger,"기존 하루 생존 소모");c.Commands.SetStat(CoreStat.Hunger,0);c.Commands.SetStat(CoreStat.Thirst,0);c.Check(c.Game.survival.InDanger,"실제 생존 위험 진입");c.Commands.SetAllStats(100);c.Check(!c.Game.survival.InDanger,"회복 후 위험 해제");});
-  Simple("2.2 성장·미션","growth/unlocks","나이별 잠금 해제·이벤트",c=>{int notified=0;Action<int,LifeStage> listener=(a,s)=>notified++;c.Game.growth.AgeChanged+=listener;try{foreach(int age in new[]{0,7,13,20,30})c.Commands.SetAge(age);c.Check(notified>=4&&c.Game.growth.Age==30,"실제 나이 이벤트");c.Check(c.Game.missions.HasUnlock(ContentUnlock.Employment)&&c.Game.missions.HasUnlock(ContentUnlock.Housing),"실제 성장 해금");}finally{c.Game.growth.AgeChanged-=listener;}});
-  Simple("2.2 성장·미션","missions/catalog","60개 미션 무결성",c=>{c.Check(c.Game.missionCatalog.missions.Length==60,"60개 유지");c.Check(c.Game.missionCatalog.missions.Select(m=>m.Id).Distinct().Count()==60,"미션 ID 중복 없음");});
-  Simple("2.2 성장·미션","missions/progress-command","임의 미션 진행값·실제 조건 관찰",c=>{c.Commands.SetMissionProgress("M001",0);var m=c.Game.missionCatalog.missions.First(m=>m.Id=="M001");c.Check(c.Game.missions.GetProgress(m).state==MissionState.InProgress,"미션 카운터 0에서 실제 미완료");c.Check(c.Game.missions.RecordSignal(new MissionActivityEvent{id="qa/progress",counter=MissionCounter.Drink,amount=1}),"실제 이벤트로 진행도 증가");c.Check(c.Game.missions.GetProgress(m).state==MissionState.Completed&&c.Commands.Observe("mission/M001").Contains("1/1"),"실제 완료 판정과 읽기 전용 상태 관찰");});
-  foreach(var mission in g.missionCatalog.missions){var m=mission;Add("2.2 성장·미션","mission/"+m.Id,m.Id+" · "+m.title,"선행 조건은 테스트 fixture로 구성하고 실제 MissionService의 조건 평가·보상·재청구 거부를 검사합니다.","완료 판정, 실제 보상, 동일 미션 보상 재청구 거부",c=>Once(()=>{c.Commands.PrepareMission(m.Id);c.Check(c.Game.missions.GetProgress(m).state==MissionState.Completed,"실제 조건 평가 완료");long cash=c.Game.economy.Cash;c.Check(c.Game.missions.Claim(m.Id),"실제 미션 보상 수령");long paid=c.Game.economy.Cash;c.Check(paid==cash+m.rewards.gold&&!c.Game.missions.Claim(m.Id)&&c.Game.economy.Cash==paid,"정확한 보상 및 중복 지급 차단");c.Check(c.Commands.Save()&&c.Commands.Load()&&c.Game.missions.Claimed(m.Id)&&!c.Game.missions.Claim(m.Id),"미션 수령 기록 디스크 복원 및 재청구 거부");}));}
-  Add("2.3 교육·직업","education/study","입학·공부·진학 조건","기존 교육 과정과 행동을 실행","등록 및 공부 기록 증가",Education,SceneId.School,true);
-  Add("2.3 교육·직업","jobs/hire","이력서·면접·직업 변경·급여","테스트 난수 입력만 고정하고 실제 취업/급여/퇴사 로직 실행","채용, 급여 및 퇴사 기록",Employment,SceneId.Workplace,true);
-  Add("2.3 교육·직업","social/talk","사회관계 변화","성공 난수 입력을 주입해 실제 대화 서비스 실행","NPC 관계 및 대화 기록 증가",Social,SceneId.Home,true);
-  foreach(IdleActivityKind kind in Enum.GetValues(typeof(IdleActivityKind))){var k=kind;Add("2.4 자동·오프라인","idle/"+kind,"자동 "+kind+" · 오프라인·중복 방지","운영체제 시간 변경 없이 IQATimeSource → SettleToUtc(now)로 실제 정산","활동 시작, 실제 주기/보상, 같은 시각 재정산 없음",c=>Idle(c,k),kind==IdleActivityKind.Work?SceneId.Workplace:kind==IdleActivityKind.Study?SceneId.School:SceneId.Battle,true);}
-  foreach(int hours in new[]{1,24,168}){int h=hours;Add("2.4 자동·오프라인","offline/"+hours,"오프라인 "+hours+"시간","기존 상한/역행 정책을 유지하는 결정적 테스트 시각","정산 워터마크와 상한, 중복 보상 없음",c=>Offline(c,h),SceneId.Workplace,true);}
-  foreach(int days in new[]{1,7,30}){int n=days;Simple("2.4 자동·오프라인","time/"+days,"게임 시간 "+days+"일",c=>{int day=c.Game.clock.Day;for(int i=0;i<n;i++){c.Commands.SetAllStats(100);c.Commands.Advance(86400);}c.Check(c.Game.clock.Day==day+n,"각 일자를 실제 시간 서비스로 진행 (생존 자원 fixture 회복)");});}
-  Simple("2.5 경제","finance/tax","급여·세금·체납",c=>{var e=c.Game.economy;c.Check(e.PaySalary("qa/salary",10000,"convenience"),"기존 급여 지급");e.SettleDay(17);var b=e.Finance.bills.FirstOrDefault();c.Require(b!=null,"세금 고지 없음");e.SettleDay(31);var late=e.Finance.bills.First(x=>x.id==b.id);c.Check(late.lateFees>0,"체납 비용 발생");c.Check(e.PayTax("qa/tax",b.id,late.Remaining),"실제 세금 납부");});
-  Simple("2.5 경제","finance/asset-bounds","순자산 극값·미납 합계 무결성",c=>{var e=c.Game.economy;c.Commands.SetCash(0);var property=e.Properties;var d=e.Capture();d.debt=long.MaxValue;d.property.bills.Add(new PropertyBill{id="qa/boundary",PropertyId="property-0",dueDay=10,rent=1000});e.Restore(d);c.Check(e.NetWorth==long.MinValue,"최대 부채와 미납에서 순자산 부호 역전 방지");c.Check(EconomySystem.ValidFinance(e.Capture()),"경계값 저장 유효성");var bad=e.Capture();bad.property.bills.Add(new PropertyBill{id="qa/overflow",PropertyId="property-0",dueDay=10,rent=long.MaxValue});c.Check(!EconomySystem.ValidFinance(bad),"미납 합계 오버플로 데이터 거부");});
-  Simple("2.5 경제","finance/debt","부채·이자·신용·상환",c=>{var e=c.Game.economy;c.Commands.SetDebt(10000);e.EnsureFinance(10,DateTime.UtcNow.Ticks);e.SettleDay(17);long interest=e.Finance.outstandingInterest,debt=e.Debt;int credit=c.Game.stats.Credit;c.Check(interest>0,"기존 이자 발생");e.SettleDay(17);c.Check(e.Debt==debt,"중복 이자 없음");c.Check(e.RepayDebt("qa/debt",Math.Min(e.Cash,e.Debt))&&e.Debt==0&&c.Game.stats.Credit>credit,"실제 전액 상환과 신용 회복");});
-  foreach(bool gain in new[]{true,false}){bool up=gain;Simple("2.5 경제",gain?"stocks/up":"stocks/down",gain?"주가 +10%·매수·전량 매도":"주가 -10%·손실",c=>{var e=c.Game.economy;e.EnsureFinance(10,DateTime.UtcNow.Ticks);long cash=e.Cash;int price=e.GetQuote("IAN").CurrentPrice;c.Check(e.Trade("qa/buy","IAN",1,true),"실제 매수");c.Check(c.Commands.ChangeStock("IAN",up?1.1f:.9f),"테스트 시세 입력 적용");c.Check(up?e.UnrealizedPnL>0:e.UnrealizedPnL<0,"평가 손익 방향");int target=e.GetQuote("IAN").CurrentPrice;c.Check(e.Trade("qa/sell","IAN",1,false)&&e.Cash==cash+target-price,"실제 전량 매도와 최종 현금");c.Check(!e.Trade("qa/sell-again","IAN",1,false),"보유량 없는 중복 매도 거부");},SceneId.StockMarket);}
-  Simple("2.5 경제","stocks/news","경제 뉴스·시세 영향",c=>{var e=c.Game.economy;long now=DateTime.UtcNow.Ticks;e.EnsureFinance(10,now);var before=e.Capture();long next=now+(long)e.rules.marketIntervalSeconds*TimeSpan.TicksPerSecond;e.SettleMarket(next);var baseline=e.GetQuote("IAN").CurrentPrice;e.Restore(before);c.Check(e.ApplyNews("macro","qa/news",1),"기존 경제 뉴스 발행");e.SettleMarket(next);c.Check(e.GetQuote("IAN").CurrentPrice>baseline,"동일 난수/시각에서 경기 뉴스 가격 영향");},SceneId.StockMarket);
-  Add("2.6 월드·장비","equipment/starter","스타터 헤드폰·장비 장착","실제 Phase23 스타터 보유/장착·미션 경로","아이템 보유, 장착, 중복 장착 거부",Equipment,SceneId.Home,true);
-  CollectionQAScenarios.Register(r);
-  Pending("2.6 월드·장비","equipment/stats","장비 해제·확장 능력치",QAStatus.NOT_IMPLEMENTED,"현재 스타터 장착 경로만 구현됨. 정식 해제/확장 장비 스탯 서비스 미구현.");
-  Pending("2.6 월드·장비","world/visual","문·걷기·애니메이션 품질",QAStatus.MANUAL,"생활 월드에서 실제 문/발걸음/가림을 관찰하세요. 시각적 품질은 자동 PASS 처리하지 않습니다.");
-  Simple("2.7 부동산","property/trade","매물·매매·손익",c=>{var e=c.Game.economy;c.Require(e.propertyCatalog!=null,"부동산 카탈로그 없음");c.Check(e.Properties.quotes.Count==6,"실제 6개 매물");long cash=e.Cash;c.Check(e.BuyProperty("qa/property-buy","property-0"),"매수");c.Check(!e.BuyProperty("qa/property-again","property-0"),"중복 소유 차단");c.Check(e.SellProperty("qa/property-sell","property-0")&&e.Cash==cash,"동일 시세 매각");c.Check(!e.SellProperty("qa/property-double","property-0"),"중복 매각 차단");},SceneId.City);
-  foreach(HousingTenure tenure in Enum.GetValues(typeof(HousingTenure))){var t=tenure;Simple("2.7 부동산","property/"+t,t==HousingTenure.Jeonse?"전세·보증금 반환":"월세·관리비·납부",c=>{var e=c.Game.economy;c.Require(e.propertyCatalog!=null,"부동산 카탈로그 없음");long worth=e.NetWorth,cash=e.Cash;long rent=c.Game.missions.Counter(MissionCounter.RentPaid);c.Check(e.LeaseProperty("qa/lease","property-0",t),"실제 계약");long deposit=e.HousingDeposit;c.Check(deposit>0&&e.NetWorth==worth-500,"반환 보증금 자산");e.SettlePropertyDay(40);var once=JsonUtility.ToJson(e.Capture());e.SettlePropertyDay(40);c.Check(once==JsonUtility.ToJson(e.Capture()),"중복 월세/관리비 방지");if(t==HousingTenure.MonthlyRent)c.Check(c.Game.missions.Counter(MissionCounter.RentPaid)==rent+1,"기존 월세 미션");c.Check(e.EndLease("qa/refund")&&e.HousingDeposit==0,"보증금 반환");c.Check(!e.EndLease("qa/refund-twice"),"이중 반환 거부");},SceneId.City);}
-  Simple("2.7 부동산","property/loan","주거 대출·상환",c=>{var e=c.Game.economy;c.Require(e.propertyCatalog!=null,"부동산 카탈로그 없음");long cash=e.Cash;c.Check(e.BorrowHousing("qa/loan",10000)&&e.Cash==cash+10000&&e.Debt==10000,"기존 계정 대출");c.Check(e.RepayDebt("qa/repay",10000)&&e.Debt==0&&e.HousingLoanPrincipal==0,"기존 서비스 상환");c.Commands.SetAge(0);c.Check(e.AvailableHousingLoan==0&&!e.BorrowHousing("qa/underage",1),"기존 성장 시스템의 미성년 대출 제한");},SceneId.City);
-  Simple("2.7 부동산","property/market-save","시세·저장·오프라인",c=>{var e=c.Game.economy;c.Require(e.propertyCatalog!=null,"부동산 카탈로그 없음");long now=e.Properties.marketUtcTicks;c.Check(e.BuyProperty("qa/asset","property-0"),"소유 fixture");e.SettleMarket(now+(long)e.propertyCatalog.marketIntervalSeconds*TimeSpan.TicksPerSecond*2);var s=JsonUtility.ToJson(e.Properties);c.Check(c.Commands.Save()&&c.Commands.Load()&&JsonUtility.ToJson(e.Properties)==s,"시세/소유권/납부 워터마크 디스크 복원");},SceneId.City);
-  Add("2.7 부동산","property/offline-rent","오프라인 노동 → 월세·관리비 정산","자동 노동의 실제 게임 날짜 진행이 주거 납부일을 통과하는지 검사합니다.","월세와 관리비 납부, 기존 월세 미션, 동일 시각 중복 정산 없음",OfflineRent,SceneId.Workplace,true);
-  Add("2.7 부동산","property/recovery","주거 회복 효과","집으로 이동 후 실제 주거 효과 실행","집에서만 회복 적용",PropertyRecovery);
-  Simple("2.2 성장·미션","growth/world-access","연령별 월드·금융 실행 제한",c=>{foreach(int age in new[]{0,6,7,18,19}){c.Commands.SetAge(age);c.Check(GrowthAccess.Zone(c.Game,"city",out _)==(age>=7),"아동기 외출 경계 "+age);c.Check(GrowthAccess.Zone(c.Game,"workplace",out _)==(age>=19),"성인 회사 경계 "+age);if(age<19)c.Check(!c.Game.economy.Trade("qa/underage-"+age,"IAN",1,true),"주식 함수 연령 차단 "+age);}});
-  Add("월드·시설","world/facility-layout","업무 좌석·금융시설 배치","기존 LifeWorld로 이동하여 실제 씬 참조와 일정 검사","고유 좌석, 실내 단말기 및 왕복 출입 경로",FacilityLayout);
-  Add("월드·시설","world/door-lease","문 요청·고정 프레임·충돌","격리 세이브에서 실제 WorldDoor 실행","거절 요청이 다른 사용자의 개폐를 중단하지 않음",DoorLease);
-  Pending("월드·시설","world/activity-art","업무 방향·착석·미술 품질",QAStatus.MANUAL,"실제 Game View에서 책상 방향, NPC의 발걸음·좌석과 업무 동작을 확인하세요. 업무 중에는 정면 업무석 프레임을 사용합니다. 착석/기립의 전면 연결과 미술 품질은 수동 확인이 필요합니다.");
-  Simple("2.2 성장·미션","growth/newborn-motor","신생아 실행 단계 보행 제한",c=>{c.Commands.Fixture(0);var w=c.Game.world.Host;if(w==null)throw new QABlockedException("LifeWorld에서 확인하세요");var p=w.Player.Position;w.Player.BeginTraversal(p+Vector2.right);c.Check(!w.Player.IsTraversing&&!w.Player.MovementAllowed,"0세 scripted traversal 거부");});
-  Simple("2.2 성장·미션","growth/data-boundaries","데이터 연령 경계와 중복 이벤트",c=>{c.Commands.Fixture(0);var ages=new System.Collections.Generic.HashSet<int>{0,1,2};foreach(var e in c.Game.phase23.catalog.education)foreach(int n in new[]{e.minAge,e.maxAge})if(n>=0&&n<120)for(int d=-1;d<=1;d++)if(n+d>=0)ages.Add(n+d);for(int a=1;a<=60;a++)if(LifeProgression.StageAtAge(a)!=LifeProgression.StageAtAge(a-1))for(int d=-1;d<=1;d++)ages.Add(a+d);foreach(int age in ages.OrderBy(a=>a)){c.Commands.SetAge(age);int notifications=0;Action<int,LifeStage> listener=(a,s)=>notifications++;c.Game.growth.AgeChanged+=listener;try{c.Commands.SetAge(age);c.Check(notifications==0,"동일 나이 중복 이벤트 없음 "+age);}finally{c.Game.growth.AgeChanged-=listener;}c.Check(c.Game.growth.WalkingUnlocked==(age>=LifeProgression.WalkingAge),"보행 경계 "+age);bool adult=c.Game.growth.Stage>=LifeStage.YoungAdult;c.Check(GrowthAccess.Zone(c.Game,"workplace",out _)==adult,"회사 경계 "+age);c.Check(GrowthAccess.Zone(c.Game,"city",out _)==(c.Game.growth.Stage>=LifeStage.Childhood),"외출 경계 "+age);if(!adult)c.Check(!c.Game.economy.Trade("audit/age/"+age,"IAN",1,true)&&!c.Game.economy.BuyProperty("audit/house/"+age,"property-0")&&!c.Game.phase23.Employment.Can(20,out _)&&!c.Game.economy.RepayDebt("audit/debt-age/"+age,100),"직접 경제/취업 차단 "+age);}});
-  foreach(var p in new DebugCommandService(g,new TestSaveSandbox()).LifecyclePresets){var preset=p;Simple("생애주기 fixture","preset/"+preset.id,preset.title,c=>{c.Commands.ApplyLifecyclePreset(preset.id);c.Check(c.Game.growth.Age==preset.age&&c.Commands.Sandbox.Active,"데이터 기반 프리셋은 격리 슬롯에서만 적용");});}
-  PrePhase28Scenarios.Register(g,r);PrePhase28RiskScenarios.Register(r);FacilityQualityScenarios.Register(r);
-  FamilyQAScenarios.Register(r);RoomQAScenarios.Register(r);GrowthQAScenarios.Register(r);CityLifeQAScenarios.Register(r);return r;
- }
- static IEnumerator SceneAndUI(QAScenarioContext c){yield return c.Commands.Navigate(SceneId.Home);c.Check(GameContext.Instance.transitions.CurrentScene==SceneId.LifeWorld,"기존 홈 월드 경로");var w=c.Game.world.Host;c.Require(w!=null,"생활 월드 없음");w.hud.shell.Push(w.hud.menuPanel);c.Check(w.hud.shell.Depth>0&&!w.CanControl,"메뉴 입력 차단");w.hud.shell.Close(w.hud.menuPanel);yield return null;c.Check(w.hud.shell.Depth==0,"메뉴 닫기");}
- static IEnumerator PropertyRecovery(QAScenarioContext c){yield return c.Commands.Navigate(SceneId.Home,true);var e=c.Game.economy;c.Require(e.propertyCatalog!=null,"부동산 카탈로그 없음");c.Check(e.BuyProperty("qa/home","property-2")&&e.OccupyProperty("qa/move","property-2"),"주택 구매/입주");c.Commands.SetStat(CoreStat.Health,40);c.Commands.SetStat(CoreStat.Mental,40);if(c.Game.world.Active&&c.Game.world.State.zone!="home")throw new QABlockedException("Home에서 주거 회복을 확인하세요.");e.ApplyHousingRecovery(5);c.Check(c.Game.stats.Health==43&&c.Game.stats.Mental==43,"기존 체력/정신력 회복");}
- static IEnumerator Education(QAScenarioContext c){c.Commands.Fixture(7);yield return c.Commands.Navigate(SceneId.School,true);c.Check(c.Commands.Act(7),"실제 입학 행동");c.Commands.SetAllStats(100);c.Check(c.Commands.Act(14)&&c.Game.phase23.Progress.education.studies>0,"실제 공부와 교육 경험");}
- static IEnumerator Employment(QAScenarioContext c){yield return c.Commands.Navigate(SceneId.Workplace,true);c.Check(c.Commands.Act(20),"실제 이력서");var service=c.Game.phase23;var old=service.TestRollSource;service.TestRollSource=()=>0;try{c.Check(c.Commands.Act(21)&&service.Progress.employment.currentJobId=="convenience","난수 입력 고정 후 실제 채용");long cash=c.Game.economy.Cash;c.Commands.SetAllStats(100);c.Check(c.Commands.Act(0)&&c.Game.economy.Cash>cash,"실제 근무 급여");c.Check(c.Commands.Act(23)&&service.Progress.employment.currentJobId=="unemployed","실제 퇴사/직업 변경");}finally{service.TestRollSource=old;}}
- static IEnumerator Social(QAScenarioContext c){yield return c.Commands.Navigate(SceneId.City,true);var s=c.Game.phase23;s.SelectedNpcId="colleague";var old=s.TestRollSource;s.TestRollSource=()=>0;try{c.Check(c.Commands.Act(18)&&s.Progress.social.history.Count>0,"실제 대화 활동");c.Check(s.Social.Relationship("colleague")?.affinity>0,"실제 호감도 변화");}finally{s.TestRollSource=old;}}
- static IEnumerator Equipment(QAScenarioContext c){yield return c.Commands.Navigate(SceneId.Home,true);var s=c.Game.phase23;foreach(var item in new[]{MissionItemKey.StarterHeadphones,MissionItemKey.StarterEquipment})c.Check(s.TryDeliver(new PendingMissionReward{id="qa/"+item,kind=PendingMissionRewardKind.Item,item=item,amount=1}),"스타터 보상 게이트웨이");c.Check(c.Commands.Act(24)&&c.Commands.Act(25),"실제 장착 행동");c.Check(s.Progress.equipped.Count==2&&!c.Commands.Act(24),"장착 상태 및 중복 장착 거부");}
- static IEnumerator Idle(QAScenarioContext c,IdleActivityKind kind){var a=c.Game.idle.settings.activities.FirstOrDefault(a=>a.kind==kind);c.Require(a!=null,"자동 활동 정의 없음");if(kind==IdleActivityKind.Study){c.Commands.Fixture(7);yield return c.Commands.Navigate(SceneId.School,true);c.Check(c.Commands.Act(7),"자동 공부 입학 조건");}else {yield return c.Commands.Navigate(a.startLocation,true);if(kind==IdleActivityKind.Work)c.Game.phase23.Progress.employment.currentJobId="convenience";}
-  c.Check(c.Commands.StartIdle(a.id),"실제 자동 활동 시작");long cash=c.Game.economy.Cash;c.Check(c.Commands.Offline(c.Game.idle.Period(a)+1),"실제 오프라인 주기 정산");c.Check(c.Game.idle.State.ledgers.Any(l=>l.activityId==a.id&&l.completedCycles>0),"실제 완료 주기 기록");if(kind==IdleActivityKind.Work)c.Check(c.Game.economy.Cash>cash,"실제 자동 급여");long after=c.Game.economy.Cash,cycles=c.Game.idle.State.ledgers.Sum(l=>l.completedCycles);c.Commands.Offline(0);c.Check(c.Game.economy.Cash==after&&c.Game.idle.State.ledgers.Sum(l=>l.completedCycles)==cycles,"동일 주입 시각 재정산 보상 없음");c.Game.idle.StopActivity();c.Check(!c.Game.idle.State.active,"실제 자동 활동 중지");}
- static IEnumerator FacilityLayout(QAScenarioContext c){yield return c.Commands.Navigate(SceneId.Home);WorldRecoveryChecks.Layout(c.Game.world.Host,c.Check);}
- static IEnumerator DoorLease(QAScenarioContext c){yield return c.Commands.Navigate(SceneId.Home);WorldRecoveryChecks.DoorLease(c.Game.world.Host,c.Check);}
- static IEnumerator OfflineRent(QAScenarioContext c){var e=c.Game.economy;c.Require(e.propertyCatalog!=null,"부동산 카탈로그 없음");c.Check(e.LeaseProperty("qa/offline-lease","property-0",HousingTenure.MonthlyRent),"월세 계약");c.Game.clock.Restore(39,new TimeSnapshot{subDaySeconds=8*3600,elapsedSeconds=38*86400});yield return c.Commands.Navigate(SceneId.Workplace,true);c.Game.phase23.Progress.employment.currentJobId="convenience";var work=c.Game.idle.settings.activities.First(a=>a.kind==IdleActivityKind.Work);long rent=c.Game.missions.Counter(MissionCounter.RentPaid);c.Check(c.Commands.StartIdle(work.id)&&c.Commands.Offline(c.Game.idle.Period(work)+1),"실제 자동 노동 오프라인 정산");c.Check(c.Game.clock.Day==40&&e.Properties.bills.Any(b=>b.dueDay==40&&b.rent==80&&b.maintenance==16&&b.Remaining==0),"실제 날짜 이벤트를 통해 월세/관리비 납부");c.Check(c.Game.missions.Counter(MissionCounter.RentPaid)==rent+1,"오프라인 납부가 기존 월세 미션에 반영");long cash=e.Cash;int count=e.Properties.bills.Count;c.Commands.Offline(0);c.Check(e.Cash==cash&&e.Properties.bills.Count==count,"같은 오프라인 시각에 비용/보상 중복 없음");}
- static IEnumerator Offline(QAScenarioContext c,int hours){yield return c.Commands.Navigate(SceneId.Workplace,true);c.Game.phase23.Progress.employment.currentJobId="convenience";var a=c.Game.idle.settings.activities.First(a=>a.kind==IdleActivityKind.Work);c.Check(c.Commands.StartIdle(a.id),"자동 노동 준비");c.Check(c.Commands.Offline(hours*3600d),"주입 시간 오프라인 정산");var report=c.Game.idle.State.report;c.Require(report!=null,"오프라인 보고서 없음");c.Check(report.eligibleSeconds<=c.Game.idle.settings.maximumOfflineSeconds,"기존 오프라인 상한");c.Check(report.eligibleSeconds<=hours*3600d&&report.cycles>0,"실제 완료/자원 소모 반영");long cash=c.Game.economy.Cash;c.Commands.Offline(0);c.Check(c.Game.economy.Cash==cash,"동일 시각 보상 중복 없음");}
-}
+
+namespace IanGame
+{
+    public sealed class TestScenarioRegistry
+    {
+        public readonly List<QAScenario> Scenarios = new List<QAScenario>();
+
+        public void Register(QAScenario scenario)
+        {
+            if (Scenarios.Any(s => s.id == scenario.id))
+            {
+                throw new ArgumentException("Duplicate scenario: " + scenario.id);
+            }
+
+            Scenarios.Add(scenario);
+        }
+
+        static IEnumerator Once(Action action)
+        {
+            action();
+            yield break;
+        }
+
+        public static TestScenarioRegistry Create(GameManager g)
+        {
+            var r = new TestScenarioRegistry();
+            void Add(
+                string phase,
+                string id,
+                string title,
+                string description,
+                string success,
+                Func<QAScenarioContext, IEnumerator> run,
+                SceneId related = SceneId.Home,
+                bool legacy = false
+            )
+            {
+                r.Register(
+                    new QAScenario
+                    {
+                        id = id,
+                        title = title,
+                        category = phase,
+                        description = description,
+                        success = success,
+                        initial = QAStatus.NOT_RUN,
+                        run = run,
+                        related = c => c.Navigate(related, legacy),
+                    }
+                );
+            }
+
+            void Simple(
+                string p,
+                string id,
+                string title,
+                Action<QAScenarioContext> test,
+                SceneId scene = SceneId.Home,
+                bool legacy = false
+            ) =>
+                Add(
+                    p,
+                    id,
+                    title,
+                    "격리 fixture → 기존 게임 서비스 실행 → 결과 검사",
+                    "실제 검사가 모두 통과해야 PASS",
+                    c => Once(() => test(c)),
+                    scene,
+                    legacy
+                );
+            void Pending(string phase, string id, string title, QAStatus status, string reason)
+            {
+                r.Register(
+                    new QAScenario
+                    {
+                        id = id,
+                        title = title,
+                        category = phase,
+                        description = reason,
+                        success = reason,
+                        initial = status,
+                    }
+                );
+            }
+
+            Simple(
+                "1 기본",
+                "core/new-life",
+                "새 게임·DAY 1",
+                c =>
+                {
+                    c.Game.NewGame();
+                    c.Check(
+                        c.Game.growth.Age == 0
+                            && c.Game.economy.Cash == 0
+                            && c.Game.economy.Debt == InitialLifeSettings.NewbornDebt
+                            && c.Game.BirthIntroductionPending,
+                        "실제 새 게임의 나이/현금/출생 안내"
+                    );
+                    c.Check(
+                        c.Game.economy.Housing.owned.SequenceEqual(new[] { "basic-bed" }),
+                        "새 게임은 침대 하나만 소유"
+                    );
+                    c.Check(c.Game.CompleteBirthIntroduction(), "실제 출생 확인 저장");
+                    c.Check(
+                        c.Commands.Save() && c.Commands.Load() && !c.Game.BirthIntroductionPending,
+                        "QA 저장 복원 후 출생 안내 반복 없음"
+                    );
+                }
+            );
+            Simple(
+                "1 기본",
+                "core/save",
+                "저장·불러오기·이어하기",
+                c =>
+                {
+                    c.Commands.SetCash(123456);
+                    c.Commands.SetAge(20);
+                    c.Check(c.Commands.Save(), "전용 자동 슬롯 저장");
+                    c.Commands.SetCash(0);
+                    c.Check(
+                        c.Commands.Load() && c.Game.economy.Cash == 123456 && c.Game.growth.Age == 20,
+                        "실제 디스크에서 현금/나이 복원"
+                    );
+                    c.Check(c.Commands.Sandbox.VerifyFiles(), "원본 저장 파일 해시 보존");
+                }
+            );
+            Simple(
+                "1 기본",
+                "core/source-copy",
+                "기존 파일 복사 불러오기",
+                c =>
+                {
+                    c.Check(c.Commands.ImportOriginalCopy(), "원본을 QA 파일로 복사 후 실제 SaveManager 검증/로드");
+                    c.Check(c.Commands.Sandbox.VerifyFiles(), "원본 파일 해시 유지");
+                }
+            );
+            Add(
+                "1 기본",
+                "core/scene",
+                "씬·UI 스택 왕복",
+                "기존 씬 전환과 UIShell 사용",
+                "장소와 메뉴 입력 잠금/복원이 일치",
+                SceneAndUI
+            );
+            Pending(
+                "1 기본",
+                "core/movement",
+                "물리 키보드·캐릭터 이동",
+                QAStatus.MANUAL,
+                "관련 화면에서 WASD/방향키/걷기 방향과 실제 발걸음을 확인하세요. 자동 PASS 아님."
+            );
+            Pending(
+                "1 기본",
+                "core/legacy-import",
+                "기존 세이브 가져오기",
+                QAStatus.MANUAL,
+                "진단 화면의 원본 복사 불러오기는 원본 파일을 읽어서 QA 슬롯에 복사한 뒤 기존 SaveManager로 읽습니다. 원본 버전별 결과를 직접 확인하세요."
+            );
+            Simple(
+                "2.1 생존",
+                "survival/stats",
+                "8개 능력치·범위",
+                c =>
+                {
+                    foreach (CoreStat s in Enum.GetValues(typeof(CoreStat)))
+                    {
+                        c.Commands.SetStat(s, 0);
+                        c.Check(c.Game.stats.Get(s) == 0, s + " 최소");
+                        c.Commands.SetStat(s, 100);
+                        c.Check(c.Game.stats.Get(s) == 100, s + " 최대");
+                    }
+
+                    c.Commands.SetStat(CoreStat.Mental, 0);
+                    c.Check(c.Game.stats.Stress == 100, "정신력과 스트레스 연동");
+                }
+            );
+            Simple(
+                "2.1 생존",
+                "survival/day",
+                "소모·회복·위험 판정",
+                c =>
+                {
+                    int hunger = c.Game.stats.Hunger;
+                    c.Commands.Advance(86400);
+                    c.Check(c.Game.stats.Hunger < hunger, "기존 하루 생존 소모");
+                    c.Commands.SetStat(CoreStat.Hunger, 0);
+                    c.Commands.SetStat(CoreStat.Thirst, 0);
+                    c.Check(c.Game.survival.InDanger, "실제 생존 위험 진입");
+                    c.Commands.SetAllStats(100);
+                    c.Check(!c.Game.survival.InDanger, "회복 후 위험 해제");
+                }
+            );
+            Simple(
+                "2.2 성장·미션",
+                "growth/unlocks",
+                "나이별 잠금 해제·이벤트",
+                c =>
+                {
+                    int notified = 0;
+                    Action<int, LifeStage> listener = (a, s) => notified++;
+                    c.Game.growth.AgeChanged += listener;
+                    try
+                    {
+                        foreach (int age in new[] { 0, 7, 13, 20, 30 })
+                        {
+                            c.Commands.SetAge(age);
+                        }
+
+                        c.Check(notified >= 4 && c.Game.growth.Age == 30, "실제 나이 이벤트");
+                        c.Check(
+                            c.Game.missions.HasUnlock(ContentUnlock.Employment)
+                                && c.Game.missions.HasUnlock(ContentUnlock.Housing),
+                            "실제 성장 해금"
+                        );
+                    }
+                    finally
+                    {
+                        c.Game.growth.AgeChanged -= listener;
+                    }
+                }
+            );
+            Simple(
+                "2.2 성장·미션",
+                "missions/catalog",
+                "60개 미션 무결성",
+                c =>
+                {
+                    c.Check(c.Game.missionCatalog.missions.Length == 60, "60개 유지");
+                    c.Check(
+                        c.Game.missionCatalog.missions.Select(m => m.Id).Distinct().Count() == 60,
+                        "미션 ID 중복 없음"
+                    );
+                }
+            );
+            Simple(
+                "2.2 성장·미션",
+                "missions/progress-command",
+                "임의 미션 진행값·실제 조건 관찰",
+                c =>
+                {
+                    c.Commands.SetMissionProgress("M001", 0);
+                    var m = c.Game.missionCatalog.missions.First(m => m.Id == "M001");
+                    c.Check(
+                        c.Game.missions.GetProgress(m).state == MissionState.InProgress,
+                        "미션 카운터 0에서 실제 미완료"
+                    );
+                    c.Check(
+                        c.Game.missions.RecordSignal(
+                            new MissionActivityEvent
+                            {
+                                id = "qa/progress",
+                                counter = MissionCounter.Drink,
+                                amount = 1,
+                            }
+                        ),
+                        "실제 이벤트로 진행도 증가"
+                    );
+                    c.Check(
+                        c.Game.missions.GetProgress(m).state == MissionState.Completed
+                            && c.Commands.Observe("mission/M001").Contains("1/1"),
+                        "실제 완료 판정과 읽기 전용 상태 관찰"
+                    );
+                }
+            );
+            foreach (var mission in g.missionCatalog.missions)
+            {
+                var m = mission;
+                Add(
+                    "2.2 성장·미션",
+                    "mission/" + m.Id,
+                    m.Id + " · " + m.title,
+                    "선행 조건은 테스트 fixture로 구성하고 실제 MissionService의 조건 평가·보상·재청구 거부를 검사합니다.",
+                    "완료 판정, 실제 보상, 동일 미션 보상 재청구 거부",
+                    c =>
+                        Once(() =>
+                        {
+                            c.Commands.PrepareMission(m.Id);
+                            c.Check(
+                                c.Game.missions.GetProgress(m).state == MissionState.Completed,
+                                "실제 조건 평가 완료"
+                            );
+                            long cash = c.Game.economy.Cash;
+                            c.Check(c.Game.missions.Claim(m.Id), "실제 미션 보상 수령");
+                            long paid = c.Game.economy.Cash;
+                            c.Check(
+                                paid == cash + m.rewards.gold
+                                    && !c.Game.missions.Claim(m.Id)
+                                    && c.Game.economy.Cash == paid,
+                                "정확한 보상 및 중복 지급 차단"
+                            );
+                            c.Check(
+                                c.Commands.Save()
+                                    && c.Commands.Load()
+                                    && c.Game.missions.Claimed(m.Id)
+                                    && !c.Game.missions.Claim(m.Id),
+                                "미션 수령 기록 디스크 복원 및 재청구 거부"
+                            );
+                        })
+                );
+            }
+
+            Add(
+                "2.3 교육·직업",
+                "education/study",
+                "입학·공부·진학 조건",
+                "기존 교육 과정과 행동을 실행",
+                "등록 및 공부 기록 증가",
+                Education,
+                SceneId.School,
+                true
+            );
+            Add(
+                "2.3 교육·직업",
+                "jobs/hire",
+                "이력서·면접·직업 변경·급여",
+                "테스트 난수 입력만 고정하고 실제 취업/급여/퇴사 로직 실행",
+                "채용, 급여 및 퇴사 기록",
+                Employment,
+                SceneId.Workplace,
+                true
+            );
+            Add(
+                "2.3 교육·직업",
+                "social/talk",
+                "사회관계 변화",
+                "성공 난수 입력을 주입해 실제 대화 서비스 실행",
+                "NPC 관계 및 대화 기록 증가",
+                Social,
+                SceneId.Home,
+                true
+            );
+            foreach (IdleActivityKind kind in Enum.GetValues(typeof(IdleActivityKind)))
+            {
+                var k = kind;
+                Add(
+                    "2.4 자동·오프라인",
+                    "idle/" + kind,
+                    "자동 " + kind + " · 오프라인·중복 방지",
+                    "운영체제 시간 변경 없이 IQATimeSource → SettleToUtc(now)로 실제 정산",
+                    "활동 시작, 실제 주기/보상, 같은 시각 재정산 없음",
+                    c => Idle(c, k),
+                    kind == IdleActivityKind.Work ? SceneId.Workplace
+                        : kind == IdleActivityKind.Study ? SceneId.School
+                        : SceneId.Battle,
+                    true
+                );
+            }
+
+            foreach (int hours in new[] { 1, 24, 168 })
+            {
+                int h = hours;
+                Add(
+                    "2.4 자동·오프라인",
+                    "offline/" + hours,
+                    "오프라인 " + hours + "시간",
+                    "기존 상한/역행 정책을 유지하는 결정적 테스트 시각",
+                    "정산 워터마크와 상한, 중복 보상 없음",
+                    c => Offline(c, h),
+                    SceneId.Workplace,
+                    true
+                );
+            }
+
+            foreach (int days in new[] { 1, 7, 30 })
+            {
+                int n = days;
+                Simple(
+                    "2.4 자동·오프라인",
+                    "time/" + days,
+                    "게임 시간 " + days + "일",
+                    c =>
+                    {
+                        int day = c.Game.clock.Day;
+                        for (int i = 0; i < n; i++)
+                        {
+                            c.Commands.SetAllStats(100);
+                            c.Commands.Advance(86400);
+                        }
+
+                        c.Check(
+                            c.Game.clock.Day == day + n,
+                            "각 일자를 실제 시간 서비스로 진행 (생존 자원 fixture 회복)"
+                        );
+                    }
+                );
+            }
+
+            Simple(
+                "2.5 경제",
+                "finance/tax",
+                "급여·세금·체납",
+                c =>
+                {
+                    var e = c.Game.economy;
+                    c.Check(e.PaySalary("qa/salary", 10000, "convenience"), "기존 급여 지급");
+                    e.SettleDay(17);
+                    var b = e.Finance.bills.FirstOrDefault();
+                    c.Require(b != null, "세금 고지 없음");
+                    e.SettleDay(31);
+                    var late = e.Finance.bills.First(x => x.id == b.id);
+                    c.Check(late.lateFees > 0, "체납 비용 발생");
+                    c.Check(e.PayTax("qa/tax", b.id, late.Remaining), "실제 세금 납부");
+                }
+            );
+            Simple(
+                "2.5 경제",
+                "finance/asset-bounds",
+                "순자산 극값·미납 합계 무결성",
+                c =>
+                {
+                    var e = c.Game.economy;
+                    c.Commands.SetCash(0);
+                    var property = e.Properties;
+                    var d = e.Capture();
+                    d.debt = long.MaxValue;
+                    d.property.bills.Add(
+                        new PropertyBill
+                        {
+                            id = "qa/boundary",
+                            PropertyId = "property-0",
+                            dueDay = 10,
+                            rent = 1000,
+                        }
+                    );
+                    e.Restore(d);
+                    c.Check(e.NetWorth == long.MinValue, "최대 부채와 미납에서 순자산 부호 역전 방지");
+                    c.Check(EconomySystem.ValidFinance(e.Capture()), "경계값 저장 유효성");
+                    var bad = e.Capture();
+                    bad.property.bills.Add(
+                        new PropertyBill
+                        {
+                            id = "qa/overflow",
+                            PropertyId = "property-0",
+                            dueDay = 10,
+                            rent = long.MaxValue,
+                        }
+                    );
+                    c.Check(!EconomySystem.ValidFinance(bad), "미납 합계 오버플로 데이터 거부");
+                }
+            );
+            Simple(
+                "2.5 경제",
+                "finance/debt",
+                "부채·이자·신용·상환",
+                c =>
+                {
+                    var e = c.Game.economy;
+                    c.Commands.SetDebt(10000);
+                    e.EnsureFinance(10, DateTime.UtcNow.Ticks);
+                    e.SettleDay(17);
+                    long interest = e.Finance.outstandingInterest,
+                        debt = e.Debt;
+                    int credit = c.Game.stats.Credit;
+                    c.Check(interest > 0, "기존 이자 발생");
+                    e.SettleDay(17);
+                    c.Check(e.Debt == debt, "중복 이자 없음");
+                    c.Check(
+                        e.RepayDebt("qa/debt", Math.Min(e.Cash, e.Debt)) && e.Debt == 0 && c.Game.stats.Credit > credit,
+                        "실제 전액 상환과 신용 회복"
+                    );
+                }
+            );
+            foreach (bool gain in new[] { true, false })
+            {
+                bool up = gain;
+                Simple(
+                    "2.5 경제",
+                    gain ? "stocks/up" : "stocks/down",
+                    gain ? "주가 +10%·매수·전량 매도" : "주가 -10%·손실",
+                    c =>
+                    {
+                        var e = c.Game.economy;
+                        e.EnsureFinance(10, DateTime.UtcNow.Ticks);
+                        long cash = e.Cash;
+                        int price = e.GetQuote("IAN").CurrentPrice;
+                        c.Check(e.Trade("qa/buy", "IAN", 1, true), "실제 매수");
+                        c.Check(c.Commands.ChangeStock("IAN", up ? 1.1f : .9f), "테스트 시세 입력 적용");
+                        c.Check(up ? e.UnrealizedPnL > 0 : e.UnrealizedPnL < 0, "평가 손익 방향");
+                        int target = e.GetQuote("IAN").CurrentPrice;
+                        c.Check(
+                            e.Trade("qa/sell", "IAN", 1, false) && e.Cash == cash + target - price,
+                            "실제 전량 매도와 최종 현금"
+                        );
+                        c.Check(!e.Trade("qa/sell-again", "IAN", 1, false), "보유량 없는 중복 매도 거부");
+                    },
+                    SceneId.StockMarket
+                );
+            }
+
+            Simple(
+                "2.5 경제",
+                "stocks/news",
+                "경제 뉴스·시세 영향",
+                c =>
+                {
+                    var e = c.Game.economy;
+                    long now = DateTime.UtcNow.Ticks;
+                    e.EnsureFinance(10, now);
+                    var before = e.Capture();
+                    long next = now + (long)e.rules.marketIntervalSeconds * TimeSpan.TicksPerSecond;
+                    e.SettleMarket(next);
+                    var baseline = e.GetQuote("IAN").CurrentPrice;
+                    e.Restore(before);
+                    c.Check(e.ApplyNews("macro", "qa/news", 1), "기존 경제 뉴스 발행");
+                    e.SettleMarket(next);
+                    c.Check(e.GetQuote("IAN").CurrentPrice > baseline, "동일 난수/시각에서 경기 뉴스 가격 영향");
+                },
+                SceneId.StockMarket
+            );
+            Add(
+                "2.6 월드·장비",
+                "equipment/starter",
+                "스타터 헤드폰·장비 장착",
+                "실제 Phase23 스타터 보유/장착·미션 경로",
+                "아이템 보유, 장착, 중복 장착 거부",
+                Equipment,
+                SceneId.Home,
+                true
+            );
+            CollectionQAScenarios.Register(r);
+            Pending(
+                "2.6 월드·장비",
+                "equipment/stats",
+                "장비 해제·확장 능력치",
+                QAStatus.NOT_IMPLEMENTED,
+                "현재 스타터 장착 경로만 구현됨. 정식 해제/확장 장비 스탯 서비스 미구현."
+            );
+            Pending(
+                "2.6 월드·장비",
+                "world/visual",
+                "문·걷기·애니메이션 품질",
+                QAStatus.MANUAL,
+                "생활 월드에서 실제 문/발걸음/가림을 관찰하세요. 시각적 품질은 자동 PASS 처리하지 않습니다."
+            );
+            Simple(
+                "2.7 부동산",
+                "property/trade",
+                "매물·매매·손익",
+                c =>
+                {
+                    var e = c.Game.economy;
+                    c.Require(e.propertyCatalog != null, "부동산 카탈로그 없음");
+                    c.Check(e.Properties.quotes.Count == 6, "실제 6개 매물");
+                    long cash = e.Cash;
+                    c.Check(e.BuyProperty("qa/property-buy", "property-0"), "매수");
+                    c.Check(!e.BuyProperty("qa/property-again", "property-0"), "중복 소유 차단");
+                    c.Check(e.SellProperty("qa/property-sell", "property-0") && e.Cash == cash, "동일 시세 매각");
+                    c.Check(!e.SellProperty("qa/property-double", "property-0"), "중복 매각 차단");
+                },
+                SceneId.City
+            );
+            foreach (HousingTenure tenure in Enum.GetValues(typeof(HousingTenure)))
+            {
+                var t = tenure;
+                Simple(
+                    "2.7 부동산",
+                    "property/" + t,
+                    t == HousingTenure.Jeonse ? "전세·보증금 반환" : "월세·관리비·납부",
+                    c =>
+                    {
+                        var e = c.Game.economy;
+                        c.Require(e.propertyCatalog != null, "부동산 카탈로그 없음");
+                        long worth = e.NetWorth,
+                            cash = e.Cash;
+                        long rent = c.Game.missions.Counter(MissionCounter.RentPaid);
+                        c.Check(e.LeaseProperty("qa/lease", "property-0", t), "실제 계약");
+                        long deposit = e.HousingDeposit;
+                        c.Check(deposit > 0 && e.NetWorth == worth - 500, "반환 보증금 자산");
+                        e.SettlePropertyDay(40);
+                        var once = JsonUtility.ToJson(e.Capture());
+                        e.SettlePropertyDay(40);
+                        c.Check(once == JsonUtility.ToJson(e.Capture()), "중복 월세/관리비 방지");
+                        if (t == HousingTenure.MonthlyRent)
+                        {
+                            c.Check(c.Game.missions.Counter(MissionCounter.RentPaid) == rent + 1, "기존 월세 미션");
+                        }
+
+                        c.Check(e.EndLease("qa/refund") && e.HousingDeposit == 0, "보증금 반환");
+                        c.Check(!e.EndLease("qa/refund-twice"), "이중 반환 거부");
+                    },
+                    SceneId.City
+                );
+            }
+
+            Simple(
+                "2.7 부동산",
+                "property/loan",
+                "주거 대출·상환",
+                c =>
+                {
+                    var e = c.Game.economy;
+                    c.Require(e.propertyCatalog != null, "부동산 카탈로그 없음");
+                    long cash = e.Cash;
+                    c.Check(
+                        e.BorrowHousing("qa/loan", 10000) && e.Cash == cash + 10000 && e.Debt == 10000,
+                        "기존 계정 대출"
+                    );
+                    c.Check(
+                        e.RepayDebt("qa/repay", 10000) && e.Debt == 0 && e.HousingLoanPrincipal == 0,
+                        "기존 서비스 상환"
+                    );
+                    c.Commands.SetAge(0);
+                    c.Check(
+                        e.AvailableHousingLoan == 0 && !e.BorrowHousing("qa/underage", 1),
+                        "기존 성장 시스템의 미성년 대출 제한"
+                    );
+                },
+                SceneId.City
+            );
+            Simple(
+                "2.7 부동산",
+                "property/market-save",
+                "시세·저장·오프라인",
+                c =>
+                {
+                    var e = c.Game.economy;
+                    c.Require(e.propertyCatalog != null, "부동산 카탈로그 없음");
+                    long now = e.Properties.marketUtcTicks;
+                    c.Check(e.BuyProperty("qa/asset", "property-0"), "소유 fixture");
+                    e.SettleMarket(now + (long)e.propertyCatalog.marketIntervalSeconds * TimeSpan.TicksPerSecond * 2);
+                    var s = JsonUtility.ToJson(e.Properties);
+                    c.Check(
+                        c.Commands.Save() && c.Commands.Load() && JsonUtility.ToJson(e.Properties) == s,
+                        "시세/소유권/납부 워터마크 디스크 복원"
+                    );
+                },
+                SceneId.City
+            );
+            Add(
+                "2.7 부동산",
+                "property/offline-rent",
+                "오프라인 노동 → 월세·관리비 정산",
+                "자동 노동의 실제 게임 날짜 진행이 주거 납부일을 통과하는지 검사합니다.",
+                "월세와 관리비 납부, 기존 월세 미션, 동일 시각 중복 정산 없음",
+                OfflineRent,
+                SceneId.Workplace,
+                true
+            );
+            Add(
+                "2.7 부동산",
+                "property/recovery",
+                "주거 회복 효과",
+                "집으로 이동 후 실제 주거 효과 실행",
+                "집에서만 회복 적용",
+                PropertyRecovery
+            );
+            Simple(
+                "2.2 성장·미션",
+                "growth/world-access",
+                "연령별 월드·금융 실행 제한",
+                c =>
+                {
+                    foreach (int age in new[] { 0, 6, 7, 18, 19 })
+                    {
+                        c.Commands.SetAge(age);
+                        c.Check(GrowthAccess.Zone(c.Game, "city", out _) == (age >= 7), "아동기 외출 경계 " + age);
+                        c.Check(GrowthAccess.Zone(c.Game, "workplace", out _) == (age >= 19), "성인 회사 경계 " + age);
+                        if (age < 19)
+                        {
+                            c.Check(
+                                !c.Game.economy.Trade("qa/underage-" + age, "IAN", 1, true),
+                                "주식 함수 연령 차단 " + age
+                            );
+                        }
+                    }
+                }
+            );
+            Add(
+                "월드·시설",
+                "world/facility-layout",
+                "업무 좌석·금융시설 배치",
+                "기존 LifeWorld로 이동하여 실제 씬 참조와 일정 검사",
+                "고유 좌석, 실내 단말기 및 왕복 출입 경로",
+                FacilityLayout
+            );
+            Add(
+                "월드·시설",
+                "world/door-lease",
+                "문 요청·고정 프레임·충돌",
+                "격리 세이브에서 실제 WorldDoor 실행",
+                "거절 요청이 다른 사용자의 개폐를 중단하지 않음",
+                DoorLease
+            );
+            Pending(
+                "월드·시설",
+                "world/activity-art",
+                "업무 방향·착석·미술 품질",
+                QAStatus.MANUAL,
+                "실제 Game View에서 책상 방향, NPC의 발걸음·좌석과 업무 동작을 확인하세요. 업무 중에는 정면 업무석 프레임을 사용합니다. 착석/기립의 전면 연결과 미술 품질은 수동 확인이 필요합니다."
+            );
+            Simple(
+                "2.2 성장·미션",
+                "growth/newborn-motor",
+                "신생아 실행 단계 보행 제한",
+                c =>
+                {
+                    c.Commands.Fixture(0);
+                    var w = c.Game.world.Host;
+                    if (w == null)
+                    {
+                        throw new QABlockedException("LifeWorld에서 확인하세요");
+                    }
+
+                    var p = w.Player.Position;
+                    w.Player.BeginTraversal(p + Vector2.right);
+                    c.Check(!w.Player.IsTraversing && !w.Player.MovementAllowed, "0세 scripted traversal 거부");
+                }
+            );
+            Simple(
+                "2.2 성장·미션",
+                "growth/data-boundaries",
+                "데이터 연령 경계와 중복 이벤트",
+                c =>
+                {
+                    c.Commands.Fixture(0);
+                    var ages = new System.Collections.Generic.HashSet<int> { 0, 1, 2 };
+                    foreach (var e in c.Game.phase23.catalog.education)
+                    {
+                        foreach (int n in new[] { e.minAge, e.maxAge })
+                        {
+                            if (n >= 0 && n < 120)
+                            {
+                                for (int d = -1; d <= 1; d++)
+                                {
+                                    if (n + d >= 0)
+                                    {
+                                        ages.Add(n + d);
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    for (int a = 1; a <= 60; a++)
+                    {
+                        if (LifeProgression.StageAtAge(a) != LifeProgression.StageAtAge(a - 1))
+                        {
+                            for (int d = -1; d <= 1; d++)
+                            {
+                                ages.Add(a + d);
+                            }
+                        }
+                    }
+
+                    foreach (int age in ages.OrderBy(a => a))
+                    {
+                        c.Commands.SetAge(age);
+                        int notifications = 0;
+                        Action<int, LifeStage> listener = (a, s) => notifications++;
+                        c.Game.growth.AgeChanged += listener;
+                        try
+                        {
+                            c.Commands.SetAge(age);
+                            c.Check(notifications == 0, "동일 나이 중복 이벤트 없음 " + age);
+                        }
+                        finally
+                        {
+                            c.Game.growth.AgeChanged -= listener;
+                        }
+
+                        c.Check(
+                            c.Game.growth.WalkingUnlocked == (age >= LifeProgression.WalkingAge),
+                            "보행 경계 " + age
+                        );
+                        bool adult = c.Game.growth.Stage >= LifeStage.YoungAdult;
+                        c.Check(GrowthAccess.Zone(c.Game, "workplace", out _) == adult, "회사 경계 " + age);
+                        c.Check(
+                            GrowthAccess.Zone(c.Game, "city", out _) == (c.Game.growth.Stage >= LifeStage.Childhood),
+                            "외출 경계 " + age
+                        );
+                        if (!adult)
+                        {
+                            c.Check(
+                                !c.Game.economy.Trade("audit/age/" + age, "IAN", 1, true)
+                                    && !c.Game.economy.BuyProperty("audit/house/" + age, "property-0")
+                                    && !c.Game.phase23.Employment.Can(20, out _)
+                                    && !c.Game.economy.RepayDebt("audit/debt-age/" + age, 100),
+                                "직접 경제/취업 차단 " + age
+                            );
+                        }
+                    }
+                }
+            );
+            foreach (var p in new DebugCommandService(g, new TestSaveSandbox()).LifecyclePresets)
+            {
+                var preset = p;
+                Simple(
+                    "생애주기 fixture",
+                    "preset/" + preset.id,
+                    preset.title,
+                    c =>
+                    {
+                        c.Commands.ApplyLifecyclePreset(preset.id);
+                        c.Check(
+                            c.Game.growth.Age == preset.age && c.Commands.Sandbox.Active,
+                            "데이터 기반 프리셋은 격리 슬롯에서만 적용"
+                        );
+                    }
+                );
+            }
+
+            PrePhase28Scenarios.Register(g, r);
+            PrePhase28RiskScenarios.Register(r);
+            FacilityQualityScenarios.Register(r);
+            FamilyQAScenarios.Register(r);
+            RoomQAScenarios.Register(r);
+            GrowthQAScenarios.Register(r);
+            CityLifeQAScenarios.Register(r);
+            return r;
+        }
+
+        static IEnumerator SceneAndUI(QAScenarioContext c)
+        {
+            yield return c.Commands.Navigate(SceneId.Home);
+            c.Check(GameContext.Instance.transitions.CurrentScene == SceneId.LifeWorld, "기존 홈 월드 경로");
+            var w = c.Game.world.Host;
+            c.Require(w != null, "생활 월드 없음");
+            w.hud.shell.Push(w.hud.menuPanel);
+            c.Check(w.hud.shell.Depth > 0 && !w.CanControl, "메뉴 입력 차단");
+            w.hud.shell.Close(w.hud.menuPanel);
+            yield return null;
+            c.Check(w.hud.shell.Depth == 0, "메뉴 닫기");
+        }
+
+        static IEnumerator PropertyRecovery(QAScenarioContext c)
+        {
+            yield return c.Commands.Navigate(SceneId.Home, true);
+            var e = c.Game.economy;
+            c.Require(e.propertyCatalog != null, "부동산 카탈로그 없음");
+            c.Check(
+                e.BuyProperty("qa/home", "property-2") && e.OccupyProperty("qa/move", "property-2"),
+                "주택 구매/입주"
+            );
+            c.Commands.SetStat(CoreStat.Health, 40);
+            c.Commands.SetStat(CoreStat.Mental, 40);
+            if (c.Game.world.Active && c.Game.world.State.zone != "home")
+            {
+                throw new QABlockedException("Home에서 주거 회복을 확인하세요.");
+            }
+
+            e.ApplyHousingRecovery(5);
+            c.Check(c.Game.stats.Health == 43 && c.Game.stats.Mental == 43, "기존 체력/정신력 회복");
+        }
+
+        static IEnumerator Education(QAScenarioContext c)
+        {
+            c.Commands.Fixture(7);
+            yield return c.Commands.Navigate(SceneId.School, true);
+            c.Check(c.Commands.Act(7), "실제 입학 행동");
+            c.Commands.SetAllStats(100);
+            c.Check(c.Commands.Act(14) && c.Game.phase23.Progress.education.studies > 0, "실제 공부와 교육 경험");
+        }
+
+        static IEnumerator Employment(QAScenarioContext c)
+        {
+            yield return c.Commands.Navigate(SceneId.Workplace, true);
+            c.Check(c.Commands.Act(20), "실제 이력서");
+            var service = c.Game.phase23;
+            var old = service.TestRollSource;
+            service.TestRollSource = () => 0;
+            try
+            {
+                c.Check(
+                    c.Commands.Act(21) && service.Progress.employment.currentJobId == "convenience",
+                    "난수 입력 고정 후 실제 채용"
+                );
+                long cash = c.Game.economy.Cash;
+                c.Commands.SetAllStats(100);
+                c.Check(c.Commands.Act(0) && c.Game.economy.Cash > cash, "실제 근무 급여");
+                c.Check(
+                    c.Commands.Act(23) && service.Progress.employment.currentJobId == "unemployed",
+                    "실제 퇴사/직업 변경"
+                );
+            }
+            finally
+            {
+                service.TestRollSource = old;
+            }
+        }
+
+        static IEnumerator Social(QAScenarioContext c)
+        {
+            yield return c.Commands.Navigate(SceneId.City, true);
+            var s = c.Game.phase23;
+            s.SelectedNpcId = "colleague";
+            var old = s.TestRollSource;
+            s.TestRollSource = () => 0;
+            try
+            {
+                c.Check(c.Commands.Act(18) && s.Progress.social.history.Count > 0, "실제 대화 활동");
+                c.Check(s.Social.Relationship("colleague")?.affinity > 0, "실제 호감도 변화");
+            }
+            finally
+            {
+                s.TestRollSource = old;
+            }
+        }
+
+        static IEnumerator Equipment(QAScenarioContext c)
+        {
+            yield return c.Commands.Navigate(SceneId.Home, true);
+            var s = c.Game.phase23;
+            foreach (var item in new[] { MissionItemKey.StarterHeadphones, MissionItemKey.StarterEquipment })
+            {
+                c.Check(
+                    s.TryDeliver(
+                        new PendingMissionReward
+                        {
+                            id = "qa/" + item,
+                            kind = PendingMissionRewardKind.Item,
+                            item = item,
+                            amount = 1,
+                        }
+                    ),
+                    "스타터 보상 게이트웨이"
+                );
+            }
+
+            c.Check(c.Commands.Act(24) && c.Commands.Act(25), "실제 장착 행동");
+            c.Check(s.Progress.equipped.Count == 2 && !c.Commands.Act(24), "장착 상태 및 중복 장착 거부");
+        }
+
+        static IEnumerator Idle(QAScenarioContext c, IdleActivityKind kind)
+        {
+            var a = c.Game.idle.settings.activities.FirstOrDefault(a => a.kind == kind);
+            c.Require(a != null, "자동 활동 정의 없음");
+            if (kind == IdleActivityKind.Study)
+            {
+                c.Commands.Fixture(7);
+                yield return c.Commands.Navigate(SceneId.School, true);
+                c.Check(c.Commands.Act(7), "자동 공부 입학 조건");
+            }
+            else
+            {
+                yield return c.Commands.Navigate(a.startLocation, true);
+                if (kind == IdleActivityKind.Work)
+                {
+                    c.Game.phase23.Progress.employment.currentJobId = "convenience";
+                }
+            }
+
+            c.Check(c.Commands.StartIdle(a.id), "실제 자동 활동 시작");
+            long cash = c.Game.economy.Cash;
+            c.Check(c.Commands.Offline(c.Game.idle.Period(a) + 1), "실제 오프라인 주기 정산");
+            c.Check(
+                c.Game.idle.State.ledgers.Any(l => l.activityId == a.id && l.completedCycles > 0),
+                "실제 완료 주기 기록"
+            );
+            if (kind == IdleActivityKind.Work)
+            {
+                c.Check(c.Game.economy.Cash > cash, "실제 자동 급여");
+            }
+
+            long after = c.Game.economy.Cash,
+                cycles = c.Game.idle.State.ledgers.Sum(l => l.completedCycles);
+            c.Commands.Offline(0);
+            c.Check(
+                c.Game.economy.Cash == after && c.Game.idle.State.ledgers.Sum(l => l.completedCycles) == cycles,
+                "동일 주입 시각 재정산 보상 없음"
+            );
+            c.Game.idle.StopActivity();
+            c.Check(!c.Game.idle.State.active, "실제 자동 활동 중지");
+        }
+
+        static IEnumerator FacilityLayout(QAScenarioContext c)
+        {
+            yield return c.Commands.Navigate(SceneId.Home);
+            WorldRecoveryChecks.Layout(c.Game.world.Host, c.Check);
+        }
+
+        static IEnumerator DoorLease(QAScenarioContext c)
+        {
+            yield return c.Commands.Navigate(SceneId.Home);
+            WorldRecoveryChecks.DoorLease(c.Game.world.Host, c.Check);
+        }
+
+        static IEnumerator OfflineRent(QAScenarioContext c)
+        {
+            var e = c.Game.economy;
+            c.Require(e.propertyCatalog != null, "부동산 카탈로그 없음");
+            c.Check(e.LeaseProperty("qa/offline-lease", "property-0", HousingTenure.MonthlyRent), "월세 계약");
+            c.Game.clock.Restore(39, new TimeSnapshot { subDaySeconds = 8 * 3600, elapsedSeconds = 38 * 86400 });
+            yield return c.Commands.Navigate(SceneId.Workplace, true);
+            c.Game.phase23.Progress.employment.currentJobId = "convenience";
+            var work = c.Game.idle.settings.activities.First(a => a.kind == IdleActivityKind.Work);
+            long rent = c.Game.missions.Counter(MissionCounter.RentPaid);
+            c.Check(
+                c.Commands.StartIdle(work.id) && c.Commands.Offline(c.Game.idle.Period(work) + 1),
+                "실제 자동 노동 오프라인 정산"
+            );
+            c.Check(
+                c.Game.clock.Day == 40
+                    && e.Properties.bills.Any(b =>
+                        b.dueDay == 40 && b.rent == 80 && b.maintenance == 16 && b.Remaining == 0
+                    ),
+                "실제 날짜 이벤트를 통해 월세/관리비 납부"
+            );
+            c.Check(
+                c.Game.missions.Counter(MissionCounter.RentPaid) == rent + 1,
+                "오프라인 납부가 기존 월세 미션에 반영"
+            );
+            long cash = e.Cash;
+            int count = e.Properties.bills.Count;
+            c.Commands.Offline(0);
+            c.Check(e.Cash == cash && e.Properties.bills.Count == count, "같은 오프라인 시각에 비용/보상 중복 없음");
+        }
+
+        static IEnumerator Offline(QAScenarioContext c, int hours)
+        {
+            yield return c.Commands.Navigate(SceneId.Workplace, true);
+            c.Game.phase23.Progress.employment.currentJobId = "convenience";
+            var a = c.Game.idle.settings.activities.First(a => a.kind == IdleActivityKind.Work);
+            c.Check(c.Commands.StartIdle(a.id), "자동 노동 준비");
+            c.Check(c.Commands.Offline(hours * 3600d), "주입 시간 오프라인 정산");
+            var report = c.Game.idle.State.report;
+            c.Require(report != null, "오프라인 보고서 없음");
+            c.Check(report.eligibleSeconds <= c.Game.idle.settings.maximumOfflineSeconds, "기존 오프라인 상한");
+            c.Check(report.eligibleSeconds <= hours * 3600d && report.cycles > 0, "실제 완료/자원 소모 반영");
+            long cash = c.Game.economy.Cash;
+            c.Commands.Offline(0);
+            c.Check(c.Game.economy.Cash == cash, "동일 시각 보상 중복 없음");
+        }
+    }
 }
 #endif

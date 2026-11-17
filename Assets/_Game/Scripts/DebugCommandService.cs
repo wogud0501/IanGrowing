@@ -4,59 +4,791 @@ using System.Collections;
 using System.IO;
 using System.Linq;
 using UnityEngine;
-namespace IanGame {
-public interface IQATimeSource {long UtcTicks{get;}long Advance(double seconds);}
-[Serializable]public sealed class QAManualTimeSource:IQATimeSource {public long utc=DateTime.UtcNow.Ticks;public long UtcTicks=>utc;public long Advance(double seconds){if(seconds<0||double.IsNaN(seconds)||double.IsInfinity(seconds))throw new ArgumentOutOfRangeException(nameof(seconds));utc+=(long)Math.Min(DateTime.MaxValue.Ticks-utc,seconds*TimeSpan.TicksPerSecond);return utc;}}
-public sealed class QALifecyclePreset {public string id,title;public int age;}
-public sealed class DebugCommandService {
- public GameManager Game{get;}public TestSaveSandbox Sandbox{get;}public IQATimeSource TimeSource{get;set;}=new QAManualTimeSource();public Action<string> Log;
- public DebugCommandService(GameManager game,TestSaveSandbox sandbox){Game=game;Sandbox=sandbox;}
- void Guard(){if(!Sandbox.Active)throw new InvalidOperationException("테스트 전용 세션을 먼저 여세요.");}
- public void SetCash(long value){Guard();if(value<0||value>int.MaxValue)throw new ArgumentOutOfRangeException(nameof(value));var s=Game.stats.Capture();s.money=(int)value;Game.stats.Restore(s);}
- public void AddCash(int value){Guard();if(!Game.economy.Earn(value,"QA 현금 지급"))throw new InvalidOperationException("현금 한도를 확인하세요.");}
- public void SetAge(int age){Guard();if(age<0)throw new ArgumentOutOfRangeException(nameof(age));var p=Game.growth.Capture();p.age=age;Game.growth.Restore(p);Game.RefreshAvailability();if(age==0&&Game.world?.Host!=null)Game.world.Host.ApplySavedState();}
- public void SetDebt(long value){Guard();if(value<0||value>int.MaxValue)throw new ArgumentOutOfRangeException(nameof(value));var s=Game.economy.Capture();s.debt=value;if(s.finance!=null)s.finance.outstandingInterest=Math.Min(value,s.finance.outstandingInterest);long left=value-(s.finance?.outstandingInterest??0);if(s.property!=null)foreach(var loan in s.property.loans){loan.remainingPrincipal=Math.Min(loan.remainingPrincipal,left);left-=loan.remainingPrincipal;}Game.economy.Restore(s);}
- public void SetStat(CoreStat stat,int value){Guard();if(value<0||value>100)throw new ArgumentOutOfRangeException(nameof(value));var delta=new StatDelta();int diff=value-Game.stats.Get(stat);switch(stat){case CoreStat.Hunger:delta.hunger=diff;break;case CoreStat.Thirst:delta.thirst=diff;break;case CoreStat.Knowledge:delta.knowledge=diff;break;case CoreStat.Health:delta.health=diff;break;case CoreStat.Mental:delta.mental=diff;break;case CoreStat.Social:delta.social=diff;break;case CoreStat.Credit:delta.credit=diff;break;case CoreStat.Happiness:delta.happiness=diff;break;}Game.stats.ApplyCore(delta);}
- public void SetAllStats(int value){foreach(CoreStat stat in Enum.GetValues(typeof(CoreStat)))SetStat(stat,value);}
- public void SetDay(int value){Guard();if(value<1||value>TimeManager.MaximumDay)throw new ArgumentOutOfRangeException(nameof(value));Game.clock.Restore(value,Game.clock.Capture());Log?.Invoke("날짜를 설정했습니다. 정산 검사는 시간 진행 버튼을 사용하세요.");}
- public void Advance(double seconds){Guard();bool running=Game.clock.IsRunning;Game.clock.SetRunning(true);try{Game.clock.AdvanceSimulation(seconds);}finally{Game.clock.SetRunning(running);}}
- public bool Offline(double seconds){Guard();if(TimeSource is QAManualTimeSource manual)manual.utc=Math.Max(manual.utc,Game.idle.State.accountedUtcTicks);long now=TimeSource.Advance(seconds);bool running=Game.clock.IsRunning;Game.clock.SetRunning(true);try{bool result=Game.idle.SettleToUtc(now,true);Game.economy.SettleMarket(now);return result;}finally{Game.clock.SetRunning(running);}}
- public void Fixture(int age=30,bool beforeBoundary=false,bool independentFixture=true){Guard();var d=Game.CaptureState();d.gameOver=false;d.birthIntroCompleted=true;d.birthIntroVersion=1;d.day=10;d.settledDay=10;d.time=new TimeSnapshot{subDaySeconds=8*3600,elapsedSeconds=9*86400};d.stats=new StatSnapshot{money=1000000,credit=90,hunger=100,thirst=100,energy=100,mental=100,happiness=100,knowledge=100,social=100};d.progression=new ProgressSnapshot{age=age};d.world=d.world??new LifeWorldSnapshot();d.world.family=new FamilyLifeSnapshot{schema=1,residency=age>=19&&independentFixture?HomeResidency.IndependentHome:HomeResidency.FamilyHome,independenceChosen=age>=19&&independentFixture};d.world.zone=age>=19&&independentFixture?"home":FamilyLife.Home;d.world.position=Vector2.zero;d.survival=new SurvivalSnapshot();d.economy=new EconomySnapshot{housing=new HousingSnapshot{starterRevision=1,owned=new System.Collections.Generic.List<string>{"basic-bed"}}};d.items=new ItemProgressSnapshot();d.phase23=new Phase23Snapshot();d.idle=new IdleProgressSnapshot();d.missions=new MissionSnapshot{startDay=10};foreach(var m in Game.missionCatalog.missions.Where(m=>m.targetAge>=0&&(beforeBoundary?m.targetAge<age:m.targetAge<=age))){d.missions.completedMissionIds.Add(m.Id);d.missions.claimedMissionIds.Add(m.Id);}Game.RestoreState(d);Game.clock.realtimeEnabled=false;Game.clock.SetRunning(false);TimeSource=new QAManualTimeSource();}
- public QALifecyclePreset[] LifecyclePresets {
-  get{int adult=Enumerable.Range(0,121).First(a=>LifeProgression.StageAtAge(a)>=LifeStage.YoungAdult);int school=Game.phase23.catalog.education.Where(e=>e.requiredStage>=LifeStage.Childhood).Min(e=>e.minAge);
-   var presets=new[]{new QALifecyclePreset{id="walk-before",title="보행 해금 직전",age=LifeProgression.WalkingAge-1},new QALifecyclePreset{id="walk-after",title="보행 해금 직후",age=LifeProgression.WalkingAge},new QALifecyclePreset{id="birth",title="0세 출생 직후",age=0},new QALifecyclePreset{id="school-before",title="학교 연령 직전",age=Math.Max(0,school-1)},new QALifecyclePreset{id="school",title="학교 연령·선행조건",age=school},new QALifecyclePreset{id="adult-before",title="성인 전환 직전",age=adult-1},new QALifecyclePreset{id="adult",title="성인 전환 직후",age=adult},new QALifecyclePreset{id="job",title="취업 자격",age=adult},new QALifecyclePreset{id="stock",title="주식 거래 자격",age=adult},new QALifecyclePreset{id="property",title="주거 거래 자격",age=Math.Max(adult,Game.economy.propertyCatalog.properties.Min(v=>v.minAge))}};var catalog=Game.world.Host?.Player.growthVisual?.catalog;return catalog==null?presets:presets.Concat(catalog.profiles.Select(p=>new QALifecyclePreset{id="visual/"+p.id,title=p.minAge+"세 외형 · "+p.id,age=p.minAge})).ToArray();
-  }
- }
- public void ApplyLifecyclePreset(string id){Guard();var preset=LifecyclePresets.First(p=>p.id==id);if(id=="birth"){Game.NewGame();Game.clock.realtimeEnabled=false;Game.clock.SetRunning(false);}else Fixture(preset.age,preset.id.EndsWith("-before"),false);Log?.Invoke("QA fixture: "+preset.title+" / "+preset.age+"세 (실제 미션 성장 검사가 아닙니다)");}
- public bool Save(){Guard();return Game.SaveAutomaticCheckpoint(out _);}
- public bool Load(){Guard();if(!Game.saves.TryReadAutomatic(out var d,out var why)){Log?.Invoke(why);return false;}Game.RestoreState(d);Game.clock.SetRunning(false);return true;}
- public bool ImportOriginalCopy(){Guard();var source=Sandbox.OriginalCopySource;if(string.IsNullOrEmpty(source))throw new QABlockedException("복사할 원본 저장 파일이 없습니다.");var destination=Game.saves.BasePath;if(!Path.GetFileName(destination).StartsWith("qa-"))throw new InvalidOperationException("QA 슬롯이 아닙니다.");File.Copy(source,destination,true);if(!Game.saves.TryRead(out var data,out var why)){Log?.Invoke(why);return false;}Game.RestoreState(data);Game.clock.SetRunning(false);return true;}
- public IEnumerator Navigate(SceneId id,bool legacy=false){Guard();var t=GameContext.Instance.transitions;if(!(legacy?t.NavigateForTesting(id):t.Navigate(id)))throw new QABlockedException("장소 진입 불가: "+id);float until=Time.realtimeSinceStartup+20;while(t.IsTransitioning&&Time.realtimeSinceStartup<until)yield return null;if(t.IsTransitioning)throw new QABlockedException("장소 로딩 시간 초과");Game.clock.realtimeEnabled=false;Game.clock.SetRunning(false);}
- public bool Act(int id){Guard();bool running=Game.clock.IsRunning;Game.clock.SetRunning(true);try{return Game.TryAction(id);}finally{Game.clock.SetRunning(running);}}
- public bool StartIdle(string id){Guard();Game.clock.SetRunning(true);bool ok=Game.idle.StartActivity(id);if(ok)TimeSource=new QAManualTimeSource{utc=Game.idle.State.accountedUtcTicks};Game.clock.SetRunning(false);return ok;}
- public bool ChangeStock(string id,float multiplier){Guard();if(multiplier<=0||!float.IsFinite(multiplier))return false;var d=Game.economy.Capture();var q=d.finance?.quotes.FirstOrDefault(q=>q.StockId==id);if(q==null)return false;q.PreviousPrice=q.CurrentPrice;q.CurrentPrice=Mathf.Clamp(Mathf.RoundToInt(q.CurrentPrice*multiplier),1,int.MaxValue/100);q.PriceHistory.Add(q.CurrentPrice);Game.economy.Restore(d);return true;}
- public void PrepareMission(string id){Guard();var m=Game.missionCatalog.missions.FirstOrDefault(m=>m.Id==id)??throw new ArgumentException("미션 ID를 확인하세요.");if((Game.missions.SupportedFeatures&m.requiredFeatures)!=m.requiredFeatures)throw new QANotImplementedException("미션에 필요한 서비스 미구현: "+m.requiredFeatures);
-  Fixture(Math.Max(30,m.targetAge));var d=Game.CaptureState();d.missions=new MissionSnapshot{startDay=1};foreach(var previous in Game.missionCatalog.missions.TakeWhile(v=>v.Id!=id)){d.missions.completedMissionIds.Add(previous.Id);d.missions.claimedMissionIds.Add(previous.Id);}ApplyCondition(m.condition,d);Game.RestoreState(d);Game.clock.SetRunning(false);Game.missions.Refresh();
- }
- public void SetMissionProgress(string id,long value){Guard();if(value<0)throw new ArgumentOutOfRangeException(nameof(value));PrepareMission(id);var mission=Game.missionCatalog.missions.First(m=>m.Id==id);var counter=FirstCounter(mission.condition);if(counter==MissionCounter.None)throw new QABlockedException("카운터형 미션이 아닙니다. 능력치/나이/자산 조작을 사용하세요.");var state=Game.missions.Capture();state.completedMissionIds.Remove(id);state.claimedMissionIds.Remove(id);state.milestoneIds.Remove(id);state.progress.RemoveAll(p=>p.missionId==id);var entry=state.counters.FirstOrDefault(c=>c.counter==counter);if(entry==null){entry=new MissionCounterValue{counter=counter};state.counters.Add(entry);}entry.value=value;Game.missions.Restore(state,Game.clock.Day);Game.missions.Refresh();}
- static MissionCounter FirstCounter(MissionCondition c){if(c==null)return MissionCounter.None;if(c.kind==MissionConditionKind.CounterAtLeast)return c.counter;foreach(var child in c.children??Array.Empty<MissionCondition>()){var value=FirstCounter(child);if(value!=MissionCounter.None)return value;}return MissionCounter.None;}
- public string Observe(string id){Guard();var e=Game.economy;
-  if(id.StartsWith("mission/")){var mission=Game.missionCatalog.missions.FirstOrDefault(m=>m.Id==id.Substring(8));if(mission==null)return "미션 없음";var p=Game.missions.GetProgress(mission);return $"{mission.Id}: {p.current:0}/{p.target:0} · {p.state} · 수령 {Game.missions.Claimed(mission.Id)}";}
-  if(id.StartsWith("stocks/"))return $"현재 조건: {(id=="stocks/up"?e.RealizedPnL>0:id=="stocks/down"?e.RealizedPnL<0:e.Finance?.news.Count>0)} / 보유 평가 {e.StockValue:N0}G / 실현 {e.RealizedPnL:+#,0;-#,0;0}G / 평가손익 {e.UnrealizedPnL:+#,0;-#,0;0}G";
-  if(id.StartsWith("property/"))return $"현재 소유 {e.Properties.owned.Count} / 보증금 {e.HousingDeposit:N0}G / 미납 {e.HousingArrears:N0}G / 대출 원금 {e.HousingLoanPrincipal:N0}G / 시세 갱신 {e.Properties.marketSequence} / 주거 {e.Housing.residenceId}";
-  if(id.StartsWith("idle/")||id.StartsWith("offline/"))return $"실제 자동 상태 {Game.idle.State.active} / 완료 주기 {Game.idle.State.ledgers.Sum(l=>l.completedCycles)} / 워터마크 {Game.idle.State.accountedUtcTicks} / 오프라인 완료 {Game.idle.State.report?.cycles??0}";
-  if(id.StartsWith("education/"))return $"등록 {Game.phase23.Progress.education.currentEducationId} / 공부 {Game.phase23.Progress.education.studies} / 숙제 {Game.phase23.Progress.education.homework}";
-  if(id.StartsWith("jobs/"))return $"현재 직업 {Game.phase23.Progress.employment.currentJobId} / 근무 {Game.phase23.Progress.employment.workCount} / 채용·퇴사 기록 {Game.phase23.Progress.employment.history.Count}";
-  if(id.StartsWith("finance/"))return $"부채 {e.Debt:N0}G / 이자 {e.Finance?.outstandingInterest??0:N0}G / 미납 세금 {e.Finance?.bills.Sum(b=>b.Remaining)??0:N0}G / 신용 {Game.stats.Credit}";
-  return $"실제 상태 {Game.State} / 나이 {Game.growth.Age} / DAY {Game.clock.Day} / 체력 {Game.stats.Health} / 스트레스 {Game.stats.Stress} / 원본 파일 {(Sandbox.VerifyFiles()?"동일":"변경 발견")} · 다단계 조건은 선택 테스트 실행 결과를 확인하세요.";
- }
- void ApplyCondition(MissionCondition c,SaveData d){if(c==null)return;switch(c.kind){case MissionConditionKind.All:foreach(var child in c.children)ApplyCondition(child,d);break;case MissionConditionKind.Any:if(c.children.Length>0)ApplyCondition(c.children[0],d);break;
- case MissionConditionKind.CounterAtLeast:var v=d.missions.counters.FirstOrDefault(v=>v.counter==c.counter);if(v==null){v=new MissionCounterValue{counter=c.counter};d.missions.counters.Add(v);}v.value=Math.Max(v.value,c.target);break;
- case MissionConditionKind.StatAtLeast:int value=(int)Math.Min(100,c.target);switch(c.stat){case CoreStat.Hunger:d.stats.hunger=value;break;case CoreStat.Thirst:d.stats.thirst=value;break;case CoreStat.Knowledge:d.stats.knowledge=value;break;case CoreStat.Health:d.stats.energy=value;break;case CoreStat.Mental:d.stats.mental=value;break;case CoreStat.Social:d.stats.social=value;break;case CoreStat.Credit:d.stats.credit=value;break;case CoreStat.Happiness:d.stats.happiness=value;break;}break;
- case MissionConditionKind.AgeAtLeast:d.progression.age=(int)c.target;break;case MissionConditionKind.StageAtLeast:d.progression.age=Enumerable.Range(0,121).First(age=>LifeProgression.StageAtAge(age)>=(LifeStage)c.target);break;case MissionConditionKind.DaysSurvived:d.day=(int)Math.Min(TimeManager.MaximumDay,1+c.target);break;
- case MissionConditionKind.CashAtLeast:case MissionConditionKind.NetWorthAtLeast:if(c.target>int.MaxValue)throw new QABlockedException("현금 한도를 넘는 자산 fixture는 별도 구성이 필요합니다.");d.stats.money=(int)c.target;break;
- case MissionConditionKind.Alive:d.stats.energy=100;d.gameOver=false;break;case MissionConditionKind.ItemOwned:if(c.item==MissionItemKey.StarterEquipment||c.item==MissionItemKey.StarterHeadphones){d.phase23.owned.Add(c.item);d.items=d.items??new ItemProgressSnapshot();string itemId=Game.items.LegacyId(c.item);if(!d.items.inventory.Any(i=>i.itemId==itemId))d.items.inventory.Add(new InventoryEntry{itemId=itemId,count=1,isNew=true});}else if(c.item==MissionItemKey.FirstFurniture)d.economy.housing.owned.Add("bookshelf");else throw new QANotImplementedException("아이템 서비스 미구현");break;
- case MissionConditionKind.MissionClaimed:if(!d.missions.completedMissionIds.Contains(c.missionId))d.missions.completedMissionIds.Add(c.missionId);if(!d.missions.claimedMissionIds.Contains(c.missionId))d.missions.claimedMissionIds.Add(c.missionId);break;case MissionConditionKind.ContentUnlocked:if(!d.missions.unlocks.Contains(c.unlock))d.missions.unlocks.Add(c.unlock);break;case MissionConditionKind.EventChoiceOutcome:throw new QANotImplementedException("선택 이벤트 서비스 미구현");default:throw new QABlockedException("자동 조건 fixture 미지원: "+c.kind);}}
-}
+
+namespace IanGame
+{
+    public interface IQATimeSource
+    {
+        long UtcTicks { get; }
+
+        long Advance(double seconds);
+    }
+
+    [Serializable]
+    public sealed class QAManualTimeSource : IQATimeSource
+    {
+        public long utc = DateTime.UtcNow.Ticks;
+        public long UtcTicks => utc;
+
+        public long Advance(double seconds)
+        {
+            if (seconds < 0 || double.IsNaN(seconds) || double.IsInfinity(seconds))
+            {
+                throw new ArgumentOutOfRangeException(nameof(seconds));
+            }
+
+            utc += (long)Math.Min(DateTime.MaxValue.Ticks - utc, seconds * TimeSpan.TicksPerSecond);
+            return utc;
+        }
+    }
+
+    public sealed class QALifecyclePreset
+    {
+        public string id;
+        public string title;
+        public int age;
+    }
+
+    public sealed class DebugCommandService
+    {
+        public GameManager Game { get; }
+        public TestSaveSandbox Sandbox { get; }
+        public IQATimeSource TimeSource { get; set; } = new QAManualTimeSource();
+
+        public Action<string> Log;
+
+        public DebugCommandService(GameManager game, TestSaveSandbox sandbox)
+        {
+            Game = game;
+            Sandbox = sandbox;
+        }
+
+        void Guard()
+        {
+            if (!Sandbox.Active)
+            {
+                throw new InvalidOperationException("테스트 전용 세션을 먼저 여세요.");
+            }
+        }
+
+        public void SetCash(long value)
+        {
+            Guard();
+            if (value < 0 || value > int.MaxValue)
+            {
+                throw new ArgumentOutOfRangeException(nameof(value));
+            }
+
+            var s = Game.stats.Capture();
+            s.money = (int)value;
+            Game.stats.Restore(s);
+        }
+
+        public void AddCash(int value)
+        {
+            Guard();
+            if (!Game.economy.Earn(value, "QA 현금 지급"))
+            {
+                throw new InvalidOperationException("현금 한도를 확인하세요.");
+            }
+        }
+
+        public void SetAge(int age)
+        {
+            Guard();
+            if (age < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(age));
+            }
+
+            var p = Game.growth.Capture();
+            p.age = age;
+            Game.growth.Restore(p);
+            Game.RefreshAvailability();
+            if (age == 0 && Game.world?.Host != null)
+            {
+                Game.world.Host.ApplySavedState();
+            }
+        }
+
+        public void SetDebt(long value)
+        {
+            Guard();
+            if (value < 0 || value > int.MaxValue)
+            {
+                throw new ArgumentOutOfRangeException(nameof(value));
+            }
+
+            var s = Game.economy.Capture();
+            s.debt = value;
+            if (s.finance != null)
+            {
+                s.finance.outstandingInterest = Math.Min(value, s.finance.outstandingInterest);
+            }
+
+            long left = value - (s.finance?.outstandingInterest ?? 0);
+            if (s.property != null)
+            {
+                foreach (var loan in s.property.loans)
+                {
+                    loan.remainingPrincipal = Math.Min(loan.remainingPrincipal, left);
+                    left -= loan.remainingPrincipal;
+                }
+            }
+
+            Game.economy.Restore(s);
+        }
+
+        public void SetStat(CoreStat stat, int value)
+        {
+            Guard();
+            if (value < 0 || value > 100)
+            {
+                throw new ArgumentOutOfRangeException(nameof(value));
+            }
+
+            var delta = new StatDelta();
+            int diff = value - Game.stats.Get(stat);
+            switch (stat)
+            {
+                case CoreStat.Hunger:
+                    delta.hunger = diff;
+                    break;
+                case CoreStat.Thirst:
+                    delta.thirst = diff;
+                    break;
+                case CoreStat.Knowledge:
+                    delta.knowledge = diff;
+                    break;
+                case CoreStat.Health:
+                    delta.health = diff;
+                    break;
+                case CoreStat.Mental:
+                    delta.mental = diff;
+                    break;
+                case CoreStat.Social:
+                    delta.social = diff;
+                    break;
+                case CoreStat.Credit:
+                    delta.credit = diff;
+                    break;
+                case CoreStat.Happiness:
+                    delta.happiness = diff;
+                    break;
+            }
+
+            Game.stats.ApplyCore(delta);
+        }
+
+        public void SetAllStats(int value)
+        {
+            foreach (CoreStat stat in Enum.GetValues(typeof(CoreStat)))
+            {
+                SetStat(stat, value);
+            }
+        }
+
+        public void SetDay(int value)
+        {
+            Guard();
+            if (value < 1 || value > TimeManager.MaximumDay)
+            {
+                throw new ArgumentOutOfRangeException(nameof(value));
+            }
+
+            Game.clock.Restore(value, Game.clock.Capture());
+            Log?.Invoke("날짜를 설정했습니다. 정산 검사는 시간 진행 버튼을 사용하세요.");
+        }
+
+        public void Advance(double seconds)
+        {
+            Guard();
+            bool running = Game.clock.IsRunning;
+            Game.clock.SetRunning(true);
+            try
+            {
+                Game.clock.AdvanceSimulation(seconds);
+            }
+            finally
+            {
+                Game.clock.SetRunning(running);
+            }
+        }
+
+        public bool Offline(double seconds)
+        {
+            Guard();
+            if (TimeSource is QAManualTimeSource manual)
+            {
+                manual.utc = Math.Max(manual.utc, Game.idle.State.accountedUtcTicks);
+            }
+
+            long now = TimeSource.Advance(seconds);
+            bool running = Game.clock.IsRunning;
+            Game.clock.SetRunning(true);
+            try
+            {
+                bool result = Game.idle.SettleToUtc(now, true);
+                Game.economy.SettleMarket(now);
+                return result;
+            }
+            finally
+            {
+                Game.clock.SetRunning(running);
+            }
+        }
+
+        public void Fixture(int age = 30, bool beforeBoundary = false, bool independentFixture = true)
+        {
+            Guard();
+            var d = Game.CaptureState();
+            d.gameOver = false;
+            d.birthIntroCompleted = true;
+            d.birthIntroVersion = 1;
+            d.day = 10;
+            d.settledDay = 10;
+            d.time = new TimeSnapshot { subDaySeconds = 8 * 3600, elapsedSeconds = 9 * 86400 };
+            d.stats = new StatSnapshot
+            {
+                money = 1000000,
+                credit = 90,
+                hunger = 100,
+                thirst = 100,
+                energy = 100,
+                mental = 100,
+                happiness = 100,
+                knowledge = 100,
+                social = 100,
+            };
+            d.progression = new ProgressSnapshot { age = age };
+            d.world = d.world ?? new LifeWorldSnapshot();
+            d.world.family = new FamilyLifeSnapshot
+            {
+                schema = 1,
+                residency = age >= 19 && independentFixture ? HomeResidency.IndependentHome : HomeResidency.FamilyHome,
+                independenceChosen = age >= 19 && independentFixture,
+            };
+            d.world.zone = age >= 19 && independentFixture ? "home" : FamilyLife.Home;
+            d.world.position = Vector2.zero;
+            d.survival = new SurvivalSnapshot();
+            d.economy = new EconomySnapshot
+            {
+                housing = new HousingSnapshot
+                {
+                    starterRevision = 1,
+                    owned = new System.Collections.Generic.List<string> { "basic-bed" },
+                },
+            };
+            d.items = new ItemProgressSnapshot();
+            d.phase23 = new Phase23Snapshot();
+            d.idle = new IdleProgressSnapshot();
+            d.missions = new MissionSnapshot { startDay = 10 };
+            foreach (
+                var m in Game.missionCatalog.missions.Where(m =>
+                    m.targetAge >= 0 && (beforeBoundary ? m.targetAge < age : m.targetAge <= age)
+                )
+            )
+            {
+                d.missions.completedMissionIds.Add(m.Id);
+                d.missions.claimedMissionIds.Add(m.Id);
+            }
+
+            Game.RestoreState(d);
+            Game.clock.realtimeEnabled = false;
+            Game.clock.SetRunning(false);
+            TimeSource = new QAManualTimeSource();
+        }
+
+        public QALifecyclePreset[] LifecyclePresets
+        {
+            get
+            {
+                int adult = Enumerable.Range(0, 121).First(a => LifeProgression.StageAtAge(a) >= LifeStage.YoungAdult);
+                int school = Game
+                    .phase23.catalog.education.Where(e => e.requiredStage >= LifeStage.Childhood)
+                    .Min(e => e.minAge);
+                var presets = new[]
+                {
+                    new QALifecyclePreset
+                    {
+                        id = "walk-before",
+                        title = "보행 해금 직전",
+                        age = LifeProgression.WalkingAge - 1,
+                    },
+                    new QALifecyclePreset
+                    {
+                        id = "walk-after",
+                        title = "보행 해금 직후",
+                        age = LifeProgression.WalkingAge,
+                    },
+                    new QALifecyclePreset
+                    {
+                        id = "birth",
+                        title = "0세 출생 직후",
+                        age = 0,
+                    },
+                    new QALifecyclePreset
+                    {
+                        id = "school-before",
+                        title = "학교 연령 직전",
+                        age = Math.Max(0, school - 1),
+                    },
+                    new QALifecyclePreset
+                    {
+                        id = "school",
+                        title = "학교 연령·선행조건",
+                        age = school,
+                    },
+                    new QALifecyclePreset
+                    {
+                        id = "adult-before",
+                        title = "성인 전환 직전",
+                        age = adult - 1,
+                    },
+                    new QALifecyclePreset
+                    {
+                        id = "adult",
+                        title = "성인 전환 직후",
+                        age = adult,
+                    },
+                    new QALifecyclePreset
+                    {
+                        id = "job",
+                        title = "취업 자격",
+                        age = adult,
+                    },
+                    new QALifecyclePreset
+                    {
+                        id = "stock",
+                        title = "주식 거래 자격",
+                        age = adult,
+                    },
+                    new QALifecyclePreset
+                    {
+                        id = "property",
+                        title = "주거 거래 자격",
+                        age = Math.Max(adult, Game.economy.propertyCatalog.properties.Min(v => v.minAge)),
+                    },
+                };
+                var catalog = Game.world.Host?.Player.growthVisual?.catalog;
+                return catalog == null
+                    ? presets
+                    : presets
+                        .Concat(
+                            catalog.profiles.Select(p => new QALifecyclePreset
+                            {
+                                id = "visual/" + p.id,
+                                title = p.minAge + "세 외형 · " + p.id,
+                                age = p.minAge,
+                            })
+                        )
+                        .ToArray();
+            }
+        }
+
+        public void ApplyLifecyclePreset(string id)
+        {
+            Guard();
+            var preset = LifecyclePresets.First(p => p.id == id);
+            if (id == "birth")
+            {
+                Game.NewGame();
+                Game.clock.realtimeEnabled = false;
+                Game.clock.SetRunning(false);
+            }
+            else
+            {
+                Fixture(preset.age, preset.id.EndsWith("-before"), false);
+            }
+
+            Log?.Invoke("QA fixture: " + preset.title + " / " + preset.age + "세 (실제 미션 성장 검사가 아닙니다)");
+        }
+
+        public bool Save()
+        {
+            Guard();
+            return Game.SaveAutomaticCheckpoint(out _);
+        }
+
+        public bool Load()
+        {
+            Guard();
+            if (!Game.saves.TryReadAutomatic(out var d, out var why))
+            {
+                Log?.Invoke(why);
+                return false;
+            }
+
+            Game.RestoreState(d);
+            Game.clock.SetRunning(false);
+            return true;
+        }
+
+        public bool ImportOriginalCopy()
+        {
+            Guard();
+            var source = Sandbox.OriginalCopySource;
+            if (string.IsNullOrEmpty(source))
+            {
+                throw new QABlockedException("복사할 원본 저장 파일이 없습니다.");
+            }
+
+            var destination = Game.saves.BasePath;
+            if (!Path.GetFileName(destination).StartsWith("qa-"))
+            {
+                throw new InvalidOperationException("QA 슬롯이 아닙니다.");
+            }
+
+            File.Copy(source, destination, true);
+            if (!Game.saves.TryRead(out var data, out var why))
+            {
+                Log?.Invoke(why);
+                return false;
+            }
+
+            Game.RestoreState(data);
+            Game.clock.SetRunning(false);
+            return true;
+        }
+
+        public IEnumerator Navigate(SceneId id, bool legacy = false)
+        {
+            Guard();
+            var t = GameContext.Instance.transitions;
+            if (!(legacy ? t.NavigateForTesting(id) : t.Navigate(id)))
+            {
+                throw new QABlockedException("장소 진입 불가: " + id);
+            }
+
+            float until = Time.realtimeSinceStartup + 20;
+            while (t.IsTransitioning && Time.realtimeSinceStartup < until)
+            {
+                yield return null;
+            }
+
+            if (t.IsTransitioning)
+            {
+                throw new QABlockedException("장소 로딩 시간 초과");
+            }
+
+            Game.clock.realtimeEnabled = false;
+            Game.clock.SetRunning(false);
+        }
+
+        public bool Act(int id)
+        {
+            Guard();
+            bool running = Game.clock.IsRunning;
+            Game.clock.SetRunning(true);
+            try
+            {
+                return Game.TryAction(id);
+            }
+            finally
+            {
+                Game.clock.SetRunning(running);
+            }
+        }
+
+        public bool StartIdle(string id)
+        {
+            Guard();
+            Game.clock.SetRunning(true);
+            bool ok = Game.idle.StartActivity(id);
+            if (ok)
+            {
+                TimeSource = new QAManualTimeSource { utc = Game.idle.State.accountedUtcTicks };
+            }
+
+            Game.clock.SetRunning(false);
+            return ok;
+        }
+
+        public bool ChangeStock(string id, float multiplier)
+        {
+            Guard();
+            if (multiplier <= 0 || !float.IsFinite(multiplier))
+            {
+                return false;
+            }
+
+            var d = Game.economy.Capture();
+            var q = d.finance?.quotes.FirstOrDefault(q => q.StockId == id);
+            if (q == null)
+            {
+                return false;
+            }
+
+            q.PreviousPrice = q.CurrentPrice;
+            q.CurrentPrice = Mathf.Clamp(Mathf.RoundToInt(q.CurrentPrice * multiplier), 1, int.MaxValue / 100);
+            q.PriceHistory.Add(q.CurrentPrice);
+            Game.economy.Restore(d);
+            return true;
+        }
+
+        public void PrepareMission(string id)
+        {
+            Guard();
+            var m =
+                Game.missionCatalog.missions.FirstOrDefault(m => m.Id == id)
+                ?? throw new ArgumentException("미션 ID를 확인하세요.");
+            if ((Game.missions.SupportedFeatures & m.requiredFeatures) != m.requiredFeatures)
+            {
+                throw new QANotImplementedException("미션에 필요한 서비스 미구현: " + m.requiredFeatures);
+            }
+
+            Fixture(Math.Max(30, m.targetAge));
+            var d = Game.CaptureState();
+            d.missions = new MissionSnapshot { startDay = 1 };
+            foreach (var previous in Game.missionCatalog.missions.TakeWhile(v => v.Id != id))
+            {
+                d.missions.completedMissionIds.Add(previous.Id);
+                d.missions.claimedMissionIds.Add(previous.Id);
+            }
+
+            ApplyCondition(m.condition, d);
+            Game.RestoreState(d);
+            Game.clock.SetRunning(false);
+            Game.missions.Refresh();
+        }
+
+        public void SetMissionProgress(string id, long value)
+        {
+            Guard();
+            if (value < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(value));
+            }
+
+            PrepareMission(id);
+            var mission = Game.missionCatalog.missions.First(m => m.Id == id);
+            var counter = FirstCounter(mission.condition);
+            if (counter == MissionCounter.None)
+            {
+                throw new QABlockedException("카운터형 미션이 아닙니다. 능력치/나이/자산 조작을 사용하세요.");
+            }
+
+            var state = Game.missions.Capture();
+            state.completedMissionIds.Remove(id);
+            state.claimedMissionIds.Remove(id);
+            state.milestoneIds.Remove(id);
+            state.progress.RemoveAll(p => p.missionId == id);
+            var entry = state.counters.FirstOrDefault(c => c.counter == counter);
+            if (entry == null)
+            {
+                entry = new MissionCounterValue { counter = counter };
+                state.counters.Add(entry);
+            }
+
+            entry.value = value;
+            Game.missions.Restore(state, Game.clock.Day);
+            Game.missions.Refresh();
+        }
+
+        static MissionCounter FirstCounter(MissionCondition c)
+        {
+            if (c == null)
+            {
+                return MissionCounter.None;
+            }
+
+            if (c.kind == MissionConditionKind.CounterAtLeast)
+            {
+                return c.counter;
+            }
+
+            foreach (var child in c.children ?? Array.Empty<MissionCondition>())
+            {
+                var value = FirstCounter(child);
+                if (value != MissionCounter.None)
+                {
+                    return value;
+                }
+            }
+
+            return MissionCounter.None;
+        }
+
+        public string Observe(string id)
+        {
+            Guard();
+            var e = Game.economy;
+            if (id.StartsWith("mission/"))
+            {
+                var mission = Game.missionCatalog.missions.FirstOrDefault(m => m.Id == id.Substring(8));
+                if (mission == null)
+                {
+                    return "미션 없음";
+                }
+
+                var p = Game.missions.GetProgress(mission);
+                return $"{mission.Id}: {p.current:0}/{p.target:0} · {p.state} · 수령 {Game.missions.Claimed(mission.Id)}";
+            }
+
+            if (id.StartsWith("stocks/"))
+            {
+                return $"현재 조건: {(id == "stocks/up" ? e.RealizedPnL > 0 : id == "stocks/down" ? e.RealizedPnL < 0 : e.Finance?.news.Count > 0)} / 보유 평가 {e.StockValue:N0}G / 실현 {e.RealizedPnL:+#,0;-#,0;0}G / 평가손익 {e.UnrealizedPnL:+#,0;-#,0;0}G";
+            }
+
+            if (id.StartsWith("property/"))
+            {
+                return $"현재 소유 {e.Properties.owned.Count} / 보증금 {e.HousingDeposit:N0}G / 미납 {e.HousingArrears:N0}G / 대출 원금 {e.HousingLoanPrincipal:N0}G / 시세 갱신 {e.Properties.marketSequence} / 주거 {e.Housing.residenceId}";
+            }
+
+            if (id.StartsWith("idle/") || id.StartsWith("offline/"))
+            {
+                return $"실제 자동 상태 {Game.idle.State.active} / 완료 주기 {Game.idle.State.ledgers.Sum(l => l.completedCycles)} / 워터마크 {Game.idle.State.accountedUtcTicks} / 오프라인 완료 {Game.idle.State.report?.cycles ?? 0}";
+            }
+
+            if (id.StartsWith("education/"))
+            {
+                return $"등록 {Game.phase23.Progress.education.currentEducationId} / 공부 {Game.phase23.Progress.education.studies} / 숙제 {Game.phase23.Progress.education.homework}";
+            }
+
+            if (id.StartsWith("jobs/"))
+            {
+                return $"현재 직업 {Game.phase23.Progress.employment.currentJobId} / 근무 {Game.phase23.Progress.employment.workCount} / 채용·퇴사 기록 {Game.phase23.Progress.employment.history.Count}";
+            }
+
+            if (id.StartsWith("finance/"))
+            {
+                return $"부채 {e.Debt:N0}G / 이자 {e.Finance?.outstandingInterest ?? 0:N0}G / 미납 세금 {e.Finance?.bills.Sum(b => b.Remaining) ?? 0:N0}G / 신용 {Game.stats.Credit}";
+            }
+
+            return $"실제 상태 {Game.State} / 나이 {Game.growth.Age} / DAY {Game.clock.Day} / 체력 {Game.stats.Health} / 스트레스 {Game.stats.Stress} / 원본 파일 {(Sandbox.VerifyFiles() ? "동일" : "변경 발견")} · 다단계 조건은 선택 테스트 실행 결과를 확인하세요.";
+        }
+
+        void ApplyCondition(MissionCondition c, SaveData d)
+        {
+            if (c == null)
+            {
+                return;
+            }
+
+            switch (c.kind)
+            {
+                case MissionConditionKind.All:
+                    foreach (var child in c.children)
+                    {
+                        ApplyCondition(child, d);
+                    }
+
+                    break;
+                case MissionConditionKind.Any:
+                    if (c.children.Length > 0)
+                    {
+                        ApplyCondition(c.children[0], d);
+                    }
+
+                    break;
+                case MissionConditionKind.CounterAtLeast:
+                    var v = d.missions.counters.FirstOrDefault(v => v.counter == c.counter);
+                    if (v == null)
+                    {
+                        v = new MissionCounterValue { counter = c.counter };
+                        d.missions.counters.Add(v);
+                    }
+
+                    v.value = Math.Max(v.value, c.target);
+                    break;
+                case MissionConditionKind.StatAtLeast:
+                    int value = (int)Math.Min(100, c.target);
+                    switch (c.stat)
+                    {
+                        case CoreStat.Hunger:
+                            d.stats.hunger = value;
+                            break;
+                        case CoreStat.Thirst:
+                            d.stats.thirst = value;
+                            break;
+                        case CoreStat.Knowledge:
+                            d.stats.knowledge = value;
+                            break;
+                        case CoreStat.Health:
+                            d.stats.energy = value;
+                            break;
+                        case CoreStat.Mental:
+                            d.stats.mental = value;
+                            break;
+                        case CoreStat.Social:
+                            d.stats.social = value;
+                            break;
+                        case CoreStat.Credit:
+                            d.stats.credit = value;
+                            break;
+                        case CoreStat.Happiness:
+                            d.stats.happiness = value;
+                            break;
+                    }
+
+                    break;
+                case MissionConditionKind.AgeAtLeast:
+                    d.progression.age = (int)c.target;
+                    break;
+                case MissionConditionKind.StageAtLeast:
+                    d.progression.age = Enumerable
+                        .Range(0, 121)
+                        .First(age => LifeProgression.StageAtAge(age) >= (LifeStage)c.target);
+                    break;
+                case MissionConditionKind.DaysSurvived:
+                    d.day = (int)Math.Min(TimeManager.MaximumDay, 1 + c.target);
+                    break;
+                case MissionConditionKind.CashAtLeast:
+                case MissionConditionKind.NetWorthAtLeast:
+                    if (c.target > int.MaxValue)
+                    {
+                        throw new QABlockedException("현금 한도를 넘는 자산 fixture는 별도 구성이 필요합니다.");
+                    }
+
+                    d.stats.money = (int)c.target;
+                    break;
+                case MissionConditionKind.Alive:
+                    d.stats.energy = 100;
+                    d.gameOver = false;
+                    break;
+                case MissionConditionKind.ItemOwned:
+                    if (c.item == MissionItemKey.StarterEquipment || c.item == MissionItemKey.StarterHeadphones)
+                    {
+                        d.phase23.owned.Add(c.item);
+                        d.items = d.items ?? new ItemProgressSnapshot();
+                        string itemId = Game.items.LegacyId(c.item);
+                        if (!d.items.inventory.Any(i => i.itemId == itemId))
+                        {
+                            d.items.inventory.Add(
+                                new InventoryEntry
+                                {
+                                    itemId = itemId,
+                                    count = 1,
+                                    isNew = true,
+                                }
+                            );
+                        }
+                    }
+                    else if (c.item == MissionItemKey.FirstFurniture)
+                    {
+                        d.economy.housing.owned.Add("bookshelf");
+                    }
+                    else
+                    {
+                        throw new QANotImplementedException("아이템 서비스 미구현");
+                    }
+
+                    break;
+                case MissionConditionKind.MissionClaimed:
+                    if (!d.missions.completedMissionIds.Contains(c.missionId))
+                    {
+                        d.missions.completedMissionIds.Add(c.missionId);
+                    }
+
+                    if (!d.missions.claimedMissionIds.Contains(c.missionId))
+                    {
+                        d.missions.claimedMissionIds.Add(c.missionId);
+                    }
+
+                    break;
+                case MissionConditionKind.ContentUnlocked:
+                    if (!d.missions.unlocks.Contains(c.unlock))
+                    {
+                        d.missions.unlocks.Add(c.unlock);
+                    }
+
+                    break;
+                case MissionConditionKind.EventChoiceOutcome:
+                    throw new QANotImplementedException("선택 이벤트 서비스 미구현");
+                default:
+                    throw new QABlockedException("자동 조건 fixture 미지원: " + c.kind);
+            }
+        }
+    }
 }
 #endif

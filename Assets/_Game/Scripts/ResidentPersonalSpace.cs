@@ -1,13 +1,182 @@
 using System;
 using System.Linq;
 using UnityEngine;
-namespace IanGame {
-public sealed partial class WorldNPCScheduler {
- readonly NPCCrowdSpace crowd=new NPCCrowdSpace();
- bool SidewalkOrCrossing(Vector2 p){var local=p-world.CurrentZone.origin;return world.Room.roomId!="city"||local.y<=-6.7f||local.y>=-2.1f||Mathf.Abs(local.x)<=.65f;}
- void FillCrowd(){crowd.Clear();crowd.Set("@player",world.Player.Position);foreach(var r in residents)if(r.active&&r.actor!=null)crowd.Set(r.definition.npcId,r.actor.transform.position);}
- bool SpawnPoint(ref Vector2 point,WorldInteractable self=null){if(world.Room.roomId!="city")return true;var requested=point;for(int ring=0;ring<7;ring++){int count=ring==0?1:8*ring;for(int i=0;i<count;i++){float angle=i*Mathf.PI*2/count;var p=requested+(ring==0?Vector2.zero:new Vector2(Mathf.Cos(angle),Mathf.Sin(angle))*(ring*.65f));var safe=world.Safe(world.CurrentZone,p-world.CurrentZone.origin);if(!SidewalkOrCrossing(p)||Vector2.Distance(safe,p)>.02f||!WorldNPCNavigation.StaticFree(p)||Vector2.Distance(p,world.Player.Position)<.6f)continue;if(residents.Any(r=>r.actor!=null&&r.actor!=self&&r.actor.zone==world.Room.roomId&&Vector2.Distance(r.actor.transform.position,p)<NPCCrowdSpace.Clearance))continue;point=p;return true;}}return false;}
- Vector2 PersonalGoal(Resident r,Vector2 origin){if(r.hasPersonalGoal)return r.personalGoal;for(int ring=0;ring<6;ring++){int count=ring==0?1:8*ring;for(int i=0;i<count;i++){float angle=i*Mathf.PI*2/count;var p=origin+(ring==0?Vector2.zero:new Vector2(Mathf.Cos(angle),Mathf.Sin(angle))*ring*.65f);if(!SidewalkOrCrossing(p)||!WorldNPCNavigation.StaticFree(p)||Vector2.Distance(world.Safe(world.CurrentZone,p-world.CurrentZone.origin),p)>.02f)continue;if(residents.Any(other=>other!=r&&other.hasPersonalGoal&&Vector2.Distance(other.personalGoal,p)<.6f))continue;r.personalGoal=p;r.hasPersonalGoal=true;return p;}}return origin;}
- bool WaitForSpace(Resident r,Vector2 from,Vector2 target,Vector2 next){if(!crowd.Blocks(r.definition.npcId,from,next))return false;float now=Time.unscaledTime;if(r.blockedSince<=0)r.blockedSince=now;r.waitUntil=now+.35f;if(now-r.blockedSince>.7f&&now>=r.detourRetry){r.detourRetry=now+1.1f;var final=r.nextPortal!=null?r.nextPortal.Point:Destination(r);var bypass=navigation.Find(world,r.actor.zone,from,final,p=>crowd.Free(r.definition.npcId,p,.58f));if(bypass.Count>0){r.path=bypass;r.waypoint=0;r.detourUntil=0;return true;}Vector2 forward=(target-from).normalized,side=new Vector2(-forward.y,forward.x);for(int i=0;i<2;i++){var candidate=from+side*(i==0?.8f:-.8f)+forward*.15f;if(!SidewalkOrCrossing(candidate)||!crowd.Free(r.definition.npcId,candidate,.6f)||!WorldNPCNavigation.StaticFree(candidate)||Vector2.Distance(world.Safe(world.CurrentZone,candidate-world.CurrentZone.origin),candidate)>.02f)continue;r.detour=candidate;r.detourUntil=now+2;r.waitUntil=now+.12f;break;}}return true;}
-}
+
+namespace IanGame
+{
+    public sealed partial class WorldNPCScheduler
+    {
+        readonly NPCCrowdSpace crowd = new NPCCrowdSpace();
+
+        bool SidewalkOrCrossing(Vector2 p)
+        {
+            var local = p - world.CurrentZone.origin;
+            return world.Room.roomId != "city" || local.y <= -6.7f || local.y >= -2.1f || Mathf.Abs(local.x) <= .65f;
+        }
+
+        void FillCrowd()
+        {
+            crowd.Clear();
+            crowd.Set("@player", world.Player.Position);
+            foreach (var r in residents)
+            {
+                if (r.active && r.actor != null)
+                {
+                    crowd.Set(r.definition.npcId, r.actor.transform.position);
+                }
+            }
+        }
+
+        bool SpawnPoint(ref Vector2 point, WorldInteractable self = null)
+        {
+            if (world.Room.roomId != "city")
+            {
+                return true;
+            }
+
+            var requested = point;
+            for (int ring = 0; ring < 7; ring++)
+            {
+                int count = ring == 0 ? 1 : 8 * ring;
+                for (int i = 0; i < count; i++)
+                {
+                    float angle = i * Mathf.PI * 2 / count;
+                    var p =
+                        requested
+                        + (ring == 0 ? Vector2.zero : new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * (ring * .65f));
+                    var safe = world.Safe(world.CurrentZone, p - world.CurrentZone.origin);
+                    if (
+                        !SidewalkOrCrossing(p)
+                        || Vector2.Distance(safe, p) > .02f
+                        || !WorldNPCNavigation.StaticFree(p)
+                        || Vector2.Distance(p, world.Player.Position) < .6f
+                    )
+                    {
+                        continue;
+                    }
+
+                    if (
+                        residents.Any(r =>
+                            r.actor != null
+                            && r.actor != self
+                            && r.actor.zone == world.Room.roomId
+                            && Vector2.Distance(r.actor.transform.position, p) < NPCCrowdSpace.Clearance
+                        )
+                    )
+                    {
+                        continue;
+                    }
+
+                    point = p;
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        Vector2 PersonalGoal(Resident r, Vector2 origin)
+        {
+            if (r.hasPersonalGoal)
+            {
+                return r.personalGoal;
+            }
+
+            for (int ring = 0; ring < 6; ring++)
+            {
+                int count = ring == 0 ? 1 : 8 * ring;
+                for (int i = 0; i < count; i++)
+                {
+                    float angle = i * Mathf.PI * 2 / count;
+                    var p =
+                        origin
+                        + (ring == 0 ? Vector2.zero : new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * ring * .65f);
+                    if (
+                        !SidewalkOrCrossing(p)
+                        || !WorldNPCNavigation.StaticFree(p)
+                        || Vector2.Distance(world.Safe(world.CurrentZone, p - world.CurrentZone.origin), p) > .02f
+                    )
+                    {
+                        continue;
+                    }
+
+                    if (
+                        residents.Any(other =>
+                            other != r && other.hasPersonalGoal && Vector2.Distance(other.personalGoal, p) < .6f
+                        )
+                    )
+                    {
+                        continue;
+                    }
+
+                    r.personalGoal = p;
+                    r.hasPersonalGoal = true;
+                    return p;
+                }
+            }
+
+            return origin;
+        }
+
+        bool WaitForSpace(Resident r, Vector2 from, Vector2 target, Vector2 next)
+        {
+            if (!crowd.Blocks(r.definition.npcId, from, next))
+            {
+                return false;
+            }
+
+            float now = Time.unscaledTime;
+            if (r.blockedSince <= 0)
+            {
+                r.blockedSince = now;
+            }
+
+            r.waitUntil = now + .35f;
+            if (now - r.blockedSince > .7f && now >= r.detourRetry)
+            {
+                r.detourRetry = now + 1.1f;
+                var final = r.nextPortal != null ? r.nextPortal.Point : Destination(r);
+                var bypass = navigation.Find(
+                    world,
+                    r.actor.zone,
+                    from,
+                    final,
+                    p => crowd.Free(r.definition.npcId, p, .58f)
+                );
+                if (bypass.Count > 0)
+                {
+                    r.path = bypass;
+                    r.waypoint = 0;
+                    r.detourUntil = 0;
+                    return true;
+                }
+
+                Vector2 forward = (target - from).normalized,
+                    side = new Vector2(-forward.y, forward.x);
+                for (int i = 0; i < 2; i++)
+                {
+                    var candidate = from + side * (i == 0 ? .8f : -.8f) + forward * .15f;
+                    if (
+                        !SidewalkOrCrossing(candidate)
+                        || !crowd.Free(r.definition.npcId, candidate, .6f)
+                        || !WorldNPCNavigation.StaticFree(candidate)
+                        || Vector2.Distance(
+                            world.Safe(world.CurrentZone, candidate - world.CurrentZone.origin),
+                            candidate
+                        ) > .02f
+                    )
+                    {
+                        continue;
+                    }
+
+                    r.detour = candidate;
+                    r.detourUntil = now + 2;
+                    r.waitUntil = now + .12f;
+                    break;
+                }
+            }
+
+            return true;
+        }
+    }
 }

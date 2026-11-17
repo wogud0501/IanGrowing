@@ -1,31 +1,291 @@
 #if UNITY_EDITOR
-using System;using System.IO;using System.Linq;using System.Collections;using System.Collections.Generic;using UnityEngine;
-namespace IanGame.Editor {
-public static class Phase31ExtendedVerification {
- static LifeWorldController W=>GameContext.Instance.game.world.Host;
- static WorldInteractable Find(string id)=>W.GetComponentsInChildren<WorldInteractable>(true).First(o=>o.id==id&&o.isActiveAndEnabled);
- static IEnumerator Go(string id,Action<bool,string> check){var t=GameContext.Instance.transitions;check(t.NavigateRoom(id,t.roomCatalog.rules.Zone(id).spawn,Vector2.down),"Extended scene route "+id+" age="+GameContext.Instance.game.growth.Age+" error="+t.LastError);yield return Phase31Verification.Wait();W.hud.Notify("",2);}
- public static IEnumerator Gear(GameManager g,Action<bool,string> check){
-  g.growth.Restore(new ProgressSnapshot{age=19});var stats=g.stats.Capture();stats.money=20000;g.stats.Restore(stats);check(g.economy.MoveResidence("phase31/gear/home","starter"),"Gear QA independent home");yield return Go("home",check);var p=W.Player;var bed=Find("bed");p.Warp(bed.Point);using(var control=p.controlLocks.Acquire("qa/direct-action")){check(!W.CanBegin(bed,5,"",out _),"Control lease also gates direct UI action calls");}p.Warp(W.CurrentZone.origin);var renderer=p.GetComponentsInChildren<SpriteRenderer>().Single(r=>r.name=="Equipped headphone art");
-  foreach(var item in g.items.catalog.items.Where(i=>i.itemType==ItemType.Headphone&&i.minAge<=19)){
-   check(g.items.DebugGive(item.itemId,1),"QA headphone fixture "+item.itemId);check(g.items.Equipment.Equip("phase31/gear/"+item.itemId,item.itemId,out var reason),"Existing headphone equip "+item.itemId+" "+reason);
-   foreach(var v in new[]{Vector2.down,Vector2.up,Vector2.left,Vector2.right}){p.Face(v);p.Pose("Idle");yield return new WaitForSecondsRealtime(.25f);check(renderer.enabled&&p.GetComponent<ItemAppearanceController>().HasRenderedOverride,"Actual directional headphone art "+item.itemId+" "+v);check(renderer.bounds.max.y<p.sprite.bounds.min.y+p.sprite.bounds.size.y*.75f,"Neck overlay stays below face "+item.itemId+" "+v);}
-  }
-  p.Face(Vector2.down);foreach(string pose in new[]{"Eat","Drink","Work","Use Computer","Study","Talk","Use Phone"}){p.Pose(pose);yield return new WaitForSecondsRealtime(.3f);check(renderer.enabled,"Equipment retained during "+pose);}p.Pose("Idle");W.hud.Notify("",2);yield return Phase31Verification.Shot("Equipment-Final");
-  check(g.SaveAutomaticCheckpoint(out var error),"Gear checkpoint "+error);check(g.saves.TryReadAutomatic(out var saved,out error),"Gear disk read "+error);string equipped=g.items.Equipment.Current(EquipmentSlot.Headphone);g.RestoreState(saved);yield return Phase31Verification.Wait();check(g.items.Equipment.Current(EquipmentSlot.Headphone)==equipped&&p.GetComponent<ItemAppearanceController>().HasRenderedOverride,"Gear look restored after actual save/load");
- }
- public static IEnumerator Run(GameManager g,Action<bool,string> check){
-  g.growth.Restore(new ProgressSnapshot{age=19});g.clock.realtimeEnabled=false;var stats=g.stats.Capture();stats.money=100000;stats.energy=stats.hunger=stats.thirst=stats.mental=100;g.stats.Restore(stats);check(g.economy.MoveResidence("phase31/extended/home","starter"),"Extended independent home fixture");yield return Go("home",check);var p=W.Player;
-  foreach(var v in new[]{Vector2.down,Vector2.up,Vector2.left,Vector2.right}){p.Warp(W.CurrentZone.origin);yield return null;p.BeginTraversal(W.CurrentZone.origin+v*1.25f,2);float until=Time.unscaledTime+4;var sprites=new HashSet<Sprite>();bool facing=true;while(p.IsTraversing&&Time.unscaledTime<until){if(p.advanced.Motion==ActorMotion.Walk){sprites.Add(p.sprite.sprite);facing&=p.advanced.Direction==ActorAnimationSet.Direction(v);}yield return null;}check(p.TraversalArrived&&sprites.Count>=2&&facing,"Observed distance drives directional walk "+v);p.CancelTraversal();yield return new WaitForSecondsRealtime(.3f);check(p.ActualSpeed<.01f&&p.presentation.State==PlayerVisualState.Idle,"Walk stops without frame sliding "+v);}
-  W.hud.OpenHousing();yield return null;check(!W.CanControl,"Existing window stack blocks movement");W.hud.shell.Pop();yield return null;check(W.CanControl,"Closing window restores movement");
-  p.Face(Vector2.down);foreach(var motion in new[]{ActorMotion.Drink,ActorMotion.UsePhone,ActorMotion.Sick,ActorMotion.Exhausted,ActorMotion.Stressed,ActorMotion.Happy}){p.React(motion,1);var frames=new HashSet<Sprite>();float end=Time.unscaledTime+.65f;while(Time.unscaledTime<end){frames.Add(p.sprite.sprite);yield return null;}check(p.advanced.Motion==motion&&!p.advanced.UsedMotionFallback&&frames.Count>=2,"Actual reaction art "+motion);yield return Phase31Verification.Shot("Status-"+motion);p.ClearReaction();yield return new WaitForSecondsRealtime(.2f);}
-  var drink=g.items.catalog.items.First(i=>i.itemType==ItemType.Drink&&i.isConsumable&&i.minAge<=19);check(g.items.DebugGive(drink.itemId,1),"QA drink fixture");int count=g.items.Inventory.Count(drink.itemId);check(g.items.Inventory.Use("phase31/drink",drink.itemId,out var drinkError),"Existing inventory consumption "+drinkError);yield return new WaitForSecondsRealtime(.35f);check(g.items.Inventory.Count(drink.itemId)==count-1&&W.Player.presentation.Motion==ActorMotion.Drink,"Committed inventory drink plays body animation once");yield return Phase31Verification.Shot("Drink-Item");yield return new WaitForSecondsRealtime(1.2f);
-  // Child education remains bound to the existing mission and enrollment rules.
-  var child=g.CaptureState();child.progression.age=7;for(int m=1;m<=10;m++){var id="M"+m.ToString("D3");if(!child.missions.completedMissionIds.Contains(id))child.missions.completedMissionIds.Add(id);if(!child.missions.claimedMissionIds.Contains(id))child.missions.claimedMissionIds.Add(id);}g.RestoreState(child);yield return Phase31Verification.Wait();yield return Go("school",check);g.clock.Restore(8,new TimeSnapshot{subDaySeconds=10*3600});var desk=Find("study-desk");yield return Phase31Verification.Walk(desk.GetComponent<WorldLifeAction>().approach.position,check,"school enrollment");check(W.Begin(desk,7),"Existing qualified enrollment action");yield return Phase31Verification.Wait();check(g.phase23.Education.Current!=null,"Original enrollment service completed");int studies=g.phase23.Education.Progress.books;yield return Phase31Verification.Action(desk,8,"",check,"10-Study");check(g.phase23.Education.Progress.books==studies+1,"Study service progresses once");
-  g.growth.Restore(new ProgressSnapshot{age=19});g.phase23.Progress.employment.currentJobId="convenience";g.clock.Restore(9,new TimeSnapshot{subDaySeconds=9*3600+30*60});yield return Go("workplace",check);var work=Find("workdesk");int shifts=g.phase23.Progress.employment.workCount;long cash=g.economy.Cash;yield return Phase31Verification.Action(work,0,"",check,"11-Work");check(g.economy.Cash>cash&&g.phase23.Progress.employment.workCount==shifts+1,"Original job service grants one completed shift");
-  g.clock.Restore(10,new TimeSnapshot{subDaySeconds=20*3600});yield return Go("family-living",check);yield return new WaitForSecondsRealtime(.8f);var npc=W.GetComponentsInChildren<WorldInteractable>().FirstOrDefault(o=>o.kind==WorldInteractionKind.NPC&&o.isActiveAndEnabled&&o.visual.enabled);check(npc!=null,"Family NPC available for actual conversation");if(npc!=null){var a=npc.GetComponent<WorldActorAnimation>();var near=W.Safe(W.CurrentZone,(Vector2)npc.transform.position-W.CurrentZone.origin+Vector2.down*.8f);W.Player.Warp(near);yield return null;check(W.Begin(npc,-1),"Existing family conversation action");float end=Time.unscaledTime+10;bool matched=false;while(W.Busy&&Time.unscaledTime<end){if(a!=null&&W.Player.PoseName=="Talk")matched|=a.Direction==ActorAnimationSet.Direction(W.Player.Position-(Vector2)npc.transform.position)&&W.Player.advanced.Direction==ActorAnimationSet.Direction((Vector2)npc.transform.position-W.Player.Position);yield return null;}check(matched&&W.CanControl,"Conversation faces both actors and restores input");yield return Phase31Verification.Shot("12-Talk");}
-  yield return Go("family-ian-bedroom",check);foreach(int age in new[]{0,1,7,13,19,30,60}){g.growth.Restore(new ProgressSnapshot{age=age});yield return new WaitForSecondsRealtime(.7f);var profile=W.Player.growthVisual.Current;check(profile==W.Player.growthVisual.catalog.AtAge(age),"Stage screenshot uses derived age "+age);check(Mathf.Abs(W.Player.GetComponent<CircleCollider2D>().radius-profile.colliderRadius)<.001f,"Stage collider matches profile "+age);if(age>0)W.Player.Warp(W.Safe(W.CurrentZone,new Vector2(.7f,-.7f)));W.hud.Notify("",2);yield return Phase31Verification.Shot("Age-"+age);}
- }
-}
+using System;
+using System.IO;
+using System.Linq;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+namespace IanGame.Editor
+{
+    public static class Phase31ExtendedVerification
+    {
+        static LifeWorldController W => GameContext.Instance.game.world.Host;
+
+        static WorldInteractable Find(string id) =>
+            W.GetComponentsInChildren<WorldInteractable>(true).First(o => o.id == id && o.isActiveAndEnabled);
+
+        static IEnumerator Go(string id, Action<bool, string> check)
+        {
+            var t = GameContext.Instance.transitions;
+            check(
+                t.NavigateRoom(id, t.roomCatalog.rules.Zone(id).spawn, Vector2.down),
+                "Extended scene route " + id + " age=" + GameContext.Instance.game.growth.Age + " error=" + t.LastError
+            );
+            yield return Phase31Verification.Wait();
+            W.hud.Notify("", 2);
+        }
+
+        public static IEnumerator Gear(GameManager g, Action<bool, string> check)
+        {
+            g.growth.Restore(new ProgressSnapshot { age = 19 });
+            var stats = g.stats.Capture();
+            stats.money = 20000;
+            g.stats.Restore(stats);
+            check(g.economy.MoveResidence("phase31/gear/home", "starter"), "Gear QA independent home");
+            yield return Go("home", check);
+            var p = W.Player;
+            var bed = Find("bed");
+            p.Warp(bed.Point);
+            using (var control = p.controlLocks.Acquire("qa/direct-action"))
+            {
+                check(!W.CanBegin(bed, 5, "", out _), "Control lease also gates direct UI action calls");
+            }
+
+            p.Warp(W.CurrentZone.origin);
+            var renderer = p.GetComponentsInChildren<SpriteRenderer>().Single(r => r.name == "Equipped headphone art");
+            foreach (var item in g.items.catalog.items.Where(i => i.itemType == ItemType.Headphone && i.minAge <= 19))
+            {
+                check(g.items.DebugGive(item.itemId, 1), "QA headphone fixture " + item.itemId);
+                check(
+                    g.items.Equipment.Equip("phase31/gear/" + item.itemId, item.itemId, out var reason),
+                    "Existing headphone equip " + item.itemId + " " + reason
+                );
+                foreach (var v in new[] { Vector2.down, Vector2.up, Vector2.left, Vector2.right })
+                {
+                    p.Face(v);
+                    p.Pose("Idle");
+                    yield return new WaitForSecondsRealtime(.25f);
+                    check(
+                        renderer.enabled && p.GetComponent<ItemAppearanceController>().HasRenderedOverride,
+                        "Actual directional headphone art " + item.itemId + " " + v
+                    );
+                    check(
+                        renderer.bounds.max.y < p.sprite.bounds.min.y + p.sprite.bounds.size.y * .75f,
+                        "Neck overlay stays below face " + item.itemId + " " + v
+                    );
+                }
+            }
+
+            p.Face(Vector2.down);
+            foreach (string pose in new[] { "Eat", "Drink", "Work", "Use Computer", "Study", "Talk", "Use Phone" })
+            {
+                p.Pose(pose);
+                yield return new WaitForSecondsRealtime(.3f);
+                check(renderer.enabled, "Equipment retained during " + pose);
+            }
+
+            p.Pose("Idle");
+            W.hud.Notify("", 2);
+            yield return Phase31Verification.Shot("Equipment-Final");
+            check(g.SaveAutomaticCheckpoint(out var error), "Gear checkpoint " + error);
+            check(g.saves.TryReadAutomatic(out var saved, out error), "Gear disk read " + error);
+            string equipped = g.items.Equipment.Current(EquipmentSlot.Headphone);
+            g.RestoreState(saved);
+            yield return Phase31Verification.Wait();
+            check(
+                g.items.Equipment.Current(EquipmentSlot.Headphone) == equipped
+                    && p.GetComponent<ItemAppearanceController>().HasRenderedOverride,
+                "Gear look restored after actual save/load"
+            );
+        }
+
+        public static IEnumerator Run(GameManager g, Action<bool, string> check)
+        {
+            g.growth.Restore(new ProgressSnapshot { age = 19 });
+            g.clock.realtimeEnabled = false;
+            var stats = g.stats.Capture();
+            stats.money = 100000;
+            stats.energy = stats.hunger = stats.thirst = stats.mental = 100;
+            g.stats.Restore(stats);
+            check(g.economy.MoveResidence("phase31/extended/home", "starter"), "Extended independent home fixture");
+            yield return Go("home", check);
+            var p = W.Player;
+            foreach (var v in new[] { Vector2.down, Vector2.up, Vector2.left, Vector2.right })
+            {
+                p.Warp(W.CurrentZone.origin);
+                yield return null;
+                p.BeginTraversal(W.CurrentZone.origin + v * 1.25f, 2);
+                float until = Time.unscaledTime + 4;
+                var sprites = new HashSet<Sprite>();
+                bool facing = true;
+                while (p.IsTraversing && Time.unscaledTime < until)
+                {
+                    if (p.advanced.Motion == ActorMotion.Walk)
+                    {
+                        sprites.Add(p.sprite.sprite);
+                        facing &= p.advanced.Direction == ActorAnimationSet.Direction(v);
+                    }
+
+                    yield return null;
+                }
+
+                check(
+                    p.TraversalArrived && sprites.Count >= 2 && facing,
+                    "Observed distance drives directional walk " + v
+                );
+                p.CancelTraversal();
+                yield return new WaitForSecondsRealtime(.3f);
+                check(
+                    p.ActualSpeed < .01f && p.presentation.State == PlayerVisualState.Idle,
+                    "Walk stops without frame sliding " + v
+                );
+            }
+
+            W.hud.OpenHousing();
+            yield return null;
+            check(!W.CanControl, "Existing window stack blocks movement");
+            W.hud.shell.Pop();
+            yield return null;
+            check(W.CanControl, "Closing window restores movement");
+            p.Face(Vector2.down);
+            foreach (
+                var motion in new[]
+                {
+                    ActorMotion.Drink,
+                    ActorMotion.UsePhone,
+                    ActorMotion.Sick,
+                    ActorMotion.Exhausted,
+                    ActorMotion.Stressed,
+                    ActorMotion.Happy,
+                }
+            )
+            {
+                p.React(motion, 1);
+                var frames = new HashSet<Sprite>();
+                float end = Time.unscaledTime + .65f;
+                while (Time.unscaledTime < end)
+                {
+                    frames.Add(p.sprite.sprite);
+                    yield return null;
+                }
+
+                check(
+                    p.advanced.Motion == motion && !p.advanced.UsedMotionFallback && frames.Count >= 2,
+                    "Actual reaction art " + motion
+                );
+                yield return Phase31Verification.Shot("Status-" + motion);
+                p.ClearReaction();
+                yield return new WaitForSecondsRealtime(.2f);
+            }
+
+            var drink = g.items.catalog.items.First(i =>
+                i.itemType == ItemType.Drink && i.isConsumable && i.minAge <= 19
+            );
+            check(g.items.DebugGive(drink.itemId, 1), "QA drink fixture");
+            int count = g.items.Inventory.Count(drink.itemId);
+            check(
+                g.items.Inventory.Use("phase31/drink", drink.itemId, out var drinkError),
+                "Existing inventory consumption " + drinkError
+            );
+            yield return new WaitForSecondsRealtime(.35f);
+            check(
+                g.items.Inventory.Count(drink.itemId) == count - 1 && W.Player.presentation.Motion == ActorMotion.Drink,
+                "Committed inventory drink plays body animation once"
+            );
+            yield return Phase31Verification.Shot("Drink-Item");
+            yield return new WaitForSecondsRealtime(1.2f);
+            // Child education remains bound to the existing mission and enrollment rules.
+            var child = g.CaptureState();
+            child.progression.age = 7;
+            for (int m = 1; m <= 10; m++)
+            {
+                var id = "M" + m.ToString("D3");
+                if (!child.missions.completedMissionIds.Contains(id))
+                {
+                    child.missions.completedMissionIds.Add(id);
+                }
+
+                if (!child.missions.claimedMissionIds.Contains(id))
+                {
+                    child.missions.claimedMissionIds.Add(id);
+                }
+            }
+
+            g.RestoreState(child);
+            yield return Phase31Verification.Wait();
+            yield return Go("school", check);
+            g.clock.Restore(8, new TimeSnapshot { subDaySeconds = 10 * 3600 });
+            var desk = Find("study-desk");
+            yield return Phase31Verification.Walk(
+                desk.GetComponent<WorldLifeAction>().approach.position,
+                check,
+                "school enrollment"
+            );
+            check(W.Begin(desk, 7), "Existing qualified enrollment action");
+            yield return Phase31Verification.Wait();
+            check(g.phase23.Education.Current != null, "Original enrollment service completed");
+            int studies = g.phase23.Education.Progress.books;
+            yield return Phase31Verification.Action(desk, 8, "", check, "10-Study");
+            check(g.phase23.Education.Progress.books == studies + 1, "Study service progresses once");
+            g.growth.Restore(new ProgressSnapshot { age = 19 });
+            g.phase23.Progress.employment.currentJobId = "convenience";
+            g.clock.Restore(9, new TimeSnapshot { subDaySeconds = 9 * 3600 + 30 * 60 });
+            yield return Go("workplace", check);
+            var work = Find("workdesk");
+            int shifts = g.phase23.Progress.employment.workCount;
+            long cash = g.economy.Cash;
+            yield return Phase31Verification.Action(work, 0, "", check, "11-Work");
+            check(
+                g.economy.Cash > cash && g.phase23.Progress.employment.workCount == shifts + 1,
+                "Original job service grants one completed shift"
+            );
+            g.clock.Restore(10, new TimeSnapshot { subDaySeconds = 20 * 3600 });
+            yield return Go("family-living", check);
+            yield return new WaitForSecondsRealtime(.8f);
+            var npc = W.GetComponentsInChildren<WorldInteractable>()
+                .FirstOrDefault(o => o.kind == WorldInteractionKind.NPC && o.isActiveAndEnabled && o.visual.enabled);
+            check(npc != null, "Family NPC available for actual conversation");
+            if (npc != null)
+            {
+                var a = npc.GetComponent<WorldActorAnimation>();
+                var near = W.Safe(
+                    W.CurrentZone,
+                    (Vector2)npc.transform.position - W.CurrentZone.origin + Vector2.down * .8f
+                );
+                W.Player.Warp(near);
+                yield return null;
+                check(W.Begin(npc, -1), "Existing family conversation action");
+                float end = Time.unscaledTime + 10;
+                bool matched = false;
+                while (W.Busy && Time.unscaledTime < end)
+                {
+                    if (a != null && W.Player.PoseName == "Talk")
+                    {
+                        matched |=
+                            a.Direction
+                                == ActorAnimationSet.Direction(W.Player.Position - (Vector2)npc.transform.position)
+                            && W.Player.advanced.Direction
+                                == ActorAnimationSet.Direction((Vector2)npc.transform.position - W.Player.Position);
+                    }
+
+                    yield return null;
+                }
+
+                check(matched && W.CanControl, "Conversation faces both actors and restores input");
+                yield return Phase31Verification.Shot("12-Talk");
+            }
+
+            yield return Go("family-ian-bedroom", check);
+            foreach (int age in new[] { 0, 1, 7, 13, 19, 30, 60 })
+            {
+                g.growth.Restore(new ProgressSnapshot { age = age });
+                yield return new WaitForSecondsRealtime(.7f);
+                var profile = W.Player.growthVisual.Current;
+                check(profile == W.Player.growthVisual.catalog.AtAge(age), "Stage screenshot uses derived age " + age);
+                check(
+                    Mathf.Abs(W.Player.GetComponent<CircleCollider2D>().radius - profile.colliderRadius) < .001f,
+                    "Stage collider matches profile " + age
+                );
+                if (age > 0)
+                {
+                    W.Player.Warp(W.Safe(W.CurrentZone, new Vector2(.7f, -.7f)));
+                }
+
+                W.hud.Notify("", 2);
+                yield return Phase31Verification.Shot("Age-" + age);
+            }
+        }
+    }
 }
 #endif
