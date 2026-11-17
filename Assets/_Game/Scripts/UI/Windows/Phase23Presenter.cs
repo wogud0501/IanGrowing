@@ -63,8 +63,29 @@ namespace IanGame
                 activityButtons[i]
                     .onClick.AddListener(() =>
                     {
-                        game.TryAction(id);
-                        Refresh();
+                        if (!game.CanPerformAction(id, out var reason))
+                        {
+                            result.text = reason;
+                            return;
+                        }
+
+                        var ux = game.world?.Host?.hud?.GetComponent<GameplayUXPresenter>();
+                        if (id == 23 && ux != null && game.CanPerformAction(id, out _))
+                        {
+                            ux.Confirm(
+                                "현재 직장을 퇴사하시겠습니까?\n\n고용 상태와 직급에 영향을 줍니다. 다시 취업하려면 기존 채용 조건을 충족해야 합니다.",
+                                () =>
+                                {
+                                    game.TryAction(id);
+                                    Refresh();
+                                }
+                            );
+                        }
+                        else
+                        {
+                            game.TryAction(id);
+                            Refresh();
+                        }
                     });
             }
 

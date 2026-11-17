@@ -53,7 +53,12 @@ namespace IanGame
                 world && w != null && w.Active
                     ? (w.State.zone == "home" ? HomePlace(game) : w.rules.Zone(w.State.zone).title)
                     : fixedPlace;
-            time.text = $"DAY {game.clock.Day}  {hour:00}:{minute:00}";
+            string clock = $"{game.growth.Age}세 · DAY {game.clock.Day}  {hour:00}:{minute:00}";
+            if (time.text != clock)
+            {
+                time.text = clock;
+            }
+
             message.text =
                 hour < 6 ? "새벽 · 조용한 생활권"
                 : hour < 9 ? "아침 · 하루를 시작하세요"

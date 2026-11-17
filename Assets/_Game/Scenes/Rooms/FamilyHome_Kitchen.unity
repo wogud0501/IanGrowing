@@ -147376,6 +147376,7 @@ GameObject:
   - component: {fileID: 8994981041183254208}
   - component: {fileID: 8994981041183254209}
   - component: {fileID: 8994981041183254210}
+  - component: {fileID: 8994981041183254211}
   m_Layer: 0
   m_Name: Game Canvas
   m_TagString: Untagged
@@ -147818,6 +147819,19 @@ MonoBehaviour:
   world: {fileID: 2122785948}
   sparkle: {fileID: -3729492369987663617, guid: a9254af886a914d93b49210ec40ab572, type: 3}
   audioCues: []
+--- !u!114 &8994981041183254211
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8994981041183254193}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9bc7875664fe4fe9a8bd4c845494b9e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IanGame.GameplayUXPresenter
+  activities: {fileID: 959704801}
 --- !u!224 &9000788790833570479
 RectTransform:
   m_ObjectHideFlags: 0

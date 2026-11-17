@@ -1,0 +1,19 @@
+{
+  "passed": [
+    "Home startup route accepted",
+    "Original newborn Home introduction works",
+    "Existing qualified independence succeeds",
+    "Independent Home scene requested",
+    "Actual Home scene entered",
+    "Inventory service and UI retain their asset references",
+    "Mission service and catalog are ready",
+    "Inventory window opens through existing navigation",
+    "Mission window opens through existing navigation",
+    "City guide/achievement/map initialization completes without exceptions",
+    "Indoor home hides the city minimap",
+    "Existing achievement UI exposes five category filters",
+    "Collection filter displays original collection achievements"
+  ],
+  "failure": "System.NullReferenceException: Object reference not set to an instance of an object\n  at IanGame.GameplayUXPresenter.<Build>b__71_0 () [0x0003c] in /Users/hyunwol/IanGrowing/Assets/_Game/Scripts/UI/Windows/GameplayUXPresenter.cs:193 \n  at IanGame.PixelUXWidgets+<>c__DisplayClass7_0.<Button>b__0 () [0x00000] in /Users/hyunwol/IanGrowing/Assets/_Game/Scripts/UI/Core/PixelUXWidgets.cs:66 \n  at UnityEngine.Events.InvokableCall.Invoke () [0x0000d] in /Users/bokken/build/output/unity/unity/Runtime/Export/UnityEvent/UnityEvent.cs:181 \n  at UnityEngine.Events.UnityEvent.Invoke () [0x0001b] in /Users/bokken/build/output/unity/unity/artifacts/generated/UnityEvent/UnityEvent_0.cs:59 \n  at MCPDynamicCode+<>c__DisplayClass0_0.<Execute>b__1 () [0x006c7] in <1d91a264e5d340cda2e7988c3e76b51d>:0 ",
+  "complete": false
+}

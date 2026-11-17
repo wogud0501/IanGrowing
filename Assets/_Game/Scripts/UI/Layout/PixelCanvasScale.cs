@@ -50,6 +50,13 @@ namespace IanGame
             lastH = Screen.height;
             bool portrait = lastH > lastW;
             int scale = Mathf.Max(1, Mathf.FloorToInt(portrait ? lastW / 480f : lastH / 540f));
+            int requested = Application.isPlaying ? PlayerPrefs.GetInt("ian.ui.integerScale", 0) : 0;
+            if (requested > 0)
+            {
+                int maximum = Mathf.Max(1, Mathf.FloorToInt(Mathf.Min(lastW / 640f, lastH / 480f)));
+                scale = Mathf.Clamp(requested, 1, maximum);
+            }
+
             AppliedIntegerScale = scale;
             scaler.uiScaleMode = CanvasScaler.ScaleMode.ConstantPixelSize;
             scaler.scaleFactor = scale;

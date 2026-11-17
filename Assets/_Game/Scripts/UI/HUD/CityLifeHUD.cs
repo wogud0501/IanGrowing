@@ -66,6 +66,18 @@ namespace IanGame
         int width;
         int height;
         bool started;
+        bool integratedGuide;
+        int achievementCategory;
+
+        public void UseIntegratedGuide()
+        {
+            integratedGuide = true;
+            if (suggestion != null)
+            {
+                suggestion.SetActive(false);
+            }
+        }
+
         Color Ink => new Color32(54, 51, 45, 255);
 
         RectTransform Rect(string name, Transform parent, Vector2 min, Vector2 max, Vector2 size, Vector2 position)
@@ -338,6 +350,30 @@ namespace IanGame
                         achievementScroll.GetComponentInParent<ScrollRect>().verticalNormalizedPosition - .35f
                     )
             );
+            string[] achievementTabs = { "전체", "생활·성장", "직업·경제", "수집", "사회" };
+            for (int i = 0; i < achievementTabs.Length; i++)
+            {
+                int index = i;
+                Button(
+                    "Achievement category " + i,
+                    AchievementPanel.transform,
+                    achievementTabs[i],
+                    new Vector2(.04f + i * .185f, .81f),
+                    new Vector2(.215f + i * .185f, .88f),
+                    Vector2.zero,
+                    Vector2.zero,
+                    () =>
+                    {
+                        achievementCategory = index;
+                        Refresh();
+                    }
+                );
+            }
+
+            var achievementViewport = achievementScroll
+                .GetComponentInParent<ScrollRect>(true)
+                .GetComponent<RectTransform>();
+            achievementViewport.anchorMax = new Vector2(.96f, .79f);
             GuidePanel = CreateScreen("Guide screen", "생활 안내");
             var guideContent = Scroll(GuidePanel.transform);
             ((RectTransform)guideContent.parent).anchorMin = new Vector2(.05f, .24f);
@@ -621,17 +657,19 @@ namespace IanGame
             sr.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, Mathf.Max(84, sh));
             achievementText.text = string.Join(
                 "\n\n",
-                CityLifeService.Catalog.Select(a =>
-                    (city.Data.achievements.Contains(a.id) ? "[완료] " : "[ ] ")
-                    + a.title
-                    + "  "
-                    + Math.Min(a.target, city.Counter(a.id))
-                    + "/"
-                    + a.target
-                    + "\n"
-                    + a.description
-                    + (game.growth.Age < a.minAge ? " · 성장 후 이용" : "")
-                )
+                CityLifeService
+                    .Catalog.Where(a => achievementCategory == 0 || AchievementCategory(a.id) == achievementCategory)
+                    .Select(a =>
+                        (city.Data.achievements.Contains(a.id) ? "[완료] " : "[ ] ")
+                        + (a.hidden && !city.Data.achievements.Contains(a.id) ? "???" : a.title)
+                        + "  "
+                        + Math.Min(a.target, city.Counter(a.id))
+                        + "/"
+                        + a.target
+                        + "\n"
+                        + (a.hidden && !city.Data.achievements.Contains(a.id) ? "발견 후 공개됩니다." : a.description)
+                        + (game.growth.Age < a.minAge ? " · 성장 후 이용" : "")
+                    )
             );
             float preferred = achievementText
                 .GetPreferredValues(
@@ -660,6 +698,26 @@ namespace IanGame
                     .y + 24;
             guideText.rectTransform.sizeDelta = new Vector2(0, gh);
             ((RectTransform)guideText.transform.parent).sizeDelta = new Vector2(0, gh);
+        }
+
+        static int AchievementCategory(string id)
+        {
+            if (id.StartsWith("item/"))
+            {
+                return 3;
+            }
+
+            if (id == "friend")
+            {
+                return 4;
+            }
+
+            if (new[] { "work", "salary", "purchase", "furniture", "placement", "move", "investment" }.Contains(id))
+            {
+                return 2;
+            }
+
+            return 1;
         }
 
         bool MapPressed()
@@ -703,7 +761,7 @@ namespace IanGame
             bool cityRoom = world.Room.roomId == "city";
             bool clear = shell.Depth == 0 && !world.Busy && !game.BirthIntroductionPending;
             MiniMap.SetActive(cityRoom && clear);
-            suggestion.SetActive(clear && !city.Data.suggestionsHidden);
+            suggestion.SetActive(clear && !city.Data.suggestionsHidden && !integratedGuide);
             routeText.gameObject.SetActive(clear && !string.IsNullOrEmpty(city.Data.destination));
             if (routeText.gameObject.activeSelf)
             {

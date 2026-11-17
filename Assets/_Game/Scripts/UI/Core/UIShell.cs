@@ -434,6 +434,8 @@ namespace IanGame
             Back();
         }
 
+        public void RequestBack() => Back();
+
         void Back()
         {
             if (

@@ -899,6 +899,40 @@ namespace IanGame
                     + " · "
                     + (current?.displayName ?? "없음")
                     + (current == null ? "" : "\n" + Effects(current));
+                if (current?.itemId != d.itemId)
+                {
+                    text += "\n\n교체 시 변화";
+                    foreach (
+                        var modifier in d
+                            .statModifiers.Concat(current?.statModifiers ?? Array.Empty<StatModifier>())
+                            .GroupBy(m => new { m.stat, m.operation })
+                    )
+                    {
+                        float before =
+                            current
+                                ?.statModifiers.Where(m =>
+                                    m.stat == modifier.Key.stat && m.operation == modifier.Key.operation
+                                )
+                                .Sum(m => m.value) ?? 0;
+                        float after = d
+                            .statModifiers.Where(m =>
+                                m.stat == modifier.Key.stat && m.operation == modifier.Key.operation
+                            )
+                            .Sum(m => m.value);
+                        float delta = after - before;
+                        if (Mathf.Abs(delta) < .001f)
+                        {
+                            continue;
+                        }
+
+                        text +=
+                            "\n"
+                            + Target(modifier.Key.stat)
+                            + " "
+                            + delta.ToString("+0.##;-0.##;0")
+                            + (modifier.Key.operation == ModifierOperation.Percent ? "%" : "");
+                    }
+                }
             }
 
             if (collection && e != null)
@@ -1102,10 +1136,33 @@ namespace IanGame
 
         void DismantleSelected()
         {
-            Message(
-                items.Inventory.Dismantle(Receipt(), selected, 1, out var reason),
-                reason,
-                "분해해 수집 조각으로 바꿨습니다."
+            var id = selected;
+            var definition = items.catalog.Item(id);
+            var ux = GetComponent<GameplayUXPresenter>();
+            if (definition == null)
+            {
+                return;
+            }
+
+            if (ux == null)
+            {
+                feedback.text = "분해는 생활 공간의 인벤토리에서 확인 후 이용하세요.";
+                return;
+            }
+
+            ux.Confirm(
+                definition.displayName
+                    + "을(를) 1개 분해하시겠습니까?\n\n획득: 수집 조각 "
+                    + items.Inventory.DismantleValue(id)
+                    + "개\n\n분해 후에는 되돌릴 수 없습니다.",
+                () =>
+                {
+                    Message(
+                        items.Inventory.Dismantle(Receipt(), id, 1, out var reason),
+                        reason,
+                        "분해해 수집 조각으로 바꿨습니다."
+                    );
+                }
             );
         }
 

@@ -52,6 +52,28 @@ namespace IanGame
 
     public class SaveManager : MonoBehaviour
     {
+        public event Action<bool> WriteCompleted;
+
+        void PublishWrite(bool success)
+        {
+            if (WriteCompleted == null)
+            {
+                return;
+            }
+
+            foreach (Action<bool> listener in WriteCompleted.GetInvocationList())
+            {
+                try
+                {
+                    listener(success);
+                }
+                catch (Exception error)
+                {
+                    Debug.LogException(error);
+                }
+            }
+        }
+
         ItemService items;
 
         public void ConfigureItems(ItemService value)
@@ -336,6 +358,7 @@ namespace IanGame
             if (WritesBlocked)
             {
                 message = "원본 저장 보호 중입니다. 새 인생을 명시적으로 시작하거나 저장 파일을 복구해 주세요.";
+                PublishWrite(false);
                 return false;
             }
 
@@ -429,11 +452,13 @@ namespace IanGame
 
                 LastSavedUtcTicks = d.lastSeenUtcTicks;
                 message = "저장 완료. 부채도 빠짐없이 보관했습니다.";
+                PublishWrite(true);
                 return true;
             }
             catch (Exception e)
             {
                 message = "저장 실패: " + e.Message;
+                PublishWrite(false);
                 return false;
             }
         }

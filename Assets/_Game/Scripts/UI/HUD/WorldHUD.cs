@@ -28,10 +28,12 @@ namespace IanGame
         public Button contextClose;
         public Button[] menus;
         public Image fade;
+        public bool NoticeVisible =>
+            feedbackCard != null && feedbackCard.gameObject.activeSelf && Time.unscaledTime < until;
+
         public Button choicePrefab;
         readonly List<Button> buttons = new List<Button>();
         WorldInteractable source;
-        int notificationPriority;
         float until;
         string recent = "";
         GameManager game;
@@ -52,7 +54,7 @@ namespace IanGame
             {
                 if (world.CanControl)
                 {
-                    shell.Push(menuPanel);
+                    OpenMenu();
                 }
             });
             contextClose.onClick.AddListener(CloseContext);
@@ -67,7 +69,6 @@ namespace IanGame
             game.economy.Changed += Invalidate;
             game.stats.Changed += Invalidate;
             game.world.Restored += Invalidate;
-            game.clock.SimulationAdvanced += TimeChanged;
             game.Logged += Log;
             shell.Changed += ShellChanged;
             game.growth.AgeChanged += WalkingAgeChanged;
@@ -146,7 +147,6 @@ namespace IanGame
                 game.economy.Changed -= Invalidate;
                 game.stats.Changed -= Invalidate;
                 game.world.Restored -= Invalidate;
-                game.clock.SimulationAdvanced -= TimeChanged;
                 game.Logged -= Log;
                 shell.Changed -= ShellChanged;
             }
@@ -165,7 +165,7 @@ namespace IanGame
             {
                 if (world.Player.MenuPressed)
                 {
-                    shell.Push(menuPanel);
+                    OpenMenu();
                 }
                 else if (world.Player.InventoryPressed)
                 {
@@ -177,6 +177,7 @@ namespace IanGame
                 }
             }
 
+            ShowNextNotice();
             if (feedback != null && Time.unscaledTime > until)
             {
                 feedback.text = "";
@@ -189,8 +190,9 @@ namespace IanGame
 
         void Refresh()
         {
-            cash.text = $"{game.economy.Cash:N0} G";
-            needs.text = $"체력 {game.stats.Health}  ·  허기 {game.stats.Hunger}  ·  피로 {game.world.State.fatigue:0}";
+            cash.text = $"{game.economy.Cash:N0} G  ·  루비 {game.economy.Ruby.Total:N0}";
+            needs.text =
+                $"허기 {game.stats.Hunger} · 수분 {game.stats.Thirst} · 체력 {game.stats.Health} · 멘탈 {game.stats.Mental}";
             if (inventory != null)
             {
                 inventory.text =
@@ -268,7 +270,9 @@ namespace IanGame
 
             var mobile = GetComponent<WorldMobileHUD>();
             bool touch = mobile != null && mobile.IsMobile;
-            feedbackCard.anchorMin = feedbackCard.anchorMax = new Vector2(.5f, touch ? .72f : .89f);
+            var parentRect = (RectTransform)feedbackCard.parent;
+            bool narrow = parentRect.rect.width / Mathf.Max(1, parentRect.rect.height) < 1.4f;
+            feedbackCard.anchorMin = feedbackCard.anchorMax = new Vector2(narrow ? .5f : .68f, touch ? .72f : .89f);
             feedbackCard.pivot = new Vector2(.5f, 1);
             feedbackCard.anchoredPosition = Vector2.zero;
             float canvasWidth = ((RectTransform)feedbackCard.parent).rect.width;
@@ -289,17 +293,85 @@ namespace IanGame
 
         public void Notify(string text, int priority = 0)
         {
-            if (Time.unscaledTime < until && priority < notificationPriority)
+            if (string.IsNullOrEmpty(text))
+            {
+                if (feedback != null)
+                {
+                    feedback.text = "";
+                }
+
+                if (feedbackCard != null)
+                {
+                    feedbackCard.gameObject.SetActive(false);
+                }
+
+                until = 0;
+                return;
+            }
+
+            game ??= GameContext.Instance?.game;
+            if (game == null)
             {
                 return;
             }
 
-            notificationPriority = priority;
+            var kind =
+                text != null && text.StartsWith("도전과제") ? NotificationKind.Achievement
+                : text != null && text.Contains("MISSION COMPLETE") ? NotificationKind.Mission
+                : priority >= 2 ? NotificationKind.Warning
+                : priority == 1 ? NotificationKind.Economy
+                : NotificationKind.Info;
+            if (priority >= 2 && shell.Depth > 0)
+            {
+                var ux = GetComponent<GameplayUXPresenter>();
+                if (ux != null && shell.Top == ux.Hub)
+                {
+                    ux.Explain(text);
+                    return;
+                }
+
+                if (shell.Top == contextPanel && source != null)
+                {
+                    contextTitle.text = source.title + "\n" + text;
+                    return;
+                }
+            }
+
+            game.Notifications.Publish(text, kind);
+        }
+
+        public void OpenMenu()
+        {
+            var ux = GetComponent<GameplayUXPresenter>();
+            if (ux != null && ux.Ready)
+            {
+                ux.OpenHub();
+            }
+            else
+            {
+                shell.Push(menuPanel);
+            }
+        }
+
+        void ShowNextNotice()
+        {
+            if (Time.unscaledTime < until || shell.Depth > 0 || world.Busy || game.BirthIntroductionPending)
+            {
+                return;
+            }
+
+            var notice = game.Notifications.Take();
+            if (notice == null)
+            {
+                return;
+            }
+
             EnsureFeedbackCard();
-            feedback.text = text ?? "";
-            feedbackCard.gameObject.SetActive(!string.IsNullOrEmpty(feedback.text));
+            feedback.text = notice.text;
+            feedbackCard.gameObject.SetActive(true);
             ReflowNotification();
-            until = Time.unscaledTime + 4;
+            until = Time.unscaledTime + Mathf.Clamp(PlayerPrefs.GetFloat("ian.ui.noticeSeconds", 4), 2, 8);
+            GetComponent<PresentationFeedback>()?.Cue(notice.kind.ToString());
         }
 
         void Money(int before, int after, string reason)
@@ -324,7 +396,12 @@ namespace IanGame
             recent = text;
             if (text.Contains("실패") || text.Contains("부족") || text.Contains("채용"))
             {
-                Notify(text, 2);
+                Notify(
+                    text.StartsWith("저장 실패")
+                        ? "진행을 저장하지 못했습니다. 저장 공간을 확인하고 다시 시도하세요."
+                        : text,
+                    2
+                );
             }
         }
 
@@ -506,7 +583,24 @@ namespace IanGame
                         : a == 2 ? "놀기"
                         : a == 6 ? "건강 돌봄"
                         : "기초 생활 학습";
-                    Choice(label, () => world.Begin(target, action));
+                    Choice(
+                        label,
+                        () =>
+                        {
+                            var ux = GetComponent<GameplayUXPresenter>();
+                            if (action == 23 && ux != null && game.CanPerformAction(action, out _))
+                            {
+                                ux.Confirm(
+                                    "현재 직장을 퇴사하시겠습니까?\n다시 취업하려면 채용 조건을 충족해야 합니다.",
+                                    () => world.Begin(target, action)
+                                );
+                            }
+                            else
+                            {
+                                world.Begin(target, action);
+                            }
+                        }
+                    );
                 }
             }
             else if (target.kind == WorldInteractionKind.Fridge)
@@ -627,7 +721,24 @@ namespace IanGame
                 action == 0 ? $"근무 · {game.world.rules.shiftHours}시간 · 예상 {game.phase23.Work.Wage:N0}G"
                 : data == null ? "활동 " + action
                 : data.displayName;
-            Choice(label, () => world.Begin(target, action));
+            Choice(
+                label,
+                () =>
+                {
+                    var ux = GetComponent<GameplayUXPresenter>();
+                    if (action == 23 && ux != null && game.CanPerformAction(action, out _))
+                    {
+                        ux.Confirm(
+                            "현재 직장을 퇴사하시겠습니까?\n다시 취업하려면 채용 조건을 충족해야 합니다.",
+                            () => world.Begin(target, action)
+                        );
+                    }
+                    else
+                    {
+                        world.Begin(target, action);
+                    }
+                }
+            );
         }
 
         void BuyFood(string id)

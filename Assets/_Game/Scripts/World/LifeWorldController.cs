@@ -210,10 +210,13 @@ namespace IanGame
                     }
 
                     float d = (Player.Position - o.Point).sqrMagnitude;
-                    if (d <= o.radius * o.radius && d < distance)
+                    var toward = o.Point - Player.Position;
+                    float facing = toward.sqrMagnitude > .001f ? Vector2.Dot(Player.Facing, toward.normalized) : 1;
+                    float score = d + (1 - facing) * .18f - (o == Nearest ? .025f : 0);
+                    if (d <= o.radius * o.radius && score < distance)
                     {
                         best = o;
-                        distance = d;
+                        distance = score;
                     }
                 }
             }
@@ -257,7 +260,7 @@ namespace IanGame
 
             if (!GrowthAccess.Interaction(Service.Game, o, -2, out var denied))
             {
-                hud.Notify(denied);
+                hud.Notify(denied, 2);
                 return false;
             }
 
@@ -278,7 +281,7 @@ namespace IanGame
                     var d = o.GetComponent<WorldDoor>();
                     if (d != null && !d.CanEnter("player", Service.Hour, out var lockedReason))
                     {
-                        hud.Notify(lockedReason);
+                        hud.Notify(lockedReason, 2);
                         return false;
                     }
 
@@ -960,7 +963,7 @@ namespace IanGame
                 {
                     if (!door.Acquire("player", Service.Hour, out var reason))
                     {
-                        hud.Notify(reason);
+                        hud.Notify(reason, 2);
                         yield break;
                     }
 
@@ -1048,7 +1051,7 @@ namespace IanGame
                 {
                     if (!arrivalDoor.Acquire("player", Service.Hour, out var reason))
                     {
-                        hud.Notify(reason);
+                        hud.Notify(reason, 2);
                         yield break;
                     }
 
@@ -1168,7 +1171,7 @@ namespace IanGame
 
             if (!GrowthAccess.Zone(Service.Game, zone, out var denied))
             {
-                hud.Notify(denied);
+                hud.Notify(denied, 2);
                 return false;
             }
 

@@ -174,14 +174,13 @@ namespace IanGame
             var p = service.GetProgress(data);
             missionTitle.text = data.Id + " · " + data.title;
             int claimed = service.catalog.missions.Count(m => m.chapter == data.chapter && service.Claimed(m.Id));
-            chapterText.text =
-                "CHAPTER "
-                + data.chapter
-                + " / "
-                + claimed
-                + " / 10 · "
-                + (data.source == MissionSource.ConfirmedV1 ? "원본 v1.0" : "제안 데이터");
-            conditionText.text = MissionGuidance.Summary(data, service);
+            int chapterTotal = service.catalog.missions.Count(m => m.chapter == data.chapter);
+            string chapterName =
+                data.chapter > 0 && data.chapter <= service.catalog.chapterTitles.Length
+                    ? service.catalog.chapterTitles[data.chapter - 1]
+                    : "CHAPTER " + data.chapter;
+            chapterText.text = chapterName + " · " + claimed + " / " + chapterTotal + " · 진행 목표";
+            conditionText.text = data.description + "\n\n" + MissionGuidance.Summary(data, service);
             progressText.text =
                 MissionRowView.StateName(p.state) + "   " + p.current.ToString("0") + " / " + p.target.ToString("0");
             rewardText.text =
@@ -191,6 +190,12 @@ namespace IanGame
                 + " · 성장 "
                 + data.rewards.growthPoints
                 + (data.rewards.gachaTickets > 0 ? "\n가챠권 " + data.rewards.gachaTickets + "" : "");
+            int ruby = ReleaseConfig.Current?.Reward(RubySource.Mission, data.Id) ?? 0;
+            if (ruby > 0)
+            {
+                rewardText.text += " · 루비 " + ruby;
+            }
+
             var next = service.catalog.missions.FirstOrDefault(m => m.number == data.number + 1);
             nextText.text = next == null ? "다음: 생애 평가 연동 대기" : "다음: " + next.Id + " " + next.title;
             claimButton.interactable =
@@ -303,7 +308,14 @@ namespace IanGame
         {
             if (Game != null && Game.world != null && Game.world.Active)
             {
-                Game.world.Host.hud.Notify(data.Id + " 완료 · " + data.title, 1);
+                Game.Notifications.Publish(
+                    "MISSION COMPLETE\n"
+                        + data.title
+                        + "\n"
+                        + data.completionMessage
+                        + "\n보상은 미션 창에서 수령하세요.",
+                    NotificationKind.Mission
+                );
                 return;
             }
 

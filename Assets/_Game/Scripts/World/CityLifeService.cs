@@ -31,6 +31,7 @@ namespace IanGame
         public string title;
         public string description;
         public int minAge;
+        public bool hidden;
         public long target = 1;
     }
 
@@ -414,6 +415,12 @@ namespace IanGame
             }
         }
 
+        public void ResetUXGuides()
+        {
+            Data.guideSeen.RemoveAll(id => id.StartsWith("ux/tutorial/"));
+            Touch();
+        }
+
         public bool Track(string room, out string reason)
         {
             reason = null;
@@ -522,7 +529,16 @@ namespace IanGame
 
             if (o.kind != WorldInteractionKind.Door)
             {
-                return "[E] " + o.title;
+                string verb =
+                    o.kind == WorldInteractionKind.Fridge ? "열기"
+                    : o.kind == WorldInteractionKind.Sleep ? "잠자기"
+                    : o.kind == WorldInteractionKind.Meal ? "식사"
+                    : o.kind == WorldInteractionKind.Drink ? "물 마시기"
+                    : o.kind == WorldInteractionKind.Study ? "공부"
+                    : o.kind == WorldInteractionKind.Work ? "근무·채용"
+                    : o.kind == WorldInteractionKind.NPC ? "이야기"
+                    : "사용";
+                return o.title + "\n[E] " + verb;
             }
 
             if (!GrowthAccess.Interaction(game, o, -2, out var denied))
@@ -532,7 +548,16 @@ namespace IanGame
 
             if (Seen("room/" + o.targetZone))
             {
-                return "[E] " + o.title;
+                string verb =
+                    o.kind == WorldInteractionKind.Fridge ? "열기"
+                    : o.kind == WorldInteractionKind.Sleep ? "잠자기"
+                    : o.kind == WorldInteractionKind.Meal ? "식사"
+                    : o.kind == WorldInteractionKind.Drink ? "물 마시기"
+                    : o.kind == WorldInteractionKind.Study ? "공부"
+                    : o.kind == WorldInteractionKind.Work ? "근무·채용"
+                    : o.kind == WorldInteractionKind.NPC ? "이야기"
+                    : "사용";
+                return o.title + "\n[E] " + verb;
             }
 
             string action =

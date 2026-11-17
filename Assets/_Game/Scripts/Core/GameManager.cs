@@ -16,6 +16,7 @@ namespace IanGame
     public class GameManager : MonoBehaviour
     {
         public ItemService items;
+        public NotificationService Notifications { get; } = new NotificationService();
         public PurchaseService purchases { get; private set; }
 
         public LifeWorldService world;
@@ -265,6 +266,7 @@ namespace IanGame
 
         public void NewGame()
         {
+            Notifications.Clear();
             if (LegalDocumentService.NeedsConsent)
             {
                 Log("이용약관과 개인정보처리방침을 먼저 확인하세요.");
