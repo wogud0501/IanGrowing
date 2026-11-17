@@ -1,0 +1,1050 @@
+using System;
+using System.IO;
+using System.Linq;
+using TMPro;
+using UnityEditor;
+using UnityEditor.Events;
+using UnityEditor.SceneManagement;
+using UnityEngine;
+using UnityEngine.UI;
+
+namespace IanGame.Editor
+{
+    public static partial class PixelUIBuilder
+    {
+        static PixelUITheme theme;
+
+        static T C<T>(Component host)
+            where T : Component
+        {
+            var c = host.GetComponent<T>();
+            return c != null ? c : host.gameObject.AddComponent<T>();
+        }
+
+        static RectTransform R(Transform p, string name)
+        {
+            var r = new GameObject(name, typeof(RectTransform)).GetComponent<RectTransform>();
+            r.SetParent(p, false);
+            return r;
+        }
+
+        static void Fill(RectTransform r)
+        {
+            r.anchorMin = Vector2.zero;
+            r.anchorMax = Vector2.one;
+            r.pivot = new Vector2(.5f, .5f);
+            r.offsetMin = r.offsetMax = Vector2.zero;
+            r.localScale = Vector3.one;
+        }
+
+        static LayoutElement S(Component c, float height = -1, float width = -1, float flex = 0)
+        {
+            var l = C<LayoutElement>(c);
+            l.maxWidth = float.MaxValue;
+            l.maxHeight = float.MaxValue;
+            l.minWidth = 0;
+            l.minHeight = height > 0 ? height : 0;
+            l.preferredHeight = height;
+            l.preferredWidth = width;
+            l.flexibleHeight = flex;
+            l.flexibleWidth = width < 0 ? 1 : 0;
+            return l;
+        }
+
+        static VerticalLayoutGroup V(Transform p, int padding = 0, float spacing = 8)
+        {
+            var l = C<VerticalLayoutGroup>(p);
+            l.padding = new RectOffset(padding, padding, padding, padding);
+            l.spacing = spacing;
+            l.childControlWidth = l.childControlHeight = true;
+            l.childForceExpandWidth = true;
+            l.childForceExpandHeight = false;
+            return l;
+        }
+
+        static HorizontalLayoutGroup H(Transform p, int padding = 0, float spacing = 8)
+        {
+            var l = C<HorizontalLayoutGroup>(p);
+            l.padding = new RectOffset(padding, padding, padding, padding);
+            l.spacing = spacing;
+            l.childControlWidth = l.childControlHeight = true;
+            l.childForceExpandWidth = false;
+            l.childForceExpandHeight = true;
+            return l;
+        }
+
+        static void Move(Component c, Transform parent, float height = -1)
+        {
+            c.transform.SetParent(parent, false);
+            c.transform.SetAsLastSibling();
+            var r = c.GetComponent<RectTransform>();
+            if (r != null)
+            {
+                r.localScale = Vector3.one;
+                r.localRotation = Quaternion.identity;
+                r.anchorMin = r.anchorMax = new Vector2(.5f, .5f);
+                r.pivot = new Vector2(.5f, .5f);
+                r.anchoredPosition = Vector2.zero;
+            }
+
+            S(c, height);
+            c.gameObject.SetActive(true);
+        }
+
+        static void TextStyle(TMP_Text t, int size = 18, bool light = false, bool bold = false)
+        {
+            t.font = theme.font;
+            t.fontSize = size;
+            t.fontStyle = bold ? FontStyles.Bold : FontStyles.Normal;
+            t.color = light ? theme.cream : theme.ink;
+            t.enableAutoSizing = false;
+            t.textWrappingMode = TextWrappingModes.Normal;
+            t.overflowMode = TextOverflowModes.Overflow;
+            t.raycastTarget = false;
+            t.alignment = TextAlignmentOptions.TopLeft;
+            t.margin = Vector4.zero;
+            var scale = t.GetComponent<UITypeScale>();
+            if (scale != null)
+            {
+                scale.baseSize = size;
+            }
+        }
+
+        static TMP_Text T(Transform p, string name, string value, int size = 18, float height = -1, bool light = false)
+        {
+            var r = R(p, name);
+            var t = r.gameObject.AddComponent<TextMeshProUGUI>();
+            TextStyle(t, size, light);
+            t.text = value;
+            S(t, height);
+            return t;
+        }
+
+        static UnityEngine.UI.Image Panel(Transform p, string name, Sprite sprite, int padding = 12)
+        {
+            var r = R(p, name);
+            var img = r.gameObject.AddComponent<UnityEngine.UI.Image>();
+            img.sprite = sprite;
+            img.type = UnityEngine.UI.Image.Type.Sliced;
+            img.color = Color.white;
+            V(r, padding, 8);
+            S(img, -1, -1, 1);
+            return img;
+        }
+
+        static void StyleButton(UnityEngine.UI.Button b)
+        {
+            var img = C<UnityEngine.UI.Image>(b);
+            img.sprite = theme.button;
+            img.type = UnityEngine.UI.Image.Type.Sliced;
+            img.color = Color.white;
+            b.targetGraphic = img;
+            b.transition = Selectable.Transition.SpriteSwap;
+            b.spriteState = new SpriteState
+            {
+                highlightedSprite = theme.hover,
+                selectedSprite = theme.hover,
+                pressedSprite = theme.pressed,
+                disabledSprite = theme.disabled,
+            };
+            var old = b.GetComponent<UIButtonFeel>();
+            if (old != null)
+            {
+                old.enabled = false;
+                if (old.focusMark != null)
+                {
+                    old.focusMark.SetActive(false);
+                }
+            }
+
+            var text = b.GetComponentInChildren<TMP_Text>(true);
+            if (text != null)
+            {
+                TextStyle(text, 18);
+                text.alignment = TextAlignmentOptions.Center;
+                text.enableAutoSizing = true;
+                text.fontSizeMin = 16;
+                text.fontSizeMax = 18;
+                Fill(text.rectTransform);
+                text.margin = new Vector4(14, 4, 8, 4);
+            }
+
+            var feel = C<PixelButton>(b);
+            if (feel.cursor == null)
+            {
+                var r = R(b.transform, "Pixel focus cursor");
+                r.anchorMin = r.anchorMax = new Vector2(0, .5f);
+                r.pivot = new Vector2(0, .5f);
+                r.anchoredPosition = new Vector2(3, 0);
+                r.sizeDelta = new Vector2(12, 12);
+                var cursor = r.gameObject.AddComponent<UnityEngine.UI.Image>();
+                cursor.sprite = theme.Icon(PixelIcon.Arrow);
+                cursor.raycastTarget = false;
+                feel.cursor = r.gameObject;
+                r.gameObject.SetActive(false);
+            }
+        }
+
+        static UnityEngine.UI.Button B(Transform p, string name, string label, float height = 42)
+        {
+            var r = R(p, name);
+            r.gameObject.AddComponent<UnityEngine.UI.Image>();
+            var b = r.gameObject.AddComponent<UnityEngine.UI.Button>();
+            T(r, "Label", label);
+            StyleButton(b);
+            S(b, height);
+            return b;
+        }
+
+        static UnityEngine.UI.Button Command(
+            Transform p,
+            string name,
+            string label,
+            UIShell shell,
+            UICommand.Command kind,
+            GameObject target = null
+        )
+        {
+            var b = B(p, name, label);
+            var c = b.gameObject.AddComponent<UICommand>();
+            c.shell = shell;
+            c.command = kind;
+            c.panel = target;
+            UnityEventTools.AddPersistentListener(b.onClick, c.Invoke);
+            return b;
+        }
+
+        static UnityEngine.UI.Button Nav(
+            Transform p,
+            string name,
+            string label,
+            UINavigationService service,
+            PixelNavigationButton.Target target,
+            SceneId scene = SceneId.Home,
+            int tab = 0
+        )
+        {
+            var b = B(p, name, label);
+            var action = b.gameObject.AddComponent<PixelNavigationButton>();
+            action.service = service;
+            action.target = target;
+            action.location = scene;
+            action.tab = tab;
+            UnityEventTools.AddPersistentListener(b.onClick, action.Invoke);
+            return b;
+        }
+
+        static RectTransform Scroll(Transform parent, string name, out ScrollRect scroll)
+        {
+            var root = R(parent, name);
+            S(root, -1, -1, 1);
+            scroll = root.gameObject.AddComponent<ScrollRect>();
+            var viewport = R(root, "Viewport");
+            Fill(viewport);
+            var image = viewport.gameObject.AddComponent<UnityEngine.UI.Image>();
+            image.color = new Color(1, 1, 1, .005f);
+            var mask = viewport.gameObject.AddComponent<Mask>();
+            mask.showMaskGraphic = false;
+            var content = R(viewport, "Content");
+            content.anchorMin = new Vector2(0, 1);
+            content.anchorMax = Vector2.one;
+            content.pivot = new Vector2(.5f, 1);
+            content.offsetMin = content.offsetMax = Vector2.zero;
+            V(content, 2, 8);
+            var fitter = content.gameObject.AddComponent<ContentSizeFitter>();
+            fitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
+            scroll.viewport = viewport;
+            scroll.content = content;
+            scroll.horizontal = false;
+            scroll.vertical = true;
+            scroll.movementType = ScrollRect.MovementType.Clamped;
+            scroll.scrollSensitivity = 32;
+            return content;
+        }
+
+        static GameObject Modal(UIShell shell, string name, string title, out Transform body)
+        {
+            var root = R(shell.overlayRoot, name);
+            Fill(root);
+            root.gameObject.AddComponent<CanvasGroup>();
+            var veil = root.gameObject.AddComponent<UnityEngine.UI.Image>();
+            veil.color = new Color(.03f, .06f, .12f, .8f);
+            var card = Panel(root, "PixelModalWindow", theme.panel, 12);
+            var r = card.rectTransform;
+            Fill(r);
+            r.anchorMin = new Vector2(.025f, .135f);
+            r.anchorMax = new Vector2(.975f, .98f);
+            var row = R(r, "Heading");
+            H(row);
+            S(row, 36);
+            T(row, "Title", title, 22, 32);
+            var close = Command(row, "Close", "뒤로", shell, UICommand.Command.Close, root.gameObject);
+            S(close, 32, 72);
+            ScrollRect scroll;
+            body = Scroll(r, "Body", out scroll);
+            root.gameObject.SetActive(false);
+            return root.gameObject;
+        }
+
+        static Transform ExistingBody(GameObject panel) =>
+            panel.GetComponentsInChildren<ScrollRect>(true).First().content;
+
+        static void Grid(Transform p, int columns = 2, float height = 44)
+        {
+            var v = p.GetComponent<VerticalLayoutGroup>();
+            if (v != null)
+            {
+                v.enabled = false;
+            }
+
+            var grid = C<GridLayoutGroup>(p);
+            grid.spacing = new Vector2(8, 8);
+            grid.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
+            grid.constraintCount = columns;
+            var fluid = C<UIResponsiveGrid>(p);
+            fluid.grid = grid;
+            fluid.maxColumns = columns;
+            fluid.minCellWidth = 200;
+            fluid.rowHeight = height;
+            C<ContentSizeFitter>(p).verticalFit = ContentSizeFitter.FitMode.PreferredSize;
+        }
+
+        static UnityEngine.UI.Image Icon(Transform p, PixelIcon icon, int size = 16)
+        {
+            var r = R(p, "Icon " + icon);
+            var i = r.gameObject.AddComponent<UnityEngine.UI.Image>();
+            i.sprite = theme.Icon(icon);
+            i.raycastTarget = false;
+            i.preserveAspect = true;
+            S(i, size, size);
+            return i;
+        }
+
+        static PixelTabGroup Tabs(Transform parent, string[] labels, out Transform[] pages)
+        {
+            var holder = R(parent, "Tabs");
+            S(holder, 38);
+            H(holder, 0, 4);
+            var views = R(parent, "Tab pages");
+            S(views, 310);
+            var group = parent.gameObject.AddComponent<PixelTabGroup>();
+            group.theme = theme;
+            group.pages = new GameObject[labels.Length];
+            group.tabs = new UnityEngine.UI.Button[labels.Length];
+            pages = new Transform[labels.Length];
+            for (int i = 0; i < labels.Length; i++)
+            {
+                group.tabs[i] = B(holder, "Tab " + i, labels[i], 34);
+                var page = R(views, "Page " + i);
+                Fill(page);
+                V(page, 0, 8);
+                pages[i] = page;
+                group.pages[i] = page.gameObject;
+                page.gameObject.SetActive(i == 0);
+            }
+
+            return group;
+        }
+
+        static void Reskin(Transform root)
+        {
+            foreach (var t in root.GetComponentsInChildren<TMP_Text>(true))
+            {
+                var old = t.GetComponent<UITypeScale>();
+                int size = old != null && old.baseSize >= 28 ? 22 : 18;
+                TextStyle(t, size);
+            }
+
+            foreach (var img in root.GetComponentsInChildren<UnityEngine.UI.Image>(true))
+            {
+                if (img.type == UnityEngine.UI.Image.Type.Sliced)
+                {
+                    img.sprite = theme.panel;
+                    img.color = Color.white;
+                }
+            }
+
+            foreach (var b in root.GetComponentsInChildren<UnityEngine.UI.Button>(true))
+            {
+                StyleButton(b);
+            }
+        }
+
+        [MenuItem("Ian/Pixel UI/Apply Rework v1")]
+        public static void Build()
+        {
+            if (Application.isPlaying)
+            {
+                throw new Exception("Stop Play Mode first.");
+            }
+
+            theme = PixelAssetBuilder.Build();
+            var path = "Assets/_Game/Prefabs/UI/GameHUD.prefab";
+            var root = PrefabUtility.LoadPrefabContents(path);
+            try
+            {
+                if (root.GetComponent<PixelHomePresenter>() == null)
+                {
+                    Home(root);
+                }
+
+                PrefabUtility.SaveAsPrefabAsset(root, path);
+            }
+            finally
+            {
+                PrefabUtility.UnloadPrefabContents(root);
+            }
+
+            foreach (var name in new[] { "Home", "School", "City", "Workplace" })
+            {
+                var scene = EditorSceneManager.OpenScene("Assets/_Game/Scenes/" + name + ".unity");
+                var hud = UnityEngine.Object.FindFirstObjectByType<UIManager>();
+                var p = UnityEngine.Object.FindFirstObjectByType<Phase23Presenter>();
+                var navigation = hud.GetComponent<UINavigationService>();
+                if (p != null && p.GetComponent<PixelTabGroup>() == null)
+                {
+                    Location(p, navigation, name);
+                }
+
+                var bindings = UnityEngine.Object.FindFirstObjectByType<GameplaySceneBindings>();
+                bindings.missionUI = hud.GetComponentInChildren<MissionUI>(true);
+                EditorUtility.SetDirty(bindings);
+                EditorSceneManager.MarkSceneDirty(scene);
+                EditorSceneManager.SaveScene(scene);
+            }
+
+            Menu();
+            Transition();
+            Prefabs();
+            Refine();
+            FinishWidgets();
+            if (File.Exists("Assets/_Game/UI/Pixel/Fonts/NanumGothic-Regular.ttf"))
+            {
+                PixelUIFontBuilder.Apply();
+                FontLicenseUI();
+            }
+
+            AssetDatabase.SaveAssets();
+            EditorSceneManager.OpenScene("Assets/_Game/Scenes/Bootstrap.unity");
+        }
+
+        static void Home(GameObject root)
+        {
+            var hud = root.GetComponent<UIManager>();
+            var old = root.GetComponent<IndieHUD>();
+            var oldLayout = root.GetComponent<UIResponsiveHUD>();
+            var shell = root.GetComponent<UIShell>();
+            old.enabled = false;
+            oldLayout.enabled = false;
+            Reskin(root.transform);
+            var canvas = root.GetComponent<Canvas>();
+            canvas.pixelPerfect = true;
+            var frame = oldLayout.frame;
+            V(frame, 12, 8);
+            var backdrop = root.transform.Find("Print background");
+            if (backdrop != null)
+            {
+                backdrop.GetComponent<UnityEngine.UI.Image>().color = theme.ink;
+            }
+
+            var navigation = root.AddComponent<UINavigationService>();
+            navigation.stack = shell;
+            var pixel = root.AddComponent<PixelHomePresenter>();
+            pixel.hud = hud;
+            pixel.mission = old.missions;
+            pixel.theme = theme;
+            pixel.age = old.ageText;
+            pixel.cash = old.cashText;
+            pixel.location = old.locationText;
+            pixel.caption = old.heroCaption;
+            pixel.fullValues = old.statValues;
+            pixel.navigation = navigation;
+            Transform body;
+            navigation.lifePanel = Modal(shell, "LifePanel", "생활 / 생존 관리", out body);
+            T(body, "Intro", "오늘도 생존에 투자하세요. 각 행동은 게임 속 시간을 사용합니다.");
+            var lifeGrid = R(body, "Life actions");
+            Grid(lifeGrid, 2, 48);
+            foreach (var b in new[] { hud.mealButton, hud.drinkButton, hud.sleepButton, hud.restButton })
+            {
+                Move(b, lifeGrid, 48);
+                StyleButton(b);
+            }
+
+            Transform recovery;
+            var recoveryPanel = Modal(shell, "RecoveryPanel", "회복 / 쉬어 가는 시간", out recovery);
+            foreach (var b in new[] { hud.playButton, hud.hospitalButton })
+            {
+                Move(b, recovery, 48);
+                StyleButton(b);
+            }
+
+            Command(body, "Recovery", "상태이상 · 회복 더 보기", shell, UICommand.Command.Open, recoveryPanel);
+            Command(recovery, "Status", "생존 명세서", shell, UICommand.Command.Status);
+            navigation.growthPanel = Modal(shell, "GrowthPanel", "성장 / 인생 업무 기록", out body);
+            Transform[] growthPages;
+            navigation.growthTabs = Tabs(body, new[] { "능력", "교육", "사회", "미션", "성장" }, out growthPages);
+            pixel.detail = T(growthPages[0], "Live full status", "", 18);
+            Nav(
+                growthPages[0],
+                "Full status",
+                "상세 생존 명세서",
+                navigation,
+                PixelNavigationButton.Target.GrowthTab,
+                SceneId.Home,
+                0
+            )
+                .gameObject.SetActive(false);
+            Command(growthPages[0], "Stats", "능력치 막대로 보기", shell, UICommand.Command.Status);
+            T(
+                growthPages[1],
+                "Education info",
+                "학교에서 입학·학습·숙제·시험을 진행합니다.\n정확한 조건은 현재 미션에서 확인하세요."
+            );
+            Nav(
+                growthPages[1],
+                "School",
+                "학교로 이동 / 교육 활동",
+                navigation,
+                PixelNavigationButton.Target.Location,
+                SceneId.School
+            );
+            Command(
+                growthPages[1],
+                "Basic education",
+                "기초 교육 활동",
+                shell,
+                UICommand.Command.Open,
+                old.missions.educationPanel
+            );
+            T(
+                growthPages[2],
+                "Social info",
+                "대화와 친구 만들기는 서로 다른 활동입니다.\n친구 만들기에 성공해야 실제 관계가 생깁니다."
+            );
+            Nav(
+                growthPages[2],
+                "City",
+                "도시로 이동 / 인간관계",
+                navigation,
+                PixelNavigationButton.Target.Location,
+                SceneId.City
+            );
+            T(
+                growthPages[3],
+                "Mission info",
+                "현재 목표와 정확한 달성 조건을 확인하고,\n완료한 미션의 보상을 수령하세요."
+            );
+            Nav(growthPages[3], "Current mission", "현재 미션 상세", navigation, PixelNavigationButton.Target.Mission);
+            Command(
+                growthPages[3],
+                "Mission list",
+                "메인 미션 60개 목록",
+                shell,
+                UICommand.Command.Open,
+                old.missions.listPanel
+            );
+            pixel.growth = T(growthPages[4], "Growth data", "", 20);
+            navigation.activityPanel = Modal(shell, "ActivityPanel", "활동 / 어디로 갈까요?", out body);
+            T(body, "Location intro", "장소를 선택하면 실제 게임 씬으로 이동합니다.");
+            foreach (var id in new[] { SceneId.Home, SceneId.School, SceneId.City, SceneId.Workplace })
+            {
+                Nav(
+                    body,
+                    id.ToString(),
+                    MissionGuidance.Place(id),
+                    navigation,
+                    PixelNavigationButton.Target.Location,
+                    id
+                );
+            }
+
+            T(body, "Future places", "전투 및 다른 장소는 향후 업데이트 예정입니다.", 16);
+            navigation.inventoryPanel = Modal(shell, "InventoryPanel", "수집 / 기본 장비 보관함", out body);
+            pixel.inventory = T(body, "Inventory summary", "", 18);
+            T(
+                body,
+                "Future collection",
+                "상점·가챠·주식은 현재 구현 예정입니다.\n이 화면에서는 기존 스타터 장비만 확인합니다.",
+                16
+            );
+            navigation.menuPanel = Modal(shell, "MenuPanel", "기타 / 인생 관리 메뉴", out body);
+            Nav(body, "Inventory", "장비 · 보관함", navigation, PixelNavigationButton.Target.Inventory);
+            Command(body, "Settings", "환경 설정", shell, UICommand.Command.Settings);
+            var saveRow = R(body, "Save and load");
+            H(saveRow);
+            S(saveRow, 44);
+            Move(hud.saveButton, saveRow, 44);
+            Move(hud.loadButton, saveRow, 44);
+            StyleButton(hud.saveButton);
+            StyleButton(hud.loadButton);
+            Command(body, "Pause", "일시정지 / 새 인생", shell, UICommand.Command.Pause);
+            navigation.missionPanel = Modal(shell, "MissionPanel", "미션 / 다음에 할 일", out body);
+            Move(oldLayout.mission, body, 420);
+            var missionSlot = oldLayout.mission;
+            missionSlot.flexibleHeight = 0;
+            missionSlot.flexibleWidth = 1;
+            missionSlot.preferredWidth = -1;
+            missionSlot.minWidth = 0;
+            var mission = old.missions;
+            var conditionParent = mission.conditionText.transform.parent;
+            mission.conditionText.gameObject.SetActive(false);
+            mission.conditionText = T(conditionParent, "Exact mission guidance", "", 18);
+            var conditionScroll = conditionParent.GetComponentInParent<ScrollRect>();
+            if (conditionScroll != null)
+            {
+                var rectMask = conditionScroll.GetComponent<RectMask2D>();
+                if (rectMask != null)
+                {
+                    rectMask.enabled = false;
+                }
+
+                var mask = C<Mask>(conditionScroll);
+                mask.showMaskGraphic = false;
+            }
+
+            foreach (var t in new[] { mission.chapterText, mission.progressText, mission.rewardText, mission.nextText })
+            {
+                TextStyle(t, 16);
+            }
+
+            TextStyle(mission.missionTitle, 22, false, true);
+            S(mission.missionTitle, 48);
+            S(mission.chapterText, 22);
+            S(mission.progressText, 22);
+            S(mission.rewardText, 38);
+            S(mission.nextText, 24);
+            S(mission.actionButton.transform.parent, 44);
+            S(mission.listButton.transform.parent, 40);
+            S(mission.conditionText.transform.parent.parent, 100, -1, 1);
+            V(mission.missionTitle.transform.parent, 12, 6);
+            var statusBody = ExistingBody(shell.statusPanel);
+            Move(oldLayout.stats, statusBody, 330);
+            oldLayout.stats.preferredWidth = -1;
+            oldLayout.stats.minWidth = 0;
+            oldLayout.stats.flexibleHeight = 0;
+            Move(old.debtText.transform.parent, statusBody, 48);
+            pixel.debt = old.debtText;
+            var oldStatus = old.statusDetails;
+            if (oldStatus != null)
+            {
+                oldStatus.gameObject.SetActive(false);
+            }
+
+            oldLayout.statsFlow.spacing = 4;
+            foreach (var label in hud.coreLabels)
+            {
+                var strip = label.transform.parent.parent;
+                S(strip, 30);
+                S(label.transform.parent, 22);
+                TextStyle(label, 16);
+            }
+
+            foreach (var t in old.statValues)
+            {
+                TextStyle(t, 16);
+            }
+
+            var statHeading = oldLayout
+                .stats.GetComponentsInChildren<TMP_Text>(true)
+                .FirstOrDefault(t => t.name == "Vitals heading");
+            if (statHeading != null)
+            {
+                TextStyle(statHeading, 22, true, true);
+                S(statHeading, 30);
+            }
+
+            oldLayout.stats.GetComponent<UnityEngine.UI.Image>().sprite = theme.panelDark;
+            foreach (var t in oldLayout.stats.GetComponentsInChildren<TMP_Text>(true))
+            {
+                t.color = theme.cream;
+            }
+
+            var header = oldLayout.header.GetComponent<RectTransform>();
+            var brand = header.GetChild(0);
+            S(brand, 30, 200);
+            var imprint = brand.GetComponentsInChildren<TMP_Text>(true).FirstOrDefault(t => t.name == "Edition");
+            if (imprint != null)
+            {
+                imprint.gameObject.SetActive(false);
+            }
+
+            var brandTitle = brand.GetComponentsInChildren<TMP_Text>(true).First(t => t.name == "Game title");
+            TextStyle(brandTitle, 26, true, true);
+            S(brandTitle, 32);
+            var financial = header.GetChild(1);
+            var ageCard = old.ageText.transform.parent;
+            var cashCard = old.cashText.transform.parent;
+            S(ageCard, 42, 150);
+            S(cashCard, 42, 160);
+            V(ageCard, 8, 0);
+            V(cashCard, 8, 0);
+            TextStyle(old.ageText, 18);
+            TextStyle(old.cashText, 20, false, true);
+            ageCard.GetComponent<UnityEngine.UI.Image>().sprite = theme.panel;
+            cashCard.GetComponent<UnityEngine.UI.Image>().sprite = theme.panel;
+            var more = Nav(financial, "OtherMenu", "기타", navigation, PixelNavigationButton.Target.Menu);
+            S(more, 42, 60);
+            var hero = oldLayout.hero.GetComponent<RectTransform>();
+            hero.GetComponent<UnityEngine.UI.Image>().sprite = theme.panelBlue;
+            V(hero, 12, 6);
+            foreach (var deco in hero.GetComponentsInChildren<UIAccentGraphic>(true))
+            {
+                deco.gameObject.SetActive(false);
+            }
+
+            S(old.heroTitle, 40);
+            TextStyle(old.heroTitle, 24, true, true);
+            old.heroTitle.text = "이안 / 인생 관리 대상";
+            S(old.heroCaption, 26);
+            TextStyle(old.heroCaption, 16, true);
+            S(old.locationText.transform.parent, 24);
+            TextStyle(old.locationText, 16, true);
+            var caseLabel = old
+                .locationText.transform.parent.GetComponentsInChildren<TMP_Text>()
+                .FirstOrDefault(t => t != old.locationText);
+            if (caseLabel != null)
+            {
+                caseLabel.gameObject.SetActive(false);
+            }
+
+            var main = oldLayout.middle.GetComponent<RectTransform>();
+            var rail = R(main, "Home summary rail");
+            V(rail, 0, 8);
+            S(rail, -1, 290, 1);
+            var summary = Panel(rail, "StatSummaryWidget", theme.panel, 8);
+            S(summary, 76);
+            var summaryGrid = R(summary.transform, "Vitals grid");
+            S(summaryGrid, -1, -1, 1);
+            var grid = summaryGrid.gameObject.AddComponent<GridLayoutGroup>();
+            grid.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
+            grid.constraintCount = 2;
+            grid.spacing = new Vector2(8, 4);
+            var fluid = summaryGrid.gameObject.AddComponent<UIResponsiveGrid>();
+            fluid.grid = grid;
+            fluid.maxColumns = 2;
+            fluid.minCellWidth = 100;
+            fluid.rowHeight = 24;
+            pixel.vitalLabels = new TMP_Text[4];
+            pixel.vitalFills = new UnityEngine.UI.Image[4];
+            PixelIcon[] icons = { PixelIcon.Meal, PixelIcon.Water, PixelIcon.Heart, PixelIcon.Moon };
+            for (int i = 0; i < 4; i++)
+            {
+                var cell = R(summaryGrid, "Vital " + i);
+                V(cell, 0, 2);
+                var line = R(cell, "Label line");
+                H(line, 0, 4);
+                S(line, 17);
+                Icon(line, icons[i], 14);
+                pixel.vitalLabels[i] = T(line, "Value", "", 15, 17);
+                var track = R(cell, "Gauge");
+                S(track, 4);
+                var bg = track.gameObject.AddComponent<UnityEngine.UI.Image>();
+                bg.sprite = theme.track;
+                bg.type = UnityEngine.UI.Image.Type.Sliced;
+                var fill = R(track, "Fill");
+                Fill(fill);
+                pixel.vitalFills[i] = fill.gameObject.AddComponent<UnityEngine.UI.Image>();
+                pixel.vitalFills[i].sprite = theme.fill;
+                pixel.vitalFills[i].type = UnityEngine.UI.Image.Type.Sliced;
+            }
+
+            var widget = Panel(rail, "MissionWidget", theme.panel, 10);
+            S(widget, 184);
+            V(widget.transform, 8, 4);
+            T(widget.transform, "Mission label", "인생 업무 / 현재 목표", 14, 20);
+            pixel.missionTitle = T(widget.transform, "Mission title", "", 18, 58);
+            TextStyle(pixel.missionTitle, 18, false, true);
+            pixel.missionProgress = T(widget.transform, "Progress", "", 14, 22);
+            var progress = R(widget.transform, "Progress rail");
+            S(progress, 4);
+            progress.gameObject.AddComponent<UnityEngine.UI.Image>().color = theme.ink;
+            var pf = R(progress, "Fill");
+            Fill(pf);
+            pixel.missionFill = pf.gameObject.AddComponent<UnityEngine.UI.Image>();
+            pixel.missionFill.sprite = theme.fill;
+            pixel.missionFill.type = UnityEngine.UI.Image.Type.Filled;
+            pixel.missionFill.fillMethod = UnityEngine.UI.Image.FillMethod.Horizontal;
+            Nav(
+                widget.transform,
+                "Mission detail",
+                "목표 · 행동 확인",
+                navigation,
+                PixelNavigationButton.Target.Mission
+            );
+            var eventCard = Panel(rail, "Recent event", theme.panelDark, 8);
+            S(eventCard, -1, -1, 1);
+            pixel.recent = T(eventCard.transform, "Recent message", "", 14, -1, true);
+            pixel.recent.maxVisibleLines = 3;
+            pixel.recent.overflowMode = TextOverflowModes.Ellipsis;
+            oldLayout.actions.gameObject.SetActive(false);
+            var quickRow = R(frame, "Context quick actions / maximum three");
+            S(quickRow, 48);
+            H(quickRow, 0, 8);
+            var tip = T(root.transform, "PixelTooltip", "", 16);
+            var tipRect = tip.rectTransform;
+            tipRect.anchorMin = new Vector2(.2f, .12f);
+            tipRect.anchorMax = new Vector2(.8f, .19f);
+            tipRect.offsetMin = tipRect.offsetMax = Vector2.zero;
+            tip.gameObject.SetActive(false);
+            pixel.quickButtons = new UnityEngine.UI.Button[3];
+            pixel.quickLabels = new TMP_Text[3];
+            pixel.quickTips = new PixelTooltip[3];
+            for (int i = 0; i < 3; i++)
+            {
+                var b = B(quickRow, "Quick action " + i, "빠른 행동", 44);
+                pixel.quickButtons[i] = b;
+                pixel.quickLabels[i] = b.GetComponentInChildren<TMP_Text>();
+                var tooltip = b.gameObject.AddComponent<PixelTooltip>();
+                tooltip.output = pixel.caption;
+                tooltip.hideOutputOnExit = false;
+                pixel.quickTips[i] = tooltip;
+            }
+
+            oldLayout.navigation.gameObject.SetActive(false);
+            var navRect = R(frame, "NavigationBar / four destinations");
+            var nav = navRect.gameObject.AddComponent<UnityEngine.UI.Image>();
+            nav.sprite = theme.panelDark;
+            nav.type = UnityEngine.UI.Image.Type.Sliced;
+            S(nav, 48);
+            H(nav.transform, 4, 6);
+            var navCanvas = nav.gameObject.AddComponent<Canvas>();
+            navCanvas.overrideSorting = true;
+            navCanvas.sortingOrder = 150;
+            nav.gameObject.AddComponent<GraphicRaycaster>();
+            navigation.navigation = nav.gameObject.AddComponent<CanvasGroup>();
+            navigation.navigation.ignoreParentGroups = true;
+            Nav(nav.transform, "Home", "집", navigation, PixelNavigationButton.Target.Home);
+            Nav(nav.transform, "Life", "생활", navigation, PixelNavigationButton.Target.Life);
+            Nav(nav.transform, "Growth", "성장", navigation, PixelNavigationButton.Target.Growth);
+            Nav(nav.transform, "Activity", "활동", navigation, PixelNavigationButton.Target.Activity);
+            var oldFeed = hud.logText.transform.parent;
+            oldFeed.gameObject.SetActive(false);
+            var scale = root.AddComponent<PixelCanvasScale>();
+            scale.scaler = root.GetComponent<CanvasScaler>();
+            scale.safe = root.GetComponent<UISafeLayout>();
+            scale.header = oldLayout.headerFlow;
+            scale.main = oldLayout.middleFlow;
+            scale.headerSize = oldLayout.header;
+            scale.hero = oldLayout.hero;
+            scale.rail = rail.GetComponent<LayoutElement>();
+            scale.mainSize = oldLayout.middle;
+            scale.quick = quickRow.GetComponent<LayoutElement>();
+            scale.nav = nav.GetComponent<LayoutElement>();
+            pixel.notice = old.notice;
+            pixel.noticeText = old.noticeText;
+            old.notice.GetComponent<UnityEngine.UI.Image>().sprite = theme.panel;
+            TextStyle(old.noticeText, 16);
+            old.noticeText.maxVisibleLines = 3;
+            old.noticeText.overflowMode = TextOverflowModes.Ellipsis;
+            V(old.notice.transform, 8, 0);
+            C<PixelNotificationLayout>(old.notice.transform);
+            CurrencyRow(pixel);
+            scale.Apply();
+            foreach (var b in root.GetComponentsInChildren<UnityEngine.UI.Button>(true))
+            {
+                StyleButton(b);
+            }
+        }
+
+        static void Location(Phase23Presenter p, UINavigationService navigation, string name)
+        {
+            var shell = navigation.stack;
+            Reskin(p.panel.transform);
+            navigation.locationPanel = p.panel;
+            var body = p.status.transform.parent;
+            var oldGridHost = p.activityButtons[0].transform.parent;
+            oldGridHost.gameObject.SetActive(false);
+            var grid = R(body, "Categorized location activities");
+            S(grid, 350);
+            V(grid, 0, 8);
+            string[] titles =
+                name == "School" ? new[] { "입학·진로", "학습", "시험·졸업", "친구" }
+                : name == "City" ? new[] { "대화", "구직" }
+                : name == "Workplace" ? new[] { "구직", "근무" }
+                : new[] { "장비" };
+            Transform[] pages;
+            var tabs = Tabs(grid, titles, out pages);
+            var marker = p.gameObject.AddComponent<PixelTabGroup>();
+            marker.enabled = false;
+            foreach (var b in p.activityButtons)
+            {
+                int id = p.actionIds[Array.IndexOf(p.activityButtons, b)];
+                if (id == 24 || id == 25)
+                {
+                    Move(b, ExistingBody(navigation.inventoryPanel), 48);
+                    StyleButton(b);
+                    continue;
+                }
+
+                int index = 0;
+                if (name == "School")
+                {
+                    index =
+                        id == 7 || id == 15 ? 0
+                        : id == 8 || id == 10 || id == 13 || id == 14 || id == 17 ? 1
+                        : id == 11 || id == 12 || id == 16 ? 2
+                        : 3;
+                }
+                else if (name == "City")
+                {
+                    index = id == 20 || id == 21 ? 1 : 0;
+                }
+                else if (name == "Workplace")
+                {
+                    index = id == 20 || id == 21 ? 0 : 1;
+                }
+                else
+                {
+                    b.gameObject.SetActive(false);
+                    continue;
+                }
+
+                Move(b, pages[index], 48);
+                StyleButton(b);
+            }
+
+            var selectors = new[] { p.npcButton, p.jobButton, p.careerButton };
+            foreach (var b in selectors)
+            {
+                b.gameObject.SetActive(false);
+            }
+
+            if (name == "School")
+            {
+                Move(p.npcButton, pages[3], 42);
+                Move(p.careerButton, pages[0], 42);
+            }
+            else if (name == "City")
+            {
+                Move(p.npcButton, pages[0], 42);
+                Move(p.jobButton, pages[1], 42);
+            }
+            else if (name == "Workplace")
+            {
+                Move(p.jobButton, pages[0], 42);
+            }
+
+            var window = p.panel.GetComponent<RectTransform>();
+            window.anchorMin = new Vector2(.025f, .135f);
+            window.anchorMax = new Vector2(.975f, .98f);
+            window.offsetMin = window.offsetMax = Vector2.zero;
+            TextStyle(p.status, 16);
+            TextStyle(p.details, 14);
+            S(p.status, 65);
+            S(p.details, 110);
+            TextStyle(p.result, 16);
+            p.openButton.gameObject.SetActive(false);
+            p.panel.SetActive(false);
+        }
+
+        static void Menu()
+        {
+            var scene = EditorSceneManager.OpenScene("Assets/_Game/Scenes/MainMenu.unity");
+            var presenter = UnityEngine.Object.FindFirstObjectByType<MainMenuPresenter>();
+            var canvas = presenter.GetComponentInParent<Canvas>();
+            Reskin(canvas.transform);
+            canvas.pixelPerfect = true;
+            var scaler = canvas.GetComponent<CanvasScaler>();
+            scaler.uiScaleMode = CanvasScaler.ScaleMode.ConstantPixelSize;
+            scaler.scaleFactor = Mathf.Max(1, Mathf.FloorToInt(Screen.height / 540f));
+            var safe = canvas.GetComponent<UISafeLayout>();
+            if (safe != null)
+            {
+                safe.maxWidth = 1000;
+                safe.Apply(true);
+            }
+
+            var title = canvas
+                .GetComponentsInChildren<TMP_Text>(true)
+                .FirstOrDefault(t => t.name == "Title" && t.text.Contains("키우기"));
+            if (title != null)
+            {
+                TextStyle(title, 48, false, true);
+                S(title, 150);
+            }
+
+            foreach (var image in canvas.GetComponentsInChildren<UnityEngine.UI.Image>(true))
+            {
+                if (image.type == UnityEngine.UI.Image.Type.Sliced)
+                {
+                    image.sprite = theme.panel;
+                    image.color = Color.white;
+                }
+            }
+
+            EditorSceneManager.MarkSceneDirty(scene);
+            EditorSceneManager.SaveScene(scene);
+        }
+
+        static void Transition()
+        {
+            var path = "Assets/_Game/Prefabs/System/GameContext.prefab";
+            var root = PrefabUtility.LoadPrefabContents(path);
+            try
+            {
+                var transition = root.GetComponent<SceneTransitionService>();
+                var img = transition.loadingOverlay.GetComponent<UnityEngine.UI.Image>();
+                img.sprite = theme.panelDark;
+                img.type = UnityEngine.UI.Image.Type.Sliced;
+                img.color = Color.white;
+                TextStyle(transition.loadingText, 24, true, true);
+                PrefabUtility.SaveAsPrefabAsset(root, path);
+            }
+            finally
+            {
+                PrefabUtility.UnloadPrefabContents(root);
+            }
+        }
+
+        static void Prefabs()
+        {
+            string folder = "Assets/_Game/Prefabs/UI/Pixel/";
+            Directory.CreateDirectory(folder);
+            foreach (
+                var name in new[]
+                {
+                    "PixelPanel",
+                    "PixelModal",
+                    "PixelNotification",
+                    "PixelTooltip",
+                    "StatSummaryWidget",
+                    "MissionWidget",
+                    "CurrencyWidget",
+                    "SceneTransitionOverlay",
+                }
+            )
+            {
+                var panel = Panel(null, name, name == "SceneTransitionOverlay" ? theme.panelDark : theme.panel, 8);
+                T(panel.transform, "Text", name, 18, -1, name == "SceneTransitionOverlay");
+                PrefabUtility.SaveAsPrefabAsset(panel.gameObject, folder + name + ".prefab");
+                UnityEngine.Object.DestroyImmediate(panel.gameObject);
+            }
+
+            foreach (var name in new[] { "PixelButton", "PixelTab" })
+            {
+                var b = B(null, name, "선택");
+                PrefabUtility.SaveAsPrefabAsset(b.gameObject, folder + name + ".prefab");
+                UnityEngine.Object.DestroyImmediate(b.gameObject);
+            }
+
+            var bar = Panel(null, "PixelProgressBar", theme.track, 0);
+            var fill = R(bar.transform, "Fill");
+            Fill(fill);
+            var image = fill.gameObject.AddComponent<UnityEngine.UI.Image>();
+            image.sprite = theme.fill;
+            image.type = UnityEngine.UI.Image.Type.Filled;
+            image.fillMethod = UnityEngine.UI.Image.FillMethod.Horizontal;
+            PrefabUtility.SaveAsPrefabAsset(bar.gameObject, folder + "PixelProgressBar.prefab");
+            UnityEngine.Object.DestroyImmediate(bar.gameObject);
+            var nav = R(null, "NavigationBar");
+            H(nav, 4, 8);
+            foreach (var text in new[] { "집", "생활", "성장", "활동" })
+            {
+                B(nav, text, text);
+            }
+
+            PrefabUtility.SaveAsPrefabAsset(nav.gameObject, folder + "NavigationBar.prefab");
+            UnityEngine.Object.DestroyImmediate(nav.gameObject);
+        }
+    }
+}

@@ -1,0 +1,725 @@
+[
+  {
+    "path": "Assets/_Game/Scripts/Editor/UI/PixelUIBuilder.cs",
+    "replacements": [
+      {
+        "old": "Assets/_Game/Prefabs/GameHUD.prefab",
+        "new": "Assets/_Game/Prefabs/UI/GameHUD.prefab"
+      },
+      {
+        "old": "Assets/_Game/Prefabs/GameContext.prefab",
+        "new": "Assets/_Game/Prefabs/System/GameContext.prefab"
+      },
+      {
+        "old": "Assets/_Game/Prefabs/PixelUI",
+        "new": "Assets/_Game/Prefabs/UI/Pixel"
+      }
+    ]
+  },
+  {
+    "path": "Assets/_Game/Scripts/Editor/UI/CommercialAtlasPrebuild.cs",
+    "replacements": [
+      {
+        "old": "Assets/_Game/Data/Commercial",
+        "new": "Assets/_Game/Data/Presentation/Commercial"
+      }
+    ]
+  },
+  {
+    "path": "Assets/_Game/Scripts/Editor/UI/CommercialSlicePolish.cs",
+    "replacements": [
+      {
+        "old": "Assets/_Game/Data/Commercial",
+        "new": "Assets/_Game/Data/Presentation/Commercial"
+      }
+    ]
+  },
+  {
+    "path": "Assets/_Game/Scripts/Editor/UI/CommercialSliceBuilder.cs",
+    "replacements": [
+      {
+        "old": "Assets/_Game/Data/Commercial",
+        "new": "Assets/_Game/Data/Presentation/Commercial"
+      },
+      {
+        "old": "Assets/_Game/Prefabs/GameContext.prefab",
+        "new": "Assets/_Game/Prefabs/System/GameContext.prefab"
+      }
+    ]
+  },
+  {
+    "path": "Assets/_Game/Scripts/Editor/UI/MultiLocationVisualBuilder.cs",
+    "replacements": [
+      {
+        "old": "Assets/_Game/Data/Commercial",
+        "new": "Assets/_Game/Data/Presentation/Commercial"
+      },
+      {
+        "old": "Assets/_Game/Prefabs/GameContext.prefab",
+        "new": "Assets/_Game/Prefabs/System/GameContext.prefab"
+      }
+    ]
+  },
+  {
+    "path": "Assets/_Game/Scripts/Editor/UI/IndieUIBuilder.cs",
+    "replacements": [
+      {
+        "old": "Assets/_Game/UI/IndieTheme.asset",
+        "new": "Assets/_Game/UI/Themes/IndieTheme.asset"
+      },
+      {
+        "old": "Assets/_Game/UI/IanKoreanSDF.asset",
+        "new": "Assets/_Game/UI/Fonts/IanKoreanSDF.asset"
+      },
+      {
+        "old": "Assets/_Game/Prefabs/GameHUD.prefab",
+        "new": "Assets/_Game/Prefabs/UI/GameHUD.prefab"
+      },
+      {
+        "old": "Assets/_Game/Prefabs/MissionRow.prefab",
+        "new": "Assets/_Game/Prefabs/UI/MissionRow.prefab"
+      },
+      {
+        "old": "Assets/_Game/Prefabs/MissionRow.prefab",
+        "new": "Assets/_Game/Prefabs/UI/MissionRow.prefab"
+      }
+    ]
+  },
+  {
+    "path": "Assets/_Game/Scripts/Editor/UI/PixelUIRefinements.cs",
+    "replacements": [
+      {
+        "old": "Assets/_Game/Prefabs/GameHUD.prefab",
+        "new": "Assets/_Game/Prefabs/UI/GameHUD.prefab"
+      },
+      {
+        "old": "Assets/_Game/Prefabs/GameHUD.prefab",
+        "new": "Assets/_Game/Prefabs/UI/GameHUD.prefab"
+      },
+      {
+        "old": "Assets/_Game/Prefabs/PixelUI",
+        "new": "Assets/_Game/Prefabs/UI/Pixel"
+      },
+      {
+        "old": "Assets/_Game/Prefabs/GameHUD.prefab",
+        "new": "Assets/_Game/Prefabs/UI/GameHUD.prefab"
+      },
+      {
+        "old": "Assets/_Game/Prefabs/MissionRow.prefab",
+        "new": "Assets/_Game/Prefabs/UI/MissionRow.prefab"
+      },
+      {
+        "old": "Assets/_Game/Prefabs/MissionRow.prefab",
+        "new": "Assets/_Game/Prefabs/UI/MissionRow.prefab"
+      }
+    ]
+  },
+  {
+    "path": "Assets/_Game/Scripts/Editor/Missions/MissionUIBuilder.cs",
+    "replacements": [
+      {
+        "old": "Assets/_Game/UI/IanKoreanSDF.asset",
+        "new": "Assets/_Game/UI/Fonts/IanKoreanSDF.asset"
+      },
+      {
+        "old": "Assets/_Game/Prefabs/MissionRow.prefab",
+        "new": "Assets/_Game/Prefabs/UI/MissionRow.prefab"
+      },
+      {
+        "old": "Assets/_Game/Prefabs/MissionRow.prefab",
+        "new": "Assets/_Game/Prefabs/UI/MissionRow.prefab"
+      },
+      {
+        "old": "Assets/_Game/Prefabs/MissionHUD.prefab",
+        "new": "Assets/_Game/Prefabs/UI/MissionHUD.prefab"
+      }
+    ]
+  },
+  {
+    "path": "Assets/_Game/Scripts/Editor/Art/Phase26AudioSetup.cs",
+    "replacements": [
+      {
+        "old": "Assets/_Game/Audio/Phase26",
+        "new": "Assets/_Game/Audio/World"
+      }
+    ]
+  },
+  {
+    "path": "Assets/_Game/Scripts/Editor/Art/Phase26VisualRebuild.cs",
+    "replacements": [
+      {
+        "old": "Assets/_Game/Data/Phase26",
+        "new": "Assets/_Game/Data/World/Shared"
+      },
+      {
+        "old": "Assets/_Game/Data/Phase256",
+        "new": "Assets/_Game/Data/Housing"
+      }
+    ]
+  },
+  {
+    "path": "Assets/_Game/Scripts/Editor/Art/PixelAssetBuilder.cs",
+    "replacements": [
+      {
+        "old": "Assets/_Game/UI/IanKoreanSDF.asset",
+        "new": "Assets/_Game/UI/Fonts/IanKoreanSDF.asset"
+      }
+    ]
+  },
+  {
+    "path": "Assets/_Game/Scripts/Editor/Art/BathroomArtReconstruction.cs",
+    "replacements": [
+      {
+        "old": "Assets/_Game/Data/InteriorReconstruction",
+        "new": "Assets/_Game/Data/World/Interiors"
+      },
+      {
+        "old": "Assets/_Game/Art/InteriorReconstruction",
+        "new": "Assets/_Game/Art/Interiors/FamilyBathroom"
+      },
+      {
+        "old": "Assets/_Game/Data/Phase26",
+        "new": "Assets/_Game/Data/World/Shared"
+      },
+      {
+        "old": "Assets/_Game/Data/SceneArchitecture",
+        "new": "Assets/_Game/Data/SceneManagement/Rooms"
+      }
+    ]
+  },
+  {
+    "path": "Assets/_Game/Scripts/Editor/Art/Phase26ArtSetup.cs",
+    "replacements": [
+      {
+        "old": "Assets/_Game/Data/Phase26",
+        "new": "Assets/_Game/Data/World/Shared"
+      },
+      {
+        "old": "Assets/_Game/Data/Phase26",
+        "new": "Assets/_Game/Data/World/Shared"
+      },
+      {
+        "old": "Assets/_Game/Data/Phase256",
+        "new": "Assets/_Game/Data/Housing"
+      }
+    ]
+  },
+  {
+    "path": "Assets/_Game/Scripts/Editor/Legacy/ConvertTo2D.cs",
+    "replacements": [
+      {
+        "old": "Assets/_Game/Prefabs/Ian2DCharacter.prefab",
+        "new": "Assets/_Game/Prefabs/Characters/Ian2DCharacter.prefab"
+      },
+      {
+        "old": "Assets/_Game/Prefabs/GameHUD.prefab",
+        "new": "Assets/_Game/Prefabs/UI/GameHUD.prefab"
+      }
+    ]
+  },
+  {
+    "path": "Assets/_Game/Scripts/Editor/Legacy/PrototypeBuilder.cs",
+    "replacements": [
+      {
+        "old": "Assets/_Game/UI/IanKoreanSDF.asset",
+        "new": "Assets/_Game/UI/Fonts/IanKoreanSDF.asset"
+      }
+    ]
+  },
+  {
+    "path": "Assets/_Game/Scripts/Editor/Legacy/Stage1Verification.cs",
+    "replacements": [
+      {
+        "old": "Assets/_Game/Prefabs/GameHUD.prefab",
+        "new": "Assets/_Game/Prefabs/UI/GameHUD.prefab"
+      }
+    ]
+  },
+  {
+    "path": "Assets/_Game/Scripts/Editor/Legacy/Scene3DBuilder.cs",
+    "replacements": [
+      {
+        "old": "Assets/_Game/UI/IanKoreanSDF.asset",
+        "new": "Assets/_Game/UI/Fonts/IanKoreanSDF.asset"
+      },
+      {
+        "old": "Assets/_Game/Art/IanPrototype.controller",
+        "new": "Assets/_Game/Animations/Ian/Legacy/IanPrototype.controller"
+      },
+      {
+        "old": "Assets/_Game/Prefabs/IanCharacter.prefab",
+        "new": "Assets/_Game/Prefabs/Characters/IanCharacter.prefab"
+      }
+    ]
+  },
+  {
+    "path": "Assets/_Game/Scripts/Editor/World/AdvancedLifeSetup.cs",
+    "replacements": [
+      {
+        "old": "Assets/_Game/Data/Phase26",
+        "new": "Assets/_Game/Data/World/Shared"
+      }
+    ]
+  },
+  {
+    "path": "Assets/_Game/Scripts/Editor/World/Phase26HomeSetup.cs",
+    "replacements": [
+      {
+        "old": "Assets/_Game/Data/Phase26",
+        "new": "Assets/_Game/Data/World/Shared"
+      },
+      {
+        "old": "Assets/_Game/Data/Phase256",
+        "new": "Assets/_Game/Data/Housing"
+      }
+    ]
+  },
+  {
+    "path": "Assets/_Game/Scripts/Editor/World/Phase30Setup.cs",
+    "replacements": [
+      {
+        "old": "Assets/_Game/Data/Phase30",
+        "new": "Assets/_Game/Data/Presentation"
+      },
+      {
+        "old": "Assets/_Game/Data/SceneArchitecture",
+        "new": "Assets/_Game/Data/SceneManagement/Rooms"
+      },
+      {
+        "old": "Assets/_Game/Data/SceneArchitecture",
+        "new": "Assets/_Game/Data/SceneManagement/Rooms"
+      }
+    ]
+  },
+  {
+    "path": "Assets/_Game/Scripts/Editor/World/WorldQualityRecoverySetup.cs",
+    "replacements": [
+      {
+        "old": "Assets/_Game/Data/Phase26",
+        "new": "Assets/_Game/Data/World/Shared"
+      }
+    ]
+  },
+  {
+    "path": "Assets/_Game/Scripts/Editor/World/RoomVisualSetup.cs",
+    "replacements": [
+      {
+        "old": "Assets/_Game/Data/RoomVisual",
+        "new": "Assets/_Game/Data/World/Rooms"
+      },
+      {
+        "old": "Assets/_Game/Data/SceneArchitecture",
+        "new": "Assets/_Game/Data/SceneManagement/Rooms"
+      }
+    ]
+  },
+  {
+    "path": "Assets/_Game/Scripts/Editor/World/FacilityStandardizationSetup.cs",
+    "replacements": [
+      {
+        "old": "Assets/_Game/Data/Phase26",
+        "new": "Assets/_Game/Data/World/Shared"
+      }
+    ]
+  },
+  {
+    "path": "Assets/_Game/Scripts/Editor/World/LifeWorldBuilder.cs",
+    "replacements": [
+      {
+        "old": "Assets/_Game/Data/Phase26",
+        "new": "Assets/_Game/Data/World/Shared"
+      },
+      {
+        "old": "Assets/_Game/Prefabs/GameContext.prefab",
+        "new": "Assets/_Game/Prefabs/System/GameContext.prefab"
+      },
+      {
+        "old": "Assets/_Game/Prefabs/GameContext.prefab",
+        "new": "Assets/_Game/Prefabs/System/GameContext.prefab"
+      },
+      {
+        "old": "Assets/_Game/Data/Commercial",
+        "new": "Assets/_Game/Data/Presentation/Commercial"
+      }
+    ]
+  },
+  {
+    "path": "Assets/_Game/Scripts/Editor/World/FamilyArchitectureSetup.cs",
+    "replacements": [
+      {
+        "old": "Assets/_Game/Data/Phase26",
+        "new": "Assets/_Game/Data/World/Shared"
+      }
+    ]
+  },
+  {
+    "path": "Assets/_Game/Scripts/Editor/World/SceneArchitectureBuilder.cs",
+    "replacements": [
+      {
+        "old": "Assets/_Game/Data/SceneArchitecture",
+        "new": "Assets/_Game/Data/SceneManagement/Rooms"
+      }
+    ]
+  },
+  {
+    "path": "Assets/_Game/Scripts/Editor/World/SceneArchitectureExport.cs",
+    "replacements": [
+      {
+        "old": "Assets/_Game/Prefabs/SceneResidents",
+        "new": "Assets/_Game/Prefabs/NPC"
+      },
+      {
+        "old": "Assets/_Game/Data/Phase26",
+        "new": "Assets/_Game/Data/World/Shared"
+      },
+      {
+        "old": "Assets/_Game/Data/Phase26",
+        "new": "Assets/_Game/Data/World/Shared"
+      },
+      {
+        "old": "Assets/_Game/Prefabs/SceneResidents",
+        "new": "Assets/_Game/Prefabs/NPC"
+      },
+      {
+        "old": "Assets/_Game/Prefabs/SceneResidents",
+        "new": "Assets/_Game/Prefabs/NPC"
+      },
+      {
+        "old": "Assets/_Game/Prefabs/SceneResidents",
+        "new": "Assets/_Game/Prefabs/NPC"
+      },
+      {
+        "old": "Assets/_Game/Prefabs/SceneResidents",
+        "new": "Assets/_Game/Prefabs/NPC"
+      }
+    ]
+  },
+  {
+    "path": "Assets/_Game/Scripts/Editor/World/AdvancedNPCSetup.cs",
+    "replacements": [
+      {
+        "old": "Assets/_Game/Data/Phase26",
+        "new": "Assets/_Game/Data/World/Shared"
+      }
+    ]
+  },
+  {
+    "path": "Assets/_Game/Scripts/Editor/World/MultiSceneBuilder.cs",
+    "replacements": [
+      {
+        "old": "Assets/_Game/Prefabs/GameContext.prefab",
+        "new": "Assets/_Game/Prefabs/System/GameContext.prefab"
+      },
+      {
+        "old": "Assets/_Game/Prefabs/GameContext.prefab",
+        "new": "Assets/_Game/Prefabs/System/GameContext.prefab"
+      }
+    ]
+  },
+  {
+    "path": "Assets/_Game/Scripts/Editor/World/Phase26InputSetup.cs",
+    "replacements": [
+      {
+        "old": "Assets/_Game/Data/Phase26",
+        "new": "Assets/_Game/Data/World/Shared"
+      }
+    ]
+  },
+  {
+    "path": "Assets/_Game/Scripts/Editor/World/FamilyLifeSetup.cs",
+    "replacements": [
+      {
+        "old": "Assets/_Game/Data/Phase26",
+        "new": "Assets/_Game/Data/World/Shared"
+      }
+    ]
+  },
+  {
+    "path": "Assets/_Game/Scripts/Editor/Build/ReleaseFoundationSetup.cs",
+    "replacements": [
+      {
+        "old": "Assets/_Game/Data/Phase30",
+        "new": "Assets/_Game/Data/Presentation"
+      }
+    ]
+  },
+  {
+    "path": "Assets/_Game/Scripts/Editor/Characters/Phase31Setup.cs",
+    "replacements": [
+      {
+        "old": "Assets/_Game/Data/Phase31",
+        "new": "Assets/_Game/Data/Characters/Ian/YoungAdult"
+      }
+    ]
+  },
+  {
+    "path": "Assets/_Game/Scripts/Editor/Characters/Phase31Setup.Production.cs",
+    "replacements": [
+      {
+        "old": "Assets/_Game/Data/Phase31",
+        "new": "Assets/_Game/Data/Characters/Ian/YoungAdult"
+      },
+      {
+        "old": "Assets/_Game/Art/Phase31",
+        "new": "Assets/_Game/Art/Characters/Ian/YoungAdult/Life"
+      },
+      {
+        "old": "Assets/_Game/Data/Phase26",
+        "new": "Assets/_Game/Data/World/Shared"
+      },
+      {
+        "old": "Assets/_Game/Data/SceneArchitecture",
+        "new": "Assets/_Game/Data/SceneManagement/Rooms"
+      },
+      {
+        "old": "Assets/_Game/Art/Phase31",
+        "new": "Assets/_Game/Art/Characters/Ian/YoungAdult/Life"
+      },
+      {
+        "old": "Assets/_Game/Art/Phase31",
+        "new": "Assets/_Game/Art/Characters/Ian/YoungAdult/Life"
+      },
+      {
+        "old": "Assets/_Game/Data/Phase26",
+        "new": "Assets/_Game/Data/World/Shared"
+      }
+    ]
+  },
+  {
+    "path": "Assets/_Game/Scripts/Editor/Characters/GrowthVisualSetup.cs",
+    "replacements": [
+      {
+        "old": "Assets/_Game/Data/AgeGrowth",
+        "new": "Assets/_Game/Data/Characters/Growth"
+      },
+      {
+        "old": "Assets/_Game/Art/AgeGrowth",
+        "new": "Assets/_Game/Art/Characters/Ian/Growth"
+      },
+      {
+        "old": "Assets/_Game/Data/SceneArchitecture",
+        "new": "Assets/_Game/Data/SceneManagement/Rooms"
+      },
+      {
+        "old": "Assets/_Game/Data/SceneArchitecture",
+        "new": "Assets/_Game/Data/SceneManagement/Rooms"
+      }
+    ]
+  },
+  {
+    "path": "Assets/_Game/Scripts/Editor/Characters/Phase31Atlas.cs",
+    "replacements": [
+      {
+        "old": "Assets/_Game/Data/Phase31",
+        "new": "Assets/_Game/Data/Characters/Ian/YoungAdult"
+      },
+      {
+        "old": "Assets/_Game/Art/Phase31",
+        "new": "Assets/_Game/Art/Characters/Ian/YoungAdult/Life"
+      }
+    ]
+  },
+  {
+    "path": "Assets/_Game/Scripts/Editor/Characters/Phase26WalkSetup.cs",
+    "replacements": [
+      {
+        "old": "Assets/_Game/Art/Characters/Ian/Animations/WorldWalkAtlas.png",
+        "new": "Assets/_Game/Art/Characters/Ian/Locomotion/WorldWalkAtlas.png"
+      },
+      {
+        "old": "Assets/_Game/Data/Phase26",
+        "new": "Assets/_Game/Data/World/Shared"
+      },
+      {
+        "old": "Assets/_Game/Art/Characters/Ian/Animations",
+        "new": "Assets/_Game/Animations/Ian/Locomotion"
+      }
+    ]
+  },
+  {
+    "path": "Assets/_Game/Scripts/Editor/Data/Phase24Builder.cs",
+    "replacements": [
+      {
+        "old": "Assets/_Game/Data/Phase24",
+        "new": "Assets/_Game/Data/Idle"
+      },
+      {
+        "old": "Assets/_Game/Data/Commercial",
+        "new": "Assets/_Game/Data/Presentation/Commercial"
+      },
+      {
+        "old": "Assets/_Game/Prefabs/GameContext.prefab",
+        "new": "Assets/_Game/Prefabs/System/GameContext.prefab"
+      },
+      {
+        "old": "Assets/_Game/Prefabs/GameContext.prefab",
+        "new": "Assets/_Game/Prefabs/System/GameContext.prefab"
+      },
+      {
+        "old": "Assets/_Game/Prefabs/GameContext.prefab",
+        "new": "Assets/_Game/Prefabs/System/GameContext.prefab"
+      },
+      {
+        "old": "Assets/_Game/Prefabs/GameContext.prefab",
+        "new": "Assets/_Game/Prefabs/System/GameContext.prefab"
+      }
+    ]
+  },
+  {
+    "path": "Assets/_Game/Scripts/Editor/Data/Phase29Setup.cs",
+    "replacements": [
+      {
+        "old": "Assets/_Game/Data/SceneArchitecture",
+        "new": "Assets/_Game/Data/SceneManagement/Rooms"
+      }
+    ]
+  },
+  {
+    "path": "Assets/_Game/Scripts/Editor/Data/Phase256Builder.cs",
+    "replacements": [
+      {
+        "old": "Assets/_Game/Data/Phase256",
+        "new": "Assets/_Game/Data/Housing"
+      },
+      {
+        "old": "Assets/_Game/Prefabs/GameContext.prefab",
+        "new": "Assets/_Game/Prefabs/System/GameContext.prefab"
+      },
+      {
+        "old": "Assets/_Game/Prefabs/GameContext.prefab",
+        "new": "Assets/_Game/Prefabs/System/GameContext.prefab"
+      }
+    ]
+  },
+  {
+    "path": "Assets/_Game/Scripts/Editor/Data/Phase28Setup.cs",
+    "replacements": [
+      {
+        "old": "Assets/_Game/Data/SceneArchitecture",
+        "new": "Assets/_Game/Data/SceneManagement/Rooms"
+      },
+      {
+        "old": "Assets/_Game/Data/Phase28",
+        "new": "Assets/_Game/Data/City"
+      }
+    ]
+  },
+  {
+    "path": "Assets/_Game/Scripts/Editor/Data/Phase25Builder.cs",
+    "replacements": [
+      {
+        "old": "Assets/_Game/Data/Phase25",
+        "new": "Assets/_Game/Data/Economy"
+      },
+      {
+        "old": "Assets/_Game/Prefabs/GameContext.prefab",
+        "new": "Assets/_Game/Prefabs/System/GameContext.prefab"
+      },
+      {
+        "old": "Assets/_Game/Prefabs/GameContext.prefab",
+        "new": "Assets/_Game/Prefabs/System/GameContext.prefab"
+      }
+    ]
+  },
+  {
+    "path": "Assets/_Game/Scripts/Editor/Data/Phase23Builder.cs",
+    "replacements": [
+      {
+        "old": "Assets/_Game/Data/Phase23",
+        "new": "Assets/_Game/Data/LifeActivities"
+      },
+      {
+        "old": "Assets/_Game/Prefabs/GameContext.prefab",
+        "new": "Assets/_Game/Prefabs/System/GameContext.prefab"
+      },
+      {
+        "old": "Assets/_Game/Prefabs/GameHUD.prefab",
+        "new": "Assets/_Game/Prefabs/UI/GameHUD.prefab"
+      }
+    ]
+  },
+  {
+    "path": "Assets/_Game/Scripts/Editor/Data/Phase27Builder.cs",
+    "replacements": [
+      {
+        "old": "Assets/_Game/Data/Phase27",
+        "new": "Assets/_Game/Data/Housing/Property"
+      },
+      {
+        "old": "Assets/_Game/Data/Phase256",
+        "new": "Assets/_Game/Data/Housing"
+      },
+      {
+        "old": "Assets/_Game/Prefabs/GameContext.prefab",
+        "new": "Assets/_Game/Prefabs/System/GameContext.prefab"
+      },
+      {
+        "old": "Assets/_Game/Prefabs/GameContext.prefab",
+        "new": "Assets/_Game/Prefabs/System/GameContext.prefab"
+      }
+    ]
+  },
+  {
+    "path": "Assets/_Game/Scripts/Development/Verification/PixelUIRunner.cs",
+    "replacements": [
+      {
+        "old": "Assets/_Game/Data/Phase23",
+        "new": "Assets/_Game/Data/LifeActivities"
+      }
+    ]
+  },
+  {
+    "path": "Assets/_Game/Scripts/Development/Verification/FamilyArchitectureVerification.cs",
+    "replacements": [
+      {
+        "old": "Assets/_Game/Data/Phase26",
+        "new": "Assets/_Game/Data/World/Shared"
+      }
+    ]
+  },
+  {
+    "path": "Assets/_Game/Scripts/Development/Verification/Phase23Runner.cs",
+    "replacements": [
+      {
+        "old": "Assets/_Game/Data/Phase23",
+        "new": "Assets/_Game/Data/LifeActivities"
+      }
+    ]
+  },
+  {
+    "path": "Assets/_Game/Scripts/Development/Verification/Phase24Verification.cs",
+    "replacements": [
+      {
+        "old": "Assets/_Game/Data/Phase24",
+        "new": "Assets/_Game/Data/Idle"
+      }
+    ]
+  },
+  {
+    "path": "Assets/_Game/Scripts/Development/Verification/Phase31Verification.cs",
+    "replacements": [
+      {
+        "old": "Assets/_Game/Data/Phase31",
+        "new": "Assets/_Game/Data/Characters/Ian/YoungAdult"
+      }
+    ]
+  },
+  {
+    "path": "Assets/_Game/Tests/PlayMode/GrowthVisualCatalogTests.cs",
+    "replacements": [
+      {
+        "old": "Assets/_Game/Data/AgeGrowth",
+        "new": "Assets/_Game/Data/Characters/Growth"
+      }
+    ]
+  },
+  {
+    "path": "Assets/_Game/Scripts/Editor/UI/PixelUIFontBuilder.cs",
+    "replacements": [
+      {
+        "old": "PixelUI/",
+        "new": "UI/Pixel/"
+      }
+    ]
+  }
+]

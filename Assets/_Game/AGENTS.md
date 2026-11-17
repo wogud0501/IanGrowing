@@ -14,3 +14,9 @@ Wrap long conditions, calls, LINQ chains and nested ternaries naturally, targeti
 Preserve serialized/public names, expression grouping, literals, coroutine order and existing gameplay behavior.
 Follow `/Docs/CODE_STYLE.md` and the root `.editorconfig` for all new and modified project C# files.
 External vendor/package code and genuinely generated `.g.cs` / `.generated.cs` files are excluded.
+
+# Project file organization
+Follow `/Docs/PROJECT_STRUCTURE.md` for project-owned scripts and assets.
+Use Unity AssetDatabase to move assets while preserving original GUIDs and `.meta` files.
+Preserve existing Editor/test assembly boundaries, Resources keys and scene IDs.
+Do not automatically delete apparently unused assets; record uncertain candidates for review.

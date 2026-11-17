@@ -1,0 +1,386 @@
+using System;
+using System.IO;
+using UnityEditor;
+using UnityEngine;
+
+namespace IanGame.Editor
+{
+    public static class PixelAssetBuilder
+    {
+        public const string Folder = "Assets/_Game/UI/Pixel/";
+        static Color Ink = new Color32(28, 38, 58, 255);
+        static Color Cream = new Color32(255, 241, 207, 255);
+        static Color Gold = new Color32(240, 188, 99, 255);
+        static Color Blue = new Color32(106, 153, 173, 255);
+
+        static Sprite Texture(string name, int width, int height, Color[] pixels, int border = 0)
+        {
+            string path = Folder + name + ".png";
+            var texture = new Texture2D(width, height, TextureFormat.RGBA32, false);
+            texture.SetPixels(pixels);
+            texture.Apply();
+            File.WriteAllBytes(path, texture.EncodeToPNG());
+            UnityEngine.Object.DestroyImmediate(texture);
+            AssetDatabase.ImportAsset(path);
+            var importer = (TextureImporter)AssetImporter.GetAtPath(path);
+            importer.textureType = TextureImporterType.Sprite;
+            importer.spriteImportMode = SpriteImportMode.Single;
+            importer.spritePixelsPerUnit = 100;
+            importer.filterMode = FilterMode.Point;
+            importer.mipmapEnabled = false;
+            importer.textureCompression = TextureImporterCompression.Uncompressed;
+            importer.spriteBorder = new Vector4(border, border, border, border);
+            importer.alphaIsTransparency = true;
+            importer.SaveAndReimport();
+            return AssetDatabase.LoadAssetAtPath<Sprite>(path);
+        }
+
+        static Sprite Frame(string name, Color fill, bool pressed = false)
+        {
+            const int w = 32,
+                h = 32;
+            var pixels = new Color[w * h];
+            for (int y = 0; y < h; y++)
+            {
+                for (int x = 0; x < w; x++)
+                {
+                    int edge = Mathf.Min(x, y, w - 1 - x, h - 1 - y);
+                    bool corner =
+                        (x < 2 && y < 2)
+                        || (x >= w - 2 && y < 2)
+                        || (x < 2 && y >= h - 2)
+                        || (x >= w - 2 && y >= h - 2);
+                    if (corner)
+                    {
+                        pixels[y * w + x] = Color.clear;
+                        continue;
+                    }
+
+                    Color c = fill;
+                    if (edge <= 1)
+                    {
+                        c = Ink;
+                    }
+                    else if (edge == 2)
+                    {
+                        c = y > h / 2 ? Color.Lerp(fill, Color.white, .45f) : Color.Lerp(fill, Ink, .35f);
+                    }
+                    else if (edge == 3)
+                    {
+                        c = Color.Lerp(fill, Ink, .15f);
+                    }
+
+                    if ((x == 4 || x == w - 5) && (y == 4 || y == h - 5))
+                    {
+                        c = Color.Lerp(fill, Ink, .55f);
+                    }
+
+                    if (pressed && y == h - 4)
+                    {
+                        c = Color.Lerp(fill, Ink, .45f);
+                    }
+
+                    pixels[y * w + x] = c;
+                }
+            }
+
+            return Texture(name, w, h, pixels, 6);
+        }
+
+        static Sprite Icon(string name, string[] pattern)
+        {
+            int w = 16;
+            var pixels = new Color[256];
+            for (int row = 0; row < Mathf.Min(16, pattern.Length); row++)
+            {
+                for (int x = 0; x < Mathf.Min(w, pattern[row].Length); x++)
+                {
+                    char c = pattern[row][x];
+                    pixels[(15 - row) * 16 + x] =
+                        c == '#' ? Ink
+                        : c == 'g' ? Gold
+                        : c == 'w' ? Cream
+                        : c == 'b' ? Blue
+                        : c == 'r' ? new Color32(220, 119, 91, 255)
+                        : c == 'm' ? new Color32(127, 182, 150, 255)
+                        : Color.clear;
+                }
+            }
+
+            return Texture("Icon-" + name, 16, 16, pixels);
+        }
+
+        public static PixelUITheme Build()
+        {
+            Directory.CreateDirectory(Folder);
+            string path = Folder + "PixelTheme.asset";
+            var theme = AssetDatabase.LoadAssetAtPath<PixelUITheme>(path);
+            if (theme == null)
+            {
+                theme = ScriptableObject.CreateInstance<PixelUITheme>();
+                AssetDatabase.CreateAsset(theme, path);
+            }
+
+            var pixelFont = AssetDatabase.LoadAssetAtPath<TMPro.TMP_FontAsset>(
+                Folder + "Fonts/IanPixelKoreanSDF.asset"
+            );
+            theme.font =
+                pixelFont != null
+                    ? pixelFont
+                    : AssetDatabase.LoadAssetAtPath<TMPro.TMP_FontAsset>("Assets/_Game/UI/Fonts/IanKoreanSDF.asset");
+            theme.panel = Frame("Panel-Parchment", Cream);
+            theme.panelDark = Frame("Panel-Night", Ink);
+            theme.panelBlue = Frame("Panel-Teal", Blue);
+            theme.button = Frame("Button-Normal", Cream);
+            theme.hover = Frame("Button-Hover", Gold);
+            theme.pressed = Frame("Button-Pressed", new Color32(211, 162, 86, 255), true);
+            theme.disabled = Frame("Button-Disabled", new Color32(155, 151, 140, 255));
+            theme.tab = Frame("Tab-Selected", new Color32(127, 182, 150, 255));
+            theme.track = Frame("Gauge-Track", new Color32(66, 79, 96, 255));
+            theme.fill = Frame("Gauge-Fill", new Color32(127, 182, 150, 255));
+            string[][] art =
+            {
+                new[]
+                {
+                    "................",
+                    ".....######.....",
+                    "...##gggggg##...",
+                    "..#ggwwgggggg#..",
+                    "..#gwgggggggg#..",
+                    ".#gggg##gggggg#.",
+                    ".#ggg#gg#ggggg#.",
+                    ".#gggg#ggggggg#.",
+                    ".#ggggg#gggggg#.",
+                    ".#ggg#gg#ggggg#.",
+                    "..#ggg##ggggg#..",
+                    "..#gggggggggg#..",
+                    "...##gggggg##...",
+                    ".....######.....",
+                },
+                new[]
+                {
+                    "................",
+                    "..###....###....",
+                    ".#rrr#..#rrr#...",
+                    "#rwwrr##rrrrr#..",
+                    "#rwrrrrrrrrrr#..",
+                    "#rrrrrrrrrrrr#..",
+                    ".#rrrrrrrrrr#...",
+                    "..#rrrrrrrr#....",
+                    "...#rrrrrr#.....",
+                    "....#rrrr#......",
+                    ".....#rr#.......",
+                    "......##........",
+                },
+                new[]
+                {
+                    ".......#........",
+                    "......#b#.......",
+                    ".....#bbb#......",
+                    ".....#bwb#......",
+                    "....#bbwbb#.....",
+                    "...#bbwwbbb#....",
+                    "...#bbwwbbb#....",
+                    "..#bbbwwbbbb#...",
+                    "..#bbbbbbbbb#...",
+                    "..#bbbbbbbbb#...",
+                    "...#bbbbbbb#....",
+                    "....#######.....",
+                },
+                new[]
+                {
+                    "..#.#.#..###....",
+                    "..#.#.#..#g#....",
+                    "..#####..#g#....",
+                    "....#....#g#....",
+                    "....#....###....",
+                    "....#.....#.....",
+                    "....#.....#.....",
+                    "....#.....#.....",
+                    "....#.....#.....",
+                    "....#.....#.....",
+                    "....#.....#.....",
+                    "....#.....#.....",
+                },
+                new[]
+                {
+                    "......####......",
+                    "....##gg#.......",
+                    "...#ggg#........",
+                    "..#gggg#........",
+                    "..#gggg#........",
+                    ".#ggggg#........",
+                    ".#gggggg#.......",
+                    ".#ggggggg##.....",
+                    "..#gggggggg###..",
+                    "...#ggggggggg#..",
+                    "....##ggggg##...",
+                    "......#####.....",
+                },
+                new[]
+                {
+                    "................",
+                    ".#####.#####....",
+                    ".#www###www#....",
+                    ".#www###www#....",
+                    ".#w#w###w#w#....",
+                    ".#www###www#....",
+                    ".#w#w###w#w#....",
+                    ".#www###www#....",
+                    ".#www###www#....",
+                    ".###########....",
+                    ".....###........",
+                },
+                new[]
+                {
+                    "................",
+                    "..###########...",
+                    ".#wwwwwwwwwww#..",
+                    ".#w#w#w#w#www#..",
+                    ".#wwwwwwwwwww#..",
+                    ".#wwwwwwwwwww#..",
+                    "..#####ww####...",
+                    ".......w#.......",
+                    "......w#........",
+                    ".....##.........",
+                },
+                new[]
+                {
+                    "................",
+                    ".....######.....",
+                    ".....#wwww#.....",
+                    "..############..",
+                    "..#bbbbbbbbbb#..",
+                    "..#bbbbbbbbbb#..",
+                    "..#####ww#####..",
+                    "..#bbbbwwbbbb#..",
+                    "..#bbbbbbbbbb#..",
+                    "..############..",
+                },
+                new[]
+                {
+                    ".......#........",
+                    "......#r#.......",
+                    ".....#rrr#......",
+                    "....#rrrrr#.....",
+                    "...#rrrrrrr#....",
+                    "..#rrrrrrrrr#...",
+                    ".#############..",
+                    "...#wwwwwww#....",
+                    "...#ww##www#....",
+                    "...#ww##www#....",
+                    "...#ww##www#....",
+                    "...#########....",
+                },
+                new[]
+                {
+                    "................",
+                    ".....######.....",
+                    "....#mmmmmm#....",
+                    "....#mmwwmm#....",
+                    "....#mmwwmm#....",
+                    "....#mmwwmm#....",
+                    "....#mmwwmm#....",
+                    "....#mmmmmm#....",
+                    ".....######.....",
+                    ".......##.......",
+                    ".....######.....",
+                    ".....######.....",
+                },
+                new[]
+                {
+                    ".......##.......",
+                    "......#mm#......",
+                    ".....#mmmm#.....",
+                    "......#mm#......",
+                    "......#mm#......",
+                    "......#mm#......",
+                    "..##########....",
+                    "..#mmmmmmmm#....",
+                    "..##########....",
+                    "......##........",
+                    "......##........",
+                    "......##........",
+                },
+                new[]
+                {
+                    "................",
+                    "...#.......#....",
+                    "..#g#.....#b#...",
+                    ".#####...#####..",
+                    "...#.......#....",
+                    "...#########....",
+                    ".......#........",
+                    ".......#........",
+                    "......#r#.......",
+                    ".....#####......",
+                    ".......#........",
+                },
+                new[]
+                {
+                    "......####......",
+                    "..##..#ww#..##..",
+                    "..#w##wwww##w#..",
+                    "..#wwwwwwwwww#..",
+                    "...#ww####ww#...",
+                    "###www#..#www###",
+                    "#wwwww#..#wwwww#",
+                    "###www####www###",
+                    "...#wwwwwwww#...",
+                    "..#wwwwwwwwww#..",
+                    "..#w##wwww##w#..",
+                    "..##..#ww#..##..",
+                    "......####......",
+                },
+                new[]
+                {
+                    "................",
+                    "...#########....",
+                    "...#ggggggg#....",
+                    "...#gw#wgwg#....",
+                    "...#ggggggg#....",
+                    "...#g#####g#....",
+                    "...#ggggggg#....",
+                    "...#g#####g#....",
+                    "...#ggggggg#....",
+                    "...#########....",
+                },
+                new[]
+                {
+                    "................",
+                    "...##...........",
+                    "...#g##.........",
+                    "...#ggg##.......",
+                    "...#ggggg##.....",
+                    "...#ggggggg#....",
+                    "...#ggggg##.....",
+                    "...#ggg##.......",
+                    "...#g##.........",
+                    "...##...........",
+                },
+                new[]
+                {
+                    ".......#........",
+                    "......#g#.......",
+                    ".....#ggg#......",
+                    "....#gg#gg#.....",
+                    "...#ggg#ggg#....",
+                    "..#gggg#gggg#...",
+                    ".#ggggg#ggggg#..",
+                    ".#ggggggggggg#..",
+                    ".#ggggg#ggggg#..",
+                    ".#############..",
+                },
+            };
+            theme.icons = new Sprite[16];
+            for (int i = 0; i < 16; i++)
+            {
+                theme.icons[i] = Icon(((PixelIcon)i).ToString(), art[i]);
+            }
+
+            EditorUtility.SetDirty(theme);
+            AssetDatabase.SaveAssets();
+            return theme;
+        }
+    }
+}

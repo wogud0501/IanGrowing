@@ -37,3 +37,7 @@
 *.mobileprovision
 .env.release*
 /DevelopmentBackups/Release-20261117/
+
+# Authored Editor build tools are source, not generated build output.
+!/Assets/_Game/Scripts/Editor/Build/
+!/Assets/_Game/Scripts/Editor/Build/**

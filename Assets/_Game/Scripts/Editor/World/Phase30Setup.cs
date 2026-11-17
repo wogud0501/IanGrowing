@@ -1,0 +1,877 @@
+#if UNITY_EDITOR
+using System;
+using System.IO;
+using System.Linq;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEditor;
+using UnityEditor.SceneManagement;
+
+namespace IanGame.Editor
+{
+    public static class Phase30Setup
+    {
+        const string Data = "Assets/_Game/Data/Presentation/";
+        const string Art = "Assets/_Game/Art/Phase30/";
+        static Material Material =>
+            AssetDatabase.LoadAssetAtPath<Material>("Assets/_Game/Art/VisualRebuild/WorldAlphaCut.mat");
+
+        static T Save<T>(T value, string name)
+            where T : UnityEngine.Object
+        {
+            var path = Data + name + ".asset";
+            var old = AssetDatabase.LoadAssetAtPath<T>(path);
+            if (old == null)
+            {
+                AssetDatabase.CreateAsset(value, path);
+                return value;
+            }
+
+            EditorUtility.CopySerialized(value, old);
+            UnityEngine.Object.DestroyImmediate(value);
+            EditorUtility.SetDirty(old);
+            return old;
+        }
+
+        static Texture2D Read(string name)
+        {
+            string path = Art + name + ".png";
+            AssetDatabase.ImportAsset(path, ImportAssetOptions.ForceSynchronousImport);
+            var i = (TextureImporter)AssetImporter.GetAtPath(path);
+            i.textureType = TextureImporterType.Sprite;
+            i.textureCompression = TextureImporterCompression.Uncompressed;
+            i.filterMode = FilterMode.Point;
+            i.mipmapEnabled = false;
+            i.npotScale = TextureImporterNPOTScale.None;
+            i.maxTextureSize = 2048;
+            i.isReadable = true;
+            i.alphaIsTransparency = true;
+            i.SaveAndReimport();
+            return AssetDatabase.LoadAssetAtPath<Texture2D>(path);
+        }
+
+        static Rect Cell(Texture2D t, int row, int col, int columns = 8, int rows = 8)
+        {
+            int x = col * t.width / columns,
+                y = (rows - row - 1) * t.height / rows;
+            return new Rect(x, y, (col + 1) * t.width / columns - x, (rows - row) * t.height / rows - y);
+        }
+
+        static Rect Opaque(Texture2D t, Rect cell)
+        {
+            var pixels = t.GetPixels32();
+            int l = (int)cell.xMax,
+                r = (int)cell.xMin,
+                b = (int)cell.yMax,
+                top = (int)cell.yMin;
+            for (int y = (int)cell.yMin; y < cell.yMax; y++)
+            {
+                for (int x = (int)cell.xMin; x < cell.xMax; x++)
+                {
+                    if (pixels[y * t.width + x].a > 180)
+                    {
+                        l = Math.Min(l, x);
+                        r = Math.Max(r, x);
+                        b = Math.Min(b, y);
+                        top = Math.Max(top, y);
+                    }
+                }
+            }
+
+            if (r <= l || top <= b)
+            {
+                throw new Exception("Empty art cell " + t.name + cell);
+            }
+
+            return Rect.MinMaxRect(l, b, r + 1, top + 1);
+        }
+
+        static Sprite Slice(Texture2D t, string name, Rect rect, float ppu, bool center = false)
+        {
+            var s = Sprite.Create(t, rect, new Vector2(.5f, center ? .5f : 0), ppu, 0, SpriteMeshType.FullRect);
+            s.name = name;
+            return Save(s, name);
+        }
+
+        [MenuItem("Ian/Phase 3.0/Build reviewed age and interior assets")]
+        public static void BuildAssets()
+        {
+            if (Application.isPlaying)
+            {
+                throw new Exception("Stop Play first");
+            }
+
+            Directory.CreateDirectory(Data);
+            BuildSurfaces();
+            BuildAge("Ian_MiddleAge", VisualGrowthStage.MiddleAge, 30, 59, 1.74f);
+            BuildAge("Ian_Elder", VisualGrowthStage.Elder, 60, int.MaxValue, 1.56f);
+            var cat = GrowthVisualSetup.Catalog;
+            cat.profiles.First(p => p.stage == VisualGrowthStage.Adult).maxAge = 29;
+            EditorUtility.SetDirty(cat);
+            AssetDatabase.SaveAssets();
+            foreach (var file in new[] { "Ian_MiddleAge", "Ian_Elder", "InteriorSurfaces_Source" })
+            {
+                var i = (TextureImporter)AssetImporter.GetAtPath(Art + file + ".png");
+                i.isReadable = false;
+                i.SaveAndReimport();
+            }
+        }
+
+        static void BuildAge(string name, VisualGrowthStage stage, int min, int max, float height)
+        {
+            var t = Read(name);
+            var cat = GrowthVisualSetup.Catalog;
+            var sample = Opaque(t, Cell(t, 0, 0));
+            float ppu = sample.height * .8f / height;
+            var sprites = new Sprite[8, 8];
+            for (int y = 0; y < 8; y++)
+            {
+                for (int x = 0; x < 8; x++)
+                {
+                    sprites[y, x] = Slice(t, name + "_" + y + "_" + x, Opaque(t, Cell(t, y, x)), ppu, y == 4 && x < 2);
+                }
+            }
+
+            var clips = new List<ActorSpriteClip>();
+            void Clip(
+                ActorMotion motion,
+                int row,
+                int start,
+                int count,
+                bool loop,
+                ActorDirection direction = ActorDirection.Down
+            )
+            {
+                clips.Add(
+                    new ActorSpriteClip
+                    {
+                        motion = motion,
+                        direction = direction,
+                        frames = Enumerable.Range(start, count).Select(x => sprites[row, x]).ToArray(),
+                        loop = loop,
+                        framesPerSecond = motion == ActorMotion.Idle ? 2 : 6,
+                        strideLength = height * 1.2f,
+                    }
+                );
+            }
+
+            for (int d = 0; d < 4; d++)
+            {
+                Clip(ActorMotion.Idle, d, 0, 2, true, (ActorDirection)d);
+                Clip(ActorMotion.Walk, d, 2, 3, true, (ActorDirection)d);
+                Clip(ActorMotion.Run, d, 5, 3, true, (ActorDirection)d);
+                Clip(ActorMotion.Turn, d, 0, 2, false, (ActorDirection)d);
+                Clip(ActorMotion.Stop, d, 0, 2, false, (ActorDirection)d);
+            }
+
+            Clip(ActorMotion.Sleep, 4, 0, 2, true);
+            Clip(ActorMotion.WakeUp, 4, 2, 2, false);
+            Clip(ActorMotion.SitDown, 4, 4, 2, true);
+            Clip(ActorMotion.StandUp, 4, 6, 2, false);
+            var motions = new[]
+            {
+                ActorMotion.Eat,
+                ActorMotion.Drink,
+                ActorMotion.WashFace,
+                ActorMotion.Shower,
+                ActorMotion.Study,
+                ActorMotion.UseComputer,
+                ActorMotion.OpenDoor,
+                ActorMotion.PickUpItem,
+                ActorMotion.Tired,
+                ActorMotion.Talk,
+                ActorMotion.UsePhone,
+                ActorMotion.Interact,
+            };
+            for (int a = 0; a < motions.Length; a++)
+            {
+                Clip(motions[a], 5 + a / 4, (a % 4) * 2, 2, true);
+            }
+
+            // Explicit aliases share authored art; not claimed as separate new motions.
+            Clip(ActorMotion.Work, 6, 2, 2, true);
+            Clip(ActorMotion.PutDownItem, 6, 6, 2, false);
+            var bank = ScriptableObject.CreateInstance<ActorAnimationSet>();
+            bank.ageScoped = true;
+            bank.clips = clips.ToArray();
+            bank = Save(bank, name + "_Animations");
+            var profile = new GrowthVisualProfile
+            {
+                stage = stage,
+                id = stage.ToString(),
+                minAge = min,
+                maxAge = max,
+                height = height,
+                colliderRadius = .21f,
+                speedFactor = 1,
+                stride = height * 1.2f,
+                hand = Vector2.up * height * .45f,
+                eye = Vector2.up * height * .82f,
+                animations = bank,
+                idlePreview = sprites[0, 0],
+                sleepHorizontal = true,
+                artNotes =
+                    "Phase30 original generated age atlas. Four-way Idle/Walk/FastWalk; actions authored Down only. Turn/Stop reuse idle, Work uses typing, PutDown uses pickup. No new gameplay unlocks.",
+            };
+            cat.profiles = cat
+                .profiles.Where(p => p.stage != stage)
+                .Concat(new[] { profile })
+                .OrderBy(p => p.minAge)
+                .ToArray();
+            EditorUtility.SetDirty(cat);
+        }
+
+        static void BuildSurfaces()
+        {
+            var source = Read("InteriorSurfaces_Source");
+            var names = new[]
+            {
+                "MutedOak",
+                "WhitePlaster",
+                "FamilyCeramic",
+                "WhiteSkirting",
+                "CutawayMaterial",
+                "FamilyTileWall",
+            };
+            for (int n = 0; n < 6; n++)
+            {
+                var cell = Cell(source, n / 3, n % 3, 3, 2);
+                var rect = new Rect(
+                    cell.x + cell.width * .085f,
+                    cell.y + cell.height * .085f,
+                    cell.width * .83f,
+                    cell.height * .83f
+                );
+                const int size = 128;
+                var t = new Texture2D(size, size, TextureFormat.RGBA32, false);
+                var src = source.GetPixels32();
+                var dst = new Color32[size * size];
+                for (int y = 0; y < size; y++)
+                {
+                    for (int x = 0; x < size; x++)
+                    {
+                        var pixel = src[
+                            Mathf.Clamp((int)(rect.y + (y + .5f) / size * rect.height), 0, source.height - 1)
+                                * source.width
+                                + Mathf.Clamp((int)(rect.x + (x + .5f) / size * rect.width), 0, source.width - 1)
+                        ];
+                        pixel.a = 255;
+                        dst[y * size + x] = pixel;
+                    }
+                }
+
+                t.SetPixels32(dst);
+                t.Apply();
+                string path = Art + names[n] + ".png";
+                File.WriteAllBytes(path, t.EncodeToPNG());
+                UnityEngine.Object.DestroyImmediate(t);
+                AssetDatabase.ImportAsset(path, ImportAssetOptions.ForceSynchronousImport);
+                var i = (TextureImporter)AssetImporter.GetAtPath(path);
+                i.textureType = TextureImporterType.Sprite;
+                i.spriteImportMode = SpriteImportMode.Single;
+                i.spritePixelsPerUnit = n == 4 ? 128 : 64;
+                i.filterMode = FilterMode.Point;
+                i.mipmapEnabled = false;
+                i.textureCompression = TextureImporterCompression.Uncompressed;
+                i.alphaIsTransparency = true;
+                i.wrapMode = TextureWrapMode.Clamp;
+                i.SaveAndReimport();
+            }
+        }
+
+        static Sprite ArtSprite(string name) => AssetDatabase.LoadAssetAtPath<Sprite>(Art + name + ".png");
+
+        [MenuItem("Ian/Phase 3.0/Bind distinct collection item artwork")]
+        public static void BindItemIcons()
+        {
+            if (Application.isPlaying)
+            {
+                throw new Exception("Stop Play first");
+            }
+
+            var texture = Read("CollectionItems");
+            string[] ids =
+            {
+                "starter-equipment",
+                "desk-charm",
+                "work-badge",
+                "overtime-guard",
+                "equipment-redline",
+                "drink-water",
+                "drink-tea",
+                "drink-coffee",
+                "costume-daily",
+                "gacha-ticket",
+                "collection-scrap",
+            };
+            var catalog = AssetDatabase.LoadAssetAtPath<ItemCatalog>("Assets/Resources/IanCollection.asset");
+            for (int n = 0; n < ids.Length; n++)
+            {
+                var rect = Opaque(texture, Cell(texture, n / 3, n % 3, 3, 4));
+                catalog.Item(ids[n]).icon = Slice(
+                    texture,
+                    "CollectionIcon_" + ids[n],
+                    rect,
+                    Mathf.Max(rect.width, rect.height) / 2,
+                    true
+                );
+            }
+
+            EditorUtility.SetDirty(catalog);
+            AssetDatabase.SaveAssets();
+            var importer = (TextureImporter)AssetImporter.GetAtPath(Art + "CollectionItems.png");
+            importer.isReadable = false;
+            importer.SaveAndReimport();
+        }
+
+        static Sprite Existing(string name) =>
+            AssetDatabase
+                .LoadAllAssetsAtPath("Assets/_Game/Art/VisualRebuild/Architecture.png")
+                .OfType<Sprite>()
+                .Single(s => s.name == name);
+
+        static SpriteRenderer Surface(
+            Transform parent,
+            string name,
+            Sprite sprite,
+            Vector2 center,
+            Vector2 size,
+            int order
+        )
+        {
+            var go = new GameObject(name, typeof(SpriteRenderer));
+            go.transform.SetParent(parent, false);
+            go.transform.position = center;
+            var s = go.GetComponent<SpriteRenderer>();
+            s.sprite = sprite;
+            s.sharedMaterial = Material;
+            s.sortingOrder = order;
+            s.drawMode = SpriteDrawMode.Tiled;
+            s.size = size;
+            s.transform.position =
+                center
+                - new Vector2(
+                    (.5f - sprite.pivot.x / sprite.rect.width) * size.x,
+                    (.5f - sprite.pivot.y / sprite.rect.height) * size.y
+                );
+            return s;
+        }
+
+        static void ReplaceSurface(SpriteRenderer renderer, Sprite sprite, Color color)
+        {
+            var bounds = renderer.bounds;
+            var size = (Vector2)bounds.size;
+            renderer.sprite = sprite;
+            renderer.sharedMaterial = Material;
+            renderer.transform.localScale = Vector3.one;
+            renderer.drawMode = SpriteDrawMode.Tiled;
+            renderer.size = size;
+            renderer.transform.position =
+                (Vector2)bounds.center
+                - new Vector2(
+                    (.5f - sprite.pivot.x / sprite.rect.width) * size.x,
+                    (.5f - sprite.pivot.y / sprite.rect.height) * size.y
+                );
+            renderer.color = color;
+        }
+
+        static void Solid(Transform root, string name, Vector2 p, Vector2 size)
+        {
+            var go = new GameObject(name, typeof(BoxCollider2D));
+            go.transform.SetParent(root, false);
+            go.transform.position = p;
+            go.GetComponent<BoxCollider2D>().size = size;
+        }
+
+        static SceneVisualProfile Profile(string name, string identity, Color night)
+        {
+            var p = AssetDatabase.LoadAssetAtPath<SceneVisualProfile>(Data + name + ".asset");
+            if (p != null)
+            {
+                return p;
+            }
+
+            p = ScriptableObject.CreateInstance<SceneVisualProfile>();
+            p.identity = identity;
+            p.night = night;
+            p.surround = new Color(.12f, .14f, .18f);
+            return Save(p, name);
+        }
+
+        [MenuItem("Ian/Phase 3.0/Bind authored wearable headphone layers")]
+        public static void BindHeadphones()
+        {
+            if (Application.isPlaying)
+            {
+                throw new Exception("Stop Play first");
+            }
+
+            var t = Read("HeadphoneWearables");
+            var items = AssetDatabase.LoadAssetAtPath<ItemCatalog>("Assets/Resources/IanCollection.asset");
+            var headphones = items.items.Where(i => i.itemType == ItemType.Headphone).ToArray();
+            var catalog = GrowthVisualSetup.Catalog;
+            for (int row = 0; row < headphones.Length; row++)
+            {
+                var frames = new List<ItemAppearanceFrame>();
+                foreach (var profile in catalog.profiles.Where(p => p.maxAge >= 13))
+                {
+                    for (int d = 0; d < 4; d++)
+                    {
+                        var rect = Opaque(t, Cell(t, row, d, 4, 6));
+                        float ppu = rect.width / (profile.height * .28f / .8f);
+                        var sprite = Slice(t, "Headphone_" + row + "_" + profile.id + "_" + d, rect, ppu, true);
+                        foreach (
+                            var motion in new[]
+                            {
+                                ActorMotion.Idle,
+                                ActorMotion.Walk,
+                                ActorMotion.Run,
+                                ActorMotion.Turn,
+                                ActorMotion.Stop,
+                            }
+                        )
+                        {
+                            frames.Add(
+                                new ItemAppearanceFrame
+                                {
+                                    growthStage = profile.stage,
+                                    direction = (ActorDirection)d,
+                                    motion = motion,
+                                    frames = new[] { sprite },
+                                    offset = Vector2.up * (profile.height * .43f / .8f),
+                                    sortingOffset = d == 1 ? -1 : 1,
+                                }
+                            );
+                        }
+                    }
+                }
+
+                headphones[row].appearanceFrames = frames.ToArray();
+            }
+
+            EditorUtility.SetDirty(items);
+            AssetDatabase.SaveAssets();
+            var importer = (TextureImporter)AssetImporter.GetAtPath(Art + "HeadphoneWearables.png");
+            importer.isReadable = false;
+            importer.SaveAndReimport();
+        }
+
+        [MenuItem("Ian/Phase 3.0/Apply current charcoal stationery UI reference")]
+        public static void BindStationery()
+        {
+            if (Application.isPlaying)
+            {
+                throw new Exception("Stop Play first");
+            }
+
+            var source = Read("StationeryUI_Source");
+            var pixels = source.GetPixels32();
+            string[] names = { "CharcoalPanel", "CreamCard", "GoldButton", "Receipt" };
+            for (int n = 0; n < 4; n++)
+            {
+                var r = Opaque(source, Cell(source, n / 2, n % 2, 2, 2));
+                const int size = 256;
+                var t = new Texture2D(size, size, TextureFormat.RGBA32, false);
+                var result = new Color32[size * size];
+                for (int y = 0; y < size; y++)
+                {
+                    for (int x = 0; x < size; x++)
+                    {
+                        var c = pixels[
+                            (int)(r.y + (y + .5f) * r.height / size) * source.width
+                                + (int)(r.x + (x + .5f) * r.width / size)
+                        ];
+                        if (c.a < 180)
+                        {
+                            c.a = 0;
+                        }
+                        else
+                        {
+                            c.a = 255;
+                        }
+
+                        result[y * size + x] = c;
+                    }
+                }
+
+                t.SetPixels32(result);
+                t.Apply();
+                string path = Art + names[n] + ".png";
+                File.WriteAllBytes(path, t.EncodeToPNG());
+                UnityEngine.Object.DestroyImmediate(t);
+                AssetDatabase.ImportAsset(path, ImportAssetOptions.ForceSynchronousImport);
+                var i = (TextureImporter)AssetImporter.GetAtPath(path);
+                i.textureType = TextureImporterType.Sprite;
+                i.spriteImportMode = SpriteImportMode.Single;
+                i.spritePixelsPerUnit = 100;
+                i.spriteBorder = new Vector4(16, 16, 16, 16);
+                i.filterMode = FilterMode.Point;
+                i.mipmapEnabled = false;
+                i.textureCompression = TextureImporterCompression.Uncompressed;
+                i.alphaIsTransparency = true;
+                i.SaveAndReimport();
+            }
+
+            var theme = AssetDatabase.LoadAssetAtPath<CollectionVisualTheme>(Data + "CollectionTheme.asset");
+            theme.panelSprite = ArtSprite("CharcoalPanel");
+            theme.buttonSprite = ArtSprite("GoldButton");
+            theme.paperSprite = ArtSprite("CreamCard");
+            theme.panel = new Color(.2f, .2f, .23f);
+            theme.cell = new Color(.29f, .28f, .3f);
+            theme.button = new Color(.91f, .83f, .67f);
+            theme.ink = new Color(.95f, .92f, .86f);
+            theme.buttonInk = new Color(.22f, .2f, .18f);
+            EditorUtility.SetDirty(theme);
+            var items = AssetDatabase.LoadAssetAtPath<ItemCatalog>("Assets/Resources/IanCollection.asset");
+            foreach (var item in items.items.Where(i => i.itemType == ItemType.Headphone))
+            {
+                item.icon = item
+                    .appearanceFrames.First(f =>
+                        f.growthStage == VisualGrowthStage.Adult && f.direction == ActorDirection.Down
+                    )
+                    .frames[0];
+            }
+
+            EditorUtility.SetDirty(items);
+            AssetDatabase.SaveAssets();
+            var importer = (TextureImporter)AssetImporter.GetAtPath(Art + "StationeryUI_Source.png");
+            importer.isReadable = false;
+            importer.SaveAndReimport();
+        }
+
+        [MenuItem("Ian/Phase 3.0/Bind growth transition presentation to existing rooms")]
+        public static void BindGrowth()
+        {
+            if (Application.isPlaying)
+            {
+                throw new Exception("Stop Play first");
+            }
+
+            string path = Art + "GrowthSparkle.png";
+            if (!File.Exists(path))
+            {
+                var t = new Texture2D(9, 9, TextureFormat.RGBA32, false);
+                var pixels = new Color32[81];
+                for (int y = 0; y < 9; y++)
+                {
+                    for (int x = 0; x < 9; x++)
+                    {
+                        if (Math.Abs(x - 4) + Math.Abs(y - 4) <= 1 || x == 4 || y == 4)
+                        {
+                            pixels[y * 9 + x] = new Color32(255, 244, 193, 255);
+                        }
+                    }
+                }
+
+                t.SetPixels32(pixels);
+                t.Apply();
+                File.WriteAllBytes(path, t.EncodeToPNG());
+                UnityEngine.Object.DestroyImmediate(t);
+                AssetDatabase.ImportAsset(path, ImportAssetOptions.ForceSynchronousImport);
+                var i = (TextureImporter)AssetImporter.GetAtPath(path);
+                i.textureType = TextureImporterType.Sprite;
+                i.spritePixelsPerUnit = 64;
+                i.filterMode = FilterMode.Point;
+                i.mipmapEnabled = false;
+                i.textureCompression = TextureImporterCompression.Uncompressed;
+                i.SaveAndReimport();
+            }
+
+            var spark = AssetDatabase.LoadAssetAtPath<Sprite>(path);
+            var catalog = AssetDatabase.LoadAssetAtPath<RoomSceneCatalog>(
+                "Assets/_Game/Data/SceneManagement/Rooms/RoomScenes.asset"
+            );
+            foreach (var room in catalog.rooms)
+            {
+                var scene = EditorSceneManager.OpenScene("Assets/_Game/Scenes/Rooms/" + room.sceneName + ".unity");
+                var player = UnityEngine.Object.FindAnyObjectByType<WorldPlayerMotor>();
+                var e =
+                    player.GetComponent<GrowthPresentationEffects>()
+                    ?? player.gameObject.AddComponent<GrowthPresentationEffects>();
+                e.growth = player.growthVisual;
+                e.sparkle = spark;
+                EditorSceneManager.MarkSceneDirty(scene);
+                EditorSceneManager.SaveScene(scene);
+            }
+
+            AssetDatabase.SaveAssets();
+        }
+
+        [MenuItem("Ian/Phase 3.0/Apply Home production shell and rendering foundation")]
+        public static void ApplyHome()
+        {
+            if (Application.isPlaying)
+            {
+                throw new Exception("Stop Play first");
+            }
+
+            var scene = EditorSceneManager.OpenScene("Assets/_Game/Scenes/Rooms/IndependentHome_Studio.unity");
+            var w = UnityEngine.Object.FindAnyObjectByType<LifeWorldController>();
+            var starter = w.GetComponent<StarterHomePresentation>();
+            if (starter.productionShell == null)
+            {
+                var old = w
+                    .transform.Cast<Transform>()
+                    .Where(t =>
+                        t.name.StartsWith("Visual Rebuild /")
+                        || t.name.EndsWith(" / home")
+                        || t.name == "Architectural contact and cutaway"
+                    )
+                    .Select(t => t.gameObject)
+                    .ToArray();
+                starter.legacyArchitecture = old;
+                starter.legacyArchitectureEnabled = old.Select(o => o.activeSelf).ToArray();
+            }
+            else
+            {
+                UnityEngine.Object.DestroyImmediate(starter.productionShell);
+            }
+
+            var root = new GameObject("Phase30 / first independent studio architecture").transform;
+            root.SetParent(w.transform, false);
+            starter.productionShell = root.gameObject;
+            Surface(
+                root,
+                "Continuous muted oak floor",
+                ArtSprite("MutedOak"),
+                new Vector2(0, -.75f),
+                new Vector2(12, 6.5f),
+                -5000
+            );
+            Surface(
+                root,
+                "White plaster rear wall",
+                ArtSprite("WhitePlaster"),
+                new Vector2(0, 3.2f),
+                new Vector2(12, 1.4f),
+                -4000
+            );
+            Surface(
+                root,
+                "Rear walnut skirting",
+                Existing("OakFloor"),
+                new Vector2(0, 2.52f),
+                new Vector2(12, .09f),
+                -3950
+            ).color = new Color(.58f, .52f, .49f);
+            Surface(
+                root,
+                "Rear structural cap",
+                Existing("OakFloor"),
+                new Vector2(0, 3.94f),
+                new Vector2(12, .12f),
+                -3900
+            ).color = new Color(.36f, .32f, .31f);
+            foreach (float x in new[] { -6f, 6f })
+            {
+                Surface(
+                    root,
+                    x < 0 ? "West cutaway wall" : "East cutaway wall",
+                    ArtSprite("WhitePlaster"),
+                    new Vector2(x, -.75f),
+                    new Vector2(.2f, 6.5f),
+                    -3500
+                );
+                Solid(root, "Studio side wall", new Vector2(x, -.75f), new Vector2(.2f, 6.5f));
+            }
+
+            foreach (var span in new[] { new Vector2(-6, -.8f), new Vector2(.8f, 6) })
+            {
+                Surface(
+                    root,
+                    "Front construction cutaway",
+                    ArtSprite("CutawayMaterial"),
+                    new Vector2((span.x + span.y) / 2, -4),
+                    new Vector2(span.y - span.x, .25f),
+                    1400
+                );
+                Solid(root, "Front wall", new Vector2((span.x + span.y) / 2, -4), new Vector2(span.y - span.x, .18f));
+            }
+
+            Solid(root, "Rear wall", new Vector2(0, 2.5f), new Vector2(12, .18f));
+            var win = Surface(
+                root,
+                "Studio daylight window",
+                Existing("WindowDay"),
+                new Vector2(-3, 3.15f),
+                new Vector2(1.75f, 1.6f),
+                -3000
+            );
+            win.drawMode = SpriteDrawMode.Simple;
+            win.transform.localScale = Vector3.one * .7f;
+            var backdrop = win.gameObject.AddComponent<WorldRoomBackdrop>();
+            backdrop.floor = win;
+            backdrop.day = win.sprite;
+            backdrop.night = Existing("WindowNight");
+            starter.Apply(false);
+            w.roomBackdrops = w.GetComponentsInChildren<WorldRoomBackdrop>(true);
+            var settings = w.Room.interior;
+            settings.bounds = new Rect(-6.2f, -4.35f, 12.4f, 8.55f);
+            settings.offset = Vector2.up * .25f;
+            settings.halfHeight = 4.6f;
+            settings.minScale = 3;
+            settings.maxScale = 8;
+            var surround = w.GetComponent<InteriorSurround>();
+            surround.plaster.color = new Color(.19f, .21f, .25f, 1);
+            var presentation =
+                w.GetComponent<SceneVisualPresentation>() ?? w.gameObject.AddComponent<SceneVisualPresentation>();
+            presentation.world = w;
+            presentation.profile = Profile("Home", "HOME / first independence", new Color(.68f, .73f, .9f));
+            w.follow.target.backgroundColor = presentation.profile.surround;
+            EditorSceneManager.MarkSceneDirty(scene);
+            EditorSceneManager.SaveScene(scene);
+            AssetDatabase.SaveAssets();
+        }
+
+        [MenuItem("Ian/Phase 3.0/Apply existing scene palettes and cutaway framing")]
+        public static void ApplyProfiles()
+        {
+            if (Application.isPlaying)
+            {
+                throw new Exception("Stop Play first");
+            }
+
+            var catalog = AssetDatabase.LoadAssetAtPath<RoomSceneCatalog>(
+                "Assets/_Game/Data/SceneManagement/Rooms/RoomScenes.asset"
+            );
+            foreach (var room in catalog.rooms)
+            {
+                var scene = EditorSceneManager.OpenScene("Assets/_Game/Scenes/Rooms/" + room.sceneName + ".unity");
+                var w = UnityEngine.Object.FindAnyObjectByType<LifeWorldController>();
+                bool family = room.family,
+                    outdoor = catalog.rules.Zone(room.roomId).outdoor;
+                string key =
+                    family ? "Family"
+                    : room.roomId == "home" || room.roomId == "bathroom" ? "Home"
+                    : room.roomId == "school" ? "School"
+                    : room.roomId == "workplace" || room.roomId == "office-bathroom" ? "Workplace"
+                    : room.roomId == "finance" ? "Finance"
+                    : room.roomId == "realestate" ? "RealEstate"
+                    : room.roomId == "shop" ? "Shop"
+                    : room.roomId == "residence" ? "Residence"
+                    : "City";
+                var profile = Profile(key, key, new Color(.6f, .68f, .85f));
+                profile.identity = key;
+                profile.paletteStrength = outdoor ? 1f : .75f;
+                profile.night =
+                    outdoor ? new Color(.12f, .2f, .4f)
+                    : key == "Family" ? new Color(.52f, .48f, .54f)
+                    : key == "Workplace" ? new Color(.59f, .68f, .83f)
+                    : key == "Finance" ? new Color(.55f, .68f, .88f)
+                    : new Color(.7f, .74f, .85f);
+                profile.evening =
+                    key == "Family" ? new Color(1, .86f, .71f)
+                    : outdoor ? new Color(1, .72f, .59f)
+                    : new Color(.94f, .89f, .84f);
+                profile.day = key == "Workplace" || key == "Finance" ? new Color(.94f, .98f, 1) : Color.white;
+                profile.transitionStyle =
+                    family || key == "Home" ? WorldTransitionStyle.LightingReveal
+                    : outdoor ? WorldTransitionStyle.PixelFade
+                    : WorldTransitionStyle.ShortSlide;
+                profile.audioCue = key.ToLowerInvariant();
+                profile.transitionCue =
+                    family || key == "Home" ? "home"
+                    : outdoor ? "city"
+                    : "facility";
+                EditorUtility.SetDirty(profile);
+                var view =
+                    w.GetComponent<SceneVisualPresentation>() ?? w.gameObject.AddComponent<SceneVisualPresentation>();
+                view.world = w;
+                view.profile = profile;
+                if (!outdoor)
+                {
+                    var surround = w.GetComponent<InteriorSurround>();
+                    string path = Data + key + "Backdrop.mat";
+                    var material = AssetDatabase.LoadAssetAtPath<Material>(path);
+                    if (material == null)
+                    {
+                        material = new Material(Shader.Find("Ian/Presentation/CutawayBackdrop"));
+                        AssetDatabase.CreateAsset(material, path);
+                    }
+
+                    material.SetColor(
+                        "_Center",
+                        key == "Family" ? new Color(.2f, .19f, .22f) : new Color(.14f, .16f, .2f)
+                    );
+                    material.SetColor("_Edge", new Color(.08f, .1f, .14f));
+                    EditorUtility.SetDirty(material);
+                    surround.plaster.sharedMaterial = material;
+                    surround.plaster.color = Color.white;
+                }
+
+                foreach (
+                    var threshold in w.GetComponentsInChildren<SpriteRenderer>(true)
+                        .Where(r => r.name.StartsWith("Interior threshold /"))
+                )
+                {
+                    threshold.sprite = ArtSprite("MutedOak");
+                }
+
+                if (family && room.roomId != "family-bathroom")
+                {
+                    var floor = w.GetComponentsInChildren<SpriteRenderer>(true)
+                        .First(r => r.name == "Room owned floor");
+                    floor.sprite = ArtSprite("MutedOak");
+                    floor.color = new Color(1, .96f, .9f);
+                }
+
+                if (new[] { "school", "workplace", "finance", "realestate", "shop" }.Contains(room.roomId))
+                {
+                    var floor = w.GetComponentsInChildren<SpriteRenderer>()
+                        .FirstOrDefault(r => r.enabled && r.name == "Walkable floor");
+                    if (floor != null)
+                    {
+                        ReplaceSurface(
+                            floor,
+                            ArtSprite(room.roomId == "shop" ? "FamilyCeramic" : "MutedOak"),
+                            room.roomId == "workplace" || room.roomId == "finance" ? new Color(.69f, .75f, .83f)
+                                : room.roomId == "school" ? new Color(.9f, .92f, .9f)
+                                : Color.white
+                        );
+                    }
+
+                    var wall = w.GetComponentsInChildren<SpriteRenderer>()
+                        .FirstOrDefault(r => r.enabled && r.name == "Back wall");
+                    if (wall != null)
+                    {
+                        ReplaceSurface(
+                            wall,
+                            ArtSprite("WhiteSkirting"),
+                            key == "Workplace" || key == "Finance" ? new Color(.82f, .88f, .94f) : Color.white
+                        );
+                    }
+                }
+
+                foreach (var text in new[] { w.hud.feedback, w.hud.prompt, w.hud.progress })
+                {
+                    var type = text.GetComponent<UITypeScale>();
+                    if (type != null)
+                    {
+                        type.baseSize = 22;
+                        EditorUtility.SetDirty(type);
+                    }
+
+                    text.fontSize = 22;
+                }
+
+                var theme = AssetDatabase.LoadAssetAtPath<CollectionVisualTheme>(Data + "CollectionTheme.asset");
+                if (theme == null)
+                {
+                    theme = Save(ScriptableObject.CreateInstance<CollectionVisualTheme>(), "CollectionTheme");
+                }
+
+                var collection = w.hud.GetComponent<CollectionUI>();
+                collection.visualTheme = theme;
+                var feedback =
+                    w.hud.GetComponent<PresentationFeedback>() ?? w.hud.gameObject.AddComponent<PresentationFeedback>();
+                feedback.world = w;
+                feedback.sparkle = AssetDatabase.LoadAssetAtPath<Sprite>(Art + "GrowthSparkle.png");
+                EditorSceneManager.MarkSceneDirty(scene);
+                EditorSceneManager.SaveScene(scene);
+            }
+
+            AssetDatabase.SaveAssets();
+        }
+    }
+}
+#endif

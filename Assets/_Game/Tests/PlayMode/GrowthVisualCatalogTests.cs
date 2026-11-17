@@ -11,7 +11,8 @@ namespace IanQA.Tests
 {
     public sealed class GrowthVisualCatalogTests
     {
-        static object Catalog => AssetDatabase.LoadMainAssetAtPath("Assets/_Game/Data/AgeGrowth/GrowthVisuals.asset");
+        static object Catalog =>
+            AssetDatabase.LoadMainAssetAtPath("Assets/_Game/Data/Characters/Growth/GrowthVisuals.asset");
 
         static object Field(object o, string name) => o.GetType().GetField(name).GetValue(o);
 
