@@ -1,0 +1,2888 @@
+{
+  "pack": "IAN GROWING PRODUCTION72",
+  "version": 1,
+  "registeredAt": "2026-11-18",
+  "masterStyle": "MASTER_STYLE.txt",
+  "negativeDirection": "NEGATIVE_DIRECTION.txt",
+  "sharedStyleFormula": "ArtSource/Higgsfield/Prompts/STYLE_FORMULA.txt",
+  "officialIan": "Assets/_Game/Art/Characters/Ian/Reference/Ian_OfficialDesign.png",
+  "candidatePolicy": "Exactly two explicit single requests per prompt; no automatic retry. Batch overlap does not resubmit.",
+  "batch1": [
+    1,
+    2,
+    15,
+    16,
+    18,
+    41,
+    42,
+    59,
+    60,
+    63,
+    67,
+    71
+  ],
+  "prompts": [
+    {
+      "id": 1,
+      "title": "19세 최초 독립 집",
+      "bodyFile": "001.txt",
+      "bodySha256": "8e5c9107ba3dad1ece52ec0062f7a985ab38050e070ab1292d6f233a8f92ef20",
+      "includesIan": false,
+      "locationDependency": null,
+      "seedReferences": [
+        "ArtSource/Higgsfield/Selected/independent_home.png",
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png"
+      ],
+      "preserveSeedGeometry": true,
+      "batches": [
+        1
+      ],
+      "candidates": [
+        {
+          "name": "p72_001_r2_a",
+          "status": "DOWNLOADED",
+          "promptSha256": "60fd3be90fc0e1928f23dd62fedce3e44249e5b2db2c324448dd9460d464494b",
+          "results": [
+            {
+              "id": "8cbe64f6-6097-402d-ba7d-0c8c18610593",
+              "created_at": "2026-11-18T12:55:37.622114Z",
+              "job_type": "gpt_image_2_6",
+              "status": "completed",
+              "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_125537_8cbe64f6-6097-402d-ba7d-0c8c18610593.png"
+            }
+          ],
+          "sha256": "0ce667f57275059cea964c10b6cf7a05f81fd2e64983eb52492d2142fa73fe90",
+          "rawPath": "ArtSource/Higgsfield/Raw/p72_001_r2_a.png",
+          "reviewStatus": "ALTERNATE_NOT_SELECTED",
+          "qa": "Reviewed alongside selected candidate. Retained in local source archive; not imported."
+        },
+        {
+          "name": "p72_001_r2_b",
+          "status": "DOWNLOADED",
+          "promptSha256": "60fd3be90fc0e1928f23dd62fedce3e44249e5b2db2c324448dd9460d464494b",
+          "results": [
+            {
+              "id": "bbbc0d85-19e1-42fd-ba06-bd1a5fa99d15",
+              "created_at": "2026-11-18T12:55:45.971013Z",
+              "job_type": "gpt_image_2_6",
+              "status": "completed",
+              "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_125545_bbbc0d85-19e1-42fd-ba06-bd1a5fa99d15.png"
+            }
+          ],
+          "sha256": "c0a5bd21773da44495369e1234ac04c6c5b6591e70f93cdbb6ee099869a0a99b",
+          "rawPath": "ArtSource/Higgsfield/Raw/p72_001_r2_b.png",
+          "reviewStatus": "SELECTED_REFERENCE"
+        }
+      ],
+      "resolvedReferences": [
+        "ArtSource/Higgsfield/Selected/independent_home.png",
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png"
+      ],
+      "referenceSha256": {
+        "ArtSource/Higgsfield/Selected/independent_home.png": "bbe94f24f10f3d4699049c9cd1422c2f7d73eeff6d6ca83501d687bda8c8d282",
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png": "03a2f9e2042c3aae33308d2d0ecead9a4e7aaf6ab57ed6d750ffad1fde9123c8"
+      },
+      "previousCandidates": [
+        {
+          "name": "p72_001_a",
+          "status": "DOWNLOADED",
+          "promptSha256": "91ec2a6638499a88f657c62c3452071a31f012b114a0e5098c40f79aba6599e0",
+          "results": [
+            {
+              "id": "812b383d-38f2-4e93-983c-2235cf03ced1",
+              "created_at": "2026-11-18T12:52:38.701427Z",
+              "job_type": "gpt_image_2_6",
+              "status": "completed",
+              "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_125238_812b383d-38f2-4e93-983c-2235cf03ced1.png"
+            }
+          ],
+          "sha256": "f8de654ea1cb14d5142f04973d74fec6c14c74a3a3451018cf9ca0af5ac6669e",
+          "rawPath": "ArtSource/Higgsfield/Raw/p72_001_a.png",
+          "reviewStatus": "REJECTED_PIXEL_STYLE",
+          "qa": "Native-size inspection shows smooth anti-aliased illustration, not deliberate pixel clusters. Composition retained only for comparison; not an approved production reference.",
+          "referenceSha256": {
+            "ArtSource/Higgsfield/Selected/independent_home.png": "bbe94f24f10f3d4699049c9cd1422c2f7d73eeff6d6ca83501d687bda8c8d282"
+          }
+        },
+        {
+          "name": "p72_001_b",
+          "status": "DOWNLOADED",
+          "promptSha256": "91ec2a6638499a88f657c62c3452071a31f012b114a0e5098c40f79aba6599e0",
+          "results": [
+            {
+              "id": "a2a9bcf1-c80b-4159-84cd-578a54226113",
+              "created_at": "2026-11-18T12:52:37.412128Z",
+              "job_type": "gpt_image_2_6",
+              "status": "completed",
+              "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_125237_a2a9bcf1-c80b-4159-84cd-578a54226113.png"
+            }
+          ],
+          "sha256": "ddcd497dcb8baf3b2124ff8077cf42d995131478ca25947d9b80eae8a52c396e",
+          "rawPath": "ArtSource/Higgsfield/Raw/p72_001_b.png",
+          "reviewStatus": "REJECTED_PIXEL_STYLE",
+          "qa": "Native-size inspection shows smooth anti-aliased illustration, not deliberate pixel clusters. Composition retained only for comparison; not an approved production reference.",
+          "referenceSha256": {
+            "ArtSource/Higgsfield/Selected/independent_home.png": "bbe94f24f10f3d4699049c9cd1422c2f7d73eeff6d6ca83501d687bda8c8d282"
+          }
+        }
+      ],
+      "revision": 2,
+      "revisionReason": "Both first candidates failed pixel-edge QA. One focused correction: redraw as native-grid pixel art.",
+      "productionGuard": "CRITICAL PIXEL REDRAW, not an illustration edit: the first attached image supplies ARCHITECTURE ONLY. The second attached image shows the required hard square pixel clusters and native game sprite density. Completely redraw the location with that pixel brushwork. Work as if on a 448 by 256 logical pixel canvas enlarged six times by nearest-neighbor. All edges must step on that visible coarse square grid. Flat shade clusters, limited palette ramps, no subpixel outline, no anti-aliasing, no smooth painted gradients, no fine illustration hatching. Do not copy the smooth rendering of the layout reference. Keep the scene navigable and muted. Blank signage.",
+      "selected": {
+        "candidate": "p72_001_r2_b",
+        "path": "ArtSource/Higgsfield/Selected/Production72/001.png",
+        "sha256": "c0a5bd21773da44495369e1234ac04c6c5b6591e70f93cdbb6ee099869a0a99b",
+        "status": "APPROVED_REFERENCE",
+        "reviewer": "Codex visual QA; human production signoff pending",
+        "qa": "R2: visible stepped square edge clusters and simplified floor/blanket ramps; retained original room footprint, jade bathroom, door and window positions. One bed, boxes and blank bills; no prefilled desk/sofa. Selected as layout/pixel production reference only; native sprite cleanup still required. R1 smooth illustration rejected; R2 A is an alternate.",
+        "unityAssets": []
+      }
+    },
+    {
+      "id": 2,
+      "title": "첫날 밤",
+      "bodyFile": "002.txt",
+      "bodySha256": "f22997b99a95929ab594f95cd09ca77f9715b603a7c9b5f201dc1738ced72ade",
+      "includesIan": true,
+      "locationDependency": 1,
+      "seedReferences": [],
+      "preserveSeedGeometry": false,
+      "batches": [
+        1
+      ],
+      "candidates": [
+        {
+          "name": "p72_002_a",
+          "status": "DOWNLOADED",
+          "promptSha256": "49e20b244f789f5e4acbd30854c4a4e5e8dfa4c037c8c3e38f66540671b0e379",
+          "results": [
+            {
+              "id": "2ecb8e49-e9fa-4d5b-9043-bb805b5d02d6",
+              "created_at": "2026-11-18T12:57:50.397824Z",
+              "job_type": "gpt_image_2_6",
+              "status": "completed",
+              "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_125750_2ecb8e49-e9fa-4d5b-9043-bb805b5d02d6.png"
+            }
+          ],
+          "sha256": "e16e2cf71f0bc41d5300de54fe85f8b4d862657a5d52b2c23cfe5fe5b9c128b3",
+          "rawPath": "ArtSource/Higgsfield/Raw/p72_002_a.png",
+          "reviewStatus": "ALTERNATE_NOT_SELECTED",
+          "qa": "Reviewed alongside selected candidate. Retained in local source archive; not imported."
+        },
+        {
+          "name": "p72_002_b",
+          "status": "DOWNLOADED",
+          "promptSha256": "49e20b244f789f5e4acbd30854c4a4e5e8dfa4c037c8c3e38f66540671b0e379",
+          "results": [
+            {
+              "id": "ddac90ef-e144-4a47-b8b4-f26b8add50b3",
+              "created_at": "2026-11-18T12:57:48.50795Z",
+              "job_type": "gpt_image_2_6",
+              "status": "completed",
+              "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_125748_ddac90ef-e144-4a47-b8b4-f26b8add50b3.png"
+            }
+          ],
+          "sha256": "680a50dc9c477b496f7d39f48d47ea051ec58b452443ca411719c79ff97969e5",
+          "rawPath": "ArtSource/Higgsfield/Raw/p72_002_b.png",
+          "reviewStatus": "SELECTED_REFERENCE"
+        }
+      ],
+      "styleReferences": [
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png"
+      ],
+      "productionGuard": "PIXEL PRODUCTION RULE: deliberately draw hard square pixel clusters on a 448 by 256 logical canvas, then enlarge six times with nearest-neighbor. Use limited flat palette ramps, visible stepped silhouettes and coarse grid-aligned shading; no anti-aliasing, fine hatching, smooth gradients or painted illustration. The pixel-style board, when attached, defines edge treatment and pixel density only, never its content or layout.",
+      "resolvedReferences": [
+        "ArtSource/Higgsfield/Selected/Production72/001.png",
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png",
+        "Assets/_Game/Art/Characters/Ian/Reference/Ian_OfficialDesign.png"
+      ],
+      "referenceSha256": {
+        "ArtSource/Higgsfield/Selected/Production72/001.png": "c0a5bd21773da44495369e1234ac04c6c5b6591e70f93cdbb6ee099869a0a99b",
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png": "03a2f9e2042c3aae33308d2d0ecead9a4e7aaf6ab57ed6d750ffad1fde9123c8",
+        "Assets/_Game/Art/Characters/Ian/Reference/Ian_OfficialDesign.png": "04dc5d03c74df28eaf0cccab05cdd66ab325f3a71a70d7d72f660fafb8d443d1"
+      },
+      "selected": {
+        "candidate": "p72_002_b",
+        "path": "ArtSource/Higgsfield/Selected/Production72/002.png",
+        "sha256": "680a50dc9c477b496f7d39f48d47ea051ec58b452443ca411719c79ff97969e5",
+        "status": "APPROVED_REFERENCE",
+        "reviewer": "Codex visual QA; human production signoff pending",
+        "qa": "Same selected apartment geometry, one bedside lamp, unopened boxes and visibly thicker blank bill pile; official Ian original attached, small seated/slouched dark-clothed Ian rather than a hero portrait. Mood/location reference only; no runtime background.",
+        "unityAssets": []
+      }
+    },
+    {
+      "id": 3,
+      "title": "냉장고 첫 구매 후",
+      "bodyFile": "003.txt",
+      "bodySha256": "aa2b857ae5f89390c8e907ffdc326dae0791254ac45368d8fb76a5dc2e599282",
+      "includesIan": false,
+      "locationDependency": 1,
+      "seedReferences": [],
+      "preserveSeedGeometry": false,
+      "batches": [
+        "supplement"
+      ],
+      "candidates": [
+        {
+          "name": "p72_003_a",
+          "status": "NOT_SUBMITTED"
+        },
+        {
+          "name": "p72_003_b",
+          "status": "NOT_SUBMITTED"
+        }
+      ],
+      "styleReferences": [
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png"
+      ],
+      "productionGuard": "PIXEL PRODUCTION RULE: deliberately draw hard square pixel clusters on a 448 by 256 logical canvas, then enlarge six times with nearest-neighbor. Use limited flat palette ramps, visible stepped silhouettes and coarse grid-aligned shading; no anti-aliasing, fine hatching, smooth gradients or painted illustration. The pixel-style board, when attached, defines edge treatment and pixel density only, never its content or layout. "
+    },
+    {
+      "id": 4,
+      "title": "책상 구매 후",
+      "bodyFile": "004.txt",
+      "bodySha256": "1b5a31c64ec8639c30eca376c5446b842463548d5c72c362cf357f56b72bb003",
+      "includesIan": false,
+      "locationDependency": 1,
+      "seedReferences": [],
+      "preserveSeedGeometry": false,
+      "batches": [
+        "supplement"
+      ],
+      "candidates": [
+        {
+          "name": "p72_004_a",
+          "status": "NOT_SUBMITTED"
+        },
+        {
+          "name": "p72_004_b",
+          "status": "NOT_SUBMITTED"
+        }
+      ],
+      "styleReferences": [
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png"
+      ],
+      "productionGuard": "PIXEL PRODUCTION RULE: deliberately draw hard square pixel clusters on a 448 by 256 logical canvas, then enlarge six times with nearest-neighbor. Use limited flat palette ramps, visible stepped silhouettes and coarse grid-aligned shading; no anti-aliasing, fine hatching, smooth gradients or painted illustration. The pixel-style board, when attached, defines edge treatment and pixel density only, never its content or layout. "
+    },
+    {
+      "id": 5,
+      "title": "중기 독립생활 집",
+      "bodyFile": "005.txt",
+      "bodySha256": "efaba115082ffbc9b0634e77d6ce408082b590510986167eba19ae860f8f8693",
+      "includesIan": false,
+      "locationDependency": 1,
+      "seedReferences": [],
+      "preserveSeedGeometry": false,
+      "batches": [
+        "supplement"
+      ],
+      "candidates": [
+        {
+          "name": "p72_005_a",
+          "status": "NOT_SUBMITTED"
+        },
+        {
+          "name": "p72_005_b",
+          "status": "NOT_SUBMITTED"
+        }
+      ],
+      "styleReferences": [
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png"
+      ],
+      "productionGuard": "PIXEL PRODUCTION RULE: deliberately draw hard square pixel clusters on a 448 by 256 logical canvas, then enlarge six times with nearest-neighbor. Use limited flat palette ramps, visible stepped silhouettes and coarse grid-aligned shading; no anti-aliasing, fine hatching, smooth gradients or painted illustration. The pixel-style board, when attached, defines edge treatment and pixel density only, never its content or layout. "
+    },
+    {
+      "id": 6,
+      "title": "완성된 청년기 집",
+      "bodyFile": "006.txt",
+      "bodySha256": "409c7f25fe53f814ce683dedb0bf785860193946ae40c043dcb98de45ea2c338",
+      "includesIan": false,
+      "locationDependency": 1,
+      "seedReferences": [],
+      "preserveSeedGeometry": false,
+      "batches": [
+        "supplement"
+      ],
+      "candidates": [
+        {
+          "name": "p72_006_a",
+          "status": "NOT_SUBMITTED"
+        },
+        {
+          "name": "p72_006_b",
+          "status": "NOT_SUBMITTED"
+        }
+      ],
+      "styleReferences": [
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png"
+      ],
+      "productionGuard": "PIXEL PRODUCTION RULE: deliberately draw hard square pixel clusters on a 448 by 256 logical canvas, then enlarge six times with nearest-neighbor. Use limited flat palette ramps, visible stepped silhouettes and coarse grid-aligned shading; no anti-aliasing, fine hatching, smooth gradients or painted illustration. The pixel-style board, when attached, defines edge treatment and pixel density only, never its content or layout. "
+    },
+    {
+      "id": 7,
+      "title": "월세 납부일",
+      "bodyFile": "007.txt",
+      "bodySha256": "698d4d1240ccb1f692e4f471157dd7b5eb940242fabd009129a7c90f8de127ce",
+      "includesIan": true,
+      "locationDependency": 1,
+      "seedReferences": [],
+      "preserveSeedGeometry": false,
+      "batches": [
+        "supplement"
+      ],
+      "candidates": [
+        {
+          "name": "p72_007_a",
+          "status": "NOT_SUBMITTED"
+        },
+        {
+          "name": "p72_007_b",
+          "status": "NOT_SUBMITTED"
+        }
+      ],
+      "styleReferences": [
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png"
+      ],
+      "productionGuard": "PIXEL PRODUCTION RULE: deliberately draw hard square pixel clusters on a 448 by 256 logical canvas, then enlarge six times with nearest-neighbor. Use limited flat palette ramps, visible stepped silhouettes and coarse grid-aligned shading; no anti-aliasing, fine hatching, smooth gradients or painted illustration. The pixel-style board, when attached, defines edge treatment and pixel density only, never its content or layout. "
+    },
+    {
+      "id": 8,
+      "title": "월말",
+      "bodyFile": "008.txt",
+      "bodySha256": "ad1dd012c199994dc3fd81f2e1da4f4320259136a062f83583f363abb6e022e3",
+      "includesIan": true,
+      "locationDependency": 1,
+      "seedReferences": [],
+      "preserveSeedGeometry": false,
+      "batches": [
+        "supplement"
+      ],
+      "candidates": [
+        {
+          "name": "p72_008_a",
+          "status": "NOT_SUBMITTED"
+        },
+        {
+          "name": "p72_008_b",
+          "status": "NOT_SUBMITTED"
+        }
+      ],
+      "styleReferences": [
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png"
+      ],
+      "productionGuard": "PIXEL PRODUCTION RULE: deliberately draw hard square pixel clusters on a 448 by 256 logical canvas, then enlarge six times with nearest-neighbor. Use limited flat palette ramps, visible stepped silhouettes and coarse grid-aligned shading; no anti-aliasing, fine hatching, smooth gradients or painted illustration. The pixel-style board, when attached, defines edge treatment and pixel density only, never its content or layout. "
+    },
+    {
+      "id": 9,
+      "title": "부모님 집 거실",
+      "bodyFile": "009.txt",
+      "bodySha256": "7f79b6ed22fdd3bdac64056503dc2b61bd5f887aad976c46cabbd04001c9bc26",
+      "includesIan": false,
+      "locationDependency": null,
+      "seedReferences": [
+        "ArtSource/Higgsfield/Selected/parents_home.png"
+      ],
+      "preserveSeedGeometry": true,
+      "batches": [
+        3
+      ],
+      "candidates": [
+        {
+          "name": "p72_009_a",
+          "status": "NOT_SUBMITTED"
+        },
+        {
+          "name": "p72_009_b",
+          "status": "NOT_SUBMITTED"
+        }
+      ],
+      "styleReferences": [
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png"
+      ],
+      "productionGuard": "PIXEL PRODUCTION RULE: deliberately draw hard square pixel clusters on a 448 by 256 logical canvas, then enlarge six times with nearest-neighbor. Use limited flat palette ramps, visible stepped silhouettes and coarse grid-aligned shading; no anti-aliasing, fine hatching, smooth gradients or painted illustration. The pixel-style board, when attached, defines edge treatment and pixel density only, never its content or layout. "
+    },
+    {
+      "id": 10,
+      "title": "부모님 집 주방",
+      "bodyFile": "010.txt",
+      "bodySha256": "586207d76baa6f525564baf221190de4df68e7a43082358c0b038da1441ad89d",
+      "includesIan": false,
+      "locationDependency": 9,
+      "seedReferences": [],
+      "preserveSeedGeometry": false,
+      "batches": [
+        3
+      ],
+      "candidates": [
+        {
+          "name": "p72_010_a",
+          "status": "NOT_SUBMITTED"
+        },
+        {
+          "name": "p72_010_b",
+          "status": "NOT_SUBMITTED"
+        }
+      ],
+      "styleReferences": [
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png"
+      ],
+      "productionGuard": "PIXEL PRODUCTION RULE: deliberately draw hard square pixel clusters on a 448 by 256 logical canvas, then enlarge six times with nearest-neighbor. Use limited flat palette ramps, visible stepped silhouettes and coarse grid-aligned shading; no anti-aliasing, fine hatching, smooth gradients or painted illustration. The pixel-style board, when attached, defines edge treatment and pixel density only, never its content or layout. "
+    },
+    {
+      "id": 11,
+      "title": "가족 식사",
+      "bodyFile": "011.txt",
+      "bodySha256": "f32360a76493c3fa610cce4c782b420465640be8ea5fcbd3c3719d41b28aed62",
+      "includesIan": true,
+      "locationDependency": 9,
+      "seedReferences": [],
+      "preserveSeedGeometry": false,
+      "batches": [
+        3
+      ],
+      "candidates": [
+        {
+          "name": "p72_011_a",
+          "status": "NOT_SUBMITTED"
+        },
+        {
+          "name": "p72_011_b",
+          "status": "NOT_SUBMITTED"
+        }
+      ],
+      "styleReferences": [
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png"
+      ],
+      "productionGuard": "PIXEL PRODUCTION RULE: deliberately draw hard square pixel clusters on a 448 by 256 logical canvas, then enlarge six times with nearest-neighbor. Use limited flat palette ramps, visible stepped silhouettes and coarse grid-aligned shading; no anti-aliasing, fine hatching, smooth gradients or painted illustration. The pixel-style board, when attached, defines edge treatment and pixel density only, never its content or layout. "
+    },
+    {
+      "id": 12,
+      "title": "어린 이안 방",
+      "bodyFile": "012.txt",
+      "bodySha256": "6c195ab99feb8bc0561f8b6c1764632f626fcca8da0289ac39d6eb9421ce9cd0",
+      "includesIan": true,
+      "locationDependency": null,
+      "seedReferences": [
+        "ArtSource/Higgsfield/Selected/parents_home.png"
+      ],
+      "preserveSeedGeometry": true,
+      "batches": [
+        3
+      ],
+      "candidates": [
+        {
+          "name": "p72_012_a",
+          "status": "NOT_SUBMITTED"
+        },
+        {
+          "name": "p72_012_b",
+          "status": "NOT_SUBMITTED"
+        }
+      ],
+      "styleReferences": [
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png"
+      ],
+      "productionGuard": "PIXEL PRODUCTION RULE: deliberately draw hard square pixel clusters on a 448 by 256 logical canvas, then enlarge six times with nearest-neighbor. Use limited flat palette ramps, visible stepped silhouettes and coarse grid-aligned shading; no anti-aliasing, fine hatching, smooth gradients or painted illustration. The pixel-style board, when attached, defines edge treatment and pixel density only, never its content or layout. "
+    },
+    {
+      "id": 13,
+      "title": "청소년기 이안 방",
+      "bodyFile": "013.txt",
+      "bodySha256": "cec5e3b8dde00d1bd6978bdb31614cc670a45dfe7c50904f84ae469ff2799404",
+      "includesIan": true,
+      "locationDependency": 12,
+      "seedReferences": [],
+      "preserveSeedGeometry": false,
+      "batches": [
+        3
+      ],
+      "candidates": [
+        {
+          "name": "p72_013_a",
+          "status": "NOT_SUBMITTED"
+        },
+        {
+          "name": "p72_013_b",
+          "status": "NOT_SUBMITTED"
+        }
+      ],
+      "styleReferences": [
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png"
+      ],
+      "productionGuard": "PIXEL PRODUCTION RULE: deliberately draw hard square pixel clusters on a 448 by 256 logical canvas, then enlarge six times with nearest-neighbor. Use limited flat palette ramps, visible stepped silhouettes and coarse grid-aligned shading; no anti-aliasing, fine hatching, smooth gradients or painted illustration. The pixel-style board, when attached, defines edge treatment and pixel density only, never its content or layout. "
+    },
+    {
+      "id": 14,
+      "title": "19세 독립 직전",
+      "bodyFile": "014.txt",
+      "bodySha256": "52c2c126882ee577d2969a1a51b01ab5c5eb034540e90cbae500b4dbcdb84039",
+      "includesIan": true,
+      "locationDependency": 13,
+      "seedReferences": [],
+      "preserveSeedGeometry": false,
+      "batches": [
+        3
+      ],
+      "candidates": [
+        {
+          "name": "p72_014_a",
+          "status": "NOT_SUBMITTED"
+        },
+        {
+          "name": "p72_014_b",
+          "status": "NOT_SUBMITTED"
+        }
+      ],
+      "styleReferences": [
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png"
+      ],
+      "productionGuard": "PIXEL PRODUCTION RULE: deliberately draw hard square pixel clusters on a 448 by 256 logical canvas, then enlarge six times with nearest-neighbor. Use limited flat palette ramps, visible stepped silhouettes and coarse grid-aligned shading; no anti-aliasing, fine hatching, smooth gradients or painted illustration. The pixel-style board, when attached, defines edge treatment and pixel density only, never its content or layout. "
+    },
+    {
+      "id": 15,
+      "title": "주거지역 낮",
+      "bodyFile": "015.txt",
+      "bodySha256": "653a674933a3aae4761fa4da37c6dd59138497b9a5073594ef478d61ff204af1",
+      "includesIan": false,
+      "locationDependency": null,
+      "seedReferences": [
+        "ArtSource/Higgsfield/Selected/residential_day.png",
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png"
+      ],
+      "preserveSeedGeometry": true,
+      "batches": [
+        1
+      ],
+      "candidates": [
+        {
+          "name": "p72_015_r2_a",
+          "status": "DOWNLOADED",
+          "promptSha256": "1038aa2730ff20219f3a070ca1b84b0a18854c3ddf4947491be7c2d30b313efa",
+          "results": [
+            {
+              "id": "24f9c050-fd2e-4486-897b-33626a8fe297",
+              "created_at": "2026-11-18T12:56:37.528959Z",
+              "job_type": "gpt_image_2_6",
+              "status": "completed",
+              "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_125637_24f9c050-fd2e-4486-897b-33626a8fe297.png"
+            }
+          ],
+          "sha256": "2058097e62c07ad865cf907cbc1e1325fd768421c46be9a1652ff4cc9d1ff0fd",
+          "rawPath": "ArtSource/Higgsfield/Raw/p72_015_r2_a.png",
+          "reviewStatus": "SELECTED_REFERENCE"
+        },
+        {
+          "name": "p72_015_r2_b",
+          "status": "NO_RESULT_ERROR",
+          "promptSha256": "1038aa2730ff20219f3a070ca1b84b0a18854c3ddf4947491be7c2d30b313efa",
+          "qa": "No generation ID or completed image returned. API upload/request error; alternate selected, no retry."
+        }
+      ],
+      "resolvedReferences": [
+        "ArtSource/Higgsfield/Selected/residential_day.png",
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png"
+      ],
+      "referenceSha256": {
+        "ArtSource/Higgsfield/Selected/residential_day.png": "43229d62b8092e9f7f95dfe849f217a7097a4e869ea7a734134dda03b56ee17a",
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png": "03a2f9e2042c3aae33308d2d0ecead9a4e7aaf6ab57ed6d750ffad1fde9123c8"
+      },
+      "previousCandidates": [
+        {
+          "name": "p72_015_a",
+          "status": "DOWNLOADED",
+          "promptSha256": "5201a8342f3c2288f5e8c23fffe63ff22df6a36d1458df354f37119f0026fdb1",
+          "results": [
+            {
+              "id": "203cfc22-5fab-47d7-aa51-4bd8cfe2424f",
+              "created_at": "2026-11-18T12:52:39.389125Z",
+              "job_type": "gpt_image_2_6",
+              "status": "completed",
+              "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_125239_203cfc22-5fab-47d7-aa51-4bd8cfe2424f.png"
+            }
+          ],
+          "sha256": "c10c60f10509b9bf3be3c0d6e20d88cfc7ac3cf11f93f698152801949d17b8bf",
+          "rawPath": "ArtSource/Higgsfield/Raw/p72_015_a.png",
+          "reviewStatus": "REJECTED_PIXEL_STYLE",
+          "qa": "Native-size inspection shows smooth anti-aliased illustration, not deliberate pixel clusters. Composition retained only for comparison; not an approved production reference.",
+          "referenceSha256": {
+            "ArtSource/Higgsfield/Selected/residential_day.png": "43229d62b8092e9f7f95dfe849f217a7097a4e869ea7a734134dda03b56ee17a"
+          }
+        },
+        {
+          "name": "p72_015_b",
+          "status": "DOWNLOADED",
+          "promptSha256": "5201a8342f3c2288f5e8c23fffe63ff22df6a36d1458df354f37119f0026fdb1",
+          "results": [
+            {
+              "id": "a812e519-8b9f-47c5-9d07-7b9e0e4cbb66",
+              "created_at": "2026-11-18T12:52:37.91448Z",
+              "job_type": "gpt_image_2_6",
+              "status": "completed",
+              "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_125237_a812e519-8b9f-47c5-9d07-7b9e0e4cbb66.png"
+            }
+          ],
+          "sha256": "2256afde93449824679b24aed6ad851e110b57157b13c84008361a7e5b56d6dc",
+          "rawPath": "ArtSource/Higgsfield/Raw/p72_015_b.png",
+          "reviewStatus": "REJECTED_PIXEL_STYLE",
+          "qa": "Native-size inspection shows smooth anti-aliased illustration, not deliberate pixel clusters. Composition retained only for comparison; not an approved production reference.",
+          "referenceSha256": {
+            "ArtSource/Higgsfield/Selected/residential_day.png": "43229d62b8092e9f7f95dfe849f217a7097a4e869ea7a734134dda03b56ee17a"
+          }
+        }
+      ],
+      "revision": 2,
+      "revisionReason": "Both first candidates failed pixel-edge QA. One focused correction: redraw as native-grid pixel art.",
+      "productionGuard": "CRITICAL PIXEL REDRAW, not an illustration edit: the first attached image supplies ARCHITECTURE ONLY. The second attached image shows the required hard square pixel clusters and native game sprite density. Completely redraw the location with that pixel brushwork. Work as if on a 448 by 256 logical pixel canvas enlarged six times by nearest-neighbor. All edges must step on that visible coarse square grid. Flat shade clusters, limited palette ramps, no subpixel outline, no anti-aliasing, no smooth painted gradients, no fine illustration hatching. Do not copy the smooth rendering of the layout reference. Keep the scene navigable and muted. Blank signage.",
+      "selected": {
+        "candidate": "p72_015_r2_a",
+        "path": "ArtSource/Higgsfield/Selected/Production72/015.png",
+        "sha256": "2058097e62c07ad865cf907cbc1e1325fd768421c46be9a1652ff4cc9d1ff0fd",
+        "status": "APPROVED_REFERENCE",
+        "reviewer": "Codex visual QA; human production signoff pending",
+        "qa": "R2 A: visible grid-stepped brick/window/foliage clusters, blank shop signs, same stairwell and building footprints, sidewalks and human-scale doors. Composition and pixel reference selected; native sprite cleanup remains separate. R2 B failed during reference upload (HTTP520), has no generation result, and was not retried.",
+        "unityAssets": []
+      }
+    },
+    {
+      "id": 16,
+      "title": "주거지역 아침 출근시간",
+      "bodyFile": "016.txt",
+      "bodySha256": "688f84ac488f3abd7360bc412a7d24d3d659e884262f1c12bc4894d973f35c76",
+      "includesIan": false,
+      "locationDependency": 15,
+      "seedReferences": [],
+      "preserveSeedGeometry": false,
+      "batches": [
+        1
+      ],
+      "candidates": [
+        {
+          "name": "p72_016_a",
+          "status": "NO_RESULT_ERROR",
+          "promptSha256": "02e62576c2f154d4d07a7ee0b43ff4221b79298f855f5bacb2ffb0e44e667862",
+          "qa": "No generation ID or completed image returned. API upload/request error; alternate selected, no retry."
+        },
+        {
+          "name": "p72_016_b",
+          "status": "DOWNLOADED",
+          "promptSha256": "02e62576c2f154d4d07a7ee0b43ff4221b79298f855f5bacb2ffb0e44e667862",
+          "results": [
+            {
+              "id": "275993f1-ef49-4c21-9850-5a2d8d9450ef",
+              "created_at": "2026-11-18T12:58:26.128403Z",
+              "job_type": "gpt_image_2_6",
+              "status": "completed",
+              "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_125826_275993f1-ef49-4c21-9850-5a2d8d9450ef.png"
+            }
+          ],
+          "sha256": "c5ef96f9ddec73d28fe4d08f9b9df45b17c44641f35fd0c7e2073948bab11a15",
+          "rawPath": "ArtSource/Higgsfield/Raw/p72_016_b.png",
+          "reviewStatus": "SELECTED_REFERENCE"
+        }
+      ],
+      "styleReferences": [
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png"
+      ],
+      "productionGuard": "PIXEL PRODUCTION RULE: deliberately draw hard square pixel clusters on a 448 by 256 logical canvas, then enlarge six times with nearest-neighbor. Use limited flat palette ramps, visible stepped silhouettes and coarse grid-aligned shading; no anti-aliasing, fine hatching, smooth gradients or painted illustration. The pixel-style board, when attached, defines edge treatment and pixel density only, never its content or layout.",
+      "resolvedReferences": [
+        "ArtSource/Higgsfield/Selected/Production72/015.png",
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png"
+      ],
+      "referenceSha256": {
+        "ArtSource/Higgsfield/Selected/Production72/015.png": "2058097e62c07ad865cf907cbc1e1325fd768421c46be9a1652ff4cc9d1ff0fd",
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png": "03a2f9e2042c3aae33308d2d0ecead9a4e7aaf6ab57ed6d750ffad1fde9123c8"
+      },
+      "selected": {
+        "candidate": "p72_016_b",
+        "path": "ArtSource/Higgsfield/Selected/Production72/016.png",
+        "sha256": "c5ef96f9ddec73d28fe4d08f9b9df45b17c44641f35fd0c7e2073948bab11a15",
+        "status": "APPROVED_REFERENCE",
+        "reviewer": "Codex visual QA; human production signoff pending",
+        "qa": "Same residential buildings, stairwell, bus stop, road and sidewalk; added morning commuters, backpacks, scooter and bus, warm morning palette. B selected; A returned HTTP503 without a generation result, no retry.",
+        "unityAssets": []
+      }
+    },
+    {
+      "id": 17,
+      "title": "주거지역 오후",
+      "bodyFile": "017.txt",
+      "bodySha256": "c1ad85e613580734d0f67c8123297d682a6227d32cef0a25d6f00a24194ddab4",
+      "includesIan": false,
+      "locationDependency": 15,
+      "seedReferences": [],
+      "preserveSeedGeometry": false,
+      "batches": [
+        "supplement"
+      ],
+      "candidates": [
+        {
+          "name": "p72_017_a",
+          "status": "NOT_SUBMITTED"
+        },
+        {
+          "name": "p72_017_b",
+          "status": "NOT_SUBMITTED"
+        }
+      ],
+      "styleReferences": [
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png"
+      ],
+      "productionGuard": "PIXEL PRODUCTION RULE: deliberately draw hard square pixel clusters on a 448 by 256 logical canvas, then enlarge six times with nearest-neighbor. Use limited flat palette ramps, visible stepped silhouettes and coarse grid-aligned shading; no anti-aliasing, fine hatching, smooth gradients or painted illustration. The pixel-style board, when attached, defines edge treatment and pixel density only, never its content or layout. "
+    },
+    {
+      "id": 18,
+      "title": "주거지역 밤",
+      "bodyFile": "018.txt",
+      "bodySha256": "1c0a48cdf0f95e78f0f4c42d7319c15fc355d012a675e928d6d007204fafbce4",
+      "includesIan": false,
+      "locationDependency": 15,
+      "seedReferences": [],
+      "preserveSeedGeometry": false,
+      "batches": [
+        1
+      ],
+      "candidates": [
+        {
+          "name": "p72_018_a",
+          "status": "DOWNLOADED",
+          "promptSha256": "72fb6d8f584151f7b191a92019bfdc19380d815f35d622ed55aba7af0ac61e83",
+          "results": [
+            {
+              "id": "7707d863-d33a-4790-b9b3-b2d979f87d2a",
+              "created_at": "2026-11-18T12:58:37.577661Z",
+              "job_type": "gpt_image_2_6",
+              "status": "completed",
+              "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_125837_7707d863-d33a-4790-b9b3-b2d979f87d2a.png"
+            }
+          ],
+          "sha256": "538b818996e71d76c0f05938cb1c2d2c064efc8a8d0535448141463499aaad5d",
+          "rawPath": "ArtSource/Higgsfield/Raw/p72_018_a.png",
+          "reviewStatus": "ALTERNATE_NOT_SELECTED",
+          "qa": "Reviewed alongside selected candidate. Retained in local source archive; not imported."
+        },
+        {
+          "name": "p72_018_b",
+          "status": "DOWNLOADED",
+          "promptSha256": "72fb6d8f584151f7b191a92019bfdc19380d815f35d622ed55aba7af0ac61e83",
+          "results": [
+            {
+              "id": "0adc6339-e45d-4f09-9d57-3f91f8c1dc81",
+              "created_at": "2026-11-18T12:59:35.606617Z",
+              "job_type": "gpt_image_2_6",
+              "status": "completed",
+              "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_125935_0adc6339-e45d-4f09-9d57-3f91f8c1dc81.png"
+            }
+          ],
+          "sha256": "c0fc083b0aacb2f370795202267abc5cfcfb0953a48ec61082cf9c04a4fbf3eb",
+          "rawPath": "ArtSource/Higgsfield/Raw/p72_018_b.png",
+          "reviewStatus": "SELECTED_REFERENCE"
+        }
+      ],
+      "styleReferences": [
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png"
+      ],
+      "productionGuard": "PIXEL PRODUCTION RULE: deliberately draw hard square pixel clusters on a 448 by 256 logical canvas, then enlarge six times with nearest-neighbor. Use limited flat palette ramps, visible stepped silhouettes and coarse grid-aligned shading; no anti-aliasing, fine hatching, smooth gradients or painted illustration. The pixel-style board, when attached, defines edge treatment and pixel density only, never its content or layout.",
+      "resolvedReferences": [
+        "ArtSource/Higgsfield/Selected/Production72/015.png",
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png"
+      ],
+      "referenceSha256": {
+        "ArtSource/Higgsfield/Selected/Production72/015.png": "2058097e62c07ad865cf907cbc1e1325fd768421c46be9a1652ff4cc9d1ff0fd",
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png": "03a2f9e2042c3aae33308d2d0ecead9a4e7aaf6ab57ed6d750ffad1fde9123c8"
+      },
+      "selected": {
+        "candidate": "p72_018_b",
+        "path": "ArtSource/Higgsfield/Selected/Production72/018.png",
+        "sha256": "c0fc083b0aacb2f370795202267abc5cfcfb0953a48ec61082cf9c04a4fbf3eb",
+        "status": "APPROVED_REFERENCE",
+        "reviewer": "Codex visual QA; human production signoff pending",
+        "qa": "Same selected residential footprints and paths; fewer people, dark blue palette, warm apartment windows and lit shop frontage. No readable generated signs. Lighting reference only, not a swappable runtime background.",
+        "unityAssets": []
+      }
+    },
+    {
+      "id": 19,
+      "title": "쓰레기 배출일",
+      "bodyFile": "019.txt",
+      "bodySha256": "51249db88038a1c13596c11e955eeff927892989f29d82767f5ef7491238bab5",
+      "includesIan": false,
+      "locationDependency": 15,
+      "seedReferences": [],
+      "preserveSeedGeometry": false,
+      "batches": [
+        "supplement"
+      ],
+      "candidates": [
+        {
+          "name": "p72_019_a",
+          "status": "NOT_SUBMITTED"
+        },
+        {
+          "name": "p72_019_b",
+          "status": "NOT_SUBMITTED"
+        }
+      ],
+      "styleReferences": [
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png"
+      ],
+      "productionGuard": "PIXEL PRODUCTION RULE: deliberately draw hard square pixel clusters on a 448 by 256 logical canvas, then enlarge six times with nearest-neighbor. Use limited flat palette ramps, visible stepped silhouettes and coarse grid-aligned shading; no anti-aliasing, fine hatching, smooth gradients or painted illustration. The pixel-style board, when attached, defines edge treatment and pixel density only, never its content or layout. "
+    },
+    {
+      "id": 20,
+      "title": "월요일 아침",
+      "bodyFile": "020.txt",
+      "bodySha256": "5b195ced7f69a2c23047efa74106b878333b8ba3962255ab2bceef6e10f29c22",
+      "includesIan": false,
+      "locationDependency": 15,
+      "seedReferences": [],
+      "preserveSeedGeometry": false,
+      "batches": [
+        "supplement"
+      ],
+      "candidates": [
+        {
+          "name": "p72_020_a",
+          "status": "NOT_SUBMITTED"
+        },
+        {
+          "name": "p72_020_b",
+          "status": "NOT_SUBMITTED"
+        }
+      ],
+      "styleReferences": [
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png"
+      ],
+      "productionGuard": "PIXEL PRODUCTION RULE: deliberately draw hard square pixel clusters on a 448 by 256 logical canvas, then enlarge six times with nearest-neighbor. Use limited flat palette ramps, visible stepped silhouettes and coarse grid-aligned shading; no anti-aliasing, fine hatching, smooth gradients or painted illustration. The pixel-style board, when attached, defines edge treatment and pixel density only, never its content or layout. "
+    },
+    {
+      "id": 21,
+      "title": "도심 낮",
+      "bodyFile": "021.txt",
+      "bodySha256": "51d710533f2872e5ee35ecb54479f670a6a8d110480b043740b9951053041bf1",
+      "includesIan": false,
+      "locationDependency": null,
+      "seedReferences": [
+        "ArtSource/Higgsfield/Selected/city_day.png"
+      ],
+      "preserveSeedGeometry": true,
+      "batches": [
+        2
+      ],
+      "candidates": [
+        {
+          "name": "p72_021_a",
+          "status": "NOT_SUBMITTED"
+        },
+        {
+          "name": "p72_021_b",
+          "status": "NOT_SUBMITTED"
+        }
+      ],
+      "styleReferences": [
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png"
+      ],
+      "productionGuard": "PIXEL PRODUCTION RULE: deliberately draw hard square pixel clusters on a 448 by 256 logical canvas, then enlarge six times with nearest-neighbor. Use limited flat palette ramps, visible stepped silhouettes and coarse grid-aligned shading; no anti-aliasing, fine hatching, smooth gradients or painted illustration. The pixel-style board, when attached, defines edge treatment and pixel density only, never its content or layout. "
+    },
+    {
+      "id": 22,
+      "title": "출근시간",
+      "bodyFile": "022.txt",
+      "bodySha256": "c6cea799ed13af26e3f0b1c10d205a7b88af6bb6baac24094cabb7d570cc3f72",
+      "includesIan": false,
+      "locationDependency": 21,
+      "seedReferences": [],
+      "preserveSeedGeometry": false,
+      "batches": [
+        2
+      ],
+      "candidates": [
+        {
+          "name": "p72_022_a",
+          "status": "NOT_SUBMITTED"
+        },
+        {
+          "name": "p72_022_b",
+          "status": "NOT_SUBMITTED"
+        }
+      ],
+      "styleReferences": [
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png"
+      ],
+      "productionGuard": "PIXEL PRODUCTION RULE: deliberately draw hard square pixel clusters on a 448 by 256 logical canvas, then enlarge six times with nearest-neighbor. Use limited flat palette ramps, visible stepped silhouettes and coarse grid-aligned shading; no anti-aliasing, fine hatching, smooth gradients or painted illustration. The pixel-style board, when attached, defines edge treatment and pixel density only, never its content or layout. "
+    },
+    {
+      "id": 23,
+      "title": "점심시간",
+      "bodyFile": "023.txt",
+      "bodySha256": "e0f87201dc34d0ef176c104ad16f365f632856fae6ae71ac854870f234244c11",
+      "includesIan": false,
+      "locationDependency": 21,
+      "seedReferences": [],
+      "preserveSeedGeometry": false,
+      "batches": [
+        2
+      ],
+      "candidates": [
+        {
+          "name": "p72_023_a",
+          "status": "NOT_SUBMITTED"
+        },
+        {
+          "name": "p72_023_b",
+          "status": "NOT_SUBMITTED"
+        }
+      ],
+      "styleReferences": [
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png"
+      ],
+      "productionGuard": "PIXEL PRODUCTION RULE: deliberately draw hard square pixel clusters on a 448 by 256 logical canvas, then enlarge six times with nearest-neighbor. Use limited flat palette ramps, visible stepped silhouettes and coarse grid-aligned shading; no anti-aliasing, fine hatching, smooth gradients or painted illustration. The pixel-style board, when attached, defines edge treatment and pixel density only, never its content or layout. "
+    },
+    {
+      "id": 24,
+      "title": "퇴근시간",
+      "bodyFile": "024.txt",
+      "bodySha256": "b8afdad7f1fb476958fe1af87897d5ff22d60f16694d8c49f1b053d9edcf3ddd",
+      "includesIan": false,
+      "locationDependency": 21,
+      "seedReferences": [],
+      "preserveSeedGeometry": false,
+      "batches": [
+        2
+      ],
+      "candidates": [
+        {
+          "name": "p72_024_a",
+          "status": "NOT_SUBMITTED"
+        },
+        {
+          "name": "p72_024_b",
+          "status": "NOT_SUBMITTED"
+        }
+      ],
+      "styleReferences": [
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png"
+      ],
+      "productionGuard": "PIXEL PRODUCTION RULE: deliberately draw hard square pixel clusters on a 448 by 256 logical canvas, then enlarge six times with nearest-neighbor. Use limited flat palette ramps, visible stepped silhouettes and coarse grid-aligned shading; no anti-aliasing, fine hatching, smooth gradients or painted illustration. The pixel-style board, when attached, defines edge treatment and pixel density only, never its content or layout. "
+    },
+    {
+      "id": 25,
+      "title": "야근 도시",
+      "bodyFile": "025.txt",
+      "bodySha256": "fd556c27d61252c1c2948e59035b9f4d7ed9164e6c71cdabf63a2b5748342289",
+      "includesIan": false,
+      "locationDependency": 21,
+      "seedReferences": [],
+      "preserveSeedGeometry": false,
+      "batches": [
+        2
+      ],
+      "candidates": [
+        {
+          "name": "p72_025_a",
+          "status": "NOT_SUBMITTED"
+        },
+        {
+          "name": "p72_025_b",
+          "status": "NOT_SUBMITTED"
+        }
+      ],
+      "styleReferences": [
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png"
+      ],
+      "productionGuard": "PIXEL PRODUCTION RULE: deliberately draw hard square pixel clusters on a 448 by 256 logical canvas, then enlarge six times with nearest-neighbor. Use limited flat palette ramps, visible stepped silhouettes and coarse grid-aligned shading; no anti-aliasing, fine hatching, smooth gradients or painted illustration. The pixel-style board, when attached, defines edge treatment and pixel density only, never its content or layout. "
+    },
+    {
+      "id": 26,
+      "title": "비 오는 퇴근길",
+      "bodyFile": "026.txt",
+      "bodySha256": "cdedbc39f3ef34516605c0c01c3fe99a8f94c7cae9a85411276be0218da5f1d2",
+      "includesIan": false,
+      "locationDependency": 21,
+      "seedReferences": [],
+      "preserveSeedGeometry": false,
+      "batches": [
+        2
+      ],
+      "candidates": [
+        {
+          "name": "p72_026_a",
+          "status": "NOT_SUBMITTED"
+        },
+        {
+          "name": "p72_026_b",
+          "status": "NOT_SUBMITTED"
+        }
+      ],
+      "styleReferences": [
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png"
+      ],
+      "productionGuard": "PIXEL PRODUCTION RULE: deliberately draw hard square pixel clusters on a 448 by 256 logical canvas, then enlarge six times with nearest-neighbor. Use limited flat palette ramps, visible stepped silhouettes and coarse grid-aligned shading; no anti-aliasing, fine hatching, smooth gradients or painted illustration. The pixel-style board, when attached, defines edge treatment and pixel density only, never its content or layout. "
+    },
+    {
+      "id": 27,
+      "title": "일반 사무실",
+      "bodyFile": "027.txt",
+      "bodySha256": "81df611985f5f28e8a22eb877ce548eff8c77ab665781da8c63e4d60a4f6d8ab",
+      "includesIan": false,
+      "locationDependency": null,
+      "seedReferences": [
+        "ArtSource/Higgsfield/Selected/office_day.png"
+      ],
+      "preserveSeedGeometry": true,
+      "batches": [
+        3
+      ],
+      "candidates": [
+        {
+          "name": "p72_027_a",
+          "status": "NOT_SUBMITTED"
+        },
+        {
+          "name": "p72_027_b",
+          "status": "NOT_SUBMITTED"
+        }
+      ],
+      "styleReferences": [
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png"
+      ],
+      "productionGuard": "PIXEL PRODUCTION RULE: deliberately draw hard square pixel clusters on a 448 by 256 logical canvas, then enlarge six times with nearest-neighbor. Use limited flat palette ramps, visible stepped silhouettes and coarse grid-aligned shading; no anti-aliasing, fine hatching, smooth gradients or painted illustration. The pixel-style board, when attached, defines edge treatment and pixel density only, never its content or layout. "
+    },
+    {
+      "id": 28,
+      "title": "출근 직후",
+      "bodyFile": "028.txt",
+      "bodySha256": "e0cc93e087b016b35aca45fc9ba275bd4b31c7c3f189519cf215930f8ff1126f",
+      "includesIan": false,
+      "locationDependency": 27,
+      "seedReferences": [],
+      "preserveSeedGeometry": false,
+      "batches": [
+        3
+      ],
+      "candidates": [
+        {
+          "name": "p72_028_a",
+          "status": "NOT_SUBMITTED"
+        },
+        {
+          "name": "p72_028_b",
+          "status": "NOT_SUBMITTED"
+        }
+      ],
+      "styleReferences": [
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png"
+      ],
+      "productionGuard": "PIXEL PRODUCTION RULE: deliberately draw hard square pixel clusters on a 448 by 256 logical canvas, then enlarge six times with nearest-neighbor. Use limited flat palette ramps, visible stepped silhouettes and coarse grid-aligned shading; no anti-aliasing, fine hatching, smooth gradients or painted illustration. The pixel-style board, when attached, defines edge treatment and pixel density only, never its content or layout. "
+    },
+    {
+      "id": 29,
+      "title": "평범한 근무",
+      "bodyFile": "029.txt",
+      "bodySha256": "94f60721ecaeac4888cd051eff3ce9d32cc5ea0ad3f49379b3169b888cf0b6a9",
+      "includesIan": false,
+      "locationDependency": 27,
+      "seedReferences": [],
+      "preserveSeedGeometry": false,
+      "batches": [
+        3
+      ],
+      "candidates": [
+        {
+          "name": "p72_029_a",
+          "status": "NOT_SUBMITTED"
+        },
+        {
+          "name": "p72_029_b",
+          "status": "NOT_SUBMITTED"
+        }
+      ],
+      "styleReferences": [
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png"
+      ],
+      "productionGuard": "PIXEL PRODUCTION RULE: deliberately draw hard square pixel clusters on a 448 by 256 logical canvas, then enlarge six times with nearest-neighbor. Use limited flat palette ramps, visible stepped silhouettes and coarse grid-aligned shading; no anti-aliasing, fine hatching, smooth gradients or painted illustration. The pixel-style board, when attached, defines edge treatment and pixel density only, never its content or layout. "
+    },
+    {
+      "id": 30,
+      "title": "야근",
+      "bodyFile": "030.txt",
+      "bodySha256": "28c622fd3e0edcad88ad45d702961eca0b92d14bef0e41366d0dce565bb161ce",
+      "includesIan": false,
+      "locationDependency": 27,
+      "seedReferences": [],
+      "preserveSeedGeometry": false,
+      "batches": [
+        3
+      ],
+      "candidates": [
+        {
+          "name": "p72_030_a",
+          "status": "NOT_SUBMITTED"
+        },
+        {
+          "name": "p72_030_b",
+          "status": "NOT_SUBMITTED"
+        }
+      ],
+      "styleReferences": [
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png"
+      ],
+      "productionGuard": "PIXEL PRODUCTION RULE: deliberately draw hard square pixel clusters on a 448 by 256 logical canvas, then enlarge six times with nearest-neighbor. Use limited flat palette ramps, visible stepped silhouettes and coarse grid-aligned shading; no anti-aliasing, fine hatching, smooth gradients or painted illustration. The pixel-style board, when attached, defines edge treatment and pixel density only, never its content or layout. "
+    },
+    {
+      "id": 31,
+      "title": "회의실",
+      "bodyFile": "031.txt",
+      "bodySha256": "3abf6ce7ad11b33738d68d319f4f37eaefdce8701604a394e825c4f8bae41f2f",
+      "includesIan": false,
+      "locationDependency": 27,
+      "seedReferences": [],
+      "preserveSeedGeometry": false,
+      "batches": [
+        3
+      ],
+      "candidates": [
+        {
+          "name": "p72_031_a",
+          "status": "NOT_SUBMITTED"
+        },
+        {
+          "name": "p72_031_b",
+          "status": "NOT_SUBMITTED"
+        }
+      ],
+      "styleReferences": [
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png"
+      ],
+      "productionGuard": "PIXEL PRODUCTION RULE: deliberately draw hard square pixel clusters on a 448 by 256 logical canvas, then enlarge six times with nearest-neighbor. Use limited flat palette ramps, visible stepped silhouettes and coarse grid-aligned shading; no anti-aliasing, fine hatching, smooth gradients or painted illustration. The pixel-style board, when attached, defines edge treatment and pixel density only, never its content or layout. "
+    },
+    {
+      "id": 32,
+      "title": "탕비실",
+      "bodyFile": "032.txt",
+      "bodySha256": "fa8ab75dd8fa3b9b326a95458cfc9375154d11b63b4f45082f5df7b0937c4c96",
+      "includesIan": false,
+      "locationDependency": 27,
+      "seedReferences": [],
+      "preserveSeedGeometry": false,
+      "batches": [
+        3
+      ],
+      "candidates": [
+        {
+          "name": "p72_032_a",
+          "status": "NOT_SUBMITTED"
+        },
+        {
+          "name": "p72_032_b",
+          "status": "NOT_SUBMITTED"
+        }
+      ],
+      "styleReferences": [
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png"
+      ],
+      "productionGuard": "PIXEL PRODUCTION RULE: deliberately draw hard square pixel clusters on a 448 by 256 logical canvas, then enlarge six times with nearest-neighbor. Use limited flat palette ramps, visible stepped silhouettes and coarse grid-aligned shading; no anti-aliasing, fine hatching, smooth gradients or painted illustration. The pixel-style board, when attached, defines edge treatment and pixel density only, never its content or layout. "
+    },
+    {
+      "id": 33,
+      "title": "월급날",
+      "bodyFile": "033.txt",
+      "bodySha256": "89079df19995bee1dca4a9b8c910bf0558412ede9f9f16efb74dc6ccfea0da58",
+      "includesIan": true,
+      "locationDependency": 27,
+      "seedReferences": [],
+      "preserveSeedGeometry": false,
+      "batches": [
+        3
+      ],
+      "candidates": [
+        {
+          "name": "p72_033_a",
+          "status": "NOT_SUBMITTED"
+        },
+        {
+          "name": "p72_033_b",
+          "status": "NOT_SUBMITTED"
+        }
+      ],
+      "styleReferences": [
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png"
+      ],
+      "productionGuard": "PIXEL PRODUCTION RULE: deliberately draw hard square pixel clusters on a 448 by 256 logical canvas, then enlarge six times with nearest-neighbor. Use limited flat palette ramps, visible stepped silhouettes and coarse grid-aligned shading; no anti-aliasing, fine hatching, smooth gradients or painted illustration. The pixel-style board, when attached, defines edge treatment and pixel density only, never its content or layout. "
+    },
+    {
+      "id": 34,
+      "title": "직원 행복 프로그램",
+      "bodyFile": "034.txt",
+      "bodySha256": "c49caac145e95314b119809dd9d985002e6524a95083f1a4d976f6eafb9c15e1",
+      "includesIan": false,
+      "locationDependency": 27,
+      "seedReferences": [],
+      "preserveSeedGeometry": false,
+      "batches": [
+        3
+      ],
+      "candidates": [
+        {
+          "name": "p72_034_a",
+          "status": "NOT_SUBMITTED"
+        },
+        {
+          "name": "p72_034_b",
+          "status": "NOT_SUBMITTED"
+        }
+      ],
+      "styleReferences": [
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png"
+      ],
+      "productionGuard": "PIXEL PRODUCTION RULE: deliberately draw hard square pixel clusters on a 448 by 256 logical canvas, then enlarge six times with nearest-neighbor. Use limited flat palette ramps, visible stepped silhouettes and coarse grid-aligned shading; no anti-aliasing, fine hatching, smooth gradients or painted illustration. The pixel-style board, when attached, defines edge treatment and pixel density only, never its content or layout. "
+    },
+    {
+      "id": 35,
+      "title": "교실",
+      "bodyFile": "035.txt",
+      "bodySha256": "1aa2e19b6e964861f49cfde93ef72a904121e55e883a2b94f56f04f30e810111",
+      "includesIan": false,
+      "locationDependency": null,
+      "seedReferences": [
+        "ArtSource/Higgsfield/Selected/classroom.png"
+      ],
+      "preserveSeedGeometry": true,
+      "batches": [
+        3
+      ],
+      "candidates": [
+        {
+          "name": "p72_035_a",
+          "status": "NOT_SUBMITTED"
+        },
+        {
+          "name": "p72_035_b",
+          "status": "NOT_SUBMITTED"
+        }
+      ],
+      "styleReferences": [
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png"
+      ],
+      "productionGuard": "PIXEL PRODUCTION RULE: deliberately draw hard square pixel clusters on a 448 by 256 logical canvas, then enlarge six times with nearest-neighbor. Use limited flat palette ramps, visible stepped silhouettes and coarse grid-aligned shading; no anti-aliasing, fine hatching, smooth gradients or painted illustration. The pixel-style board, when attached, defines edge treatment and pixel density only, never its content or layout. "
+    },
+    {
+      "id": 36,
+      "title": "시험 직전",
+      "bodyFile": "036.txt",
+      "bodySha256": "64756fc8c9ac4f0cdafff95ef768442486fd6e50ddf5dbbd3c334031bee31551",
+      "includesIan": true,
+      "locationDependency": 35,
+      "seedReferences": [],
+      "preserveSeedGeometry": false,
+      "batches": [
+        3
+      ],
+      "candidates": [
+        {
+          "name": "p72_036_a",
+          "status": "NOT_SUBMITTED"
+        },
+        {
+          "name": "p72_036_b",
+          "status": "NOT_SUBMITTED"
+        }
+      ],
+      "styleReferences": [
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png"
+      ],
+      "productionGuard": "PIXEL PRODUCTION RULE: deliberately draw hard square pixel clusters on a 448 by 256 logical canvas, then enlarge six times with nearest-neighbor. Use limited flat palette ramps, visible stepped silhouettes and coarse grid-aligned shading; no anti-aliasing, fine hatching, smooth gradients or painted illustration. The pixel-style board, when attached, defines edge treatment and pixel density only, never its content or layout. "
+    },
+    {
+      "id": 37,
+      "title": "시험 후",
+      "bodyFile": "037.txt",
+      "bodySha256": "a2f8fdded7fcab075535147054bd4ca79acaa3d486cc23a3a30dbb44f2031201",
+      "includesIan": false,
+      "locationDependency": 35,
+      "seedReferences": [],
+      "preserveSeedGeometry": false,
+      "batches": [
+        3
+      ],
+      "candidates": [
+        {
+          "name": "p72_037_a",
+          "status": "NOT_SUBMITTED"
+        },
+        {
+          "name": "p72_037_b",
+          "status": "NOT_SUBMITTED"
+        }
+      ],
+      "styleReferences": [
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png"
+      ],
+      "productionGuard": "PIXEL PRODUCTION RULE: deliberately draw hard square pixel clusters on a 448 by 256 logical canvas, then enlarge six times with nearest-neighbor. Use limited flat palette ramps, visible stepped silhouettes and coarse grid-aligned shading; no anti-aliasing, fine hatching, smooth gradients or painted illustration. The pixel-style board, when attached, defines edge treatment and pixel density only, never its content or layout. "
+    },
+    {
+      "id": 38,
+      "title": "학교 복도",
+      "bodyFile": "038.txt",
+      "bodySha256": "0be35eb11193debd193e2efd593d00612b8b49a9743aa3ec01164dc4bb55aaea",
+      "includesIan": false,
+      "locationDependency": null,
+      "seedReferences": [
+        "ArtSource/Higgsfield/Selected/school_hallway.png"
+      ],
+      "preserveSeedGeometry": true,
+      "batches": [
+        3
+      ],
+      "candidates": [
+        {
+          "name": "p72_038_a",
+          "status": "NOT_SUBMITTED"
+        },
+        {
+          "name": "p72_038_b",
+          "status": "NOT_SUBMITTED"
+        }
+      ],
+      "styleReferences": [
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png"
+      ],
+      "productionGuard": "PIXEL PRODUCTION RULE: deliberately draw hard square pixel clusters on a 448 by 256 logical canvas, then enlarge six times with nearest-neighbor. Use limited flat palette ramps, visible stepped silhouettes and coarse grid-aligned shading; no anti-aliasing, fine hatching, smooth gradients or painted illustration. The pixel-style board, when attached, defines edge treatment and pixel density only, never its content or layout. "
+    },
+    {
+      "id": 39,
+      "title": "진로상담",
+      "bodyFile": "039.txt",
+      "bodySha256": "6786520e78135e36f792f34ce6df157573abc8f0d757f37d65d3bf9b3d14fe76",
+      "includesIan": true,
+      "locationDependency": null,
+      "seedReferences": [],
+      "preserveSeedGeometry": false,
+      "batches": [
+        3
+      ],
+      "candidates": [
+        {
+          "name": "p72_039_a",
+          "status": "NOT_SUBMITTED"
+        },
+        {
+          "name": "p72_039_b",
+          "status": "NOT_SUBMITTED"
+        }
+      ],
+      "styleReferences": [
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png"
+      ],
+      "productionGuard": "PIXEL PRODUCTION RULE: deliberately draw hard square pixel clusters on a 448 by 256 logical canvas, then enlarge six times with nearest-neighbor. Use limited flat palette ramps, visible stepped silhouettes and coarse grid-aligned shading; no anti-aliasing, fine hatching, smooth gradients or painted illustration. The pixel-style board, when attached, defines edge treatment and pixel density only, never its content or layout. "
+    },
+    {
+      "id": 40,
+      "title": "방과후",
+      "bodyFile": "040.txt",
+      "bodySha256": "3a055b199097525b07736a009dfc89798bff328e24a95259808ed3d3a198a914",
+      "includesIan": true,
+      "locationDependency": 38,
+      "seedReferences": [],
+      "preserveSeedGeometry": false,
+      "batches": [
+        3
+      ],
+      "candidates": [
+        {
+          "name": "p72_040_a",
+          "status": "NOT_SUBMITTED"
+        },
+        {
+          "name": "p72_040_b",
+          "status": "NOT_SUBMITTED"
+        }
+      ],
+      "styleReferences": [
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png"
+      ],
+      "productionGuard": "PIXEL PRODUCTION RULE: deliberately draw hard square pixel clusters on a 448 by 256 logical canvas, then enlarge six times with nearest-neighbor. Use limited flat palette ramps, visible stepped silhouettes and coarse grid-aligned shading; no anti-aliasing, fine hatching, smooth gradients or painted illustration. The pixel-style board, when attached, defines edge treatment and pixel density only, never its content or layout. "
+    },
+    {
+      "id": 41,
+      "title": "편의점 내부",
+      "bodyFile": "041.txt",
+      "bodySha256": "74e6b7282e4daa5a4b92837124a50ae41db3e2e9a2cb921375eed54242e4bcdb",
+      "includesIan": false,
+      "locationDependency": null,
+      "seedReferences": [
+        "ArtSource/Higgsfield/Selected/convenience_interior_clean.png",
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png"
+      ],
+      "preserveSeedGeometry": true,
+      "batches": [
+        1
+      ],
+      "candidates": [
+        {
+          "name": "p72_041_r2_a",
+          "status": "DOWNLOADED",
+          "promptSha256": "05535d443c82189d18dc94efc5992a398ab9437e614908b444f78b52fc6127cf",
+          "results": [
+            {
+              "id": "1dca2d0f-a323-4d21-9594-a7ee36212b78",
+              "created_at": "2026-11-18T12:56:56.382467Z",
+              "job_type": "gpt_image_2_6",
+              "status": "completed",
+              "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_125656_1dca2d0f-a323-4d21-9594-a7ee36212b78.png"
+            }
+          ],
+          "sha256": "6eb275f7c8845942fd9c0c516675e4b35b237cdf7554075e8a4957b3bd3eb519",
+          "rawPath": "ArtSource/Higgsfield/Raw/p72_041_r2_a.png",
+          "reviewStatus": "SELECTED_REFERENCE"
+        },
+        {
+          "name": "p72_041_r2_b",
+          "status": "DOWNLOADED",
+          "promptSha256": "05535d443c82189d18dc94efc5992a398ab9437e614908b444f78b52fc6127cf",
+          "results": [
+            {
+              "id": "35ed8d95-bd44-4dc3-ab97-5363b5cee68a",
+              "created_at": "2026-11-18T12:57:44.18725Z",
+              "job_type": "gpt_image_2_6",
+              "status": "completed",
+              "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_125744_35ed8d95-bd44-4dc3-ab97-5363b5cee68a.png"
+            }
+          ],
+          "sha256": "b89eb2dc36e0491b22b47415dbf73ccaf876883bca1533df4756101f821a21d0",
+          "rawPath": "ArtSource/Higgsfield/Raw/p72_041_r2_b.png",
+          "reviewStatus": "ALTERNATE_NOT_SELECTED",
+          "qa": "Reviewed alongside selected candidate. Retained in local source archive; not imported."
+        }
+      ],
+      "resolvedReferences": [
+        "ArtSource/Higgsfield/Selected/convenience_interior_clean.png",
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png"
+      ],
+      "referenceSha256": {
+        "ArtSource/Higgsfield/Selected/convenience_interior_clean.png": "be7ddf21828681ac555be1c0f6ee567e87c7db0ff85b8f739ce509014353572b",
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png": "03a2f9e2042c3aae33308d2d0ecead9a4e7aaf6ab57ed6d750ffad1fde9123c8"
+      },
+      "previousCandidates": [
+        {
+          "name": "p72_041_a",
+          "status": "DOWNLOADED",
+          "promptSha256": "0a8c04530255333feac7c92006b80836d98f3067f63ec33867173b16a80cc6a5",
+          "results": [
+            {
+              "id": "1bef5404-4a3b-47df-b89a-cfe846e542ce",
+              "created_at": "2026-11-18T12:53:35.273266Z",
+              "job_type": "gpt_image_2_6",
+              "status": "completed",
+              "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_125335_1bef5404-4a3b-47df-b89a-cfe846e542ce.png"
+            }
+          ],
+          "sha256": "98a6965ef48da91afe8f06ea22a5bb4c27f71b01849efa52290d2e44ee516cbf",
+          "rawPath": "ArtSource/Higgsfield/Raw/p72_041_a.png",
+          "reviewStatus": "REJECTED_PIXEL_STYLE",
+          "qa": "Native-size inspection shows smooth anti-aliased illustration, not deliberate pixel clusters. Composition retained only for comparison; not an approved production reference.",
+          "referenceSha256": {
+            "ArtSource/Higgsfield/Selected/convenience_interior_clean.png": "be7ddf21828681ac555be1c0f6ee567e87c7db0ff85b8f739ce509014353572b"
+          }
+        },
+        {
+          "name": "p72_041_b",
+          "status": "DOWNLOADED",
+          "promptSha256": "0a8c04530255333feac7c92006b80836d98f3067f63ec33867173b16a80cc6a5",
+          "results": [
+            {
+              "id": "1b095466-6348-438d-9e43-ba20d6d8fe8a",
+              "created_at": "2026-11-18T12:53:37.522175Z",
+              "job_type": "gpt_image_2_6",
+              "status": "completed",
+              "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_125337_1b095466-6348-438d-9e43-ba20d6d8fe8a.png"
+            }
+          ],
+          "sha256": "384f085e387378e25eef87fe75667b5727c992fd1f8f4ae1758b1c2db5924f3e",
+          "rawPath": "ArtSource/Higgsfield/Raw/p72_041_b.png",
+          "reviewStatus": "REJECTED_PIXEL_STYLE",
+          "qa": "Native-size inspection shows smooth anti-aliased illustration, not deliberate pixel clusters. Composition retained only for comparison; not an approved production reference.",
+          "referenceSha256": {
+            "ArtSource/Higgsfield/Selected/convenience_interior_clean.png": "be7ddf21828681ac555be1c0f6ee567e87c7db0ff85b8f739ce509014353572b"
+          }
+        }
+      ],
+      "revision": 2,
+      "revisionReason": "Both first candidates failed pixel-edge QA. One focused correction: redraw as native-grid pixel art.",
+      "productionGuard": "CRITICAL PIXEL REDRAW, not an illustration edit: the first attached image supplies ARCHITECTURE ONLY. The second attached image shows the required hard square pixel clusters and native game sprite density. Completely redraw the location with that pixel brushwork. Work as if on a 448 by 256 logical pixel canvas enlarged six times by nearest-neighbor. All edges must step on that visible coarse square grid. Flat shade clusters, limited palette ramps, no subpixel outline, no anti-aliasing, no smooth painted gradients, no fine illustration hatching. Do not copy the smooth rendering of the layout reference. Keep the scene navigable and muted. Blank signage.",
+      "selected": {
+        "candidate": "p72_041_r2_a",
+        "path": "ArtSource/Higgsfield/Selected/Production72/041.png",
+        "sha256": "6eb275f7c8845942fd9c0c516675e4b35b237cdf7554075e8a4957b3bd3eb519",
+        "status": "APPROVED_REFERENCE",
+        "reviewer": "Codex visual QA; human production signoff pending",
+        "qa": "R2: hard-stepped shelf silhouettes and readable product blocks, clear checkout and three aisles, blank fascia, retained refrigerator/window/counter layout. Cool shop lighting. Individual sprite cleanup required before runtime use.",
+        "unityAssets": []
+      }
+    },
+    {
+      "id": 42,
+      "title": "새벽 편의점",
+      "bodyFile": "042.txt",
+      "bodySha256": "ce3c54f41a710ce274ba068b243a1495a7ce9f060a58be8919827c8ebc3fa2c3",
+      "includesIan": false,
+      "locationDependency": 41,
+      "seedReferences": [],
+      "preserveSeedGeometry": false,
+      "batches": [
+        1
+      ],
+      "candidates": [
+        {
+          "name": "p72_042_a",
+          "status": "DOWNLOADED",
+          "promptSha256": "c7b7dbfa7e982ea5eadec9c53cee255b55ecc80ed39624f832b7a8547e74dc4c",
+          "results": [
+            {
+              "id": "88d834b1-6430-43bf-a3f5-e5c9ea3c4258",
+              "created_at": "2026-11-18T12:59:44.151214Z",
+              "job_type": "gpt_image_2_6",
+              "status": "completed",
+              "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_125944_88d834b1-6430-43bf-a3f5-e5c9ea3c4258.png"
+            }
+          ],
+          "sha256": "db3acb5a9fc38cc459b521d1c3864b5401e61c4d790b120724a91d406c31f6fa",
+          "rawPath": "ArtSource/Higgsfield/Raw/p72_042_a.png",
+          "reviewStatus": "SELECTED_REFERENCE"
+        },
+        {
+          "name": "p72_042_b",
+          "status": "DOWNLOADED",
+          "promptSha256": "c7b7dbfa7e982ea5eadec9c53cee255b55ecc80ed39624f832b7a8547e74dc4c",
+          "results": [
+            {
+              "id": "7b14a2ca-3aba-47c9-bab4-c7500966e7d8",
+              "created_at": "2026-11-18T12:59:41.323445Z",
+              "job_type": "gpt_image_2_6",
+              "status": "completed",
+              "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_125941_7b14a2ca-3aba-47c9-bab4-c7500966e7d8.png"
+            }
+          ],
+          "sha256": "dab0b25d0118a379975a40fe9f5712b5e42632d12a98513ca3db1fba3bbab1d9",
+          "rawPath": "ArtSource/Higgsfield/Raw/p72_042_b.png",
+          "reviewStatus": "ALTERNATE_NOT_SELECTED",
+          "qa": "Reviewed alongside selected candidate. Retained in local source archive; not imported."
+        }
+      ],
+      "styleReferences": [
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png"
+      ],
+      "productionGuard": "PIXEL PRODUCTION RULE: deliberately draw hard square pixel clusters on a 448 by 256 logical canvas, then enlarge six times with nearest-neighbor. Use limited flat palette ramps, visible stepped silhouettes and coarse grid-aligned shading; no anti-aliasing, fine hatching, smooth gradients or painted illustration. The pixel-style board, when attached, defines edge treatment and pixel density only, never its content or layout.",
+      "resolvedReferences": [
+        "ArtSource/Higgsfield/Selected/Production72/041.png",
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png"
+      ],
+      "referenceSha256": {
+        "ArtSource/Higgsfield/Selected/Production72/041.png": "6eb275f7c8845942fd9c0c516675e4b35b237cdf7554075e8a4957b3bd3eb519",
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png": "03a2f9e2042c3aae33308d2d0ecead9a4e7aaf6ab57ed6d750ffad1fde9123c8"
+      },
+      "selected": {
+        "candidate": "p72_042_a",
+        "path": "ArtSource/Higgsfield/Selected/Production72/042.png",
+        "sha256": "db3acb5a9fc38cc459b521d1c3864b5401e61c4d790b120724a91d406c31f6fa",
+        "status": "APPROVED_REFERENCE",
+        "reviewer": "Codex visual QA; human production signoff pending",
+        "qa": "Same store shell, refrigerators, counter, window bar and aisle placement; cool 2AM light, one tired cashier and one noodle diner. Stock appearance varies, so use as lighting/occupancy reference only, not an inventory state source.",
+        "unityAssets": []
+      }
+    },
+    {
+      "id": 43,
+      "title": "점심 편의점",
+      "bodyFile": "043.txt",
+      "bodySha256": "cbf7f0643b314ab8da48664504b41b41c300b38621a4b80fc3aee1992259aebc",
+      "includesIan": false,
+      "locationDependency": 41,
+      "seedReferences": [],
+      "preserveSeedGeometry": false,
+      "batches": [
+        "supplement"
+      ],
+      "candidates": [
+        {
+          "name": "p72_043_a",
+          "status": "NOT_SUBMITTED"
+        },
+        {
+          "name": "p72_043_b",
+          "status": "NOT_SUBMITTED"
+        }
+      ],
+      "styleReferences": [
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png"
+      ],
+      "productionGuard": "PIXEL PRODUCTION RULE: deliberately draw hard square pixel clusters on a 448 by 256 logical canvas, then enlarge six times with nearest-neighbor. Use limited flat palette ramps, visible stepped silhouettes and coarse grid-aligned shading; no anti-aliasing, fine hatching, smooth gradients or painted illustration. The pixel-style board, when attached, defines edge treatment and pixel density only, never its content or layout. "
+    },
+    {
+      "id": 44,
+      "title": "편의점 알바",
+      "bodyFile": "044.txt",
+      "bodySha256": "839111f021a8ccb7a8b48821477c994a30f160aec81df5c0b910f6fc58f97b6b",
+      "includesIan": true,
+      "locationDependency": 41,
+      "seedReferences": [],
+      "preserveSeedGeometry": false,
+      "batches": [
+        "supplement"
+      ],
+      "candidates": [
+        {
+          "name": "p72_044_a",
+          "status": "NOT_SUBMITTED"
+        },
+        {
+          "name": "p72_044_b",
+          "status": "NOT_SUBMITTED"
+        }
+      ],
+      "styleReferences": [
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png"
+      ],
+      "productionGuard": "PIXEL PRODUCTION RULE: deliberately draw hard square pixel clusters on a 448 by 256 logical canvas, then enlarge six times with nearest-neighbor. Use limited flat palette ramps, visible stepped silhouettes and coarse grid-aligned shading; no anti-aliasing, fine hatching, smooth gradients or painted illustration. The pixel-style board, when attached, defines edge treatment and pixel density only, never its content or layout. "
+    },
+    {
+      "id": 45,
+      "title": "카페",
+      "bodyFile": "045.txt",
+      "bodySha256": "16db092ba0cecfa32de0c0dfe6127a61bdd63e5f5e27a9010336925b5e9edaba",
+      "includesIan": false,
+      "locationDependency": null,
+      "seedReferences": [
+        "ArtSource/Higgsfield/Selected/cafe.png"
+      ],
+      "preserveSeedGeometry": true,
+      "batches": [
+        "supplement"
+      ],
+      "candidates": [
+        {
+          "name": "p72_045_a",
+          "status": "NOT_SUBMITTED"
+        },
+        {
+          "name": "p72_045_b",
+          "status": "NOT_SUBMITTED"
+        }
+      ],
+      "styleReferences": [
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png"
+      ],
+      "productionGuard": "PIXEL PRODUCTION RULE: deliberately draw hard square pixel clusters on a 448 by 256 logical canvas, then enlarge six times with nearest-neighbor. Use limited flat palette ramps, visible stepped silhouettes and coarse grid-aligned shading; no anti-aliasing, fine hatching, smooth gradients or painted illustration. The pixel-style board, when attached, defines edge treatment and pixel density only, never its content or layout. "
+    },
+    {
+      "id": 46,
+      "title": "카페에서 일하는 사람들",
+      "bodyFile": "046.txt",
+      "bodySha256": "ae97b27fd649d676be8af12364b5ecf8b8885a04b07ae80e243b5f0186462125",
+      "includesIan": false,
+      "locationDependency": 45,
+      "seedReferences": [],
+      "preserveSeedGeometry": false,
+      "batches": [
+        "supplement"
+      ],
+      "candidates": [
+        {
+          "name": "p72_046_a",
+          "status": "NOT_SUBMITTED"
+        },
+        {
+          "name": "p72_046_b",
+          "status": "NOT_SUBMITTED"
+        }
+      ],
+      "styleReferences": [
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png"
+      ],
+      "productionGuard": "PIXEL PRODUCTION RULE: deliberately draw hard square pixel clusters on a 448 by 256 logical canvas, then enlarge six times with nearest-neighbor. Use limited flat palette ramps, visible stepped silhouettes and coarse grid-aligned shading; no anti-aliasing, fine hatching, smooth gradients or painted illustration. The pixel-style board, when attached, defines edge treatment and pixel density only, never its content or layout. "
+    },
+    {
+      "id": 47,
+      "title": "혼밥 식당",
+      "bodyFile": "047.txt",
+      "bodySha256": "cacc9a78072dcb7ec045626e45e13797036d54168ab65845feefe073d4ce9e84",
+      "includesIan": false,
+      "locationDependency": null,
+      "seedReferences": [],
+      "preserveSeedGeometry": false,
+      "batches": [
+        "supplement"
+      ],
+      "candidates": [
+        {
+          "name": "p72_047_a",
+          "status": "NOT_SUBMITTED"
+        },
+        {
+          "name": "p72_047_b",
+          "status": "NOT_SUBMITTED"
+        }
+      ],
+      "styleReferences": [
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png"
+      ],
+      "productionGuard": "PIXEL PRODUCTION RULE: deliberately draw hard square pixel clusters on a 448 by 256 logical canvas, then enlarge six times with nearest-neighbor. Use limited flat palette ramps, visible stepped silhouettes and coarse grid-aligned shading; no anti-aliasing, fine hatching, smooth gradients or painted illustration. The pixel-style board, when attached, defines edge treatment and pixel density only, never its content or layout. "
+    },
+    {
+      "id": 48,
+      "title": "배달 음식",
+      "bodyFile": "048.txt",
+      "bodySha256": "3f19cf67a57ff9c67950d7d9e8bf1bf2cfcdf7d170213570e05d3b4c1bcd4f39",
+      "includesIan": true,
+      "locationDependency": 1,
+      "seedReferences": [],
+      "preserveSeedGeometry": false,
+      "batches": [
+        "supplement"
+      ],
+      "candidates": [
+        {
+          "name": "p72_048_a",
+          "status": "NOT_SUBMITTED"
+        },
+        {
+          "name": "p72_048_b",
+          "status": "NOT_SUBMITTED"
+        }
+      ],
+      "styleReferences": [
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png"
+      ],
+      "productionGuard": "PIXEL PRODUCTION RULE: deliberately draw hard square pixel clusters on a 448 by 256 logical canvas, then enlarge six times with nearest-neighbor. Use limited flat palette ramps, visible stepped silhouettes and coarse grid-aligned shading; no anti-aliasing, fine hatching, smooth gradients or painted illustration. The pixel-style board, when attached, defines edge treatment and pixel density only, never its content or layout. "
+    },
+    {
+      "id": 49,
+      "title": "은행",
+      "bodyFile": "049.txt",
+      "bodySha256": "d746a946c5ceb9c6c9b5d198cdf7d0b61a7704b7b59553319178de36c0ca5b53",
+      "includesIan": false,
+      "locationDependency": null,
+      "seedReferences": [
+        "ArtSource/Higgsfield/Selected/finance.png"
+      ],
+      "preserveSeedGeometry": true,
+      "batches": [
+        4
+      ],
+      "candidates": [
+        {
+          "name": "p72_049_a",
+          "status": "NOT_SUBMITTED"
+        },
+        {
+          "name": "p72_049_b",
+          "status": "NOT_SUBMITTED"
+        }
+      ],
+      "styleReferences": [
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png"
+      ],
+      "productionGuard": "PIXEL PRODUCTION RULE: deliberately draw hard square pixel clusters on a 448 by 256 logical canvas, then enlarge six times with nearest-neighbor. Use limited flat palette ramps, visible stepped silhouettes and coarse grid-aligned shading; no anti-aliasing, fine hatching, smooth gradients or painted illustration. The pixel-style board, when attached, defines edge treatment and pixel density only, never its content or layout. "
+    },
+    {
+      "id": 50,
+      "title": "대출 상담",
+      "bodyFile": "050.txt",
+      "bodySha256": "ce6cdad53a63de17037c0825e07b863b4728e8618a4f8091e2b757fff6ed45e7",
+      "includesIan": true,
+      "locationDependency": 49,
+      "seedReferences": [],
+      "preserveSeedGeometry": false,
+      "batches": [
+        4
+      ],
+      "candidates": [
+        {
+          "name": "p72_050_a",
+          "status": "NOT_SUBMITTED"
+        },
+        {
+          "name": "p72_050_b",
+          "status": "NOT_SUBMITTED"
+        }
+      ],
+      "styleReferences": [
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png"
+      ],
+      "productionGuard": "PIXEL PRODUCTION RULE: deliberately draw hard square pixel clusters on a 448 by 256 logical canvas, then enlarge six times with nearest-neighbor. Use limited flat palette ramps, visible stepped silhouettes and coarse grid-aligned shading; no anti-aliasing, fine hatching, smooth gradients or painted illustration. The pixel-style board, when attached, defines edge treatment and pixel density only, never its content or layout. "
+    },
+    {
+      "id": 51,
+      "title": "주식 투자센터",
+      "bodyFile": "051.txt",
+      "bodySha256": "9fd667c90c9761eed0e467e054c011b34df1b9b75fecf5563bf9575513e7bbdb",
+      "includesIan": false,
+      "locationDependency": null,
+      "seedReferences": [
+        "ArtSource/Higgsfield/Selected/finance.png"
+      ],
+      "preserveSeedGeometry": true,
+      "batches": [
+        4
+      ],
+      "candidates": [
+        {
+          "name": "p72_051_a",
+          "status": "NOT_SUBMITTED"
+        },
+        {
+          "name": "p72_051_b",
+          "status": "NOT_SUBMITTED"
+        }
+      ],
+      "styleReferences": [
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png"
+      ],
+      "productionGuard": "PIXEL PRODUCTION RULE: deliberately draw hard square pixel clusters on a 448 by 256 logical canvas, then enlarge six times with nearest-neighbor. Use limited flat palette ramps, visible stepped silhouettes and coarse grid-aligned shading; no anti-aliasing, fine hatching, smooth gradients or painted illustration. The pixel-style board, when attached, defines edge treatment and pixel density only, never its content or layout. "
+    },
+    {
+      "id": 52,
+      "title": "주가 상승",
+      "bodyFile": "052.txt",
+      "bodySha256": "f96058c3454be20d552d157b0a6881b97125efe829b734883357392f3ec7a969",
+      "includesIan": true,
+      "locationDependency": 51,
+      "seedReferences": [],
+      "preserveSeedGeometry": false,
+      "batches": [
+        4
+      ],
+      "candidates": [
+        {
+          "name": "p72_052_a",
+          "status": "NOT_SUBMITTED"
+        },
+        {
+          "name": "p72_052_b",
+          "status": "NOT_SUBMITTED"
+        }
+      ],
+      "styleReferences": [
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png"
+      ],
+      "productionGuard": "PIXEL PRODUCTION RULE: deliberately draw hard square pixel clusters on a 448 by 256 logical canvas, then enlarge six times with nearest-neighbor. Use limited flat palette ramps, visible stepped silhouettes and coarse grid-aligned shading; no anti-aliasing, fine hatching, smooth gradients or painted illustration. The pixel-style board, when attached, defines edge treatment and pixel density only, never its content or layout. "
+    },
+    {
+      "id": 53,
+      "title": "주가 폭락",
+      "bodyFile": "053.txt",
+      "bodySha256": "5b28dc08d9fef24a984d5f221340b9e2e447a38365664da8cbb51c143d516498",
+      "includesIan": true,
+      "locationDependency": 51,
+      "seedReferences": [],
+      "preserveSeedGeometry": false,
+      "batches": [
+        4
+      ],
+      "candidates": [
+        {
+          "name": "p72_053_a",
+          "status": "NOT_SUBMITTED"
+        },
+        {
+          "name": "p72_053_b",
+          "status": "NOT_SUBMITTED"
+        }
+      ],
+      "styleReferences": [
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png"
+      ],
+      "productionGuard": "PIXEL PRODUCTION RULE: deliberately draw hard square pixel clusters on a 448 by 256 logical canvas, then enlarge six times with nearest-neighbor. Use limited flat palette ramps, visible stepped silhouettes and coarse grid-aligned shading; no anti-aliasing, fine hatching, smooth gradients or painted illustration. The pixel-style board, when attached, defines edge treatment and pixel density only, never its content or layout. "
+    },
+    {
+      "id": 54,
+      "title": "세금 고지",
+      "bodyFile": "054.txt",
+      "bodySha256": "d61143895b6133cff23f1d25228f1bec969272a263877e92d80fe6c8c670d34d",
+      "includesIan": true,
+      "locationDependency": 1,
+      "seedReferences": [],
+      "preserveSeedGeometry": false,
+      "batches": [
+        4
+      ],
+      "candidates": [
+        {
+          "name": "p72_054_a",
+          "status": "NOT_SUBMITTED"
+        },
+        {
+          "name": "p72_054_b",
+          "status": "NOT_SUBMITTED"
+        }
+      ],
+      "styleReferences": [
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png"
+      ],
+      "productionGuard": "PIXEL PRODUCTION RULE: deliberately draw hard square pixel clusters on a 448 by 256 logical canvas, then enlarge six times with nearest-neighbor. Use limited flat palette ramps, visible stepped silhouettes and coarse grid-aligned shading; no anti-aliasing, fine hatching, smooth gradients or painted illustration. The pixel-style board, when attached, defines edge treatment and pixel density only, never its content or layout. "
+    },
+    {
+      "id": 55,
+      "title": "부동산 사무실",
+      "bodyFile": "055.txt",
+      "bodySha256": "97ab8056cdfd61fe3a1b6088d37304684425dba68c0d92d6026080107a44fa88",
+      "includesIan": false,
+      "locationDependency": null,
+      "seedReferences": [
+        "ArtSource/Higgsfield/Selected/realestate.png"
+      ],
+      "preserveSeedGeometry": true,
+      "batches": [
+        4
+      ],
+      "candidates": [
+        {
+          "name": "p72_055_a",
+          "status": "NOT_SUBMITTED"
+        },
+        {
+          "name": "p72_055_b",
+          "status": "NOT_SUBMITTED"
+        }
+      ],
+      "styleReferences": [
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png"
+      ],
+      "productionGuard": "PIXEL PRODUCTION RULE: deliberately draw hard square pixel clusters on a 448 by 256 logical canvas, then enlarge six times with nearest-neighbor. Use limited flat palette ramps, visible stepped silhouettes and coarse grid-aligned shading; no anti-aliasing, fine hatching, smooth gradients or painted illustration. The pixel-style board, when attached, defines edge treatment and pixel density only, never its content or layout. "
+    },
+    {
+      "id": 56,
+      "title": "첫 집 알아보기",
+      "bodyFile": "056.txt",
+      "bodySha256": "5d92302396e16425ef879b2992b0d61cf4483da0cfb061b2ffdbc81916e9bbf4",
+      "includesIan": true,
+      "locationDependency": 55,
+      "seedReferences": [],
+      "preserveSeedGeometry": false,
+      "batches": [
+        4
+      ],
+      "candidates": [
+        {
+          "name": "p72_056_a",
+          "status": "NOT_SUBMITTED"
+        },
+        {
+          "name": "p72_056_b",
+          "status": "NOT_SUBMITTED"
+        }
+      ],
+      "styleReferences": [
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png"
+      ],
+      "productionGuard": "PIXEL PRODUCTION RULE: deliberately draw hard square pixel clusters on a 448 by 256 logical canvas, then enlarge six times with nearest-neighbor. Use limited flat palette ramps, visible stepped silhouettes and coarse grid-aligned shading; no anti-aliasing, fine hatching, smooth gradients or painted illustration. The pixel-style board, when attached, defines edge treatment and pixel density only, never its content or layout. "
+    },
+    {
+      "id": 57,
+      "title": "비싼 집 구경",
+      "bodyFile": "057.txt",
+      "bodySha256": "838509d4b3e48837f8a561011bcf90ac97860f82e6a2fcbe6af84daa2a82c4ae",
+      "includesIan": true,
+      "locationDependency": null,
+      "seedReferences": [
+        "ArtSource/Higgsfield/Selected/furniture_store.png"
+      ],
+      "preserveSeedGeometry": true,
+      "batches": [
+        4
+      ],
+      "candidates": [
+        {
+          "name": "p72_057_a",
+          "status": "NOT_SUBMITTED"
+        },
+        {
+          "name": "p72_057_b",
+          "status": "NOT_SUBMITTED"
+        }
+      ],
+      "styleReferences": [
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png"
+      ],
+      "productionGuard": "PIXEL PRODUCTION RULE: deliberately draw hard square pixel clusters on a 448 by 256 logical canvas, then enlarge six times with nearest-neighbor. Use limited flat palette ramps, visible stepped silhouettes and coarse grid-aligned shading; no anti-aliasing, fine hatching, smooth gradients or painted illustration. The pixel-style board, when attached, defines edge treatment and pixel density only, never its content or layout. "
+    },
+    {
+      "id": 58,
+      "title": "이사",
+      "bodyFile": "058.txt",
+      "bodySha256": "2ba5da124026abea82b3fa05b7e4382ce9348cd740f96e00a5491da04bcb0621",
+      "includesIan": true,
+      "locationDependency": null,
+      "seedReferences": [
+        "ArtSource/Higgsfield/Selected/apartment_exterior.png"
+      ],
+      "preserveSeedGeometry": true,
+      "batches": [
+        4
+      ],
+      "candidates": [
+        {
+          "name": "p72_058_a",
+          "status": "NOT_SUBMITTED"
+        },
+        {
+          "name": "p72_058_b",
+          "status": "NOT_SUBMITTED"
+        }
+      ],
+      "styleReferences": [
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png"
+      ],
+      "productionGuard": "PIXEL PRODUCTION RULE: deliberately draw hard square pixel clusters on a 448 by 256 logical canvas, then enlarge six times with nearest-neighbor. Use limited flat palette ramps, visible stepped silhouettes and coarse grid-aligned shading; no anti-aliasing, fine hatching, smooth gradients or painted illustration. The pixel-style board, when attached, defines edge treatment and pixel density only, never its content or layout. "
+    },
+    {
+      "id": 59,
+      "title": "학생 NPC 시트",
+      "bodyFile": "059.txt",
+      "bodySha256": "c859054024147e09a03ed3a3c6ef512304b965653b48c1c6f6684427f2ade0a3",
+      "includesIan": false,
+      "locationDependency": null,
+      "seedReferences": [],
+      "preserveSeedGeometry": false,
+      "batches": [
+        1
+      ],
+      "candidates": [
+        {
+          "name": "p72_059_r2_a",
+          "status": "DOWNLOADED",
+          "promptSha256": "9fbf176f8cba77bebe758f0974e529d3d7b0846b138aed8935d81ca54377a8b0",
+          "results": [
+            {
+              "id": "2665f1e1-e569-4780-a9dd-ad69521bd234",
+              "created_at": "2026-11-18T12:57:41.490966Z",
+              "job_type": "gpt_image_2_6",
+              "status": "completed",
+              "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_125741_2665f1e1-e569-4780-a9dd-ad69521bd234.png"
+            }
+          ],
+          "sha256": "b8139a384c23a1c5c361f6f4cd8e3989fe4b4a966dce20340a0bd335fa1735f1",
+          "rawPath": "ArtSource/Higgsfield/Raw/p72_059_r2_a.png",
+          "reviewStatus": "SELECTED_REFERENCE"
+        },
+        {
+          "name": "p72_059_r2_b",
+          "status": "DOWNLOADED",
+          "promptSha256": "9fbf176f8cba77bebe758f0974e529d3d7b0846b138aed8935d81ca54377a8b0",
+          "results": [
+            {
+              "id": "390d16a5-0834-4d61-af5d-2b9c3eec2bbc",
+              "created_at": "2026-11-18T12:57:41.036809Z",
+              "job_type": "gpt_image_2_6",
+              "status": "completed",
+              "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_125741_390d16a5-0834-4d61-af5d-2b9c3eec2bbc.png"
+            }
+          ],
+          "sha256": "d12f4f19a8f7cfdf20aecde9ea7d0309fbea3c1a0196cb17fc6c6d80b0a5ed5f",
+          "rawPath": "ArtSource/Higgsfield/Raw/p72_059_r2_b.png",
+          "reviewStatus": "ALTERNATE_NOT_SELECTED",
+          "qa": "Reviewed alongside selected candidate. Retained in local source archive; not imported."
+        }
+      ],
+      "productionGuard": "PIXEL PRODUCTION RULE: deliberately draw hard square pixel clusters on a 448 by 256 logical canvas, then enlarge six times with nearest-neighbor. Use limited flat palette ramps, visible stepped silhouettes and coarse grid-aligned shading; no anti-aliasing, fine hatching, smooth gradients or painted illustration. The pixel-style board, when attached, defines edge treatment and pixel density only, never its content or layout. Exactly six distinct students in a 3-column by 2-row grid. Full-body standing designs, no action storyboard. SHEET OUTPUT ONLY: no scene, no panorama, no inset, no surrounding architecture, no labels, no letters or numbers. Solid pure magenta #FF00FF background. Every item fully visible, separated by generous magenta gutters, no overlaps, no shadows crossing cells. Preserve the elevated 2.5D game camera while using a strict flat sheet layout. The only attachment is a pixel-style board; use none of its objects in the output. Follow the requested item list exactly. Deliberate square pixel clusters, no soft anti-aliasing, no painterly blur. The result is production design reference, not a finished animation sheet.",
+      "resolvedReferences": [
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png"
+      ],
+      "referenceSha256": {
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png": "03a2f9e2042c3aae33308d2d0ecead9a4e7aaf6ab57ed6d750ffad1fde9123c8"
+      },
+      "previousCandidates": [
+        {
+          "name": "p72_059_a",
+          "status": "DOWNLOADED",
+          "promptSha256": "ce824786c51fc257584e6dc02f93e87494b82ce4a709dd1e50b2d5cebf334fa4",
+          "results": [
+            {
+              "id": "393aa4ab-5d50-4f18-b13d-42037c001fc4",
+              "created_at": "2026-11-18T12:53:40.296955Z",
+              "job_type": "gpt_image_2_6",
+              "status": "completed",
+              "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_125340_393aa4ab-5d50-4f18-b13d-42037c001fc4.png"
+            }
+          ],
+          "sha256": "9dad50eabb24cd95e42c3d1e942fe5972e241c939b7cddc04c93eaa01f8f77ef",
+          "rawPath": "ArtSource/Higgsfield/Raw/p72_059_a.png",
+          "reviewStatus": "REJECTED_PIXEL_STYLE",
+          "qa": "Smooth anti-aliased illustration at native resolution. Not approved as pixel-art production reference.",
+          "referenceSha256": {
+            "ArtSource/Higgsfield/Selected/npc_clean.png": "bfe386fdcf472d1233f0d0dfca146d8c0f3d2172449c41ab014a7fac581f6bc3"
+          }
+        },
+        {
+          "name": "p72_059_b",
+          "status": "DOWNLOADED",
+          "promptSha256": "ce824786c51fc257584e6dc02f93e87494b82ce4a709dd1e50b2d5cebf334fa4",
+          "results": [
+            {
+              "id": "53889132-fb63-4190-81c2-a75ba4049f55",
+              "created_at": "2026-11-18T12:53:46.470205Z",
+              "job_type": "gpt_image_2_6",
+              "status": "completed",
+              "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_125346_53889132-fb63-4190-81c2-a75ba4049f55.png"
+            }
+          ],
+          "sha256": "45487ed5256f134c555f11cbbf2bfb2ce151a8539ea019d13e1392f87673716f",
+          "rawPath": "ArtSource/Higgsfield/Raw/p72_059_b.png",
+          "reviewStatus": "REJECTED_PIXEL_STYLE",
+          "qa": "Smooth anti-aliased illustration at native resolution. Not approved as pixel-art production reference.",
+          "referenceSha256": {
+            "ArtSource/Higgsfield/Selected/npc_clean.png": "bfe386fdcf472d1233f0d0dfca146d8c0f3d2172449c41ab014a7fac581f6bc3"
+          }
+        }
+      ],
+      "revision": 2,
+      "revisionReason": "Focused production redraw: replace smooth source rendering with native-grid pixel sheet; supplied source no longer dictates content.",
+      "styleReferences": [
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png"
+      ],
+      "selected": {
+        "candidate": "p72_059_r2_a",
+        "path": "ArtSource/Higgsfield/Selected/Production72/059.png",
+        "sha256": "b8139a384c23a1c5c361f6f4cd8e3989fe4b4a966dce20340a0bd335fa1735f1",
+        "status": "APPROVED_REFERENCE",
+        "reviewer": "Codex visual QA; human production signoff pending",
+        "qa": "R2: six separate full-body students, clear coarse square pixel silhouettes, varied uniforms/casual sportswear, hairstyles, backpacks and body shapes; all on magenta with separation. Reference sheet only, not four-direction animation.",
+        "unityAssets": []
+      }
+    },
+    {
+      "id": 60,
+      "title": "직장인 NPC 시트",
+      "bodyFile": "060.txt",
+      "bodySha256": "1a3e49a2631ee942a0b188d8a66bcf028c066b10e019999e2bf2ce76c22077f6",
+      "includesIan": false,
+      "locationDependency": null,
+      "seedReferences": [],
+      "preserveSeedGeometry": false,
+      "batches": [
+        1
+      ],
+      "candidates": [
+        {
+          "name": "p72_060_r2_a",
+          "status": "DOWNLOADED",
+          "promptSha256": "706400f5414053f6155bea7e36e883f11d6a8a9daaacac73f3ef2ed3117c224b",
+          "results": [
+            {
+              "id": "4b983959-7360-42f0-b00a-611386095eb3",
+              "created_at": "2026-11-18T12:58:20.579931Z",
+              "job_type": "gpt_image_2_6",
+              "status": "completed",
+              "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_125820_4b983959-7360-42f0-b00a-611386095eb3.png"
+            }
+          ],
+          "sha256": "fc38a35121feb6d89feb34dd5da805a4a36c71f80786ee0485bcc231e91a096e",
+          "rawPath": "ArtSource/Higgsfield/Raw/p72_060_r2_a.png",
+          "reviewStatus": "SELECTED_REFERENCE"
+        },
+        {
+          "name": "p72_060_r2_b",
+          "status": "DOWNLOADED",
+          "promptSha256": "706400f5414053f6155bea7e36e883f11d6a8a9daaacac73f3ef2ed3117c224b",
+          "results": [
+            {
+              "id": "735d992e-9cd4-4c3d-9a0a-fa5817a2b7fa",
+              "created_at": "2026-11-18T12:58:27.734485Z",
+              "job_type": "gpt_image_2_6",
+              "status": "completed",
+              "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_125827_735d992e-9cd4-4c3d-9a0a-fa5817a2b7fa.png"
+            }
+          ],
+          "sha256": "92dd5534b933adf9b270978ba50acc5f38e40d25bd17364746da33e2270edfe2",
+          "rawPath": "ArtSource/Higgsfield/Raw/p72_060_r2_b.png",
+          "reviewStatus": "ALTERNATE_NOT_SELECTED",
+          "qa": "Reviewed alongside selected candidate. Retained in local source archive; not imported."
+        }
+      ],
+      "productionGuard": "PIXEL PRODUCTION RULE: deliberately draw hard square pixel clusters on a 448 by 256 logical canvas, then enlarge six times with nearest-neighbor. Use limited flat palette ramps, visible stepped silhouettes and coarse grid-aligned shading; no anti-aliasing, fine hatching, smooth gradients or painted illustration. The pixel-style board, when attached, defines edge treatment and pixel density only, never its content or layout. Exactly seven distinct office-worker archetypes in a 4-column by 2-row grid, last cell empty. The seven roles are young employee, mid-career employee, manager, exhausted worker, motivated employee, temporary worker and job seeker. SHEET OUTPUT ONLY: no scene, no panorama, no inset, no surrounding architecture, no labels, no letters or numbers. Solid pure magenta #FF00FF background. Every item fully visible, separated by generous magenta gutters, no overlaps, no shadows crossing cells. Preserve the elevated 2.5D game camera while using a strict flat sheet layout. The only attachment is a pixel-style board; use none of its objects in the output. Follow the requested item list exactly. Deliberate square pixel clusters, no soft anti-aliasing, no painterly blur. The result is production design reference, not a finished animation sheet. Clearly adult employees in ordinary shirts, suit jackets and trousers. No school uniforms, pleated school skirts, backpacks, school books or students. The manager looks older; temporary worker has a work lanyard; job seeker has an application folder.",
+      "resolvedReferences": [
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png"
+      ],
+      "referenceSha256": {
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png": "03a2f9e2042c3aae33308d2d0ecead9a4e7aaf6ab57ed6d750ffad1fde9123c8"
+      },
+      "previousCandidates": [
+        {
+          "name": "p72_060_a",
+          "status": "DOWNLOADED",
+          "promptSha256": "3b892c0feb6b55921c575975744451d3506eaf013210f0081ec96857e9ca00b3",
+          "results": [
+            {
+              "id": "4683c2c2-7170-46da-81dd-0a43eefad15c",
+              "created_at": "2026-11-18T12:54:27.76655Z",
+              "job_type": "gpt_image_2_6",
+              "status": "completed",
+              "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_125427_4683c2c2-7170-46da-81dd-0a43eefad15c.png"
+            }
+          ],
+          "sha256": "354ad3dbfadddd3334bbf1f75332436fec63a65714f7c1bcde07fa222d12a5ba",
+          "rawPath": "ArtSource/Higgsfield/Raw/p72_060_a.png",
+          "reviewStatus": "REJECTED_PIXEL_STYLE",
+          "qa": "Smooth anti-aliased illustration at native resolution. Not approved as pixel-art production reference. The old student source also contaminated office-worker roles.",
+          "referenceSha256": {
+            "ArtSource/Higgsfield/Selected/npc_clean.png": "bfe386fdcf472d1233f0d0dfca146d8c0f3d2172449c41ab014a7fac581f6bc3"
+          }
+        },
+        {
+          "name": "p72_060_b",
+          "status": "DOWNLOADED",
+          "promptSha256": "3b892c0feb6b55921c575975744451d3506eaf013210f0081ec96857e9ca00b3",
+          "results": [
+            {
+              "id": "1152b9d6-582b-4287-aefe-07566b522091",
+              "created_at": "2026-11-18T12:54:32.95179Z",
+              "job_type": "gpt_image_2_6",
+              "status": "completed",
+              "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_125432_1152b9d6-582b-4287-aefe-07566b522091.png"
+            }
+          ],
+          "sha256": "27b451a2265835ff6eefdfaafe0ca2b04bcb37de5b3e72b081e7cd745ee08223",
+          "rawPath": "ArtSource/Higgsfield/Raw/p72_060_b.png",
+          "reviewStatus": "REJECTED_PIXEL_STYLE",
+          "qa": "Smooth anti-aliased illustration at native resolution. Not approved as pixel-art production reference. The old student source also contaminated office-worker roles.",
+          "referenceSha256": {
+            "ArtSource/Higgsfield/Selected/npc_clean.png": "bfe386fdcf472d1233f0d0dfca146d8c0f3d2172449c41ab014a7fac581f6bc3"
+          }
+        }
+      ],
+      "revision": 2,
+      "revisionReason": "Focused production redraw: replace smooth source rendering with native-grid pixel sheet; supplied source no longer dictates content.",
+      "styleReferences": [
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png"
+      ],
+      "selected": {
+        "candidate": "p72_060_r2_a",
+        "path": "ArtSource/Higgsfield/Selected/Production72/060.png",
+        "sha256": "fc38a35121feb6d89feb34dd5da805a4a36c71f80786ee0485bcc231e91a096e",
+        "status": "APPROVED_REFERENCE",
+        "reviewer": "Codex visual QA; human production signoff pending",
+        "qa": "R2: seven adult workplace roles with shirts/suits/lanyards/folders, older manager and slouched tired employee. No school skirts or backpacks from rejected revision. Isolated coarse pixel figures. Reference only; directional animation remains pending.",
+        "unityAssets": []
+      }
+    },
+    {
+      "id": 61,
+      "title": "생활 NPC 시트",
+      "bodyFile": "061.txt",
+      "bodySha256": "8d1d0f8ca066ecbda39a0e78a363a2d33c974c3800e60f2e2aa89dfee8841000",
+      "includesIan": false,
+      "locationDependency": null,
+      "seedReferences": [],
+      "preserveSeedGeometry": false,
+      "batches": [
+        "supplement"
+      ],
+      "candidates": [
+        {
+          "name": "p72_061_a",
+          "status": "NOT_SUBMITTED"
+        },
+        {
+          "name": "p72_061_b",
+          "status": "NOT_SUBMITTED"
+        }
+      ],
+      "styleReferences": [
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png"
+      ],
+      "productionGuard": "PIXEL PRODUCTION RULE: deliberately draw hard square pixel clusters on a 448 by 256 logical canvas, then enlarge six times with nearest-neighbor. Use limited flat palette ramps, visible stepped silhouettes and coarse grid-aligned shading; no anti-aliasing, fine hatching, smooth gradients or painted illustration. The pixel-style board, when attached, defines edge treatment and pixel density only, never its content or layout.  Produce a clean isolated production sheet only, with complete separated objects and blank text areas, on pure magenta #FF00FF. No city panorama, inset, caption or logo."
+    },
+    {
+      "id": 62,
+      "title": "야간 NPC 시트",
+      "bodyFile": "062.txt",
+      "bodySha256": "9b9b9109d5d0d6794f6a2e913f8aecfe62f5b3a0bc5101142a6adc1225bbaa34",
+      "includesIan": false,
+      "locationDependency": null,
+      "seedReferences": [],
+      "preserveSeedGeometry": false,
+      "batches": [
+        "supplement"
+      ],
+      "candidates": [
+        {
+          "name": "p72_062_a",
+          "status": "NOT_SUBMITTED"
+        },
+        {
+          "name": "p72_062_b",
+          "status": "NOT_SUBMITTED"
+        }
+      ],
+      "styleReferences": [
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png"
+      ],
+      "productionGuard": "PIXEL PRODUCTION RULE: deliberately draw hard square pixel clusters on a 448 by 256 logical canvas, then enlarge six times with nearest-neighbor. Use limited flat palette ramps, visible stepped silhouettes and coarse grid-aligned shading; no anti-aliasing, fine hatching, smooth gradients or painted illustration. The pixel-style board, when attached, defines edge treatment and pixel density only, never its content or layout.  Produce a clean isolated production sheet only, with complete separated objects and blank text areas, on pure magenta #FF00FF. No city panorama, inset, caption or logo."
+    },
+    {
+      "id": 63,
+      "title": "차량 기본 시트",
+      "bodyFile": "063.txt",
+      "bodySha256": "3304a2493b355eeafb46b9ad6152f6b2024345a0191e3b342561a75309d0f912",
+      "includesIan": false,
+      "locationDependency": null,
+      "seedReferences": [],
+      "preserveSeedGeometry": false,
+      "batches": [
+        1,
+        5
+      ],
+      "candidates": [
+        {
+          "name": "p72_063_r2_a",
+          "status": "DOWNLOADED",
+          "promptSha256": "180b3e580cbb9beadfb2f5f55505ca589c2b5abb8a1a4ea013f6f0960e5621b9",
+          "results": [
+            {
+              "id": "b8f2a99d-1e2e-47fb-a9cf-e96ea792d256",
+              "created_at": "2026-11-18T12:58:38.219426Z",
+              "job_type": "gpt_image_2_6",
+              "status": "completed",
+              "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_125838_b8f2a99d-1e2e-47fb-a9cf-e96ea792d256.png"
+            }
+          ],
+          "sha256": "9461e5d65311973892b884226b689b2c0de5af83ccf96ddca5f7b21e41843a71",
+          "rawPath": "ArtSource/Higgsfield/Raw/p72_063_r2_a.png",
+          "reviewStatus": "ALTERNATE_NOT_SELECTED",
+          "qa": "Reviewed alongside selected candidate. Retained in local source archive; not imported."
+        },
+        {
+          "name": "p72_063_r2_b",
+          "status": "DOWNLOADED",
+          "promptSha256": "180b3e580cbb9beadfb2f5f55505ca589c2b5abb8a1a4ea013f6f0960e5621b9",
+          "results": [
+            {
+              "id": "9f1a30c6-c16b-4baf-80a3-6df912efb0e4",
+              "created_at": "2026-11-18T12:58:45.443936Z",
+              "job_type": "gpt_image_2_6",
+              "status": "completed",
+              "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_125845_9f1a30c6-c16b-4baf-80a3-6df912efb0e4.png"
+            }
+          ],
+          "sha256": "6dec02f283f52974f5eaaeab759a22d43e88dd5fe618e2cead3f6697ad70a85f",
+          "rawPath": "ArtSource/Higgsfield/Raw/p72_063_r2_b.png",
+          "reviewStatus": "SELECTED_REFERENCE"
+        }
+      ],
+      "productionGuard": "PIXEL PRODUCTION RULE: deliberately draw hard square pixel clusters on a 448 by 256 logical canvas, then enlarge six times with nearest-neighbor. Use limited flat palette ramps, visible stepped silhouettes and coarse grid-aligned shading; no anti-aliasing, fine hatching, smooth gradients or painted illustration. The pixel-style board, when attached, defines edge treatment and pixel density only, never its content or layout. Exactly nine separate vehicles in a 3 by 3 grid: compact sedan, mid-size sedan, SUV, hatchback, fictional taxi, delivery van, city bus, scooter, bicycle. For production consistency every vehicle faces right, aligned to a horizontal road lane, seen from the same elevated three-quarter game angle. No perspective grid or diagonal road. SHEET OUTPUT ONLY: no scene, no panorama, no inset, no surrounding architecture, no labels, no letters or numbers. Solid pure magenta #FF00FF background. Every item fully visible, separated by generous magenta gutters, no overlaps, no shadows crossing cells. Preserve the elevated 2.5D game camera while using a strict flat sheet layout. The only attachment is a pixel-style board; use none of its objects in the output. Follow the requested item list exactly. Deliberate square pixel clusters, no soft anti-aliasing, no painterly blur. The result is production design reference, not a finished animation sheet.",
+      "resolvedReferences": [
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png"
+      ],
+      "referenceSha256": {
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png": "03a2f9e2042c3aae33308d2d0ecead9a4e7aaf6ab57ed6d750ffad1fde9123c8"
+      },
+      "previousCandidates": [
+        {
+          "name": "p72_063_a",
+          "status": "DOWNLOADED",
+          "promptSha256": "61db4cb00ed51bf04106d042733d9ad32955828c0dd72d3b551154a3fef3a12d",
+          "results": [
+            {
+              "id": "161b431f-77a0-4621-ab43-978b911c6bb9",
+              "created_at": "2026-11-18T12:54:36.549509Z",
+              "job_type": "gpt_image_2_6",
+              "status": "completed",
+              "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_125436_161b431f-77a0-4621-ab43-978b911c6bb9.png"
+            }
+          ],
+          "sha256": "6b6c2b04b6aa2d937f190ebb91b93a6a5bac7df4c4135caaa944f13168fc90a7",
+          "rawPath": "ArtSource/Higgsfield/Raw/p72_063_a.png",
+          "reviewStatus": "REJECTED_PIXEL_STYLE",
+          "qa": "Smooth anti-aliased illustration at native resolution. Not approved as pixel-art production reference.",
+          "referenceSha256": {
+            "ArtSource/Higgsfield/Selected/vehicles.png": "42fc582bea3fe49b832263de21ef44f1c47fe7d1b4ca9cb0574ba05dfa631d17"
+          }
+        },
+        {
+          "name": "p72_063_b",
+          "status": "DOWNLOADED",
+          "promptSha256": "61db4cb00ed51bf04106d042733d9ad32955828c0dd72d3b551154a3fef3a12d",
+          "results": [
+            {
+              "id": "f08df573-825f-423b-9b3a-e8caaffd49c4",
+              "created_at": "2026-11-18T12:54:40.72799Z",
+              "job_type": "gpt_image_2_6",
+              "status": "completed",
+              "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_125440_f08df573-825f-423b-9b3a-e8caaffd49c4.png"
+            }
+          ],
+          "sha256": "fc4cce42557e55af627af792441d45dae1bcfb879dcf32238ee75ef9774faa97",
+          "rawPath": "ArtSource/Higgsfield/Raw/p72_063_b.png",
+          "reviewStatus": "REJECTED_PIXEL_STYLE",
+          "qa": "Smooth anti-aliased illustration at native resolution. Not approved as pixel-art production reference.",
+          "referenceSha256": {
+            "ArtSource/Higgsfield/Selected/vehicles.png": "42fc582bea3fe49b832263de21ef44f1c47fe7d1b4ca9cb0574ba05dfa631d17"
+          }
+        }
+      ],
+      "revision": 2,
+      "revisionReason": "Focused production redraw: replace smooth source rendering with native-grid pixel sheet; supplied source no longer dictates content.",
+      "styleReferences": [
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png"
+      ],
+      "selected": {
+        "candidate": "p72_063_r2_b",
+        "path": "ArtSource/Higgsfield/Selected/Production72/063.png",
+        "sha256": "6dec02f283f52974f5eaaeab759a22d43e88dd5fe618e2cead3f6697ad70a85f",
+        "status": "APPROVED_REFERENCE",
+        "reviewer": "Codex visual QA; human production signoff pending",
+        "qa": "R2: nine isolated, complete right-facing urban vehicles in 3x3 layout, visibly stepped pixel silhouettes, consistent elevated lane angle, no real marques or route text. Design sheet only; additional directional sprites not claimed.",
+        "unityAssets": []
+      }
+    },
+    {
+      "id": 64,
+      "title": "버스",
+      "bodyFile": "064.txt",
+      "bodySha256": "6503b1d607bbac1aa096541b236c118b42c21acb12def9b5bf015dc9c6e26e66",
+      "includesIan": false,
+      "locationDependency": null,
+      "seedReferences": [],
+      "preserveSeedGeometry": false,
+      "batches": [
+        5
+      ],
+      "candidates": [
+        {
+          "name": "p72_064_a",
+          "status": "NOT_SUBMITTED"
+        },
+        {
+          "name": "p72_064_b",
+          "status": "NOT_SUBMITTED"
+        }
+      ],
+      "styleReferences": [
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png"
+      ],
+      "productionGuard": "PIXEL PRODUCTION RULE: deliberately draw hard square pixel clusters on a 448 by 256 logical canvas, then enlarge six times with nearest-neighbor. Use limited flat palette ramps, visible stepped silhouettes and coarse grid-aligned shading; no anti-aliasing, fine hatching, smooth gradients or painted illustration. The pixel-style board, when attached, defines edge treatment and pixel density only, never its content or layout.  Produce a clean isolated production sheet only, with complete separated objects and blank text areas, on pure magenta #FF00FF. No city panorama, inset, caption or logo."
+    },
+    {
+      "id": 65,
+      "title": "택시",
+      "bodyFile": "065.txt",
+      "bodySha256": "a01d0cf6ad4b0ab1e9974561bab5f14812d0dba89d163543672a966e97ce1581",
+      "includesIan": false,
+      "locationDependency": null,
+      "seedReferences": [],
+      "preserveSeedGeometry": false,
+      "batches": [
+        5
+      ],
+      "candidates": [
+        {
+          "name": "p72_065_a",
+          "status": "NOT_SUBMITTED"
+        },
+        {
+          "name": "p72_065_b",
+          "status": "NOT_SUBMITTED"
+        }
+      ],
+      "styleReferences": [
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png"
+      ],
+      "productionGuard": "PIXEL PRODUCTION RULE: deliberately draw hard square pixel clusters on a 448 by 256 logical canvas, then enlarge six times with nearest-neighbor. Use limited flat palette ramps, visible stepped silhouettes and coarse grid-aligned shading; no anti-aliasing, fine hatching, smooth gradients or painted illustration. The pixel-style board, when attached, defines edge treatment and pixel density only, never its content or layout.  Produce a clean isolated production sheet only, with complete separated objects and blank text areas, on pure magenta #FF00FF. No city panorama, inset, caption or logo."
+    },
+    {
+      "id": 66,
+      "title": "배달 차량",
+      "bodyFile": "066.txt",
+      "bodySha256": "d907b9bd5bc41d038f077f34feadb175b8ab7da27d351d63b39cd2e5deea2985",
+      "includesIan": false,
+      "locationDependency": null,
+      "seedReferences": [],
+      "preserveSeedGeometry": false,
+      "batches": [
+        5
+      ],
+      "candidates": [
+        {
+          "name": "p72_066_a",
+          "status": "NOT_SUBMITTED"
+        },
+        {
+          "name": "p72_066_b",
+          "status": "NOT_SUBMITTED"
+        }
+      ],
+      "styleReferences": [
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png"
+      ],
+      "productionGuard": "PIXEL PRODUCTION RULE: deliberately draw hard square pixel clusters on a 448 by 256 logical canvas, then enlarge six times with nearest-neighbor. Use limited flat palette ramps, visible stepped silhouettes and coarse grid-aligned shading; no anti-aliasing, fine hatching, smooth gradients or painted illustration. The pixel-style board, when attached, defines edge treatment and pixel density only, never its content or layout.  Produce a clean isolated production sheet only, with complete separated objects and blank text areas, on pure magenta #FF00FF. No city panorama, inset, caption or logo."
+    },
+    {
+      "id": 67,
+      "title": "거리 소품",
+      "bodyFile": "067.txt",
+      "bodySha256": "70d28e009857ca98128533bcb7691a7c62541d0a22e141257f01cc9f9edef274",
+      "includesIan": false,
+      "locationDependency": null,
+      "seedReferences": [],
+      "preserveSeedGeometry": false,
+      "batches": [
+        1,
+        5
+      ],
+      "candidates": [
+        {
+          "name": "p72_067_r2_a",
+          "status": "DOWNLOADED",
+          "promptSha256": "e6d3775cb413889242898b0e1dd9f9c8750e15f84f4329dc61ef0b4303fa0866",
+          "results": [
+            {
+              "id": "84c4d0f8-f2f5-41e9-94c7-68d73ba30aea",
+              "created_at": "2026-11-18T12:59:10.882416Z",
+              "job_type": "gpt_image_2_6",
+              "status": "completed",
+              "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_125910_84c4d0f8-f2f5-41e9-94c7-68d73ba30aea.png"
+            }
+          ],
+          "sha256": "1900296c2585d916951bae964c37b49db50b1a388eef065c705c39206eba73fc",
+          "rawPath": "ArtSource/Higgsfield/Raw/p72_067_r2_a.png",
+          "reviewStatus": "ALTERNATE_NOT_SELECTED",
+          "qa": "Reviewed alongside selected candidate. Retained in local source archive; not imported."
+        },
+        {
+          "name": "p72_067_r2_b",
+          "status": "DOWNLOADED",
+          "promptSha256": "e6d3775cb413889242898b0e1dd9f9c8750e15f84f4329dc61ef0b4303fa0866",
+          "results": [
+            {
+              "id": "40efa128-f361-48f5-8cc0-ba40cfbe5774",
+              "created_at": "2026-11-18T12:59:09.519509Z",
+              "job_type": "gpt_image_2_6",
+              "status": "completed",
+              "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_125909_40efa128-f361-48f5-8cc0-ba40cfbe5774.png"
+            }
+          ],
+          "sha256": "63b5c15e59011ffa5d613cbc0b7825e7bfcffcc863124e62d6d2afb8ad0a5c35",
+          "rawPath": "ArtSource/Higgsfield/Raw/p72_067_r2_b.png",
+          "reviewStatus": "SELECTED_REFERENCE"
+        }
+      ],
+      "productionGuard": "PIXEL PRODUCTION RULE: deliberately draw hard square pixel clusters on a 448 by 256 logical canvas, then enlarge six times with nearest-neighbor. Use limited flat palette ramps, visible stepped silhouettes and coarse grid-aligned shading; no anti-aliasing, fine hatching, smooth gradients or painted illustration. The pixel-style board, when attached, defines edge treatment and pixel density only, never its content or layout. Exactly fourteen separate complete urban props in a 4 by 4 grid, last two cells empty. Preserve every item named in the prompt, each as one isolated object. SHEET OUTPUT ONLY: no scene, no panorama, no inset, no surrounding architecture, no labels, no letters or numbers. Solid pure magenta #FF00FF background. Every item fully visible, separated by generous magenta gutters, no overlaps, no shadows crossing cells. Preserve the elevated 2.5D game camera while using a strict flat sheet layout. The only attachment is a pixel-style board; use none of its objects in the output. Follow the requested item list exactly. Deliberate square pixel clusters, no soft anti-aliasing, no painterly blur. The result is production design reference, not a finished animation sheet.",
+      "resolvedReferences": [
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png"
+      ],
+      "referenceSha256": {
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png": "03a2f9e2042c3aae33308d2d0ecead9a4e7aaf6ab57ed6d750ffad1fde9123c8"
+      },
+      "previousCandidates": [
+        {
+          "name": "p72_067_a",
+          "status": "DOWNLOADED",
+          "promptSha256": "dc6c46d4bda1ab480d976902c4a0faba51013212034556f0e61b4b4725ba349b",
+          "results": [
+            {
+              "id": "77d487da-c473-475e-ba2a-e69aa9b57aa1",
+              "created_at": "2026-11-18T12:55:12.098259Z",
+              "job_type": "gpt_image_2_6",
+              "status": "completed",
+              "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_125512_77d487da-c473-475e-ba2a-e69aa9b57aa1.png"
+            }
+          ],
+          "sha256": "26e6e7ebb18cedd33cb3aa1b7bc8da746959377c92150ccc05e5f343407e9f07",
+          "rawPath": "ArtSource/Higgsfield/Raw/p72_067_a.png",
+          "reviewStatus": "REJECTED_PIXEL_STYLE",
+          "qa": "Smooth anti-aliased illustration at native resolution. Not approved as pixel-art production reference.",
+          "referenceSha256": {
+            "ArtSource/Higgsfield/Selected/urban_props.png": "b5bc2b841f5756fe9590b3a6568673ad1d000f25659f89da84bd79c25ab35c7d"
+          }
+        },
+        {
+          "name": "p72_067_b",
+          "status": "DOWNLOADED",
+          "promptSha256": "dc6c46d4bda1ab480d976902c4a0faba51013212034556f0e61b4b4725ba349b",
+          "results": [
+            {
+              "id": "56e799fa-7cec-4cba-837f-a733b17c3853",
+              "created_at": "2026-11-18T12:55:24.131567Z",
+              "job_type": "gpt_image_2_6",
+              "status": "completed",
+              "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_125524_56e799fa-7cec-4cba-837f-a733b17c3853.png"
+            }
+          ],
+          "sha256": "c6fa218659cff6a135bbfa0e46d2e2a5a736ca6b6e9a2a872334282fe5767def",
+          "rawPath": "ArtSource/Higgsfield/Raw/p72_067_b.png",
+          "reviewStatus": "REJECTED_PIXEL_STYLE",
+          "qa": "Smooth anti-aliased illustration at native resolution. Not approved as pixel-art production reference.",
+          "referenceSha256": {
+            "ArtSource/Higgsfield/Selected/urban_props.png": "b5bc2b841f5756fe9590b3a6568673ad1d000f25659f89da84bd79c25ab35c7d"
+          }
+        }
+      ],
+      "revision": 2,
+      "revisionReason": "Focused production redraw: replace smooth source rendering with native-grid pixel sheet; supplied source no longer dictates content.",
+      "styleReferences": [
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png"
+      ],
+      "selected": {
+        "candidate": "p72_067_r2_b",
+        "path": "ArtSource/Higgsfield/Selected/Production72/067.png",
+        "sha256": "63b5c15e59011ffa5d613cbc0b7825e7bfcffcc863124e62d6d2afb8ad0a5c35",
+        "status": "APPROVED_REFERENCE",
+        "reviewer": "Codex visual QA; human production signoff pending",
+        "qa": "R2: fourteen separated city props on magenta, blank bus-stop panel, consistent elevated scale and coarse pixel clusters. Added recycling container/barrier/hydrant. Bike rack includes parked bicycles; treat as one grouped prop, not an empty rack.",
+        "unityAssets": [
+          "Assets/_Game/Art/WorldLife/ENV_City_Recycling_01.png",
+          "Assets/_Game/Art/WorldLife/ENV_City_RoadBarrier_01.png",
+          "Assets/_Game/Art/WorldLife/ENV_City_Hydrant_01.png"
+        ]
+      }
+    },
+    {
+      "id": 68,
+      "title": "상점 소품",
+      "bodyFile": "068.txt",
+      "bodySha256": "d1d994e8442b36f565123caef9e839ac2fc88c40e353d5f22cda6a6431609f27",
+      "includesIan": false,
+      "locationDependency": null,
+      "seedReferences": [],
+      "preserveSeedGeometry": false,
+      "batches": [
+        5
+      ],
+      "candidates": [
+        {
+          "name": "p72_068_a",
+          "status": "NOT_SUBMITTED"
+        },
+        {
+          "name": "p72_068_b",
+          "status": "NOT_SUBMITTED"
+        }
+      ],
+      "styleReferences": [
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png"
+      ],
+      "productionGuard": "PIXEL PRODUCTION RULE: deliberately draw hard square pixel clusters on a 448 by 256 logical canvas, then enlarge six times with nearest-neighbor. Use limited flat palette ramps, visible stepped silhouettes and coarse grid-aligned shading; no anti-aliasing, fine hatching, smooth gradients or painted illustration. The pixel-style board, when attached, defines edge treatment and pixel density only, never its content or layout.  Produce a clean isolated production sheet only, with complete separated objects and blank text areas, on pure magenta #FF00FF. No city panorama, inset, caption or logo."
+    },
+    {
+      "id": 69,
+      "title": "회사 소품",
+      "bodyFile": "069.txt",
+      "bodySha256": "f2cb40a446f91a15c0084410fe863f8c33ee7913db2e6db53c80a5a8278b6dc3",
+      "includesIan": false,
+      "locationDependency": null,
+      "seedReferences": [],
+      "preserveSeedGeometry": false,
+      "batches": [
+        5
+      ],
+      "candidates": [
+        {
+          "name": "p72_069_a",
+          "status": "NOT_SUBMITTED"
+        },
+        {
+          "name": "p72_069_b",
+          "status": "NOT_SUBMITTED"
+        }
+      ],
+      "styleReferences": [
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png"
+      ],
+      "productionGuard": "PIXEL PRODUCTION RULE: deliberately draw hard square pixel clusters on a 448 by 256 logical canvas, then enlarge six times with nearest-neighbor. Use limited flat palette ramps, visible stepped silhouettes and coarse grid-aligned shading; no anti-aliasing, fine hatching, smooth gradients or painted illustration. The pixel-style board, when attached, defines edge treatment and pixel density only, never its content or layout.  Produce a clean isolated production sheet only, with complete separated objects and blank text areas, on pure magenta #FF00FF. No city panorama, inset, caption or logo."
+    },
+    {
+      "id": 70,
+      "title": "학교 소품",
+      "bodyFile": "070.txt",
+      "bodySha256": "311db26d376b270ba32823afc3d044424a0d2ed8269eab390de80129a201d1f0",
+      "includesIan": false,
+      "locationDependency": null,
+      "seedReferences": [],
+      "preserveSeedGeometry": false,
+      "batches": [
+        5
+      ],
+      "candidates": [
+        {
+          "name": "p72_070_a",
+          "status": "NOT_SUBMITTED"
+        },
+        {
+          "name": "p72_070_b",
+          "status": "NOT_SUBMITTED"
+        }
+      ],
+      "styleReferences": [
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png"
+      ],
+      "productionGuard": "PIXEL PRODUCTION RULE: deliberately draw hard square pixel clusters on a 448 by 256 logical canvas, then enlarge six times with nearest-neighbor. Use limited flat palette ramps, visible stepped silhouettes and coarse grid-aligned shading; no anti-aliasing, fine hatching, smooth gradients or painted illustration. The pixel-style board, when attached, defines edge treatment and pixel density only, never its content or layout.  Produce a clean isolated production sheet only, with complete separated objects and blank text areas, on pure magenta #FF00FF. No city panorama, inset, caption or logo."
+    },
+    {
+      "id": 71,
+      "title": "현대인의 생존 소품",
+      "bodyFile": "071.txt",
+      "bodySha256": "26a54be413629fcc164a7cb25c4324ff6746fac9aaf1ba6be9fc44705e72d839",
+      "includesIan": false,
+      "locationDependency": null,
+      "seedReferences": [],
+      "preserveSeedGeometry": false,
+      "batches": [
+        1,
+        5
+      ],
+      "candidates": [
+        {
+          "name": "p72_071_r2_a",
+          "status": "DOWNLOADED",
+          "promptSha256": "249df2e14ccf1fe5ff907de8f92071b9c6e3c2910e016e9ca65c3d181c6628e5",
+          "results": [
+            {
+              "id": "9b140d8c-fbe8-40ad-bf15-3bcc1a984cea",
+              "created_at": "2026-11-18T12:59:29.701346Z",
+              "job_type": "gpt_image_2_6",
+              "status": "completed",
+              "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_125929_9b140d8c-fbe8-40ad-bf15-3bcc1a984cea.png"
+            }
+          ],
+          "sha256": "092c59224b640002c6dcefc8444f24e54f2f17b5ccf514118230a6bfab66d7e3",
+          "rawPath": "ArtSource/Higgsfield/Raw/p72_071_r2_a.png",
+          "reviewStatus": "SELECTED_REFERENCE"
+        },
+        {
+          "name": "p72_071_r2_b",
+          "status": "DOWNLOADED",
+          "promptSha256": "249df2e14ccf1fe5ff907de8f92071b9c6e3c2910e016e9ca65c3d181c6628e5",
+          "results": [
+            {
+              "id": "385d575d-3e6d-4c3b-9b70-02680e773fa8",
+              "created_at": "2026-11-18T12:59:31.85167Z",
+              "job_type": "gpt_image_2_6",
+              "status": "completed",
+              "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_125931_385d575d-3e6d-4c3b-9b70-02680e773fa8.png"
+            }
+          ],
+          "sha256": "ced33aee0476555edaf9f740a25d1c92bc849e645f7983c280354ca83a6fabef",
+          "rawPath": "ArtSource/Higgsfield/Raw/p72_071_r2_b.png",
+          "reviewStatus": "ALTERNATE_NOT_SELECTED",
+          "qa": "Reviewed alongside selected candidate. Retained in local source archive; not imported."
+        }
+      ],
+      "productionGuard": "PIXEL PRODUCTION RULE: deliberately draw hard square pixel clusters on a 448 by 256 logical canvas, then enlarge six times with nearest-neighbor. Use limited flat palette ramps, visible stepped silhouettes and coarse grid-aligned shading; no anti-aliasing, fine hatching, smooth gradients or painted illustration. The pixel-style board, when attached, defines edge treatment and pixel density only, never its content or layout. Exactly twelve separate complete survival props in a 4 by 3 grid. Preserve all twelve item types in the prompt, one per cell. Paperwork has abstract marks only, absolutely no readable text or numbers. SHEET OUTPUT ONLY: no scene, no panorama, no inset, no surrounding architecture, no labels, no letters or numbers. Solid pure magenta #FF00FF background. Every item fully visible, separated by generous magenta gutters, no overlaps, no shadows crossing cells. Preserve the elevated 2.5D game camera while using a strict flat sheet layout. The only attachment is a pixel-style board; use none of its objects in the output. Follow the requested item list exactly. Deliberate square pixel clusters, no soft anti-aliasing, no painterly blur. The result is production design reference, not a finished animation sheet. Strict row-major inventory: row 1 utility bills, tax envelopes, instant noodle cup, convenience-store coffee. Row 2 one energy-drink can, cheap desk chair, overtime meal container, broken umbrella. Row 3 moving boxes, job application papers, loan document folder, exam preparation books. Exactly ONE of these items in each cell. No wallet, no extra beverages, no grouped drink assortment.",
+      "resolvedReferences": [
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png"
+      ],
+      "referenceSha256": {
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png": "03a2f9e2042c3aae33308d2d0ecead9a4e7aaf6ab57ed6d750ffad1fde9123c8"
+      },
+      "previousCandidates": [
+        {
+          "name": "p72_071_a",
+          "status": "DOWNLOADED",
+          "promptSha256": "f118526446a5e57f7054ef7b2109ab81941c282ee7c38b8a8d39fd53a759dcab",
+          "results": [
+            {
+              "id": "df1a0b3e-8f35-4b20-b6f1-cb112ab00c0d",
+              "created_at": "2026-11-18T12:55:25.115596Z",
+              "job_type": "gpt_image_2_6",
+              "status": "completed",
+              "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_125525_df1a0b3e-8f35-4b20-b6f1-cb112ab00c0d.png"
+            }
+          ],
+          "sha256": "d4c876cde6cc132b4abce1340e7ee37347ac08330026909ecedafcfc2016b452",
+          "rawPath": "ArtSource/Higgsfield/Raw/p72_071_a.png",
+          "reviewStatus": "REJECTED_PIXEL_STYLE",
+          "qa": "Smooth anti-aliased illustration at native resolution. Not approved as pixel-art production reference. Beverage types were grouped together and a wallet displaced a requested separate item.",
+          "referenceSha256": {
+            "ArtSource/Higgsfield/Selected/irony_props.png": "0dc0fefc4020da2241e7636726452b259ad0dbb2a349ff2e3ef52c0ff5eee401"
+          }
+        },
+        {
+          "name": "p72_071_b",
+          "status": "DOWNLOADED",
+          "promptSha256": "f118526446a5e57f7054ef7b2109ab81941c282ee7c38b8a8d39fd53a759dcab",
+          "results": [
+            {
+              "id": "f87dbdc8-5fab-4703-9f2e-cdc65fc3cf2f",
+              "created_at": "2026-11-18T12:55:26.205113Z",
+              "job_type": "gpt_image_2_6",
+              "status": "completed",
+              "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_125526_f87dbdc8-5fab-4703-9f2e-cdc65fc3cf2f.png"
+            }
+          ],
+          "sha256": "5f6c21ef5684e09c7243741f0934efa5b6a35e1a3b577c996e8843253396a426",
+          "rawPath": "ArtSource/Higgsfield/Raw/p72_071_b.png",
+          "reviewStatus": "REJECTED_PIXEL_STYLE",
+          "qa": "Smooth anti-aliased illustration at native resolution. Not approved as pixel-art production reference. Beverage types were grouped together and a wallet displaced a requested separate item.",
+          "referenceSha256": {
+            "ArtSource/Higgsfield/Selected/irony_props.png": "0dc0fefc4020da2241e7636726452b259ad0dbb2a349ff2e3ef52c0ff5eee401"
+          }
+        }
+      ],
+      "revision": 2,
+      "revisionReason": "Focused production redraw: replace smooth source rendering with native-grid pixel sheet; supplied source no longer dictates content.",
+      "styleReferences": [
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png"
+      ],
+      "selected": {
+        "candidate": "p72_071_r2_a",
+        "path": "ArtSource/Higgsfield/Selected/Production72/071.png",
+        "sha256": "092c59224b640002c6dcefc8444f24e54f2f17b5ccf514118230a6bfab66d7e3",
+        "status": "APPROVED_REFERENCE",
+        "reviewer": "Codex visual QA; human production signoff pending",
+        "qa": "R2: twelve distinct required survival items in exact 4x3 row-major order, with separate coffee and energy can. No displaced wallet. Hard pixel edges and blank/abstract paperwork marks. Selected for individual sprite cleanup; SourceA has the clearer broken umbrella and tied loan folder.",
+        "unityAssets": [
+          "Assets/_Game/Art/WorldLife/PROP_UtilityBills_01.png",
+          "Assets/_Game/Art/WorldLife/PROP_TaxEnvelopes_01.png",
+          "Assets/_Game/Art/WorldLife/PROP_InstantNoodles_01.png",
+          "Assets/_Game/Art/WorldLife/PROP_TakeawayCoffee_01.png",
+          "Assets/_Game/Art/WorldLife/PROP_EnergyDrink_01.png",
+          "Assets/_Game/Art/WorldLife/INT_BudgetDeskChair_01.png",
+          "Assets/_Game/Art/WorldLife/PROP_OvertimeMeal_01.png",
+          "Assets/_Game/Art/WorldLife/PROP_BrokenUmbrella_01.png",
+          "Assets/_Game/Art/WorldLife/PROP_MovingBoxes_01.png",
+          "Assets/_Game/Art/WorldLife/PROP_JobApplication_01.png",
+          "Assets/_Game/Art/WorldLife/PROP_LoanFolder_01.png",
+          "Assets/_Game/Art/WorldLife/PROP_ExamBooks_01.png"
+        ]
+      }
+    },
+    {
+      "id": 72,
+      "title": "사회 시스템 소품",
+      "bodyFile": "072.txt",
+      "bodySha256": "fe9b8fdaf044f355f5d4de7c7b47a0698676967aef3d742878f6c408a990477e",
+      "includesIan": false,
+      "locationDependency": null,
+      "seedReferences": [],
+      "preserveSeedGeometry": false,
+      "batches": [
+        5
+      ],
+      "candidates": [
+        {
+          "name": "p72_072_a",
+          "status": "NOT_SUBMITTED"
+        },
+        {
+          "name": "p72_072_b",
+          "status": "NOT_SUBMITTED"
+        }
+      ],
+      "styleReferences": [
+        "ArtSource/Higgsfield/References/IAN_RUNTIME_PIXEL_SCALE.png"
+      ],
+      "productionGuard": "PIXEL PRODUCTION RULE: deliberately draw hard square pixel clusters on a 448 by 256 logical canvas, then enlarge six times with nearest-neighbor. Use limited flat palette ramps, visible stepped silhouettes and coarse grid-aligned shading; no anti-aliasing, fine hatching, smooth gradients or painted illustration. The pixel-style board, when attached, defines edge treatment and pixel density only, never its content or layout.  Produce a clean isolated production sheet only, with complete separated objects and blank text areas, on pure magenta #FF00FF. No city panorama, inset, caption or logo."
+    }
+  ],
+  "summary": {
+    "registeredPrompts": 72,
+    "attemptedCandidates": 40,
+    "returnedResultIds": 38,
+    "downloadedCandidates": 38,
+    "selectedReferences": 12,
+    "runtimeAssets": 15
+  },
+  "attemptBudgetForBatch1": 40,
+  "retryPolicy": "No automatic retry. At most two initial candidates and one focused two-candidate revision for each failed base/sheet in Batch1. A usable alternate prevents upload-failure retry."
+}

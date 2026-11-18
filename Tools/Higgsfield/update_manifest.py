@@ -19,6 +19,9 @@ def main():
     }
     records = []
     for path in sorted((SOURCE / 'Raw').glob('*.result.json')):
+        # Production72 keeps its own immutable prompt revision and review manifest.
+        if path.name.startswith('p72_'):
+            continue
         try:
             jobs = json.loads(path.read_text())
         except ValueError:
@@ -51,6 +54,7 @@ def main():
     (SOURCE / 'manifest.json').write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + '\n')
     lines = ['# Higgsfield asset manifest', '',
              f"2026-11-18 · {len(records)} candidates, {len(selections)} selected production references, {len(converted)} separated sprites/emissive masks (+ 2 authored rain VFX textures).", '',
+             'Original Phase 3.3 run only. [Production72](HIGGSFIELD_PRODUCTION72.md) is tracked separately.', '',
              'Selections passed Codex visual QA; final human art approval remains open. RAW is outside Unity. Only separated, cleaned objects enter Assets.', '',
              '| Reference | Candidate | Unity outputs |', '|---|---|---|']
     for key, selection in selections.items():

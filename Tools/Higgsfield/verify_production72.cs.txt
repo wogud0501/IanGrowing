@@ -1,0 +1,24 @@
+var entries = Newtonsoft.Json.Linq.JArray.Parse(System.IO.File.ReadAllText("ArtSource/Higgsfield/PromptPacks/Production72/conversion.json"));
+var checks = new System.Collections.Generic.List<string>();
+foreach (var entry in entries)
+{
+    string path = (string)entry["unityPath"];
+    var importer = (TextureImporter)AssetImporter.GetAtPath(path);
+    var sprite = AssetDatabase.LoadAssetAtPath<Sprite>(path);
+    var prefab = AssetDatabase.LoadAssetAtPath<GameObject>((string)entry["prefabPath"]);
+    if (importer == null || importer.filterMode != FilterMode.Point || importer.mipmapEnabled
+        || importer.textureCompression != TextureImporterCompression.Uncompressed || importer.spritePixelsPerUnit != 40
+        || sprite == null || prefab == null || prefab.GetComponent<SpriteRenderer>().sprite != sprite)
+    {
+        throw new System.Exception("Import/prefab mismatch: " + path);
+    }
+    checks.Add((string)entry["name"]);
+}
+string atlasPath = "Assets/_Game/Art/WorldLife/LivingCity.spriteatlasv2";
+var atlas = AssetDatabase.LoadAllAssetsAtPath(atlasPath).OfType<UnityEngine.U2D.SpriteAtlas>().First();
+int expected = System.IO.Directory.GetFiles("Assets/_Game/Art/WorldLife", "*.png").Length;
+if (atlas.spriteCount != expected || EditorUtility.scriptCompilationFailed)
+{
+    throw new System.Exception("Atlas or compilation failed");
+}
+return new { importedProps = checks, packedSprites = atlas.spriteCount, compileErrors = 0 };

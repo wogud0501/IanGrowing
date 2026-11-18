@@ -40,3 +40,10 @@
 - 버스 승하차/도로 분기·교차로 회전은 구현하지 않았다. 현재 도로에 맞춘 직선 차선/정차 기반이다.
 - 신규 NPC 디자인 시트는 제작 레퍼런스이며 현 주민은 기존 완성된 방향별 애니메이션을 재사용한다. 새 전용 NPC 방향 애니메이션을 제작했다고 주장하지 않는다.
 - 학교·회사·금융 등 추가 장소 레퍼런스는 준비됐으며 전 지역의 새 모듈 제작/상업 아트 마감, 장시간 혼잡/실기 프로파일링, 기존 레거시 Sprite 참조 복구는 후속 검토 대상이다.
+
+## Production72 추가 작업 — 2026-11-18
+
+- 새 사용자 프롬프트 72종을 별도 버전으로 보존하고 Batch 1 12종을 제작/검수했다. 40회 후보 시도, 실제 반환/다운로드 38개, 선택 12개. 픽셀 스타일/품목 실패 원인이 있는 8종만 후보 2개씩 보정했으며 API 오류 2건은 대안이 있어 재시도하지 않았다.
+- 새 생활/거리 소품 Sprite 15개 + Prefab 15개, Atlas 총 45개. 기존 독립 집에 고지서/이삿짐 두 장식을 연결했다. 실제 Game View에서 크기를 보정했다. Gameplay C# 변경 없음.
+- Play Mode 18개, 임포트/Prefab/Atlas, 561개 원문·참조 검사 통과. 새 Missing Script/Reference 없음, 기존 미해결 Sprite 32건 유지. 기존 GUID/Save/Build Scene 보존.
+- [상세 결과·미완료·다음 Batch](HIGGSFIELD_PRODUCTION72.md) · [선택 보드](../ArtSource/Higgsfield/Selected/Production72/BATCH1_REFERENCE_BOARD.png) · [Game View](Production72/Home-GameView.png). 나머지 60종과 최종 사람의 상업 아트 승인은 남아 있다.

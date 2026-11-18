@@ -1,0 +1,113 @@
+if (EditorApplication.isPlaying || UnityEngine.SceneManagement.SceneManager.GetActiveScene().isDirty)
+{
+    throw new System.Exception("Stopped editor with a clean scene required");
+}
+
+var entries = Newtonsoft.Json.Linq.JArray.Parse(
+    System.IO.File.ReadAllText("ArtSource/Higgsfield/PromptPacks/Production72/conversion.json")
+);
+var material = AssetDatabase.LoadAssetAtPath<Material>("Assets/_Game/Art/VisualRebuild/WorldAlphaCut.mat");
+if (material == null)
+{
+    throw new System.Exception("Original pixel material is required");
+}
+
+var results = new System.Collections.Generic.List<object>();
+foreach (var entry in entries)
+{
+    string path = (string)entry["unityPath"];
+    string name = (string)entry["name"];
+    string prefabPath = (string)entry["prefabPath"];
+    AssetDatabase.ImportAsset(path, ImportAssetOptions.ForceSynchronousImport);
+    var importer = (TextureImporter)AssetImporter.GetAtPath(path);
+    importer.textureType = TextureImporterType.Sprite;
+    importer.spriteImportMode = SpriteImportMode.Single;
+    importer.filterMode = FilterMode.Point;
+    importer.textureCompression = TextureImporterCompression.Uncompressed;
+    importer.mipmapEnabled = false;
+    importer.alphaIsTransparency = true;
+    importer.spritePixelsPerUnit = 40;
+    var settings = new TextureImporterSettings();
+    importer.ReadTextureSettings(settings);
+    settings.spriteAlignment = (int)SpriteAlignment.Custom;
+    settings.spritePivot = new Vector2(.5f, .05f);
+    importer.SetTextureSettings(settings);
+    importer.SaveAndReimport();
+    var sprite = AssetDatabase.LoadAssetAtPath<Sprite>(path);
+    AssetDatabase.SetLabels(sprite, new[] { "IanGrowing", "AI-Assisted", "Production72-Reviewed" });
+    if (sprite == null)
+    {
+        throw new System.Exception("Sprite import failed: " + path);
+    }
+
+    bool existing = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath) != null;
+    var go = existing
+        ? PrefabUtility.LoadPrefabContents(prefabPath)
+        : new GameObject(name, typeof(SpriteRenderer));
+    try
+    {
+        var renderer = go.GetComponent<SpriteRenderer>();
+        renderer.sprite = sprite;
+        renderer.sharedMaterial = material;
+        renderer.sortingOrder = 1000;
+        if (name.StartsWith("ENV_") || name.StartsWith("INT_"))
+        {
+            var collider = go.GetComponent<BoxCollider2D>() ?? go.AddComponent<BoxCollider2D>();
+            collider.size = new Vector2(Mathf.Max(.2f, sprite.bounds.size.x * .78f), .24f);
+            collider.offset = Vector2.up * .1f;
+        }
+        PrefabUtility.SaveAsPrefabAsset(go, prefabPath);
+    }
+    finally
+    {
+        if (existing)
+        {
+            PrefabUtility.UnloadPrefabContents(go);
+        }
+        else
+        {
+            UnityEngine.Object.DestroyImmediate(go);
+        }
+    }
+    results.Add(new { path, prefabPath, width = sprite.rect.width, height = sprite.rect.height });
+}
+
+var atlasMethod = typeof(IanGame.Editor.Phase33Setup).GetMethod(
+    "Atlas",
+    System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic
+);
+atlasMethod.Invoke(null, null);
+
+var scene = UnityEditor.SceneManagement.EditorSceneManager.OpenScene(
+    "Assets/_Game/Scenes/Rooms/IndependentHome_Studio.unity"
+);
+var world = UnityEngine.Object.FindFirstObjectByType<IanGame.LifeWorldController>();
+var root = world.transform.Find("Production72 daily life props");
+if (root == null)
+{
+    root = new GameObject("Production72 daily life props").transform;
+    root.SetParent(world.transform, false);
+}
+string[] names = { "PROP_UtilityBills_01", "PROP_MovingBoxes_01" };
+Vector2[] positions = { new Vector2(-1.35f, -3.5f), new Vector2(-2.65f, -3.35f) };
+for (int index = 0; index < names.Length; index++)
+{
+    if (root.Find(names[index]) != null)
+    {
+        continue;
+    }
+    var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(
+        "Assets/_Game/Prefabs/World/LivingCity/" + names[index] + ".prefab"
+    );
+    var go = (GameObject)PrefabUtility.InstantiatePrefab(prefab, root);
+    go.name = names[index];
+    go.transform.localPosition = positions[index];
+    var renderer = go.GetComponent<SpriteRenderer>();
+    renderer.sortingOrder = index == 0 ? -4490 : 1000 - Mathf.RoundToInt(go.transform.position.y * 100);
+    PrefabUtility.RecordPrefabInstancePropertyModifications(go.transform);
+    PrefabUtility.RecordPrefabInstancePropertyModifications(renderer);
+}
+UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(scene);
+UnityEditor.SceneManagement.EditorSceneManager.SaveScene(scene);
+UnityEditor.SceneManagement.EditorSceneManager.OpenScene("Assets/_Game/Scenes/Bootstrap.unity");
+return new { imported = results, addedHomeProps = names, compilationFailed = EditorUtility.scriptCompilationFailed };

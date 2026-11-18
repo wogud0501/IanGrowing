@@ -1,0 +1,188 @@
+var game = IanGame.GameContext.Instance.game;
+var transitions = IanGame.GameContext.Instance.transitions;
+if (transitions.IsTransitioning)
+{
+    throw new System.Exception("Wait for the isolated main menu");
+}
+var sandbox = new IanGame.TestSaveSandbox();
+sandbox.Enter(game);
+string consentKey = "ian.release.legal.acceptance";
+bool hadConsent = PlayerPrefs.HasKey(consentKey);
+string originalConsent = PlayerPrefs.GetString(consentKey, "");
+bool originalBackground = Application.runInBackground;
+Application.runInBackground = true;
+var passed = new System.Collections.Generic.List<string>();
+int phase = 0;
+double began = EditorApplication.timeSinceStartup;
+double stage = began;
+Vector2 movementStart = Vector2.zero;
+IanGame.SaveData saved = null;
+System.Action<bool, string> check = (ok, message) =>
+{
+    if (!ok)
+    {
+        throw new System.Exception(message);
+    }
+    passed.Add(message);
+};
+System.Action restorePreferences = () =>
+{
+    Application.runInBackground = originalBackground;
+    if (hadConsent)
+    {
+        PlayerPrefs.SetString(consentKey, originalConsent);
+    }
+    else
+    {
+        PlayerPrefs.DeleteKey(consentKey);
+    }
+    PlayerPrefs.Save();
+};
+UnityEditor.EditorApplication.CallbackFunction tick = null;
+tick = () =>
+{
+    try
+    {
+        double now = EditorApplication.timeSinceStartup;
+        if (now - began > 100)
+        {
+            throw new System.TimeoutException("Production72 smoke phase " + phase);
+        }
+        var world = game.world.Host;
+        switch (phase)
+        {
+            case 0:
+                IanGame.LegalDocumentService.AcceptRequired();
+                game.NewGame();
+                transitions.Navigate(IanGame.SceneId.Home);
+                phase = 1;
+                break;
+            case 1:
+                if (transitions.IsTransitioning || world == null)
+                {
+                    break;
+                }
+                var birth = UnityEngine.Object.FindFirstObjectByType<IanGame.BirthIntroductionPopup>();
+                if (birth == null || !birth.IsShowing)
+                {
+                    break;
+                }
+                birth.begin.onClick.Invoke();
+                game.growth.Restore(new IanGame.ProgressSnapshot { age = 19 });
+                var stats = game.stats.Capture();
+                stats.money = 25000;
+                game.stats.Restore(stats);
+                check(game.economy.MoveResidence("production72/home", "starter"), "Existing independence command");
+                game.clock.Restore(game.clock.Day, new IanGame.TimeSnapshot { subDaySeconds = 20.5 * 3600 });
+                check(transitions.NavigateRoom("home", transitions.roomCatalog.rules.Zone("home").spawn, Vector2.down), "Home navigation");
+                phase = 2;
+                break;
+            case 2:
+                if (transitions.IsTransitioning || world == null || !world.CanControl)
+                {
+                    break;
+                }
+                check(world.Room.roomId == "home", "Independent Home entered");
+                var props = world.transform.Find("Production72 daily life props");
+                check(props != null && props.childCount == 2, "Two authored prop instances loaded");
+                foreach (var renderer in props.GetComponentsInChildren<SpriteRenderer>())
+                {
+                    check(renderer.sprite != null && renderer.enabled && renderer.gameObject.activeInHierarchy,
+                        "Visible imported sprite: " + renderer.name);
+                    check(renderer.sprite.pixelsPerUnit == 40, "Native 40 PPU: " + renderer.name);
+                }
+                IanGame.Editor.CommercialSliceVerification.SetSize(1920, 1080);
+                world.Player.Warp(world.CurrentZone.origin + new Vector2(-1, -2.4f));
+                world.follow.Snap();
+                movementStart = world.Player.Position;
+                world.Player.BeginTraversal(movementStart + Vector2.left * .7f);
+                stage = now;
+                phase = 3;
+                break;
+            case 3:
+                if (world.Player.IsTraversing || now - stage < .8)
+                {
+                    break;
+                }
+                check(Vector2.Distance(world.Player.Position, movementStart) > .5f, "Player movement beside new props");
+                ScreenCapture.CaptureScreenshot("Docs/Production72/Home-GameView.png");
+                stage = now;
+                phase = 4;
+                break;
+            case 4:
+                if (now - stage < .5)
+                {
+                    break;
+                }
+                var exit = world.objects.First(o => o.id == "front-door");
+                world.Player.Warp(exit.Point + Vector2.up * .2f);
+                check(world.Use(exit), "Original E door handler");
+                phase = 5;
+                break;
+            case 5:
+                if (transitions.IsTransitioning || world == null || world.Room.roomId != "alley" || !world.CanControl)
+                {
+                    break;
+                }
+                check(true, "Residential alley reached");
+                var house = world.objects.First(o => o.id == "house-entrance");
+                world.Player.Warp(house.Point + Vector2.down * .2f);
+                check(world.Use(house), "Original return-home entrance");
+                phase = 6;
+                break;
+            case 6:
+                if (transitions.IsTransitioning || world == null || world.Room.roomId != "home" || !world.CanControl)
+                {
+                    break;
+                }
+                check(world.transform.Find("Production72 daily life props").childCount == 2, "Props persist without duplicate instances");
+                check(game.SaveAutomaticCheckpoint(out var saveMessage), "Isolated Save");
+                check(game.saves.TryReadAutomatic(out saved, out var loadMessage), "Isolated Load");
+                game.RestoreState(saved);
+                stage = now;
+                phase = 7;
+                break;
+            case 7:
+                if (transitions.IsTransitioning || world == null || world.Room.roomId != "home" || !world.CanControl || now - stage < 1)
+                {
+                    break;
+                }
+                check(game.growth.Age == 19, "LifeStage retained after Load");
+                check(world.transform.Find("Production72 daily life props").childCount == 2, "Authored props retained after Load");
+                game.StartCoroutine(sandbox.Exit());
+                stage = now;
+                phase = 90;
+                break;
+            case 90:
+                if (sandbox.Active || now - stage < .5)
+                {
+                    break;
+                }
+                check(sandbox.LastFilesUnchanged, "Original saves unchanged");
+                restorePreferences();
+                System.IO.File.WriteAllText("Docs/Production72/SMOKE_RESULTS.json",
+                    Newtonsoft.Json.JsonConvert.SerializeObject(new
+                    {
+                        complete = true,
+                        passed,
+                        rawKeyboardInput = "NOT VERIFIED; production handlers and Rigidbody traversal used",
+                        mobileDevicePerformance = "NOT VERIFIED"
+                    }, Newtonsoft.Json.Formatting.Indented));
+                EditorApplication.update -= tick;
+                EditorApplication.isPlaying = false;
+                break;
+        }
+    }
+    catch (System.Exception error)
+    {
+        restorePreferences();
+        sandbox.Shutdown();
+        System.IO.File.WriteAllText("Docs/Production72/SMOKE_RESULTS.json",
+            Newtonsoft.Json.JsonConvert.SerializeObject(new { complete = false, phase, passed, failure = error.ToString() },
+                Newtonsoft.Json.Formatting.Indented));
+        EditorApplication.update -= tick;
+        EditorApplication.isPlaying = false;
+    }
+};
+EditorApplication.update += tick;
+return "Production72 isolated smoke queued";

@@ -44,14 +44,19 @@ def generate(asset_id, model, params):
         return asset_id, 'Pending or invalid result; inspect before retry'
     if isinstance(jobs, dict):
         jobs = [jobs]
+    downloaded = 0
     for i, job in enumerate(jobs):
         url = job.get('result_url')
         if not url or job.get('status') != 'completed':
             continue
         image = SOURCE / 'Raw' / (asset_id + ('_' + str(i + 1) if len(jobs) > 1 else '') + '.png')
         if not image.exists():
-            urllib.request.urlretrieve(url, image)
-    return asset_id, 'Downloaded; QA required'
+            partial = image.with_suffix('.png.download')
+            urllib.request.urlretrieve(url, partial)
+            partial.replace(image)
+        downloaded += 1
+    return asset_id, ('Downloaded; QA required' if downloaded else
+                      'No completed downloadable result; inspect job status; no automatic retry')
 
 
 def main():

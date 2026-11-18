@@ -1,0 +1,41 @@
+[
+  {
+    "created_at": "2026-11-18T12:59:41.323445Z",
+    "display_name": "GPT Image 2.6",
+    "id": "7b14a2ca-3aba-47c9-bab4-c7500966e7d8",
+    "job_type": "gpt_image_2_6",
+    "min_result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_125941_7b14a2ca-3aba-47c9-bab4-c7500966e7d8_min.webp",
+    "params": {
+      "aspect_ratio": "16:9",
+      "height": 1520,
+      "medias": [
+        {
+          "data": {
+            "id": "04bd293c-d748-422f-836b-e38aa985b0da",
+            "type": "media_input",
+            "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/04bd293c-d748-422f-836b-e38aa985b0da_resize.jpg"
+          },
+          "role": "image"
+        },
+        {
+          "data": {
+            "id": "aa40cecd-7dae-4fe6-963b-0ab1ad2417f6",
+            "type": "media_input",
+            "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/aa40cecd-7dae-4fe6-963b-0ab1ad2417f6.png"
+          },
+          "role": "image"
+        }
+      ],
+      "model": "aurora-img-alpha",
+      "output_format": "png",
+      "prompt": "Commercial-quality modern pixel-art life simulation set in a fictional contemporary Korean city.\n\n2.5D three-quarter elevated top-down game perspective, consistent game camera, believable architectural depth, layered foreground and background, clearly walkable gameplay space, crisp deliberate pixel edges, consistent pixel density, grounded human proportions and dense environmental storytelling.\n\nThe world should feel ordinary, contemporary and lived-in, with understated black comedy about work, money, debt, education, social pressure, consumption and adulthood.\n\nMuted everyday urban colors, restrained saturation, warm practical interior lighting, controlled neon at night, realistic clutter, readable entrances and paths.\n\nOriginal game art direction. Not based on or copying any existing game.\n\nNot voxel.\nNot Minecraft-like.\nNot block-based.\nNot photorealistic.\nNot glossy mobile fantasy.\nNot generic anime gacha background.\nNot cyberpunk unless explicitly requested.\nNo readable AI-generated Korean text.\nNo real brands or logos.\nLeave signs and poster text areas blank for later Unity overlays.\n\nThe same convenience store at 2 AM.\n\nAlmost empty.\n\nOne tired employee behind the counter.\n\nA single office worker eats instant noodles near the window.\n\nCold fluorescent light contrasts with dark streets outside.\n\nModern dense pixel art with crisp deliberate clustered edges and grounded silhouettes; slate, navy and warm brown city surfaces, subdued dark-clothed residents, restrained amber practical lights and teal traffic accents. Ordinary Korean urban life with quiet irony about work and debt, warm sparse homes contrasting with active streets. Consistent elevated three-quarter top-down game perspective, no extreme isometric tilt, clear walkable lanes, readable entrances, layered foreground objects, consistent human scale, blank signboards and no logos.\n\navoid: voxel art, cubic buildings, low-detail prototype assets, photorealism, glossy 3D render, generic fantasy RPG architecture, excessive bloom, excessive neon, anime mobile game city, distorted perspective, impossible doors and stairs, oversized furniture, tiny doors, inconsistent pixel size, readable fake Korean text, real trademarks, random English logos, excessive visual clutter\n\nPIXEL PRODUCTION RULE: deliberately draw hard square pixel clusters on a 448 by 256 logical canvas, then enlarge six times with nearest-neighbor. Use limited flat palette ramps, visible stepped silhouettes and coarse grid-aligned shading; no anti-aliasing, fine hatching, smooth gradients or painted illustration. The pixel-style board, when attached, defines edge treatment and pixel density only, never its content or layout.\n\nThe first attached image is the locked location. Preserve its camera, floor outline, door/window positions, walls, road widths and building footprints. Change only the requested props, people or lighting. Render one whole scene, never a collage, inset, map or split screen.\n",
+      "quality": "high",
+      "reference_elements": [],
+      "remove_bg": false,
+      "resolution": "2k",
+      "width": 2688
+    },
+    "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_125941_7b14a2ca-3aba-47c9-bab4-c7500966e7d8.png",
+    "status": "completed"
+  }
+]
