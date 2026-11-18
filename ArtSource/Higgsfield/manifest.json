@@ -1,0 +1,1690 @@
+{
+  "phase": "3.3",
+  "generationCount": 64,
+  "requestedCandidateCount": 65,
+  "initialBatchUnreturnedResults": 1,
+  "completed": 64,
+  "approvedCount": 30,
+  "runtimeSpriteCount": 28,
+  "requests": [
+    {
+      "candidate": "apartment_exterior_a",
+      "generationId": "c95c0c8c-fd89-4719-aae4-e95a150976bd",
+      "createdAt": "2026-11-18T10:38:56.825602Z",
+      "model": "gpt_image_2_6",
+      "status": "completed",
+      "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_103856_c95c0c8c-fd89-4719-aae4-e95a150976bd.png",
+      "prompt": "ArtSource/Higgsfield/Prompts/apartment_exterior_a.txt",
+      "references": [],
+      "rawPath": "ArtSource/Higgsfield/Raw/apartment_exterior_a.png",
+      "qaStatus": "NOT_SELECTED",
+      "qaNote": "Alternate candidate retained; no additional retry"
+    },
+    {
+      "candidate": "apartment_exterior_b",
+      "generationId": "e1fe36d7-5444-441b-a91a-a642ea8718cb",
+      "createdAt": "2026-11-18T10:39:46.787428Z",
+      "model": "gpt_image_2_6",
+      "status": "completed",
+      "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_103946_e1fe36d7-5444-441b-a91a-a642ea8718cb.png",
+      "prompt": "ArtSource/Higgsfield/Prompts/apartment_exterior_b.txt",
+      "references": [],
+      "rawPath": "ArtSource/Higgsfield/Raw/apartment_exterior_b.png",
+      "qaStatus": "APPROVED_REFERENCE",
+      "qaNote": "Approved modular facade reference; clear entrance, no readable text."
+    },
+    {
+      "candidate": "apartment_module_a",
+      "generationId": "858456ed-1c7c-4edf-839b-304fd663df82",
+      "createdAt": "2026-11-18T10:43:43.626618Z",
+      "model": "gpt_image_2_6",
+      "status": "completed",
+      "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_104343_858456ed-1c7c-4edf-839b-304fd663df82.png",
+      "prompt": "ArtSource/Higgsfield/Prompts/apartment_module_a.txt",
+      "references": [],
+      "rawPath": "ArtSource/Higgsfield/Raw/apartment_module_a.png",
+      "qaStatus": "NOT_SELECTED",
+      "qaNote": "Alternate candidate retained; no additional retry"
+    },
+    {
+      "candidate": "apartment_module_b",
+      "generationId": "3fac3312-0210-476a-b136-2ef1f4e77cdb",
+      "createdAt": "2026-11-18T10:43:43.982633Z",
+      "model": "gpt_image_2_6",
+      "status": "completed",
+      "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_104343_3fac3312-0210-476a-b136-2ef1f4e77cdb.png",
+      "prompt": "ArtSource/Higgsfield/Prompts/apartment_module_b.txt",
+      "references": [],
+      "rawPath": "ArtSource/Higgsfield/Raw/apartment_module_b.png",
+      "qaStatus": "APPROVED_REFERENCE",
+      "qaNote": "Isolated complete modular facade, clear entry, magenta background, no readable AI text. Native logical pixel cleanup required."
+    },
+    {
+      "candidate": "cafe_a",
+      "generationId": "423c6914-7e3b-445d-9f83-d823e3e1d59e",
+      "createdAt": "2026-11-18T10:45:33.966909Z",
+      "model": "gpt_image_2_6",
+      "status": "completed",
+      "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_104533_423c6914-7e3b-445d-9f83-d823e3e1d59e.png",
+      "prompt": "ArtSource/Higgsfield/Prompts/cafe_a.txt",
+      "references": [],
+      "rawPath": "ArtSource/Higgsfield/Raw/cafe_a.png",
+      "qaStatus": "APPROVED_REFERENCE",
+      "qaNote": "Reviewed full scene composition: clear walkable routes, coherent perspective and palette, no real branding or readable AI lettering. Reference only until individual sprite cleanup."
+    },
+    {
+      "candidate": "cafe_b",
+      "generationId": "a87743f9-82b0-44e7-8a74-fb24ff1f467e",
+      "createdAt": "2026-11-18T10:45:38.410384Z",
+      "model": "gpt_image_2_6",
+      "status": "completed",
+      "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_104538_a87743f9-82b0-44e7-8a74-fb24ff1f467e.png",
+      "prompt": "ArtSource/Higgsfield/Prompts/cafe_b.txt",
+      "references": [],
+      "rawPath": "ArtSource/Higgsfield/Raw/cafe_b.png",
+      "qaStatus": "NOT_SELECTED",
+      "qaNote": "Alternate candidate retained; no additional retry"
+    },
+    {
+      "candidate": "city_day_a",
+      "generationId": "e2d4811b-a7b7-4a75-975f-a65606a5f34d",
+      "createdAt": "2026-11-18T10:42:55.974528Z",
+      "model": "gpt_image_2_6",
+      "status": "completed",
+      "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_104255_e2d4811b-a7b7-4a75-975f-a65606a5f34d.png",
+      "prompt": "ArtSource/Higgsfield/Prompts/city_day_a.txt",
+      "references": [],
+      "rawPath": "ArtSource/Higgsfield/Raw/city_day_a.png",
+      "qaStatus": "NOT_SELECTED",
+      "qaNote": "Alternate candidate retained; no additional retry"
+    },
+    {
+      "candidate": "city_day_b",
+      "generationId": "fd11bdf4-88f3-4d0d-8718-1ed7771411dd",
+      "createdAt": "2026-11-18T10:42:55.673977Z",
+      "model": "gpt_image_2_6",
+      "status": "completed",
+      "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_104255_fd11bdf4-88f3-4d0d-8718-1ed7771411dd.png",
+      "prompt": "ArtSource/Higgsfield/Prompts/city_day_b.txt",
+      "references": [],
+      "rawPath": "ArtSource/Higgsfield/Raw/city_day_b.png",
+      "qaStatus": "APPROVED_REFERENCE",
+      "qaNote": "Reviewed full scene composition: clear walkable routes, coherent perspective and palette, no real branding or readable AI lettering. Reference only until individual sprite cleanup."
+    },
+    {
+      "candidate": "city_evening_a",
+      "generationId": "c8f8200d-1840-4ad9-ae4c-b1f8b0d98fbb",
+      "createdAt": "2026-11-18T10:52:01.298932Z",
+      "model": "gpt_image_2_6",
+      "status": "completed",
+      "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_105201_c8f8200d-1840-4ad9-ae4c-b1f8b0d98fbb.png",
+      "prompt": "ArtSource/Higgsfield/Prompts/city_evening_a.txt",
+      "references": [
+        "ArtSource/Higgsfield/Selected/city_day.png"
+      ],
+      "rawPath": "ArtSource/Higgsfield/Raw/city_evening_a.png",
+      "qaStatus": "NOT_SELECTED",
+      "qaNote": "Alternate candidate retained; no additional retry"
+    },
+    {
+      "candidate": "city_evening_b",
+      "generationId": "98c9ebb4-1fc3-4d5a-b33b-47b212e60cd7",
+      "createdAt": "2026-11-18T10:52:03.456499Z",
+      "model": "gpt_image_2_6",
+      "status": "completed",
+      "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_105203_98c9ebb4-1fc3-4d5a-b33b-47b212e60cd7.png",
+      "prompt": "ArtSource/Higgsfield/Prompts/city_evening_b.txt",
+      "references": [
+        "ArtSource/Higgsfield/Selected/city_day.png"
+      ],
+      "rawPath": "ArtSource/Higgsfield/Raw/city_evening_b.png",
+      "qaStatus": "APPROVED_REFERENCE",
+      "qaNote": "Matched against selected base location. Doors, building footprints, road and desks retained; only lighting/weather changes. No new runtime background."
+    },
+    {
+      "candidate": "city_night_a",
+      "generationId": "d07abe8e-5699-47ff-9c04-c1296cdc0d62",
+      "createdAt": "2026-11-18T10:52:11.465998Z",
+      "model": "gpt_image_2_6",
+      "status": "completed",
+      "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_105211_d07abe8e-5699-47ff-9c04-c1296cdc0d62.png",
+      "prompt": "ArtSource/Higgsfield/Prompts/city_night_a.txt",
+      "references": [
+        "ArtSource/Higgsfield/Selected/city_day.png"
+      ],
+      "rawPath": "ArtSource/Higgsfield/Raw/city_night_a.png",
+      "qaStatus": "APPROVED_REFERENCE",
+      "qaNote": "Matched against selected base location. Doors, building footprints, road and desks retained; only lighting/weather changes. No new runtime background."
+    },
+    {
+      "candidate": "city_night_b",
+      "generationId": "80ca710d-98b1-41bd-85df-227eb3b740d0",
+      "createdAt": "2026-11-18T10:52:15.696629Z",
+      "model": "gpt_image_2_6",
+      "status": "completed",
+      "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_105215_80ca710d-98b1-41bd-85df-227eb3b740d0.png",
+      "prompt": "ArtSource/Higgsfield/Prompts/city_night_b.txt",
+      "references": [
+        "ArtSource/Higgsfield/Selected/city_day.png"
+      ],
+      "rawPath": "ArtSource/Higgsfield/Raw/city_night_b.png",
+      "qaStatus": "NOT_SELECTED",
+      "qaNote": "Alternate candidate retained; no additional retry"
+    },
+    {
+      "candidate": "city_rain_a",
+      "generationId": "f0e9b4c0-a93f-4363-867b-fbc73fbf17be",
+      "createdAt": "2026-11-18T10:53:01.310432Z",
+      "model": "gpt_image_2_6",
+      "status": "completed",
+      "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_105301_f0e9b4c0-a93f-4363-867b-fbc73fbf17be.png",
+      "prompt": "ArtSource/Higgsfield/Prompts/city_rain_a.txt",
+      "references": [
+        "ArtSource/Higgsfield/Selected/city_day.png"
+      ],
+      "rawPath": "ArtSource/Higgsfield/Raw/city_rain_a.png",
+      "qaStatus": "NOT_SELECTED",
+      "qaNote": "Alternate candidate retained; no additional retry"
+    },
+    {
+      "candidate": "city_rain_b",
+      "generationId": "4ab02678-f0e1-47e0-a0d9-e5df3cf8015d",
+      "createdAt": "2026-11-18T10:53:00.856344Z",
+      "model": "gpt_image_2_6",
+      "status": "completed",
+      "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_105300_4ab02678-f0e1-47e0-a0d9-e5df3cf8015d.png",
+      "prompt": "ArtSource/Higgsfield/Prompts/city_rain_b.txt",
+      "references": [
+        "ArtSource/Higgsfield/Selected/city_day.png"
+      ],
+      "rawPath": "ArtSource/Higgsfield/Raw/city_rain_b.png",
+      "qaStatus": "APPROVED_REFERENCE",
+      "qaNote": "Matched against selected base location. Doors, building footprints, road and desks retained; only lighting/weather changes. No new runtime background."
+    },
+    {
+      "candidate": "classroom_a",
+      "generationId": "13f7f7f5-e72c-40c6-a091-fa943ae445c9",
+      "createdAt": "2026-11-18T10:43:54.023294Z",
+      "model": "gpt_image_2_6",
+      "status": "completed",
+      "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_104354_13f7f7f5-e72c-40c6-a091-fa943ae445c9.png",
+      "prompt": "ArtSource/Higgsfield/Prompts/classroom_a.txt",
+      "references": [],
+      "rawPath": "ArtSource/Higgsfield/Raw/classroom_a.png",
+      "qaStatus": "APPROVED_REFERENCE",
+      "qaNote": "Reviewed full scene composition: clear walkable routes, coherent perspective and palette, no real branding or readable AI lettering. Reference only until individual sprite cleanup."
+    },
+    {
+      "candidate": "classroom_b",
+      "generationId": "6d5ab62e-e48c-4389-ad7d-cfea938c6309",
+      "createdAt": "2026-11-18T10:44:04.020567Z",
+      "model": "gpt_image_2_6",
+      "status": "completed",
+      "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_104404_6d5ab62e-e48c-4389-ad7d-cfea938c6309.png",
+      "prompt": "ArtSource/Higgsfield/Prompts/classroom_b.txt",
+      "references": [],
+      "rawPath": "ArtSource/Higgsfield/Raw/classroom_b.png",
+      "qaStatus": "NOT_SELECTED",
+      "qaNote": "Alternate candidate retained; no additional retry"
+    },
+    {
+      "candidate": "clinic_a",
+      "generationId": "57b9e4e4-f52d-45c9-94fe-034bec49ace1",
+      "createdAt": "2026-11-18T10:47:18.03359Z",
+      "model": "gpt_image_2_6",
+      "status": "completed",
+      "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_104718_57b9e4e4-f52d-45c9-94fe-034bec49ace1.png",
+      "prompt": "ArtSource/Higgsfield/Prompts/clinic_a.txt",
+      "references": [],
+      "rawPath": "ArtSource/Higgsfield/Raw/clinic_a.png",
+      "qaStatus": "NOT_SELECTED",
+      "qaNote": "Alternate candidate retained; no additional retry"
+    },
+    {
+      "candidate": "clinic_b",
+      "generationId": "8353db2c-05ed-4428-a12d-0fd23b37fe58",
+      "createdAt": "2026-11-18T10:47:28.488012Z",
+      "model": "gpt_image_2_6",
+      "status": "completed",
+      "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_104728_8353db2c-05ed-4428-a12d-0fd23b37fe58.png",
+      "prompt": "ArtSource/Higgsfield/Prompts/clinic_b.txt",
+      "references": [],
+      "rawPath": "ArtSource/Higgsfield/Raw/clinic_b.png",
+      "qaStatus": "APPROVED_REFERENCE",
+      "qaNote": "Reviewed full scene composition: clear walkable routes, coherent perspective and palette, no real branding or readable AI lettering. Reference only until individual sprite cleanup."
+    },
+    {
+      "candidate": "convenience_exterior_a",
+      "generationId": "2fb4741b-b157-4df3-b21c-fae9fc14a185",
+      "createdAt": "2026-11-18T10:39:50.875993Z",
+      "model": "gpt_image_2_6",
+      "status": "completed",
+      "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_103950_2fb4741b-b157-4df3-b21c-fae9fc14a185.png",
+      "prompt": "ArtSource/Higgsfield/Prompts/convenience_exterior_a.txt",
+      "references": [],
+      "rawPath": "ArtSource/Higgsfield/Raw/convenience_exterior_a.png",
+      "qaStatus": "NOT_SELECTED",
+      "qaNote": "Alternate candidate retained; no additional retry"
+    },
+    {
+      "candidate": "convenience_exterior_b",
+      "generationId": "5e801031-e4d8-4294-9bac-12b0d0bf604d",
+      "createdAt": "2026-11-18T10:39:51.763883Z",
+      "model": "gpt_image_2_6",
+      "status": "completed",
+      "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_103951_5e801031-e4d8-4294-9bac-12b0d0bf604d.png",
+      "prompt": "ArtSource/Higgsfield/Prompts/convenience_exterior_b.txt",
+      "references": [],
+      "rawPath": "ArtSource/Higgsfield/Raw/convenience_exterior_b.png",
+      "qaStatus": "APPROVED_REFERENCE",
+      "qaNote": "Approved storefront reference; blank navy/teal signage, entrance readable."
+    },
+    {
+      "candidate": "convenience_interior_a",
+      "generationId": "0c52f758-c6cc-449e-b782-71c2724f5a71",
+      "createdAt": "2026-11-18T10:39:53.363465Z",
+      "model": "gpt_image_2_6",
+      "status": "completed",
+      "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_103953_0c52f758-c6cc-449e-b782-71c2724f5a71.png",
+      "prompt": "ArtSource/Higgsfield/Prompts/convenience_interior_a.txt",
+      "references": [],
+      "rawPath": "ArtSource/Higgsfield/Raw/convenience_interior_a.png",
+      "qaStatus": "REJECTED",
+      "qaNote": "Rejected: exterior city and inset instead of standalone interior"
+    },
+    {
+      "candidate": "convenience_interior_b",
+      "generationId": "1d3acc1a-af19-4265-83cc-48b94456d695",
+      "createdAt": "2026-11-18T10:40:38.799296Z",
+      "model": "gpt_image_2_6",
+      "status": "completed",
+      "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_104038_1d3acc1a-af19-4265-83cc-48b94456d695.png",
+      "prompt": "ArtSource/Higgsfield/Prompts/convenience_interior_b.txt",
+      "references": [],
+      "rawPath": "ArtSource/Higgsfield/Raw/convenience_interior_b.png",
+      "qaStatus": "REJECTED",
+      "qaNote": "Rejected: exterior city and inset instead of standalone interior"
+    },
+    {
+      "candidate": "convenience_interior_clean_a",
+      "generationId": "e1285884-dabe-4758-9a30-1c8c4272cdc7",
+      "createdAt": "2026-11-18T10:48:16.440704Z",
+      "model": "gpt_image_2_6",
+      "status": "completed",
+      "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_104816_e1285884-dabe-4758-9a30-1c8c4272cdc7.png",
+      "prompt": "ArtSource/Higgsfield/Prompts/convenience_interior_clean_a.txt",
+      "references": [],
+      "rawPath": "ArtSource/Higgsfield/Raw/convenience_interior_clean_a.png",
+      "qaStatus": "NOT_SELECTED",
+      "qaNote": "Alternate candidate retained; no additional retry"
+    },
+    {
+      "candidate": "convenience_interior_clean_b",
+      "generationId": "c3aa4ef4-ea58-496f-a855-78dddeb41610",
+      "createdAt": "2026-11-18T10:48:23.44003Z",
+      "model": "gpt_image_2_6",
+      "status": "completed",
+      "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_104823_c3aa4ef4-ea58-496f-a855-78dddeb41610.png",
+      "prompt": "ArtSource/Higgsfield/Prompts/convenience_interior_clean_b.txt",
+      "references": [],
+      "rawPath": "ArtSource/Higgsfield/Raw/convenience_interior_clean_b.png",
+      "qaStatus": "APPROVED_REFERENCE",
+      "qaNote": "Reviewed full scene composition: clear walkable routes, coherent perspective and palette, no real branding or readable AI lettering. Reference only until individual sprite cleanup."
+    },
+    {
+      "candidate": "convenience_module_a",
+      "generationId": "026537ad-31cb-4857-b8e6-bd8cee5fd2d5",
+      "createdAt": "2026-11-18T10:43:43.751139Z",
+      "model": "gpt_image_2_6",
+      "status": "completed",
+      "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_104343_026537ad-31cb-4857-b8e6-bd8cee5fd2d5.png",
+      "prompt": "ArtSource/Higgsfield/Prompts/convenience_module_a.txt",
+      "references": [],
+      "rawPath": "ArtSource/Higgsfield/Raw/convenience_module_a.png",
+      "qaStatus": "NOT_SELECTED",
+      "qaNote": "Alternate candidate retained; no additional retry"
+    },
+    {
+      "candidate": "convenience_module_b",
+      "generationId": "32458654-1a5c-4f81-9654-3bc5e60e244a",
+      "createdAt": "2026-11-18T10:44:26.773243Z",
+      "model": "gpt_image_2_6",
+      "status": "completed",
+      "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_104426_32458654-1a5c-4f81-9654-3bc5e60e244a.png",
+      "prompt": "ArtSource/Higgsfield/Prompts/convenience_module_b.txt",
+      "references": [],
+      "rawPath": "ArtSource/Higgsfield/Raw/convenience_module_b.png",
+      "qaStatus": "APPROVED_REFERENCE",
+      "qaNote": "Isolated complete modular facade, clear entry, magenta background, no readable AI text. Native logical pixel cleanup required."
+    },
+    {
+      "candidate": "finance_a",
+      "generationId": "9dc032e9-e409-4055-9c45-ae31d98ada65",
+      "createdAt": "2026-11-18T10:45:42.327214Z",
+      "model": "gpt_image_2_6",
+      "status": "completed",
+      "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_104542_9dc032e9-e409-4055-9c45-ae31d98ada65.png",
+      "prompt": "ArtSource/Higgsfield/Prompts/finance_a.txt",
+      "references": [],
+      "rawPath": "ArtSource/Higgsfield/Raw/finance_a.png",
+      "qaStatus": "APPROVED_REFERENCE",
+      "qaNote": "Reviewed full scene composition: clear walkable routes, coherent perspective and palette, no real branding or readable AI lettering. Reference only until individual sprite cleanup."
+    },
+    {
+      "candidate": "finance_b",
+      "generationId": "a14bd955-399b-46cf-8663-c20780485a83",
+      "createdAt": "2026-11-18T10:45:44.773452Z",
+      "model": "gpt_image_2_6",
+      "status": "completed",
+      "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_104544_a14bd955-399b-46cf-8663-c20780485a83.png",
+      "prompt": "ArtSource/Higgsfield/Prompts/finance_b.txt",
+      "references": [],
+      "rawPath": "ArtSource/Higgsfield/Raw/finance_b.png",
+      "qaStatus": "NOT_SELECTED",
+      "qaNote": "Alternate candidate retained; no additional retry"
+    },
+    {
+      "candidate": "furnished_home_a",
+      "generationId": "94fc561f-83de-4273-9332-4e9f2be6631b",
+      "createdAt": "2026-11-18T10:44:38.814056Z",
+      "model": "gpt_image_2_6",
+      "status": "completed",
+      "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_104438_94fc561f-83de-4273-9332-4e9f2be6631b.png",
+      "prompt": "ArtSource/Higgsfield/Prompts/furnished_home_a.txt",
+      "references": [
+        "ArtSource/Higgsfield/Selected/independent_home.png"
+      ],
+      "rawPath": "ArtSource/Higgsfield/Raw/furnished_home_a.png",
+      "qaStatus": "NOT_SELECTED",
+      "qaNote": "Alternate candidate retained; no additional retry"
+    },
+    {
+      "candidate": "furnished_home_b",
+      "generationId": "18ccf907-1ae7-4ca9-ae48-1f016a4c4d4d",
+      "createdAt": "2026-11-18T10:44:45.040086Z",
+      "model": "gpt_image_2_6",
+      "status": "completed",
+      "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_104445_18ccf907-1ae7-4ca9-ae48-1f016a4c4d4d.png",
+      "prompt": "ArtSource/Higgsfield/Prompts/furnished_home_b.txt",
+      "references": [
+        "ArtSource/Higgsfield/Selected/independent_home.png"
+      ],
+      "rawPath": "ArtSource/Higgsfield/Raw/furnished_home_b.png",
+      "qaStatus": "APPROVED_REFERENCE",
+      "qaNote": "Reviewed full scene composition: clear walkable routes, coherent perspective and palette, no real branding or readable AI lettering. Reference only until individual sprite cleanup."
+    },
+    {
+      "candidate": "furniture_store_a",
+      "generationId": "683317c9-b6be-4fc3-9c6e-569b0312f400",
+      "createdAt": "2026-11-18T10:46:37.471342Z",
+      "model": "gpt_image_2_6",
+      "status": "completed",
+      "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_104637_683317c9-b6be-4fc3-9c6e-569b0312f400.png",
+      "prompt": "ArtSource/Higgsfield/Prompts/furniture_store_a.txt",
+      "references": [],
+      "rawPath": "ArtSource/Higgsfield/Raw/furniture_store_a.png",
+      "qaStatus": "APPROVED_REFERENCE",
+      "qaNote": "Reviewed full scene composition: clear walkable routes, coherent perspective and palette, no real branding or readable AI lettering. Reference only until individual sprite cleanup."
+    },
+    {
+      "candidate": "furniture_store_b",
+      "generationId": "4c0ec6fd-9d76-4bd3-ab6e-33e5131b4473",
+      "createdAt": "2026-11-18T10:46:44.072265Z",
+      "model": "gpt_image_2_6",
+      "status": "completed",
+      "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_104644_4c0ec6fd-9d76-4bd3-ab6e-33e5131b4473.png",
+      "prompt": "ArtSource/Higgsfield/Prompts/furniture_store_b.txt",
+      "references": [],
+      "rawPath": "ArtSource/Higgsfield/Raw/furniture_store_b.png",
+      "qaStatus": "NOT_SELECTED",
+      "qaNote": "Alternate candidate retained; no additional retry"
+    },
+    {
+      "candidate": "independent_home_a",
+      "generationId": "ff53774e-7f6d-456f-8214-2a0c0124c5ab",
+      "createdAt": "2026-11-18T10:38:57.889593Z",
+      "model": "gpt_image_2_6",
+      "status": "completed",
+      "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_103857_ff53774e-7f6d-456f-8214-2a0c0124c5ab.png",
+      "prompt": "ArtSource/Higgsfield/Prompts/independent_home_a.txt",
+      "references": [],
+      "rawPath": "ArtSource/Higgsfield/Raw/independent_home_a.png",
+      "qaStatus": "NOT_SELECTED",
+      "qaNote": "Alternate candidate retained; no additional retry"
+    },
+    {
+      "candidate": "independent_home_b",
+      "generationId": "3fcdbdf1-f543-4dc0-bd55-a05f445253f8",
+      "createdAt": "2026-11-18T10:38:54.525442Z",
+      "model": "gpt_image_2_6",
+      "status": "completed",
+      "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_103854_3fcdbdf1-f543-4dc0-bd55-a05f445253f8.png",
+      "prompt": "ArtSource/Higgsfield/Prompts/independent_home_b.txt",
+      "references": [],
+      "rawPath": "ArtSource/Higgsfield/Raw/independent_home_b.png",
+      "qaStatus": "APPROVED_REFERENCE",
+      "qaNote": "Approved sparse room reference, one bed; architecture varies from authored Home, so no automatic floorplan replacement."
+    },
+    {
+      "candidate": "irony_props_a",
+      "generationId": "8fa15486-fff8-4e3e-bb9a-6a66eef35019",
+      "createdAt": "2026-11-18T10:47:31.004953Z",
+      "model": "gpt_image_2_6",
+      "status": "completed",
+      "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_104731_8fa15486-fff8-4e3e-bb9a-6a66eef35019.png",
+      "prompt": "ArtSource/Higgsfield/Prompts/irony_props_a.txt",
+      "references": [],
+      "rawPath": "ArtSource/Higgsfield/Raw/irony_props_a.png",
+      "qaStatus": "APPROVED_REFERENCE",
+      "qaNote": "Reviewed full scene composition: clear walkable routes, coherent perspective and palette, no real branding or readable AI lettering. Reference only until individual sprite cleanup."
+    },
+    {
+      "candidate": "irony_props_b",
+      "generationId": "42bf91f9-cfef-4d73-af70-cb10f1609b1e",
+      "createdAt": "2026-11-18T10:47:44.200144Z",
+      "model": "gpt_image_2_6",
+      "status": "completed",
+      "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_104744_42bf91f9-cfef-4d73-af70-cb10f1609b1e.png",
+      "prompt": "ArtSource/Higgsfield/Prompts/irony_props_b.txt",
+      "references": [],
+      "rawPath": "ArtSource/Higgsfield/Raw/irony_props_b.png",
+      "qaStatus": "NOT_SELECTED",
+      "qaNote": "Alternate candidate retained; no additional retry"
+    },
+    {
+      "candidate": "npc_archetypes_a",
+      "generationId": "c5b4e4b2-03ea-4c61-9a34-576968f6a713",
+      "createdAt": "2026-11-18T10:41:35.920734Z",
+      "model": "gpt_image_2_6",
+      "status": "completed",
+      "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_104135_c5b4e4b2-03ea-4c61-9a34-576968f6a713.png",
+      "prompt": "ArtSource/Higgsfield/Prompts/npc_archetypes_a.txt",
+      "references": [],
+      "rawPath": "ArtSource/Higgsfield/Raw/npc_archetypes_a.png",
+      "qaStatus": "REJECTED",
+      "qaNote": "Rejected: city panorama consumes sheet area"
+    },
+    {
+      "candidate": "npc_archetypes_b",
+      "generationId": "7a5857f8-ad50-4be7-a515-7584f5f4ec4b",
+      "createdAt": "2026-11-18T10:41:42.225096Z",
+      "model": "gpt_image_2_6",
+      "status": "completed",
+      "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_104142_7a5857f8-ad50-4be7-a515-7584f5f4ec4b.png",
+      "prompt": "ArtSource/Higgsfield/Prompts/npc_archetypes_b.txt",
+      "references": [],
+      "rawPath": "ArtSource/Higgsfield/Raw/npc_archetypes_b.png",
+      "qaStatus": "REJECTED",
+      "qaNote": "Rejected: city panorama consumes sheet area"
+    },
+    {
+      "candidate": "npc_clean_a",
+      "generationId": "5368f576-4b63-4b25-a2f3-2899bbeee99e",
+      "createdAt": "2026-11-18T10:48:41.680812Z",
+      "model": "gpt_image_2_6",
+      "status": "completed",
+      "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_104841_5368f576-4b63-4b25-a2f3-2899bbeee99e.png",
+      "prompt": "ArtSource/Higgsfield/Prompts/npc_clean_a.txt",
+      "references": [],
+      "rawPath": "ArtSource/Higgsfield/Raw/npc_clean_a.png",
+      "qaStatus": "NOT_SELECTED",
+      "qaNote": "Alternate candidate retained; no additional retry"
+    },
+    {
+      "candidate": "npc_clean_b",
+      "generationId": "f20ef58d-f3ae-4664-9ac4-987c071619a9",
+      "createdAt": "2026-11-18T10:48:41.813624Z",
+      "model": "gpt_image_2_6",
+      "status": "completed",
+      "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_104841_f20ef58d-f3ae-4664-9ac4-987c071619a9.png",
+      "prompt": "ArtSource/Higgsfield/Prompts/npc_clean_b.txt",
+      "references": [],
+      "rawPath": "ArtSource/Higgsfield/Raw/npc_clean_b.png",
+      "qaStatus": "APPROVED_REFERENCE",
+      "qaNote": "Reviewed full scene composition: clear walkable routes, coherent perspective and palette, no real branding or readable AI lettering. Reference only until individual sprite cleanup."
+    },
+    {
+      "candidate": "office_day_a",
+      "generationId": "943f20a4-56ac-4e2d-9833-334e5f24fe3a",
+      "createdAt": "2026-11-18T10:44:49.400899Z",
+      "model": "gpt_image_2_6",
+      "status": "completed",
+      "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_104449_943f20a4-56ac-4e2d-9833-334e5f24fe3a.png",
+      "prompt": "ArtSource/Higgsfield/Prompts/office_day_a.txt",
+      "references": [],
+      "rawPath": "ArtSource/Higgsfield/Raw/office_day_a.png",
+      "qaStatus": "NOT_SELECTED",
+      "qaNote": "Alternate candidate retained; no additional retry"
+    },
+    {
+      "candidate": "office_day_b",
+      "generationId": "8e4b37f5-1228-4742-a5bb-f9fcfddfbd61",
+      "createdAt": "2026-11-18T10:44:53.026012Z",
+      "model": "gpt_image_2_6",
+      "status": "completed",
+      "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_104453_8e4b37f5-1228-4742-a5bb-f9fcfddfbd61.png",
+      "prompt": "ArtSource/Higgsfield/Prompts/office_day_b.txt",
+      "references": [],
+      "rawPath": "ArtSource/Higgsfield/Raw/office_day_b.png",
+      "qaStatus": "APPROVED_REFERENCE",
+      "qaNote": "Reviewed full scene composition: clear walkable routes, coherent perspective and palette, no real branding or readable AI lettering. Reference only until individual sprite cleanup."
+    },
+    {
+      "candidate": "office_night_a",
+      "generationId": "cdb07f17-2690-495f-adb3-80ad24b8982e",
+      "createdAt": "2026-11-18T10:53:14.302564Z",
+      "model": "gpt_image_2_6",
+      "status": "completed",
+      "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_105314_cdb07f17-2690-495f-adb3-80ad24b8982e.png",
+      "prompt": "ArtSource/Higgsfield/Prompts/office_night_a.txt",
+      "references": [
+        "ArtSource/Higgsfield/Selected/office_day.png"
+      ],
+      "rawPath": "ArtSource/Higgsfield/Raw/office_night_a.png",
+      "qaStatus": "APPROVED_REFERENCE",
+      "qaNote": "Matched against selected base location. Doors, building footprints, road and desks retained; only lighting/weather changes. No new runtime background."
+    },
+    {
+      "candidate": "office_night_b",
+      "generationId": "f69d1d27-aaf5-44bd-a240-d9416d825f66",
+      "createdAt": "2026-11-18T10:53:19.192828Z",
+      "model": "gpt_image_2_6",
+      "status": "completed",
+      "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_105319_f69d1d27-aaf5-44bd-a240-d9416d825f66.png",
+      "prompt": "ArtSource/Higgsfield/Prompts/office_night_b.txt",
+      "references": [
+        "ArtSource/Higgsfield/Selected/office_day.png"
+      ],
+      "rawPath": "ArtSource/Higgsfield/Raw/office_night_b.png",
+      "qaStatus": "NOT_SELECTED",
+      "qaNote": "Alternate candidate retained; no additional retry"
+    },
+    {
+      "candidate": "parents_home_a",
+      "generationId": "c9b331c2-2216-43ee-96a1-bfc96a72494d",
+      "createdAt": "2026-11-18T10:42:55.198322Z",
+      "model": "gpt_image_2_6",
+      "status": "completed",
+      "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_104255_c9b331c2-2216-43ee-96a1-bfc96a72494d.png",
+      "prompt": "ArtSource/Higgsfield/Prompts/parents_home_a.txt",
+      "references": [],
+      "rawPath": "ArtSource/Higgsfield/Raw/parents_home_a.png",
+      "qaStatus": "NOT_SELECTED",
+      "qaNote": "Alternate candidate retained; no additional retry"
+    },
+    {
+      "candidate": "parents_home_b",
+      "generationId": "3638edab-66c2-459b-b8b8-28dacb69bc8a",
+      "createdAt": "2026-11-18T10:42:55.422884Z",
+      "model": "gpt_image_2_6",
+      "status": "completed",
+      "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_104255_3638edab-66c2-459b-b8b8-28dacb69bc8a.png",
+      "prompt": "ArtSource/Higgsfield/Prompts/parents_home_b.txt",
+      "references": [],
+      "rawPath": "ArtSource/Higgsfield/Raw/parents_home_b.png",
+      "qaStatus": "APPROVED_REFERENCE",
+      "qaNote": "Reviewed full scene composition: clear walkable routes, coherent perspective and palette, no real branding or readable AI lettering. Reference only until individual sprite cleanup."
+    },
+    {
+      "candidate": "realestate_a",
+      "generationId": "3f1b777f-f8b8-4750-81a3-eb5398d337ed",
+      "createdAt": "2026-11-18T10:46:26.260113Z",
+      "model": "gpt_image_2_6",
+      "status": "completed",
+      "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_104626_3f1b777f-f8b8-4750-81a3-eb5398d337ed.png",
+      "prompt": "ArtSource/Higgsfield/Prompts/realestate_a.txt",
+      "references": [],
+      "rawPath": "ArtSource/Higgsfield/Raw/realestate_a.png",
+      "qaStatus": "NOT_SELECTED",
+      "qaNote": "Alternate candidate retained; no additional retry"
+    },
+    {
+      "candidate": "realestate_b",
+      "generationId": "57f5848a-9c45-4657-b0eb-67cc022fda04",
+      "createdAt": "2026-11-18T10:46:32.018409Z",
+      "model": "gpt_image_2_6",
+      "status": "completed",
+      "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_104632_57f5848a-9c45-4657-b0eb-67cc022fda04.png",
+      "prompt": "ArtSource/Higgsfield/Prompts/realestate_b.txt",
+      "references": [],
+      "rawPath": "ArtSource/Higgsfield/Raw/realestate_b.png",
+      "qaStatus": "APPROVED_REFERENCE",
+      "qaNote": "Reviewed full scene composition: clear walkable routes, coherent perspective and palette, no real branding or readable AI lettering. Reference only until individual sprite cleanup."
+    },
+    {
+      "candidate": "residential_day",
+      "generationId": "88c2d1b9-9da7-40f4-9663-44cbe0ad5908",
+      "createdAt": "2026-11-18T10:36:36.176419Z",
+      "model": "gpt_image_2_6",
+      "status": "completed",
+      "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_103636_88c2d1b9-9da7-40f4-9663-44cbe0ad5908.png",
+      "prompt": "ArtSource/Higgsfield/Prompts/residential_day.txt",
+      "references": [],
+      "rawPath": "ArtSource/Higgsfield/Raw/residential_day.png",
+      "qaStatus": "APPROVED_REFERENCE",
+      "qaNote": "Approved location reference: ordinary brick homes, jade stairwell, unobstructed pavement. Pixel cleanup required before runtime use."
+    },
+    {
+      "candidate": "residential_day_b",
+      "generationId": "e7d688b6-54ae-4228-945e-e0861af1433a",
+      "createdAt": "2026-11-18T10:38:55.409756Z",
+      "model": "gpt_image_2_6",
+      "status": "completed",
+      "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_103855_e7d688b6-54ae-4228-945e-e0861af1433a.png",
+      "prompt": "ArtSource/Higgsfield/Prompts/residential_day_b.txt",
+      "references": [],
+      "rawPath": "ArtSource/Higgsfield/Raw/residential_day_b.png",
+      "qaStatus": "NOT_SELECTED",
+      "qaNote": "Alternate candidate retained; no additional retry"
+    },
+    {
+      "candidate": "residential_evening_a",
+      "generationId": "7d762ebe-cb7a-48c5-8843-0a79fa076390",
+      "createdAt": "2026-11-18T10:51:07.961021Z",
+      "model": "gpt_image_2_6",
+      "status": "completed",
+      "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_105107_7d762ebe-cb7a-48c5-8843-0a79fa076390.png",
+      "prompt": "ArtSource/Higgsfield/Prompts/residential_evening_a.txt",
+      "references": [
+        "ArtSource/Higgsfield/Selected/residential_day.png"
+      ],
+      "rawPath": "ArtSource/Higgsfield/Raw/residential_evening_a.png",
+      "qaStatus": "APPROVED_REFERENCE",
+      "qaNote": "Matched against selected base location. Doors, building footprints, road and desks retained; only lighting/weather changes. No new runtime background."
+    },
+    {
+      "candidate": "residential_evening_b",
+      "generationId": "e4afeb73-9b97-4e40-81a1-c88cc20d4b30",
+      "createdAt": "2026-11-18T10:51:06.874196Z",
+      "model": "gpt_image_2_6",
+      "status": "completed",
+      "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_105106_e4afeb73-9b97-4e40-81a1-c88cc20d4b30.png",
+      "prompt": "ArtSource/Higgsfield/Prompts/residential_evening_b.txt",
+      "references": [
+        "ArtSource/Higgsfield/Selected/residential_day.png"
+      ],
+      "rawPath": "ArtSource/Higgsfield/Raw/residential_evening_b.png",
+      "qaStatus": "NOT_SELECTED",
+      "qaNote": "Alternate candidate retained; no additional retry"
+    },
+    {
+      "candidate": "residential_rain_a",
+      "generationId": "313c770a-6cbd-4671-a1f9-87d311185f2d",
+      "createdAt": "2026-11-18T10:51:05.157258Z",
+      "model": "gpt_image_2_6",
+      "status": "completed",
+      "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_105105_313c770a-6cbd-4671-a1f9-87d311185f2d.png",
+      "prompt": "ArtSource/Higgsfield/Prompts/residential_rain_a.txt",
+      "references": [
+        "ArtSource/Higgsfield/Selected/residential_day.png"
+      ],
+      "rawPath": "ArtSource/Higgsfield/Raw/residential_rain_a.png",
+      "qaStatus": "NOT_SELECTED",
+      "qaNote": "Alternate candidate retained; no additional retry"
+    },
+    {
+      "candidate": "residential_rain_b",
+      "generationId": "45d6e8c6-9737-4ef5-a8c0-44c7564985ca",
+      "createdAt": "2026-11-18T10:51:07.431065Z",
+      "model": "gpt_image_2_6",
+      "status": "completed",
+      "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_105107_45d6e8c6-9737-4ef5-a8c0-44c7564985ca.png",
+      "prompt": "ArtSource/Higgsfield/Prompts/residential_rain_b.txt",
+      "references": [
+        "ArtSource/Higgsfield/Selected/residential_day.png"
+      ],
+      "rawPath": "ArtSource/Higgsfield/Raw/residential_rain_b.png",
+      "qaStatus": "APPROVED_REFERENCE",
+      "qaNote": "Matched against selected base location. Doors, building footprints, road and desks retained; only lighting/weather changes. No new runtime background."
+    },
+    {
+      "candidate": "school_exterior_a",
+      "generationId": "678befe4-a127-4a21-85fe-e750b0760f77",
+      "createdAt": "2026-11-18T10:43:47.531081Z",
+      "model": "gpt_image_2_6",
+      "status": "completed",
+      "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_104347_678befe4-a127-4a21-85fe-e750b0760f77.png",
+      "prompt": "ArtSource/Higgsfield/Prompts/school_exterior_a.txt",
+      "references": [],
+      "rawPath": "ArtSource/Higgsfield/Raw/school_exterior_a.png",
+      "qaStatus": "APPROVED_REFERENCE",
+      "qaNote": "Reviewed full scene composition: clear walkable routes, coherent perspective and palette, no real branding or readable AI lettering. Reference only until individual sprite cleanup."
+    },
+    {
+      "candidate": "school_exterior_b",
+      "generationId": "9d6ccea8-d5c6-4866-8658-5e5c40bbf951",
+      "createdAt": "2026-11-18T10:43:50.185248Z",
+      "model": "gpt_image_2_6",
+      "status": "completed",
+      "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_104350_9d6ccea8-d5c6-4866-8658-5e5c40bbf951.png",
+      "prompt": "ArtSource/Higgsfield/Prompts/school_exterior_b.txt",
+      "references": [],
+      "rawPath": "ArtSource/Higgsfield/Raw/school_exterior_b.png",
+      "qaStatus": "NOT_SELECTED",
+      "qaNote": "Alternate candidate retained; no additional retry"
+    },
+    {
+      "candidate": "school_hallway_a",
+      "generationId": "c0d48410-707e-49d7-9039-344db316cb70",
+      "createdAt": "2026-11-18T10:44:44.594972Z",
+      "model": "gpt_image_2_6",
+      "status": "completed",
+      "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_104444_c0d48410-707e-49d7-9039-344db316cb70.png",
+      "prompt": "ArtSource/Higgsfield/Prompts/school_hallway_a.txt",
+      "references": [],
+      "rawPath": "ArtSource/Higgsfield/Raw/school_hallway_a.png",
+      "qaStatus": "NOT_SELECTED",
+      "qaNote": "Alternate candidate retained; no additional retry"
+    },
+    {
+      "candidate": "school_hallway_b",
+      "generationId": "f854e887-56f8-4177-aa7f-c06bb266aab0",
+      "createdAt": "2026-11-18T10:44:46.271429Z",
+      "model": "gpt_image_2_6",
+      "status": "completed",
+      "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_104446_f854e887-56f8-4177-aa7f-c06bb266aab0.png",
+      "prompt": "ArtSource/Higgsfield/Prompts/school_hallway_b.txt",
+      "references": [],
+      "rawPath": "ArtSource/Higgsfield/Raw/school_hallway_b.png",
+      "qaStatus": "APPROVED_REFERENCE",
+      "qaNote": "Reviewed full scene composition: clear walkable routes, coherent perspective and palette, no real branding or readable AI lettering. Reference only until individual sprite cleanup."
+    },
+    {
+      "candidate": "store_props_a",
+      "generationId": "4ef0354f-6ddc-442c-a65a-8d4ed1938028",
+      "createdAt": "2026-11-18T11:05:05.363294Z",
+      "model": "gpt_image_2_6",
+      "status": "completed",
+      "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_110505_4ef0354f-6ddc-442c-a65a-8d4ed1938028.png",
+      "prompt": "ArtSource/Higgsfield/Prompts/store_props_a.txt",
+      "references": [],
+      "rawPath": "ArtSource/Higgsfield/Raw/store_props_a.png",
+      "qaStatus": "APPROVED_REFERENCE",
+      "qaNote": "Six full isolated complete store props, blank labels, coherent elevated view. Source used for native pixel cleanup and separate sprites."
+    },
+    {
+      "candidate": "store_props_b",
+      "generationId": "6d7a22ba-9999-410c-b16d-6c03853eaf59",
+      "createdAt": "2026-11-18T11:05:05.863169Z",
+      "model": "gpt_image_2_6",
+      "status": "completed",
+      "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_110505_6d7a22ba-9999-410c-b16d-6c03853eaf59.png",
+      "prompt": "ArtSource/Higgsfield/Prompts/store_props_b.txt",
+      "references": [],
+      "rawPath": "ArtSource/Higgsfield/Raw/store_props_b.png",
+      "qaStatus": "NOT_SELECTED",
+      "qaNote": "Alternate candidate retained; no additional retry"
+    },
+    {
+      "candidate": "urban_props_a",
+      "generationId": "6708e60e-4d49-4963-aeca-855ebc2d0e8c",
+      "createdAt": "2026-11-18T10:40:46.122125Z",
+      "model": "gpt_image_2_6",
+      "status": "completed",
+      "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_104046_6708e60e-4d49-4963-aeca-855ebc2d0e8c.png",
+      "prompt": "ArtSource/Higgsfield/Prompts/urban_props_a.txt",
+      "references": [],
+      "rawPath": "ArtSource/Higgsfield/Raw/urban_props_a.png",
+      "qaStatus": "APPROVED_REFERENCE",
+      "qaNote": "Approved source sheet: twelve separate complete silhouettes; key background and normalize pixel scale before import."
+    },
+    {
+      "candidate": "urban_props_b",
+      "generationId": "620ab9ca-8614-4815-b918-2007e714a280",
+      "createdAt": "2026-11-18T10:40:49.91792Z",
+      "model": "gpt_image_2_6",
+      "status": "completed",
+      "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_104049_620ab9ca-8614-4815-b918-2007e714a280.png",
+      "prompt": "ArtSource/Higgsfield/Prompts/urban_props_b.txt",
+      "references": [],
+      "rawPath": "ArtSource/Higgsfield/Raw/urban_props_b.png",
+      "qaStatus": "NOT_SELECTED",
+      "qaNote": "Alternate candidate retained; no additional retry"
+    },
+    {
+      "candidate": "vehicles_a",
+      "generationId": "36427ab5-58e0-4e20-9a5a-6e197e090000",
+      "createdAt": "2026-11-18T10:41:01.013302Z",
+      "model": "gpt_image_2_6",
+      "status": "completed",
+      "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_104101_36427ab5-58e0-4e20-9a5a-6e197e090000.png",
+      "prompt": "ArtSource/Higgsfield/Prompts/vehicles_a.txt",
+      "references": [],
+      "rawPath": "ArtSource/Higgsfield/Raw/vehicles_a.png",
+      "qaStatus": "APPROVED_REFERENCE",
+      "qaNote": "Approved source sheet; six full silhouettes, correct horizontal facing. Blank tiny bus markings during cleanup; no runtime lettering."
+    },
+    {
+      "candidate": "vehicles_b",
+      "generationId": "c967fd16-8945-47d5-ba4d-5242df814be6",
+      "createdAt": "2026-11-18T10:41:35.661588Z",
+      "model": "gpt_image_2_6",
+      "status": "completed",
+      "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261118_104135_c967fd16-8945-47d5-ba4d-5242df814be6.png",
+      "prompt": "ArtSource/Higgsfield/Prompts/vehicles_b.txt",
+      "references": [],
+      "rawPath": "ArtSource/Higgsfield/Raw/vehicles_b.png",
+      "qaStatus": "NOT_SELECTED",
+      "qaNote": "Alternate candidate retained; no additional retry"
+    }
+  ],
+  "approved": {
+    "residential_day": {
+      "candidate": "residential_day",
+      "status": "APPROVED_REFERENCE",
+      "qa": "Approved location reference: ordinary brick homes, jade stairwell, unobstructed pavement. Pixel cleanup required before runtime use.",
+      "selectedPath": "ArtSource/Higgsfield/Selected/residential_day.png",
+      "sha256": "43229d62b8092e9f7f95dfe849f217a7097a4e869ea7a734134dda03b56ee17a",
+      "reviewer": "Codex visual QA; human production signoff pending",
+      "unityAssets": []
+    },
+    "independent_home": {
+      "candidate": "independent_home_b",
+      "status": "APPROVED_REFERENCE",
+      "qa": "Approved sparse room reference, one bed; architecture varies from authored Home, so no automatic floorplan replacement.",
+      "selectedPath": "ArtSource/Higgsfield/Selected/independent_home.png",
+      "sha256": "bbe94f24f10f3d4699049c9cd1422c2f7d73eeff6d6ca83501d687bda8c8d282",
+      "reviewer": "Codex visual QA; human production signoff pending",
+      "unityAssets": []
+    },
+    "apartment_exterior": {
+      "candidate": "apartment_exterior_b",
+      "status": "APPROVED_REFERENCE",
+      "qa": "Approved modular facade reference; clear entrance, no readable text.",
+      "selectedPath": "ArtSource/Higgsfield/Selected/apartment_exterior.png",
+      "sha256": "6008dbcbdb11c6beeb8394c6360560900eb060766e4a41bcb21742f73a8370f7",
+      "reviewer": "Codex visual QA; human production signoff pending",
+      "unityAssets": []
+    },
+    "convenience_exterior": {
+      "candidate": "convenience_exterior_b",
+      "status": "APPROVED_REFERENCE",
+      "qa": "Approved storefront reference; blank navy/teal signage, entrance readable.",
+      "selectedPath": "ArtSource/Higgsfield/Selected/convenience_exterior.png",
+      "sha256": "02f299855b9c1ad58966b39a88fd9d6da6c3ca0d8216d9cddf032eb5fb50c779",
+      "reviewer": "Codex visual QA; human production signoff pending",
+      "unityAssets": []
+    },
+    "urban_props": {
+      "candidate": "urban_props_a",
+      "status": "APPROVED_REFERENCE",
+      "qa": "Approved source sheet: twelve separate complete silhouettes; key background and normalize pixel scale before import.",
+      "selectedPath": "ArtSource/Higgsfield/Selected/urban_props.png",
+      "sha256": "b5bc2b841f5756fe9590b3a6568673ad1d000f25659f89da84bd79c25ab35c7d",
+      "reviewer": "Codex visual QA; human production signoff pending",
+      "unityAssets": [
+        "Assets/_Game/Art/WorldLife/ENV_City_Lamp_01.png",
+        "Assets/_Game/Art/WorldLife/ENV_City_Signal_01.png",
+        "Assets/_Game/Art/WorldLife/ENV_City_Bench_01.png",
+        "Assets/_Game/Art/WorldLife/ENV_City_Bin_01.png",
+        "Assets/_Game/Art/WorldLife/ENV_City_UtilityPole_01.png",
+        "Assets/_Game/Art/WorldLife/ENV_City_UtilityBox_01.png",
+        "Assets/_Game/Art/WorldLife/ENV_City_BicycleRack_01.png",
+        "Assets/_Game/Art/WorldLife/ENV_City_BusStop_01.png",
+        "Assets/_Game/Art/WorldLife/ENV_City_Planter_01.png",
+        "Assets/_Game/Art/WorldLife/ENV_City_Vending_01.png",
+        "Assets/_Game/Art/WorldLife/ENV_City_AC_01.png",
+        "Assets/_Game/Art/WorldLife/ENV_City_Parcels_01.png"
+      ]
+    },
+    "vehicles": {
+      "candidate": "vehicles_a",
+      "status": "APPROVED_REFERENCE",
+      "qa": "Approved source sheet; six full silhouettes, correct horizontal facing. Blank tiny bus markings during cleanup; no runtime lettering.",
+      "selectedPath": "ArtSource/Higgsfield/Selected/vehicles.png",
+      "sha256": "42fc582bea3fe49b832263de21ef44f1c47fe7d1b4ca9cb0574ba05dfa631d17",
+      "reviewer": "Codex visual QA; human production signoff pending",
+      "unityAssets": [
+        "Assets/_Game/Art/WorldLife/VEH_Sedan_01.png",
+        "Assets/_Game/Art/WorldLife/VEH_Taxi_01.png",
+        "Assets/_Game/Art/WorldLife/VEH_Bus_01.png",
+        "Assets/_Game/Art/WorldLife/VEH_DeliveryVan_01.png",
+        "Assets/_Game/Art/WorldLife/VEH_DeliveryScooter_01.png",
+        "Assets/_Game/Art/WorldLife/VEH_Bicycle_01.png"
+      ]
+    },
+    "apartment_module": {
+      "candidate": "apartment_module_b",
+      "status": "APPROVED_REFERENCE",
+      "qa": "Isolated complete modular facade, clear entry, magenta background, no readable AI text. Native logical pixel cleanup required.",
+      "selectedPath": "ArtSource/Higgsfield/Selected/apartment_module.png",
+      "sha256": "a351806efccbdb69a914a838d35d690648b61e4ddd8d6567f729a90698348ebd",
+      "reviewer": "Codex visual QA; human production signoff pending",
+      "unityAssets": [
+        "Assets/_Game/Art/WorldLife/BLD_Apartment_01.png",
+        "Assets/_Game/Art/WorldLife/BLD_Apartment_Lights_01.png"
+      ]
+    },
+    "convenience_module": {
+      "candidate": "convenience_module_b",
+      "status": "APPROVED_REFERENCE",
+      "qa": "Isolated complete modular facade, clear entry, magenta background, no readable AI text. Native logical pixel cleanup required.",
+      "selectedPath": "ArtSource/Higgsfield/Selected/convenience_module.png",
+      "sha256": "cd40adf223edde25547688a54ef0be27b3cdf2b7eee027ee137c161a8fbf5223",
+      "reviewer": "Codex visual QA; human production signoff pending",
+      "unityAssets": [
+        "Assets/_Game/Art/WorldLife/BLD_ConvenienceStore_01.png",
+        "Assets/_Game/Art/WorldLife/BLD_ConvenienceStore_Lights_01.png"
+      ]
+    },
+    "parents_home": {
+      "candidate": "parents_home_b",
+      "status": "APPROVED_REFERENCE",
+      "qa": "Reviewed full scene composition: clear walkable routes, coherent perspective and palette, no real branding or readable AI lettering. Reference only until individual sprite cleanup.",
+      "selectedPath": "ArtSource/Higgsfield/Selected/parents_home.png",
+      "sha256": "84ff6892473ac95c623619245078c72a1f73d251dd2405d9769c28a8ba979e36",
+      "reviewer": "Codex visual QA; human production signoff pending",
+      "unityAssets": []
+    },
+    "city_day": {
+      "candidate": "city_day_b",
+      "status": "APPROVED_REFERENCE",
+      "qa": "Reviewed full scene composition: clear walkable routes, coherent perspective and palette, no real branding or readable AI lettering. Reference only until individual sprite cleanup.",
+      "selectedPath": "ArtSource/Higgsfield/Selected/city_day.png",
+      "sha256": "dcc89c33242a711b6ef6edf8d71ed54a7cae3536ac259a847cbed5cc1d3e3030",
+      "reviewer": "Codex visual QA; human production signoff pending",
+      "unityAssets": []
+    },
+    "school_exterior": {
+      "candidate": "school_exterior_a",
+      "status": "APPROVED_REFERENCE",
+      "qa": "Reviewed full scene composition: clear walkable routes, coherent perspective and palette, no real branding or readable AI lettering. Reference only until individual sprite cleanup.",
+      "selectedPath": "ArtSource/Higgsfield/Selected/school_exterior.png",
+      "sha256": "046ea40eff3d66e746bdf31809616a9f0a0f25f8e353df095f439c1a4d2ab4fe",
+      "reviewer": "Codex visual QA; human production signoff pending",
+      "unityAssets": []
+    },
+    "classroom": {
+      "candidate": "classroom_a",
+      "status": "APPROVED_REFERENCE",
+      "qa": "Reviewed full scene composition: clear walkable routes, coherent perspective and palette, no real branding or readable AI lettering. Reference only until individual sprite cleanup.",
+      "selectedPath": "ArtSource/Higgsfield/Selected/classroom.png",
+      "sha256": "235a96316ef0c10799ff9f95ea435e83094a23ff0e5e8f35469ddbca7fda7fc6",
+      "reviewer": "Codex visual QA; human production signoff pending",
+      "unityAssets": []
+    },
+    "school_hallway": {
+      "candidate": "school_hallway_b",
+      "status": "APPROVED_REFERENCE",
+      "qa": "Reviewed full scene composition: clear walkable routes, coherent perspective and palette, no real branding or readable AI lettering. Reference only until individual sprite cleanup.",
+      "selectedPath": "ArtSource/Higgsfield/Selected/school_hallway.png",
+      "sha256": "e152a95ff7ebaa4446124fa52a0af2017a321c9b0e7a884a7d96bebecc00b053",
+      "reviewer": "Codex visual QA; human production signoff pending",
+      "unityAssets": []
+    },
+    "office_day": {
+      "candidate": "office_day_b",
+      "status": "APPROVED_REFERENCE",
+      "qa": "Reviewed full scene composition: clear walkable routes, coherent perspective and palette, no real branding or readable AI lettering. Reference only until individual sprite cleanup.",
+      "selectedPath": "ArtSource/Higgsfield/Selected/office_day.png",
+      "sha256": "25df819e2c501eab77fb5e0f806bc2b36b01bf07a1cf578811941f257a0aec80",
+      "reviewer": "Codex visual QA; human production signoff pending",
+      "unityAssets": []
+    },
+    "cafe": {
+      "candidate": "cafe_a",
+      "status": "APPROVED_REFERENCE",
+      "qa": "Reviewed full scene composition: clear walkable routes, coherent perspective and palette, no real branding or readable AI lettering. Reference only until individual sprite cleanup.",
+      "selectedPath": "ArtSource/Higgsfield/Selected/cafe.png",
+      "sha256": "e22c0254d54869d5a99a6b52d3125edf588bb87e405703e56a79786eda6dc35a",
+      "reviewer": "Codex visual QA; human production signoff pending",
+      "unityAssets": []
+    },
+    "finance": {
+      "candidate": "finance_a",
+      "status": "APPROVED_REFERENCE",
+      "qa": "Reviewed full scene composition: clear walkable routes, coherent perspective and palette, no real branding or readable AI lettering. Reference only until individual sprite cleanup.",
+      "selectedPath": "ArtSource/Higgsfield/Selected/finance.png",
+      "sha256": "98315ff37649ba25d4aad594cb5e1e42fb5875684fa2e1cef8e5ba86e936a90c",
+      "reviewer": "Codex visual QA; human production signoff pending",
+      "unityAssets": []
+    },
+    "realestate": {
+      "candidate": "realestate_b",
+      "status": "APPROVED_REFERENCE",
+      "qa": "Reviewed full scene composition: clear walkable routes, coherent perspective and palette, no real branding or readable AI lettering. Reference only until individual sprite cleanup.",
+      "selectedPath": "ArtSource/Higgsfield/Selected/realestate.png",
+      "sha256": "129d0dd378c2c2452819e6839696a487a811957896506bd580857478fe7912ad",
+      "reviewer": "Codex visual QA; human production signoff pending",
+      "unityAssets": []
+    },
+    "furniture_store": {
+      "candidate": "furniture_store_a",
+      "status": "APPROVED_REFERENCE",
+      "qa": "Reviewed full scene composition: clear walkable routes, coherent perspective and palette, no real branding or readable AI lettering. Reference only until individual sprite cleanup.",
+      "selectedPath": "ArtSource/Higgsfield/Selected/furniture_store.png",
+      "sha256": "fc26a918b97e5d9e52d1504e1f0ec1e26faeecd0f514178ed330727eecb69e48",
+      "reviewer": "Codex visual QA; human production signoff pending",
+      "unityAssets": []
+    },
+    "clinic": {
+      "candidate": "clinic_b",
+      "status": "APPROVED_REFERENCE",
+      "qa": "Reviewed full scene composition: clear walkable routes, coherent perspective and palette, no real branding or readable AI lettering. Reference only until individual sprite cleanup.",
+      "selectedPath": "ArtSource/Higgsfield/Selected/clinic.png",
+      "sha256": "64c071d221321e0781d5fea69c13576c544d90550d7a6773dc92cb83aeb59056",
+      "reviewer": "Codex visual QA; human production signoff pending",
+      "unityAssets": []
+    },
+    "irony_props": {
+      "candidate": "irony_props_a",
+      "status": "APPROVED_REFERENCE",
+      "qa": "Reviewed full scene composition: clear walkable routes, coherent perspective and palette, no real branding or readable AI lettering. Reference only until individual sprite cleanup.",
+      "selectedPath": "ArtSource/Higgsfield/Selected/irony_props.png",
+      "sha256": "0dc0fefc4020da2241e7636726452b259ad0dbb2a349ff2e3ef52c0ff5eee401",
+      "reviewer": "Codex visual QA; human production signoff pending",
+      "unityAssets": []
+    },
+    "convenience_interior_clean": {
+      "candidate": "convenience_interior_clean_b",
+      "status": "APPROVED_REFERENCE",
+      "qa": "Reviewed full scene composition: clear walkable routes, coherent perspective and palette, no real branding or readable AI lettering. Reference only until individual sprite cleanup.",
+      "selectedPath": "ArtSource/Higgsfield/Selected/convenience_interior_clean.png",
+      "sha256": "be7ddf21828681ac555be1c0f6ee567e87c7db0ff85b8f739ce509014353572b",
+      "reviewer": "Codex visual QA; human production signoff pending",
+      "unityAssets": []
+    },
+    "npc_clean": {
+      "candidate": "npc_clean_b",
+      "status": "APPROVED_REFERENCE",
+      "qa": "Reviewed full scene composition: clear walkable routes, coherent perspective and palette, no real branding or readable AI lettering. Reference only until individual sprite cleanup.",
+      "selectedPath": "ArtSource/Higgsfield/Selected/npc_clean.png",
+      "sha256": "bfe386fdcf472d1233f0d0dfca146d8c0f3d2172449c41ab014a7fac581f6bc3",
+      "reviewer": "Codex visual QA; human production signoff pending",
+      "unityAssets": []
+    },
+    "furnished_home": {
+      "candidate": "furnished_home_b",
+      "status": "APPROVED_REFERENCE",
+      "qa": "Reviewed full scene composition: clear walkable routes, coherent perspective and palette, no real branding or readable AI lettering. Reference only until individual sprite cleanup.",
+      "selectedPath": "ArtSource/Higgsfield/Selected/furnished_home.png",
+      "sha256": "d65ef0d8164c3bbf7fc8dfb2f9e98a85d3285f5f7c7986f8002ab5ad56da4aa8",
+      "reviewer": "Codex visual QA; human production signoff pending",
+      "unityAssets": []
+    },
+    "residential_evening": {
+      "candidate": "residential_evening_a",
+      "status": "APPROVED_REFERENCE",
+      "qa": "Matched against selected base location. Doors, building footprints, road and desks retained; only lighting/weather changes. No new runtime background.",
+      "selectedPath": "ArtSource/Higgsfield/Selected/residential_evening.png",
+      "sha256": "fe787fd2218fea0aac54ed81eb6aca60e1ab768107000eca7ec64e3992892a7d",
+      "reviewer": "Codex visual QA; human production signoff pending",
+      "unityAssets": []
+    },
+    "residential_rain": {
+      "candidate": "residential_rain_b",
+      "status": "APPROVED_REFERENCE",
+      "qa": "Matched against selected base location. Doors, building footprints, road and desks retained; only lighting/weather changes. No new runtime background.",
+      "selectedPath": "ArtSource/Higgsfield/Selected/residential_rain.png",
+      "sha256": "6ad7c9e514b35956155b1ead55fa4ad0debb1f3f965b9e6e03c76df2e5f1f119",
+      "reviewer": "Codex visual QA; human production signoff pending",
+      "unityAssets": []
+    },
+    "city_evening": {
+      "candidate": "city_evening_b",
+      "status": "APPROVED_REFERENCE",
+      "qa": "Matched against selected base location. Doors, building footprints, road and desks retained; only lighting/weather changes. No new runtime background.",
+      "selectedPath": "ArtSource/Higgsfield/Selected/city_evening.png",
+      "sha256": "5ef7dd9d7711a5e8d275372f27feabd099b5e67905077f2e7f4201832f2ab963",
+      "reviewer": "Codex visual QA; human production signoff pending",
+      "unityAssets": []
+    },
+    "city_night": {
+      "candidate": "city_night_a",
+      "status": "APPROVED_REFERENCE",
+      "qa": "Matched against selected base location. Doors, building footprints, road and desks retained; only lighting/weather changes. No new runtime background.",
+      "selectedPath": "ArtSource/Higgsfield/Selected/city_night.png",
+      "sha256": "97edbcf3531ea9c8841fcc44d5cd782b3652dce0f0d03f2db0ba454c6ef2e4cb",
+      "reviewer": "Codex visual QA; human production signoff pending",
+      "unityAssets": []
+    },
+    "city_rain": {
+      "candidate": "city_rain_b",
+      "status": "APPROVED_REFERENCE",
+      "qa": "Matched against selected base location. Doors, building footprints, road and desks retained; only lighting/weather changes. No new runtime background.",
+      "selectedPath": "ArtSource/Higgsfield/Selected/city_rain.png",
+      "sha256": "6bd18d0288848424111df4e6a34dc5b25753963520bc6d1142139ec79a56d7cc",
+      "reviewer": "Codex visual QA; human production signoff pending",
+      "unityAssets": []
+    },
+    "office_night": {
+      "candidate": "office_night_a",
+      "status": "APPROVED_REFERENCE",
+      "qa": "Matched against selected base location. Doors, building footprints, road and desks retained; only lighting/weather changes. No new runtime background.",
+      "selectedPath": "ArtSource/Higgsfield/Selected/office_night.png",
+      "sha256": "96c87c26ad5526031c0eb70d9774a8ffed79d6268d368e8217d51e13eeb9343b",
+      "reviewer": "Codex visual QA; human production signoff pending",
+      "unityAssets": []
+    },
+    "store_props": {
+      "candidate": "store_props_a",
+      "status": "APPROVED_REFERENCE",
+      "qa": "Six full isolated complete store props, blank labels, coherent elevated view. Source used for native pixel cleanup and separate sprites.",
+      "selectedPath": "ArtSource/Higgsfield/Selected/store_props.png",
+      "sha256": "647ad348f2375468ce35080ae363e58dbb2e15927ad8add9fc5647477973e67c",
+      "reviewer": "Codex visual QA; human production signoff pending",
+      "unityAssets": [
+        "Assets/_Game/Art/WorldLife/INT_Store_ColdShelf_01.png",
+        "Assets/_Game/Art/WorldLife/INT_Store_SnackShelf_01.png",
+        "Assets/_Game/Art/WorldLife/INT_Store_Counter_01.png",
+        "Assets/_Game/Art/WorldLife/INT_Store_Microwave_01.png",
+        "Assets/_Game/Art/WorldLife/INT_Store_NoodleRack_01.png",
+        "Assets/_Game/Art/WorldLife/INT_Store_FoodBasket_01.png"
+      ]
+    }
+  },
+  "runtime": [
+    {
+      "name": "ENV_City_Lamp_01",
+      "sourceBox": [
+        100,
+        10,
+        216,
+        199
+      ],
+      "size": [
+        83,
+        132
+      ],
+      "unityPath": "Assets/_Game/Art/WorldLife/ENV_City_Lamp_01.png",
+      "ppu": 40,
+      "alpha": "binary",
+      "paletteLimit": 96,
+      "source": "urban_props",
+      "candidate": "urban_props_a"
+    },
+    {
+      "name": "ENV_City_Signal_01",
+      "sourceBox": [
+        379,
+        14,
+        461,
+        200
+      ],
+      "size": [
+        50,
+        108
+      ],
+      "unityPath": "Assets/_Game/Art/WorldLife/ENV_City_Signal_01.png",
+      "ppu": 40,
+      "alpha": "binary",
+      "paletteLimit": 96,
+      "source": "urban_props",
+      "candidate": "urban_props_a"
+    },
+    {
+      "name": "ENV_City_Bench_01",
+      "sourceBox": [
+        583,
+        56,
+        795,
+        198
+      ],
+      "size": [
+        108,
+        74
+      ],
+      "unityPath": "Assets/_Game/Art/WorldLife/ENV_City_Bench_01.png",
+      "ppu": 40,
+      "alpha": "binary",
+      "paletteLimit": 96,
+      "source": "urban_props",
+      "candidate": "urban_props_a"
+    },
+    {
+      "name": "ENV_City_Bin_01",
+      "sourceBox": [
+        906,
+        53,
+        1013,
+        195
+      ],
+      "size": [
+        36,
+        46
+      ],
+      "unityPath": "Assets/_Game/Art/WorldLife/ENV_City_Bin_01.png",
+      "ppu": 40,
+      "alpha": "binary",
+      "paletteLimit": 96,
+      "source": "urban_props",
+      "candidate": "urban_props_a"
+    },
+    {
+      "name": "ENV_City_UtilityPole_01",
+      "sourceBox": [
+        117,
+        217,
+        169,
+        408
+      ],
+      "size": [
+        42,
+        144
+      ],
+      "unityPath": "Assets/_Game/Art/WorldLife/ENV_City_UtilityPole_01.png",
+      "ppu": 40,
+      "alpha": "binary",
+      "paletteLimit": 96,
+      "source": "urban_props",
+      "candidate": "urban_props_a"
+    },
+    {
+      "name": "ENV_City_UtilityBox_01",
+      "sourceBox": [
+        333,
+        229,
+        482,
+        399
+      ],
+      "size": [
+        69,
+        78
+      ],
+      "unityPath": "Assets/_Game/Art/WorldLife/ENV_City_UtilityBox_01.png",
+      "ppu": 40,
+      "alpha": "binary",
+      "paletteLimit": 96,
+      "source": "urban_props",
+      "candidate": "urban_props_a"
+    },
+    {
+      "name": "ENV_City_BicycleRack_01",
+      "sourceBox": [
+        575,
+        275,
+        788,
+        387
+      ],
+      "size": [
+        96,
+        52
+      ],
+      "unityPath": "Assets/_Game/Art/WorldLife/ENV_City_BicycleRack_01.png",
+      "ppu": 40,
+      "alpha": "binary",
+      "paletteLimit": 96,
+      "source": "urban_props",
+      "candidate": "urban_props_a"
+    },
+    {
+      "name": "ENV_City_BusStop_01",
+      "sourceBox": [
+        848,
+        229,
+        1074,
+        407
+      ],
+      "size": [
+        164,
+        130
+      ],
+      "unityPath": "Assets/_Game/Art/WorldLife/ENV_City_BusStop_01.png",
+      "ppu": 40,
+      "alpha": "binary",
+      "paletteLimit": 96,
+      "source": "urban_props",
+      "candidate": "urban_props_a"
+    },
+    {
+      "name": "ENV_City_Planter_01",
+      "sourceBox": [
+        44,
+        452,
+        233,
+        596
+      ],
+      "size": [
+        76,
+        59
+      ],
+      "unityPath": "Assets/_Game/Art/WorldLife/ENV_City_Planter_01.png",
+      "ppu": 40,
+      "alpha": "binary",
+      "paletteLimit": 96,
+      "source": "urban_props",
+      "candidate": "urban_props_a"
+    },
+    {
+      "name": "ENV_City_Vending_01",
+      "sourceBox": [
+        349,
+        423,
+        475,
+        609
+      ],
+      "size": [
+        52,
+        75
+      ],
+      "unityPath": "Assets/_Game/Art/WorldLife/ENV_City_Vending_01.png",
+      "ppu": 40,
+      "alpha": "binary",
+      "paletteLimit": 96,
+      "source": "urban_props",
+      "candidate": "urban_props_a"
+    },
+    {
+      "name": "ENV_City_AC_01",
+      "sourceBox": [
+        594,
+        452,
+        766,
+        594
+      ],
+      "size": [
+        52,
+        44
+      ],
+      "unityPath": "Assets/_Game/Art/WorldLife/ENV_City_AC_01.png",
+      "ppu": 40,
+      "alpha": "binary",
+      "paletteLimit": 96,
+      "source": "urban_props",
+      "candidate": "urban_props_a"
+    },
+    {
+      "name": "ENV_City_Parcels_01",
+      "sourceBox": [
+        872,
+        452,
+        1042,
+        596
+      ],
+      "size": [
+        56,
+        48
+      ],
+      "unityPath": "Assets/_Game/Art/WorldLife/ENV_City_Parcels_01.png",
+      "ppu": 40,
+      "alpha": "binary",
+      "paletteLimit": 96,
+      "source": "urban_props",
+      "candidate": "urban_props_a"
+    },
+    {
+      "name": "VEH_Sedan_01",
+      "sourceBox": [
+        38,
+        111,
+        293,
+        248
+      ],
+      "size": [
+        120,
+        66
+      ],
+      "unityPath": "Assets/_Game/Art/WorldLife/VEH_Sedan_01.png",
+      "ppu": 40,
+      "alpha": "binary",
+      "paletteLimit": 96,
+      "source": "vehicles",
+      "candidate": "vehicles_a"
+    },
+    {
+      "name": "VEH_Taxi_01",
+      "sourceBox": [
+        336,
+        104,
+        595,
+        248
+      ],
+      "size": [
+        120,
+        68
+      ],
+      "unityPath": "Assets/_Game/Art/WorldLife/VEH_Taxi_01.png",
+      "ppu": 40,
+      "alpha": "binary",
+      "paletteLimit": 96,
+      "source": "vehicles",
+      "candidate": "vehicles_a"
+    },
+    {
+      "name": "VEH_Bus_01",
+      "sourceBox": [
+        642,
+        75,
+        1064,
+        259
+      ],
+      "size": [
+        196,
+        88
+      ],
+      "unityPath": "Assets/_Game/Art/WorldLife/VEH_Bus_01.png",
+      "ppu": 40,
+      "alpha": "binary",
+      "paletteLimit": 96,
+      "source": "vehicles",
+      "candidate": "vehicles_a"
+    },
+    {
+      "name": "VEH_DeliveryVan_01",
+      "sourceBox": [
+        45,
+        357,
+        329,
+        536
+      ],
+      "size": [
+        128,
+        82
+      ],
+      "unityPath": "Assets/_Game/Art/WorldLife/VEH_DeliveryVan_01.png",
+      "ppu": 40,
+      "alpha": "binary",
+      "paletteLimit": 96,
+      "source": "vehicles",
+      "candidate": "vehicles_a"
+    },
+    {
+      "name": "VEH_DeliveryScooter_01",
+      "sourceBox": [
+        425,
+        357,
+        645,
+        528
+      ],
+      "size": [
+        66,
+        52
+      ],
+      "unityPath": "Assets/_Game/Art/WorldLife/VEH_DeliveryScooter_01.png",
+      "ppu": 40,
+      "alpha": "binary",
+      "paletteLimit": 96,
+      "source": "vehicles",
+      "candidate": "vehicles_a"
+    },
+    {
+      "name": "VEH_Bicycle_01",
+      "sourceBox": [
+        756,
+        363,
+        1001,
+        530
+      ],
+      "size": [
+        70,
+        49
+      ],
+      "unityPath": "Assets/_Game/Art/WorldLife/VEH_Bicycle_01.png",
+      "ppu": 40,
+      "alpha": "binary",
+      "paletteLimit": 96,
+      "source": "vehicles",
+      "candidate": "vehicles_a"
+    },
+    {
+      "name": "INT_Store_ColdShelf_01",
+      "sourceBox": [
+        89,
+        11,
+        293,
+        322
+      ],
+      "size": [
+        80,
+        120
+      ],
+      "unityPath": "Assets/_Game/Art/WorldLife/INT_Store_ColdShelf_01.png",
+      "ppu": 40,
+      "alpha": "binary",
+      "paletteLimit": 96,
+      "source": "store_props",
+      "candidate": "store_props_a"
+    },
+    {
+      "name": "INT_Store_SnackShelf_01",
+      "sourceBox": [
+        393,
+        65,
+        658,
+        309
+      ],
+      "size": [
+        94,
+        87
+      ],
+      "unityPath": "Assets/_Game/Art/WorldLife/INT_Store_SnackShelf_01.png",
+      "ppu": 40,
+      "alpha": "binary",
+      "paletteLimit": 96,
+      "source": "store_props",
+      "candidate": "store_props_a"
+    },
+    {
+      "name": "INT_Store_Counter_01",
+      "sourceBox": [
+        712,
+        77,
+        1071,
+        308
+      ],
+      "size": [
+        132,
+        86
+      ],
+      "unityPath": "Assets/_Game/Art/WorldLife/INT_Store_Counter_01.png",
+      "ppu": 40,
+      "alpha": "binary",
+      "paletteLimit": 96,
+      "source": "store_props",
+      "candidate": "store_props_a"
+    },
+    {
+      "name": "INT_Store_Microwave_01",
+      "sourceBox": [
+        60,
+        394,
+        315,
+        589
+      ],
+      "size": [
+        48,
+        38
+      ],
+      "unityPath": "Assets/_Game/Art/WorldLife/INT_Store_Microwave_01.png",
+      "ppu": 40,
+      "alpha": "binary",
+      "paletteLimit": 96,
+      "source": "store_props",
+      "candidate": "store_props_a"
+    },
+    {
+      "name": "INT_Store_NoodleRack_01",
+      "sourceBox": [
+        411,
+        366,
+        651,
+        603
+      ],
+      "size": [
+        64,
+        63
+      ],
+      "unityPath": "Assets/_Game/Art/WorldLife/INT_Store_NoodleRack_01.png",
+      "ppu": 40,
+      "alpha": "binary",
+      "paletteLimit": 96,
+      "source": "store_props",
+      "candidate": "store_props_a"
+    },
+    {
+      "name": "INT_Store_FoodBasket_01",
+      "sourceBox": [
+        746,
+        401,
+        1043,
+        588
+      ],
+      "size": [
+        46,
+        30
+      ],
+      "unityPath": "Assets/_Game/Art/WorldLife/INT_Store_FoodBasket_01.png",
+      "ppu": 40,
+      "alpha": "binary",
+      "paletteLimit": 96,
+      "source": "store_props",
+      "candidate": "store_props_a"
+    },
+    {
+      "name": "BLD_Apartment_01",
+      "sourceBox": [
+        214,
+        18,
+        886,
+        598
+      ],
+      "size": [
+        172,
+        149
+      ],
+      "unityPath": "Assets/_Game/Art/WorldLife/BLD_Apartment_01.png",
+      "ppu": 40,
+      "alpha": "binary",
+      "paletteLimit": 96,
+      "source": "apartment_module",
+      "candidate": "apartment_module_b"
+    },
+    {
+      "name": "BLD_Apartment_Lights_01",
+      "source": "apartment_module",
+      "candidate": "apartment_module_b",
+      "unityPath": "Assets/_Game/Art/WorldLife/BLD_Apartment_Lights_01.png",
+      "derivedFrom": "BLD_Apartment_01",
+      "operation": "warm/teal pixel emissive mask",
+      "ppu": 40
+    },
+    {
+      "name": "BLD_ConvenienceStore_01",
+      "sourceBox": [
+        68,
+        77,
+        1034,
+        583
+      ],
+      "size": [
+        212,
+        113
+      ],
+      "unityPath": "Assets/_Game/Art/WorldLife/BLD_ConvenienceStore_01.png",
+      "ppu": 40,
+      "alpha": "binary",
+      "paletteLimit": 96,
+      "source": "convenience_module",
+      "candidate": "convenience_module_b"
+    },
+    {
+      "name": "BLD_ConvenienceStore_Lights_01",
+      "source": "convenience_module",
+      "candidate": "convenience_module_b",
+      "unityPath": "Assets/_Game/Art/WorldLife/BLD_ConvenienceStore_Lights_01.png",
+      "derivedFrom": "BLD_ConvenienceStore_01",
+      "operation": "warm/teal pixel emissive mask",
+      "ppu": 40
+    }
+  ]
+}

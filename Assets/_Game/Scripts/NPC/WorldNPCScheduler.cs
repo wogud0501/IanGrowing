@@ -43,6 +43,12 @@ namespace IanGame
             public float arrivingUntil;
             public float departingUntil;
             public bool active;
+            public float nextVisualTick;
+            public float lastVisualStep;
+            public int ambientWaypoint;
+            public float ambientPauseUntil;
+            public Color baseColor = Color.white;
+            public float ambientConversationUntil;
             public bool atActivity;
             public bool pendingAbstract;
             public float seatedAt;
@@ -63,6 +69,7 @@ namespace IanGame
         string viewedZone;
         bool ready;
         WorldStreetLife street;
+        SceneVisualPresentation scenePresentation;
         readonly RaycastHit2D[] hits = new RaycastHit2D[16];
         ContactFilter2D hitFilter;
         public int AbstractUpdates { get; private set; }
@@ -123,6 +130,7 @@ namespace IanGame
                 return;
             }
 
+            scenePresentation = world.GetComponent<SceneVisualPresentation>();
             if (sceneScoped)
             {
                 StartScoped();
@@ -338,7 +346,7 @@ namespace IanGame
                 && Time.unscaledTime >= nextScoped
             )
             {
-                nextScoped = Time.unscaledTime + .25f;
+                nextScoped = Time.unscaledTime + (lifeProfile == null ? .25f : lifeProfile.populationTickSeconds);
                 RefreshScoped();
             }
 
@@ -362,7 +370,33 @@ namespace IanGame
             FillCrowd();
             for (int i = 0; i < residents.Length; i++)
             {
-                Step(residents[i], i, Mathf.Min(Time.deltaTime, .1f));
+                var resident = residents[i];
+                float dt = Mathf.Min(Time.deltaTime, .1f);
+                if (
+                    resident.definition.ambient
+                    && resident.active
+                    && OutsidePopulationView(resident.actor.transform.position)
+                )
+                {
+                    if (Time.unscaledTime < resident.nextVisualTick)
+                    {
+                        continue;
+                    }
+
+                    dt =
+                        resident.lastVisualStep <= 0 ? dt : Mathf.Min(Time.unscaledTime - resident.lastVisualStep, .3f);
+                    resident.nextVisualTick = Time.unscaledTime + .25f;
+                }
+
+                resident.lastVisualStep = Time.unscaledTime;
+                if (Time.unscaledTime < resident.ambientConversationUntil)
+                {
+                    Render(resident, i, resident.actor.transform.position, ActorMotion.Talk);
+                    continue;
+                }
+
+                TickAmbientPatrol(resident);
+                Step(resident, i, dt);
                 if (residents[i].active)
                 {
                     crowd.Set(residents[i].definition.npcId, residents[i].actor.transform.position);
@@ -392,6 +426,14 @@ namespace IanGame
 
             var z = world.Service.rules.Zone(r.target.zone);
             var point = z.origin + r.target.position;
+            if (
+                r.definition.ambient
+                && r.target.action == NPCDailyAction.Walk
+                && r.definition.ambientOffsets.Length > 0
+            )
+            {
+                point += r.definition.ambientOffsets[r.ambientWaypoint % r.definition.ambientOffsets.Length];
+            }
             return z.id == "city" && world.CurrentZone.id == "city" ? PersonalGoal(r, point) : point;
         }
 
@@ -415,6 +457,8 @@ namespace IanGame
                 if (changed)
                 {
                     r.hasPersonalGoal = false;
+                    r.ambientWaypoint = 0;
+                    r.ambientPauseUntil = 0;
                     r.waitUntil = r.detourUntil = r.blockedSince = 0;
                     r.interiorDoor?.Release(r.definition.npcId);
                     r.interiorDoor = null;
@@ -586,6 +630,8 @@ namespace IanGame
             : action == NPCDailyAction.Work || action == NPCDailyAction.Shop ? ActorMotion.Work
             : action == NPCDailyAction.Study ? ActorMotion.UseComputer
             : action == NPCDailyAction.Rest ? ActorMotion.SitDown
+            : action == NPCDailyAction.Phone ? ActorMotion.UsePhone
+            : action == NPCDailyAction.Talk ? ActorMotion.Talk
             : action == NPCDailyAction.Wake ? ActorMotion.WakeUp
             : ActorMotion.Idle;
 
@@ -1050,6 +1096,12 @@ namespace IanGame
             }
 
             var color = r.actor.visual.color;
+            if (scenePresentation != null)
+            {
+                var tint = scenePresentation.CharacterTint;
+                color = new Color(r.baseColor.r * tint.r, r.baseColor.g * tint.g, r.baseColor.b * tint.b, color.a);
+            }
+
             color.a =
                 r.departingUntil > 0 ? Mathf.Clamp01((r.departingUntil - Time.unscaledTime) / .18f)
                 : r.arrivingUntil > Time.unscaledTime ? Mathf.Clamp01(1 - (r.arrivingUntil - Time.unscaledTime) / .3f)
@@ -1064,6 +1116,7 @@ namespace IanGame
                     : r.action == NPCDailyAction.Shop ? "장보기"
                     : r.action == NPCDailyAction.Talk ? "이야기 중"
                     : r.action == NPCDailyAction.Sleep ? "잠든 시간"
+                    : r.action == NPCDailyAction.Phone ? "휴대폰 확인"
                     : r.action == NPCDailyAction.Rest ? "쉬는 중"
                     : "";
                 Label(r, index, label);

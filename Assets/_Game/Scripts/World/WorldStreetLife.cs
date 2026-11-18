@@ -30,12 +30,25 @@ namespace IanGame
         public SpriteRenderer visual;
         public SpriteRenderer headlights;
         public SpriteRenderer shadow;
+        public UrbanVehicleKind kind;
+        public float length = 2.5f;
+        public float stopX = 6;
+        public float stopSeconds;
         public float speed = 3;
         public float direction = 1;
         public float laneY = -3.1f;
 
         [NonSerialized]
         public float velocity;
+
+        [NonSerialized]
+        public float dwellRemaining;
+
+        [NonSerialized]
+        public bool stopServed;
+
+        [NonSerialized]
+        public StreetVehicle leader;
     }
 
     // One controller for a small authored street. Friends/social data remain in
@@ -43,6 +56,16 @@ namespace IanGame
     public sealed class WorldStreetLife : MonoBehaviour
     {
         public bool residentSimulation;
+        public string zoneId = "city";
+        public WorldLifeProfile lifeProfile;
+        public float crosswalkHalfWidth = 2.7f;
+        public int ActiveVehicleCount { get; private set; }
+        public int BusDepartures { get; private set; }
+        public int VehicleLoops { get; private set; }
+        public int TrafficTargetCount { get; private set; }
+        WorldNPCScheduler scheduler;
+        float nextTrafficDecision;
+        int lastTrafficCount = -1;
         public LifeWorldController world;
         public StreetPedestrian[] pedestrians;
         public StreetVehicle[] vehicles;
@@ -62,6 +85,51 @@ namespace IanGame
 
         Vector2 Origin => (Vector2)transform.position;
 
+        void Start()
+        {
+            scheduler = world == null ? null : world.GetComponent<WorldNPCScheduler>();
+        }
+
+        bool OutsideView(Vector2 position)
+        {
+            var camera = world.follow == null ? null : world.follow.target;
+            if (camera == null)
+            {
+                return false;
+            }
+
+            var point = camera.WorldToViewportPoint(position);
+            return point.x < -.15f || point.x > 1.15f || point.y < -.15f || point.y > 1.15f;
+        }
+
+        void RefreshTrafficLeaders()
+        {
+            foreach (var vehicle in vehicles)
+            {
+                vehicle.leader = null;
+                float closest = float.PositiveInfinity;
+                foreach (var other in vehicles)
+                {
+                    if (
+                        other == vehicle
+                        || !other.body.simulated
+                        || other.direction != vehicle.direction
+                        || Mathf.Abs(other.laneY - vehicle.laneY) > .5f
+                    )
+                    {
+                        continue;
+                    }
+
+                    float gap = (other.body.position.x - vehicle.body.position.x) * vehicle.direction;
+                    if (gap > 0 && gap < closest)
+                    {
+                        closest = gap;
+                        vehicle.leader = other;
+                    }
+                }
+            }
+        }
+
         void Update()
         {
             if (world == null || world.Service == null)
@@ -69,13 +137,26 @@ namespace IanGame
                 return;
             }
 
-            bool local = world.Service.State.zone == "city";
+            bool local = world.Service.State.zone == zoneId;
             int hour = world.Service.Hour,
                 density = hour >= 7 && hour < 22 ? pedestrians.Length : Mathf.Min(3, pedestrians.Length);
-            if (local != visible || density != lastDensity)
+            int trafficCount =
+                lifeProfile == null
+                    ? (hour >= 7 && hour < 22 ? vehicles.Length : Mathf.Min(2, vehicles.Length))
+                    : Mathf.Clamp(lifeProfile.TrafficLimit(zoneId, hour, vehicles.Length), 0, vehicles.Length);
+            TrafficTargetCount = local ? trafficCount : 0;
+            if (
+                local != visible
+                || density != lastDensity
+                || trafficCount != lastTrafficCount
+                || Time.unscaledTime >= nextTrafficDecision
+            )
             {
                 visible = local;
                 lastDensity = density;
+                lastTrafficCount = trafficCount;
+                nextTrafficDecision =
+                    Time.unscaledTime + (lifeProfile == null ? .25f : lifeProfile.trafficDecisionSeconds);
                 for (int i = 0; !residentSimulation && i < pedestrians.Length; i++)
                 {
                     pedestrians[i].visual.enabled = visible && i < density;
@@ -85,14 +166,25 @@ namespace IanGame
                     }
                 }
 
-                int count = hour >= 7 && hour < 22 ? vehicles.Length : Mathf.Min(2, vehicles.Length);
+                int count = trafficCount;
+                ActiveVehicleCount = 0;
                 for (int i = 0; i < vehicles.Length; i++)
                 {
                     var v = vehicles[i];
                     bool show = visible && i < count;
+                    // Retire at the lane edge; never make a visible car disappear at a clock boundary.
+                    if (!show && visible && v.body.simulated && !OutsideView(v.body.position))
+                    {
+                        show = true;
+                    }
                     if (show && !v.body.simulated && Vector2.Distance(v.body.position, world.Player.Position) < 3)
                     {
                         v.body.position = Origin + new Vector2(-v.direction * 16, v.laneY);
+                    }
+
+                    if (show)
+                    {
+                        ActiveVehicleCount++;
                     }
 
                     v.visual.enabled = show;
@@ -107,6 +199,8 @@ namespace IanGame
                         v.velocity = 0;
                     }
                 }
+
+                RefreshTrafficLeaders();
             }
 
             foreach (var v in vehicles)
@@ -221,7 +315,7 @@ namespace IanGame
         {
             foreach (var v in vehicles)
             {
-                if (v.body.simulated && Mathf.Abs(v.body.position.x - Origin.x) < 3)
+                if (v.body.simulated && Mathf.Abs(v.body.position.x - Origin.x) < crosswalkHalfWidth + v.length * .5f)
                 {
                     return true;
                 }
@@ -259,8 +353,7 @@ namespace IanGame
 
             bool running = Running;
             Vector2 player = world.Player.Position - Origin;
-            bool pedestrian =
-                visible && (PedestrianOnCrossing() || (world.GetComponent<WorldNPCScheduler>()?.OnCrossing ?? false));
+            bool pedestrian = visible && (PedestrianOnCrossing() || (scheduler != null && scheduler.OnCrossing));
             foreach (var v in vehicles)
             {
                 if (!v.body.simulated)
@@ -277,10 +370,11 @@ namespace IanGame
 
                 Vector2 at = v.body.position - Origin;
                 float desired = v.speed;
-                float stop = (-v.direction * 2.2f - at.x) * v.direction;
-                if ((!VehicleGreen || pedestrian) && stop >= 0 && stop < 3)
+                float stopLine = -v.direction * (crosswalkHalfWidth + v.length * .5f + .2f);
+                float stop = (stopLine - at.x) * v.direction;
+                if ((!VehicleGreen || pedestrian) && stop >= 0)
                 {
-                    desired = 0;
+                    desired = Mathf.Min(desired, Mathf.Sqrt(2 * 8 * Mathf.Max(0, stop - .1f)));
                 }
 
                 float ahead = (player.x - at.x) * v.direction;
@@ -289,15 +383,38 @@ namespace IanGame
                     desired = 0;
                 }
 
-                foreach (var other in vehicles)
+                var leader = v.leader;
+                if (leader != null && leader.body.simulated)
                 {
-                    if (other != v && other.body.simulated && other.direction == v.direction)
+                    float gap = (leader.body.position.x - v.body.position.x) * v.direction;
+                    if (gap > 0 && gap < (v.length + leader.length) * .5f + 1.2f)
                     {
-                        float gap = (other.body.position.x - v.body.position.x) * v.direction;
-                        if (gap > 0 && gap < 3.6f)
-                        {
-                            desired = 0;
-                        }
+                        desired = 0;
+                    }
+                }
+
+                if (!v.stopServed && v.stopSeconds > 0)
+                {
+                    float distanceToStop = (v.stopX - at.x) * v.direction;
+                    if (distanceToStop >= 0 && distanceToStop < 2)
+                    {
+                        desired = Mathf.Min(desired, Mathf.Sqrt(2 * 8 * Mathf.Max(0, distanceToStop - .08f)));
+                    }
+
+                    if (Mathf.Abs(distanceToStop) <= .15f && v.velocity < .2f)
+                    {
+                        v.stopServed = true;
+                        v.dwellRemaining = v.stopSeconds;
+                    }
+                }
+
+                if (v.dwellRemaining > 0)
+                {
+                    desired = 0;
+                    v.dwellRemaining = Mathf.Max(0, v.dwellRemaining - Time.fixedDeltaTime);
+                    if (v.dwellRemaining == 0 && v.kind == UrbanVehicleKind.Bus)
+                    {
+                        BusDepartures++;
                     }
                 }
 
@@ -305,11 +422,50 @@ namespace IanGame
                 Vector2 to = at + Vector2.right * (v.velocity * v.direction * Time.fixedDeltaTime);
                 if (to.x * v.direction > 17)
                 {
+                    if (Array.IndexOf(vehicles, v) >= TrafficTargetCount)
+                    {
+                        v.body.simulated = false;
+                        v.visual.enabled = false;
+                        if (v.shadow != null)
+                        {
+                            v.shadow.enabled = false;
+                        }
+
+                        v.velocity = 0;
+                        v.body.linearVelocity = Vector2.zero;
+                        continue;
+                    }
+
                     Vector2 spawn = new Vector2(-v.direction * 16.8f, v.laneY);
                     if (Vector2.Distance(spawn, player) > 3)
                     {
+                        bool free = true;
+                        foreach (var other in vehicles)
+                        {
+                            if (
+                                other != v
+                                && other.body.simulated
+                                && Mathf.Abs(other.laneY - v.laneY) < .5f
+                                && Mathf.Abs(other.body.position.x - Origin.x - spawn.x)
+                                    < (v.length + other.length) * .5f + 1.2f
+                            )
+                            {
+                                free = false;
+                                break;
+                            }
+                        }
+
+                        if (!free)
+                        {
+                            v.velocity = 0;
+                            continue;
+                        }
+
                         v.body.position = Origin + spawn;
                         v.velocity = 0;
+                        v.stopServed = false;
+                        v.dwellRemaining = 0;
+                        VehicleLoops++;
                     }
                     else
                     {

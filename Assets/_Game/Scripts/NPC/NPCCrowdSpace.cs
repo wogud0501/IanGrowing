@@ -3,126 +3,163 @@ using UnityEngine;
 
 namespace IanGame
 {
-    // Updated once per scheduler frame and incrementally after accepted movement.
-    // No pairwise all-agent scan or positional repulsion is performed in Move.
+    // Reuses resident entries and cell buckets after warmup. No all-agent movement scan.
     public sealed class NPCCrowdSpace
     {
-        public const float Clearance = .48f;
+        public const float Clearance = .78f;
 
         public sealed class Entry
         {
             public string id;
             public Vector2 position;
             public Vector2Int cell;
+            internal uint generation;
         }
 
-        readonly Dictionary<Vector2Int, List<Entry>> cells = new Dictionary<Vector2Int, List<Entry>>();
+        sealed class Bucket
+        {
+            public readonly List<Entry> entries = new List<Entry>();
+            public uint generation;
+        }
+
+        readonly Dictionary<Vector2Int, Bucket> cells = new Dictionary<Vector2Int, Bucket>();
         readonly Dictionary<string, Entry> entries = new Dictionary<string, Entry>();
+        uint generation = 1;
 
         Vector2Int Cell(Vector2 p) => new Vector2Int(Mathf.FloorToInt(p.x / .8f), Mathf.FloorToInt(p.y / .8f));
 
         public void Clear()
         {
-            cells.Clear();
-            entries.Clear();
+            generation++;
+            if (generation == 0)
+            {
+                cells.Clear();
+                entries.Clear();
+                generation = 1;
+            }
+        }
+
+        Bucket CurrentBucket(Vector2Int key)
+        {
+            if (!cells.TryGetValue(key, out var bucket))
+            {
+                bucket = new Bucket();
+                cells[key] = bucket;
+            }
+
+            if (bucket.generation != generation)
+            {
+                bucket.entries.Clear();
+                bucket.generation = generation;
+            }
+
+            return bucket;
         }
 
         public void Set(string id, Vector2 p)
         {
             var key = Cell(p);
-            if (entries.TryGetValue(id, out var e))
+            if (!entries.TryGetValue(id, out var entry))
             {
-                if (e.cell != key)
-                {
-                    cells[e.cell].Remove(e);
-                    if (!cells.TryGetValue(key, out var bucket))
-                    {
-                        cells[key] = bucket = new List<Entry>();
-                    }
-
-                    bucket.Add(e);
-                }
-
-                e.cell = key;
-                e.position = p;
-                return;
+                entry = new Entry { id = id };
+                entries[id] = entry;
             }
 
-            e = new Entry
+            bool current = entry.generation == generation;
+            if (current && entry.cell != key)
             {
-                id = id,
-                position = p,
-                cell = key,
-            };
-            entries[id] = e;
-            if (!cells.TryGetValue(key, out var list))
-            {
-                cells[key] = list = new List<Entry>();
+                cells[entry.cell].entries.Remove(entry);
             }
 
-            list.Add(e);
+            if (!current || entry.cell != key)
+            {
+                CurrentBucket(key).entries.Add(entry);
+            }
+
+            entry.cell = key;
+            entry.position = p;
+            entry.generation = generation;
         }
 
         public void Remove(string id)
         {
-            if (!entries.TryGetValue(id, out var e))
+            if (!entries.TryGetValue(id, out var entry) || entry.generation != generation)
             {
                 return;
             }
 
-            cells[e.cell].Remove(e);
-            entries.Remove(id);
+            cells[entry.cell].entries.Remove(entry);
+            entry.generation = 0;
         }
 
         public IEnumerable<Entry> Nearby(Vector2 p)
         {
-            var c = Cell(p);
+            var cell = Cell(p);
             for (int y = -1; y <= 1; y++)
             {
                 for (int x = -1; x <= 1; x++)
                 {
-                    if (cells.TryGetValue(c + new Vector2Int(x, y), out var list))
+                    if (
+                        cells.TryGetValue(cell + new Vector2Int(x, y), out var bucket)
+                        && bucket.generation == generation
+                    )
                     {
-                        foreach (var e in list)
+                        foreach (var entry in bucket.entries)
                         {
-                            yield return e;
+                            yield return entry;
                         }
                     }
                 }
             }
         }
 
-        public bool Free(string id, Vector2 p, float radius = Clearance)
+        bool Blocked(string id, Vector2 from, Vector2 next, float radius, bool inwardOnly)
         {
-            foreach (var e in Nearby(p))
+            var cell = Cell(next);
+            // Query radius can exceed one cell when used by a future larger archetype.
+            int reach = Mathf.Max(1, Mathf.CeilToInt(radius / .8f));
+            for (int y = -reach; y <= reach; y++)
             {
-                if (e.id != id && (e.position - p).sqrMagnitude < radius * radius)
+                for (int x = -reach; x <= reach; x++)
                 {
-                    return false;
-                }
-            }
+                    if (
+                        !cells.TryGetValue(cell + new Vector2Int(x, y), out var bucket)
+                        || bucket.generation != generation
+                    )
+                    {
+                        continue;
+                    }
 
-            return true;
-        }
+                    foreach (var entry in bucket.entries)
+                    {
+                        if (entry.id == id)
+                        {
+                            continue;
+                        }
 
-        public bool Blocks(string id, Vector2 from, Vector2 next)
-        {
-            foreach (var e in Nearby(next))
-            {
-                if (e.id == id)
-                {
-                    continue;
-                }
-
-                float before = (e.position - from).sqrMagnitude,
-                    after = (e.position - next).sqrMagnitude;
-                if (after < Clearance * Clearance && after < before - .0000001f)
-                {
-                    return true;
+                        float after = (entry.position - next).sqrMagnitude;
+                        if (
+                            after < radius * radius
+                            && (!inwardOnly || after < (entry.position - from).sqrMagnitude - .0000001f)
+                        )
+                        {
+                            return true;
+                        }
+                    }
                 }
             }
 
             return false;
+        }
+
+        public bool Free(string id, Vector2 p, float radius = Clearance)
+        {
+            return !Blocked(id, p, p, radius, false);
+        }
+
+        public bool Blocks(string id, Vector2 from, Vector2 next)
+        {
+            return Blocked(id, from, next, Clearance, true);
         }
     }
 }

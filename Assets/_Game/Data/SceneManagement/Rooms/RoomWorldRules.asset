@@ -187,6 +187,10 @@ MonoBehaviour:
   npcs:
   - npcId: colleague
     title: "\uB3D9\uB124 \uC120\uBC30 \uC218\uC5F0"
+    ambient: 0
+    archetype: 2
+    ambientLine: 
+    ambientOffsets: []
     homeZone: residence
     jobId: office
     workZone: workplace
@@ -309,6 +313,10 @@ MonoBehaviour:
       action: 9
   - npcId: classmate
     title: "\uC606\uC790\uB9AC \uBBFC\uC218"
+    ambient: 0
+    archetype: 1
+    ambientLine: 
+    ambientOffsets: []
     homeZone: residence
     jobId: student
     workZone: school
@@ -431,6 +439,10 @@ MonoBehaviour:
       action: 9
   - npcId: resident-0
     title: "\uC9C0\uC740"
+    ambient: 0
+    archetype: 2
+    ambientLine: 
+    ambientOffsets: []
     homeZone: residence
     jobId: office
     workZone: workplace
@@ -553,6 +565,10 @@ MonoBehaviour:
       action: 9
   - npcId: resident-1
     title: "\uC815\uD638"
+    ambient: 0
+    archetype: 2
+    ambientLine: 
+    ambientOffsets: []
     homeZone: residence
     jobId: office
     workZone: workplace
@@ -640,6 +656,10 @@ MonoBehaviour:
       action: 3
   - npcId: resident-2
     title: "\uB3C4\uC724"
+    ambient: 0
+    archetype: 0
+    ambientLine: 
+    ambientOffsets: []
     homeZone: residence
     jobId: convenience
     workZone: workplace
@@ -755,6 +775,10 @@ MonoBehaviour:
       action: 9
   - npcId: resident-3
     title: "\uC21C\uC790"
+    ambient: 0
+    archetype: 8
+    ambientLine: 
+    ambientOffsets: []
     homeZone: residence
     jobId: analyst
     workZone: finance
@@ -877,6 +901,10 @@ MonoBehaviour:
       action: 9
   - npcId: resident-4
     title: "\uC9C0\uC740"
+    ambient: 0
+    archetype: 8
+    ambientLine: 
+    ambientOffsets: []
     homeZone: residence
     jobId: analyst
     workZone: finance
@@ -1006,6 +1034,10 @@ MonoBehaviour:
       action: 9
   - npcId: resident-5
     title: "\uC815\uD638"
+    ambient: 0
+    archetype: 2
+    ambientLine: 
+    ambientOffsets: []
     homeZone: residence
     jobId: office
     workZone: workplace
@@ -1128,6 +1160,10 @@ MonoBehaviour:
       action: 9
   - npcId: resident-6
     title: "\uB3C4\uC724"
+    ambient: 0
+    archetype: 2
+    ambientLine: 
+    ambientOffsets: []
     homeZone: residence
     jobId: office
     workZone: workplace
@@ -1208,6 +1244,10 @@ MonoBehaviour:
       action: 3
   - npcId: resident-7
     title: "\uC21C\uC790"
+    ambient: 0
+    archetype: 0
+    ambientLine: 
+    ambientOffsets: []
     homeZone: residence
     jobId: convenience
     workZone: workplace
@@ -1316,6 +1356,10 @@ MonoBehaviour:
       action: 9
   - npcId: resident-8
     title: "\uC9C0\uC740"
+    ambient: 0
+    archetype: 2
+    ambientLine: 
+    ambientOffsets: []
     homeZone: residence
     jobId: office
     workZone: realestate
@@ -1438,6 +1482,10 @@ MonoBehaviour:
       action: 9
   - npcId: resident-9
     title: "\uC815\uD638"
+    ambient: 0
+    archetype: 2
+    ambientLine: 
+    ambientOffsets: []
     homeZone: residence
     jobId: office
     workZone: realestate
@@ -1560,6 +1608,10 @@ MonoBehaviour:
       action: 9
   - npcId: school-teacher
     title: "\uB2F4\uC784 \uC120\uC0DD\uB2D8 \uC11C\uC724"
+    ambient: 0
+    archetype: 0
+    ambientLine: 
+    ambientOffsets: []
     homeZone: residence
     jobId: teacher
     workZone: school
@@ -1661,6 +1713,10 @@ MonoBehaviour:
       action: 9
   - npcId: school-pupil
     title: "\uAC19\uC740 \uBC18 \uD559\uC0DD \uC900\uC11C"
+    ambient: 0
+    archetype: 1
+    ambientLine: 
+    ambientOffsets: []
     homeZone: residence
     jobId: student
     workZone: school
@@ -1748,6 +1804,10 @@ MonoBehaviour:
       action: 9
   - npcId: shop-clerk
     title: "\uB3D9\uB124 \uC0C1\uC810 \uC8FC\uC778 \uC601\uD638"
+    ambient: 0
+    archetype: 3
+    ambientLine: 
+    ambientOffsets: []
     homeZone: residence
     jobId: shopkeeper
     workZone: shop
@@ -1821,6 +1881,10 @@ MonoBehaviour:
       action: 9
   - npcId: family-mother
     title: "\uC5C4\uB9C8"
+    ambient: 0
+    archetype: 5
+    ambientLine: 
+    ambientOffsets: []
     homeZone: family-parents-bedroom
     jobId: parent
     workZone: 
@@ -1964,6 +2028,10 @@ MonoBehaviour:
       action: 9
   - npcId: family-father
     title: "\uC544\uBE60"
+    ambient: 0
+    archetype: 5
+    ambientLine: 
+    ambientOffsets: []
     homeZone: family-parents-bedroom
     jobId: parent
     workZone: 
@@ -2105,3 +2173,734 @@ MonoBehaviour:
       objectId: family-father-bed
       position: {x: 1.5, y: -0.5500002}
       action: 9
+  - npcId: ambient-urban-0
+    title: "\uB4F1\uAD50\uD558\uB294 \uD559\uC0DD"
+    ambient: 1
+    archetype: 1
+    ambientLine: "\uBC84\uC2A4\uB294 \uB193\uCCD0\uB3C4 \uB4F1\uAD50 \uC2DC\uAC04\uC740 \uB193\uCE58\uBA74 \uC548 \uB41C\uB300\uC694."
+    ambientOffsets:
+    - {x: 0, y: 0}
+    - {x: 1.6, y: 0}
+    - {x: -1.6, y: 0}
+    homeZone: residence
+    jobId: 
+    workZone: 
+    companionId: 
+    hasHomePosition: 0
+    homePosition: {x: 0, y: 0}
+    personality: 2
+    speed: 0.95
+    animations: {fileID: 11400000, guid: 9f8407b30c9f6485a88698b8d55d2862, type: 2}
+    frames:
+    - {fileID: 1956735336081625382, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    - {fileID: -7710114160355480345, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    - {fileID: 4417901699844961301, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    - {fileID: 8105579582091720354, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    schedule:
+    - hour: 0
+      minute: 0
+      dayMask: 127
+      zone: residence
+      objectId: 
+      position: {x: -8.5, y: 0}
+      action: 9
+    - hour: 6
+      minute: 0
+      dayMask: 127
+      zone: alley
+      objectId: 
+      position: {x: -8.5, y: -1.5}
+      action: 2
+    - hour: 8
+      minute: 0
+      dayMask: 127
+      zone: city
+      objectId: 
+      position: {x: -8.5, y: -1.2}
+      action: 2
+    - hour: 9
+      minute: 0
+      dayMask: 127
+      zone: school
+      objectId: 
+      position: {x: -3, y: -0.8}
+      action: 4
+    - hour: 12
+      minute: 0
+      dayMask: 127
+      zone: city
+      objectId: 
+      position: {x: -8.5, y: -7.4}
+      action: 2
+    - hour: 13
+      minute: 0
+      dayMask: 127
+      zone: school
+      objectId: 
+      position: {x: -3, y: -0.8}
+      action: 4
+    - hour: 17
+      minute: 0
+      dayMask: 127
+      zone: city
+      objectId: 
+      position: {x: -8.5, y: -1.2}
+      action: 2
+    - hour: 20
+      minute: 0
+      dayMask: 127
+      zone: alley
+      objectId: 
+      position: {x: -8.5, y: -1.2}
+      action: 2
+    - hour: 22
+      minute: 0
+      dayMask: 127
+      zone: residence
+      objectId: 
+      position: {x: -8.5, y: 0}
+      action: 7
+  - npcId: ambient-urban-1
+    title: "\uBC84\uC2A4\uB97C \uAE30\uB2E4\uB9AC\uB294 \uD559\uC0DD"
+    ambient: 1
+    archetype: 1
+    ambientLine: "\uC624\uB298\uB3C4 \uC9C0\uAC01 \uC0AC\uC720\uB294 \uCC3D\uC758\uB825\uC774 \uD544\uC694\uD558\uB124\uC694."
+    ambientOffsets:
+    - {x: 0, y: 0}
+    - {x: 1.6, y: 0}
+    - {x: -1.6, y: 0}
+    homeZone: residence
+    jobId: 
+    workZone: 
+    companionId: 
+    hasHomePosition: 0
+    homePosition: {x: 0, y: 0}
+    personality: 2
+    speed: 1.1
+    animations: {fileID: 11400000, guid: 9f8407b30c9f6485a88698b8d55d2862, type: 2}
+    frames:
+    - {fileID: 1956735336081625382, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    - {fileID: -7710114160355480345, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    - {fileID: 4417901699844961301, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    - {fileID: 8105579582091720354, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    schedule:
+    - hour: 0
+      minute: 0
+      dayMask: 127
+      zone: residence
+      objectId: 
+      position: {x: -6.2, y: 0}
+      action: 9
+    - hour: 6
+      minute: 2
+      dayMask: 127
+      zone: alley
+      objectId: 
+      position: {x: -6.2, y: -1.5}
+      action: 2
+    - hour: 8
+      minute: 2
+      dayMask: 127
+      zone: city
+      objectId: 
+      position: {x: -6.2, y: -1.2}
+      action: 2
+    - hour: 9
+      minute: 0
+      dayMask: 127
+      zone: school
+      objectId: 
+      position: {x: -1.5, y: -0.8}
+      action: 4
+    - hour: 12
+      minute: 3
+      dayMask: 127
+      zone: city
+      objectId: 
+      position: {x: -6.2, y: -7.4}
+      action: 2
+    - hour: 13
+      minute: 0
+      dayMask: 127
+      zone: school
+      objectId: 
+      position: {x: -1.5, y: -0.8}
+      action: 4
+    - hour: 17
+      minute: 2
+      dayMask: 127
+      zone: city
+      objectId: 
+      position: {x: -6.2, y: -1.2}
+      action: 2
+    - hour: 20
+      minute: 2
+      dayMask: 127
+      zone: alley
+      objectId: 
+      position: {x: -6.2, y: -1.2}
+      action: 2
+    - hour: 22
+      minute: 2
+      dayMask: 127
+      zone: residence
+      objectId: 
+      position: {x: -6.2, y: 0}
+      action: 7
+  - npcId: ambient-urban-2
+    title: "\uCD9C\uADFC\uD558\uB294 \uC8FC\uBBFC"
+    ambient: 1
+    archetype: 2
+    ambientLine: "\uD589\uBCF5 \uC99D\uC9C4 \uD3EC\uC2A4\uD130\uAC00 \uB610 \uBD99\uC5C8\uB354\uB77C\uACE0\uC694."
+    ambientOffsets:
+    - {x: 0, y: 0}
+    - {x: 1.6, y: 0}
+    - {x: -1.6, y: 0}
+    homeZone: residence
+    jobId: 
+    workZone: 
+    companionId: 
+    hasHomePosition: 0
+    homePosition: {x: 0, y: 0}
+    personality: 3
+    speed: 1.25
+    animations: {fileID: 11400000, guid: 4d251d34a4b9b4dd280859fa9b30cdc5, type: 2}
+    frames:
+    - {fileID: 8559920643888737118, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    - {fileID: 5538569489634594306, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    - {fileID: 7290411598565047993, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    - {fileID: 2752892591760221209, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    schedule:
+    - hour: 0
+      minute: 0
+      dayMask: 127
+      zone: residence
+      objectId: 
+      position: {x: -3.9, y: 0}
+      action: 9
+    - hour: 6
+      minute: 4
+      dayMask: 127
+      zone: alley
+      objectId: 
+      position: {x: -3.9, y: -1.5}
+      action: 2
+    - hour: 8
+      minute: 4
+      dayMask: 127
+      zone: city
+      objectId: 
+      position: {x: -3.9, y: -1.2}
+      action: 2
+    - hour: 9
+      minute: 0
+      dayMask: 127
+      zone: workplace
+      objectId: 
+      position: {x: 0, y: -0.8}
+      action: 3
+    - hour: 12
+      minute: 6
+      dayMask: 127
+      zone: city
+      objectId: 
+      position: {x: -3.9, y: -7.4}
+      action: 2
+    - hour: 13
+      minute: 0
+      dayMask: 127
+      zone: workplace
+      objectId: 
+      position: {x: 0, y: -0.8}
+      action: 3
+    - hour: 17
+      minute: 4
+      dayMask: 127
+      zone: city
+      objectId: 
+      position: {x: -3.9, y: -1.2}
+      action: 2
+    - hour: 20
+      minute: 4
+      dayMask: 127
+      zone: alley
+      objectId: 
+      position: {x: -3.9, y: -1.2}
+      action: 2
+    - hour: 22
+      minute: 4
+      dayMask: 127
+      zone: residence
+      objectId: 
+      position: {x: -3.9, y: 0}
+      action: 7
+  - npcId: ambient-urban-3
+    title: "\uD1F4\uADFC\uAE38 \uC9C1\uC7A5\uC778"
+    ambient: 1
+    archetype: 2
+    ambientLine: "\uD1F4\uADFC\uC740 \uD588\uACE0\uC694. \uC77C\uC740 \uC544\uC9C1 \uB0A8\uC558\uC2B5\uB2C8\uB2E4."
+    ambientOffsets:
+    - {x: 0, y: 0}
+    - {x: 1.6, y: 0}
+    - {x: -1.6, y: 0}
+    homeZone: residence
+    jobId: 
+    workZone: 
+    companionId: 
+    hasHomePosition: 0
+    homePosition: {x: 0, y: 0}
+    personality: 3
+    speed: 0.95
+    animations: {fileID: 11400000, guid: 4d251d34a4b9b4dd280859fa9b30cdc5, type: 2}
+    frames:
+    - {fileID: 8559920643888737118, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    - {fileID: 5538569489634594306, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    - {fileID: 7290411598565047993, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    - {fileID: 2752892591760221209, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    schedule:
+    - hour: 0
+      minute: 0
+      dayMask: 127
+      zone: residence
+      objectId: 
+      position: {x: -1.6000001, y: 0}
+      action: 9
+    - hour: 6
+      minute: 6
+      dayMask: 127
+      zone: alley
+      objectId: 
+      position: {x: -1.6000001, y: -1.5}
+      action: 2
+    - hour: 8
+      minute: 6
+      dayMask: 127
+      zone: city
+      objectId: 
+      position: {x: -1.6000001, y: -1.2}
+      action: 2
+    - hour: 9
+      minute: 0
+      dayMask: 127
+      zone: workplace
+      objectId: 
+      position: {x: 1.5, y: -0.8}
+      action: 3
+    - hour: 12
+      minute: 9
+      dayMask: 127
+      zone: city
+      objectId: 
+      position: {x: -1.6000001, y: -7.4}
+      action: 2
+    - hour: 13
+      minute: 0
+      dayMask: 127
+      zone: workplace
+      objectId: 
+      position: {x: 1.5, y: -0.8}
+      action: 3
+    - hour: 17
+      minute: 6
+      dayMask: 127
+      zone: city
+      objectId: 
+      position: {x: -1.6000001, y: -1.2}
+      action: 2
+    - hour: 20
+      minute: 6
+      dayMask: 127
+      zone: alley
+      objectId: 
+      position: {x: -1.6000001, y: -1.2}
+      action: 2
+    - hour: 22
+      minute: 6
+      dayMask: 127
+      zone: residence
+      objectId: 
+      position: {x: -1.6000001, y: 0}
+      action: 7
+  - npcId: ambient-urban-4
+    title: "\uBC30\uB2EC \uB300\uAE30 \uC8FC\uBBFC"
+    ambient: 1
+    archetype: 4
+    ambientLine: "\uB2E4\uC74C \uC8FC\uC18C\uB294 \uAC00\uAE4C\uC6B4\uB370, \uC26C\uB294 \uC2DC\uAC04\uC740 \uBA40\uC5B4\uC694."
+    ambientOffsets:
+    - {x: 0, y: 0}
+    - {x: 1.6, y: 0}
+    - {x: -1.6, y: 0}
+    homeZone: residence
+    jobId: 
+    workZone: 
+    companionId: 
+    hasHomePosition: 0
+    homePosition: {x: 0, y: 0}
+    personality: 1
+    speed: 1.1
+    animations: {fileID: 11400000, guid: 9f8407b30c9f6485a88698b8d55d2862, type: 2}
+    frames:
+    - {fileID: 1956735336081625382, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    - {fileID: -7710114160355480345, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    - {fileID: 4417901699844961301, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    - {fileID: 8105579582091720354, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    schedule:
+    - hour: 0
+      minute: 0
+      dayMask: 127
+      zone: residence
+      objectId: 
+      position: {x: 0.6999998, y: 0}
+      action: 9
+    - hour: 6
+      minute: 8
+      dayMask: 127
+      zone: alley
+      objectId: 
+      position: {x: 0.6999998, y: -1.5}
+      action: 2
+    - hour: 8
+      minute: 8
+      dayMask: 127
+      zone: city
+      objectId: 
+      position: {x: 0.6999998, y: -1.2}
+      action: 2
+    - hour: 10
+      minute: 0
+      dayMask: 127
+      zone: alley
+      objectId: 
+      position: {x: 0.6999998, y: -0.5}
+      action: 10
+    - hour: 12
+      minute: 12
+      dayMask: 127
+      zone: city
+      objectId: 
+      position: {x: 0.6999998, y: -7.4}
+      action: 2
+    - hour: 12
+      minute: 25
+      dayMask: 127
+      zone: city
+      objectId: 
+      position: {x: 0.6999998, y: -1.2}
+      action: 10
+    - hour: 14
+      minute: 0
+      dayMask: 127
+      zone: alley
+      objectId: 
+      position: {x: 0.6999998, y: -1.5}
+      action: 10
+    - hour: 17
+      minute: 8
+      dayMask: 127
+      zone: city
+      objectId: 
+      position: {x: 0.6999998, y: -1.2}
+      action: 2
+    - hour: 18
+      minute: 10
+      dayMask: 127
+      zone: city
+      objectId: 
+      position: {x: 0.6999998, y: -1.2}
+      action: 10
+    - hour: 20
+      minute: 8
+      dayMask: 127
+      zone: alley
+      objectId: 
+      position: {x: 0.6999998, y: -1.2}
+      action: 2
+    - hour: 22
+      minute: 8
+      dayMask: 127
+      zone: residence
+      objectId: 
+      position: {x: 0.6999998, y: 0}
+      action: 7
+  - npcId: ambient-urban-5
+    title: "\uC7A5\uBCF4\uB294 \uC8FC\uBBFC"
+    ambient: 1
+    archetype: 5
+    ambientLine: "\uD560\uC778\uD488\uB9CC \uC0C0\uB294\uB370 \uC601\uC218\uC99D\uC740 \uAE38\uC5B4\uC84C\uB124\uC694."
+    ambientOffsets:
+    - {x: 0, y: 0}
+    - {x: 1.6, y: 0}
+    - {x: -1.6, y: 0}
+    homeZone: residence
+    jobId: 
+    workZone: 
+    companionId: 
+    hasHomePosition: 0
+    homePosition: {x: 0, y: 0}
+    personality: 5
+    speed: 1.25
+    animations: {fileID: 11400000, guid: caa1a24b2b2f14def9c286f44e83de15, type: 2}
+    frames:
+    - {fileID: 7223506886873769134, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    - {fileID: -6729979080979554837, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    - {fileID: -463648950955847634, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    - {fileID: -5013025111935446509, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    schedule:
+    - hour: 0
+      minute: 0
+      dayMask: 127
+      zone: residence
+      objectId: 
+      position: {x: 2.9999998, y: 0}
+      action: 9
+    - hour: 6
+      minute: 10
+      dayMask: 127
+      zone: alley
+      objectId: 
+      position: {x: 2.9999998, y: -1.5}
+      action: 2
+    - hour: 8
+      minute: 10
+      dayMask: 127
+      zone: city
+      objectId: 
+      position: {x: 2.9999998, y: -1.2}
+      action: 2
+    - hour: 10
+      minute: 0
+      dayMask: 127
+      zone: alley
+      objectId: 
+      position: {x: 2.9999998, y: -0.5}
+      action: 2
+    - hour: 12
+      minute: 15
+      dayMask: 127
+      zone: city
+      objectId: 
+      position: {x: 2.9999998, y: -7.4}
+      action: 2
+    - hour: 12
+      minute: 15
+      dayMask: 127
+      zone: shop
+      objectId: shop-browse-1
+      position: {x: -5.6, y: -0.9}
+      action: 6
+    - hour: 14
+      minute: 0
+      dayMask: 127
+      zone: alley
+      objectId: 
+      position: {x: 2.9999998, y: -1.5}
+      action: 10
+    - hour: 17
+      minute: 10
+      dayMask: 127
+      zone: city
+      objectId: 
+      position: {x: 2.9999998, y: -1.2}
+      action: 2
+    - hour: 20
+      minute: 10
+      dayMask: 127
+      zone: alley
+      objectId: 
+      position: {x: 2.9999998, y: -1.2}
+      action: 2
+    - hour: 22
+      minute: 10
+      dayMask: 127
+      zone: residence
+      objectId: 
+      position: {x: 2.9999998, y: 0}
+      action: 7
+  - npcId: ambient-urban-6
+    title: "\uC0B0\uCC45\uD558\uB294 \uC8FC\uBBFC"
+    ambient: 1
+    archetype: 6
+    ambientLine: "\uBCA4\uCE58\uB294 \uBB34\uB8CC\uB77C \uB2E4\uD589\uC774\uC9C0\uC694."
+    ambientOffsets:
+    - {x: 0, y: 0}
+    - {x: 1.6, y: 0}
+    - {x: -1.6, y: 0}
+    homeZone: residence
+    jobId: 
+    workZone: 
+    companionId: 
+    hasHomePosition: 0
+    homePosition: {x: 0, y: 0}
+    personality: 5
+    speed: 0.95
+    animations: {fileID: 11400000, guid: 9f8407b30c9f6485a88698b8d55d2862, type: 2}
+    frames:
+    - {fileID: 1956735336081625382, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    - {fileID: -7710114160355480345, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    - {fileID: 4417901699844961301, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    - {fileID: 8105579582091720354, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    schedule:
+    - hour: 0
+      minute: 0
+      dayMask: 127
+      zone: residence
+      objectId: 
+      position: {x: 5.2999997, y: 0}
+      action: 9
+    - hour: 6
+      minute: 12
+      dayMask: 127
+      zone: alley
+      objectId: 
+      position: {x: 5.2999997, y: -1.5}
+      action: 2
+    - hour: 8
+      minute: 12
+      dayMask: 127
+      zone: city
+      objectId: 
+      position: {x: 5.2999997, y: -1.2}
+      action: 2
+    - hour: 10
+      minute: 0
+      dayMask: 127
+      zone: alley
+      objectId: 
+      position: {x: 5.2999997, y: -0.5}
+      action: 10
+    - hour: 12
+      minute: 18
+      dayMask: 127
+      zone: city
+      objectId: 
+      position: {x: 5.2999997, y: -7.4}
+      action: 2
+    - hour: 14
+      minute: 0
+      dayMask: 127
+      zone: alley
+      objectId: 
+      position: {x: 5.2999997, y: -1.5}
+      action: 10
+    - hour: 17
+      minute: 12
+      dayMask: 127
+      zone: city
+      objectId: 
+      position: {x: 5.2999997, y: -1.2}
+      action: 2
+    - hour: 20
+      minute: 12
+      dayMask: 127
+      zone: alley
+      objectId: 
+      position: {x: 5.2999997, y: -1.2}
+      action: 2
+    - hour: 22
+      minute: 12
+      dayMask: 127
+      zone: residence
+      objectId: 
+      position: {x: 5.2999997, y: 0}
+      action: 7
+  - npcId: ambient-urban-7
+    title: "\uC11C\uB958\uB97C \uB4E0 \uC8FC\uBBFC"
+    ambient: 1
+    archetype: 7
+    ambientLine: "\uC11C\uB958\uB294 \uC81C\uCD9C\uD588\uACE0, \uB2F5\uC7A5\uC740 \uAE30\uB2E4\uB9AC\uB294 \uC911\uC785\uB2C8\uB2E4."
+    ambientOffsets:
+    - {x: 0, y: 0}
+    - {x: 1.6, y: 0}
+    - {x: -1.6, y: 0}
+    homeZone: residence
+    jobId: 
+    workZone: 
+    companionId: 
+    hasHomePosition: 0
+    homePosition: {x: 0, y: 0}
+    personality: 3
+    speed: 1.1
+    animations: {fileID: 11400000, guid: 4d251d34a4b9b4dd280859fa9b30cdc5, type: 2}
+    frames:
+    - {fileID: 8559920643888737118, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    - {fileID: 5538569489634594306, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    - {fileID: 7290411598565047993, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    - {fileID: 2752892591760221209, guid: 59bccee2407424a5289e6cd021dbe99d, type: 3}
+    schedule:
+    - hour: 0
+      minute: 0
+      dayMask: 127
+      zone: residence
+      objectId: 
+      position: {x: 7.5999994, y: 0}
+      action: 9
+    - hour: 6
+      minute: 14
+      dayMask: 127
+      zone: alley
+      objectId: 
+      position: {x: 7.5999994, y: -1.5}
+      action: 2
+    - hour: 8
+      minute: 14
+      dayMask: 127
+      zone: city
+      objectId: 
+      position: {x: 7.5999994, y: -1.2}
+      action: 2
+    - hour: 10
+      minute: 0
+      dayMask: 127
+      zone: alley
+      objectId: 
+      position: {x: 7.5999994, y: -0.5}
+      action: 2
+    - hour: 12
+      minute: 21
+      dayMask: 127
+      zone: city
+      objectId: 
+      position: {x: 7.5999994, y: -7.4}
+      action: 2
+    - hour: 12
+      minute: 25
+      dayMask: 127
+      zone: city
+      objectId: 
+      position: {x: 7.5999994, y: -1.2}
+      action: 10
+    - hour: 14
+      minute: 0
+      dayMask: 127
+      zone: alley
+      objectId: 
+      position: {x: 7.5999994, y: -1.5}
+      action: 10
+    - hour: 17
+      minute: 14
+      dayMask: 127
+      zone: city
+      objectId: 
+      position: {x: 7.5999994, y: -1.2}
+      action: 2
+    - hour: 18
+      minute: 10
+      dayMask: 127
+      zone: city
+      objectId: 
+      position: {x: 7.5999994, y: -1.2}
+      action: 10
+    - hour: 20
+      minute: 14
+      dayMask: 127
+      zone: alley
+      objectId: 
+      position: {x: 7.5999994, y: -1.2}
+      action: 2
+    - hour: 22
+      minute: 14
+      dayMask: 127
+      zone: residence
+      objectId: 
+      position: {x: 7.5999994, y: 0}
+      action: 7

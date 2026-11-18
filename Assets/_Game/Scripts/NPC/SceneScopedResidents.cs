@@ -38,7 +38,7 @@ namespace IanGame
                 if (r.actor != null)
                 {
                     world.objects = world.objects.Where(o => o != r.actor).ToArray();
-                    Destroy(r.actor.gameObject);
+                    ReleaseScopedActor(r);
                 }
             }
 
@@ -55,6 +55,7 @@ namespace IanGame
             residents = Array.Empty<Resident>();
             navigation.Clear();
             world.Service.AdvanceAbsentResidents();
+            RefreshPopulationBudget();
             var room = world.Room.roomId;
             foreach (var n in world.Service.State.residents.Where(n => n.zone == room).ToArray())
             {
@@ -76,7 +77,12 @@ namespace IanGame
         {
             var d = world.Service.rules.npcs.FirstOrDefault(d => d.npcId == saved.id);
             var template = residentPrefabs.FirstOrDefault(a => a.npcId == saved.id);
-            if (d == null || template == null || residents.Any(r => r.definition.npcId == saved.id))
+            if (
+                d == null
+                || template == null
+                || !AdmitResident(d)
+                || residents.Any(r => r.definition.npcId == saved.id)
+            )
             {
                 return;
             }
@@ -123,7 +129,7 @@ namespace IanGame
                 return;
             }
 
-            var a = Instantiate(template, world.transform);
+            var a = AcquireScopedActor(template, d);
             a.name = d.npcId;
             a.zone = local;
             a.transform.position = p;
@@ -145,6 +151,7 @@ namespace IanGame
                 actor = a,
                 definition = d,
                 animation = a.GetComponent<WorldActorAnimation>(),
+                baseColor = a.visual.color,
                 target = target,
                 active = true,
                 index = -1,
@@ -161,9 +168,31 @@ namespace IanGame
         void RefreshScoped()
         {
             Capture();
+            RefreshPopulationBudget();
+            foreach (var resident in residents)
+            {
+                if (
+                    resident.definition.ambient
+                    && !AdmitResident(resident.definition)
+                    && OutsidePopulationView(resident.actor.transform.position)
+                )
+                {
+                    resident.actor.zone = resident.definition.homeZone;
+                    var saved = world.Service.State.residents.Find(n => n.id == resident.definition.npcId);
+                    if (saved != null)
+                    {
+                        saved.zone = resident.definition.homeZone;
+                        saved.action = NPCDailyAction.Rest;
+                    }
+                }
+            }
+
             foreach (var r in residents.Where(r => r.actor.zone != world.Room.roomId).ToArray())
             {
                 r.slot?.Release(r.definition.npcId);
+                r.departureSlot?.Release(r.definition.npcId);
+                r.door?.Release(r.definition.npcId);
+                r.interiorDoor?.Release(r.definition.npcId);
                 world.objects = world.objects.Where(o => o != r.actor).ToArray();
                 actors = actors.Where(a => a != r.actor).ToArray();
                 int i = Array.IndexOf(residents, r);
@@ -177,11 +206,12 @@ namespace IanGame
                     activityLabels = activityLabels.Where((l, index) => index != i).ToArray();
                 }
 
-                Destroy(r.actor.gameObject);
+                ReleaseScopedActor(r);
                 residents = residents.Where(x => x != r).ToArray();
             }
 
             world.Service.AdvanceAbsentResidents();
+            int arrivals = 0;
             foreach (var n in world.Service.State.residents.ToArray())
             {
                 var d = world.Service.rules.npcs.FirstOrDefault(d => d.npcId == n.id);
@@ -195,7 +225,17 @@ namespace IanGame
                 ];
                 if (n.zone == world.Room.roomId || target.zone == world.Room.roomId)
                 {
+                    if (lifeProfile != null && arrivals >= lifeProfile.maxArrivalsPerTick)
+                    {
+                        break;
+                    }
+
+                    int before = residents.Length;
                     SpawnScoped(n, false);
+                    if (residents.Length > before)
+                    {
+                        arrivals++;
+                    }
                 }
             }
         }

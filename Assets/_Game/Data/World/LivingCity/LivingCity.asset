@@ -1,0 +1,94 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceec2cb7cf325403cb6af54ca9b1aeb7, type: 3}
+  m_Name: LivingCity
+  m_EditorClassIdentifier: Assembly-CSharp::IanGame.WorldLifeProfile
+  zones:
+  - zoneId: city
+    identity: Commercial / commute / consumption
+    ambientCapacity: 8
+    bands:
+    - fromHour: 0
+      ambientResidents: 1
+      vehicles: 2
+    - fromHour: 6
+      ambientResidents: 3
+      vehicles: 3
+    - fromHour: 8
+      ambientResidents: 8
+      vehicles: 6
+    - fromHour: 10
+      ambientResidents: 4
+      vehicles: 4
+    - fromHour: 12
+      ambientResidents: 6
+      vehicles: 5
+    - fromHour: 14
+      ambientResidents: 4
+      vehicles: 4
+    - fromHour: 17
+      ambientResidents: 8
+      vehicles: 6
+    - fromHour: 20
+      ambientResidents: 4
+      vehicles: 4
+    - fromHour: 23
+      ambientResidents: 2
+      vehicles: 2
+  - zoneId: alley
+    identity: Residential / quiet routines
+    ambientCapacity: 4
+    bands:
+    - fromHour: 0
+      ambientResidents: 1
+      vehicles: 0
+    - fromHour: 6
+      ambientResidents: 3
+      vehicles: 0
+    - fromHour: 8
+      ambientResidents: 4
+      vehicles: 0
+    - fromHour: 10
+      ambientResidents: 4
+      vehicles: 0
+    - fromHour: 12
+      ambientResidents: 4
+      vehicles: 0
+    - fromHour: 14
+      ambientResidents: 4
+      vehicles: 0
+    - fromHour: 17
+      ambientResidents: 4
+      vehicles: 0
+    - fromHour: 20
+      ambientResidents: 4
+      vehicles: 0
+    - fromHour: 23
+      ambientResidents: 2
+      vehicles: 0
+  - zoneId: shop
+    identity: Convenience / meals between shifts
+    ambientCapacity: 1
+    bands:
+    - fromHour: 0
+      ambientResidents: 0
+      vehicles: 0
+    - fromHour: 7
+      ambientResidents: 1
+      vehicles: 0
+    - fromHour: 23
+      ambientResidents: 0
+      vehicles: 0
+  populationTickSeconds: 1
+  maxArrivalsPerTick: 2
+  trafficDecisionSeconds: 0.25
+  offscreenMargin: 2

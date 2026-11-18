@@ -43,7 +43,12 @@ namespace IanGame
                     float angle = i * Mathf.PI * 2 / count;
                     var p =
                         requested
-                        + (ring == 0 ? Vector2.zero : new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * (ring * .65f));
+                        + (
+                            ring == 0
+                                ? Vector2.zero
+                                : new Vector2(Mathf.Cos(angle), Mathf.Sin(angle))
+                                    * (ring * (NPCCrowdSpace.Clearance + .1f))
+                        );
                     var safe = world.Safe(world.CurrentZone, p - world.CurrentZone.origin);
                     if (
                         !SidewalkOrCrossing(p)
@@ -90,7 +95,13 @@ namespace IanGame
                     float angle = i * Mathf.PI * 2 / count;
                     var p =
                         origin
-                        + (ring == 0 ? Vector2.zero : new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * ring * .65f);
+                        + (
+                            ring == 0
+                                ? Vector2.zero
+                                : new Vector2(Mathf.Cos(angle), Mathf.Sin(angle))
+                                    * ring
+                                    * (NPCCrowdSpace.Clearance + .1f)
+                        );
                     if (
                         !SidewalkOrCrossing(p)
                         || !WorldNPCNavigation.StaticFree(p)
@@ -102,7 +113,9 @@ namespace IanGame
 
                     if (
                         residents.Any(other =>
-                            other != r && other.hasPersonalGoal && Vector2.Distance(other.personalGoal, p) < .6f
+                            other != r
+                            && other.hasPersonalGoal
+                            && Vector2.Distance(other.personalGoal, p) < NPCCrowdSpace.Clearance + .05f
                         )
                     )
                     {

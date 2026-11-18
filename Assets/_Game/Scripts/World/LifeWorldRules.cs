@@ -52,6 +52,7 @@ namespace IanGame
         Rest,
         Talk,
         Sleep,
+        Phone,
     }
 
     public enum NPCPersonality
@@ -97,6 +98,12 @@ namespace IanGame
     {
         public string npcId;
         public string title;
+        public bool ambient;
+        public UrbanNPCArchetype archetype;
+
+        [TextArea]
+        public string ambientLine;
+        public Vector2[] ambientOffsets = Array.Empty<Vector2>();
         public string homeZone = "residence";
         public string jobId;
         public string workZone;

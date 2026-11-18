@@ -23,6 +23,9 @@ namespace IanGame
         [Range(0, 1)]
         public float paletteStrength = .65f;
         public float preferredHalfHeight = 4.5f;
+
+        [Min(0)]
+        public float roofViewPadding;
         public int environmentAnimationBudget = 8;
         public VisualWeather weather = VisualWeather.Clear;
         public AudioClip ambience;

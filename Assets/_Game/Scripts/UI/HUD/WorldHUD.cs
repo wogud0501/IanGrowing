@@ -528,7 +528,25 @@ namespace IanGame
                     : target.kind == WorldInteractionKind.Fridge ? $"쌀 {s.rice} · 빵 {s.bread}"
                     : ""
                 );
-            if (FamilyLife.Parent(target.npcId))
+            var ambient = Array.Find(game.world.rules.npcs, n => n.ambient && n.npcId == target.npcId);
+            if (ambient != null)
+            {
+                contextTitle.text = target.title + " · 주변 주민";
+                Choice(
+                    "잠깐 말 걸기",
+                    () =>
+                    {
+                        CloseContext();
+                        var scheduler = world.GetComponent<WorldNPCScheduler>();
+                        Notify(
+                            scheduler != null && scheduler.GreetAmbient(target.npcId, world.Player.Position)
+                                ? ambient.ambientLine
+                                : "주민이 이동 중입니다. 조금 뒤에 다시 말을 걸어보세요."
+                        );
+                    }
+                );
+            }
+            else if (FamilyLife.Parent(target.npcId))
             {
                 contextTitle.text = target.title + " · 가족";
                 Choice("가족과 이야기하기", () => world.Begin(target, -1));

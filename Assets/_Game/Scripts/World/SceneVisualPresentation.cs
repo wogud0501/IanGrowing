@@ -11,6 +11,8 @@ namespace IanGame
         public LifeWorldController world;
         public SceneVisualProfile profile;
         public SpriteRenderer[] emissive = Array.Empty<SpriteRenderer>();
+        public SpriteRenderer[] nightWindows = Array.Empty<SpriteRenderer>();
+        public Color CharacterTint { get; private set; } = Color.white;
         public event Action<string> AudioCueRequested;
         public VisualWeather Weather => profile == null ? VisualWeather.Clear : profile.weather;
 
@@ -26,7 +28,9 @@ namespace IanGame
                 return;
             }
 
-            var tint = Color.Lerp(Color.white, profile.AtHour(hour), profile.paletteStrength);
+            float visualHour =
+                world != null && world.Service != null ? (float)(world.Service.Game.clock.SubDaySeconds / 3600) : hour;
+            var tint = Color.Lerp(Color.white, profile.AtHour(visualHour), profile.paletteStrength);
             foreach (var pair in bases)
             {
                 var renderer = pair.Key;
@@ -39,7 +43,16 @@ namespace IanGame
                 renderer.color = new Color(c.r * tint.r, c.g * tint.g, c.b * tint.b, c.a);
             }
 
+            CharacterTint = Color.Lerp(tint, Color.white, .3f);
             bool night = hour < 6 || hour >= 19;
+            foreach (var window in nightWindows)
+            {
+                if (window != null)
+                {
+                    window.enabled = night;
+                    window.color = Color.white;
+                }
+            }
             foreach (var lamp in lamps)
             {
                 if (lamp != null)
@@ -59,7 +72,7 @@ namespace IanGame
             if (world.Player != null)
             {
                 var c = world.Player.sprite.color;
-                world.Player.sprite.color = new Color(tint.r, tint.g, tint.b, c.a);
+                world.Player.sprite.color = new Color(CharacterTint.r, CharacterTint.g, CharacterTint.b, c.a);
             }
 
             if (world.follow?.target != null)

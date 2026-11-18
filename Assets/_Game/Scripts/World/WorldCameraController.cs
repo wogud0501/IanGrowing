@@ -10,6 +10,12 @@ namespace IanGame
         public Vector2 outdoorDeadZone = new Vector2(.45f, .25f);
         Vector3 velocity;
         bool snap = true;
+        SceneVisualPresentation presentation;
+
+        void Awake()
+        {
+            presentation = world == null ? null : world.GetComponent<SceneVisualPresentation>();
+        }
 
         public void Snap()
         {
@@ -43,8 +49,14 @@ namespace IanGame
                 w = h * target.aspect;
             var p = world.Player.Position;
             var center = z.origin + (world.Room == null ? Vector2.zero : world.Room.cameraOffset);
+            float roofPadding =
+                z.outdoor && presentation != null && presentation.profile != null
+                    ? Mathf.Max(0, presentation.profile.roofViewPadding)
+                    : 0;
+            // Extend only the camera's northern view. Player/navigation bounds are unchanged.
+            center.y += roofPadding * .5f;
             float hx = z.size.x / 2,
-                hy = z.size.y / 2;
+                hy = (z.size.y + roofPadding) / 2;
             float x = hx > w ? Mathf.Clamp(p.x, center.x - hx + w, center.x + hx - w) : center.x;
             float y = hy > h ? Mathf.Clamp(p.y + .8f, center.y - hy + h, center.y + hy - h) : center.y;
             var desired = new Vector3(x, y, -10);

@@ -1,0 +1,152 @@
+{
+  "residential_day": {
+    "candidate": "residential_day",
+    "status": "APPROVED_REFERENCE",
+    "qa": "Approved location reference: ordinary brick homes, jade stairwell, unobstructed pavement. Pixel cleanup required before runtime use."
+  },
+  "independent_home": {
+    "candidate": "independent_home_b",
+    "status": "APPROVED_REFERENCE",
+    "qa": "Approved sparse room reference, one bed; architecture varies from authored Home, so no automatic floorplan replacement."
+  },
+  "apartment_exterior": {
+    "candidate": "apartment_exterior_b",
+    "status": "APPROVED_REFERENCE",
+    "qa": "Approved modular facade reference; clear entrance, no readable text."
+  },
+  "convenience_exterior": {
+    "candidate": "convenience_exterior_b",
+    "status": "APPROVED_REFERENCE",
+    "qa": "Approved storefront reference; blank navy/teal signage, entrance readable."
+  },
+  "urban_props": {
+    "candidate": "urban_props_a",
+    "status": "APPROVED_REFERENCE",
+    "qa": "Approved source sheet: twelve separate complete silhouettes; key background and normalize pixel scale before import."
+  },
+  "vehicles": {
+    "candidate": "vehicles_a",
+    "status": "APPROVED_REFERENCE",
+    "qa": "Approved source sheet; six full silhouettes, correct horizontal facing. Blank tiny bus markings during cleanup; no runtime lettering."
+  },
+  "apartment_module": {
+    "candidate": "apartment_module_b",
+    "status": "APPROVED_REFERENCE",
+    "qa": "Isolated complete modular facade, clear entry, magenta background, no readable AI text. Native logical pixel cleanup required."
+  },
+  "convenience_module": {
+    "candidate": "convenience_module_b",
+    "status": "APPROVED_REFERENCE",
+    "qa": "Isolated complete modular facade, clear entry, magenta background, no readable AI text. Native logical pixel cleanup required."
+  },
+  "parents_home": {
+    "candidate": "parents_home_b",
+    "status": "APPROVED_REFERENCE",
+    "qa": "Reviewed full scene composition: clear walkable routes, coherent perspective and palette, no real branding or readable AI lettering. Reference only until individual sprite cleanup."
+  },
+  "city_day": {
+    "candidate": "city_day_b",
+    "status": "APPROVED_REFERENCE",
+    "qa": "Reviewed full scene composition: clear walkable routes, coherent perspective and palette, no real branding or readable AI lettering. Reference only until individual sprite cleanup."
+  },
+  "school_exterior": {
+    "candidate": "school_exterior_a",
+    "status": "APPROVED_REFERENCE",
+    "qa": "Reviewed full scene composition: clear walkable routes, coherent perspective and palette, no real branding or readable AI lettering. Reference only until individual sprite cleanup."
+  },
+  "classroom": {
+    "candidate": "classroom_a",
+    "status": "APPROVED_REFERENCE",
+    "qa": "Reviewed full scene composition: clear walkable routes, coherent perspective and palette, no real branding or readable AI lettering. Reference only until individual sprite cleanup."
+  },
+  "school_hallway": {
+    "candidate": "school_hallway_b",
+    "status": "APPROVED_REFERENCE",
+    "qa": "Reviewed full scene composition: clear walkable routes, coherent perspective and palette, no real branding or readable AI lettering. Reference only until individual sprite cleanup."
+  },
+  "office_day": {
+    "candidate": "office_day_b",
+    "status": "APPROVED_REFERENCE",
+    "qa": "Reviewed full scene composition: clear walkable routes, coherent perspective and palette, no real branding or readable AI lettering. Reference only until individual sprite cleanup."
+  },
+  "cafe": {
+    "candidate": "cafe_a",
+    "status": "APPROVED_REFERENCE",
+    "qa": "Reviewed full scene composition: clear walkable routes, coherent perspective and palette, no real branding or readable AI lettering. Reference only until individual sprite cleanup."
+  },
+  "finance": {
+    "candidate": "finance_a",
+    "status": "APPROVED_REFERENCE",
+    "qa": "Reviewed full scene composition: clear walkable routes, coherent perspective and palette, no real branding or readable AI lettering. Reference only until individual sprite cleanup."
+  },
+  "realestate": {
+    "candidate": "realestate_b",
+    "status": "APPROVED_REFERENCE",
+    "qa": "Reviewed full scene composition: clear walkable routes, coherent perspective and palette, no real branding or readable AI lettering. Reference only until individual sprite cleanup."
+  },
+  "furniture_store": {
+    "candidate": "furniture_store_a",
+    "status": "APPROVED_REFERENCE",
+    "qa": "Reviewed full scene composition: clear walkable routes, coherent perspective and palette, no real branding or readable AI lettering. Reference only until individual sprite cleanup."
+  },
+  "clinic": {
+    "candidate": "clinic_b",
+    "status": "APPROVED_REFERENCE",
+    "qa": "Reviewed full scene composition: clear walkable routes, coherent perspective and palette, no real branding or readable AI lettering. Reference only until individual sprite cleanup."
+  },
+  "irony_props": {
+    "candidate": "irony_props_a",
+    "status": "APPROVED_REFERENCE",
+    "qa": "Reviewed full scene composition: clear walkable routes, coherent perspective and palette, no real branding or readable AI lettering. Reference only until individual sprite cleanup."
+  },
+  "convenience_interior_clean": {
+    "candidate": "convenience_interior_clean_b",
+    "status": "APPROVED_REFERENCE",
+    "qa": "Reviewed full scene composition: clear walkable routes, coherent perspective and palette, no real branding or readable AI lettering. Reference only until individual sprite cleanup."
+  },
+  "npc_clean": {
+    "candidate": "npc_clean_b",
+    "status": "APPROVED_REFERENCE",
+    "qa": "Reviewed full scene composition: clear walkable routes, coherent perspective and palette, no real branding or readable AI lettering. Reference only until individual sprite cleanup."
+  },
+  "furnished_home": {
+    "candidate": "furnished_home_b",
+    "status": "APPROVED_REFERENCE",
+    "qa": "Reviewed full scene composition: clear walkable routes, coherent perspective and palette, no real branding or readable AI lettering. Reference only until individual sprite cleanup."
+  },
+  "residential_evening": {
+    "candidate": "residential_evening_a",
+    "status": "APPROVED_REFERENCE",
+    "qa": "Matched against selected base location. Doors, building footprints, road and desks retained; only lighting/weather changes. No new runtime background."
+  },
+  "residential_rain": {
+    "candidate": "residential_rain_b",
+    "status": "APPROVED_REFERENCE",
+    "qa": "Matched against selected base location. Doors, building footprints, road and desks retained; only lighting/weather changes. No new runtime background."
+  },
+  "city_evening": {
+    "candidate": "city_evening_b",
+    "status": "APPROVED_REFERENCE",
+    "qa": "Matched against selected base location. Doors, building footprints, road and desks retained; only lighting/weather changes. No new runtime background."
+  },
+  "city_night": {
+    "candidate": "city_night_a",
+    "status": "APPROVED_REFERENCE",
+    "qa": "Matched against selected base location. Doors, building footprints, road and desks retained; only lighting/weather changes. No new runtime background."
+  },
+  "city_rain": {
+    "candidate": "city_rain_b",
+    "status": "APPROVED_REFERENCE",
+    "qa": "Matched against selected base location. Doors, building footprints, road and desks retained; only lighting/weather changes. No new runtime background."
+  },
+  "office_night": {
+    "candidate": "office_night_a",
+    "status": "APPROVED_REFERENCE",
+    "qa": "Matched against selected base location. Doors, building footprints, road and desks retained; only lighting/weather changes. No new runtime background."
+  },
+  "store_props": {
+    "candidate": "store_props_a",
+    "status": "APPROVED_REFERENCE",
+    "qa": "Six full isolated complete store props, blank labels, coherent elevated view. Source used for native pixel cleanup and separate sprites."
+  }
+}

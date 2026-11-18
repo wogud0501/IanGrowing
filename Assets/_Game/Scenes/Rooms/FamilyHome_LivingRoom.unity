@@ -73978,6 +73978,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5be56845d3f57a4fb05d32f868ffe9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::IanGame.WorldNPCScheduler
+  lifeProfile: {fileID: 11400000, guid: d086b65d70a3b4abe85adbb86ae57a05, type: 2}
   sceneScoped: 1
   residentPrefabs:
   - {fileID: 1439439858229917993, guid: 886134fde3f3542dfa5f635196c441c6, type: 3}
@@ -73997,6 +73998,14 @@ MonoBehaviour:
   - {fileID: 8563322440851317248, guid: 313436f8dd541442090e85bf09eca4d1, type: 3}
   - {fileID: 7971726893515325749, guid: 34e9750eae5104315adc6ce397d68320, type: 3}
   - {fileID: 889376602977773452, guid: ff53a085ad39d408b903cb062c2765b6, type: 3}
+  - {fileID: 5120753340420457890, guid: 3be02c98645e644dc84a098e398ce6c4, type: 3}
+  - {fileID: 524961162581646398, guid: 5c267f10ddf90482fb1aa855322b6c15, type: 3}
+  - {fileID: 2554188249749844833, guid: f9fd4a198dba44d27aa93662ba08380f, type: 3}
+  - {fileID: 9166762104889676090, guid: e62826553cfcc44e59d1d0441a86d2f4, type: 3}
+  - {fileID: 7531871630583189547, guid: 2ec9e63484ad045d3afbb037fc0ee8e0, type: 3}
+  - {fileID: 1329625570099473911, guid: 8b25a875403d2415190f4e46925550fb, type: 3}
+  - {fileID: 6838060756924718765, guid: 73968eb1d2ae544e08187f059fca926f, type: 3}
+  - {fileID: 245607129232601410, guid: ada08faa942d546cb936c488088f335f, type: 3}
   labelPrefab: {fileID: 6056983949148390967, guid: bdab677c41b7f41c2b93013a180a283a, type: 3}
   world: {fileID: 2122785948}
   actors: []
@@ -74129,6 +74138,7 @@ MonoBehaviour:
   world: {fileID: 2122785948}
   profile: {fileID: 11400000, guid: fafd3819a0ec1441295b9a63750881cf, type: 2}
   emissive: []
+  nightWindows: []
 --- !u!1 &2124492566
 GameObject:
   m_ObjectHideFlags: 0

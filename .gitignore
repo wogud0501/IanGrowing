@@ -41,3 +41,8 @@
 # Authored Editor build tools are source, not generated build output.
 !/Assets/_Game/Scripts/Editor/Build/
 !/Assets/_Game/Scripts/Editor/Build/**
+
+# Regenerable Higgsfield candidate rasters stay local; requests, URLs and selected sources are versioned.
+/ArtSource/Higgsfield/Raw/*.png
+/ArtSource/Higgsfield/Raw/*.stderr.log
+/Tools/Higgsfield/__pycache__/
