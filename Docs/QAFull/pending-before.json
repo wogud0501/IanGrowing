@@ -1,0 +1,16 @@
+{
+  "passed": [
+    "New game routes Home",
+    "Real earned M023 restored",
+    "Delivery gateway",
+    "Repeated empty reconciliation 0",
+    "Repeated empty reconciliation 1",
+    "Repeated empty reconciliation 2",
+    "Repeated empty reconciliation 3",
+    "receipts 9 -> 13 disk writes 4"
+  ],
+  "failures": [
+    "System.Exception: Empty reconciliation has no disk writes or ledger growth\n  at MCPDynamicCode+<>c__DisplayClass0_0.<Execute>b__0 (System.Boolean ok, System.String label) [0x00009] in <84f42abe943e44128793e792ab2f0c0e>:0 \n  at MCPDynamicCode+<>c__DisplayClass0_0+<<Execute>g__Suite|3>d.MoveNext () [0x002de] in <84f42abe943e44128793e792ab2f0c0e>:0 \n  at MCPDynamicCode+<>c__DisplayClass0_0+<<Execute>g__Drive|4>d.MoveNext () [0x0008a] in <84f42abe943e44128793e792ab2f0c0e>:0 "
+  ],
+  "LastFilesUnchanged": true
+}

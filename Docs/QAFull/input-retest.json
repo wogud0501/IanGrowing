@@ -1,0 +1,11 @@
+{
+  "passed": [
+    "New game routes Home",
+    "Independent home",
+    "focus=True window= moveAllowed=True canControl=True key=True input=(0.00, 0.00) lock=False busy=False zone=home saved=home shell= speed=0"
+  ],
+  "failures": [
+    "System.Exception: Input action -> Rigidbody W displacement 0\n  at MCPDynamicCode+<>c__DisplayClass0_0.<Execute>b__0 (System.Boolean ok, System.String label) [0x00009] in <6972b58cbc8d4a6684bdbc650a7ec33b>:0 \n  at MCPDynamicCode+<>c__DisplayClass0_0+<<Execute>g__Suite|3>d.MoveNext () [0x005c7] in <6972b58cbc8d4a6684bdbc650a7ec33b>:0 \n  at MCPDynamicCode+<>c__DisplayClass0_0+<<Execute>g__Drive|4>d.MoveNext () [0x0008a] in <6972b58cbc8d4a6684bdbc650a7ec33b>:0 "
+  ],
+  "LastFilesUnchanged": true
+}

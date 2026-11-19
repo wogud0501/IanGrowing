@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Text;
 using System.Text.RegularExpressions;
 using UnityEngine;
 
@@ -52,6 +53,8 @@ namespace IanGame
 
     public class SaveManager : MonoBehaviour
     {
+        const int MaximumSaveBytes = 16 * 1024 * 1024;
+
         public event Action<bool> WriteCompleted;
 
         void PublishWrite(bool success)
@@ -432,7 +435,17 @@ namespace IanGame
 
                 Directory.CreateDirectory(Application.persistentDataPath);
                 string temp = target + ".tmp";
-                File.WriteAllText(temp, JsonUtility.ToJson(d, true));
+                string json = JsonUtility.ToJson(d, true);
+                if (Encoding.UTF8.GetByteCount(json) > MaximumSaveBytes)
+                {
+                    json = JsonUtility.ToJson(d);
+                    if (Encoding.UTF8.GetByteCount(json) > MaximumSaveBytes)
+                    {
+                        throw new InvalidDataException("저장 용량 한도를 초과했습니다. 이전 저장은 유지됩니다.");
+                    }
+                }
+
+                File.WriteAllText(temp, json);
                 if (File.Exists(target))
                 {
                     try
@@ -539,7 +552,7 @@ namespace IanGame
                     return false;
                 }
 
-                if (new FileInfo(path).Length > 8 * 1024 * 1024)
+                if (new FileInfo(path).Length > MaximumSaveBytes)
                 {
                     throw new InvalidDataException("저장 크기 오류");
                 }

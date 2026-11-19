@@ -1,0 +1,137 @@
+{
+  "result": {
+    "success": true,
+    "message": "Test job status retrieved.",
+    "error": null,
+    "data": {
+      "job_id": "30e3e8af8c06424ab9bf264823cac5c7",
+      "status": "succeeded",
+      "mode": "PlayMode",
+      "started_unix_ms": 1795087652169,
+      "finished_unix_ms": 1795087655879,
+      "last_update_unix_ms": 1795087655879,
+      "progress": {
+        "completed": 10,
+        "total": 10,
+        "current_test_full_name": null,
+        "current_test_started_unix_ms": null,
+        "last_finished_test_full_name": "IanQA.Tests.GrowthVisualCatalogTests.InfantNeverContainsLocomotionAndAllAgeBanksHaveRealFrames",
+        "last_finished_unix_ms": 1795087655866,
+        "stuck_suspected": false,
+        "editor_is_focused": false,
+        "run_in_background": true,
+        "focus_nudge_attempts": null,
+        "focus_nudge_limit": null,
+        "focus_nudge_status": null,
+        "blocked_reason": null,
+        "failures_so_far": [],
+        "failures_capped": false
+      },
+      "error": null,
+      "result": {
+        "mode": "PlayMode",
+        "summary": {
+          "total": 10,
+          "passed": 9,
+          "failed": 0,
+          "skipped": 1,
+          "durationSeconds": 0.3303032,
+          "resultState": "Passed"
+        },
+        "results": [
+          {
+            "name": "OptionalOldSaveIsValidAndDuplicateDiscoveryIsRejected",
+            "fullName": "IanQA.Tests.CityLifeRulesTests.OptionalOldSaveIsValidAndDuplicateDiscoveryIsRejected",
+            "state": "Passed",
+            "durationSeconds": 0.0039838,
+            "message": null,
+            "stackTrace": null,
+            "output": ""
+          },
+          {
+            "name": "PersonalSpaceBlocksBothArrivalOrdersAndAllowsRetreat",
+            "fullName": "IanQA.Tests.CityLifeRulesTests.PersonalSpaceBlocksBothArrivalOrdersAndAllowsRetreat",
+            "state": "Passed",
+            "durationSeconds": 0.0006205,
+            "message": null,
+            "stackTrace": null,
+            "output": ""
+          },
+          {
+            "name": "SpatialQueryDoesNotReturnAllDistantResidents",
+            "fullName": "IanQA.Tests.CityLifeRulesTests.SpatialQueryDoesNotReturnAllDistantResidents",
+            "state": "Passed",
+            "durationSeconds": 0.0024513,
+            "message": null,
+            "stackTrace": null,
+            "output": ""
+          },
+          {
+            "name": "EquipmentModifiersNeverAccumulateOrOverwriteSavedStats",
+            "fullName": "IanQA.Tests.CollectionRulesTests.EquipmentModifiersNeverAccumulateOrOverwriteSavedStats",
+            "state": "Passed",
+            "durationSeconds": 0.0298043,
+            "message": null,
+            "stackTrace": null,
+            "output": ""
+          },
+          {
+            "name": "ProductionRandomSamplerUsesWeightedDistribution",
+            "fullName": "IanQA.Tests.CollectionRulesTests.ProductionRandomSamplerUsesWeightedDistribution",
+            "state": "Passed",
+            "durationSeconds": 0.0051977,
+            "message": null,
+            "stackTrace": null,
+            "output": ""
+          },
+          {
+            "name": "SaveValidatorRejectsDuplicatedEquipmentSlots",
+            "fullName": "IanQA.Tests.CollectionRulesTests.SaveValidatorRejectsDuplicatedEquipmentSlots",
+            "state": "Passed",
+            "durationSeconds": 0.0009521,
+            "message": null,
+            "stackTrace": null,
+            "output": ""
+          },
+          {
+            "name": "RegisteredScenarioRunnerRunsAndReportsWithoutFail",
+            "fullName": "IanQA.Tests.DeveloperQASandboxTests.RegisteredScenarioRunnerRunsAndReportsWithoutFail",
+            "state": "Skipped:Explicit",
+            "durationSeconds": 0.0002492,
+            "message": "Runs the complete runtime registry; use QA Center failed-only/category runs for iteration.",
+            "stackTrace": null,
+            "output": ""
+          },
+          {
+            "name": "SandboxCommandsSaveAndRestorePreserveSourceFiles",
+            "fullName": "IanQA.Tests.DeveloperQASandboxTests.SandboxCommandsSaveAndRestorePreserveSourceFiles",
+            "state": "Passed",
+            "durationSeconds": 0.1694475,
+            "message": null,
+            "stackTrace": null,
+            "output": ""
+          },
+          {
+            "name": "EveryAgeHasExactlyOneVisualProfileAndOriginalAdultRemainsDistinct",
+            "fullName": "IanQA.Tests.GrowthVisualCatalogTests.EveryAgeHasExactlyOneVisualProfileAndOriginalAdultRemainsDistinct",
+            "state": "Passed",
+            "durationSeconds": 0.0438212,
+            "message": null,
+            "stackTrace": null,
+            "output": ""
+          },
+          {
+            "name": "InfantNeverContainsLocomotionAndAllAgeBanksHaveRealFrames",
+            "fullName": "IanQA.Tests.GrowthVisualCatalogTests.InfantNeverContainsLocomotionAndAllAgeBanksHaveRealFrames",
+            "state": "Passed",
+            "durationSeconds": 0.0020939,
+            "message": null,
+            "stackTrace": null,
+            "output": ""
+          }
+        ]
+      }
+    },
+    "hint": null
+  }
+}

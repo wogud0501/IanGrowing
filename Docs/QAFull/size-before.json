@@ -1,0 +1,13 @@
+{
+  "passed": [
+    "New game routes Home",
+    "Persist readable baseline",
+    "Working in isolated save slot",
+    "Valid unique item receipts 65000 of length 148",
+    "write=True bytes=10701222 read=False message=저장 손상: 저장 크기 오류 / 현재 인생과 원본은 초기화하지 않습니다."
+  ],
+  "failures": [
+    "System.Exception: A successfully committed save must be readable\n  at MCPDynamicCode+<>c__DisplayClass0_0.<Execute>b__0 (System.Boolean ok, System.String label) [0x00009] in <141f6736bc554acb969151cd0957d33f>:0 \n  at MCPDynamicCode+<>c__DisplayClass0_0+<<Execute>g__Suite|3>d.MoveNext () [0x001c7] in <141f6736bc554acb969151cd0957d33f>:0 \n  at MCPDynamicCode+<>c__DisplayClass0_0+<<Execute>g__Drive|4>d.MoveNext () [0x0008a] in <141f6736bc554acb969151cd0957d33f>:0 "
+  ],
+  "LastFilesUnchanged": true
+}

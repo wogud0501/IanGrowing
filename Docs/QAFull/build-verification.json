@@ -1,0 +1,38 @@
+{
+  "executable": "Builds/QAFull/StandaloneWindows64/IanGrowing.exe",
+  "bytes": 667136,
+  "sha256": "ab35aca49c0e90c26b211aced621b60f0c615cff948bf758c4163bfa642dc6e4",
+  "file": "PE32+ executable (GUI) x86-64, for MS Windows",
+  "xcodeProjectExists": true,
+  "nativeXcodeMessage": "You have not agreed to the Xcode license agreements. Please run 'sudo xcodebuild -license' from within a Terminal window to review and agree to the Xcode and Apple SDKs license.",
+  "validSigningIdentities": "0 valid identities found",
+  "logCounts": {
+    "final-Win64": {
+      "missionConditionDepthWarnings": 0,
+      "nullReferenceExceptions": 0,
+      "compilerWarningCodes": {
+        "CS0618": 282,
+        "UAC0009": 96,
+        "UAC0005": 6,
+        "UAC1001": 4,
+        "CS0168": 2
+      }
+    },
+    "final-iOS": {
+      "missionConditionDepthWarnings": 0,
+      "nullReferenceExceptions": 0,
+      "compilerWarningCodes": {
+        "CS0618": 528,
+        "UAC0009": 144,
+        "UAC0005": 30,
+        "UAC1001": 6,
+        "CS0168": 4
+      }
+    },
+    "wine-player": {
+      "missionConditionDepthWarnings": 0,
+      "nullReferenceExceptions": 0,
+      "compilerWarningCodes": {}
+    }
+  }
+}

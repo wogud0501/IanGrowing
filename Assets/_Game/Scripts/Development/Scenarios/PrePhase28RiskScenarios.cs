@@ -93,6 +93,7 @@ namespace IanGame
                     }),
                 "2.7 부동산"
             );
+            Add("save-size", "대형 저장의 재로드와 한도 초과 시 체크포인트 보존", SaveSize, "1 기본");
             Add(
                 "corrupt-future-save",
                 "손상/미지원 저장·현재 모델 보호",
@@ -128,6 +129,43 @@ namespace IanGame
                     }),
                 "1 기본"
             );
+        }
+
+        static IEnumerator SaveSize(QAScenarioContext c)
+        {
+            var game = c.Game;
+            var original = game.items.Capture();
+            var sample = game.items.Capture();
+            try
+            {
+                string suffix = new string('r', 142);
+                sample.receipts = Enumerable.Range(0, 65000).Select(i => i.ToString("D6") + suffix).ToList();
+                game.items.Restore(sample);
+                c.Check(game.SaveAutomaticCheckpoint(out var message), "유효한 대형 체크포인트 저장 " + message);
+                c.Check(
+                    game.saves.TryReadAutomatic(out var saved, out _)
+                        && saved.items.receipts.SequenceEqual(sample.receipts),
+                    "같은 파일에서 거래 영수증 전체 복원"
+                );
+
+                long checkpoint = game.saves.LastSavedUtcTicks;
+                suffix = new string('한', 142);
+                sample.receipts = Enumerable.Range(0, 65000).Select(i => i.ToString("D6") + suffix).ToList();
+                game.items.Restore(sample);
+                c.Check(!game.SaveAutomaticCheckpoint(out _), "UTF-8 바이트 한도 초과 저장 거부");
+                c.Check(
+                    game.saves.LastSavedUtcTicks == checkpoint
+                        && game.saves.TryReadAutomatic(out var retained, out _)
+                        && retained.items.receipts.SequenceEqual(saved.items.receipts),
+                    "직전 성공 시각과 디스크 원장 보존"
+                );
+            }
+            finally
+            {
+                game.items.Restore(original);
+            }
+
+            yield break;
         }
 
         static IEnumerator Interview(QAScenarioContext c)

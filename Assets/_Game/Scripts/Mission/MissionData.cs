@@ -131,6 +131,8 @@ namespace IanGame
         public ContentUnlock unlock;
         public long target = 1;
         public string missionId;
+
+        [SerializeReference]
         public MissionCondition[] children = new MissionCondition[0];
     }
 

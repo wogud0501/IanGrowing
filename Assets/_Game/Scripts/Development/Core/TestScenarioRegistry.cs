@@ -527,13 +527,6 @@ namespace IanGame
             CollectionQAScenarios.Register(r);
             Pending(
                 "2.6 월드·장비",
-                "equipment/stats",
-                "장비 해제·확장 능력치",
-                QAStatus.NOT_IMPLEMENTED,
-                "현재 스타터 장착 경로만 구현됨. 정식 해제/확장 장비 스탯 서비스 미구현."
-            );
-            Pending(
-                "2.6 월드·장비",
                 "world/visual",
                 "문·걷기·애니메이션 품질",
                 QAStatus.MANUAL,
@@ -819,8 +812,19 @@ namespace IanGame
         static IEnumerator SceneAndUI(QAScenarioContext c)
         {
             yield return c.Commands.Navigate(SceneId.Home);
-            c.Check(GameContext.Instance.transitions.CurrentScene == SceneId.LifeWorld, "기존 홈 월드 경로");
+            var transitions = GameContext.Instance.transitions;
             var w = c.Game.world.Host;
+            var expectedRoom = transitions.roomCatalog?.Resolve(
+                FamilyLife.DefaultHome(c.Game),
+                c.Game.world.State.position,
+                c.Game.growth.Age
+            );
+            c.Check(
+                transitions.IsRoomArchitecture
+                    ? expectedRoom != null && w?.Room?.roomId == expectedRoom.roomId
+                    : transitions.CurrentScene == SceneId.LifeWorld,
+                "현재 거주지와 홈 씬 경로 일치"
+            );
             c.Require(w != null, "생활 월드 없음");
             w.hud.shell.Push(w.hud.menuPanel);
             c.Check(w.hud.shell.Depth > 0 && !w.CanControl, "메뉴 입력 차단");

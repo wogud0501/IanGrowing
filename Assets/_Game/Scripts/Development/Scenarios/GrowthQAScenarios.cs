@@ -15,7 +15,7 @@ namespace IanGame
                 {
                     id = "growth/visual-boundaries",
                     category = "성장 외형",
-                    title = "9단계 프로필·이동 권한 경계",
+                    title = "성장 프로필·이동 권한 경계",
                     description =
                         "현재 방의 실제 캐릭터에서 나이별 라이브러리와 Collider를 확인합니다. 아트 품질 판정은 수동입니다.",
                     success = "나이·외형·충돌 일치, 보행1/외출7/성인19 분리",
@@ -44,10 +44,12 @@ namespace IanGame
             var catalog = visual.catalog;
             c.Require(catalog != null, "성장 외형 카탈로그 미연결");
             c.Check(
-                c.Commands.LifecyclePresets.Count(p => p.id.StartsWith("visual/")) == 9,
-                "카탈로그에서 생성한 9개 외형 프리셋"
+                catalog.profiles.All(p =>
+                    c.Commands.LifecyclePresets.Any(preset => preset.id == "visual/" + p.id && preset.age == p.minAge)
+                ),
+                "모든 카탈로그 프로필에 해당하는 외형 프리셋"
             );
-            foreach (int age in new[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 10, 11, 13, 14, 16, 17, 18, 19 })
+            foreach (int age in new[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 10, 11, 13, 14, 16, 17, 18, 19, 29, 30, 59, 60 })
             {
                 c.Commands.SetAge(age);
                 yield return null;
@@ -70,8 +72,8 @@ namespace IanGame
             }
 
             c.Check(
-                catalog.profiles.Select(p => p.idlePreview.texture).Distinct().Count() == 9,
-                "성인 원본 포함 서로 다른 9개 외형 텍스처"
+                catalog.profiles.Select(p => p.idlePreview.texture).Distinct().Count() == catalog.profiles.Length,
+                "모든 성장 단계에 고유한 외형 텍스처"
             );
         }
     }

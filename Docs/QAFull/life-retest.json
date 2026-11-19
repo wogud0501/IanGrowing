@@ -1,0 +1,29 @@
+{
+  "passed": [
+    "New game routes Home",
+    "Newborn age/cash/debt match original design",
+    "Newborn cannot walk through motor execution; observed displacement=0",
+    "No newborn walk/run motion",
+    "Immobile newborn can reach existing bed care without adult walking",
+    "Newborn action rejected 0",
+    "Newborn action rejected 7",
+    "Newborn action rejected 20",
+    "Newborn action rejected 21",
+    "Newborn action rejected 26",
+    "Newborn travel and direct finance blocked",
+    "Newborn actual disk checkpoint",
+    "Reload preserves birth acknowledgement and accessible care",
+    "Actual bed care for M001",
+    "Natural conditions M001",
+    "Natural claim M001",
+    "Natural reward dedup M001",
+    "Actual bed care for M002",
+    "Natural conditions M002",
+    "Natural claim M002",
+    "Natural reward dedup M002"
+  ],
+  "failures": [
+    "System.Exception: Actual bed care for M003\n  at MCPDynamicCode+<>c__DisplayClass0_0.<Execute>b__0 (System.Boolean ok, System.String label) [0x00009] in <08347eae919f4e09a2e3a5b8697acb91>:0 \n  at IanGame.Editor.PrePhase28Verification+<Natural>d__5.MoveNext () [0x0020b] in /Users/hyunwol/IanGrowing/Assets/_Game/Scripts/Development/Verification/PrePhase28Verification.cs:185 \n  at MCPDynamicCode+<>c__DisplayClass0_0+<<Execute>g__Drive|4>d.MoveNext () [0x0008a] in <08347eae919f4e09a2e3a5b8697acb91>:0 "
+  ],
+  "LastFilesUnchanged": true
+}

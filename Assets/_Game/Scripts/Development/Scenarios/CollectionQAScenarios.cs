@@ -29,6 +29,7 @@ namespace IanGame
             Add("items/pity", "50/100/300 경계·중복 방지", Pity);
             Add("items/save", "장착·분해·도감·디스크 복원", Save);
             Add("items/migration", "기존 스타터 장비 이전", Migration);
+            Add("equipment/stats", "장비 해제 시 다른 슬롯과 급여 보존", Unequip);
             Add("items/effects", "장비 교체·노동 효율", Effects);
         }
 
@@ -161,6 +162,25 @@ namespace IanGame
             );
             c.Check(c.Game.missions.State.claimedMissionIds.SequenceEqual(missions), "완료 미션 목록 보존");
             yield break;
+        }
+
+        static IEnumerator Unequip(QAScenarioContext c)
+        {
+            c.Commands.Fixture();
+            yield return c.Commands.Navigate(SceneId.Home, true);
+
+            var game = c.Game;
+            game.phase23.Progress.employment.currentJobId = "convenience";
+            var items = game.items;
+            var equipment = items.Equipment;
+            int baseWage = game.phase23.Work.Wage;
+            c.Require(items.DebugGive("work-badge", 1) && items.DebugGive("headphone-wired", 1), "장비 두 슬롯 준비");
+            c.Check(equipment.Equip("qa/slots/work", "work-badge", out _), "업무 배지 장착");
+            c.Check(equipment.Equip("qa/slots/phones", "headphone-wired", out _), "별도 헤드폰 슬롯 장착");
+            c.Check(game.phase23.Work.Wage > baseWage, "배지 급여 효과 적용");
+            c.Check(equipment.Unequip("qa/slots/remove", EquipmentSlot.Equipment, out _), "업무 장비만 해제");
+            c.Check(game.phase23.Work.Wage == baseWage, "해제한 배지의 급여 효과 제거");
+            c.Check(equipment.Current(EquipmentSlot.Headphone) == "headphone-wired", "다른 장착 슬롯 보존");
         }
 
         static IEnumerator Effects(QAScenarioContext c)

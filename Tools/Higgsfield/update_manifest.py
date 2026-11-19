@@ -66,7 +66,11 @@ def main():
               '- Initial CLI batch_size=2 requested two candidates but returned one result. Thus 65 candidates were requested, 64 completed result IDs were returned/downloaded, and one initial result ID remains unavailable. Later candidates used separately recorded single requests; no hidden result is claimed as verified.',
               '- Candidate rasters remain local outside Unity and Git. Selected source images, requests, results and download URLs are retained for reproduction.',
               '- No third-party game screenshots or real logos were used.']
-    (ROOT / 'Docs/HIGGSFIELD_ASSET_MANIFEST.md').write_text('\n'.join(lines) + '\n')
+    document = ROOT / 'Docs/HIGGSFIELD_ASSET_MANIFEST.md'
+    separator = '\n## Master Reference 12\n'
+    previous = document.read_text() if document.exists() else ''
+    appendix = separator + previous.split(separator, 1)[1] if separator in previous else ''
+    document.write_text('\n'.join(lines) + '\n' + appendix)
     print('Candidates:', len(records), '; selected:', len(selections), '; converted:', len(converted))
 
 

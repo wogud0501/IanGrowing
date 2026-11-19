@@ -1,0 +1,20 @@
+{
+  "passed": [
+    "New game routes Home",
+    "Persist readable baseline",
+    "Working in isolated save slot",
+    "Valid unique item receipts 65000 of length 148",
+    "Persist equivalent legacy-format 10MiB ledger",
+    "Previous-build-sized plain JSON readable",
+    "Valid unique item receipts 56000 of length 102",
+    "Compact borderline valid checkpoint",
+    "Compact checkpoint round trip with 56000 receipts",
+    "compact file bytes=16649158",
+    "Valid unique item receipts 65000 of length 148",
+    "Oversize write explicitly refused",
+    "Previous checkpoint bytes and last-success timestamp preserved",
+    "Previous slot still loadable after rejected save"
+  ],
+  "failures": [],
+  "LastFilesUnchanged": true
+}

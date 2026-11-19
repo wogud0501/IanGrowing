@@ -121,8 +121,10 @@ namespace IanGame
                 return;
             }
 
-            retry = Time.unscaledTime + 5;
-            DeliverPending();
+            if (!DeliverPending())
+            {
+                retry = Time.unscaledTime + 5;
+            }
         }
 
         internal bool CanUse(out string reason)
@@ -479,6 +481,17 @@ namespace IanGame
             return changed;
         }
 
+        bool MissingStarterEntitlements() =>
+            catalog != null
+            && Game.missions.Claimed("M020")
+            && (
+                !state.receipts.Contains("starter-entitlement/" + catalog.starterHeadphone)
+                || !state.receipts.Contains("starter-entitlement/" + catalog.starterEquipment)
+            );
+
+        bool CanDeliver(PendingMissionReward reward) =>
+            !reward.delivered && (reward.kind == PendingMissionRewardKind.GachaTicket || LegacyId(reward.item) != null);
+
         public bool DeliverPending()
         {
             if (busy || catalog == null)
@@ -486,11 +499,10 @@ namespace IanGame
                 return false;
             }
 
-            bool hasPending = Game.missions.State.pendingRewards.Any(r =>
-                !r.delivered && (r.kind == PendingMissionRewardKind.GachaTicket || LegacyId(r.item) != null)
-            );
-            if (!hasPending && !Game.missions.Claimed("M020") && !pending)
+            if (!Game.missions.State.pendingRewards.Any(CanDeliver) && !MissingStarterEntitlements())
             {
+                pending = false;
+                LastFailure = null;
                 return true;
             }
 
@@ -499,12 +511,15 @@ namespace IanGame
                 () =>
                 {
                     StarterEntitlements();
-                    foreach (var r in Game.missions.State.pendingRewards.Where(r => !r.delivered).ToArray())
+                    foreach (var reward in Game.missions.State.pendingRewards.Where(CanDeliver).ToArray())
                     {
-                        Game.missions.DeliverPending(r.id, this);
+                        if (!Game.missions.DeliverPending(reward.id, this))
+                        {
+                            return false;
+                        }
                     }
 
-                    return true;
+                    return !MissingStarterEntitlements();
                 },
                 out var failure,
                 false
@@ -565,7 +580,8 @@ namespace IanGame
             state.unlocked |= Unlocked;
             unlockGuide = Unlocked;
             Equipment.RefreshModifiers();
-            pending = value == null && Unlocked || Game.missions.State.pendingRewards.Any(r => !r.delivered);
+            retry = 0;
+            pending = MissingStarterEntitlements() || Game.missions.State.pendingRewards.Any(CanDeliver);
             Changed?.Invoke();
             NotifyAppearance();
         }

@@ -31,96 +31,16 @@ MonoBehaviour:
     target: 1
     missionId: 
     children:
-    - kind: 10
-      choice: 0
-      stat: 0
-      counter: 0
-      item: 0
-      unlock: 0
-      target: 1
-      missionId: M021
-      children: []
-    - kind: 10
-      choice: 0
-      stat: 0
-      counter: 0
-      item: 0
-      unlock: 0
-      target: 1
-      missionId: M022
-      children: []
-    - kind: 10
-      choice: 0
-      stat: 0
-      counter: 0
-      item: 0
-      unlock: 0
-      target: 1
-      missionId: M023
-      children: []
-    - kind: 10
-      choice: 0
-      stat: 0
-      counter: 0
-      item: 0
-      unlock: 0
-      target: 1
-      missionId: M024
-      children: []
-    - kind: 10
-      choice: 0
-      stat: 0
-      counter: 0
-      item: 0
-      unlock: 0
-      target: 1
-      missionId: M025
-      children: []
-    - kind: 10
-      choice: 0
-      stat: 0
-      counter: 0
-      item: 0
-      unlock: 0
-      target: 1
-      missionId: M026
-      children: []
-    - kind: 10
-      choice: 0
-      stat: 0
-      counter: 0
-      item: 0
-      unlock: 0
-      target: 1
-      missionId: M027
-      children: []
-    - kind: 10
-      choice: 0
-      stat: 0
-      counter: 0
-      item: 0
-      unlock: 0
-      target: 1
-      missionId: M028
-      children: []
-    - kind: 10
-      choice: 0
-      stat: 0
-      counter: 0
-      item: 0
-      unlock: 0
-      target: 1
-      missionId: M029
-      children: []
-    - kind: 3
-      choice: 0
-      stat: 0
-      counter: 104
-      item: 0
-      unlock: 0
-      target: 1
-      missionId: 
-      children: []
+    - rid: 4119027142553240492
+    - rid: 4119027142553240493
+    - rid: 4119027142553240494
+    - rid: 4119027142553240495
+    - rid: 4119027142553240496
+    - rid: 4119027142553240497
+    - rid: 4119027142553240498
+    - rid: 4119027142553240499
+    - rid: 4119027142553240500
+    - rid: 4119027142553240501
   rewards:
     gold: 300
     experience: 20
@@ -133,3 +53,126 @@ MonoBehaviour:
   completionMessage: "\uC131\uC778\uC774 \uB418\uAE30 \uC704\uD55C \uC900\uBE44\uAC00 \uC644\uB8CC\uB418\uC5C8\uC2B5\uB2C8\uB2E4. \uD658\uBD88\uC740 \uBD88\uAC00\uB2A5\uD569\uB2C8\uB2E4."
   targetAge: 19
   enterLifeReview: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: 4119027142553240492
+      type: {class: MissionCondition, ns: IanGame, asm: Assembly-CSharp}
+      data:
+        kind: 10
+        choice: 0
+        stat: 0
+        counter: 0
+        item: 0
+        unlock: 0
+        target: 1
+        missionId: M021
+        children: []
+    - rid: 4119027142553240493
+      type: {class: MissionCondition, ns: IanGame, asm: Assembly-CSharp}
+      data:
+        kind: 10
+        choice: 0
+        stat: 0
+        counter: 0
+        item: 0
+        unlock: 0
+        target: 1
+        missionId: M022
+        children: []
+    - rid: 4119027142553240494
+      type: {class: MissionCondition, ns: IanGame, asm: Assembly-CSharp}
+      data:
+        kind: 10
+        choice: 0
+        stat: 0
+        counter: 0
+        item: 0
+        unlock: 0
+        target: 1
+        missionId: M023
+        children: []
+    - rid: 4119027142553240495
+      type: {class: MissionCondition, ns: IanGame, asm: Assembly-CSharp}
+      data:
+        kind: 10
+        choice: 0
+        stat: 0
+        counter: 0
+        item: 0
+        unlock: 0
+        target: 1
+        missionId: M024
+        children: []
+    - rid: 4119027142553240496
+      type: {class: MissionCondition, ns: IanGame, asm: Assembly-CSharp}
+      data:
+        kind: 10
+        choice: 0
+        stat: 0
+        counter: 0
+        item: 0
+        unlock: 0
+        target: 1
+        missionId: M025
+        children: []
+    - rid: 4119027142553240497
+      type: {class: MissionCondition, ns: IanGame, asm: Assembly-CSharp}
+      data:
+        kind: 10
+        choice: 0
+        stat: 0
+        counter: 0
+        item: 0
+        unlock: 0
+        target: 1
+        missionId: M026
+        children: []
+    - rid: 4119027142553240498
+      type: {class: MissionCondition, ns: IanGame, asm: Assembly-CSharp}
+      data:
+        kind: 10
+        choice: 0
+        stat: 0
+        counter: 0
+        item: 0
+        unlock: 0
+        target: 1
+        missionId: M027
+        children: []
+    - rid: 4119027142553240499
+      type: {class: MissionCondition, ns: IanGame, asm: Assembly-CSharp}
+      data:
+        kind: 10
+        choice: 0
+        stat: 0
+        counter: 0
+        item: 0
+        unlock: 0
+        target: 1
+        missionId: M028
+        children: []
+    - rid: 4119027142553240500
+      type: {class: MissionCondition, ns: IanGame, asm: Assembly-CSharp}
+      data:
+        kind: 10
+        choice: 0
+        stat: 0
+        counter: 0
+        item: 0
+        unlock: 0
+        target: 1
+        missionId: M029
+        children: []
+    - rid: 4119027142553240501
+      type: {class: MissionCondition, ns: IanGame, asm: Assembly-CSharp}
+      data:
+        kind: 3
+        choice: 0
+        stat: 0
+        counter: 104
+        item: 0
+        unlock: 0
+        target: 1
+        missionId:
+        children: []

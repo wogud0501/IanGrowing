@@ -1,0 +1,10 @@
+{
+  "passed": [
+    "New game routes Home",
+    "Newborn age/cash/debt match original design"
+  ],
+  "failures": [
+    "System.InvalidOperationException: Sequence contains no matching element\n  at System.Linq.Enumerable.First[TSource] (System.Collections.Generic.IEnumerable`1[T] source, System.Func`2[T,TResult] predicate) [0x00011] in <a161b0c3dc9b452a8233caa46a54fd4f>:0 \n  at IanGame.Editor.PrePhase28Verification+<Birth>d__0.MoveNext () [0x00069] in /Users/hyunwol/IanGrowing/Assets/_Game/Scripts/Development/Verification/PrePhase28Verification.cs:17 \n  at MCPDynamicCode+<>c__DisplayClass0_0+<<Execute>g__Drive|4>d.MoveNext () [0x0008a] in <94755e53c5c0472183cdda70bad476c7>:0 "
+  ],
+  "LastFilesUnchanged": true
+}

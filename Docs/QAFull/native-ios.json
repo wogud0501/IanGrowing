@@ -1,0 +1,20 @@
+{
+  "exitCode": 69,
+  "configuration": "Release",
+  "sdk": "iphoneos",
+  "signed": false,
+  "command": [
+    "/usr/bin/xcodebuild",
+    "-project",
+    "Builds/QAFull/iOS/Xcode/Unity-iPhone.xcodeproj",
+    "-scheme",
+    "Unity-iPhone",
+    "-configuration",
+    "Release",
+    "-sdk",
+    "iphoneos",
+    "CODE_SIGNING_ALLOWED=NO",
+    "build"
+  ],
+  "diagnostic": "You have not agreed to the Xcode license agreements. Please run 'sudo xcodebuild -license' from within a Terminal window to review and agree to the Xcode and Apple SDKs license."
+}

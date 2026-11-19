@@ -1,0 +1,19 @@
+{
+  "passed": [
+    "New game routes Home",
+    "All six configured stocks quoted",
+    "Market unchanged one tick before interval",
+    "First order 2 shares",
+    "Market advanced one sequence at configured interval",
+    "Second order 3 shares",
+    "Weighted average matches 2+3 share cost basis",
+    "Partial sale 2 shares",
+    "Remaining basis and realized P&L match independent arithmetic",
+    "Eligible news accepted",
+    "Duplicate news occurrence has no second impact"
+  ],
+  "failures": [
+    "System.Exception: Start existing employment and automatic work\n  at MCPDynamicCode+<>c__DisplayClass0_0.<Execute>b__0 (System.Boolean ok, System.String label) [0x00009] in <7d6e4e8b96654c13acdd4192286576b0>:0 \n  at MCPDynamicCode+<>c__DisplayClass0_0+<<Execute>g__Suite|3>d.MoveNext () [0x0056c] in <7d6e4e8b96654c13acdd4192286576b0>:0 \n  at MCPDynamicCode+<>c__DisplayClass0_0+<<Execute>g__Drive|4>d.MoveNext () [0x0008a] in <7d6e4e8b96654c13acdd4192286576b0>:0 "
+  ],
+  "LastFilesUnchanged": true
+}

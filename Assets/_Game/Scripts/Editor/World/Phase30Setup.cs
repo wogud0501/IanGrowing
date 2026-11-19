@@ -754,7 +754,7 @@ namespace IanGame.Editor
                 profile.identity = key;
                 profile.paletteStrength = outdoor ? 1f : .75f;
                 profile.night =
-                    outdoor ? new Color(.12f, .2f, .4f)
+                    outdoor ? new Color(.35f, .43f, .61f)
                     : key == "Family" ? new Color(.52f, .48f, .54f)
                     : key == "Workplace" ? new Color(.59f, .68f, .83f)
                     : key == "Finance" ? new Color(.55f, .68f, .88f)

@@ -108,31 +108,7 @@ namespace IanGame
                     title = "중단된 가족 행동의 오프스크린 복구",
                     description = "렌더링 중단 후 공통 영수증으로 정산",
                     success = "재료1회 사용 및 중복 차단",
-                    run = c =>
-                        Once(() =>
-                        {
-                            var g = c.Game;
-                            g.clock.Restore(4, new TimeSnapshot { subDaySeconds = 7 * 3600 });
-                            var d = g.world.rules.npcs.Single(d => d.npcId == "family-mother");
-                            int index = WorldNPCScheduler.Schedule(d, 4, 420);
-                            long key = ((long)4 << 16) + index;
-                            var n = g.world.State.residents.Single(n => n.id == d.npcId);
-                            n.zone = "family-kitchen";
-                            n.minute = 3 * 1440 + 419;
-                            n.completedUseKey = key;
-                            var f = FamilyLife.State(g);
-                            f.ingredientCarrier = "";
-                            f.pantry = 12;
-                            f.receipts.RemoveAll(r => r.parent == d.npcId && r.target == "family-fridge");
-                            g.world.AdvanceAbsentResidents();
-                            c.Check(
-                                f.pantry == 11 && f.ingredientCarrier == d.npcId,
-                                "애니메이션 중단된 미정산 재료를 오프스크린에서 복구"
-                            );
-                            g.clock.Restore(4, new TimeSnapshot { subDaySeconds = 7 * 3600 + 60 });
-                            g.world.AdvanceAbsentResidents();
-                            c.Check(f.pantry == 11, "다음 분 같은 일정 영수증 중복 소비 없음");
-                        }),
+                    run = Receipts,
                 }
             );
             r.Register(
@@ -146,6 +122,46 @@ namespace IanGame
                     run = Load,
                 }
             );
+        }
+
+        static IEnumerator Receipts(QAScenarioContext c)
+        {
+            var g = c.Game;
+            var transitions = GameContext.Instance.transitions;
+            c.Require(Catalog != null, "방 카탈로그 미연결");
+            transitions.PrepareRoomStateRestore();
+            c.Check(
+                transitions.NavigateRoom("home", Catalog.rules.Zone("home").spawn, Vector2.down),
+                "화면 밖 가족 행동 정산 준비"
+            );
+            while (transitions.IsTransitioning)
+            {
+                yield return null;
+            }
+
+            var scheduler = g.world.Host.GetComponent<WorldNPCScheduler>();
+            c.Check(!scheduler.HasPhysicalActor("family-mother"), "부엌이 화면 밖에 있는 상태");
+
+            g.clock.Restore(4, new TimeSnapshot { subDaySeconds = 7 * 3600 });
+            var d = g.world.rules.npcs.Single(d => d.npcId == "family-mother");
+            int index = WorldNPCScheduler.Schedule(d, 4, 420);
+            long key = ((long)4 << 16) + index;
+            var n = g.world.State.residents.Single(n => n.id == d.npcId);
+            n.zone = "family-kitchen";
+            n.minute = 3 * 1440 + 419;
+            n.completedUseKey = key;
+            var f = FamilyLife.State(g);
+            f.ingredientCarrier = "";
+            f.pantry = 12;
+            f.receipts.RemoveAll(r => r.parent == d.npcId && r.target == "family-fridge");
+            g.world.AdvanceAbsentResidents();
+            c.Check(
+                f.pantry == 11 && f.ingredientCarrier == d.npcId,
+                "애니메이션 중단된 미정산 재료를 오프스크린에서 복구"
+            );
+            g.clock.Restore(4, new TimeSnapshot { subDaySeconds = 7 * 3600 + 60 });
+            g.world.AdvanceAbsentResidents();
+            c.Check(f.pantry == 11, "다음 분 같은 일정 영수증 중복 소비 없음");
         }
 
         static IEnumerator Load(QAScenarioContext c)

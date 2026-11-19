@@ -23,6 +23,7 @@ MonoBehaviour:
   - M008
   condition:
     kind: 0
+    choice: 0
     stat: 0
     counter: 0
     item: 0
@@ -30,22 +31,8 @@ MonoBehaviour:
     target: 1
     missionId: 
     children:
-    - kind: 6
-      stat: 0
-      counter: 0
-      item: 0
-      unlock: 0
-      target: 3
-      missionId: 
-      children: []
-    - kind: 8
-      stat: 0
-      counter: 0
-      item: 0
-      unlock: 0
-      target: 1
-      missionId: 
-      children: []
+    - rid: 4119027142553240481
+    - rid: 4119027142553240482
   rewards:
     gold: 50
     experience: 20
@@ -58,3 +45,30 @@ MonoBehaviour:
   completionMessage: "\uCD95\uD558\uD569\uB2C8\uB2E4. \uC0AC\uD758 \uB3D9\uC548 \uC0B4\uC544\uB0A8\uC790 \uD56D\uBAA9\uC774 \uC778\uC0DD \uBA85\uC138\uC11C\uC5D0 \uCD94\uAC00\uB418\uC5C8\uC2B5\uB2C8\uB2E4."
   targetAge: 6
   enterLifeReview: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: 4119027142553240481
+      type: {class: MissionCondition, ns: IanGame, asm: Assembly-CSharp}
+      data:
+        kind: 6
+        choice: 0
+        stat: 0
+        counter: 0
+        item: 0
+        unlock: 0
+        target: 3
+        missionId:
+        children: []
+    - rid: 4119027142553240482
+      type: {class: MissionCondition, ns: IanGame, asm: Assembly-CSharp}
+      data:
+        kind: 8
+        choice: 0
+        stat: 0
+        counter: 0
+        item: 0
+        unlock: 0
+        target: 1
+        missionId:
+        children: []

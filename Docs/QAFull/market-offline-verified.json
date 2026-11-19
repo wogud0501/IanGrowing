@@ -1,0 +1,23 @@
+{
+  "passed": [
+    "New game routes Home",
+    "All six configured stocks quoted",
+    "Market unchanged one tick before interval",
+    "First order 2 shares",
+    "Market advanced one sequence at configured interval",
+    "Second order 3 shares",
+    "Weighted average matches 2+3 share cost basis",
+    "Partial sale 2 shares",
+    "Remaining basis and realized P&L match independent arithmetic",
+    "Eligible news accepted",
+    "Duplicate news occurrence has no second impact",
+    "Enter existing workplace idle entry",
+    "Start existing employment and automatic work",
+    "Settle 10 actual simulated offline minutes",
+    "Observed 600s: cycles=0 work=0 cashDelta=0 gross=0 taxableIncome=0 pendingTax=0 due=0"
+  ],
+  "failures": [
+    "System.Exception: Eligible cycles pay exactly their recorded wages and configured tax\n  at MCPDynamicCode+<>c__DisplayClass0_0.<Execute>b__0 (System.Boolean ok, System.String label) [0x00009] in <b338554f0a0941c8ac8b504dd3239d38>:0 \n  at MCPDynamicCode+<>c__DisplayClass0_0+<<Execute>g__Suite|3>d.MoveNext () [0x008c5] in <b338554f0a0941c8ac8b504dd3239d38>:0 \n  at MCPDynamicCode+<>c__DisplayClass0_0+<<Execute>g__Drive|4>d.MoveNext () [0x0008a] in <b338554f0a0941c8ac8b504dd3239d38>:0 "
+  ],
+  "LastFilesUnchanged": true
+}

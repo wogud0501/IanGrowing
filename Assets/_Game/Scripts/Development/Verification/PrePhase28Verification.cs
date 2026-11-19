@@ -14,7 +14,7 @@ namespace IanGame.Editor
                 g.growth.Age == 0 && g.economy.Cash == 0 && g.economy.Debt == 1000000,
                 "Newborn age/cash/debt match original design"
             );
-            var bed = w.objects.First(o => o.id == "bed");
+            var bed = w.objects.First(o => o.id == (FamilyLife.IsNursery(w.CurrentZone.id) ? "family-bed" : "bed"));
             var start = w.Player.Position;
             w.Player.BeginTraversal(start + Vector2.right * .6f);
             yield return new WaitForSecondsRealtime(.4f);
@@ -162,7 +162,7 @@ namespace IanGame.Editor
             }
 
             g.world.rules.activityAnimationScale = .02f;
-            var bed = w.objects.First(o => o.id == "bed");
+            var bed = w.objects.First(o => o.id == (FamilyLife.IsNursery(w.CurrentZone.id) ? "family-bed" : "bed"));
             for (int i = 1; i <= 10; i++)
             {
                 var m = g.missionCatalog.missions.First(m => m.number == i);
@@ -182,7 +182,23 @@ namespace IanGame.Editor
                         : i == 5 ? 4
                         : i == 6 ? 1
                         : 5;
-                    check(w.Begin(bed, action), "Actual bed care for " + m.Id);
+                    float deadline = Time.realtimeSinceStartup + 5f;
+                    while (!w.CanControl && Time.realtimeSinceStartup < deadline)
+                    {
+                        yield return null;
+                    }
+
+                    if (!w.IsInReach(bed) && w.Player.MovementAllowed)
+                    {
+                        w.Player.BeginTraversal(bed.Point);
+                        while (w.Player.IsTraversing && Time.realtimeSinceStartup < deadline)
+                        {
+                            yield return null;
+                        }
+                    }
+
+                    w.CanBegin(bed, action, null, out var reason);
+                    check(w.Begin(bed, action), "Actual bed care for " + m.Id + ": " + reason);
                     while (w.Busy)
                     {
                         yield return null;

@@ -433,7 +433,13 @@ namespace IanGame.Editor
                 "Legacy M020 guarantees usable starters and real ticket"
             );
             check(g.missions.State.pendingRewards.All(r => r.delivered), "Gacha ticket pending receipt delivered");
+            int receiptCount = items.Capture().receipts.Count;
+            long savedAt = g.saves.LastSavedUtcTicks;
             items.DeliverPending();
+            check(
+                items.Capture().receipts.Count == receiptCount && g.saves.LastSavedUtcTicks == savedAt,
+                "Empty reward reconciliation preserves the receipt list and disk checkpoint"
+            );
             check(items.Inventory.Count("gacha-ticket") == 1, "Repeated pending delivery never duplicates ticket");
             long cash = g.economy.Cash;
             check(
@@ -685,7 +691,16 @@ namespace IanGame.Editor
                 "Legacy optional block and current structure validate"
             );
             items.Gacha.SetTestRoll(null);
-            check(g.world.Host.CanControl, "Core item transactions restore existing world control");
+            float deadline = Time.realtimeSinceStartup + 5f;
+            while ((g.world.Host == null || !g.world.Host.CanControl) && Time.realtimeSinceStartup < deadline)
+            {
+                yield return null;
+            }
+
+            check(
+                g.world.Host != null && g.world.Host.CanControl,
+                "Core item transactions restore existing world control"
+            );
         }
     }
 }
