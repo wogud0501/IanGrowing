@@ -11,6 +11,7 @@ namespace IanGame
     {
         Button[] preferenceActions;
         int preferenceTab = 4;
+        readonly Button[] preferenceTabs = new Button[6];
 
         void BuildSettingsCategories()
         {
@@ -29,15 +30,26 @@ namespace IanGame
                 preferenceActions[i] = Preferences.GetComponentsInChildren<Button>(true).First(b => b.name == names[i]);
             }
 
+            var root = Preferences.transform;
+            root.gameObject.AddComponent<RecordWindowBounds>();
+            LifeRecordUI.Skin(root.GetComponent<Image>(), RecordSurface.Paper);
+            var header = LifeRecordUI.Surface(root, "Settings masthead", RecordSurface.Charcoal, .012f, .88f, .988f, .984f);
+            header.transform.SetAsFirstSibling();
+            var title = root.Find("Title").GetComponent<TMP_Text>();
+            title.text = "환경 설정";
+            MissionRecordLayout.SetText(title, 30, LifeRecordUI.Paper);
+            LifeRecordUI.StyleButton(root.Find("뒤로").GetComponent<Button>());
+            LifeRecordUI.Surface(root, "Category index", RecordSurface.Inset, .022f, .04f, .283f, .855f).transform.SetAsFirstSibling();
+            LifeRecordUI.Print(root, RecordPrint.Settings, .07f, .047f, .235f, .19f);
             string[] tabs = { "게임", "오디오", "그래픽", "입력", "편의", "약관" };
             for (int i = 0; i < tabs.Length; i++)
             {
                 int index = i;
-                ui.Button(
+                preferenceTabs[i] = ui.Button(
                     Preferences.transform,
                     tabs[i],
-                    new Vector2(.035f + i * .157f, .8f),
-                    new Vector2(.18f + i * .157f, .88f),
+                    new Vector2(.039f, .738f - i * .104f),
+                    new Vector2(.266f, .827f - i * .104f),
                     () =>
                     {
                         preferenceTab = index;
@@ -46,7 +58,14 @@ namespace IanGame
                 );
             }
 
-            settingsText.rectTransform.parent.GetComponent<RectTransform>().anchorMax = new Vector2(.94f, .77f);
+            LifeRecordUI.Place((RectTransform)settingsText.rectTransform.parent, .323f, .71f, .948f, .834f);
+            for (int i = 0; i < preferenceActions.Length; i++)
+            {
+                float y = .575f - i * .101f;
+                LifeRecordUI.Place((RectTransform)preferenceActions[i].transform, .32f, y, .955f, y + .091f);
+                LifeRecordUI.StyleButton(preferenceActions[i]);
+            }
+
             RefreshPreferences();
         }
 
@@ -62,6 +81,11 @@ namespace IanGame
             if (settingsText == null || preferenceActions == null)
             {
                 return;
+            }
+
+            for (int i = 0; i < preferenceTabs.Length; i++)
+            {
+                LifeRecordUI.StyleButton(preferenceTabs[i], i == preferenceTab);
             }
 
             var actions = new List<(string, Action)>();
@@ -87,7 +111,7 @@ namespace IanGame
                 settingsText.text =
                     "오디오\n전체 음량 "
                     + Mathf.RoundToInt(AudioListener.volume * 100)
-                    + "%\n설정은 다음 실행에도 유지됩니다. 없는 사운드는 생성하지 않습니다.";
+                    + "%\n설정한 음량은 다음 실행에도 유지됩니다.";
                 actions.Add(
                     (
                         "전체 음량 변경",
@@ -121,19 +145,7 @@ namespace IanGame
             }
             else if (preferenceTab == 4)
             {
-                settingsText.text =
-                    "편의\n모션 줄이기 "
-                    + (UIShell.ReducedMotion ? "켜짐" : "꺼짐")
-                    + " · 글자 "
-                    + (PlayerPrefs.GetInt("ian.ui.largeText", 0) == 1 ? "115%" : "100%")
-                    + "\n알림 "
-                    + PlayerPrefs.GetFloat("ian.ui.noticeSeconds", 4)
-                    + "초\nUI 배율 "
-                    + (
-                        PlayerPrefs.GetInt("ian.ui.integerScale", 0) == 0
-                            ? "자동"
-                            : PlayerPrefs.GetInt("ian.ui.integerScale", 0) + "x · 화면에 맞춰 제한"
-                    );
+                settingsText.text = "<b>편의 기능</b>\n글자와 움직임을 편하게 조정하세요.";
                 actions.Add(
                     (
                         "모션 줄이기",
@@ -212,7 +224,19 @@ namespace IanGame
                 }
 
                 var action = actions[i];
-                button.GetComponentInChildren<TMP_Text>().text = action.Item1;
+                string value = action.Item1 switch
+                {
+                    "모션 줄이기" => UIShell.ReducedMotion ? "켜짐" : "꺼짐",
+                    "글자 크기" => PlayerPrefs.GetInt("ian.ui.largeText", 0) == 1 ? "115%" : "100%",
+                    "알림 표시 시간" => PlayerPrefs.GetFloat("ian.ui.noticeSeconds", 4) + "초",
+                    "UI 정수 배율" => PlayerPrefs.GetInt("ian.ui.integerScale", 0) == 0
+                        ? "자동"
+                        : PlayerPrefs.GetInt("ian.ui.integerScale", 0) + "×",
+                    _ => ""
+                };
+                button.GetComponentInChildren<TMP_Text>().text = string.IsNullOrEmpty(value)
+                    ? action.Item1
+                    : action.Item1 + "  ·  " + value;
                 button.onClick.AddListener(() => action.Item2());
             }
 

@@ -61,6 +61,8 @@ namespace IanGame
         TMP_Text feedback;
         TMP_Text balance;
         TMP_Text pity;
+        TMP_Text[] guaranteeLabels;
+        RectTransform[] guaranteeFills;
         TMP_Text probability;
         TMP_Text guide;
         TMP_Text resultSummary;
@@ -72,6 +74,11 @@ namespace IanGame
         Button pull10;
         Button scrap;
         Button sortButton;
+        Image inventoryTray;
+        Image bagIllustration;
+        Image itemPreview;
+        TMP_Text emptyBag;
+        readonly Button[] inventoryFilters = new Button[6];
         Button[] slots;
         string selected;
         string selectedCollection;
@@ -332,7 +339,7 @@ namespace IanGame
             for (int i = 0; i < 6; i++)
             {
                 int f = i;
-                Button(
+                inventoryFilters[i] = Button(
                     "Filter " + f,
                     InventoryPanel.transform,
                     filters[i],
@@ -642,6 +649,55 @@ namespace IanGame
             game.growth.Changed += Refresh;
             game.economy.Changed += Refresh;
             game.StateChanged += StateChanged;
+            BuildInventoryLayout();
+            foreach (var screen in screens)
+            {
+                if (screen == InventoryPanel)
+                {
+                    continue;
+                }
+
+                RecordPage.Apply((RectTransform)screen.transform, screen.transform.Find("Title").GetComponent<TMP_Text>());
+                var section = screen == EquipmentPanel ? "Section 1" : screen == GachaPanel ? "Section 2" : "Section 3";
+                var tab = screen.transform.Find(section);
+                if (tab)
+                {
+                    LifeRecordUI.StyleButton(tab.GetComponent<Button>(), true);
+                }
+            }
+
+            var featureCard = GachaPanel.transform.Find("Featured collection photo");
+            if (featureCard)
+            {
+                LifeRecordUI.Skin(featureCard.GetComponent<Image>(), RecordSurface.Reward);
+            }
+
+            var pityCard = LifeRecordUI.Surface(GachaPanel.transform, "Guarantee ledger", RecordSurface.Inset, .026f, .359f, .598f, .697f);
+            pityCard.transform.SetAsFirstSibling();
+            LifeRecordUI.Place(pity.rectTransform, .055f, .612f, .58f, .689f);
+            var rules = items.catalog.Pool(Pool).pityRules;
+            guaranteeLabels = new TMP_Text[rules.Length];
+            guaranteeFills = new RectTransform[rules.Length];
+            for (int i = 0; i < rules.Length; i++)
+            {
+                float row = .73f / rules.Length;
+                float y = .04f + row * (rules.Length - i - 1);
+                guaranteeLabels[i] = LifeRecordUI.Label(pityCard.transform, font, "", 18, LifeRecordUI.Ink,
+                    .05f, y + .023f, .96f, y + row);
+                var track = LifeRecordUI.Rect(pityCard.transform, "Guarantee track", .05f, y, .95f, y + .014f);
+                var rail = track.gameObject.AddComponent<Image>();
+                rail.color = new Color32(190, 185, 163, 255);
+                rail.raycastTarget = false;
+                var fill = LifeRecordUI.Rect(track, "Progress", 0, 0, 0, 1).gameObject.AddComponent<Image>();
+                fill.color = LifeRecordUI.Jade;
+                fill.raycastTarget = false;
+                guaranteeFills[i] = fill.rectTransform;
+            }
+
+            LifeRecordUI.StyleButton(pull10, true);
+            LifeRecordUI.Print(EquipmentPanel.transform, RecordPrint.Equipment, .55f, .42f, .92f, .80f);
+            LifeRecordUI.Place((RectTransform)equipmentSummary.GetComponentInParent<ScrollRect>(true).transform, .53f, .16f, .96f, .42f);
+
             started = true;
             Resize();
             Refresh();
@@ -943,6 +999,32 @@ namespace IanGame
             return text;
         }
 
+        void BuildInventoryLayout()
+        {
+            var root = InventoryPanel.transform;
+            root.gameObject.AddComponent<RecordWindowBounds>();
+            LifeRecordUI.Skin(root.GetComponent<Image>(), RecordSurface.Paper);
+            var bar = LifeRecordUI.Surface(root, "Inventory masthead", RecordSurface.Charcoal, .009f, .906f, .991f, .99f);
+            bar.transform.SetAsFirstSibling();
+            var title = root.Find("Title").GetComponent<TMP_Text>();
+            title.text = "이안의 가방";
+            MissionRecordLayout.SetText(title, 30, LifeRecordUI.Paper);
+            inventorySummary.color = feedback.color = detail.color = LifeRecordUI.Ink;
+            foreach (var button in root.GetComponentsInChildren<Button>(true))
+            {
+                LifeRecordUI.StyleButton(button, button == equip || button.name == "Section 0");
+            }
+
+            inventoryTray = LifeRecordUI.Surface(root, "Item tray", RecordSurface.Inset, .022f, .157f, .603f, .687f);
+            inventoryTray.transform.SetAsFirstSibling();
+            bagIllustration = LifeRecordUI.Print(inventoryGrid.view, RecordPrint.Inventory, .22f, .27f, .78f, .82f);
+            emptyBag = LifeRecordUI.Label(inventoryGrid.view, font, "가방이 비어 있습니다", 22, LifeRecordUI.Ink, .04f, .08f, .96f, .27f);
+            emptyBag.alignment = TextAlignmentOptions.Center;
+            itemPreview = LifeRecordUI.Rect(root, "Selected item preview", .65f, .49f, .945f, .68f).gameObject.AddComponent<Image>();
+            itemPreview.preserveAspect = true;
+            itemPreview.raycastTarget = false;
+        }
+
         void Refresh()
         {
             if (!started || items.catalog == null)
@@ -988,6 +1070,10 @@ namespace IanGame
                     c.button.transform.SetSiblingIndex(order++);
                     c.icon.sprite = d.icon;
                     c.icon.color = collection && !found ? new Color(0, 0, 0, .35f) : Color.white;
+                    bool selectedCell = c.id == (collection ? selectedCollection : selected);
+                    LifeRecordUI.Skin(c.button.GetComponent<Image>(), selectedCell ? RecordSurface.Selected : RecordSurface.Paper);
+                    c.name.color = c.quantity.color = LifeRecordUI.Ink;
+
                     c.name.text = collection && !found ? "???" : d.displayName;
                     bool isNew = items.Inventory.Entries.FirstOrDefault(e => e.itemId == c.id)?.isNew == true;
                     c.quantity.text =
@@ -999,7 +1085,18 @@ namespace IanGame
             }
 
             var chosen = items.catalog.Item(selected);
-            detail.text = Info(chosen);
+            for (int i = 0; i < inventoryFilters.Length; i++)
+            {
+                LifeRecordUI.StyleButton(inventoryFilters[i], i == filter);
+            }
+
+            bool empty = !inventoryGrid.cells.Any(cell => cell.button.gameObject.activeSelf);
+            bagIllustration.enabled = empty;
+            emptyBag.enabled = empty;
+            emptyBag.text = filter == 0 ? "가방이 비어 있습니다" : "이 분류의 아이템이 없습니다";
+            itemPreview.sprite = chosen?.icon;
+            itemPreview.enabled = chosen != null && chosen.icon != null;
+            detail.text = chosen == null ? "아이템 정보\n\n아이템을 선택하면 효과와 장착 상태를 확인할 수 있습니다." : Info(chosen);
             FitText(detail);
             collectionDetail.text = Info(items.catalog.Item(selectedCollection), true);
             FitText(collectionDetail);
@@ -1059,31 +1156,19 @@ namespace IanGame
             var progress = items.Gacha.Progress(Pool);
             balance.text =
                 $"{pool.description}\n{game.economy.Cash:N0}G · 루비 {game.economy.Ruby.Total:N0} · 가챠권 {items.Inventory.Count(pool.ticketItemId)} · 조각 {items.Inventory.Count(pool.materialItemId)}";
-            pity.text =
-                "누적 "
-                + progress.total
-                + "회\n"
-                + string.Join(
-                    "\n",
-                    pool.pityRules.Select(r =>
-                    {
-                        var p = progress.pity.FirstOrDefault(p => p.ruleId == r.id);
-                        return r.threshold
-                            + "회 · "
-                            + (
-                                !string.IsNullOrEmpty(r.guaranteedItem)
-                                    ? items.catalog.Item(r.guaranteedItem).displayName
-                                    : items.catalog.Rarity(r.minimumRarityId).displayName + " 이상"
-                            )
-                            + "  "
-                            + (p?.progress ?? 0)
-                            + "/"
-                            + r.threshold
-                            + " · 보장 "
-                            + (p?.applied ?? 0)
-                            + "회";
-                    })
-                );
+            pity.text = $"누적 {progress.total}회";
+            for (int i = 0; i < pool.pityRules.Length; i++)
+            {
+                var rule = pool.pityRules[i];
+                var counter = progress.pity.FirstOrDefault(entry => entry.ruleId == rule.id);
+                string guaranteed = string.IsNullOrEmpty(rule.guaranteedItem)
+                    ? items.catalog.Rarity(rule.minimumRarityId).displayName + " 이상"
+                    : items.catalog.Item(rule.guaranteedItem).displayName;
+                long current = counter?.progress ?? 0;
+                guaranteeLabels[i].text = $"{guaranteed}   {current}/{rule.threshold} · 보장 {counter?.applied ?? 0}회";
+                guaranteeFills[i].anchorMax = new Vector2(Mathf.Clamp01((float)current / rule.threshold), 1);
+            }
+
             var q1 = items.Gacha.Quote(Pool, 1);
             var q10 = items.Gacha.Quote(Pool, 10);
             var qs = items.Gacha.Quote(Pool, 1, true);
@@ -1355,8 +1440,12 @@ namespace IanGame
                 new Vector2(.025f, portrait ? .45f : .16f),
                 new Vector2(portrait ? .975f : .60f, .685f)
             );
+            LifeRecordUI.Place(inventoryTray.rectTransform, .022f, portrait ? .445f : .157f,
+                portrait ? .978f : .603f, .687f);
             var id = (RectTransform)detail.transform.parent.parent.parent;
-            Set(id, new Vector2(portrait ? .025f : .625f, .16f), new Vector2(.975f, portrait ? .44f : .685f));
+            Set(id, new Vector2(portrait ? .23f : .625f, .16f), new Vector2(.975f, portrait ? .43f : .475f));
+            LifeRecordUI.Place(itemPreview.rectTransform, portrait ? .025f : .64f, portrait ? .18f : .48f,
+                portrait ? .215f : .96f, portrait ? .425f : .68f);
             Set(
                 collectionGrid.view,
                 new Vector2(.025f, portrait ? .39f : .12f),

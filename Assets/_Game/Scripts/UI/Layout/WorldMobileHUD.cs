@@ -134,13 +134,13 @@ namespace IanGame
             {
                 foreach (RectTransform child in root)
                 {
-                    if (child.childCount == 0)
+                    if (child.childCount == 0 || child.TryGetComponent<Image>(out _))
                     {
                         continue;
                     }
 
                     var card = child.GetChild(0) as RectTransform;
-                    if (card == null || card.GetComponent<Image>() == null)
+                    if (card == null || card.GetComponent<Image>() == null || card.TryGetComponent<RecordWindowBounds>(out _))
                     {
                         continue;
                     }

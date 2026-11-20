@@ -123,6 +123,12 @@ namespace IanGame
                 view = panel,
                 previousFocus = EventSystem.current == null ? null : EventSystem.current.currentSelectedGameObject,
             };
+            if (panel == GetComponent<UINavigationService>()?.missionPanel)
+            {
+                MissionRecordLayout.Install(panel);
+            }
+
+            RecordPage.OpenAuthored(panel);
             stack.Add(entry);
             panel.SetActive(true);
             panel.transform.SetAsLastSibling();

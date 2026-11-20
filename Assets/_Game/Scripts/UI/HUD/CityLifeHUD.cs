@@ -56,6 +56,7 @@ namespace IanGame
         TMP_FontAsset font;
         Sprite frame;
         Transform safe;
+        TMP_Text achievementTotal;
         TMP_Text achievementText;
         TMP_Text guideText;
         TMP_Text miniTitle;
@@ -136,6 +137,7 @@ namespace IanGame
             b.onClick.AddListener(() => action());
             var label = Text("Label", b.transform, value, 18, Vector2.zero, Vector2.one, new Vector2(4, 2));
             label.alignment = TextAlignmentOptions.Center;
+            LifeRecordUI.StyleButton(b);
             return b;
         }
 
@@ -161,6 +163,7 @@ namespace IanGame
                 () => shell.Close(p.gameObject)
             );
             p.gameObject.SetActive(false);
+            RecordPage.Apply((RectTransform)p.transform, p.transform.Find("Title").GetComponent<TMP_Text>());
             return p.gameObject;
         }
 
@@ -310,6 +313,12 @@ namespace IanGame
             );
             AchievementPanel = CreateScreen("Achievements screen", "도전과제 · 자유롭게 경험하기");
             var achievementScroll = Scroll(AchievementPanel.transform);
+            var list = achievementScroll.GetComponentInParent<ScrollRect>(true);
+            var badge = LifeRecordUI.Surface(AchievementPanel.transform, "Achievement register", RecordSurface.Selected,
+                .034f, .06f, .318f, .772f);
+            LifeRecordUI.Print(badge.transform, RecordPrint.Achievement, .12f, .32f, .88f, .82f);
+            achievementTotal = LifeRecordUI.Label(badge.transform, font, "", 23, LifeRecordUI.Ink, .09f, .06f, .94f, .32f);
+            LifeRecordUI.Place((RectTransform)list.transform, .35f, .055f, .963f, .77f);
             achievementText = Text(
                 "Achievement rows",
                 achievementScroll,
@@ -655,6 +664,7 @@ namespace IanGame
                     .GetPreferredValues(SuggestionText.text, Mathf.Max(170, sr.rect.width * .72f), Mathf.Infinity)
                     .y + 18;
             sr.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, Mathf.Max(84, sh));
+            achievementTotal.text = $"달성한 도전과제\n{city.Data.achievements.Count} / {CityLifeService.Catalog.Length}";
             achievementText.text = string.Join(
                 "\n\n",
                 CityLifeService

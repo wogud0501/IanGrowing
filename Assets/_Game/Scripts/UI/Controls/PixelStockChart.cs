@@ -12,6 +12,18 @@ namespace IanGame
 
         public void SetPrices(List<int> values)
         {
+            if (values is IList<int> incoming && incoming.Count == prices.Count)
+            {
+                bool same = true;
+                for (int i = 0; i < incoming.Count && same; i++)
+                {
+                    same = prices[i] == incoming[i];
+                }
+                if (same)
+                {
+                    return;
+                }
+            }
             prices = new List<int>(values);
             SetVerticesDirty();
         }

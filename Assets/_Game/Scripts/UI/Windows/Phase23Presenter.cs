@@ -31,6 +31,10 @@ namespace IanGame
             }
 
             game = GameContext.Instance.game;
+            if ((panel.transform.Find("Location heading/Title") ?? panel.transform.Find("Title")) is RectTransform title && title.TryGetComponent<TMP_Text>(out var label))
+            {
+                RecordPage.Apply((RectTransform)panel.transform, label, false);
+            }
             openButton.onClick.AddListener(() =>
             {
                 var shell = UIShell.For(this);

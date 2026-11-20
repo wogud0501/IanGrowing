@@ -14,7 +14,8 @@ namespace IanGame
     {
         RectTransform label;
         Vector2 rest;
-        float until;
+        Coroutine release;
+        bool pressed;
         PresentationFeedback bus;
 
         void Start()
@@ -26,19 +27,18 @@ namespace IanGame
             }
 
             label = text.rectTransform;
-            rest = label.anchoredPosition;
             bus = GetComponentInParent<PresentationFeedback>();
         }
 
         public void OnPointerDown(PointerEventData e)
         {
-            until = Time.unscaledTime + .1f;
+            Press();
             bus?.Cue("UIClick");
         }
 
         public void OnPointerUp(PointerEventData e)
         {
-            until = 0;
+            Release();
         }
 
         public void OnPointerEnter(PointerEventData e)
@@ -53,25 +53,50 @@ namespace IanGame
 
         public void OnSubmit(BaseEventData e)
         {
-            until = Time.unscaledTime + .1f;
+            Press();
             bus?.Cue("UIClick");
         }
 
-        void Update()
+        void Press()
         {
-            if (label != null)
+            if (!label || UIShell.ReducedMotion)
             {
-                label.anchoredPosition =
-                    rest + (Time.unscaledTime < until && !UIShell.ReducedMotion ? Vector2.down : Vector2.zero);
+                return;
             }
+
+            Release();
+            rest = label.anchoredPosition;
+            label.anchoredPosition = rest + Vector2.down;
+            pressed = true;
+            release = StartCoroutine(ReleaseAfterPress());
+        }
+
+        System.Collections.IEnumerator ReleaseAfterPress()
+        {
+            yield return new WaitForSecondsRealtime(.1f);
+            release = null;
+            Release();
+        }
+
+        void Release()
+        {
+            if (release != null)
+            {
+                StopCoroutine(release);
+                release = null;
+            }
+
+            if (pressed && label)
+            {
+                label.anchoredPosition = rest;
+            }
+
+            pressed = false;
         }
 
         void OnDisable()
         {
-            if (label != null)
-            {
-                label.anchoredPosition = rest;
-            }
+            Release();
         }
     }
 }

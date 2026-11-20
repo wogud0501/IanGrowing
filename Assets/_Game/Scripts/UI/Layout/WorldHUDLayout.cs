@@ -104,8 +104,8 @@ namespace IanGame
                 needs.pivot = Vector2.zero;
                 needs.anchoredPosition = Vector2.zero;
                 needs.sizeDelta = new Vector2(
-                    Mathf.Min(width * .55f, hud.needs.GetPreferredValues(hud.needs.text).x + 32),
-                    40
+                    Mathf.Min(width * .72f, 470),
+                    59
                 );
             }
         }

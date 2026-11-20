@@ -63,6 +63,7 @@ namespace IanGame
             text.rectTransform.offsetMax = new Vector2(-8, -4);
             text.text = label;
             text.alignment = TextAlignmentOptions.Center;
+            LifeRecordUI.StyleButton(b);
             b.onClick.AddListener(() => action());
             b.gameObject.AddComponent<PixelControlFeedback>();
             return b;
@@ -73,6 +74,10 @@ namespace IanGame
             var r = Panel(title, shell.overlayRoot, new Vector2(.06f, .08f), new Vector2(.94f, .92f));
             Text(r, "Title", 24, new Vector2(.04f, .9f), new Vector2(.8f, .98f)).text = title;
             Button(r, "뒤로", new Vector2(.82f, .9f), new Vector2(.97f, .98f), () => shell.Close(r.gameObject));
+            if (title != "편의 설정")
+            {
+                RecordPage.Apply(r, r.Find("Title").GetComponent<TMP_Text>(), false);
+            }
             r.gameObject.SetActive(false);
             return r.gameObject;
         }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -38,9 +39,15 @@ namespace IanGame
         string recent = "";
         GameManager game;
         bool dirty;
+        SurvivalMeters survival;
+        CanvasGroup[] worldReadouts;
+        Image contextStamp;
+        TMP_Text contextCaption;
         RectTransform feedbackCard;
         RectTransform activityCard;
         float feedbackWidth;
+        CanvasGroup noticeGroup;
+        Coroutine noticeMotion;
 
         void Start()
         {
@@ -73,6 +80,25 @@ namespace IanGame
             shell.Changed += ShellChanged;
             game.growth.AgeChanged += WalkingAgeChanged;
             game.StateChanged += WalkingStateChanged;
+            var bar = GetComponentInChildren<CompactWorldStatusBar>(true);
+            if (bar != null)
+            {
+                LifeRecordUI.Skin(bar.GetComponent<Image>(), RecordSurface.Charcoal);
+                bar.place.color = LifeRecordUI.Paper;
+                bar.time.color = new Color32(195, 218, 183, 255);
+            }
+
+            LifeRecordUI.Skin(cash.transform.parent.GetComponent<Image>(), RecordSurface.Paper);
+            LifeRecordUI.StyleButton(menuButton, true);
+            LifeRecordUI.Skin(promptPanel.GetComponent<Image>(), RecordSurface.Jade);
+            prompt.color = LifeRecordUI.Paper;
+            survival = new SurvivalMeters(needs);
+            worldReadouts = new[] { bar ? bar.transform : null, cash.transform.parent, needs.transform.parent }
+                .Where(readout => readout != null)
+                .Select(readout => readout.TryGetComponent<CanvasGroup>(out var group)
+                    ? group : readout.gameObject.AddComponent<CanvasGroup>())
+                .ToArray();
+            ShellChanged();
             Refresh();
             MaybeWalkingNotice();
         }
@@ -102,6 +128,20 @@ namespace IanGame
 
         void ShellChanged()
         {
+            if (feedbackCard && shell.Depth > 0)
+            {
+                feedbackCard.gameObject.SetActive(false);
+            }
+
+            if (worldReadouts != null)
+            {
+                foreach (var readout in worldReadouts)
+                {
+                    readout.alpha = shell.Depth == 0 ? 1 : 0;
+                    readout.blocksRaycasts = shell.Depth == 0;
+                }
+            }
+
             if (!world.Busy && !game.BirthIntroductionPending)
             {
                 world.Player.Pose(shell.Depth > 0 && GrowthAccess.Independent(game) ? "Use Phone" : "Idle");
@@ -178,7 +218,7 @@ namespace IanGame
             }
 
             ShowNextNotice();
-            if (feedback != null && Time.unscaledTime > until)
+            if (feedback != null && Time.unscaledTime > until && !string.IsNullOrEmpty(feedback.text))
             {
                 feedback.text = "";
                 if (feedbackCard != null)
@@ -191,6 +231,10 @@ namespace IanGame
         void Refresh()
         {
             cash.text = $"{game.economy.Cash:N0} G  ·  루비 {game.economy.Ruby.Total:N0}";
+            survival?.Set(0, game.stats.Hunger);
+            survival?.Set(1, game.stats.Thirst);
+            survival?.Set(2, game.stats.Health);
+            survival?.Set(3, game.stats.Mental);
             needs.text =
                 $"허기 {game.stats.Hunger} · 수분 {game.stats.Thirst} · 체력 {game.stats.Health} · 멘탈 {game.stats.Mental}";
             if (inventory != null)
@@ -248,9 +292,7 @@ namespace IanGame
             feedbackCard.anchoredPosition = r.anchoredPosition;
             feedbackCard.sizeDelta = r.sizeDelta;
             var image = feedbackCard.GetComponent<Image>();
-            image.sprite = promptPanel.GetComponent<Image>().sprite;
-            image.type = Image.Type.Sliced;
-            image.color = image.sprite == null ? new Color32(255, 242, 210, 255) : Color.white;
+            LifeRecordUI.Skin(image, RecordSurface.Paper);
             image.raycastTarget = false;
             r.SetParent(feedbackCard, false);
             r.anchorMin = Vector2.zero;
@@ -259,6 +301,8 @@ namespace IanGame
             r.offsetMax = new Vector2(-16, -8);
             feedback.color = new Color32(57, 53, 47, 255);
             feedback.raycastTarget = false;
+            noticeGroup = feedbackCard.gameObject.AddComponent<CanvasGroup>();
+            noticeGroup.blocksRaycasts = false;
         }
 
         public void ReflowNotification()
@@ -353,6 +397,22 @@ namespace IanGame
             }
         }
 
+        System.Collections.IEnumerator AnimateNotice()
+        {
+            float start = Time.unscaledTime;
+            var text = feedback.rectTransform;
+            var rest = text.anchoredPosition;
+            while (feedbackCard.gameObject.activeSelf && Time.unscaledTime < until)
+            {
+                float enter = Mathf.Clamp01((Time.unscaledTime - start) / .14f);
+                noticeGroup.alpha = Mathf.Min(enter, Mathf.Clamp01((until - Time.unscaledTime) / .16f));
+                text.anchoredPosition = rest + Vector2.right * Mathf.Round((1 - enter) * 12);
+                yield return null;
+            }
+            text.anchoredPosition = rest;
+            noticeMotion = null;
+        }
+
         void ShowNextNotice()
         {
             if (Time.unscaledTime < until || shell.Depth > 0 || world.Busy || game.BirthIntroductionPending)
@@ -371,6 +431,15 @@ namespace IanGame
             feedbackCard.gameObject.SetActive(true);
             ReflowNotification();
             until = Time.unscaledTime + Mathf.Clamp(PlayerPrefs.GetFloat("ian.ui.noticeSeconds", 4), 2, 8);
+            if (noticeMotion != null)
+            {
+                StopCoroutine(noticeMotion);
+            }
+            noticeGroup.alpha = 1;
+            if (!UIShell.ReducedMotion)
+            {
+                noticeMotion = StartCoroutine(AnimateNotice());
+            }
             GetComponent<PresentationFeedback>()?.Cue(notice.kind.ToString());
         }
 
@@ -490,6 +559,7 @@ namespace IanGame
             b.gameObject.SetActive(true);
             b.GetComponentInChildren<TMP_Text>().text = label;
             b.onClick.RemoveAllListeners();
+            LifeRecordUI.StyleButton(b);
             b.onClick.AddListener(() =>
             {
                 if (source == null || !world.IsInReach(source) || world.Busy)
@@ -513,6 +583,23 @@ namespace IanGame
             }
 
             source = target;
+            var choicesFrame = choices.GetComponentInParent<ScrollRect>(true);
+            if (choicesFrame && contextStamp == null)
+            {
+                var panel = contextTitle.transform.parent;
+                contextStamp = LifeRecordUI.Surface(panel, "Location card", RecordSurface.Inset, .034f, .075f, .325f, .771f);
+                LifeRecordUI.Print(contextStamp.transform, RecordPrint.City, .06f, .34f, .94f, .90f);
+                contextCaption = LifeRecordUI.Label(contextStamp.transform, contextTitle.font, "", 21, LifeRecordUI.Ink,
+                    .09f, .04f, .95f, .32f);
+                LifeRecordUI.Place((RectTransform)choicesFrame.transform, .35f, .066f, .97f, .776f);
+            }
+            if (contextCaption)
+            {
+                contextCaption.text = target.kind == WorldInteractionKind.FoodShop
+                    ? $"보유 현금\n{game.economy.Cash:N0} G"
+                    : world.CurrentZone.title;
+            }
+
             foreach (var b in buttons)
             {
                 Destroy(b.gameObject);

@@ -54,7 +54,7 @@ namespace IanGame
             var t = r.gameObject.AddComponent<TextMeshProUGUI>();
             t.font = font;
             t.fontSize = size;
-            t.color = theme != null ? theme.ink : new Color(.94f, .90f, .8f);
+            t.color = LifeRecordUI.Ink;
             t.text = value;
             t.raycastTarget = false;
             t.textWrappingMode = TextWrappingModes.Normal;
@@ -78,6 +78,7 @@ namespace IanGame
             var text = Text("Label", r, label, new Vector2(.03f, .05f), new Vector2(.97f, .95f), 20);
             text.alignment = TextAlignmentOptions.Center;
             button.gameObject.AddComponent<PixelControlFeedback>();
+            LifeRecordUI.StyleButton(button);
             button.onClick.AddListener(() => click());
             return button;
         }
@@ -102,6 +103,7 @@ namespace IanGame
                 );
             }
 
+            RecordPage.Apply(r, r.Find("Title").GetComponent<TMP_Text>());
             r.gameObject.SetActive(false);
             return r.gameObject;
         }

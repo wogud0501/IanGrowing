@@ -39,7 +39,39 @@ namespace IanGame
         string selected;
         int page;
         int lastOrderFrame = -1;
-        float nextRefresh;
+        TMP_Text cashBalance;
+        TMP_Text netBalance;
+        TMP_Text debtBalance;
+
+        void BuildStatement()
+        {
+            var scroll = economyText.GetComponentInParent<ScrollRect>(true);
+            if (scroll == null)
+            {
+                return;
+            }
+
+            var frame = (RectTransform)scroll.transform.parent;
+            frame.gameObject.AddComponent<RecordWindowBounds>();
+            LifeRecordUI.Skin(frame.GetComponent<Image>(), RecordSurface.Paper);
+            var mast = LifeRecordUI.Surface(frame, "Statement header", RecordSurface.Charcoal, .01f, .86f, .99f, .986f);
+            mast.transform.SetAsFirstSibling();
+            var title = frame.Find("Title").GetComponent<TMP_Text>();
+            title.text = "가계 명세서";
+            MissionRecordLayout.SetText(title, 30, LifeRecordUI.Paper);
+            var left = LifeRecordUI.Surface(frame, "Account balance", RecordSurface.Selected, .024f, .272f, .358f, .83f).transform;
+            LifeRecordUI.Label(left, title.font, "사용 가능 현금", 20, LifeRecordUI.Jade, .07f, .82f, .96f, .96f);
+            cashBalance = LifeRecordUI.Label(left, title.font, "", 35, LifeRecordUI.Ink, .07f, .60f, .96f, .83f);
+            LifeRecordUI.Print(left, RecordPrint.Finance, .07f, .045f, .94f, .57f);
+            var debts = LifeRecordUI.Surface(frame, "Liabilities", RecordSurface.Inset, .377f, .685f, .973f, .83f).transform;
+            debtBalance = LifeRecordUI.Label(debts, title.font, "", 21, LifeRecordUI.Seal, .035f, .05f, .54f, .95f);
+            netBalance = LifeRecordUI.Label(debts, title.font, "", 21, LifeRecordUI.Ink, .55f, .05f, .99f, .95f);
+            LifeRecordUI.Place((RectTransform)scroll.transform, .385f, .28f, .96f, .663f);
+            LifeRecordUI.StyleButton(payTax);
+            LifeRecordUI.StyleButton(repay, true);
+            LifeRecordUI.StyleButton(economyClose);
+            LifeRecordUI.Skin(payment.GetComponent<Image>(), RecordSurface.Inset);
+        }
 
         void Start()
         {
@@ -49,7 +81,16 @@ namespace IanGame
             }
 
             game = GameContext.Instance.game;
+            if (economyText != null)
+            {
+                BuildStatement();
+            }
+
             game.economy.Changed += Refresh;
+            game.stats.CreditChanged += CreditOrDayChanged;
+            game.clock.DayChanged += CreditOrDayChanged;
+            game.growth.Changed += Refresh;
+            game.StateChanged += StateChanged;
             if (entry != null)
             {
                 entry.onClick.AddListener(() => GameContext.Instance.transitions.Navigate(SceneId.StockMarket));
@@ -122,27 +163,27 @@ namespace IanGame
             if (game != null)
             {
                 game.economy.Changed -= Refresh;
+                game.stats.CreditChanged -= CreditOrDayChanged;
+                game.clock.DayChanged -= CreditOrDayChanged;
+                game.growth.Changed -= Refresh;
+                game.StateChanged -= StateChanged;
             }
         }
 
-        void Update()
+        void CreditOrDayChanged(int value)
         {
-            if (Time.unscaledTime < nextRefresh)
-            {
-                return;
-            }
+            Refresh();
+        }
 
-            nextRefresh = Time.unscaledTime + 1;
-            if (game != null && (marketScene || economyPanel.activeSelf))
-            {
-                Refresh();
-            }
+        void StateChanged(GameState state)
+        {
+            Refresh();
         }
 
         public void OpenEconomy()
         {
-            Refresh();
             shell.Push(economyPanel);
+            Refresh();
         }
 
         public void ShowTab(int value)
@@ -293,7 +334,7 @@ namespace IanGame
 
         public void Refresh()
         {
-            if (game == null || game.State == GameState.Starting)
+            if (game == null || game.State == GameState.Starting || (!marketScene && !economyPanel.activeInHierarchy))
             {
                 return;
             }
@@ -306,8 +347,14 @@ namespace IanGame
             }
 
             var sb = new StringBuilder();
-            sb.AppendLine($"현금 {e.Cash:N0}G    총자산 {e.TotalAssets:N0}G");
-            sb.AppendLine($"부채 {e.Debt:N0}G    순자산 {e.NetWorth:N0}G");
+            if (cashBalance != null)
+            {
+                cashBalance.text = $"{e.Cash:N0} G";
+                debtBalance.text = $"남은 부채\n{e.Debt:N0} G";
+                netBalance.text = $"순자산\n{e.NetWorth:N0} G";
+            }
+
+            sb.AppendLine($"총자산   {e.TotalAssets:N0} G");
             sb.AppendLine($"원금 {e.Principal:N0}G / 미상환 이자 {f.outstandingInterest:N0}G");
             sb.AppendLine($"누적 이자 {f.cumulativeInterest:N0}G / 신용도 {game.stats.Credit}");
             sb.AppendLine($"누적 수입 {f.totalIncome:N0}G / 소비·세금 지출 {f.totalExpenses:N0}G");
@@ -344,6 +391,12 @@ namespace IanGame
             economyText.text = sb.ToString();
             bool adult = GrowthAccess.Adult(game);
             payTax.interactable = repay.interactable = adult && game.State == GameState.Playing;
+            const string restricted = "금융 활동은 청년기(19세)부터 해금됩니다.";
+            if (adult && economyFeedback != null && economyFeedback.text == restricted)
+            {
+                economyFeedback.text = "";
+            }
+
             if (!adult && economyFeedback != null)
             {
                 economyFeedback.text = "금융 활동은 청년기(19세)부터 해금됩니다.";

@@ -52,6 +52,9 @@ namespace IanGame
         public GameObject Confirmation => confirmation;
 
         string observedTarget;
+        readonly Button[] hubTabs = new Button[4];
+        readonly Button[] statusTabs = new Button[5];
+        TMP_Text residentAge;
         static readonly string[] StatNames = { "허기", "목마름", "지식", "체력", "멘탈", "사회성", "신용도", "행복도" };
         static readonly string[] FeatureIds = { "items", "school", "jobs", "stocks", "housing" };
         static readonly string[] FeatureNames = { "수집·가챠", "학교 생활", "직업", "주식 거래", "독립·주거" };
@@ -120,8 +123,12 @@ namespace IanGame
                 new Vector2(0, 1)
             );
             card.pivot = new Vector2(0, 1);
+            LifeRecordUI.Skin(card.GetComponent<Image>(), RecordSurface.Paper);
+            LifeRecordUI.Surface(card, "Mission tab", RecordSurface.Seal, 0, .18f, .015f, .84f);
             mission = ui.Text(card, "Current mission", 17, new Vector2(.04f, .71f), new Vector2(.96f, .96f));
             guide = ui.Text(card, "Optional recommendation", 17, new Vector2(.04f, .12f), new Vector2(.96f, .68f));
+            mission.color = LifeRecordUI.Ink;
+            guide.color = LifeRecordUI.Jade;
             var open = card.gameObject.AddComponent<Button>();
             open.onClick.AddListener(OpenHelp);
             saveText = ui.Text(
@@ -137,24 +144,27 @@ namespace IanGame
             for (int i = 0; i < hubs.Length; i++)
             {
                 int index = i;
-                ui.Button(
+                hubTabs[i] = ui.Button(
                     Hub.transform,
                     hubs[i],
-                    new Vector2(.04f + i * .235f, .8f),
-                    new Vector2(.26f + i * .235f, .88f),
+                    new Vector2(.032f, .69f - i * .166f),
+                    new Vector2(.274f, .828f - i * .166f),
                     () => HubTab(index)
                 );
+                LifeRecordUI.Print(hubTabs[i].transform, (RecordPrint)((int)RecordPrint.Life + i), .035f, .16f, .34f, .84f);
+                var tabLabel = hubTabs[i].GetComponentInChildren<TMP_Text>();
+                LifeRecordUI.Place(tabLabel.rectTransform, .33f, .05f, .98f, .95f);
             }
 
-            hubText = ui.ScrollText(Hub.transform, new Vector2(.05f, .58f), new Vector2(.95f, .77f));
+            hubText = ui.ScrollText(Hub.transform, new Vector2(.315f, .69f), new Vector2(.955f, .855f));
             for (int i = 0; i < hubActions.Length; i++)
             {
                 int row = i / 2;
                 hubActions[i] = ui.Button(
                     Hub.transform,
                     "기능",
-                    new Vector2(.05f + i % 2 * .46f, .43f - row * .12f),
-                    new Vector2(.49f + i % 2 * .46f, .53f - row * .12f),
+                    new Vector2(.309f + i % 2 * .33f, .507f - row * .144f),
+                    new Vector2(.62f + i % 2 * .33f, .634f - row * .144f),
                     () => { }
                 );
             }
@@ -164,7 +174,7 @@ namespace IanGame
             for (int i = 0; i < categories.Length; i++)
             {
                 int index = i;
-                ui.Button(
+                statusTabs[i] = ui.Button(
                     Status.transform,
                     categories[i],
                     new Vector2(.04f + i * .185f, .79f),
@@ -177,7 +187,16 @@ namespace IanGame
                 );
             }
 
-            statusText = ui.ScrollText(Status.transform, new Vector2(.06f, .23f), new Vector2(.94f, .75f));
+            var stub = LifeRecordUI.Surface(Status.transform, "Resident card", RecordSurface.Inset, .034f, .21f, .366f, .752f);
+            LifeRecordUI.Label(stub.transform, hud.needs.font, "이안", 32, LifeRecordUI.Ink, .09f, .16f, .9f, .36f);
+            residentAge = LifeRecordUI.Label(stub.transform, hud.needs.font, "", 20, LifeRecordUI.Jade, .09f, .025f, .96f, .185f);
+            var portrait = LifeRecordUI.Rect(stub.transform, "Official Ian", .15f, .37f, .85f, .96f);
+            var image = portrait.gameObject.AddComponent<Image>();
+            image.raycastTarget = false;
+            image.preserveAspect = true;
+            image.sprite = hud.world.Player.identity?.baseSprite;
+            image.enabled = image.sprite != null;
+            statusText = ui.ScrollText(Status.transform, new Vector2(.40f, .215f), new Vector2(.96f, .751f));
             ui.Button(
                 Status.transform,
                 "관련 기능 열기",
@@ -504,6 +523,11 @@ namespace IanGame
                 actions.Add(("자동 활동 · 접속 기록", () => GetComponent<IdleActivityPresenter>().Open()));
             }
 
+            for (int i = 0; i < hubTabs.Length; i++)
+            {
+                LifeRecordUI.StyleButton(hubTabs[i], i == tab);
+            }
+
             hubText.text =
                 tab == 0 ? "현재 할 수 있는 일을 골라 보세요. 추천과 도전과제는 진행을 막지 않습니다."
                 : tab == 1 ? "획득 → 장착 → 수집. 중복 분해는 확인 후 실행합니다."
@@ -599,7 +623,7 @@ namespace IanGame
                         + game.missions.GetProgress(active).current.ToString("0")
                         + "/"
                         + game.missions.GetProgress(active).target.ToString("0");
-            guide.text = "오늘 해볼 만한 것 · 추천\n" + suggestion.title + "\n" + suggestion.detail;
+            guide.text = "추천   " + suggestion.title;
             helpText.text =
                 "지금 해볼 만한 것\n"
                 + suggestion.title
@@ -619,13 +643,18 @@ namespace IanGame
                 return;
             }
 
+            for (int i = 0; i < statusTabs.Length; i++)
+            {
+                LifeRecordUI.StyleButton(statusTabs[i], i == statusTab);
+            }
+            residentAge.text = $"{game.growth.Age}세 · {game.clock.Day}일째";
             string text = "";
             if (statusTab == 0)
             {
                 text =
                     string.Join(
-                        "\n\n",
-                        Enumerable.Range(0, 8).Select(i => StatNames[i] + "  " + game.stats.Get((CoreStat)i) + " / 100")
+                        "\n",
+                        Enumerable.Range(0, 8).Select(i => StatNames[i] + "    <b>" + game.stats.Get((CoreStat)i) + "</b> / 100")
                     )
                     + "\n\n피로 "
                     + game.world.State.fatigue.ToString("0")
@@ -911,6 +940,11 @@ namespace IanGame
             guide.rectTransform.sizeDelta = new Vector2(-24, guideHeight);
             foreach (var panel in windows)
             {
+                if (panel.TryGetComponent<RecordWindowBounds>(out _))
+                {
+                    continue;
+                }
+
                 var r = (RectTransform)panel.transform;
                 r.anchorMin = r.anchorMax = new Vector2(.5f, .5f);
                 r.pivot = new Vector2(.5f, .5f);
