@@ -43,6 +43,17 @@ namespace IanGame
         Sick,
         Exhausted,
         LieDown,
+        SitRelax,
+        SeatedDrink,
+        SeatedPhone,
+        TalkSit,
+        Sweep,
+        Mop,
+        Vacuum,
+        WipeTable,
+        WashDishes,
+        CarryTrash,
+        CarryLaundry,
     }
 
     public enum ActorDirection

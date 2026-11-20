@@ -15,6 +15,13 @@ namespace IanGame
     {
         public SpriteRenderer seat;
         public string staffId;
+        public string[] reliefStaff = System.Array.Empty<string>();
+
+        public bool Allows(string id)
+        {
+            return string.IsNullOrEmpty(staffId) || staffId == id || System.Array.IndexOf(reliefStaff, id) >= 0;
+        }
+
         public Vector2 facing = Vector2.up;
         public bool useSeatAnchors;
         public bool seated;
@@ -38,11 +45,7 @@ namespace IanGame
 
         public bool TryReserve(string id)
         {
-            if (
-                string.IsNullOrEmpty(id)
-                || !string.IsNullOrEmpty(staffId) && staffId != id
-                || !string.IsNullOrEmpty(Occupant) && Occupant != id
-            )
+            if (string.IsNullOrEmpty(id) || !Allows(id) || !string.IsNullOrEmpty(Occupant) && Occupant != id)
             {
                 return false;
             }

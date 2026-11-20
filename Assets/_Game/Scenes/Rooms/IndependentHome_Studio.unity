@@ -7201,6 +7201,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::IanGame.WorldActivitySlot
   seat: {fileID: 0}
   staffId: 
+  reliefStaff: []
   facing: {x: 0, y: -1}
   useSeatAnchors: 1
   seated: 0
@@ -10993,6 +10994,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::IanGame.WorldActivitySlot
   seat: {fileID: 0}
   staffId: 
+  reliefStaff: []
   facing: {x: 0, y: 1}
   useSeatAnchors: 1
   seated: 0
@@ -34469,6 +34471,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 791543339}
   m_CullTransparentMesh: 1
+--- !u!1 &794111433
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 794111434}
+  m_Layer: 0
+  m_Name: Approach
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &794111434
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 794111433}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.25, y: -0.53, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1315051033}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &797955038
 GameObject:
   m_ObjectHideFlags: 0
@@ -39059,6 +39092,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::IanGame.WorldActivitySlot
   seat: {fileID: 0}
   staffId: 
+  reliefStaff: []
   facing: {x: 0, y: -1}
   useSeatAnchors: 1
   seated: 0
@@ -40409,6 +40443,38 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::IanGame.UITypeScale
   baseSize: 18
   platformScale: 1
+--- !u!1 &947609229
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 947609230}
+  m_Layer: 0
+  m_Name: Resident activity points
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &947609230
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 947609229}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1315051033}
+  m_Father: {fileID: 2122785949}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &948072369
 GameObject:
   m_ObjectHideFlags: 0
@@ -47542,6 +47608,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1105350664}
   m_CullTransparentMesh: 1
+--- !u!1 &1113950885
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1113950886}
+  m_Layer: 0
+  m_Name: Seat
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1113950886
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1113950885}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1315051033}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1115995454
 GameObject:
   m_ObjectHideFlags: 0
@@ -54881,6 +54978,110 @@ MonoBehaviour:
   m_EffectColor: {r: 0.10980392, g: 0.14509805, b: 0.21568628, a: 1}
   m_EffectDistance: {x: 3, y: -3}
   m_UseGraphicAlpha: 1
+--- !u!1 &1315051032
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1315051033}
+  - component: {fileID: 1315051036}
+  - component: {fileID: 1315051035}
+  - component: {fileID: 1315051034}
+  m_Layer: 0
+  m_Name: bed-rest
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1315051033
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1315051032}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -4.75, y: 1.03, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1113950886}
+  - {fileID: 794111434}
+  m_Father: {fileID: 947609230}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1315051034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1315051032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6cca8677d64149a9b384f0fb75fd128, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IanGame.ResidentActivityStation
+  breakSeat: 1
+  seatGroup: bed-bed
+  seatSurface: {fileID: 166419560}
+  preference: 0
+  tasks: 
+  workRoute: []
+  workingFacing: {x: 0, y: -1}
+  dirtyDishes: {fileID: 0}
+--- !u!114 &1315051035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1315051032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90a7e3dd959164ee08d30b720996785c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IanGame.WorldActivitySlot
+  seat: {fileID: 0}
+  staffId: 
+  reliefStaff: []
+  facing: {x: 0, y: -1}
+  useSeatAnchors: 1
+  seated: 1
+  seatAnchor: {fileID: 1113950886}
+  approachAnchor: {fileID: 794111434}
+  standUpAnchor: {fileID: 794111434}
+  activityMotion: 38
+--- !u!114 &1315051036
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1315051032}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0f1a40957fdfad4ba45f796e82da554, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IanGame.WorldInteractable
+  id: bed-rest
+  title: 
+  zone: home
+  targetZone: 
+  npcId: 
+  kind: 8
+  arrival: {x: 0, y: 0}
+  visual: {fileID: 0}
+  highlight: {fileID: 0}
+  radius: 1.65
+  shadow: {fileID: 0}
+  activityEffect: {fileID: 0}
+  animateDoorLeaf: 1
+  UsePoint: {x: 0, y: 0}
 --- !u!1 &1316383209
 GameObject:
   m_ObjectHideFlags: 0
@@ -87426,6 +87627,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::IanGame.WorldActivitySlot
   seat: {fileID: 0}
   staffId: 
+  reliefStaff: []
   facing: {x: 0, y: -1}
   useSeatAnchors: 1
   seated: 0
@@ -91247,6 +91449,7 @@ MonoBehaviour:
   - {fileID: 1528638959}
   - {fileID: 1663936316}
   - {fileID: 257765742}
+  - {fileID: 1315051036}
   transitions: {fileID: 2122785953}
   upgradedHome: {fileID: 1733496869}
   starterWritingDesk: {fileID: 243569475}
@@ -91311,6 +91514,7 @@ Transform:
   - {fileID: 1203534056}
   - {fileID: 1871993889}
   - {fileID: 287713665}
+  - {fileID: 947609230}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2122785950
@@ -91325,6 +91529,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5be56845d3f57a4fb05d32f868ffe9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::IanGame.WorldNPCScheduler
+  activityArt: {fileID: 11400000, guid: 9dc85497a878546a5a6548350fb80f42, type: 2}
   lifeProfile: {fileID: 11400000, guid: d086b65d70a3b4abe85adbb86ae57a05, type: 2}
   sceneScoped: 1
   residentPrefabs:
@@ -132596,7 +132801,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1280, y: 0}
+  m_SizeDelta: {x: 1655.1724, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &4930388838002371381
 MonoBehaviour:

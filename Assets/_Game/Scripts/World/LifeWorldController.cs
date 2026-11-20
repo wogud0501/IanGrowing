@@ -942,14 +942,30 @@ namespace IanGame
             bool committed = false;
             try
             {
-                var approach = door == null ? portal.Point : door.Approach(Player.Position);
-                var crossing = door == null ? portal.Point : door.Passage(Player.Position);
-                if (door != null && portal.zone == portal.targetZone)
+                // A room portal always opens from the playable side of its facade.
+                // A lateral approach near the jamb can otherwise select the far side of the closed leaf.
+                bool roomDoor = door != null && portal.zone != portal.targetZone;
+                Vector2 approachSide = roomDoor ? portal.Point : Player.Position;
+                var approach = door == null ? portal.Point : door.Approach(approachSide);
+                var crossing = door == null ? portal.Point : door.Passage(approachSide);
+                if (door != null && !roomDoor)
                 {
-                    crossing = door.Plane - door.normal * door.SideOf(Player.Position) * .85f;
+                    crossing = door.Plane - door.normal * door.SideOf(approachSide) * .85f;
                 }
 
                 hud.CloseContext();
+                if (roomDoor)
+                {
+                    Vector2 side = door.normal * door.SideOf(approachSide);
+                    float depth = Vector2.Dot(Player.Position - door.Plane, side);
+                    float lateral = Mathf.Abs(Vector2.Dot(Player.Position - door.Plane, Vector2.Perpendicular(side)));
+                    if (lateral > .55f && depth < .65f)
+                    {
+                        // Clear the near corner before moving across the width of the doorway.
+                        yield return StepTo(Player.Position + side * (.65f - depth));
+                    }
+                }
+
                 yield return StepTo(approach);
                 if (Vector2.Distance(Player.Position, approach) > .25f)
                 {

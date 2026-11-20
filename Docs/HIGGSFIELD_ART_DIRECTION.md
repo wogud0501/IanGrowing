@@ -25,3 +25,7 @@ No generated Korean, prices, companies or logos enter the game. World messages u
 Reject voxel/rendered blocks, corrupted labels, changed architecture, clipped objects, inconsistent human scale or missing paths. Standalone store/NPC sheet failures received one focused prompt revision and two replacement candidates. Alternate candidates remain traceable; generation never retries automatically.
 
 Selected references passed Codex composition review. Final human commercial art approval and physical device pixel-density review remain open.
+
+## Master Reference 12
+
+새 제작은 2026-11-19에 고정한 이안·주거 골목·독립 집의 카메라와 실루엣을 기준으로 시작한다. 각 장소의 선정 PNG, 원본과 픽셀 시트의 용도, 실제 화면과의 차이, 소품 배치 검수는 [마스터 스타일 기준](../ArtSource/Higgsfield/Selected/Master12/STYLE_LOCK.md)에 있다.

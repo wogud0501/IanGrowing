@@ -1,0 +1,493 @@
+{
+  "rows": [
+    {
+      "room": "city",
+      "minute": 360,
+      "actors": [],
+      "planned": []
+    },
+    {
+      "room": "city",
+      "minute": 540,
+      "actors": [
+        "resident-0=Walk@((-6.7, -7.4))",
+        "resident-4=Walk@((0.8, 1.0))",
+        "resident-5=Walk@((-3.8, 1.6))",
+        "resident-8=Walk@((2.5, -7.4))",
+        "resident-9=Walk@((5.7, 1.0))",
+        "family-father=Walk@((-5.8, -7.4))",
+        "ambient-urban-2=Walk@((-5.0, 1.6))",
+        "ambient-urban-3=Walk@((-2.1, -7.4))",
+        "ambient-urban-4=Walk@((0.4, 1.7))",
+        "ambient-urban-5=Walk@((1.9, -6.8))",
+        "ambient-urban-6=Walk@((4.8, 1.9))",
+        "ambient-urban-7=Walk@((7.1, -7.4))"
+      ],
+      "planned": [
+        "resident-0",
+        "resident-4",
+        "resident-5",
+        "resident-8",
+        "resident-9",
+        "family-father"
+      ]
+    },
+    {
+      "room": "city",
+      "minute": 720,
+      "actors": [
+        "family-mother=Walk@((2.5, -7.4))",
+        "ambient-urban-0=Walk@((-3.8, 1.6))"
+      ],
+      "planned": [
+        "family-mother"
+      ]
+    },
+    {
+      "room": "city",
+      "minute": 900,
+      "actors": [
+        "shop-clerk=Walk@((-2.1, -7.4))"
+      ],
+      "planned": [
+        "shop-clerk"
+      ]
+    },
+    {
+      "room": "city",
+      "minute": 1080,
+      "actors": [
+        "resident-1=Walk@((0.8, 1.0))",
+        "resident-2=Walk@((-6.7, -7.4))",
+        "resident-6=Walk@((2.5, -7.4))",
+        "resident-9=Walk@((7.1, -7.4))",
+        "ambient-urban-0=Walk@((-9.0, 1.0))",
+        "ambient-urban-1=Walk@((-5.8, -7.4))",
+        "ambient-urban-2=Walk@((-3.8, 1.6))",
+        "ambient-urban-3=Walk@((-2.1, -7.4))",
+        "ambient-urban-4=Walk@((0.4, 1.7))",
+        "ambient-urban-5=Walk@((1.9, -6.8))",
+        "ambient-urban-6=Walk@((5.7, 1.0))",
+        "ambient-urban-7=Walk@((8.0, -7.4))"
+      ],
+      "planned": [
+        "resident-1",
+        "resident-2",
+        "resident-6",
+        "resident-9"
+      ]
+    },
+    {
+      "room": "city",
+      "minute": 1260,
+      "actors": [],
+      "planned": []
+    },
+    {
+      "room": "city",
+      "minute": 120,
+      "actors": [],
+      "planned": []
+    },
+    {
+      "room": "workplace",
+      "minute": 360,
+      "actors": [],
+      "planned": [
+        "resident-6"
+      ]
+    },
+    {
+      "room": "workplace",
+      "minute": 540,
+      "actors": [],
+      "planned": [
+        "colleague"
+      ]
+    },
+    {
+      "room": "workplace",
+      "minute": 720,
+      "actors": [],
+      "planned": [
+        "colleague",
+        "resident-0",
+        "resident-5"
+      ]
+    },
+    {
+      "room": "workplace",
+      "minute": 900,
+      "actors": [],
+      "planned": [
+        "colleague",
+        "resident-0",
+        "resident-5"
+      ]
+    },
+    {
+      "room": "workplace",
+      "minute": 1080,
+      "actors": [],
+      "planned": [
+        "resident-5"
+      ]
+    },
+    {
+      "room": "workplace",
+      "minute": 1260,
+      "actors": [],
+      "planned": []
+    },
+    {
+      "room": "workplace",
+      "minute": 120,
+      "actors": [],
+      "planned": [
+        "resident-6"
+      ]
+    },
+    {
+      "room": "workplace",
+      "minute": 180,
+      "actors": [
+        "resident-6=Rest@office-break-1((7.2, 0.0))"
+      ],
+      "planned": [
+        "resident-6"
+      ]
+    },
+    {
+      "room": "workplace",
+      "minute": 750,
+      "actors": [],
+      "planned": [
+        "resident-0",
+        "resident-5"
+      ]
+    },
+    {
+      "room": "workplace",
+      "minute": 1110,
+      "actors": [],
+      "planned": []
+    },
+    {
+      "room": "workplace",
+      "minute": 1320,
+      "actors": [],
+      "planned": []
+    },
+    {
+      "room": "school",
+      "minute": 360,
+      "actors": [],
+      "planned": []
+    },
+    {
+      "room": "school",
+      "minute": 540,
+      "actors": [],
+      "planned": [
+        "classmate",
+        "school-teacher",
+        "school-pupil"
+      ]
+    },
+    {
+      "room": "school",
+      "minute": 720,
+      "actors": [],
+      "planned": [
+        "classmate",
+        "school-teacher",
+        "school-pupil"
+      ]
+    },
+    {
+      "room": "school",
+      "minute": 900,
+      "actors": [],
+      "planned": [
+        "classmate",
+        "school-teacher",
+        "school-pupil"
+      ]
+    },
+    {
+      "room": "school",
+      "minute": 1080,
+      "actors": [],
+      "planned": []
+    },
+    {
+      "room": "school",
+      "minute": 1260,
+      "actors": [],
+      "planned": []
+    },
+    {
+      "room": "school",
+      "minute": 120,
+      "actors": [],
+      "planned": []
+    },
+    {
+      "room": "school",
+      "minute": 180,
+      "actors": [],
+      "planned": []
+    },
+    {
+      "room": "school",
+      "minute": 510,
+      "actors": [],
+      "planned": [
+        "classmate",
+        "school-teacher",
+        "school-pupil"
+      ]
+    },
+    {
+      "room": "school",
+      "minute": 750,
+      "actors": [],
+      "planned": []
+    },
+    {
+      "room": "school",
+      "minute": 1020,
+      "actors": [],
+      "planned": []
+    },
+    {
+      "room": "school",
+      "minute": 1320,
+      "actors": [],
+      "planned": []
+    },
+    {
+      "room": "shop",
+      "minute": 360,
+      "actors": [],
+      "planned": []
+    },
+    {
+      "room": "shop",
+      "minute": 540,
+      "actors": [],
+      "planned": [
+        "shop-clerk"
+      ]
+    },
+    {
+      "room": "shop",
+      "minute": 720,
+      "actors": [],
+      "planned": [
+        "resident-2",
+        "shop-clerk"
+      ]
+    },
+    {
+      "room": "shop",
+      "minute": 900,
+      "actors": [],
+      "planned": [
+        "resident-2",
+        "resident-7"
+      ]
+    },
+    {
+      "room": "shop",
+      "minute": 1080,
+      "actors": [
+        "colleague=Shop@shop-browse-0((-7.4, -0.9))",
+        "resident-0=Shop@shop-browse-1((-5.6, -0.9))",
+        "resident-3=Shop@shop-browse-3((-7.4, -2.1))",
+        "resident-4=Shop@shop-browse-4((-5.6, -2.1))",
+        "resident-8=Shop@shop-browse-5((-3.8, -2.1))"
+      ],
+      "planned": [
+        "colleague",
+        "resident-0",
+        "resident-3",
+        "resident-4",
+        "resident-7",
+        "resident-8"
+      ]
+    },
+    {
+      "room": "shop",
+      "minute": 1260,
+      "actors": [],
+      "planned": [
+        "resident-6",
+        "resident-7"
+      ]
+    },
+    {
+      "room": "shop",
+      "minute": 120,
+      "actors": [],
+      "planned": []
+    },
+    {
+      "room": "shop",
+      "minute": 430,
+      "actors": [],
+      "planned": [
+        "shop-clerk"
+      ]
+    },
+    {
+      "room": "shop",
+      "minute": 735,
+      "actors": [
+        "shop-clerk=Rest@shop-browse-5((-3.8, -2.1))"
+      ],
+      "planned": [
+        "colleague",
+        "classmate",
+        "resident-2",
+        "school-teacher",
+        "school-pupil",
+        "shop-clerk"
+      ]
+    },
+    {
+      "room": "shop",
+      "minute": 915,
+      "actors": [],
+      "planned": [
+        "resident-2"
+      ]
+    },
+    {
+      "room": "shop",
+      "minute": 1100,
+      "actors": [
+        "colleague=Shop@shop-browse-0((-7.4, -0.9))",
+        "resident-0=Shop@shop-browse-1((-5.6, -0.9))",
+        "resident-3=Shop@shop-browse-3((-7.4, -2.1))",
+        "resident-4=Shop@shop-browse-4((-5.6, -2.1))",
+        "resident-8=Shop@shop-browse-5((-3.8, -2.1))",
+        "resident-9=Walk@shop-browse-0((-6.4, -0.9))"
+      ],
+      "planned": [
+        "colleague",
+        "resident-0",
+        "resident-3",
+        "resident-4",
+        "resident-7",
+        "resident-8",
+        "resident-9"
+      ]
+    },
+    {
+      "room": "shop",
+      "minute": 1390,
+      "actors": [],
+      "planned": []
+    },
+    {
+      "room": "finance",
+      "minute": 360,
+      "actors": [],
+      "planned": []
+    },
+    {
+      "room": "finance",
+      "minute": 540,
+      "actors": [],
+      "planned": [
+        "resident-3"
+      ]
+    },
+    {
+      "room": "finance",
+      "minute": 720,
+      "actors": [],
+      "planned": [
+        "resident-3",
+        "resident-4"
+      ]
+    },
+    {
+      "room": "finance",
+      "minute": 900,
+      "actors": [],
+      "planned": [
+        "resident-3",
+        "resident-4"
+      ]
+    },
+    {
+      "room": "finance",
+      "minute": 1080,
+      "actors": [],
+      "planned": []
+    },
+    {
+      "room": "finance",
+      "minute": 1260,
+      "actors": [],
+      "planned": []
+    },
+    {
+      "room": "finance",
+      "minute": 120,
+      "actors": [],
+      "planned": []
+    },
+    {
+      "room": "realestate",
+      "minute": 360,
+      "actors": [],
+      "planned": []
+    },
+    {
+      "room": "realestate",
+      "minute": 540,
+      "actors": [],
+      "planned": []
+    },
+    {
+      "room": "realestate",
+      "minute": 720,
+      "actors": [],
+      "planned": [
+        "resident-8",
+        "resident-9"
+      ]
+    },
+    {
+      "room": "realestate",
+      "minute": 900,
+      "actors": [],
+      "planned": [
+        "resident-8",
+        "resident-9"
+      ]
+    },
+    {
+      "room": "realestate",
+      "minute": 1080,
+      "actors": [],
+      "planned": []
+    },
+    {
+      "room": "realestate",
+      "minute": 1260,
+      "actors": [],
+      "planned": []
+    },
+    {
+      "room": "realestate",
+      "minute": 120,
+      "actors": [],
+      "planned": []
+    }
+  ],
+  "issues": []
+}

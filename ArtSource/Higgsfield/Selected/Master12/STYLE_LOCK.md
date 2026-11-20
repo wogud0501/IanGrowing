@@ -33,3 +33,13 @@
 두 초기 후보와 수정 이력은 아래 보드에서 원본 구도로 비교할 수 있다. [핵심 7종 A/B](Review/Candidate_Review_1.jpg) · [확장 5종 A/B](Review/Candidate_Review_2.jpg) · [이안·집·은행의 교정 전후](Review/Targeted_Edits.jpg)
 
 주거 골목의 같은 위치에서 19세 이안과 두 소품을 정오에 촬영했다. 벤치와 배전함 모두 플레이 카메라 안에 있었고, 기존 프리팹이 새 스프라이트를 렌더링했다. 두 차례 전용 테스트 슬롯 실행 후 기존 저장 파일 지문이 같았다. [Game View 전후](Review/Residential_Before_After.jpg) · [Play Mode 결과](Review/Residential_After.json) · [임포트·아틀라스 결과](Review/Unity_Import.json)
+
+## 시간대·날씨·생활 변형
+
+주거 낮, 회사 근무 시간, 학교 수업은 해당 마스터를 그대로 사용한다. 주거지역 5개 시간·날씨, 도심 5개, 회사 4개, 학교 4개의 장면을 구성하고, 집의 고지서·금융 상담·새벽 편의점은 별도 생활 장면으로 선정했다. 모든 후속 생성의 첫 입력은 그 장소의 선정 마스터다.
+
+[주거 골목](Review/CITY_RESIDENTIAL_MASTER_Variations.jpg) · [도심](Review/CITY_DOWNTOWN_MASTER_Variations.jpg) · [사무실](Review/WORKSPACE_MASTER_Variations.jpg) · [학교](Review/SCHOOL_MASTER_Variations.jpg) · [생활 속 블랙코미디](Review/Black_Comedy.jpg)
+
+선정된 후속 18장마다 건축 표식 8곳을 400×226 화면에서 대조했다. 표식 144곳의 측정 오차 분포는 0px 142곳, 1px 2곳. 표식은 전체 이미지의 픽셀 동일성을 판정하지 않는다. [표식과 측정 결과](Review/Location_Alignment.json)
+
+마스터 작업에서는 기본 24건과 국소 교정 3건의 결과를 회수했다. 후속 변형은 33건의 완성 파일을 회수했다. 초기 주거지역 변형 4건은 서비스가 ID를 반환하지 않아 결과와 과금 귀속을 확인할 수 없었다. 같은 요청을 재제출하지 않았다. 아침과 비는 회수된 B를 검수했고, 저녁은 낮과 밤의 선정본을 함께 입력한 별도 편집이다. [후속 후보·선정 기록](Variations/manifest.json)

@@ -1,0 +1,521 @@
+[
+  {
+    "name": "office-break",
+    "person": "colleague",
+    "poses": [
+      "UseComputer",
+      "Walk",
+      "Idle",
+      "SeatedDrink",
+      "SitRelax",
+      "SeatedPhone"
+    ],
+    "locations": [
+      "(-5.6, 2.3, 0.0)",
+      "(-5.8, 2.3, 0.0)",
+      "(-6.1, 2.4, 0.0)",
+      "(-6.3, 2.4, 0.0)",
+      "(-6.6, 2.5, 0.0)",
+      "(-6.8, 2.5, 0.0)",
+      "(-7.0, 2.6, 0.0)",
+      "(-7.3, 2.6, 0.0)",
+      "(-7.5, 2.7, 0.0)",
+      "(-7.5, 2.8, 0.0)",
+      "(-7.3, 2.9, 0.0)",
+      "(-7.1, 3.0, 0.0)",
+      "(-6.9, 3.2, 0.0)",
+      "(-6.7, 3.3, 0.0)",
+      "(-6.6, 3.4, 0.0)"
+    ],
+    "frames": 12,
+    "seenSlots": [
+      "staff-desk-colleague",
+      "office-break-0"
+    ],
+    "bad": 0,
+    "error": 0.0,
+    "toolSeen": true,
+    "hidden": false,
+    "returned": false
+  },
+  {
+    "name": "office-return",
+    "person": "colleague",
+    "poses": [
+      "SitRelax",
+      "StandUp",
+      "Walk",
+      "SitDown",
+      "UseComputer"
+    ],
+    "locations": [
+      "(-6.6, 3.4, 0.0)",
+      "(-6.8, 3.3, 0.0)",
+      "(-7.0, 3.1, 0.0)",
+      "(-7.2, 3.0, 0.0)",
+      "(-7.4, 2.9, 0.0)",
+      "(-7.6, 2.7, 0.0)",
+      "(-7.5, 2.7, 0.0)",
+      "(-7.2, 2.6, 0.0)",
+      "(-7.0, 2.6, 0.0)",
+      "(-6.8, 2.5, 0.0)",
+      "(-6.5, 2.5, 0.0)",
+      "(-6.3, 2.4, 0.0)",
+      "(-6.1, 2.4, 0.0)",
+      "(-5.8, 2.3, 0.0)"
+    ],
+    "frames": 4,
+    "seenSlots": [
+      "office-break-0",
+      "staff-desk-colleague"
+    ],
+    "bad": 0,
+    "error": 0.0,
+    "toolSeen": false,
+    "hidden": true,
+    "returned": false
+  },
+  {
+    "name": "school-rest",
+    "person": "classmate",
+    "poses": [
+      "SeatedPhone",
+      "SitRelax"
+    ],
+    "locations": [
+      "(-7.2, -2.6, 0.0)"
+    ],
+    "frames": 4,
+    "seenSlots": [
+      "school-break-0"
+    ],
+    "bad": 0,
+    "error": 0.0,
+    "toolSeen": true,
+    "hidden": false,
+    "returned": false
+  },
+  {
+    "name": "finance-rest",
+    "person": "resident-3",
+    "poses": [
+      "SitRelax",
+      "SeatedDrink"
+    ],
+    "locations": [
+      "(3.0, -2.7, 0.0)"
+    ],
+    "frames": 3,
+    "seenSlots": [
+      "finance-staff-rest-0"
+    ],
+    "bad": 0,
+    "error": 0.0,
+    "toolSeen": true,
+    "hidden": false,
+    "returned": false
+  },
+  {
+    "name": "shop-rest",
+    "person": "shop-clerk",
+    "poses": [
+      "SitRelax",
+      "SeatedDrink"
+    ],
+    "locations": [
+      "(4.2, 2.2, 0.0)"
+    ],
+    "frames": 4,
+    "seenSlots": [
+      "shop-backroom-seat"
+    ],
+    "bad": 0,
+    "error": 0.0,
+    "toolSeen": true,
+    "hidden": false,
+    "returned": false
+  },
+  {
+    "name": "cafe-rest",
+    "person": "resident-2",
+    "poses": [
+      "Work",
+      "Walk",
+      "Idle",
+      "SitRelax",
+      "SeatedDrink",
+      "SeatedPhone"
+    ],
+    "locations": [
+      "(-5.4, 2.6, 0.0)",
+      "(-5.2, 2.5, 0.0)",
+      "(-5.0, 2.4, 0.0)",
+      "(-4.7, 2.4, 0.0)",
+      "(-4.5, 2.4, 0.0)",
+      "(-4.2, 2.4, 0.0)",
+      "(-4.0, 2.4, 0.0)",
+      "(-3.8, 2.4, 0.0)",
+      "(-3.5, 2.4, 0.0)",
+      "(-3.3, 2.4, 0.0)",
+      "(-3.0, 2.4, 0.0)",
+      "(-2.8, 2.4, 0.0)",
+      "(-2.6, 2.4, 0.0)",
+      "(-2.3, 2.4, 0.0)",
+      "(-2.1, 2.4, 0.0)",
+      "(-1.8, 2.4, 0.0)",
+      "(-1.6, 2.4, 0.0)",
+      "(-1.3, 2.4, 0.0)",
+      "(-1.1, 2.4, 0.0)",
+      "(-0.9, 2.4, 0.0)",
+      "(-0.6, 2.4, 0.0)",
+      "(-0.4, 2.4, 0.0)",
+      "(-0.3, 2.4, 0.0)",
+      "(-0.1, 2.4, 0.0)",
+      "(0.2, 2.4, 0.0)",
+      "(0.4, 2.4, 0.0)",
+      "(0.6, 2.4, 0.0)",
+      "(0.9, 2.3, 0.0)",
+      "(1.1, 2.2, 0.0)",
+      "(1.2, 2.0, 0.0)",
+      "(1.4, 1.9, 0.0)",
+      "(1.6, 1.7, 0.0)",
+      "(1.8, 1.5, 0.0)",
+      "(2.0, 1.4, 0.0)",
+      "(2.2, 1.4, 0.0)",
+      "(2.5, 1.4, 0.0)",
+      "(2.7, 1.4, 0.0)",
+      "(2.9, 1.5, 0.0)",
+      "(3.1, 1.6, 0.0)",
+      "(3.3, 1.8, 0.0)",
+      "(3.5, 2.0, 0.0)",
+      "(3.6, 2.1, 0.0)",
+      "(3.8, 2.3, 0.0)",
+      "(4.0, 2.5, 0.0)",
+      "(4.1, 2.7, 0.0)",
+      "(4.3, 2.8, 0.0)",
+      "(4.6, 2.9, 0.0)",
+      "(4.8, 2.9, 0.0)",
+      "(5.0, 2.8, 0.0)",
+      "(5.2, 2.7, 0.0)",
+      "(5.4, 2.5, 0.0)",
+      "(5.6, 2.4, 0.0)",
+      "(5.9, 2.3, 0.0)",
+      "(6.1, 2.2, 0.0)",
+      "(6.0, 2.0, 0.0)",
+      "(5.9, 1.7, 0.0)",
+      "(5.9, 1.5, 0.0)",
+      "(6.0, 1.9, 0.0)",
+      "(6.1, 2.1, 0.0)"
+    ],
+    "frames": 4,
+    "seenSlots": [
+      "shop-staff-counter",
+      "cafe-backroom-seat"
+    ],
+    "bad": 0,
+    "error": 0.0,
+    "toolSeen": true,
+    "hidden": false,
+    "returned": false
+  },
+  {
+    "name": "floor-day1",
+    "person": "family-mother",
+    "poses": [
+      "Walk",
+      "Mop",
+      "Interact"
+    ],
+    "locations": [
+      "(-3.4, -0.4, 0.0)",
+      "(-3.4, -0.1, 0.0)",
+      "(-3.4, 0.2, 0.0)",
+      "(-3.4, 0.4, 0.0)",
+      "(-3.4, 0.7, 0.0)",
+      "(-3.3, 1.0, 0.0)",
+      "(-3.3, 1.1, 0.0)",
+      "(-3.2, 1.2, 0.0)",
+      "(-2.9, 1.3, 0.0)",
+      "(-2.6, 1.5, 0.0)",
+      "(-2.5, 1.5, 0.0)",
+      "(-2.6, 1.4, 0.0)",
+      "(-2.7, 1.1, 0.0)",
+      "(-2.8, 0.9, 0.0)",
+      "(-2.9, 0.6, 0.0)",
+      "(-3.1, 0.3, 0.0)",
+      "(-3.2, 0.0, 0.0)",
+      "(-3.3, -0.3, 0.0)",
+      "(-3.4, -0.6, 0.0)",
+      "(-3.5, -0.9, 0.0)"
+    ],
+    "frames": 6,
+    "seenSlots": [
+      "family-clean"
+    ],
+    "bad": 0,
+    "error": 0.0,
+    "toolSeen": true,
+    "hidden": false,
+    "returned": false
+  },
+  {
+    "name": "floor-day2",
+    "person": "family-mother",
+    "poses": [
+      "Interact",
+      "Walk",
+      "Vacuum"
+    ],
+    "locations": [
+      "(-3.4, -0.8, 0.0)",
+      "(-3.4, -0.5, 0.0)",
+      "(-3.4, -0.2, 0.0)",
+      "(-3.4, 0.1, 0.0)",
+      "(-3.4, 0.2, 0.0)",
+      "(-3.4, 0.3, 0.0)",
+      "(-3.4, 0.7, 0.0)",
+      "(-3.3, 1.0, 0.0)",
+      "(-3.3, 1.1, 0.0)",
+      "(-3.2, 1.1, 0.0)",
+      "(-3.0, 1.3, 0.0)",
+      "(-2.7, 1.4, 0.0)",
+      "(-2.5, 1.5, 0.0)",
+      "(-2.7, 1.2, 0.0)",
+      "(-2.8, 0.9, 0.0)",
+      "(-2.9, 0.6, 0.0)",
+      "(-3.0, 0.3, 0.0)",
+      "(-3.2, 0.0, 0.0)",
+      "(-3.3, -0.3, 0.0)",
+      "(-3.4, -0.6, 0.0)",
+      "(-3.5, -0.9, 0.0)"
+    ],
+    "frames": 6,
+    "seenSlots": [
+      "family-clean"
+    ],
+    "bad": 0,
+    "error": 0.0,
+    "toolSeen": true,
+    "hidden": false,
+    "returned": false
+  },
+  {
+    "name": "floor-day3",
+    "person": "family-mother",
+    "poses": [
+      "Interact",
+      "Walk",
+      "Sweep",
+      "Idle"
+    ],
+    "locations": [
+      "(-3.4, -0.8, 0.0)",
+      "(-3.4, -0.5, 0.0)",
+      "(-3.4, -0.2, 0.0)",
+      "(-3.4, 0.1, 0.0)",
+      "(-3.4, 0.2, 0.0)",
+      "(-3.4, 0.3, 0.0)",
+      "(-3.4, 0.7, 0.0)",
+      "(-3.3, 1.0, 0.0)",
+      "(-3.3, 1.1, 0.0)",
+      "(-3.2, 1.1, 0.0)",
+      "(-3.0, 1.3, 0.0)",
+      "(-2.7, 1.4, 0.0)",
+      "(-2.5, 1.5, 0.0)",
+      "(-2.6, 1.5, 0.0)",
+      "(-2.7, 1.2, 0.0)",
+      "(-2.8, 0.9, 0.0)",
+      "(-2.9, 0.6, 0.0)",
+      "(-3.0, 0.3, 0.0)",
+      "(-3.2, 0.0, 0.0)",
+      "(-3.3, -0.3, 0.0)",
+      "(-3.4, -0.6, 0.0)",
+      "(-3.5, -0.9, 0.0)"
+    ],
+    "frames": 6,
+    "seenSlots": [
+      "family-clean"
+    ],
+    "bad": 0,
+    "error": 0.0,
+    "toolSeen": true,
+    "hidden": false,
+    "returned": true
+  },
+  {
+    "name": "table",
+    "person": "family-mother",
+    "poses": [
+      "Walk",
+      "WipeTable",
+      "Interact"
+    ],
+    "locations": [
+      "(2.5, -2.6, 0.0)",
+      "(2.1, -2.6, 0.0)",
+      "(1.8, -2.6, 0.0)",
+      "(1.5, -2.6, 0.0)",
+      "(1.3, -2.6, 0.0)",
+      "(1.0, -2.6, 0.0)",
+      "(0.7, -2.6, 0.0)",
+      "(0.3, -2.6, 0.0)",
+      "(0.2, -2.6, 0.0)",
+      "(-0.2, -2.6, 0.0)",
+      "(-0.5, -2.6, 0.0)",
+      "(-0.8, -2.6, 0.0)",
+      "(-1.1, -2.6, 0.0)",
+      "(-1.3, -2.6, 0.0)",
+      "(-1.6, -2.6, 0.0)",
+      "(-2.0, -2.6, 0.0)",
+      "(-2.3, -2.6, 0.0)",
+      "(-2.4, -2.6, 0.0)"
+    ],
+    "frames": 7,
+    "seenSlots": [
+      "family-table-wipe"
+    ],
+    "bad": 0,
+    "error": 0.0,
+    "toolSeen": true,
+    "hidden": false,
+    "returned": false
+  },
+  {
+    "name": "dishes",
+    "person": "family-mother",
+    "poses": [
+      "Idle",
+      "Interact",
+      "Walk",
+      "WashDishes"
+    ],
+    "locations": [
+      "(-2.4, -2.6, 0.0)",
+      "(-3.3, 0.7, 0.0)",
+      "(-3.2, 0.7, 0.0)",
+      "(-3.1, 0.7, 0.0)",
+      "(-2.8, 0.7, 0.0)"
+    ],
+    "frames": 5,
+    "seenSlots": [
+      "family-dishes"
+    ],
+    "bad": 0,
+    "error": 0.0,
+    "toolSeen": true,
+    "hidden": false,
+    "returned": true
+  },
+  {
+    "name": "laundry",
+    "person": "family-mother",
+    "poses": [
+      "Walk",
+      "CarryLaundry",
+      "Interact",
+      "Idle"
+    ],
+    "locations": [
+      "(0.5, -0.6, 0.0)",
+      "(0.7, -0.4, 0.0)",
+      "(0.8, -0.3, 0.0)",
+      "(1.1, -0.3, 0.0)",
+      "(1.5, -0.4, 0.0)"
+    ],
+    "frames": 6,
+    "seenSlots": [
+      "family-care"
+    ],
+    "bad": 0,
+    "error": 0.0,
+    "toolSeen": true,
+    "hidden": false,
+    "returned": true
+  },
+  {
+    "name": "trash",
+    "person": "family-father",
+    "poses": [
+      "Walk",
+      "CarryTrash"
+    ],
+    "locations": [
+      "(2.1, -1.1, 0.0)",
+      "(2.2, -1.3, 0.0)",
+      "(2.4, -1.5, 0.0)",
+      "(2.6, -1.8, 0.0)",
+      "(2.6, -1.9, 0.0)"
+    ],
+    "frames": 8,
+    "seenSlots": [
+      "family-waste"
+    ],
+    "bad": 0,
+    "error": 0.0,
+    "toolSeen": true,
+    "hidden": false,
+    "returned": false
+  },
+  {
+    "name": "family-tv",
+    "person": "family-father",
+    "poses": [
+      "CarryTrash",
+      "SitRelax"
+    ],
+    "locations": [
+      "(2.6, -1.9, 0.0)",
+      "(-0.4, -1.2, 0.0)"
+    ],
+    "frames": 4,
+    "seenSlots": [
+      "family-waste",
+      "family-tv-father"
+    ],
+    "bad": 0,
+    "error": 0.0,
+    "toolSeen": true,
+    "hidden": false,
+    "returned": false
+  },
+  {
+    "name": "family-talk",
+    "person": "family-mother",
+    "poses": [
+      "SitRelax",
+      "TalkSit"
+    ],
+    "locations": [
+      "(-1.6, -1.2, 0.0)"
+    ],
+    "frames": 4,
+    "seenSlots": [
+      "family-tv-mother"
+    ],
+    "bad": 0,
+    "error": 0.0,
+    "toolSeen": false,
+    "hidden": false,
+    "returned": false
+  },
+  {
+    "name": "family-resume",
+    "person": "family-mother",
+    "poses": [
+      "TalkSit",
+      "SitRelax"
+    ],
+    "locations": [
+      "(-1.6, -1.2, 0.0)"
+    ],
+    "frames": 4,
+    "seenSlots": [
+      "family-tv-mother"
+    ],
+    "bad": 0,
+    "error": 0.0,
+    "toolSeen": false,
+    "hidden": false,
+    "returned": false
+  }
+]

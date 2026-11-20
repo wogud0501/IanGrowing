@@ -312,12 +312,12 @@ namespace IanGame.Editor
 
                             if (o.id == "family-basin")
                             {
-                                o.transform.position = origin + new Vector2(-1.25f, .12f);
+                                o.transform.position = origin + new Vector2(0, .4f);
                             }
 
                             if (o.id == "family-toilet")
                             {
-                                o.transform.position = origin + new Vector2(-.05f, .12f);
+                                o.transform.position = origin + new Vector2(-1.25f, .12f);
                             }
 
                             if (o.id == "family-shower")

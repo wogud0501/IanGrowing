@@ -109,6 +109,7 @@ namespace IanGame
                 !resident.definition.ambient
                 || resident.definition.ambientOffsets.Length == 0
                 || resident.target == null
+                || !resident.target.allowStroll
                 || resident.target.action != NPCDailyAction.Walk
                 || resident.actor.zone != resident.target.zone
                 || !resident.atActivity
@@ -119,7 +120,7 @@ namespace IanGame
 
             if (resident.ambientPauseUntil <= 0)
             {
-                resident.ambientPauseUntil = Time.unscaledTime + 1.4f + resident.ambientWaypoint % 3 * .35f;
+                resident.ambientPauseUntil = Time.unscaledTime + 8f + resident.ambientWaypoint * 2f;
                 return;
             }
 
@@ -128,7 +129,12 @@ namespace IanGame
                 return;
             }
 
-            resident.ambientWaypoint = (resident.ambientWaypoint + 1) % resident.definition.ambientOffsets.Length;
+            if (resident.ambientWaypoint + 1 >= resident.definition.ambientOffsets.Length)
+            {
+                return;
+            }
+
+            resident.ambientWaypoint++;
             resident.ambientPauseUntil = 0;
             resident.hasPersonalGoal = false;
             resident.atActivity = false;
@@ -138,6 +144,11 @@ namespace IanGame
 
         bool AdmitResident(WorldNPCDefinition definition)
         {
+            if (definition.ambient && world.Room.roomId == definition.homeZone)
+            {
+                return false;
+            }
+
             return !definition.ambient || lifeProfile == null || admittedAmbient.Contains(definition.npcId);
         }
 
@@ -172,6 +183,11 @@ namespace IanGame
         {
             if (resident.definition.ambient && resident.actor != null)
             {
+                if (resident.heldItem != null)
+                {
+                    resident.heldItem.enabled = false;
+                }
+
                 resident.actor.visual.color = resident.baseColor;
                 resident.actor.gameObject.SetActive(false);
                 ambientPool[resident.definition.npcId] = resident.actor;

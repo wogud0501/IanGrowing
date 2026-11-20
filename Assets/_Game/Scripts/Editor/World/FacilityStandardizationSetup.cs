@@ -258,7 +258,7 @@ namespace IanGame.Editor
             a.transform.position =
                 rules.Zone("residence").origin
                 + new Vector2(
-                    8,
+                    -8,
                     -3 + new[] { "school-teacher", "shop-clerk", "school-pupil" }.ToList().IndexOf(id) * 3
                 );
             var animation = a.GetComponent<WorldActorAnimation>();
@@ -283,11 +283,15 @@ namespace IanGame.Editor
                 "시설 직원·학생 생활관 침대",
                 "residence",
                 a.transform.position - (Vector3)rules.Zone("residence").origin,
-                Find("bed").visual.sprite,
+                Find("resident-bed-0").visual.sprite,
                 WorldInteractionKind.Sleep,
-                .5f
+                1f
             );
-            bed.UsePoint = new Vector2(-.7f, -.3f);
+            var footprint = bed.GetComponent<BoxCollider2D>();
+            var example = Find("resident-bed-0").GetComponent<BoxCollider2D>();
+            footprint.offset = example.offset;
+            footprint.size = example.size;
+            bed.UsePoint = new Vector2(.85f, -.3f);
             bed.enabled = false;
             d = new WorldNPCDefinition
             {
@@ -562,6 +566,7 @@ namespace IanGame.Editor
                 false,
                 Vector2.down
             );
+            clerk.GetComponent<WorldActivitySlot>().reliefStaff = new[] { "resident-2", "resident-7" };
             var counter = Find("counter");
             counter.title = "식료품 구매 · 계산대";
             counter.transform.position = clerk.transform.position;

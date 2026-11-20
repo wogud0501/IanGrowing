@@ -18343,7 +18343,7 @@ Transform:
   m_GameObject: {fileID: 538821780}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 38.2, y: 0.4, z: 0}
+  m_LocalPosition: {x: 40, y: 0.4, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -64884,7 +64884,7 @@ Transform:
   m_GameObject: {fileID: 1953464318}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 40, y: 0.4, z: 0}
+  m_LocalPosition: {x: 38.2, y: 0.4, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -68706,6 +68706,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::IanGame.WorldActivitySlot
   seat: {fileID: 0}
   staffId: 
+  reliefStaff: []
   facing: {x: 0, y: -1}
   useSeatAnchors: 1
   seated: 0
@@ -71173,6 +71174,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5be56845d3f57a4fb05d32f868ffe9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::IanGame.WorldNPCScheduler
+  activityArt: {fileID: 11400000, guid: 9dc85497a878546a5a6548350fb80f42, type: 2}
   lifeProfile: {fileID: 11400000, guid: d086b65d70a3b4abe85adbb86ae57a05, type: 2}
   sceneScoped: 1
   residentPrefabs:
@@ -112099,7 +112101,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1280, y: 0}
+  m_SizeDelta: {x: 1655.1724, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &4930388838002371381
 MonoBehaviour:

@@ -1793,7 +1793,7 @@ Transform:
   m_GameObject: {fileID: 15767276}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 318, y: 0, z: 0}
+  m_LocalPosition: {x: 302, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1834,7 +1834,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0.25}
+  m_Offset: {x: 0, y: 0.625}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -1844,7 +1844,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.65, y: 0.45}
+  m_Size: {x: 1.2, y: 1.25}
   m_EdgeRadius: 0
 --- !u!114 &15767279
 MonoBehaviour:
@@ -1871,7 +1871,7 @@ MonoBehaviour:
   shadow: {fileID: 0}
   activityEffect: {fileID: 0}
   animateDoorLeaf: 1
-  UsePoint: {x: -0.7, y: -0.3}
+  UsePoint: {x: 0.85, y: -0.3}
 --- !u!1 &20179125
 GameObject:
   m_ObjectHideFlags: 0
@@ -60104,7 +60104,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1982179072}
@@ -66067,7 +66067,7 @@ MonoBehaviour:
   locked: 0
   opens: 7
   closes: 23
-  staffId: colleague
+  staffId: shop-clerk
 --- !u!1 &771831220
 GameObject:
   m_ObjectHideFlags: 0
@@ -76534,7 +76534,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 15767277}
@@ -85206,6 +85206,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::IanGame.WorldActivitySlot
   seat: {fileID: 0}
   staffId: resident-6
+  reliefStaff:
+  - ambient-urban-3
   facing: {x: 0, y: -1}
   useSeatAnchors: 0
   seated: 0
@@ -91031,7 +91033,7 @@ MonoBehaviour:
   locked: 0
   opens: 7
   closes: 23
-  staffId: colleague
+  staffId: shop-clerk
 --- !u!1 &1057771153
 GameObject:
   m_ObjectHideFlags: 0
@@ -130849,7 +130851,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1528698380}
@@ -131307,7 +131309,7 @@ Transform:
   m_GameObject: {fileID: 1528698379}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 318, y: 3, z: 0}
+  m_LocalPosition: {x: 302, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -131348,7 +131350,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0.25}
+  m_Offset: {x: 0, y: 0.625}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -131358,7 +131360,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.65, y: 0.45}
+  m_Size: {x: 1.2, y: 1.25}
   m_EdgeRadius: 0
 --- !u!114 &1528698382
 MonoBehaviour:
@@ -131385,7 +131387,7 @@ MonoBehaviour:
   shadow: {fileID: 0}
   activityEffect: {fileID: 0}
   animateDoorLeaf: 1
-  UsePoint: {x: -0.7, y: -0.3}
+  UsePoint: {x: 0.85, y: -0.3}
 --- !u!1 &1530196294
 GameObject:
   m_ObjectHideFlags: 0
@@ -160991,6 +160993,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::IanGame.WorldActivitySlot
   seat: {fileID: 0}
   staffId: shop-clerk
+  reliefStaff:
+  - resident-2
+  - resident-7
   facing: {x: 0, y: -1}
   useSeatAnchors: 1
   seated: 0
@@ -168906,7 +168911,7 @@ Transform:
   m_GameObject: {fileID: 1982179071}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 318, y: -3, z: 0}
+  m_LocalPosition: {x: 302, y: -3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -168947,7 +168952,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0.25}
+  m_Offset: {x: 0, y: 0.625}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -168957,7 +168962,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.65, y: 0.45}
+  m_Size: {x: 1.2, y: 1.25}
   m_EdgeRadius: 0
 --- !u!114 &1982179074
 MonoBehaviour:
@@ -168984,7 +168989,7 @@ MonoBehaviour:
   shadow: {fileID: 0}
   activityEffect: {fileID: 0}
   animateDoorLeaf: 1
-  UsePoint: {x: -0.7, y: -0.3}
+  UsePoint: {x: 0.85, y: -0.3}
 --- !u!1 &1982601400
 GameObject:
   m_ObjectHideFlags: 0
@@ -182330,6 +182335,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::IanGame.WorldActivitySlot
   seat: {fileID: 0}
   staffId: resident-1
+  reliefStaff:
+  - ambient-urban-2
   facing: {x: 0, y: -1}
   useSeatAnchors: 0
   seated: 0

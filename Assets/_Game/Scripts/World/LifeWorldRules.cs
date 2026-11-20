@@ -53,6 +53,14 @@ namespace IanGame
         Talk,
         Sleep,
         Phone,
+        GetIngredients,
+        Cook,
+        ServeMeal,
+        WashDishes,
+        Clean,
+        WatchTV,
+        Wash,
+        StockShelf,
     }
 
     public enum NPCPersonality
@@ -72,6 +80,9 @@ namespace IanGame
         public string id;
         public string zone;
         public string destinationZone;
+
+        [NonSerialized]
+        public string passingRoom;
         public string objectId;
         public Vector2 position;
         public Vector2 facing = Vector2.down;
@@ -87,6 +98,7 @@ namespace IanGame
         public int hour;
         public int minute;
         public int dayMask = 127;
+        public bool allowStroll;
         public string zone;
         public string objectId;
         public Vector2 position;
@@ -107,6 +119,7 @@ namespace IanGame
         public string homeZone = "residence";
         public string jobId;
         public string workZone;
+        public bool worksFromHome;
         public string companionId;
         public bool hasHomePosition;
         public Vector2 homePosition;

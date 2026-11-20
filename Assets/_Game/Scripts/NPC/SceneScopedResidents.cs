@@ -27,10 +27,11 @@ namespace IanGame
             RebuildScoped(true);
         }
 
-        void RebuildScoped(bool restoring)
+        void RebuildScoped(bool restoring, bool timeJump = false)
         {
             foreach (var r in residents)
             {
+                r.entryDoor?.Release(r.definition.npcId);
                 r.door?.Release(r.definition.npcId);
                 r.interiorDoor?.Release(r.definition.npcId);
                 r.slot?.Release(r.definition.npcId);
@@ -54,7 +55,7 @@ namespace IanGame
             activityLabels = Array.Empty<TMP_Text>();
             residents = Array.Empty<Resident>();
             navigation.Clear();
-            world.Service.AdvanceAbsentResidents();
+            world.Service.AdvanceAbsentResidents(materialize: true, timeJump: timeJump);
             RefreshPopulationBudget();
             var room = world.Room.roomId;
             foreach (var n in world.Service.State.residents.Where(n => n.zone == room).ToArray())
@@ -95,6 +96,7 @@ namespace IanGame
                 loading && saved.zone == local
                     ? world.CurrentZone.origin + saved.position
                     : world.CurrentZone.origin + world.CurrentZone.spawn;
+            WorldDoor entryDoor = null;
             if (!loading)
             {
                 var portal = world.Room.catalog.EntryFrom(local, saved.zone);
@@ -105,16 +107,15 @@ namespace IanGame
                         e.sourceRoom == portal.destinationRoom && e.destinationRoom == local
                     );
                     p = world.Safe(world.CurrentZone, incoming?.arrival ?? (o.Point - world.CurrentZone.origin));
-                    var door = o.GetComponent<WorldDoor>();
-                    if (door != null)
+                    entryDoor = o.GetComponent<WorldDoor>();
+                    if (entryDoor != null)
                     {
-                        door.Acquire(saved.id, world.Service.Hour, out _);
-                        door.Release(saved.id);
+                        p = entryDoor.CrossPoint;
                     }
                 }
             }
 
-            if (!SpawnPoint(ref p))
+            if (entryDoor == null && !SpawnPoint(ref p))
             {
                 return;
             }
@@ -123,6 +124,23 @@ namespace IanGame
                 !loading
                 && residents.Any(r =>
                     r.active && r.actor != null && Vector2.Distance(r.actor.transform.position, p) < 0.42f
+                )
+            )
+            {
+                return;
+            }
+
+            if (
+                entryDoor != null
+                && (
+                    Vector2.Distance(p, world.Player.Position) < .5f
+                    || !entryDoor.Acquire(
+                        saved.id,
+                        world.Service.Hour,
+                        out _,
+                        world.CurrentZone.outdoor
+                            && world.Service.rules.Zone(entryDoor.portal.targetZone)?.outdoor == false
+                    )
                 )
             )
             {
@@ -153,12 +171,15 @@ namespace IanGame
                 animation = a.GetComponent<WorldActorAnimation>(),
                 baseColor = a.visual.color,
                 target = target,
+                entryDoor = entryDoor,
+                arrivingUntil = loading ? 0 : Time.unscaledTime + .3f,
                 active = true,
                 index = -1,
                 used = saved.completedUseKey,
                 action = loading ? saved.action : NPCDailyAction.Walk,
             };
             residents = residents.Concat(new[] { r }).ToArray();
+            saved.passingRoom = null;
             saved.zone = a.zone;
             saved.position = p - world.CurrentZone.origin;
             saved.action = r.action;
@@ -191,6 +212,7 @@ namespace IanGame
             {
                 r.slot?.Release(r.definition.npcId);
                 r.departureSlot?.Release(r.definition.npcId);
+                r.entryDoor?.Release(r.definition.npcId);
                 r.door?.Release(r.definition.npcId);
                 r.interiorDoor?.Release(r.definition.npcId);
                 world.objects = world.objects.Where(o => o != r.actor).ToArray();
@@ -223,7 +245,11 @@ namespace IanGame
                 var target = d.schedule[
                     Schedule(d, world.Service.Game.clock.Day, (int)(world.Service.Game.clock.SubDaySeconds / 60))
                 ];
-                if (n.zone == world.Room.roomId || target.zone == world.Room.roomId)
+                if (
+                    n.zone == world.Room.roomId
+                    || target.zone == world.Room.roomId
+                    || n.passingRoom == world.Room.roomId
+                )
                 {
                     if (lifeProfile != null && arrivals >= lifeProfile.maxArrivalsPerTick)
                     {

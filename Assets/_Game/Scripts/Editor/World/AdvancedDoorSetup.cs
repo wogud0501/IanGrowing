@@ -78,6 +78,7 @@ namespace IanGame.Editor
                 o.id == "finance-front"
                 || o.id == "realestate-front"
                 || o.id == "house-entrance"
+                || o.id == "family-front"
                 || o.id == "shop-front"
                 || o.id == "office-front"
                 || o.id == "school-front"
@@ -169,7 +170,7 @@ namespace IanGame.Editor
             {
                 door.opens = 7;
                 door.closes = 23;
-                door.staffId = "colleague";
+                door.staffId = "shop-clerk";
             }
 
             door.ResetClosed();

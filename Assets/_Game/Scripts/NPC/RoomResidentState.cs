@@ -29,7 +29,7 @@ namespace IanGame
             catalog?.Migrate(State, Game == null ? -1 : Game.growth.Age);
         }
 
-        public void AdvanceAbsentResidents()
+        public void AdvanceAbsentResidents(bool materialize = false, bool timeJump = false)
         {
             if (!RoomMode || Game == null || rules == null)
             {
@@ -52,6 +52,7 @@ namespace IanGame
 
                 int index = WorldNPCScheduler.Schedule(d, Game.clock.Day, (int)(Game.clock.SubDaySeconds / 60));
                 var target = d.schedule[index];
+                var action = NPCActivityLocation.Allows(d, target) ? target.action : NPCDailyAction.Idle;
                 var n = State.residents.FirstOrDefault(n => n.id == d.npcId);
                 if (n == null)
                 {
@@ -59,8 +60,9 @@ namespace IanGame
                     {
                         id = d.npcId,
                         zone = target.zone,
+                        destinationZone = target.zone,
                         position = target.position,
-                        action = target.action,
+                        action = action,
                         objectId = target.objectId,
                         scheduleIndex = index,
                         minute = now,
@@ -69,17 +71,33 @@ namespace IanGame
                     continue;
                 }
 
-                if (n.minute == now)
+                if (
+                    !timeJump
+                    && n.minute == now
+                    && n.scheduleIndex == index
+                    && n.objectId == target.objectId
+                    && (n.action == NPCDailyAction.Walk || n.zone == target.zone && n.action == action)
+                )
                 {
                     continue;
                 }
 
+                var observed = Host?.Room?.roomId;
+                n.passingRoom =
+                    !materialize
+                    && !d.ambient
+                    && observed != null
+                    && n.zone != observed
+                    && n.zone != target.zone
+                    && rooms.PassesThrough(n.zone, target.zone, observed)
+                        ? observed
+                        : null;
                 n.destinationZone = target.zone;
                 n.objectId = target.objectId;
                 n.scheduleIndex = index;
                 // A visitor entering the currently viewed room must appear through its door.
                 // Other rooms are data-only; no GameObject is created there.
-                if (Host != null && Host.Room != null && target.zone == Host.Room.roomId && n.zone != target.zone)
+                if (!materialize && n.zone != observed && (target.zone == observed || n.passingRoom != null))
                 {
                     n.action = NPCDailyAction.Walk;
                     n.minute = now;
@@ -88,10 +106,14 @@ namespace IanGame
 
                 n.zone = target.zone;
                 n.position = target.position;
-                n.action = target.action;
+                n.action = action;
                 n.minute = now;
                 long key = ((long)Game.clock.Day << 16) + index;
-                if (FamilyLife.Parent(d.npcId) && !FamilyLife.Done(Game, d.npcId, target.objectId, key))
+                if (
+                    action == target.action
+                    && FamilyLife.Parent(d.npcId)
+                    && !FamilyLife.Done(Game, d.npcId, target.objectId, key)
+                )
                 {
                     FamilyLife.ApplyLogicalUse(Game, d.npcId, target.objectId, key);
                     n.completedUseKey = key;

@@ -153,39 +153,39 @@ namespace IanGame.Editor
             At(6, bank == 0 ? 45 : 55, bed, NPCDailyAction.Wake);
             if (bank == 0)
             {
-                At(7, 0, "family-fridge", NPCDailyAction.Work);
-                At(7, 10, "family-cook", NPCDailyAction.Work);
-                At(7, 30, "family-serve", NPCDailyAction.Work);
+                At(7, 0, "family-fridge", NPCDailyAction.GetIngredients);
+                At(7, 10, "family-cook", NPCDailyAction.Cook);
+                At(7, 30, "family-serve", NPCDailyAction.ServeMeal);
                 At(7, 35, seat, NPCDailyAction.Eat);
-                At(8, 0, "family-dishes", NPCDailyAction.Work);
-                At(9, 0, "family-clean", NPCDailyAction.Work);
+                At(8, 0, "family-dishes", NPCDailyAction.WashDishes);
+                At(9, 0, "family-clean", NPCDailyAction.Clean);
                 At(10, 30, "", NPCDailyAction.Walk, "city");
                 At(11, 0, "counter", NPCDailyAction.Shop, "shop");
                 At(11, 20, "", NPCDailyAction.Walk, "city");
-                At(18, 10, "family-fridge", NPCDailyAction.Work);
-                At(18, 20, "family-cook", NPCDailyAction.Work);
-                At(18, 40, "family-serve", NPCDailyAction.Work);
+                At(18, 10, "family-fridge", NPCDailyAction.GetIngredients);
+                At(18, 20, "family-cook", NPCDailyAction.Cook);
+                At(18, 40, "family-serve", NPCDailyAction.ServeMeal);
                 At(18, 45, seat, NPCDailyAction.Eat);
-                At(19, 10, "family-dishes", NPCDailyAction.Work);
+                At(19, 10, "family-dishes", NPCDailyAction.WashDishes);
                 At(20, 0, "family-tv-mother", NPCDailyAction.Rest);
                 At(22, 30, bed, NPCDailyAction.Sleep);
             }
             else
             {
-                At(7, 5, "family-care", NPCDailyAction.Talk);
+                At(7, 5, "family-care", NPCDailyAction.Clean);
                 At(7, 38, seat, NPCDailyAction.Eat);
-                At(8, 5, "family-clean", NPCDailyAction.Work);
+                At(8, 5, "family-clean", NPCDailyAction.Clean);
                 At(9, 0, "", NPCDailyAction.Walk, "city");
-                At(12, 0, "family-fridge", NPCDailyAction.Work);
-                At(12, 10, "family-cook", NPCDailyAction.Work);
-                At(12, 30, "family-serve", NPCDailyAction.Work);
+                At(12, 0, "family-fridge", NPCDailyAction.GetIngredients);
+                At(12, 10, "family-cook", NPCDailyAction.Cook);
+                At(12, 30, "family-serve", NPCDailyAction.ServeMeal);
                 At(12, 35, seat, NPCDailyAction.Eat);
-                At(13, 0, "family-dishes", NPCDailyAction.Work);
+                At(13, 0, "family-dishes", NPCDailyAction.WashDishes);
                 At(15, 30, "counter", NPCDailyAction.Shop, "shop");
                 At(15, 50, "", NPCDailyAction.Walk, "city");
-                At(17, 0, "family-clean", NPCDailyAction.Work);
+                At(17, 0, "family-clean", NPCDailyAction.Clean);
                 At(18, 48, seat, NPCDailyAction.Eat);
-                At(19, 0, "family-care", NPCDailyAction.Talk);
+                At(19, 0, "family-care", NPCDailyAction.Clean);
                 At(21, 0, "family-tv-father", NPCDailyAction.Rest);
                 At(23, 0, bed, NPCDailyAction.Sleep);
             }

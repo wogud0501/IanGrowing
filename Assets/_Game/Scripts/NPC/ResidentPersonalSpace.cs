@@ -154,7 +154,7 @@ namespace IanGame
                     r.actor.zone,
                     from,
                     final,
-                    p => crowd.Free(r.definition.npcId, p, .58f)
+                    p => crowd.Free(r.definition.npcId, p, NPCCrowdSpace.Clearance + .05f)
                 );
                 if (bypass.Count > 0)
                 {

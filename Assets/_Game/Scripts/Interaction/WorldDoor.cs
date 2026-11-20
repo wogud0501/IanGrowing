@@ -86,6 +86,25 @@ namespace IanGame
             && world.Service.rules.Zone(portal.zone)?.outdoor == false
             && world.Service.rules.Zone(portal.targetZone)?.outdoor == true;
 
+        bool IsScheduledStaff(string actor)
+        {
+            if (actor == "player" || world == null || portal == null || world.Service?.Game == null)
+            {
+                return false;
+            }
+
+            var rules = world.Service.rules;
+            var npc = Array.Find(rules.npcs, n => n.npcId == actor);
+            if (npc == null || npc.workZone != portal.targetZone)
+            {
+                return false;
+            }
+
+            var clock = world.Service.Game.clock;
+            var entry = npc.schedule[WorldNPCScheduler.Schedule(npc, clock.Day, (int)(clock.SubDaySeconds / 60))];
+            return entry.zone == npc.workZone && entry.action == NPCDailyAction.Work;
+        }
+
         public bool CanEnter(string actor, int hour, out string reason)
         {
             if (
@@ -101,7 +120,7 @@ namespace IanGame
 
             reason =
                 locked ? "잠긴 문입니다."
-                : actor == staffId || IsExit ? null
+                : actor == staffId || IsExit || IsScheduledStaff(actor) ? null
                 : opens < closes ? (hour < opens || hour >= closes ? $"출입 시간 {opens:00}:00–{closes:00}:00" : null)
                 : (hour >= closes && hour < opens ? "지금은 문이 닫혀 있습니다." : null);
             return reason == null;
@@ -109,8 +128,14 @@ namespace IanGame
 
         public bool Acquire(string actor, int hour, out string reason)
         {
+            return Acquire(actor, hour, out reason, false);
+        }
+
+        internal bool Acquire(string actor, int hour, out string reason, bool emerging)
+        {
+            reason = null;
             // A rejected new request must never interrupt another user's active animation.
-            if (!CanEnter(actor, hour, out reason))
+            if (!(emerging && !locked) && !CanEnter(actor, hour, out reason))
             {
                 if (progress <= 0 && users.Count == 0)
                 {

@@ -467,6 +467,7 @@ namespace IanGame.Editor
                 Phase29Setup.Bind();
             }
 
+            WorldLayoutAuthoring.Apply();
             File.WriteAllText("Docs/SceneArchitecture/ROOM_MANIFEST.json", JsonUtility.ToJson(catalog, true));
             EditorSceneManager.OpenScene(Folder + "FamilyHome_IanBedroom.unity");
         }

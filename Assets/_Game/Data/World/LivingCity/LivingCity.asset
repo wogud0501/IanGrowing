@@ -75,6 +75,32 @@ MonoBehaviour:
     - fromHour: 23
       ambientResidents: 2
       vehicles: 0
+  - zoneId: school
+    identity: Classroom
+    ambientCapacity: 2
+    bands:
+    - fromHour: 0
+      ambientResidents: 0
+      vehicles: 0
+    - fromHour: 8
+      ambientResidents: 2
+      vehicles: 0
+    - fromHour: 17
+      ambientResidents: 0
+      vehicles: 0
+  - zoneId: workplace
+    identity: Office
+    ambientCapacity: 2
+    bands:
+    - fromHour: 0
+      ambientResidents: 0
+      vehicles: 0
+    - fromHour: 8
+      ambientResidents: 2
+      vehicles: 0
+    - fromHour: 19
+      ambientResidents: 0
+      vehicles: 0
   - zoneId: shop
     identity: Convenience / meals between shifts
     ambientCapacity: 1

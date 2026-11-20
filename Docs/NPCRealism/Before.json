@@ -1,0 +1,17 @@
+{
+  "passed": [
+    "New game routes Home",
+    "420 family-mother logical=family-kitchen/Work/family-fridge physical=False snapshot=family-kitchen/Work",
+    "420 family-father logical=family-parents-bedroom/Wake/family-father-bed physical=False snapshot=family-parents-bedroom/Wake",
+    "500 family-mother logical=family-kitchen/Work/family-dishes physical=False snapshot=family-kitchen/Work",
+    "500 family-father logical=family-living/Work/family-clean physical=True snapshot=family-living/Walk",
+    "600 family-mother logical=family-living/Work/family-clean physical=True snapshot=family-living/Walk",
+    "600 family-father logical=city/Walk/ physical=True snapshot=family-living/Walk",
+    "1140 family-mother logical=family-kitchen/Eat/family-dine-1 physical=True snapshot=family-living/Walk",
+    "1140 family-father logical=family-ian-bedroom/Talk/family-care physical=True snapshot=family-living/Walk",
+    "1410 family-mother logical=family-parents-bedroom/Sleep/family-mother-bed physical=True snapshot=family-living/Walk",
+    "1410 family-father logical=family-parents-bedroom/Sleep/family-father-bed physical=True snapshot=family-living/Walk"
+  ],
+  "failures": [],
+  "LastFilesUnchanged": true
+}

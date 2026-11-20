@@ -147,6 +147,27 @@ namespace IanGame
             return null;
         }
 
+        public bool PassesThrough(string source, string destination, string observed)
+        {
+            for (int step = 0; step < rooms.Length && source != destination; step++)
+            {
+                string door = FirstDoor(source, destination);
+                var edge = System.Array.Find(portals, p => p.sourceRoom == source && p.doorId == door);
+                if (edge == null)
+                {
+                    return false;
+                }
+
+                source = edge.destinationRoom;
+                if (source == observed)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         public RoomPortalDefinition EntryFrom(string room, string prior)
         {
             var outgoing = FirstDoor(room, prior);

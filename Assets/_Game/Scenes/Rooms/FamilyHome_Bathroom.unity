@@ -773,7 +773,7 @@ Transform:
   m_GameObject: {fileID: 15325870}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 506.75, y: 5.12, z: 0}
+  m_LocalPosition: {x: 508, y: 5.4, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -9114,7 +9114,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 900
+  m_SortingOrder: 872
   m_MaskInteraction: 0
   m_Sprite: {fileID: -7303214455900244078, guid: 8612c5f9438e54b4d902bdb20931783a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -23879,7 +23879,7 @@ Transform:
   m_GameObject: {fileID: 680379692}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 507.95, y: 5.095, z: 0}
+  m_LocalPosition: {x: 506.75, y: 5.095, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -26095,7 +26095,7 @@ Transform:
   m_GameObject: {fileID: 743716032}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 507.95, y: 5.12, z: 0}
+  m_LocalPosition: {x: 506.75, y: 5.12, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -42162,7 +42162,7 @@ Transform:
   m_GameObject: {fileID: 1258819912}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 506.75, y: 5.095, z: 0}
+  m_LocalPosition: {x: 508, y: 5.375, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -42215,7 +42215,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 486
+  m_SortingOrder: 458
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: cccf2190c6567438390a8d14258fc53f, type: 2}
   m_Color: {r: 0.13, g: 0.17, b: 0.12, a: 0.22}
@@ -53059,6 +53059,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::IanGame.WorldActivitySlot
   seat: {fileID: 0}
   staffId: 
+  reliefStaff: []
   facing: {x: 0, y: -1}
   useSeatAnchors: 1
   seated: 0
@@ -65725,7 +65726,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 488
+  m_SortingOrder: 460
   m_MaskInteraction: 0
   m_Sprite: {fileID: 7040062404281791173, guid: e50cda9e68c7a8f48bc2f777d976ea8e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -72326,6 +72327,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5be56845d3f57a4fb05d32f868ffe9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::IanGame.WorldNPCScheduler
+  activityArt: {fileID: 11400000, guid: 9dc85497a878546a5a6548350fb80f42, type: 2}
   lifeProfile: {fileID: 11400000, guid: d086b65d70a3b4abe85adbb86ae57a05, type: 2}
   sceneScoped: 1
   residentPrefabs:
@@ -113211,7 +113213,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1280, y: 0}
+  m_SizeDelta: {x: 1655.1724, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &4930388838002371381
 MonoBehaviour:

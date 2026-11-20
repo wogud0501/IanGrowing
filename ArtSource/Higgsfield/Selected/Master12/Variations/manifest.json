@@ -1,0 +1,725 @@
+[
+  {
+    "name": "RESIDENTIAL_MORNING",
+    "master": "CITY_RESIDENTIAL_MASTER",
+    "masterSHA256": "c5df25739b2dae343878f9251c99536f72685bc297c732bee40fed877f535823",
+    "reference": "ArtSource/Higgsfield/Selected/Master12/CITY_RESIDENTIAL_MASTER.png",
+    "selectedFile": "ArtSource/Higgsfield/Selected/Master12/Variations/RESIDENTIAL_MORNING.png",
+    "sha256": "393f09337dd16edec0c6e3c563efd14723ec23a569f9aa468b54acc456089fbe",
+    "jobs": [
+      {
+        "candidate": "RESIDENTIAL_MORNING_a",
+        "references": [
+          "ArtSource/Higgsfield/Selected/Master12/CITY_RESIDENTIAL_MASTER.png"
+        ],
+        "prompt": "ArtSource/Higgsfield/Prompts/Master12/RESIDENTIAL_MORNING_a.txt",
+        "promptSHA256": "6c1d7506e8e3a7e17a46d479ff894c74229db020b33f52ddbced85ff1be31605",
+        "status": "RESULT_UNCONFIRMED",
+        "id": null,
+        "error": "Error: request failed (no response received)"
+      },
+      {
+        "candidate": "RESIDENTIAL_MORNING_b",
+        "references": [
+          "ArtSource/Higgsfield/Selected/Master12/CITY_RESIDENTIAL_MASTER.png"
+        ],
+        "prompt": "ArtSource/Higgsfield/Prompts/Master12/RESIDENTIAL_MORNING_b.txt",
+        "promptSHA256": "6c1d7506e8e3a7e17a46d479ff894c74229db020b33f52ddbced85ff1be31605",
+        "status": "completed",
+        "id": "b41fbb4d-076e-404d-ad6a-2c7a5dd2426d",
+        "date": "2026-11-19T11:55:42.546423Z",
+        "model": "gpt_image_2_6",
+        "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261119_115542_b41fbb4d-076e-404d-ad6a-2c7a5dd2426d.png",
+        "sha256": "393f09337dd16edec0c6e3c563efd14723ec23a569f9aa468b54acc456089fbe"
+      }
+    ],
+    "candidate": "RESIDENTIAL_MORNING_b",
+    "reason": "B는 이른 햇빛에 열린 보도와 등교·출근 행렬이 보인다. A 요청은 ID 미반환으로 비교할 수 없었다."
+  },
+  {
+    "name": "RESIDENTIAL_EVENING",
+    "master": "CITY_RESIDENTIAL_MASTER",
+    "masterSHA256": "c5df25739b2dae343878f9251c99536f72685bc297c732bee40fed877f535823",
+    "reference": "ArtSource/Higgsfield/Selected/Master12/CITY_RESIDENTIAL_MASTER.png",
+    "selectedFile": "ArtSource/Higgsfield/Selected/Master12/Variations/RESIDENTIAL_EVENING.png",
+    "sha256": "aa36dd52cb264a2b80753a11e4eba56c4f64483bd48d3a77307c23d935e70883",
+    "jobs": [
+      {
+        "candidate": "RESIDENTIAL_EVENING_a",
+        "references": [
+          "ArtSource/Higgsfield/Selected/Master12/CITY_RESIDENTIAL_MASTER.png"
+        ],
+        "prompt": "ArtSource/Higgsfield/Prompts/Master12/RESIDENTIAL_EVENING_a.txt",
+        "promptSHA256": "ffccfcb982ec656b16f5e1095cbb82271c48352318b4db85027f6597aecf37d1",
+        "status": "RESULT_UNCONFIRMED",
+        "id": null,
+        "error": "Error: request failed (no response received)"
+      },
+      {
+        "candidate": "RESIDENTIAL_EVENING_b",
+        "references": [
+          "ArtSource/Higgsfield/Selected/Master12/CITY_RESIDENTIAL_MASTER.png"
+        ],
+        "prompt": "ArtSource/Higgsfield/Prompts/Master12/RESIDENTIAL_EVENING_b.txt",
+        "promptSHA256": "ffccfcb982ec656b16f5e1095cbb82271c48352318b4db85027f6597aecf37d1",
+        "status": "RESULT_UNCONFIRMED",
+        "id": null,
+        "error": "Error: request failed (no response received)"
+      },
+      {
+        "candidate": "RESIDENTIAL_EVENING_reference_edit",
+        "references": [
+          "ArtSource/Higgsfield/Selected/Master12/CITY_RESIDENTIAL_MASTER.png",
+          "ArtSource/Higgsfield/Selected/Master12/Variations/RESIDENTIAL_NIGHT.png"
+        ],
+        "prompt": "ArtSource/Higgsfield/Prompts/Master12/RESIDENTIAL_EVENING_reference_edit.txt",
+        "promptSHA256": "c125e1a69bf33b507e6cff92d722e399ac89c8121551cd1cec11011d59f9bf50",
+        "status": "completed",
+        "id": "f7cd3baa-0e13-49e9-9761-48584adf263c",
+        "date": "2026-11-19T11:59:12.242372Z",
+        "model": "gpt_image_2_6",
+        "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261119_115912_f7cd3baa-0e13-49e9-9761-48584adf263c.png",
+        "sha256": "aa36dd52cb264a2b80753a11e4eba56c4f64483bd48d3a77307c23d935e70883"
+      }
+    ],
+    "candidate": "RESIDENTIAL_EVENING_reference_edit",
+    "reason": "초기 A/B는 응답 미확인이다. 선정된 낮과 밤을 함께 입력한 편집은 옥상·현관·정류장을 유지하며 긴 그림자와 장바구니로 귀갓길을 보여준다."
+  },
+  {
+    "name": "RESIDENTIAL_NIGHT",
+    "master": "CITY_RESIDENTIAL_MASTER",
+    "masterSHA256": "c5df25739b2dae343878f9251c99536f72685bc297c732bee40fed877f535823",
+    "reference": "ArtSource/Higgsfield/Selected/Master12/CITY_RESIDENTIAL_MASTER.png",
+    "selectedFile": "ArtSource/Higgsfield/Selected/Master12/Variations/RESIDENTIAL_NIGHT.png",
+    "sha256": "ce3c23ba40169a91adbaf0b45de8607b64f3afc903cafd6cac14615756d46881",
+    "jobs": [
+      {
+        "candidate": "RESIDENTIAL_NIGHT_a",
+        "references": [
+          "ArtSource/Higgsfield/Selected/Master12/CITY_RESIDENTIAL_MASTER.png"
+        ],
+        "prompt": "ArtSource/Higgsfield/Prompts/Master12/RESIDENTIAL_NIGHT_a.txt",
+        "promptSHA256": "ffd8413738b52d91c222aa897021676d816b52486ce799f64f3f25c456537fb1",
+        "status": "completed",
+        "id": "a532b02e-eebd-4303-9cae-199ab194e57b",
+        "date": "2026-11-19T11:52:11.291238Z",
+        "model": "gpt_image_2_6",
+        "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261119_115211_a532b02e-eebd-4303-9cae-199ab194e57b.png",
+        "sha256": "31c498f1554ce262a2a3838fd934757e788fd8cc9bfadd69b169bb84f2a184fa"
+      },
+      {
+        "candidate": "RESIDENTIAL_NIGHT_b",
+        "references": [
+          "ArtSource/Higgsfield/Selected/Master12/CITY_RESIDENTIAL_MASTER.png"
+        ],
+        "prompt": "ArtSource/Higgsfield/Prompts/Master12/RESIDENTIAL_NIGHT_b.txt",
+        "promptSHA256": "ffd8413738b52d91c222aa897021676d816b52486ce799f64f3f25c456537fb1",
+        "status": "completed",
+        "id": "3cb19dbb-eba1-4ac9-84ca-b457edfbc99f",
+        "date": "2026-11-19T11:52:11.667152Z",
+        "model": "gpt_image_2_6",
+        "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261119_115211_3cb19dbb-eba1-4ac9-84ca-b457edfbc99f.png",
+        "sha256": "ce3c23ba40169a91adbaf0b45de8607b64f3afc903cafd6cac14615756d46881"
+      }
+    ],
+    "candidate": "RESIDENTIAL_NIGHT_b",
+    "reason": "B는 정류장과 횡단 동선이 비어 있고 창문과 전조등만 따뜻하다. 원본 구조 표식 여덟 곳이 축소 검수 화면에서 일치한다."
+  },
+  {
+    "name": "RESIDENTIAL_RAIN",
+    "master": "CITY_RESIDENTIAL_MASTER",
+    "masterSHA256": "c5df25739b2dae343878f9251c99536f72685bc297c732bee40fed877f535823",
+    "reference": "ArtSource/Higgsfield/Selected/Master12/CITY_RESIDENTIAL_MASTER.png",
+    "selectedFile": "ArtSource/Higgsfield/Selected/Master12/Variations/RESIDENTIAL_RAIN.png",
+    "sha256": "e4c9155af0184df353a0a724355c121189b4f1d02ede5a2ed9f4c1c2dd232e90",
+    "jobs": [
+      {
+        "candidate": "RESIDENTIAL_RAIN_a",
+        "references": [
+          "ArtSource/Higgsfield/Selected/Master12/CITY_RESIDENTIAL_MASTER.png"
+        ],
+        "prompt": "ArtSource/Higgsfield/Prompts/Master12/RESIDENTIAL_RAIN_a.txt",
+        "promptSHA256": "4795c1c7541eedc23baf154afccb1da9247cd716527a11963c5e6c2d701a81d6",
+        "status": "RESULT_UNCONFIRMED",
+        "id": null,
+        "error": "Error: request failed (no response received)"
+      },
+      {
+        "candidate": "RESIDENTIAL_RAIN_b",
+        "references": [
+          "ArtSource/Higgsfield/Selected/Master12/CITY_RESIDENTIAL_MASTER.png"
+        ],
+        "prompt": "ArtSource/Higgsfield/Prompts/Master12/RESIDENTIAL_RAIN_b.txt",
+        "promptSHA256": "4795c1c7541eedc23baf154afccb1da9247cd716527a11963c5e6c2d701a81d6",
+        "status": "completed",
+        "id": "06297ecb-4bb5-470a-a595-5ca44d808eec",
+        "date": "2026-11-19T11:57:20.962299Z",
+        "model": "gpt_image_2_6",
+        "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261119_115720_06297ecb-4bb5-470a-a595-5ca44d808eec.png",
+        "sha256": "e4c9155af0184df353a0a724355c121189b4f1d02ede5a2ed9f4c1c2dd232e90"
+      }
+    ],
+    "candidate": "RESIDENTIAL_RAIN_b",
+    "reason": "B의 젖은 차도와 보도 반사가 출입구를 가리지 않는다. A 요청은 ID 미반환으로 비교할 수 없었다."
+  },
+  {
+    "name": "DOWNTOWN_MORNING_RUSH",
+    "master": "CITY_DOWNTOWN_MASTER",
+    "masterSHA256": "f1b13579d7d415cdac6faa27b30c5b5e237c3f0b733d63b24a836f4f49e75d0a",
+    "reference": "ArtSource/Higgsfield/Selected/Master12/CITY_DOWNTOWN_MASTER.png",
+    "selectedFile": "ArtSource/Higgsfield/Selected/Master12/Variations/DOWNTOWN_MORNING_RUSH.png",
+    "sha256": "aa8c1b16332ec2ce47fdca55fb1f30a59688e5f1747bda45d3b1451ecd39e9b2",
+    "jobs": [
+      {
+        "candidate": "DOWNTOWN_MORNING_RUSH_a",
+        "references": [
+          "ArtSource/Higgsfield/Selected/Master12/CITY_DOWNTOWN_MASTER.png"
+        ],
+        "prompt": "ArtSource/Higgsfield/Prompts/Master12/DOWNTOWN_MORNING_RUSH_a.txt",
+        "promptSHA256": "20d8690e648d31a2d4a865522fc1af5d3fee4d23ec1c68c33f53d86e9e2d03f4",
+        "status": "completed",
+        "id": "fcdbc0de-569b-46fe-b725-68c2043a5c74",
+        "date": "2026-11-19T11:57:20.738443Z",
+        "model": "gpt_image_2_6",
+        "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261119_115720_fcdbc0de-569b-46fe-b725-68c2043a5c74.png",
+        "sha256": "77ef55dd97d1ffa23ecc76967fb6c98953ea1e5cd91fc3ae207987dac7dcd708"
+      },
+      {
+        "candidate": "DOWNTOWN_MORNING_RUSH_b",
+        "references": [
+          "ArtSource/Higgsfield/Selected/Master12/CITY_DOWNTOWN_MASTER.png"
+        ],
+        "prompt": "ArtSource/Higgsfield/Prompts/Master12/DOWNTOWN_MORNING_RUSH_b.txt",
+        "promptSHA256": "20d8690e648d31a2d4a865522fc1af5d3fee4d23ec1c68c33f53d86e9e2d03f4",
+        "status": "completed",
+        "id": "66db6554-2947-4a75-96c1-e9323648ea1f",
+        "date": "2026-11-19T11:57:48.756768Z",
+        "model": "gpt_image_2_6",
+        "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261119_115748_66db6554-2947-4a75-96c1-e9323648ea1f.png",
+        "sha256": "aa8c1b16332ec2ce47fdca55fb1f30a59688e5f1747bda45d3b1451ecd39e9b2"
+      }
+    ],
+    "candidate": "DOWNTOWN_MORNING_RUSH_b",
+    "reason": "B의 버스가 정류장 바로 앞에 있고 출근 줄과 건물 출입문이 동시에 보인다. 이 장면의 활기는 보도에 집중된다."
+  },
+  {
+    "name": "DOWNTOWN_LUNCH",
+    "master": "CITY_DOWNTOWN_MASTER",
+    "masterSHA256": "f1b13579d7d415cdac6faa27b30c5b5e237c3f0b733d63b24a836f4f49e75d0a",
+    "reference": "ArtSource/Higgsfield/Selected/Master12/CITY_DOWNTOWN_MASTER.png",
+    "selectedFile": "ArtSource/Higgsfield/Selected/Master12/Variations/DOWNTOWN_LUNCH.png",
+    "sha256": "03356292947ae06abefd830d4bc83698406ddfe1c8216c2b1eb955ea1e49e287",
+    "jobs": [
+      {
+        "candidate": "DOWNTOWN_LUNCH_a",
+        "references": [
+          "ArtSource/Higgsfield/Selected/Master12/CITY_DOWNTOWN_MASTER.png"
+        ],
+        "prompt": "ArtSource/Higgsfield/Prompts/Master12/DOWNTOWN_LUNCH_a.txt",
+        "promptSHA256": "9b7a137d39585334d0e8e3c2597572420923353c4c75561b5ccb47802b489a39",
+        "status": "completed",
+        "id": "0d3bdfb1-8234-4044-908e-93bf63cabd50",
+        "date": "2026-11-19T11:58:29.532694Z",
+        "model": "gpt_image_2_6",
+        "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261119_115829_0d3bdfb1-8234-4044-908e-93bf63cabd50.png",
+        "sha256": "10fe12cc15ea2810e2b669256582a1871ff885c4c061f28b35e37636cd271b26"
+      },
+      {
+        "candidate": "DOWNTOWN_LUNCH_b",
+        "references": [
+          "ArtSource/Higgsfield/Selected/Master12/CITY_DOWNTOWN_MASTER.png"
+        ],
+        "prompt": "ArtSource/Higgsfield/Prompts/Master12/DOWNTOWN_LUNCH_b.txt",
+        "promptSHA256": "9b7a137d39585334d0e8e3c2597572420923353c4c75561b5ccb47802b489a39",
+        "status": "completed",
+        "id": "71b5c704-28b2-4a44-b40c-8220261343d0",
+        "date": "2026-11-19T11:58:47.635351Z",
+        "model": "gpt_image_2_6",
+        "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261119_115847_71b5c704-28b2-4a44-b40c-8220261343d0.png",
+        "sha256": "03356292947ae06abefd830d4bc83698406ddfe1c8216c2b1eb955ea1e49e287"
+      }
+    ],
+    "candidate": "DOWNTOWN_LUNCH_b",
+    "reason": "B에서는 줄의 중심이 정류장에서 식당 앞으로 옮겨가 점심시간이 읽힌다. 횡단보도도 비어 있다."
+  },
+  {
+    "name": "DOWNTOWN_EVENING_RUSH",
+    "master": "CITY_DOWNTOWN_MASTER",
+    "masterSHA256": "f1b13579d7d415cdac6faa27b30c5b5e237c3f0b733d63b24a836f4f49e75d0a",
+    "reference": "ArtSource/Higgsfield/Selected/Master12/CITY_DOWNTOWN_MASTER.png",
+    "selectedFile": "ArtSource/Higgsfield/Selected/Master12/Variations/DOWNTOWN_EVENING_RUSH.png",
+    "sha256": "e34dbe5829cd65007c564f920bf1233499c99f31951707bdb007aa3f0a5d5356",
+    "jobs": [
+      {
+        "candidate": "DOWNTOWN_EVENING_RUSH_a",
+        "references": [
+          "ArtSource/Higgsfield/Selected/Master12/CITY_DOWNTOWN_MASTER.png"
+        ],
+        "prompt": "ArtSource/Higgsfield/Prompts/Master12/DOWNTOWN_EVENING_RUSH_a.txt",
+        "promptSHA256": "98213e67c542784170d058df9ab6a165eb12d66fc022a6d1c7f0b03dc24d6e11",
+        "status": "completed",
+        "id": "12a5b25b-749e-4a17-8090-d8b67fe55c1f",
+        "date": "2026-11-19T11:59:51.932323Z",
+        "model": "gpt_image_2_6",
+        "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261119_115951_12a5b25b-749e-4a17-8090-d8b67fe55c1f.png",
+        "sha256": "85061fcfe61392e9540d23a8586346e2e7c5132ded213d64585a6dba78d93b04"
+      },
+      {
+        "candidate": "DOWNTOWN_EVENING_RUSH_b",
+        "references": [
+          "ArtSource/Higgsfield/Selected/Master12/CITY_DOWNTOWN_MASTER.png"
+        ],
+        "prompt": "ArtSource/Higgsfield/Prompts/Master12/DOWNTOWN_EVENING_RUSH_b.txt",
+        "promptSHA256": "98213e67c542784170d058df9ab6a165eb12d66fc022a6d1c7f0b03dc24d6e11",
+        "status": "completed",
+        "id": "8030c0e8-acbb-4b0f-a912-7e57a5d64949",
+        "date": "2026-11-19T12:00:00.697409Z",
+        "model": "gpt_image_2_6",
+        "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261119_120000_8030c0e8-acbb-4b0f-a912-7e57a5d64949.png",
+        "sha256": "e34dbe5829cd65007c564f920bf1233499c99f31951707bdb007aa3f0a5d5356"
+      }
+    ],
+    "candidate": "DOWNTOWN_EVENING_RUSH_b",
+    "reason": "B의 퇴근 행렬과 교차로를 건너는 사람들 뒤로 은행·사무실에는 불이 켜져 있다. 차선과 정류장이 유지된다."
+  },
+  {
+    "name": "DOWNTOWN_NIGHT",
+    "master": "CITY_DOWNTOWN_MASTER",
+    "masterSHA256": "f1b13579d7d415cdac6faa27b30c5b5e237c3f0b733d63b24a836f4f49e75d0a",
+    "reference": "ArtSource/Higgsfield/Selected/Master12/CITY_DOWNTOWN_MASTER.png",
+    "selectedFile": "ArtSource/Higgsfield/Selected/Master12/Variations/DOWNTOWN_NIGHT.png",
+    "sha256": "23d533767d928a4a513b4b82b1e6d31fbfa07183515259df2525e46047802c62",
+    "jobs": [
+      {
+        "candidate": "DOWNTOWN_NIGHT_a",
+        "references": [
+          "ArtSource/Higgsfield/Selected/Master12/CITY_DOWNTOWN_MASTER.png"
+        ],
+        "prompt": "ArtSource/Higgsfield/Prompts/Master12/DOWNTOWN_NIGHT_a.txt",
+        "promptSHA256": "ac0b73ba511761fc2241a040b06b0ab6cba096d3bfd8a8d8a957afbd3eaa5012",
+        "status": "completed",
+        "id": "7bc38425-3212-471b-9e1b-cd9aed9f4630",
+        "date": "2026-11-19T12:00:04.79648Z",
+        "model": "gpt_image_2_6",
+        "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261119_120004_7bc38425-3212-471b-9e1b-cd9aed9f4630.png",
+        "sha256": "586061d9760164ff5cf49c9f04ebb03b76f421e10dfd1be583c5297af1e0c3e7"
+      },
+      {
+        "candidate": "DOWNTOWN_NIGHT_b",
+        "references": [
+          "ArtSource/Higgsfield/Selected/Master12/CITY_DOWNTOWN_MASTER.png"
+        ],
+        "prompt": "ArtSource/Higgsfield/Prompts/Master12/DOWNTOWN_NIGHT_b.txt",
+        "promptSHA256": "ac0b73ba511761fc2241a040b06b0ab6cba096d3bfd8a8d8a957afbd3eaa5012",
+        "status": "completed",
+        "id": "3b5d5b04-3ce0-4ef0-998e-b005590ae192",
+        "date": "2026-11-19T12:00:54.276166Z",
+        "model": "gpt_image_2_6",
+        "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261119_120054_3b5d5b04-3ce0-4ef0-998e-b005590ae192.png",
+        "sha256": "23d533767d928a4a513b4b82b1e6d31fbfa07183515259df2525e46047802c62"
+      }
+    ],
+    "candidate": "DOWNTOWN_NIGHT_b",
+    "reason": "B는 문 닫은 1층과 불 켜진 사무층이 분리된다. 택시 한 대와 보행자가 밤길의 규모를 남긴다."
+  },
+  {
+    "name": "DOWNTOWN_RAIN",
+    "master": "CITY_DOWNTOWN_MASTER",
+    "masterSHA256": "f1b13579d7d415cdac6faa27b30c5b5e237c3f0b733d63b24a836f4f49e75d0a",
+    "reference": "ArtSource/Higgsfield/Selected/Master12/CITY_DOWNTOWN_MASTER.png",
+    "selectedFile": "ArtSource/Higgsfield/Selected/Master12/Variations/DOWNTOWN_RAIN.png",
+    "sha256": "675ef64cf3d69ab010425562bf004e6466f20e51a9d78d956b3897a378832bc3",
+    "jobs": [
+      {
+        "candidate": "DOWNTOWN_RAIN_a",
+        "references": [
+          "ArtSource/Higgsfield/Selected/Master12/CITY_DOWNTOWN_MASTER.png"
+        ],
+        "prompt": "ArtSource/Higgsfield/Prompts/Master12/DOWNTOWN_RAIN_a.txt",
+        "promptSHA256": "1f458d057e7e50b07071af6cedbd7daba4dabf169689b69e3d7d86f796712a82",
+        "status": "completed",
+        "id": "332e9f61-172c-4f02-8af0-a3f92fbd838d",
+        "date": "2026-11-19T12:01:23.02608Z",
+        "model": "gpt_image_2_6",
+        "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261119_120123_332e9f61-172c-4f02-8af0-a3f92fbd838d.png",
+        "sha256": "675ef64cf3d69ab010425562bf004e6466f20e51a9d78d956b3897a378832bc3"
+      },
+      {
+        "candidate": "DOWNTOWN_RAIN_b",
+        "references": [
+          "ArtSource/Higgsfield/Selected/Master12/CITY_DOWNTOWN_MASTER.png"
+        ],
+        "prompt": "ArtSource/Higgsfield/Prompts/Master12/DOWNTOWN_RAIN_b.txt",
+        "promptSHA256": "1f458d057e7e50b07071af6cedbd7daba4dabf169689b69e3d7d86f796712a82",
+        "status": "completed",
+        "id": "0bed25b3-2386-49df-bc8b-eb1b85ffb3bf",
+        "date": "2026-11-19T12:01:45.756949Z",
+        "model": "gpt_image_2_6",
+        "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261119_120145_0bed25b3-2386-49df-bc8b-eb1b85ffb3bf.png",
+        "sha256": "233a65b4444f2d0bb34f3dd82ff5a7fc84f340a05366c5777ee92c4b3344b900"
+      }
+    ],
+    "candidate": "DOWNTOWN_RAIN_a",
+    "reason": "A의 중성색 우산, 차선 사이 반사와 정류장 처마가 비 오는 날에도 판독된다. 한낮의 횡단보도 형상을 유지한다."
+  },
+  {
+    "name": "OFFICE_MORNING",
+    "master": "WORKSPACE_MASTER",
+    "masterSHA256": "a9b055ece4a1417d0952e79b3a4c94de64e9e19d66bc7b0f4e2b37fef2c4935e",
+    "reference": "ArtSource/Higgsfield/Selected/Master12/WORKSPACE_MASTER.png",
+    "selectedFile": "ArtSource/Higgsfield/Selected/Master12/Variations/OFFICE_MORNING.png",
+    "sha256": "31bd2effc0419cb7e89e5d7e44d3bbffbc60c2315c344c63a3046db1f042f2fb",
+    "jobs": [
+      {
+        "candidate": "OFFICE_MORNING_a",
+        "references": [
+          "ArtSource/Higgsfield/Selected/Master12/WORKSPACE_MASTER.png"
+        ],
+        "prompt": "ArtSource/Higgsfield/Prompts/Master12/OFFICE_MORNING_a.txt",
+        "promptSHA256": "b80bc1cfb0c99853eee38e41c0079479e6f713788d3605cf7f22620a78ead284",
+        "status": "completed",
+        "id": "f7e7c6f7-a66f-4f54-9926-66f1e9701a92",
+        "date": "2026-11-19T12:01:55.010853Z",
+        "model": "gpt_image_2_6",
+        "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261119_120155_f7e7c6f7-a66f-4f54-9926-66f1e9701a92.png",
+        "sha256": "31bd2effc0419cb7e89e5d7e44d3bbffbc60c2315c344c63a3046db1f042f2fb"
+      },
+      {
+        "candidate": "OFFICE_MORNING_b",
+        "references": [
+          "ArtSource/Higgsfield/Selected/Master12/WORKSPACE_MASTER.png"
+        ],
+        "prompt": "ArtSource/Higgsfield/Prompts/Master12/OFFICE_MORNING_b.txt",
+        "promptSHA256": "b80bc1cfb0c99853eee38e41c0079479e6f713788d3605cf7f22620a78ead284",
+        "status": "completed",
+        "id": "f2d81a2a-8cd3-4ca5-8ce5-ace81fd78f15",
+        "date": "2026-11-19T12:02:26.910936Z",
+        "model": "gpt_image_2_6",
+        "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261119_120226_f2d81a2a-8cd3-4ca5-8ce5-ace81fd78f15.png",
+        "sha256": "1175a7df57ed7a2fb31c29ee804bf6377a363d1a40cbcc1bc7e217cf793a32dc"
+      }
+    ],
+    "candidate": "OFFICE_MORNING_a",
+    "reason": "A는 유리 회의실 바닥에 비치는 낮은 햇빛과 의자에 걸친 외투가 첫 출근 시간을 보여준다."
+  },
+  {
+    "name": "OFFICE_OVERTIME",
+    "master": "WORKSPACE_MASTER",
+    "masterSHA256": "a9b055ece4a1417d0952e79b3a4c94de64e9e19d66bc7b0f4e2b37fef2c4935e",
+    "reference": "ArtSource/Higgsfield/Selected/Master12/WORKSPACE_MASTER.png",
+    "selectedFile": "ArtSource/Higgsfield/Selected/Master12/Variations/OFFICE_OVERTIME.png",
+    "sha256": "15e3ce64be859c50f8963a0c1580973d6283fcd33ca44fcdb1d93d6aa9c51f92",
+    "jobs": [
+      {
+        "candidate": "OFFICE_OVERTIME_a",
+        "references": [
+          "ArtSource/Higgsfield/Selected/Master12/WORKSPACE_MASTER.png"
+        ],
+        "prompt": "ArtSource/Higgsfield/Prompts/Master12/OFFICE_OVERTIME_a.txt",
+        "promptSHA256": "345bbc2c7da77759c9f4ca7d2d575478518f803069fa1656c4a058693ca7f005",
+        "status": "completed",
+        "id": "5dc68b6b-8648-4d2e-9238-0ea3595768dd",
+        "date": "2026-11-19T11:52:21.507028Z",
+        "model": "gpt_image_2_6",
+        "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261119_115221_5dc68b6b-8648-4d2e-9238-0ea3595768dd.png",
+        "sha256": "ed84c4dfd30f40d02312b39b4e26cab2ac463a5ec8bf8b5dc776835a7961c345"
+      },
+      {
+        "candidate": "OFFICE_OVERTIME_b",
+        "references": [
+          "ArtSource/Higgsfield/Selected/Master12/WORKSPACE_MASTER.png"
+        ],
+        "prompt": "ArtSource/Higgsfield/Prompts/Master12/OFFICE_OVERTIME_b.txt",
+        "promptSHA256": "345bbc2c7da77759c9f4ca7d2d575478518f803069fa1656c4a058693ca7f005",
+        "status": "completed",
+        "id": "5989213b-92d0-40d7-a12b-50e73a5fbca2",
+        "date": "2026-11-19T11:52:59.067719Z",
+        "model": "gpt_image_2_6",
+        "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261119_115259_5989213b-92d0-40d7-a12b-50e73a5fbca2.png",
+        "sha256": "15e3ce64be859c50f8963a0c1580973d6283fcd33ca44fcdb1d93d6aa9c51f92"
+      }
+    ],
+    "candidate": "OFFICE_OVERTIME_b",
+    "reason": "회의실과 프린터가 같은 자리에서 보인다. 책상 두 곳에만 남은 직원과 환한 햇살 포스터가 야근을 설명한다."
+  },
+  {
+    "name": "OFFICE_LATE_EMPTY",
+    "master": "WORKSPACE_MASTER",
+    "masterSHA256": "a9b055ece4a1417d0952e79b3a4c94de64e9e19d66bc7b0f4e2b37fef2c4935e",
+    "reference": "ArtSource/Higgsfield/Selected/Master12/WORKSPACE_MASTER.png",
+    "selectedFile": "ArtSource/Higgsfield/Selected/Master12/Variations/OFFICE_LATE_EMPTY.png",
+    "sha256": "c78094797eb007e754b692bc018e2f5bb4e3b1af3161d556ff67db82c733c136",
+    "jobs": [
+      {
+        "candidate": "OFFICE_LATE_EMPTY_a",
+        "references": [
+          "ArtSource/Higgsfield/Selected/Master12/WORKSPACE_MASTER.png"
+        ],
+        "prompt": "ArtSource/Higgsfield/Prompts/Master12/OFFICE_LATE_EMPTY_a.txt",
+        "promptSHA256": "7f1c34aa334cc418f7c424ad48b0a76504776fbfa2fa70ca0f26cbd2663c2f07",
+        "status": "completed",
+        "id": "94943d84-28b1-452e-b8cb-105a58cf7fb8",
+        "date": "2026-11-19T12:02:45.077774Z",
+        "model": "gpt_image_2_6",
+        "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261119_120245_94943d84-28b1-452e-b8cb-105a58cf7fb8.png",
+        "sha256": "392d7191f6ca66e7be681a6de04dbf0908546b56490860527d26077c179601a1"
+      },
+      {
+        "candidate": "OFFICE_LATE_EMPTY_b",
+        "references": [
+          "ArtSource/Higgsfield/Selected/Master12/WORKSPACE_MASTER.png"
+        ],
+        "prompt": "ArtSource/Higgsfield/Prompts/Master12/OFFICE_LATE_EMPTY_b.txt",
+        "promptSHA256": "7f1c34aa334cc418f7c424ad48b0a76504776fbfa2fa70ca0f26cbd2663c2f07",
+        "status": "completed",
+        "id": "7aa6bd49-d905-438f-a5f1-63dd2b6bc157",
+        "date": "2026-11-19T12:02:53.521277Z",
+        "model": "gpt_image_2_6",
+        "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261119_120253_7aa6bd49-d905-438f-a5f1-63dd2b6bc157.png",
+        "sha256": "c78094797eb007e754b692bc018e2f5bb4e3b1af3161d556ff67db82c733c136"
+      }
+    ],
+    "candidate": "OFFICE_LATE_EMPTY_b",
+    "reason": "B에서는 사람이 모두 떠나고 대기 화면의 작은 불빛과 창밖 사무실 불만 남는다. 회의실·책상·탕비실 위치가 같다."
+  },
+  {
+    "name": "SCHOOL_MORNING",
+    "master": "SCHOOL_MASTER",
+    "masterSHA256": "fe7803b9e46eb259d2fb8bf18756b37cbc41231aba1e5679a01b56191476a5af",
+    "reference": "ArtSource/Higgsfield/Selected/Master12/SCHOOL_MASTER.png",
+    "selectedFile": "ArtSource/Higgsfield/Selected/Master12/Variations/SCHOOL_MORNING.png",
+    "sha256": "d9909bfe34711e95b827c3752a6d83bca0511fa764a099a1576a1babee842b7e",
+    "jobs": [
+      {
+        "candidate": "SCHOOL_MORNING_a",
+        "references": [
+          "ArtSource/Higgsfield/Selected/Master12/SCHOOL_MASTER.png"
+        ],
+        "prompt": "ArtSource/Higgsfield/Prompts/Master12/SCHOOL_MORNING_a.txt",
+        "promptSHA256": "debfcb657bf115139ff7323b9d5f09c80a02e07d3c96dd15f836ce22fcd1085e",
+        "status": "completed",
+        "id": "25478647-fca8-4211-acfb-75d2c2d00fbc",
+        "date": "2026-11-19T12:03:28.566092Z",
+        "model": "gpt_image_2_6",
+        "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261119_120328_25478647-fca8-4211-acfb-75d2c2d00fbc.png",
+        "sha256": "d9909bfe34711e95b827c3752a6d83bca0511fa764a099a1576a1babee842b7e"
+      },
+      {
+        "candidate": "SCHOOL_MORNING_b",
+        "references": [
+          "ArtSource/Higgsfield/Selected/Master12/SCHOOL_MASTER.png"
+        ],
+        "prompt": "ArtSource/Higgsfield/Prompts/Master12/SCHOOL_MORNING_b.txt",
+        "promptSHA256": "debfcb657bf115139ff7323b9d5f09c80a02e07d3c96dd15f836ce22fcd1085e",
+        "status": "completed",
+        "id": "7535ad70-c3d9-4ae8-a4f5-16d8ce863718",
+        "date": "2026-11-19T12:03:31.959092Z",
+        "model": "gpt_image_2_6",
+        "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261119_120331_7535ad70-c3d9-4ae8-a4f5-16d8ce863718.png",
+        "sha256": "e5b6fbc1f5c52e6f5c523e0913262c5304056674bc6d607b8dd94fccd4502f33"
+      }
+    ],
+    "candidate": "SCHOOL_MORNING_a",
+    "reason": "A는 열린 문과 아직 비어 있는 복도를 유지한다. 한 학생은 문턱을 지나고 두 학생은 먼저 자리에 앉아 있다."
+  },
+  {
+    "name": "SCHOOL_LUNCH",
+    "master": "SCHOOL_MASTER",
+    "masterSHA256": "fe7803b9e46eb259d2fb8bf18756b37cbc41231aba1e5679a01b56191476a5af",
+    "reference": "ArtSource/Higgsfield/Selected/Master12/SCHOOL_MASTER.png",
+    "selectedFile": "ArtSource/Higgsfield/Selected/Master12/Variations/SCHOOL_LUNCH.png",
+    "sha256": "e4d13b8021a1b30d0c210e8e75e11fc6dc723cc8315a7f6a9d673a7bd02b5cdf",
+    "jobs": [
+      {
+        "candidate": "SCHOOL_LUNCH_a",
+        "references": [
+          "ArtSource/Higgsfield/Selected/Master12/SCHOOL_MASTER.png"
+        ],
+        "prompt": "ArtSource/Higgsfield/Prompts/Master12/SCHOOL_LUNCH_a.txt",
+        "promptSHA256": "4747523891cb15cc903019c2f4a5ac71d188b7268a72f0eba69cb6fd9c55d375",
+        "status": "completed",
+        "id": "02f5a1ee-4394-4e06-b270-e4e745377139",
+        "date": "2026-11-19T12:03:40.916512Z",
+        "model": "gpt_image_2_6",
+        "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261119_120340_02f5a1ee-4394-4e06-b270-e4e745377139.png",
+        "sha256": "4a7222a875bdb93ec73720e81312250d1adfbda93c45afc0b038224a47b6d28f"
+      },
+      {
+        "candidate": "SCHOOL_LUNCH_b",
+        "references": [
+          "ArtSource/Higgsfield/Selected/Master12/SCHOOL_MASTER.png"
+        ],
+        "prompt": "ArtSource/Higgsfield/Prompts/Master12/SCHOOL_LUNCH_b.txt",
+        "promptSHA256": "4747523891cb15cc903019c2f4a5ac71d188b7268a72f0eba69cb6fd9c55d375",
+        "status": "completed",
+        "id": "ee765e2b-799a-4972-a0da-00aa133ced3d",
+        "date": "2026-11-19T12:04:21.505766Z",
+        "model": "gpt_image_2_6",
+        "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261119_120421_ee765e2b-799a-4972-a0da-00aa133ced3d.png",
+        "sha256": "e4d13b8021a1b30d0c210e8e75e11fc6dc723cc8315a7f6a9d673a7bd02b5cdf"
+      }
+    ],
+    "candidate": "SCHOOL_LUNCH_b",
+    "reason": "복도에 모인 학생과 한산해진 책상이 함께 보인다. 창문·문·책상 방향을 유지한다."
+  },
+  {
+    "name": "SCHOOL_AFTER_CLASS",
+    "master": "SCHOOL_MASTER",
+    "masterSHA256": "fe7803b9e46eb259d2fb8bf18756b37cbc41231aba1e5679a01b56191476a5af",
+    "reference": "ArtSource/Higgsfield/Selected/Master12/SCHOOL_MASTER.png",
+    "selectedFile": "ArtSource/Higgsfield/Selected/Master12/Variations/SCHOOL_AFTER_CLASS.png",
+    "sha256": "4f64187e6f064c01c0fd873c65cda30356175f1b558e914beceab89c30a7ba73",
+    "jobs": [
+      {
+        "candidate": "SCHOOL_AFTER_CLASS_a",
+        "references": [
+          "ArtSource/Higgsfield/Selected/Master12/SCHOOL_MASTER.png"
+        ],
+        "prompt": "ArtSource/Higgsfield/Prompts/Master12/SCHOOL_AFTER_CLASS_a.txt",
+        "promptSHA256": "1ffe5ea4247fae5e6262835260a5bc39ecfda0e264e309ded0435df3c269ab00",
+        "status": "completed",
+        "id": "66a26f89-7df1-4ea2-985a-3da2d3036040",
+        "date": "2026-11-19T12:04:24.485513Z",
+        "model": "gpt_image_2_6",
+        "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261119_120424_66a26f89-7df1-4ea2-985a-3da2d3036040.png",
+        "sha256": "4f64187e6f064c01c0fd873c65cda30356175f1b558e914beceab89c30a7ba73"
+      },
+      {
+        "candidate": "SCHOOL_AFTER_CLASS_b",
+        "references": [
+          "ArtSource/Higgsfield/Selected/Master12/SCHOOL_MASTER.png"
+        ],
+        "prompt": "ArtSource/Higgsfield/Prompts/Master12/SCHOOL_AFTER_CLASS_b.txt",
+        "promptSHA256": "1ffe5ea4247fae5e6262835260a5bc39ecfda0e264e309ded0435df3c269ab00",
+        "status": "completed",
+        "id": "51e62831-2982-48d4-a042-a3163809d78d",
+        "date": "2026-11-19T12:04:34.099803Z",
+        "model": "gpt_image_2_6",
+        "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261119_120434_51e62831-2982-48d4-a042-a3163809d78d.png",
+        "sha256": "f90c18ef19ac0026238f2e4bcc77cba9a08e05d348f64b956684cedcf25db048"
+      }
+    ],
+    "candidate": "SCHOOL_AFTER_CLASS_a",
+    "reason": "A는 긴 오후 그림자가 빈 책상을 지나고, 진로 포스터 아래 두 학생만 함께 답안지를 바라본다."
+  },
+  {
+    "name": "HOME_BILLS",
+    "master": "HOME_INDEPENDENT_MASTER",
+    "masterSHA256": "0e43b3cb57f927b072b5a9a6214539770986f72d3a4699e5364caf151fa7c294",
+    "reference": "ArtSource/Higgsfield/Selected/Master12/HOME_INDEPENDENT_MASTER.png",
+    "selectedFile": "ArtSource/Higgsfield/Selected/Master12/Variations/HOME_BILLS.png",
+    "sha256": "dcbee9d34ed4cbb46e84d60d642783b7e56c6078e257ffaf663e5c532b75ef9e",
+    "jobs": [
+      {
+        "candidate": "HOME_BILLS_a",
+        "references": [
+          "ArtSource/Higgsfield/Selected/Master12/HOME_INDEPENDENT_MASTER.png"
+        ],
+        "prompt": "ArtSource/Higgsfield/Prompts/Master12/HOME_BILLS_a.txt",
+        "promptSHA256": "75263cc15121f08b59fdc90d37694af35b6ba1ab4e6f72fa87a38316241bb8d2",
+        "status": "completed",
+        "id": "a4e4bb0d-6c0f-4af6-8328-4e3e0cf17470",
+        "date": "2026-11-19T12:05:14.969588Z",
+        "model": "gpt_image_2_6",
+        "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261119_120514_a4e4bb0d-6c0f-4af6-8328-4e3e0cf17470.png",
+        "sha256": "e8dfc590b12e16f3b2f9b30483d17fb9b8901352105a57da897f09cb4ed04c42"
+      },
+      {
+        "candidate": "HOME_BILLS_b",
+        "references": [
+          "ArtSource/Higgsfield/Selected/Master12/HOME_INDEPENDENT_MASTER.png"
+        ],
+        "prompt": "ArtSource/Higgsfield/Prompts/Master12/HOME_BILLS_b.txt",
+        "promptSHA256": "75263cc15121f08b59fdc90d37694af35b6ba1ab4e6f72fa87a38316241bb8d2",
+        "status": "completed",
+        "id": "7e8489ba-c345-41d9-85f8-a0124eeb77c7",
+        "date": "2026-11-19T12:05:17.476559Z",
+        "model": "gpt_image_2_6",
+        "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261119_120517_7e8489ba-c345-41d9-85f8-a0124eeb77c7.png",
+        "sha256": "dcbee9d34ed4cbb46e84d60d642783b7e56c6078e257ffaf663e5c532b75ef9e"
+      }
+    ],
+    "candidate": "HOME_BILLS_b",
+    "reason": "B의 미개봉 봉투는 기존 고지서 주변에만 늘었다. 침대와 현관 사이 빈 바닥이 여전히 방에서 가장 큰 요소다."
+  },
+  {
+    "name": "BANK_PAPERWORK",
+    "master": "FINANCE_MASTER",
+    "masterSHA256": "5fbf2d5d42d7d95e8e9f94fa894a82883bb6d6ec7adbe1beeec7e09db73529ee",
+    "reference": "ArtSource/Higgsfield/Selected/Master12/FINANCE_MASTER.png",
+    "selectedFile": "ArtSource/Higgsfield/Selected/Master12/Variations/BANK_PAPERWORK.png",
+    "sha256": "0dbbe70e9c726d3ff352d3f996d6bc038b70010205f405289d8553b30334868f",
+    "jobs": [
+      {
+        "candidate": "BANK_PAPERWORK_a",
+        "references": [
+          "ArtSource/Higgsfield/Selected/Master12/FINANCE_MASTER.png"
+        ],
+        "prompt": "ArtSource/Higgsfield/Prompts/Master12/BANK_PAPERWORK_a.txt",
+        "promptSHA256": "fa1776bca128eb4d70509a9ab8bc3b35b54ba1e2e95203dc5262f6bb622ea517",
+        "status": "completed",
+        "id": "e1fca114-7a16-4efe-bc56-0981f54126d6",
+        "date": "2026-11-19T12:05:27.578275Z",
+        "model": "gpt_image_2_6",
+        "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261119_120527_e1fca114-7a16-4efe-bc56-0981f54126d6.png",
+        "sha256": "e63aca6821aa4a94190480569c79e15faf45c95599e22551926ec6418d8d739a"
+      },
+      {
+        "candidate": "BANK_PAPERWORK_b",
+        "references": [
+          "ArtSource/Higgsfield/Selected/Master12/FINANCE_MASTER.png"
+        ],
+        "prompt": "ArtSource/Higgsfield/Prompts/Master12/BANK_PAPERWORK_b.txt",
+        "promptSHA256": "fa1776bca128eb4d70509a9ab8bc3b35b54ba1e2e95203dc5262f6bb622ea517",
+        "status": "completed",
+        "id": "ae55581d-3458-40a0-a39d-99fbff458fda",
+        "date": "2026-11-19T12:05:57.845087Z",
+        "model": "gpt_image_2_6",
+        "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261119_120557_ae55581d-3458-40a0-a39d-99fbff458fda.png",
+        "sha256": "0dbbe70e9c726d3ff352d3f996d6bc038b70010205f405289d8553b30334868f"
+      }
+    ],
+    "candidate": "BANK_PAPERWORK_b",
+    "reason": "B의 오른쪽 상담 창구에서만 서류가 높아졌다. 손님과 상담사의 표정, 통로, 왼쪽 창구는 일상적이다."
+  },
+  {
+    "name": "SHOP_2AM",
+    "master": "SHOP_CONVENIENCE_MASTER",
+    "masterSHA256": "ca3da1c423372a5ef6e76520effef4ff8fe8fd74be366ba483701e2248e9eb56",
+    "reference": "ArtSource/Higgsfield/Selected/Master12/SHOP_CONVENIENCE_MASTER.png",
+    "selectedFile": "ArtSource/Higgsfield/Selected/Master12/Variations/SHOP_2AM.png",
+    "sha256": "20acaef6058547f95534c57e0635e47f26ca26db46ad3d6a7c05214a4e9dcec3",
+    "jobs": [
+      {
+        "candidate": "SHOP_2AM_a",
+        "references": [
+          "ArtSource/Higgsfield/Selected/Master12/SHOP_CONVENIENCE_MASTER.png"
+        ],
+        "prompt": "ArtSource/Higgsfield/Prompts/Master12/SHOP_2AM_a.txt",
+        "promptSHA256": "73163ff88d460cd1cc691be0b5cc5ad3dcd7f8616a8d751e24e111d5f49a8c82",
+        "status": "completed",
+        "id": "ba99b2a9-2640-4017-bf66-f56cfdaed6f4",
+        "date": "2026-11-19T12:06:02.750968Z",
+        "model": "gpt_image_2_6",
+        "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261119_120602_ba99b2a9-2640-4017-bf66-f56cfdaed6f4.png",
+        "sha256": "20acaef6058547f95534c57e0635e47f26ca26db46ad3d6a7c05214a4e9dcec3"
+      },
+      {
+        "candidate": "SHOP_2AM_b",
+        "references": [
+          "ArtSource/Higgsfield/Selected/Master12/SHOP_CONVENIENCE_MASTER.png"
+        ],
+        "prompt": "ArtSource/Higgsfield/Prompts/Master12/SHOP_2AM_b.txt",
+        "promptSHA256": "73163ff88d460cd1cc691be0b5cc5ad3dcd7f8616a8d751e24e111d5f49a8c82",
+        "status": "completed",
+        "id": "deb6a94b-caf6-45ec-9ac9-6aa9707ab11d",
+        "date": "2026-11-19T12:06:10.528358Z",
+        "model": "gpt_image_2_6",
+        "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261119_120610_deb6a94b-caf6-45ec-9ac9-6aa9707ab11d.png",
+        "sha256": "20231e2b14d163d5b6e52afabbd15d86bf0fbfd4d04184dd3194e0d5ad57212c"
+      }
+    ],
+    "candidate": "SHOP_2AM_a",
+    "reason": "A는 왼쪽에 피곤한 점원, 오른쪽 창가에 컵라면을 먹는 단 한 명의 손님을 둔다. 비어 있는 중앙 통로가 낮과 다른 새벽 분위기를 만든다."
+  }
+]

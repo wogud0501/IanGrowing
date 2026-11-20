@@ -43,6 +43,22 @@ namespace IanGame.Editor
             AssetDatabase.CreateFolder(parent, Path.GetFileName(path));
         }
 
+        static ZoneLifeRule IndoorPopulation(string room, string identity, int start, int end)
+        {
+            return new ZoneLifeRule
+            {
+                zoneId = room,
+                identity = identity,
+                ambientCapacity = 2,
+                bands = new[]
+                {
+                    new PopulationBand { fromHour = 0 },
+                    new PopulationBand { fromHour = start, ambientResidents = 2 },
+                    new PopulationBand { fromHour = end },
+                },
+            };
+        }
+
         static WorldLifeProfile Profile()
         {
             string path = Data + "LivingCity.asset";
@@ -92,6 +108,8 @@ namespace IanGame.Editor
                         )
                         .ToArray(),
                 },
+                IndoorPopulation("school", "Classroom", 8, 17),
+                IndoorPopulation("workplace", "Office", 8, 19),
                 new ZoneLifeRule
                 {
                     zoneId = "shop",
@@ -470,7 +488,7 @@ namespace IanGame.Editor
             return go;
         }
 
-        static void ReplaceFacade(LifeWorldController world, string id, string asset)
+        internal static void ReplaceFacade(LifeWorldController world, string id, string asset)
         {
             var target = world.objects.FirstOrDefault(o => o.id == id);
             if (target == null || target.visual == null)
@@ -479,7 +497,7 @@ namespace IanGame.Editor
             }
 
             var original = target.visual;
-            // These two entrance roots were authored at .85. Keep collider/door geometry unchanged.
+            // The entrance roots were authored at .85. Keep collider/door geometry unchanged.
             target.transform.localScale = Vector3.one * .85f;
             var child = target.transform.Find("Production facade");
             if (child == null)
@@ -535,7 +553,7 @@ namespace IanGame.Editor
                     wall.GetComponent<BoxCollider2D>().size = new Vector2(sideWidth, .18f);
                 }
             }
-            if (original != visual)
+            if (original != visual && (door == null || original != door.leaf))
             {
                 original.enabled = false;
             }
@@ -554,7 +572,10 @@ namespace IanGame.Editor
             glow.sortingOrder = visual.sortingOrder + 1;
             glow.enabled = false;
             var presentation = world.GetComponent<SceneVisualPresentation>();
-            presentation.nightWindows = presentation.nightWindows.Concat(new[] { glow }).Distinct().ToArray();
+            if (presentation != null)
+            {
+                presentation.nightWindows = presentation.nightWindows.Append(glow).Distinct().ToArray();
+            }
         }
 
         static void ReplaceStoreDecoration(LifeWorldController world, string name, string asset)
@@ -902,6 +923,7 @@ namespace IanGame.Editor
                         Roofline(world);
                     }
 
+                    WorldLayoutAuthoring.ApplyRoom(world);
                     EditorSceneManager.MarkSceneDirty(scene);
                     EditorSceneManager.SaveScene(scene);
                     scenes++;
@@ -912,6 +934,7 @@ namespace IanGame.Editor
                 EditorSceneManager.RestoreSceneManagerSetup(setup);
             }
 
+            ResidentRoutineAuthoring.ApplyRoomRules();
             return "Living city applied: "
                 + scenes
                 + " existing room scenes; existing NPC scheduler and street controller extended";

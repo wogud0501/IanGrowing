@@ -151,9 +151,14 @@ MonoBehaviour:
   npcs:
   - npcId: colleague
     title: "\uB3D9\uB124 \uC120\uBC30 \uC218\uC5F0"
+    ambient: 0
+    archetype: 0
+    ambientLine:
+    ambientOffsets: []
     homeZone: residence
     jobId: office
     workZone: workplace
+    worksFromHome: 0
     companionId: classmate
     hasHomePosition: 0
     homePosition: {x: 0, y: 0}
@@ -169,113 +174,165 @@ MonoBehaviour:
     - hour: 0
       minute: 0
       dayMask: 127
+      allowStroll: 0
       zone: residence
       objectId: resident-bed-0
       position: {x: -4.899994, y: -3.3}
       action: 9
-    - hour: 7
-      minute: 0
+    - hour: 6
+      minute: 42
       dayMask: 127
+      allowStroll: 0
       zone: residence
       objectId: resident-bed-0
       position: {x: -4.899994, y: -3.3}
       action: 1
-    - hour: 8
-      minute: 0
+    - hour: 6
+      minute: 48
       dayMask: 127
+      allowStroll: 0
+      zone: residence
+      objectId: resident-bed-0
+      position: {x: -4.899994, y: -3.3}
+      action: 7
+    - hour: 8
+      minute: 17
+      dayMask: 31
+      allowStroll: 0
       zone: city
       objectId: 
-      position: {x: -10, y: 1}
+      position: {x: 9, y: 0.60000014}
       action: 2
-    - hour: 9
-      minute: 0
-      dayMask: 127
+    - hour: 8
+      minute: 55
+      dayMask: 31
+      allowStroll: 0
       zone: workplace
       objectId: staff-desk-colleague
       position: {x: -5.600006, y: 2.3}
       action: 3
     - hour: 10
       minute: 0
-      dayMask: 127
+      dayMask: 31
+      allowStroll: 0
       zone: workplace
       objectId: office-break-0
       position: {x: 4.600006, y: 0}
       action: 7
     - hour: 10
-      minute: 15
-      dayMask: 127
+      minute: 14
+      dayMask: 31
+      allowStroll: 0
       zone: workplace
       objectId: staff-desk-colleague
       position: {x: -5.600006, y: 2.3}
       action: 3
+    - hour: 10
+      minute: 50
+      dayMask: 96
+      allowStroll: 0
+      zone: city
+      objectId:
+      position: {x: -9, y: 1}
+      action: 2
     - hour: 12
-      minute: 0
-      dayMask: 127
+      minute: 3
+      dayMask: 31
+      allowStroll: 0
       zone: shop
-      objectId: cafe-table-0
-      position: {x: 2, y: -0.34}
+      objectId: cafe-table-3
+      position: {x: 5.800003, y: -3.4399998}
       action: 5
     - hour: 12
-      minute: 18
-      dayMask: 127
+      minute: 38
+      dayMask: 31
+      allowStroll: 0
       zone: workplace
       objectId: staff-desk-colleague
       position: {x: -5.600006, y: 2.3}
       action: 3
-    - hour: 13
-      minute: 0
-      dayMask: 127
-      zone: workplace
-      objectId: staff-desk-colleague
-      position: {x: -5.600006, y: 2.3}
-      action: 3
+    - hour: 14
+      minute: 55
+      dayMask: 96
+      allowStroll: 0
+      zone: shop
+      objectId: shop-browse-0
+      position: {x: -7.399994, y: -0.9}
+      action: 6
+    - hour: 15
+      minute: 9
+      dayMask: 96
+      allowStroll: 0
+      zone: city
+      objectId:
+      position: {x: -6.7, y: -7.4}
+      action: 2
     - hour: 17
-      minute: 0
-      dayMask: 127
+      minute: 17
+      dayMask: 31
+      allowStroll: 0
+      zone: city
+      objectId:
+      position: {x: -6.7, y: -7.4}
+      action: 2
+    - hour: 17
+      minute: 37
+      dayMask: 31
+      allowStroll: 0
       zone: shop
       objectId: shop-browse-0
       position: {x: -7.399994, y: -0.9}
       action: 6
     - hour: 17
-      minute: 7
-      dayMask: 127
+      minute: 50
+      dayMask: 31
+      allowStroll: 0
       zone: city
       objectId: 
-      position: {x: -10, y: 1.5}
+      position: {x: -9, y: 1}
       action: 2
     - hour: 18
-      minute: 0
+      minute: 40
       dayMask: 127
-      zone: city
-      objectId: city-bench
-      position: {x: 3.600003, y: -8.900001}
-      action: 7
-    - hour: 20
-      minute: 0
-      dayMask: 127
-      zone: city
-      objectId: 
-      position: {x: -2, y: 1.2}
-      action: 8
-    - hour: 21
-      minute: 0
-      dayMask: 127
+      allowStroll: 0
       zone: residence
       objectId: resident-bed-0
       position: {x: -4.899994, y: -3.3}
       action: 7
-    - hour: 23
+    - hour: 20
       minute: 0
       dayMask: 127
+      allowStroll: 0
+      zone: city
+      objectId: 
+      position: {x: 2.5, y: -7.6}
+      action: 8
+    - hour: 20
+      minute: 31
+      dayMask: 127
+      allowStroll: 0
+      zone: residence
+      objectId: resident-bed-0
+      position: {x: -4.899994, y: -3.3}
+      action: 7
+    - hour: 22
+      minute: 40
+      dayMask: 127
+      allowStroll: 0
       zone: residence
       objectId: resident-bed-0
       position: {x: -4.899994, y: -3.3}
       action: 9
   - npcId: classmate
     title: "\uC606\uC790\uB9AC \uBBFC\uC218"
+    ambient: 0
+    archetype: 0
+    ambientLine:
+    ambientOffsets: []
     homeZone: residence
     jobId: student
     workZone: school
+    worksFromHome: 0
     companionId: colleague
     hasHomePosition: 0
     homePosition: {x: 0, y: 0}
@@ -291,27 +348,39 @@ MonoBehaviour:
     - hour: 0
       minute: 0
       dayMask: 127
+      allowStroll: 0
       zone: residence
       objectId: resident-bed-1
       position: {x: -0.8999939, y: -3.3}
       action: 9
-    - hour: 7
-      minute: 7
+    - hour: 6
+      minute: 37
       dayMask: 127
+      allowStroll: 0
       zone: residence
       objectId: resident-bed-1
       position: {x: -0.8999939, y: -3.3}
       action: 1
-    - hour: 8
-      minute: 7
+    - hour: 6
+      minute: 43
       dayMask: 127
+      allowStroll: 0
+      zone: residence
+      objectId: resident-bed-1
+      position: {x: -0.8999939, y: -3.3}
+      action: 7
+    - hour: 7
+      minute: 40
+      dayMask: 31
+      allowStroll: 0
       zone: city
       objectId: 
-      position: {x: -8.4, y: 1}
+      position: {x: 0, y: 1.5999999}
       action: 2
-    - hour: 9
-      minute: 0
-      dayMask: 127
+    - hour: 8
+      minute: 6
+      dayMask: 31
+      allowStroll: 0
       zone: school
       objectId: school-seat-0
       position: {x: -3.399994, y: -0.94000006}
@@ -319,6 +388,7 @@ MonoBehaviour:
     - hour: 10
       minute: 15
       dayMask: 31
+      allowStroll: 0
       zone: school
       objectId: school-break-0
       position: {x: -5.600006, y: -0.6}
@@ -326,78 +396,93 @@ MonoBehaviour:
     - hour: 10
       minute: 30
       dayMask: 31
+      allowStroll: 0
       zone: school
       objectId: school-seat-0
       position: {x: -3.399994, y: -0.94000006}
       action: 4
     - hour: 12
-      minute: 0
-      dayMask: 127
+      minute: 5
+      dayMask: 31
+      allowStroll: 0
       zone: shop
-      objectId: cafe-table-1
-      position: {x: 5.800003, y: -0.34}
+      objectId: cafe-table-0
+      position: {x: 2, y: -0.34}
       action: 5
     - hour: 12
-      minute: 18
-      dayMask: 127
+      minute: 38
+      dayMask: 31
+      allowStroll: 0
       zone: school
       objectId: school-seat-0
       position: {x: -3.399994, y: -0.94000006}
       action: 4
     - hour: 13
-      minute: 7
-      dayMask: 127
-      zone: school
-      objectId: school-seat-0
-      position: {x: -3.399994, y: -0.94000006}
-      action: 4
-    - hour: 16
-      minute: 7
-      dayMask: 127
-      zone: city
-      objectId: city-bench
-      position: {x: 4.300003, y: -8.900001}
-      action: 7
-    - hour: 17
-      minute: 8
-      dayMask: 127
+      minute: 40
+      dayMask: 96
+      allowStroll: 0
       zone: shop
-      objectId: shop-browse-1
-      position: {x: -5.600006, y: -0.9}
+      objectId: shop-browse-0
+      position: {x: -7.399994, y: -0.9}
       action: 6
-    - hour: 17
-      minute: 15
-      dayMask: 127
+    - hour: 13
+      minute: 55
+      dayMask: 96
+      allowStroll: 0
       zone: city
       objectId: 
-      position: {x: -8, y: 1.5}
+      position: {x: -9, y: 1}
       action: 2
-    - hour: 20
-      minute: 0
-      dayMask: 127
+    - hour: 15
+      minute: 40
+      dayMask: 31
+      allowStroll: 0
       zone: city
-      objectId: 
-      position: {x: -0.5, y: 1.2}
-      action: 8
-    - hour: 21
-      minute: 7
+      objectId:
+      position: {x: -9, y: 1}
+      action: 2
+    - hour: 17
+      minute: 45
       dayMask: 127
+      allowStroll: 0
       zone: residence
       objectId: resident-bed-1
       position: {x: -0.8999939, y: -3.3}
       action: 7
-    - hour: 23
-      minute: 7
+    - hour: 20
+      minute: 0
       dayMask: 127
+      allowStroll: 0
+      zone: city
+      objectId: 
+      position: {x: 3.6, y: -7.6}
+      action: 8
+    - hour: 20
+      minute: 30
+      dayMask: 127
+      allowStroll: 0
+      zone: residence
+      objectId: resident-bed-1
+      position: {x: -0.8999939, y: -3.3}
+      action: 7
+    - hour: 22
+      minute: 17
+      dayMask: 127
+      allowStroll: 0
       zone: residence
       objectId: resident-bed-1
       position: {x: -0.8999939, y: -3.3}
       action: 9
   - npcId: resident-0
     title: "\uC9C0\uC740"
+    ambient: 0
+    archetype: 0
+    ambientLine:
+    ambientOffsets: []
     homeZone: residence
     jobId: office
     workZone: workplace
+    worksFromHome: 0
     companionId: 
     hasHomePosition: 0
     homePosition: {x: 0, y: 0}
@@ -413,113 +498,149 @@ MonoBehaviour:
     - hour: 0
       minute: 0
       dayMask: 127
+      allowStroll: 0
       zone: residence
       objectId: resident-bed-2
       position: {x: 3.100006, y: -3.3}
       action: 9
-    - hour: 7
-      minute: 14
+    - hour: 6
+      minute: 47
       dayMask: 127
+      allowStroll: 0
       zone: residence
       objectId: resident-bed-2
       position: {x: 3.100006, y: -3.3}
       action: 1
-    - hour: 8
-      minute: 14
+    - hour: 6
+      minute: 53
       dayMask: 127
+      allowStroll: 0
+      zone: residence
+      objectId: resident-bed-2
+      position: {x: 3.100006, y: -3.3}
+      action: 7
+    - hour: 8
+      minute: 25
+      dayMask: 31
+      allowStroll: 0
       zone: city
       objectId: 
-      position: {x: -6.8, y: 1}
+      position: {x: 7.15, y: 0.05000013}
       action: 2
     - hour: 9
-      minute: 0
-      dayMask: 127
+      minute: 3
+      dayMask: 31
+      allowStroll: 0
       zone: workplace
       objectId: staff-desk-resident-0
       position: {x: -1.199997, y: 2.3}
       action: 3
     - hour: 10
-      minute: 3
-      dayMask: 127
+      minute: 12
+      dayMask: 31
+      allowStroll: 0
       zone: workplace
       objectId: office-break-1
       position: {x: 7.199997, y: 0}
       action: 7
     - hour: 10
-      minute: 18
-      dayMask: 127
+      minute: 26
+      dayMask: 31
+      allowStroll: 0
       zone: workplace
       objectId: staff-desk-resident-0
       position: {x: -1.199997, y: 2.3}
       action: 3
+    - hour: 11
+      minute: 1
+      dayMask: 96
+      allowStroll: 0
+      zone: city
+      objectId:
+      position: {x: -6.7, y: -7.4}
+      action: 2
     - hour: 12
-      minute: 0
-      dayMask: 127
+      minute: 43
+      dayMask: 31
+      allowStroll: 0
       zone: shop
-      objectId: cafe-table-2
-      position: {x: 2, y: -3.4399998}
+      objectId: cafe-table-0
+      position: {x: 2, y: -0.34}
       action: 5
-    - hour: 12
-      minute: 18
-      dayMask: 127
-      zone: workplace
-      objectId: staff-desk-resident-0
-      position: {x: -1.199997, y: 2.3}
-      action: 3
     - hour: 13
-      minute: 14
-      dayMask: 127
+      minute: 18
+      dayMask: 31
+      allowStroll: 0
       zone: workplace
       objectId: staff-desk-resident-0
       position: {x: -1.199997, y: 2.3}
       action: 3
-    - hour: 17
-      minute: 16
-      dayMask: 127
+    - hour: 15
+      minute: 4
+      dayMask: 96
+      allowStroll: 0
       zone: shop
-      objectId: shop-browse-2
-      position: {x: -3.800003, y: -0.9}
+      objectId: shop-browse-1
+      position: {x: -5.600006, y: -0.9}
       action: 6
+    - hour: 15
+      minute: 18
+      dayMask: 96
+      allowStroll: 0
+      zone: city
+      objectId:
+      position: {x: -4.4, y: 1}
+      action: 2
     - hour: 17
-      minute: 23
-      dayMask: 127
+      minute: 31
+      dayMask: 31
+      allowStroll: 0
       zone: city
       objectId: 
-      position: {x: -6, y: 1.5}
+      position: {x: -4.4, y: 1}
+      action: 2
+    - hour: 17
+      minute: 51
+      dayMask: 31
+      allowStroll: 0
+      zone: shop
+      objectId: shop-browse-1
+      position: {x: -5.600006, y: -0.9}
+      action: 6
+    - hour: 18
+      minute: 4
+      dayMask: 31
+      allowStroll: 0
+      zone: city
+      objectId: 
+      position: {x: -6.7, y: -7.4}
       action: 2
     - hour: 18
-      minute: 14
+      minute: 43
       dayMask: 127
-      zone: city
-      objectId: city-bench
-      position: {x: 5.000003, y: -8.900001}
-      action: 7
-    - hour: 20
-      minute: 0
-      dayMask: 127
-      zone: city
-      objectId: 
-      position: {x: -0.20000005, y: 1.2}
-      action: 2
-    - hour: 21
-      minute: 14
-      dayMask: 127
+      allowStroll: 0
       zone: residence
       objectId: resident-bed-2
       position: {x: 3.100006, y: -3.3}
       action: 7
-    - hour: 23
-      minute: 14
+    - hour: 22
+      minute: 44
       dayMask: 127
+      allowStroll: 0
       zone: residence
       objectId: resident-bed-2
       position: {x: 3.100006, y: -3.3}
       action: 9
   - npcId: resident-1
     title: "\uC815\uD638"
+    ambient: 0
+    archetype: 0
+    ambientLine:
+    ambientOffsets: []
     homeZone: residence
     jobId: office
     workZone: workplace
+    worksFromHome: 0
     companionId: 
     hasHomePosition: 0
     homePosition: {x: 0, y: 0}
@@ -534,79 +655,142 @@ MonoBehaviour:
     schedule:
     - hour: 0
       minute: 0
-      dayMask: 31
+      dayMask: 85
+      allowStroll: 0
+      zone: residence
+      objectId: resident-bed-3
+      position: {x: 7.100006, y: -3.3}
+      action: 9
+    - hour: 0
+      minute: 0
+      dayMask: 42
+      allowStroll: 0
       zone: workplace
       objectId: staff-desk-resident-1
       position: {x: -5.600006, y: -1.5}
       action: 3
     - hour: 2
-      minute: 20
-      dayMask: 31
+      minute: 30
+      dayMask: 42
+      allowStroll: 0
       zone: workplace
       objectId: office-break-0
       position: {x: 4.600006, y: 0}
       action: 7
     - hour: 2
-      minute: 35
-      dayMask: 31
+      minute: 50
+      dayMask: 42
+      allowStroll: 0
       zone: workplace
       objectId: staff-desk-resident-1
       position: {x: -5.600006, y: -1.5}
       action: 3
+    - hour: 6
+      minute: 35
+      dayMask: 42
+      allowStroll: 0
+      zone: city
+      objectId:
+      position: {x: -2.1000001, y: -7.4}
+      action: 2
     - hour: 7
-      minute: 21
-      dayMask: 127
+      minute: 12
+      dayMask: 42
+      allowStroll: 0
       zone: residence
       objectId: resident-bed-3
       position: {x: 7.100006, y: -3.3}
       action: 9
     - hour: 9
-      minute: 21
-      dayMask: 96
-      zone: city
-      objectId: 
-      position: {x: 6, y: -7.2}
-      action: 2
-    - hour: 15
-      minute: 21
-      dayMask: 127
+      minute: 8
+      dayMask: 85
+      allowStroll: 0
       zone: residence
       objectId: resident-bed-3
       position: {x: 7.100006, y: -3.3}
       action: 1
-    - hour: 17
-      minute: 21
-      dayMask: 127
-      zone: city
-      objectId: city-bench
-      position: {x: 3.600003, y: -8.900001}
+    - hour: 9
+      minute: 14
+      dayMask: 85
+      allowStroll: 0
+      zone: residence
+      objectId: resident-bed-3
+      position: {x: 7.100006, y: -3.3}
       action: 7
-    - hour: 20
-      minute: 21
+    - hour: 15
+      minute: 6
+      dayMask: 42
+      allowStroll: 0
+      zone: residence
+      objectId: resident-bed-3
+      position: {x: 7.100006, y: -3.3}
+      action: 1
+    - hour: 15
+      minute: 12
+      dayMask: 42
+      allowStroll: 0
+      zone: residence
+      objectId: resident-bed-3
+      position: {x: 7.100006, y: -3.3}
+      action: 7
+    - hour: 16
+      minute: 45
       dayMask: 127
+      allowStroll: 0
+      zone: city
+      objectId:
+      position: {x: 0.19999981, y: 1}
+      action: 2
+    - hour: 20
+      minute: 5
+      dayMask: 127
+      allowStroll: 0
       zone: shop
-      objectId: cafe-table-3
-      position: {x: 5.800003, y: -3.4399998}
+      objectId: cafe-table-0
+      position: {x: 2, y: -0.34}
       action: 5
-    - hour: 20
-      minute: 39
+    - hour: 21
+      minute: 0
       dayMask: 127
-      zone: city
-      objectId: city-bench
-      position: {x: 3.600003, y: -8.900001}
+      allowStroll: 0
+      zone: residence
+      objectId: resident-bed-3
+      position: {x: 7.100006, y: -3.3}
       action: 7
+    - hour: 21
+      minute: 33
+      dayMask: 21
+      allowStroll: 0
+      zone: city
+      objectId:
+      position: {x: 9, y: 0.60000014}
+      action: 2
     - hour: 22
-      minute: 21
-      dayMask: 31
+      minute: 1
+      dayMask: 21
+      allowStroll: 0
       zone: workplace
       objectId: staff-desk-resident-1
       position: {x: -5.600006, y: -1.5}
       action: 3
+    - hour: 22
+      minute: 50
+      dayMask: 106
+      allowStroll: 0
+      zone: residence
+      objectId: resident-bed-3
+      position: {x: 7.100006, y: -3.3}
+      action: 9
   - npcId: resident-2
     title: "\uB3C4\uC724"
+    ambient: 0
+    archetype: 0
+    ambientLine:
+    ambientOffsets: []
     homeZone: residence
     jobId: convenience
-    workZone: workplace
+    workZone: shop
+    worksFromHome: 0
     companionId: resident-3
     hasHomePosition: 0
     homePosition: {x: 0, y: 0}
@@ -622,106 +806,125 @@ MonoBehaviour:
     - hour: 0
       minute: 0
       dayMask: 127
+      allowStroll: 0
       zone: residence
       objectId: resident-bed-4
       position: {x: -4.899994, y: -0.3}
       action: 9
-    - hour: 9
+    - hour: 7
       minute: 28
       dayMask: 127
+      allowStroll: 0
+      zone: residence
+      objectId: resident-bed-4
+      position: {x: -4.899994, y: -0.3}
+      action: 1
+    - hour: 7
+      minute: 34
+      dayMask: 127
+      allowStroll: 0
       zone: residence
       objectId: resident-bed-4
       position: {x: -4.899994, y: -0.3}
       action: 7
-    - hour: 12
+    - hour: 8
+      minute: 54
+      dayMask: 127
+      allowStroll: 0
+      zone: city
+      objectId: 
+      position: {x: -6.7, y: -7.4}
+      action: 2
+    - hour: 10
       minute: 20
-      dayMask: 127
-      zone: shop
-      objectId: cafe-table-0
-      position: {x: 2, y: -0.34}
-      action: 5
-    - hour: 12
-      minute: 38
-      dayMask: 127
+      dayMask: 31
+      allowStroll: 0
       zone: finance
       objectId: finance-consultation-point
       position: {x: -3, y: -0.6}
       action: 8
-    - hour: 12
-      minute: 58
+    - hour: 11
+      minute: 11
       dayMask: 127
+      allowStroll: 0
+      zone: city
+      objectId: 
+      position: {x: -9.85, y: 0.05000013}
+      action: 2
+    - hour: 11
+      minute: 30
+      dayMask: 127
+      allowStroll: 0
       zone: shop
-      objectId: shop-browse-4
-      position: {x: -5.600006, y: -2.1}
-      action: 6
+      objectId: shop-staff-counter
+      position: {x: -5.399994, y: 2.5600002}
+      action: 3
+    - hour: 12
+      minute: 55
+      dayMask: 127
+      allowStroll: 0
+      zone: city
+      objectId:
+      position: {x: -2.1000001, y: -7.4}
+      action: 2
     - hour: 13
-      minute: 6
+      minute: 36
       dayMask: 127
+      allowStroll: 0
+      zone: shop
+      objectId: cafe-table-3
+      position: {x: 5.800003, y: -3.4399998}
+      action: 5
+    - hour: 14
+      minute: 16
+      dayMask: 127
+      allowStroll: 0
       zone: city
       objectId: 
-      position: {x: -2, y: 1.5}
+      position: {x: 2.4999998, y: -7.4}
       action: 2
-    - hour: 14
-      minute: 20
-      dayMask: 31
-      zone: finance
-      objectId: finance-consultation-point
-      position: {x: -3, y: -0.6}
-      action: 8
-    - hour: 14
-      minute: 28
+    - hour: 15
+      minute: 0
       dayMask: 127
-      zone: city
-      objectId: 
-      position: {x: 5, y: -7.3}
-      action: 2
-    - hour: 14
+      allowStroll: 0
+      zone: shop
+      objectId: shop-staff-counter
+      position: {x: -5.399994, y: 2.5600002}
+      action: 3
+    - hour: 16
       minute: 40
-      dayMask: 31
-      zone: shop
-      objectId: shop-browse-4
-      position: {x: -5.600006, y: -2.1}
-      action: 6
-    - hour: 14
-      minute: 48
-      dayMask: 31
+      dayMask: 127
+      allowStroll: 0
       zone: city
       objectId: 
-      position: {x: -2, y: 1.5}
-      action: 2
-    - hour: 17
-      minute: 32
-      dayMask: 127
-      zone: shop
-      objectId: shop-browse-4
-      position: {x: -5.600006, y: -2.1}
-      action: 6
-    - hour: 17
-      minute: 39
-      dayMask: 127
-      zone: city
-      objectId: 
-      position: {x: -2, y: 1.5}
+      position: {x: -6.7, y: -7.4}
       action: 2
     - hour: 18
-      minute: 28
+      minute: 15
       dayMask: 127
+      allowStroll: 0
       zone: residence
       objectId: resident-bed-4
       position: {x: -4.899994, y: -0.3}
       action: 7
-    - hour: 23
-      minute: 28
+    - hour: 22
+      minute: 55
       dayMask: 127
+      allowStroll: 0
       zone: residence
       objectId: resident-bed-4
       position: {x: -4.899994, y: -0.3}
       action: 9
   - npcId: resident-3
     title: "\uC21C\uC790"
+    ambient: 0
+    archetype: 0
+    ambientLine:
+    ambientOffsets: []
     homeZone: residence
     jobId: analyst
     workZone: finance
+    worksFromHome: 0
     companionId: 
     hasHomePosition: 0
     homePosition: {x: 0, y: 0}
@@ -737,113 +940,149 @@ MonoBehaviour:
     - hour: 0
       minute: 0
       dayMask: 127
+      allowStroll: 0
       zone: residence
       objectId: resident-bed-5
       position: {x: -0.8999939, y: -0.3}
       action: 9
-    - hour: 7
-      minute: 35
+    - hour: 6
+      minute: 57
       dayMask: 127
+      allowStroll: 0
       zone: residence
       objectId: resident-bed-5
       position: {x: -0.8999939, y: -0.3}
       action: 1
-    - hour: 8
-      minute: 35
+    - hour: 7
+      minute: 3
       dayMask: 127
+      allowStroll: 0
+      zone: residence
+      objectId: resident-bed-5
+      position: {x: -0.8999939, y: -0.3}
+      action: 7
+    - hour: 8
+      minute: 22
+      dayMask: 31
+      allowStroll: 0
       zone: city
       objectId: 
-      position: {x: -1.9999999, y: 1}
+      position: {x: -14.7, y: -1.6}
       action: 2
     - hour: 9
       minute: 0
-      dayMask: 127
+      dayMask: 31
+      allowStroll: 0
       zone: finance
       objectId: staff-desk-resident-3
       position: {x: -3, y: 1.2}
       action: 3
     - hour: 10
-      minute: 23
-      dayMask: 127
+      minute: 36
+      dayMask: 31
+      allowStroll: 0
       zone: finance
       objectId: finance-staff-rest-0
       position: {x: 3.5, y: -2.84}
       action: 7
     - hour: 10
-      minute: 38
-      dayMask: 127
+      minute: 50
+      dayMask: 31
+      allowStroll: 0
       zone: finance
       objectId: staff-desk-resident-3
       position: {x: -3, y: 1.2}
       action: 3
+    - hour: 11
+      minute: 23
+      dayMask: 96
+      allowStroll: 0
+      zone: city
+      objectId:
+      position: {x: -2.1000001, y: -7.4}
+      action: 2
     - hour: 12
-      minute: 20
-      dayMask: 127
+      minute: 45
+      dayMask: 31
+      allowStroll: 0
       zone: shop
-      objectId: cafe-table-1
-      position: {x: 5.800003, y: -0.34}
+      objectId: cafe-table-2
+      position: {x: 2, y: -3.4399998}
       action: 5
-    - hour: 12
-      minute: 38
-      dayMask: 127
-      zone: finance
-      objectId: staff-desk-resident-3
-      position: {x: -3, y: 1.2}
-      action: 3
     - hour: 13
-      minute: 35
-      dayMask: 127
+      minute: 20
+      dayMask: 31
+      allowStroll: 0
       zone: finance
       objectId: staff-desk-resident-3
       position: {x: -3, y: 1.2}
       action: 3
-    - hour: 17
-      minute: 40
-      dayMask: 127
+    - hour: 15
+      minute: 22
+      dayMask: 96
+      allowStroll: 0
       zone: shop
-      objectId: shop-browse-5
-      position: {x: -3.800003, y: -2.1}
+      objectId: shop-browse-3
+      position: {x: -7.399994, y: -2.1}
+      action: 6
+    - hour: 15
+      minute: 36
+      dayMask: 96
+      allowStroll: 0
+      zone: city
+      objectId:
+      position: {x: 0.19999981, y: 1}
+      action: 2
+    - hour: 16
+      minute: 50
+      dayMask: 31
+      allowStroll: 0
+      zone: city
+      objectId:
+      position: {x: 0.19999981, y: 1}
+      action: 2
+    - hour: 17
+      minute: 10
+      dayMask: 31
+      allowStroll: 0
+      zone: shop
+      objectId: shop-browse-3
+      position: {x: -7.399994, y: -2.1}
       action: 6
     - hour: 17
-      minute: 47
-      dayMask: 127
+      minute: 23
+      dayMask: 31
+      allowStroll: 0
       zone: city
       objectId: 
-      position: {x: -10, y: 1.5}
+      position: {x: -2.1000001, y: -7.4}
       action: 2
     - hour: 18
-      minute: 35
+      minute: 49
       dayMask: 127
-      zone: city
-      objectId: city-bench
-      position: {x: 5.000003, y: -8.900001}
-      action: 7
-    - hour: 20
-      minute: 0
-      dayMask: 127
-      zone: city
-      objectId: 
-      position: {x: 2.5, y: 1.2}
-      action: 2
-    - hour: 21
-      minute: 35
-      dayMask: 127
+      allowStroll: 0
       zone: residence
       objectId: resident-bed-5
       position: {x: -0.8999939, y: -0.3}
       action: 7
-    - hour: 23
-      minute: 35
+    - hour: 22
+      minute: 52
       dayMask: 127
+      allowStroll: 0
       zone: residence
       objectId: resident-bed-5
       position: {x: -0.8999939, y: -0.3}
       action: 9
   - npcId: resident-4
     title: "\uC9C0\uC740"
+    ambient: 0
+    archetype: 0
+    ambientLine:
+    ambientOffsets: []
     homeZone: residence
     jobId: analyst
     workZone: finance
+    worksFromHome: 0
     companionId: 
     hasHomePosition: 0
     homePosition: {x: 0, y: 0}
@@ -859,6 +1098,7 @@ MonoBehaviour:
     - hour: 0
       minute: 0
       dayMask: 127
+      allowStroll: 0
       zone: residence
       objectId: resident-bed-6
       position: {x: 3.100006, y: -0.3}
@@ -866,113 +1106,141 @@ MonoBehaviour:
     - hour: 7
       minute: 2
       dayMask: 127
+      allowStroll: 0
       zone: residence
       objectId: resident-bed-6
       position: {x: 3.100006, y: -0.3}
       action: 1
-    - hour: 8
-      minute: 2
+    - hour: 7
+      minute: 8
       dayMask: 127
-      zone: city
-      objectId: 
-      position: {x: -0.39999986, y: 1}
-      action: 2
-    - hour: 9
-      minute: 0
-      dayMask: 31
-      zone: finance
-      objectId: staff-desk-resident-4
-      position: {x: 2.5, y: 1.2}
-      action: 3
-    - hour: 9
-      minute: 2
-      dayMask: 96
-      zone: city
-      objectId: 
-      position: {x: 6, y: -7.2}
-      action: 2
-    - hour: 10
-      minute: 40
-      dayMask: 31
-      zone: finance
-      objectId: finance-staff-rest-0
-      position: {x: 3.5, y: -2.84}
-      action: 7
-    - hour: 10
-      minute: 55
-      dayMask: 31
-      zone: finance
-      objectId: staff-desk-resident-4
-      position: {x: 2.5, y: 1.2}
-      action: 3
-    - hour: 12
-      minute: 20
-      dayMask: 127
-      zone: shop
-      objectId: cafe-table-2
-      position: {x: 2, y: -3.4399998}
-      action: 5
-    - hour: 12
-      minute: 38
-      dayMask: 127
-      zone: finance
-      objectId: staff-desk-resident-4
-      position: {x: 2.5, y: 1.2}
-      action: 3
-    - hour: 13
-      minute: 2
-      dayMask: 31
-      zone: finance
-      objectId: staff-desk-resident-4
-      position: {x: 2.5, y: 1.2}
-      action: 3
-    - hour: 18
-      minute: 0
-      dayMask: 127
-      zone: shop
-      objectId: shop-browse-0
-      position: {x: -7.399994, y: -0.9}
-      action: 6
-    - hour: 18
-      minute: 2
-      dayMask: 127
-      zone: city
-      objectId: city-bench
-      position: {x: 3.600003, y: -8.900001}
-      action: 7
-    - hour: 18
-      minute: 7
-      dayMask: 127
-      zone: city
-      objectId: 
-      position: {x: -8, y: 1.5}
-      action: 2
-    - hour: 20
-      minute: 0
-      dayMask: 127
-      zone: city
-      objectId: 
-      position: {x: 3.3999999, y: 1.2}
-      action: 2
-    - hour: 21
-      minute: 2
-      dayMask: 127
+      allowStroll: 0
       zone: residence
       objectId: resident-bed-6
       position: {x: 3.100006, y: -0.3}
       action: 7
-    - hour: 23
+    - hour: 8
+      minute: 31
+      dayMask: 31
+      allowStroll: 0
+      zone: city
+      objectId: 
+      position: {x: -8.3, y: -1.6}
+      action: 2
+    - hour: 9
+      minute: 9
+      dayMask: 31
+      allowStroll: 0
+      zone: finance
+      objectId: staff-desk-resident-4
+      position: {x: 2.5, y: 1.2}
+      action: 3
+    - hour: 10
+      minute: 48
+      dayMask: 31
+      allowStroll: 0
+      zone: finance
+      objectId: finance-staff-rest-1
+      position: {x: 4, y: -0.7}
+      action: 7
+    - hour: 11
       minute: 2
+      dayMask: 31
+      allowStroll: 0
+      zone: finance
+      objectId: staff-desk-resident-4
+      position: {x: 2.5, y: 1.2}
+      action: 3
+    - hour: 11
+      minute: 34
+      dayMask: 96
+      allowStroll: 0
+      zone: city
+      objectId:
+      position: {x: 0.19999981, y: 1}
+      action: 2
+    - hour: 13
+      minute: 24
+      dayMask: 31
+      allowStroll: 0
+      zone: shop
+      objectId: cafe-table-0
+      position: {x: 2, y: -0.34}
+      action: 5
+    - hour: 13
+      minute: 59
+      dayMask: 31
+      allowStroll: 0
+      zone: finance
+      objectId: staff-desk-resident-4
+      position: {x: 2.5, y: 1.2}
+      action: 3
+    - hour: 15
+      minute: 31
+      dayMask: 96
+      allowStroll: 0
+      zone: shop
+      objectId: shop-browse-4
+      position: {x: -5.600006, y: -2.1}
+      action: 6
+    - hour: 15
+      minute: 45
+      dayMask: 96
+      allowStroll: 0
+      zone: city
+      objectId: 
+      position: {x: 2.4999998, y: -7.4}
+      action: 2
+    - hour: 17
+      minute: 0
+      dayMask: 31
+      allowStroll: 0
+      zone: city
+      objectId: 
+      position: {x: 2.4999998, y: -7.4}
+      action: 2
+    - hour: 17
+      minute: 20
+      dayMask: 31
+      allowStroll: 0
+      zone: shop
+      objectId: shop-browse-4
+      position: {x: -5.600006, y: -2.1}
+      action: 6
+    - hour: 17
+      minute: 33
+      dayMask: 31
+      allowStroll: 0
+      zone: city
+      objectId:
+      position: {x: 0.19999981, y: 1}
+      action: 2
+    - hour: 18
+      minute: 52
       dayMask: 127
+      allowStroll: 0
+      zone: residence
+      objectId: resident-bed-6
+      position: {x: 3.100006, y: -0.3}
+      action: 7
+    - hour: 22
+      minute: 56
+      dayMask: 127
+      allowStroll: 0
       zone: residence
       objectId: resident-bed-6
       position: {x: 3.100006, y: -0.3}
       action: 9
   - npcId: resident-5
     title: "\uC815\uD638"
+    ambient: 0
+    archetype: 0
+    ambientLine:
+    ambientOffsets: []
     homeZone: residence
     jobId: office
     workZone: workplace
+    worksFromHome: 0
     companionId: 
     hasHomePosition: 0
     homePosition: {x: 0, y: 0}
@@ -988,113 +1256,149 @@ MonoBehaviour:
     - hour: 0
       minute: 0
       dayMask: 127
+      allowStroll: 0
       zone: residence
       objectId: resident-bed-7
       position: {x: 7.100006, y: -0.3}
       action: 9
-    - hour: 7
-      minute: 9
+    - hour: 6
+      minute: 52
       dayMask: 127
+      allowStroll: 0
       zone: residence
       objectId: resident-bed-7
       position: {x: 7.100006, y: -0.3}
       action: 1
-    - hour: 8
-      minute: 9
-      dayMask: 127
-      zone: city
-      objectId: 
-      position: {x: 1.2000002, y: 1}
-      action: 2
-    - hour: 9
-      minute: 0
-      dayMask: 127
-      zone: workplace
-      objectId: staff-desk-resident-5
-      position: {x: -1.199997, y: -1.5}
-      action: 3
-    - hour: 10
-      minute: 43
-      dayMask: 127
-      zone: workplace
-      objectId: office-break-1
-      position: {x: 7.199997, y: 0}
-      action: 7
-    - hour: 10
+    - hour: 6
       minute: 58
       dayMask: 127
-      zone: workplace
-      objectId: staff-desk-resident-5
-      position: {x: -1.199997, y: -1.5}
-      action: 3
-    - hour: 12
-      minute: 20
-      dayMask: 127
-      zone: shop
-      objectId: cafe-table-3
-      position: {x: 5.800003, y: -3.4399998}
-      action: 5
-    - hour: 12
-      minute: 38
-      dayMask: 127
-      zone: workplace
-      objectId: staff-desk-resident-5
-      position: {x: -1.199997, y: -1.5}
-      action: 3
-    - hour: 13
-      minute: 9
-      dayMask: 127
-      zone: workplace
-      objectId: staff-desk-resident-5
-      position: {x: -1.199997, y: -1.5}
-      action: 3
-    - hour: 18
-      minute: 8
-      dayMask: 127
-      zone: shop
-      objectId: shop-browse-1
-      position: {x: -5.600006, y: -0.9}
-      action: 6
-    - hour: 18
-      minute: 9
-      dayMask: 127
-      zone: city
-      objectId: city-bench
-      position: {x: 4.300003, y: -8.900001}
-      action: 7
-    - hour: 18
-      minute: 15
-      dayMask: 127
-      zone: city
-      objectId: 
-      position: {x: -6, y: 1.5}
-      action: 2
-    - hour: 20
-      minute: 0
-      dayMask: 127
-      zone: city
-      objectId: 
-      position: {x: 4.2999997, y: 1.2}
-      action: 2
-    - hour: 21
-      minute: 9
-      dayMask: 127
+      allowStroll: 0
       zone: residence
       objectId: resident-bed-7
       position: {x: 7.100006, y: -0.3}
       action: 7
-    - hour: 23
-      minute: 9
+    - hour: 8
+      minute: 32
+      dayMask: 31
+      allowStroll: 0
+      zone: city
+      objectId: 
+      position: {x: 10.85, y: 0.60000014}
+      action: 2
+    - hour: 9
+      minute: 10
+      dayMask: 31
+      allowStroll: 0
+      zone: workplace
+      objectId: staff-desk-resident-5
+      position: {x: -1.199997, y: -1.5}
+      action: 3
+    - hour: 10
+      minute: 24
+      dayMask: 31
+      allowStroll: 0
+      zone: workplace
+      objectId: office-break-0
+      position: {x: 4.600006, y: 0}
+      action: 7
+    - hour: 10
+      minute: 38
+      dayMask: 31
+      allowStroll: 0
+      zone: workplace
+      objectId: staff-desk-resident-5
+      position: {x: -1.199997, y: -1.5}
+      action: 3
+    - hour: 11
+      minute: 12
+      dayMask: 96
+      allowStroll: 0
+      zone: city
+      objectId:
+      position: {x: -4.4, y: 1}
+      action: 2
+    - hour: 12
+      minute: 45
+      dayMask: 31
+      allowStroll: 0
+      zone: shop
+      objectId: cafe-table-1
+      position: {x: 5.800003, y: -0.34}
+      action: 5
+    - hour: 13
+      minute: 20
+      dayMask: 31
+      allowStroll: 0
+      zone: workplace
+      objectId: staff-desk-resident-5
+      position: {x: -1.199997, y: -1.5}
+      action: 3
+    - hour: 15
+      minute: 13
+      dayMask: 96
+      allowStroll: 0
+      zone: shop
+      objectId: shop-browse-2
+      position: {x: -3.800003, y: -0.9}
+      action: 6
+    - hour: 15
+      minute: 27
+      dayMask: 96
+      allowStroll: 0
+      zone: city
+      objectId:
+      position: {x: -2.1000001, y: -7.4}
+      action: 2
+    - hour: 18
+      minute: 7
+      dayMask: 31
+      allowStroll: 0
+      zone: city
+      objectId: 
+      position: {x: -2.1000001, y: -7.4}
+      action: 2
+    - hour: 18
+      minute: 27
+      dayMask: 31
+      allowStroll: 0
+      zone: shop
+      objectId: shop-browse-2
+      position: {x: -3.800003, y: -0.9}
+      action: 6
+    - hour: 18
+      minute: 40
+      dayMask: 31
+      allowStroll: 0
+      zone: city
+      objectId: 
+      position: {x: -4.4, y: 1}
+      action: 2
+    - hour: 18
+      minute: 46
       dayMask: 127
+      allowStroll: 0
+      zone: residence
+      objectId: resident-bed-7
+      position: {x: 7.100006, y: -0.3}
+      action: 7
+    - hour: 22
+      minute: 48
+      dayMask: 127
+      allowStroll: 0
       zone: residence
       objectId: resident-bed-7
       position: {x: 7.100006, y: -0.3}
       action: 9
   - npcId: resident-6
     title: "\uB3C4\uC724"
+    ambient: 0
+    archetype: 0
+    ambientLine:
+    ambientOffsets: []
     homeZone: residence
     jobId: office
     workZone: workplace
+    worksFromHome: 0
     companionId: 
     hasHomePosition: 0
     homePosition: {x: 0, y: 0}
@@ -1109,72 +1413,142 @@ MonoBehaviour:
     schedule:
     - hour: 0
       minute: 0
-      dayMask: 127
-      zone: workplace
-      objectId: staff-desk-resident-6
-      position: {x: 3.199997, y: 2.3}
-      action: 3
-    - hour: 3
-      minute: 0
-      dayMask: 127
-      zone: workplace
-      objectId: office-break-0
-      position: {x: 4.600006, y: 0}
-      action: 7
-    - hour: 3
-      minute: 15
-      dayMask: 127
-      zone: workplace
-      objectId: staff-desk-resident-6
-      position: {x: 3.199997, y: 2.3}
-      action: 3
-    - hour: 7
-      minute: 16
-      dayMask: 127
+      dayMask: 42
+      allowStroll: 0
       zone: residence
       objectId: resident-bed-8
       position: {x: -4.899994, y: 2.7}
       action: 9
-    - hour: 15
-      minute: 16
-      dayMask: 127
-      zone: residence
-      objectId: resident-bed-8
-      position: {x: -4.899994, y: 2.7}
-      action: 1
-    - hour: 17
-      minute: 16
-      dayMask: 127
-      zone: city
-      objectId: city-bench
-      position: {x: 5.000003, y: -8.900001}
-      action: 7
-    - hour: 20
-      minute: 16
-      dayMask: 127
-      zone: shop
-      objectId: cafe-table-0
-      position: {x: 2, y: -0.34}
-      action: 5
-    - hour: 20
-      minute: 34
-      dayMask: 127
-      zone: city
-      objectId: city-bench
-      position: {x: 5.000003, y: -8.900001}
-      action: 7
-    - hour: 22
-      minute: 16
-      dayMask: 127
+    - hour: 0
+      minute: 0
+      dayMask: 85
+      allowStroll: 0
       zone: workplace
       objectId: staff-desk-resident-6
       position: {x: 3.199997, y: 2.3}
       action: 3
+    - hour: 2
+      minute: 42
+      dayMask: 85
+      allowStroll: 0
+      zone: workplace
+      objectId: office-break-1
+      position: {x: 7.199997, y: 0}
+      action: 7
+    - hour: 3
+      minute: 2
+      dayMask: 85
+      allowStroll: 0
+      zone: workplace
+      objectId: staff-desk-resident-6
+      position: {x: 3.199997, y: 2.3}
+      action: 3
+    - hour: 6
+      minute: 43
+      dayMask: 85
+      allowStroll: 0
+      zone: city
+      objectId:
+      position: {x: 0.19999981, y: 1}
+      action: 2
+    - hour: 7
+      minute: 19
+      dayMask: 85
+      allowStroll: 0
+      zone: residence
+      objectId: resident-bed-8
+      position: {x: -4.899994, y: 2.7}
+      action: 9
+    - hour: 9
+      minute: 19
+      dayMask: 42
+      allowStroll: 0
+      zone: residence
+      objectId: resident-bed-8
+      position: {x: -4.899994, y: 2.7}
+      action: 1
+    - hour: 9
+      minute: 25
+      dayMask: 42
+      allowStroll: 0
+      zone: residence
+      objectId: resident-bed-8
+      position: {x: -4.899994, y: 2.7}
+      action: 7
+    - hour: 15
+      minute: 15
+      dayMask: 85
+      allowStroll: 0
+      zone: residence
+      objectId: resident-bed-8
+      position: {x: -4.899994, y: 2.7}
+      action: 1
+    - hour: 15
+      minute: 21
+      dayMask: 85
+      allowStroll: 0
+      zone: residence
+      objectId: resident-bed-8
+      position: {x: -4.899994, y: 2.7}
+      action: 7
+    - hour: 16
+      minute: 57
+      dayMask: 127
+      allowStroll: 0
+      zone: city
+      objectId:
+      position: {x: 2.4999998, y: -7.4}
+      action: 2
+    - hour: 20
+      minute: 14
+      dayMask: 127
+      allowStroll: 0
+      zone: shop
+      objectId: cafe-table-1
+      position: {x: 5.800003, y: -0.34}
+      action: 5
+    - hour: 21
+      minute: 6
+      dayMask: 127
+      allowStroll: 0
+      zone: residence
+      objectId: resident-bed-8
+      position: {x: -4.899994, y: 2.7}
+      action: 7
+    - hour: 21
+      minute: 41
+      dayMask: 106
+      allowStroll: 0
+      zone: city
+      objectId:
+      position: {x: 7.15, y: 0.05000013}
+      action: 2
+    - hour: 22
+      minute: 7
+      dayMask: 106
+      allowStroll: 0
+      zone: workplace
+      objectId: staff-desk-resident-6
+      position: {x: 3.199997, y: 2.3}
+      action: 3
+    - hour: 22
+      minute: 54
+      dayMask: 21
+      allowStroll: 0
+      zone: residence
+      objectId: resident-bed-8
+      position: {x: -4.899994, y: 2.7}
+      action: 9
   - npcId: resident-7
     title: "\uC21C\uC790"
+    ambient: 0
+    archetype: 0
+    ambientLine:
+    ambientOffsets: []
     homeZone: residence
     jobId: convenience
-    workZone: workplace
+    workZone: shop
+    worksFromHome: 0
     companionId: resident-8
     hasHomePosition: 0
     homePosition: {x: 0, y: 0}
@@ -1190,99 +1564,109 @@ MonoBehaviour:
     - hour: 0
       minute: 0
       dayMask: 127
+      allowStroll: 0
       zone: residence
       objectId: resident-bed-9
       position: {x: -0.8999939, y: 2.7}
       action: 9
-    - hour: 9
-      minute: 23
+    - hour: 8
+      minute: 45
       dayMask: 127
+      allowStroll: 0
+      zone: residence
+      objectId: resident-bed-9
+      position: {x: -0.8999939, y: 2.7}
+      action: 1
+    - hour: 8
+      minute: 51
+      dayMask: 127
+      allowStroll: 0
       zone: residence
       objectId: resident-bed-9
       position: {x: -0.8999939, y: 2.7}
       action: 7
-    - hour: 9
-      minute: 23
-      dayMask: 96
+    - hour: 10
+      minute: 12
+      dayMask: 127
+      allowStroll: 0
       zone: city
       objectId: 
-      position: {x: 6, y: -7.2}
+      position: {x: 2.4999998, y: -7.4}
       action: 2
-    - hour: 12
-      minute: 40
+    - hour: 11
+      minute: 29
       dayMask: 127
+      allowStroll: 0
+      zone: alley
+      objectId: 
+      position: {x: 4.6, y: -1.4}
+      action: 10
+    - hour: 13
+      minute: 35
+      dayMask: 127
+      allowStroll: 0
       zone: shop
-      objectId: cafe-table-1
-      position: {x: 5.800003, y: -0.34}
+      objectId: cafe-table-2
+      position: {x: 2, y: -3.4399998}
       action: 5
-    - hour: 12
-      minute: 58
-      dayMask: 127
-      zone: city
-      objectId: 
-      position: {x: 5, y: -7.3}
-      action: 2
-    - hour: 14
-      minute: 23
-      dayMask: 127
-      zone: city
-      objectId: 
-      position: {x: 5, y: -7.3}
-      action: 2
     - hour: 15
-      minute: 20
+      minute: 5
       dayMask: 31
+      allowStroll: 0
       zone: realestate
       objectId: realestate-consultation-point
       position: {x: -3, y: -0.6}
       action: 8
-    - hour: 15
+    - hour: 16
+      minute: 2
+      dayMask: 127
+      allowStroll: 0
+      zone: city
+      objectId:
+      position: {x: -13.55, y: 0.05000013}
+      action: 2
+    - hour: 16
       minute: 40
-      dayMask: 31
+      dayMask: 127
+      allowStroll: 0
       zone: shop
-      objectId: shop-browse-3
-      position: {x: -7.399994, y: -2.1}
-      action: 6
-    - hour: 15
-      minute: 48
-      dayMask: 31
+      objectId: shop-staff-counter
+      position: {x: -5.399994, y: 2.5600002}
+      action: 3
+    - hour: 23
+      minute: 0
+      dayMask: 127
+      allowStroll: 0
       zone: city
       objectId: 
-      position: {x: -2, y: 1.5}
+      position: {x: 2.4999998, y: -7.4}
       action: 2
-    - hour: 18
-      minute: 23
+    - hour: 23
+      minute: 18
       dayMask: 127
+      allowStroll: 0
       zone: residence
       objectId: resident-bed-9
       position: {x: -0.8999939, y: 2.7}
       action: 7
-    - hour: 18
-      minute: 24
-      dayMask: 127
-      zone: shop
-      objectId: shop-browse-3
-      position: {x: -7.399994, y: -2.1}
-      action: 6
-    - hour: 18
-      minute: 31
-      dayMask: 127
-      zone: city
-      objectId: 
-      position: {x: -2, y: 1.5}
-      action: 2
     - hour: 23
-      minute: 23
+      minute: 50
       dayMask: 127
+      allowStroll: 0
       zone: residence
       objectId: resident-bed-9
       position: {x: -0.8999939, y: 2.7}
       action: 9
   - npcId: resident-8
     title: "\uC9C0\uC740"
+    ambient: 0
+    archetype: 0
+    ambientLine:
+    ambientOffsets: []
     homeZone: residence
     jobId: office
     workZone: realestate
+    worksFromHome: 0
     companionId: 
     hasHomePosition: 0
     homePosition: {x: 0, y: 0}
@@ -1298,113 +1682,149 @@ MonoBehaviour:
     - hour: 0
       minute: 0
       dayMask: 127
+      allowStroll: 0
       zone: residence
       objectId: resident-bed-10
       position: {x: 3.100006, y: 2.7}
       action: 9
     - hour: 7
-      minute: 30
+      minute: 7
       dayMask: 127
+      allowStroll: 0
       zone: residence
       objectId: resident-bed-10
       position: {x: 3.100006, y: 2.7}
       action: 1
-    - hour: 8
-      minute: 30
+    - hour: 7
+      minute: 13
       dayMask: 127
+      allowStroll: 0
+      zone: residence
+      objectId: resident-bed-10
+      position: {x: 3.100006, y: 2.7}
+      action: 7
+    - hour: 8
+      minute: 37
+      dayMask: 31
+      allowStroll: 0
       zone: city
       objectId: 
-      position: {x: 6, y: 1}
+      position: {x: 6.45, y: -1.6}
       action: 2
     - hour: 9
-      minute: 0
-      dayMask: 127
+      minute: 15
+      dayMask: 31
+      allowStroll: 0
       zone: realestate
       objectId: staff-desk-resident-8
       position: {x: -3, y: 1.2}
       action: 3
     - hour: 11
-      minute: 3
-      dayMask: 127
+      minute: 0
+      dayMask: 31
+      allowStroll: 0
       zone: realestate
       objectId: realestate-staff-rest-0
       position: {x: 3.5, y: -2.84}
       action: 7
     - hour: 11
-      minute: 18
-      dayMask: 127
+      minute: 14
+      dayMask: 31
+      allowStroll: 0
       zone: realestate
       objectId: staff-desk-resident-8
       position: {x: -3, y: 1.2}
       action: 3
-    - hour: 12
-      minute: 40
-      dayMask: 127
-      zone: shop
-      objectId: cafe-table-2
-      position: {x: 2, y: -3.4399998}
-      action: 5
-    - hour: 12
-      minute: 58
-      dayMask: 127
-      zone: realestate
-      objectId: staff-desk-resident-8
-      position: {x: -3, y: 1.2}
-      action: 3
-    - hour: 13
-      minute: 30
-      dayMask: 127
-      zone: realestate
-      objectId: staff-desk-resident-8
-      position: {x: -3, y: 1.2}
-      action: 3
-    - hour: 18
-      minute: 30
-      dayMask: 127
+    - hour: 11
+      minute: 45
+      dayMask: 96
+      allowStroll: 0
       zone: city
-      objectId: city-bench
-      position: {x: 4.300003, y: -8.900001}
-      action: 7
-    - hour: 18
-      minute: 32
-      dayMask: 127
+      objectId:
+      position: {x: 2.4999998, y: -7.4}
+      action: 2
+    - hour: 12
+      minute: 50
+      dayMask: 31
+      allowStroll: 0
       zone: shop
-      objectId: shop-browse-4
-      position: {x: -5.600006, y: -2.1}
+      objectId: cafe-table-3
+      position: {x: 5.800003, y: -3.4399998}
+      action: 5
+    - hour: 13
+      minute: 25
+      dayMask: 31
+      allowStroll: 0
+      zone: realestate
+      objectId: staff-desk-resident-8
+      position: {x: -3, y: 1.2}
+      action: 3
+    - hour: 15
+      minute: 40
+      dayMask: 96
+      allowStroll: 0
+      zone: shop
+      objectId: shop-browse-5
+      position: {x: -3.800003, y: -2.1}
+      action: 6
+    - hour: 15
+      minute: 54
+      dayMask: 96
+      allowStroll: 0
+      zone: city
+      objectId: 
+      position: {x: 4.7999997, y: 1}
+      action: 2
+    - hour: 17
+      minute: 38
+      dayMask: 31
+      allowStroll: 0
+      zone: city
+      objectId: 
+      position: {x: 4.7999997, y: 1}
+      action: 2
+    - hour: 17
+      minute: 58
+      dayMask: 31
+      allowStroll: 0
+      zone: shop
+      objectId: shop-browse-5
+      position: {x: -3.800003, y: -2.1}
       action: 6
     - hour: 18
-      minute: 39
-      dayMask: 127
+      minute: 11
+      dayMask: 31
+      allowStroll: 0
       zone: city
-      objectId: 
-      position: {x: -10, y: 1.5}
+      objectId:
+      position: {x: 2.4999998, y: -7.4}
       action: 2
-    - hour: 20
-      minute: 0
+    - hour: 18
+      minute: 55
       dayMask: 127
-      zone: city
-      objectId: 
-      position: {x: 7, y: 1.2}
-      action: 2
-    - hour: 21
-      minute: 30
-      dayMask: 127
+      allowStroll: 0
       zone: residence
       objectId: resident-bed-10
       position: {x: 3.100006, y: 2.7}
       action: 7
     - hour: 23
-      minute: 30
+      minute: 0
       dayMask: 127
+      allowStroll: 0
       zone: residence
       objectId: resident-bed-10
       position: {x: 3.100006, y: 2.7}
       action: 9
   - npcId: resident-9
     title: "\uC815\uD638"
+    ambient: 0
+    archetype: 0
+    ambientLine:
+    ambientOffsets: []
     homeZone: residence
     jobId: office
     workZone: realestate
+    worksFromHome: 0
     companionId: 
     hasHomePosition: 0
     homePosition: {x: 0, y: 0}
@@ -1420,113 +1840,149 @@ MonoBehaviour:
     - hour: 0
       minute: 0
       dayMask: 127
+      allowStroll: 0
       zone: residence
       objectId: resident-bed-11
       position: {x: 7.100006, y: 2.7}
       action: 9
     - hour: 7
-      minute: 37
+      minute: 12
       dayMask: 127
+      allowStroll: 0
       zone: residence
       objectId: resident-bed-11
       position: {x: 7.100006, y: 2.7}
       action: 1
-    - hour: 8
-      minute: 37
+    - hour: 7
+      minute: 18
       dayMask: 127
+      allowStroll: 0
+      zone: residence
+      objectId: resident-bed-11
+      position: {x: 7.100006, y: 2.7}
+      action: 7
+    - hour: 8
+      minute: 42
+      dayMask: 31
+      allowStroll: 0
       zone: city
       objectId: 
-      position: {x: 7.6000004, y: 1}
+      position: {x: 14.7, y: -1.6}
       action: 2
     - hour: 9
-      minute: 0
-      dayMask: 127
-      zone: realestate
-      objectId: staff-desk-resident-9
-      position: {x: 2.5, y: 1.2}
-      action: 3
-    - hour: 11
       minute: 20
-      dayMask: 127
+      dayMask: 31
+      allowStroll: 0
       zone: realestate
-      objectId: realestate-staff-rest-0
-      position: {x: 3.5, y: -2.84}
+      objectId: staff-desk-resident-9
+      position: {x: 2.5, y: 1.2}
+      action: 3
+    - hour: 11
+      minute: 12
+      dayMask: 31
+      allowStroll: 0
+      zone: realestate
+      objectId: realestate-staff-rest-1
+      position: {x: 4, y: -0.7}
       action: 7
     - hour: 11
-      minute: 35
-      dayMask: 127
+      minute: 26
+      dayMask: 31
+      allowStroll: 0
       zone: realestate
       objectId: staff-desk-resident-9
       position: {x: 2.5, y: 1.2}
       action: 3
-    - hour: 12
-      minute: 40
-      dayMask: 127
-      zone: shop
-      objectId: cafe-table-3
-      position: {x: 5.800003, y: -3.4399998}
-      action: 5
-    - hour: 12
-      minute: 58
-      dayMask: 127
-      zone: realestate
-      objectId: staff-desk-resident-9
-      position: {x: 2.5, y: 1.2}
-      action: 3
-    - hour: 13
-      minute: 37
-      dayMask: 127
-      zone: realestate
-      objectId: staff-desk-resident-9
-      position: {x: 2.5, y: 1.2}
-      action: 3
-    - hour: 18
-      minute: 37
-      dayMask: 127
+    - hour: 11
+      minute: 56
+      dayMask: 96
+      allowStroll: 0
       zone: city
-      objectId: city-bench
-      position: {x: 5.000003, y: -8.900001}
-      action: 7
-    - hour: 18
-      minute: 40
-      dayMask: 127
+      objectId:
+      position: {x: 4.7999997, y: 1}
+      action: 2
+    - hour: 13
+      minute: 26
+      dayMask: 31
+      allowStroll: 0
       zone: shop
-      objectId: shop-browse-5
-      position: {x: -3.800003, y: -2.1}
+      objectId: cafe-table-1
+      position: {x: 5.800003, y: -0.34}
+      action: 5
+    - hour: 14
+      minute: 1
+      dayMask: 31
+      allowStroll: 0
+      zone: realestate
+      objectId: staff-desk-resident-9
+      position: {x: 2.5, y: 1.2}
+      action: 3
+    - hour: 15
+      minute: 49
+      dayMask: 96
+      allowStroll: 0
+      zone: shop
+      objectId: shop-browse-0
+      position: {x: -7.399994, y: -0.9}
+      action: 6
+    - hour: 16
+      minute: 3
+      dayMask: 96
+      allowStroll: 0
+      zone: city
+      objectId: 
+      position: {x: 7.0999994, y: -7.4}
+      action: 2
+    - hour: 17
+      minute: 52
+      dayMask: 31
+      allowStroll: 0
+      zone: city
+      objectId: 
+      position: {x: 7.0999994, y: -7.4}
+      action: 2
+    - hour: 18
+      minute: 12
+      dayMask: 31
+      allowStroll: 0
+      zone: shop
+      objectId: shop-browse-0
+      position: {x: -7.399994, y: -0.9}
       action: 6
     - hour: 18
-      minute: 47
-      dayMask: 127
+      minute: 25
+      dayMask: 31
+      allowStroll: 0
       zone: city
-      objectId: 
-      position: {x: -8, y: 1.5}
+      objectId:
+      position: {x: 4.7999997, y: 1}
       action: 2
-    - hour: 20
-      minute: 0
+    - hour: 18
+      minute: 58
       dayMask: 127
-      zone: city
-      objectId: 
-      position: {x: 7.8999996, y: 1.2}
-      action: 2
-    - hour: 21
-      minute: 37
-      dayMask: 127
+      allowStroll: 0
       zone: residence
       objectId: resident-bed-11
       position: {x: 7.100006, y: 2.7}
       action: 7
     - hour: 23
-      minute: 37
+      minute: 4
       dayMask: 127
+      allowStroll: 0
       zone: residence
       objectId: resident-bed-11
       position: {x: 7.100006, y: 2.7}
       action: 9
   - npcId: school-teacher
     title: "\uB2F4\uC784 \uC120\uC0DD\uB2D8 \uC11C\uC724"
+    ambient: 0
+    archetype: 0
+    ambientLine:
+    ambientOffsets: []
     homeZone: residence
     jobId: teacher
     workZone: school
+    worksFromHome: 0
     companionId: school-pupil
     hasHomePosition: 0
     homePosition: {x: 0, y: 0}
@@ -1542,20 +1998,39 @@ MonoBehaviour:
     - hour: 0
       minute: 0
       dayMask: 127
+      allowStroll: 0
       zone: residence
       objectId: school-teacher-bed
-      position: {x: 7.299988, y: -3.3}
+      position: {x: -7.149994, y: -3.3}
       action: 9
-    - hour: 7
-      minute: 0
+    - hour: 6
+      minute: 55
       dayMask: 127
+      allowStroll: 0
       zone: residence
       objectId: school-teacher-bed
-      position: {x: 7.299988, y: -3.3}
+      position: {x: -7.149994, y: -3.3}
       action: 1
-    - hour: 8
-      minute: 30
+    - hour: 7
+      minute: 1
       dayMask: 127
+      allowStroll: 0
+      zone: residence
+      objectId: school-teacher-bed
+      position: {x: -7.149994, y: -3.3}
+      action: 7
+    - hour: 7
+      minute: 48
+      dayMask: 31
+      allowStroll: 0
+      zone: city
+      objectId:
+      position: {x: 1.85, y: 1.5999999}
+      action: 2
+    - hour: 8
+      minute: 18
+      dayMask: 31
+      allowStroll: 0
       zone: school
       objectId: teacher-lectern
       position: {x: 0, y: 1.56}
@@ -1563,6 +2038,7 @@ MonoBehaviour:
     - hour: 10
       minute: 10
       dayMask: 31
+      allowStroll: 0
       zone: school
       objectId: teacher-board-point
       position: {x: -2.399994, y: 2}
@@ -1570,6 +2046,7 @@ MonoBehaviour:
     - hour: 10
       minute: 25
       dayMask: 31
+      allowStroll: 0
       zone: school
       objectId: teacher-lectern
       position: {x: 0, y: 1.56}
@@ -1577,6 +2054,7 @@ MonoBehaviour:
     - hour: 10
       minute: 26
       dayMask: 31
+      allowStroll: 0
       zone: school
       objectId: teacher-lectern
       position: {x: 0, y: 1.56}
@@ -1584,50 +2062,77 @@ MonoBehaviour:
     - hour: 10
       minute: 29
       dayMask: 31
+      allowStroll: 0
       zone: school
       objectId: teacher-lectern
       position: {x: 0, y: 1.56}
       action: 3
-    - hour: 13
-      minute: 0
-      dayMask: 127
-      zone: school
-      objectId: teacher-lectern
-      position: {x: 0, y: 1.56}
-      action: 3
-    - hour: 13
-      minute: 0
-      dayMask: 127
+    - hour: 12
+      minute: 9
+      dayMask: 31
+      allowStroll: 0
       zone: shop
-      objectId: cafe-table-0
-      position: {x: 2, y: -0.34}
+      objectId: cafe-table-2
+      position: {x: 2, y: -3.4399998}
       action: 5
-    - hour: 13
-      minute: 18
-      dayMask: 127
+    - hour: 12
+      minute: 42
+      dayMask: 31
+      allowStroll: 0
       zone: school
       objectId: teacher-lectern
       position: {x: 0, y: 1.56}
       action: 3
+    - hour: 13
+      minute: 56
+      dayMask: 96
+      allowStroll: 0
+      zone: shop
+      objectId: shop-browse-2
+      position: {x: -3.800003, y: -0.9}
+      action: 6
+    - hour: 14
+      minute: 11
+      dayMask: 96
+      allowStroll: 0
+      zone: city
+      objectId:
+      position: {x: -4.4, y: 1}
+      action: 2
     - hour: 16
-      minute: 0
-      dayMask: 127
+      minute: 42
+      dayMask: 31
+      allowStroll: 0
       zone: city
       objectId: 
-      position: {x: -8, y: 1.5}
+      position: {x: -4.4, y: 1}
       action: 2
-    - hour: 23
-      minute: 20
+    - hour: 17
+      minute: 55
       dayMask: 127
+      allowStroll: 0
       zone: residence
       objectId: school-teacher-bed
-      position: {x: 7.299988, y: -3.3}
+      position: {x: -7.149994, y: -3.3}
+      action: 7
+    - hour: 22
+      minute: 31
+      dayMask: 127
+      allowStroll: 0
+      zone: residence
+      objectId: school-teacher-bed
+      position: {x: -7.149994, y: -3.3}
       action: 9
   - npcId: school-pupil
     title: "\uAC19\uC740 \uBC18 \uD559\uC0DD \uC900\uC11C"
+    ambient: 0
+    archetype: 0
+    ambientLine:
+    ambientOffsets: []
     homeZone: residence
     jobId: student
     workZone: school
+    worksFromHome: 0
     companionId: school-teacher
     hasHomePosition: 0
     homePosition: {x: 0, y: 0}
@@ -1643,20 +2148,39 @@ MonoBehaviour:
     - hour: 0
       minute: 0
       dayMask: 127
+      allowStroll: 0
       zone: residence
       objectId: school-pupil-bed
-      position: {x: 7.299988, y: 2.7}
+      position: {x: -7.149994, y: 2.7}
       action: 9
-    - hour: 7
-      minute: 20
+    - hour: 6
+      minute: 46
       dayMask: 127
+      allowStroll: 0
       zone: residence
       objectId: school-pupil-bed
-      position: {x: 7.299988, y: 2.7}
+      position: {x: -7.149994, y: 2.7}
       action: 1
-    - hour: 8
-      minute: 45
+    - hour: 6
+      minute: 52
       dayMask: 127
+      allowStroll: 0
+      zone: residence
+      objectId: school-pupil-bed
+      position: {x: -7.149994, y: 2.7}
+      action: 7
+    - hour: 7
+      minute: 44
+      dayMask: 31
+      allowStroll: 0
+      zone: city
+      objectId:
+      position: {x: -1.85, y: 1.05}
+      action: 2
+    - hour: 8
+      minute: 12
+      dayMask: 31
+      allowStroll: 0
       zone: school
       objectId: school-seat-1
       position: {x: 1.2999878, y: -0.94000006}
@@ -1664,6 +2188,7 @@ MonoBehaviour:
     - hour: 10
       minute: 18
       dayMask: 31
+      allowStroll: 0
       zone: school
       objectId: school-break-1
       position: {x: 0, y: 0.1}
@@ -1671,50 +2196,77 @@ MonoBehaviour:
     - hour: 10
       minute: 30
       dayMask: 31
+      allowStroll: 0
       zone: school
       objectId: school-seat-1
       position: {x: 1.2999878, y: -0.94000006}
       action: 4
-    - hour: 13
-      minute: 0
-      dayMask: 127
-      zone: school
-      objectId: school-seat-1
-      position: {x: 1.2999878, y: -0.94000006}
-      action: 4
-    - hour: 13
-      minute: 0
-      dayMask: 127
+    - hour: 12
+      minute: 7
+      dayMask: 31
+      allowStroll: 0
       zone: shop
       objectId: cafe-table-1
       position: {x: 5.800003, y: -0.34}
       action: 5
-    - hour: 13
-      minute: 18
-      dayMask: 127
+    - hour: 12
+      minute: 40
+      dayMask: 31
+      allowStroll: 0
       zone: school
       objectId: school-seat-1
       position: {x: 1.2999878, y: -0.94000006}
       action: 4
+    - hour: 13
+      minute: 48
+      dayMask: 96
+      allowStroll: 0
+      zone: shop
+      objectId: shop-browse-1
+      position: {x: -5.600006, y: -0.9}
+      action: 6
+    - hour: 14
+      minute: 3
+      dayMask: 96
+      allowStroll: 0
+      zone: city
+      objectId:
+      position: {x: -6.7, y: -7.4}
+      action: 2
     - hour: 15
-      minute: 40
-      dayMask: 127
+      minute: 56
+      dayMask: 31
+      allowStroll: 0
       zone: city
       objectId: 
-      position: {x: -8, y: 1.5}
+      position: {x: -6.7, y: -7.4}
       action: 2
-    - hour: 23
-      minute: 20
+    - hour: 17
+      minute: 50
       dayMask: 127
+      allowStroll: 0
       zone: residence
       objectId: school-pupil-bed
-      position: {x: 7.299988, y: 2.7}
+      position: {x: -7.149994, y: 2.7}
+      action: 7
+    - hour: 22
+      minute: 24
+      dayMask: 127
+      allowStroll: 0
+      zone: residence
+      objectId: school-pupil-bed
+      position: {x: -7.149994, y: 2.7}
       action: 9
   - npcId: shop-clerk
     title: "\uB3D9\uB124 \uC0C1\uC810 \uC8FC\uC778 \uC601\uD638"
+    ambient: 0
+    archetype: 0
+    ambientLine:
+    ambientOffsets: []
     homeZone: residence
     jobId: shopkeeper
     workZone: shop
+    worksFromHome: 0
     companionId: 
     hasHomePosition: 0
     homePosition: {x: 0, y: 0}
@@ -1730,65 +2282,102 @@ MonoBehaviour:
     - hour: 0
       minute: 0
       dayMask: 127
+      allowStroll: 0
       zone: residence
       objectId: shop-clerk-bed
-      position: {x: 7.299988, y: -0.3}
+      position: {x: -7.149994, y: -0.3}
       action: 9
     - hour: 6
+      minute: 15
+      dayMask: 127
+      allowStroll: 0
+      zone: residence
+      objectId: shop-clerk-bed
+      position: {x: -7.149994, y: -0.3}
+      action: 1
+    - hour: 6
+      minute: 21
+      dayMask: 127
+      allowStroll: 0
+      zone: residence
+      objectId: shop-clerk-bed
+      position: {x: -7.149994, y: -0.3}
+      action: 7
+    - hour: 6
+      minute: 33
+      dayMask: 127
+      allowStroll: 0
+      zone: city
+      objectId:
+      position: {x: -11.7, y: 0.05000013}
+      action: 2
+    - hour: 6
+      minute: 55
+      dayMask: 127
+      allowStroll: 0
+      zone: shop
+      objectId: shop-staff-counter
+      position: {x: -5.399994, y: 2.5600002}
+      action: 3
+    - hour: 11
       minute: 30
       dayMask: 127
-      zone: residence
-      objectId: shop-clerk-bed
-      position: {x: 7.299988, y: -0.3}
-      action: 1
-    - hour: 7
-      minute: 0
-      dayMask: 127
+      allowStroll: 0
       zone: shop
-      objectId: shop-staff-counter
-      position: {x: -5.399994, y: 2.5600002}
-      action: 3
-    - hour: 13
-      minute: 0
-      dayMask: 127
-      zone: shop
-      objectId: shop-staff-counter
-      position: {x: -5.399994, y: 2.5600002}
-      action: 3
-    - hour: 13
-      minute: 0
-      dayMask: 127
-      zone: shop
-      objectId: cafe-table-2
-      position: {x: 2, y: -3.4399998}
+      objectId: cafe-table-0
+      position: {x: 2, y: -0.34}
       action: 5
-    - hour: 13
-      minute: 18
+    - hour: 12
+      minute: 0
       dayMask: 127
+      allowStroll: 0
+      zone: shop
+      objectId: shop-browse-5
+      position: {x: -3.800003, y: -2.1}
+      action: 18
+    - hour: 12
+      minute: 55
+      dayMask: 127
+      allowStroll: 0
       zone: shop
       objectId: shop-staff-counter
       position: {x: -5.399994, y: 2.5600002}
       action: 3
-    - hour: 23
+    - hour: 15
       minute: 0
       dayMask: 127
+      allowStroll: 0
       zone: city
       objectId: 
-      position: {x: -8, y: 1.5}
+      position: {x: -2.1000001, y: -7.4}
       action: 2
-    - hour: 23
-      minute: 20
+    - hour: 18
+      minute: 0
       dayMask: 127
+      allowStroll: 0
       zone: residence
       objectId: shop-clerk-bed
-      position: {x: 7.299988, y: -0.3}
+      position: {x: -7.149994, y: -0.3}
+      action: 7
+    - hour: 22
+      minute: 45
+      dayMask: 127
+      allowStroll: 0
+      zone: residence
+      objectId: shop-clerk-bed
+      position: {x: -7.149994, y: -0.3}
       action: 9
   - npcId: family-mother
     title: "\uC5C4\uB9C8"
+    ambient: 0
+    archetype: 0
+    ambientLine:
+    ambientOffsets: []
     homeZone: family-home
     jobId: parent
     workZone: 
-    companionId: 
+    worksFromHome: 0
+    companionId: family-father
     hasHomePosition: 1
     homePosition: {x: -9, y: 4.5499997}
     personality: 5
@@ -1803,6 +2392,7 @@ MonoBehaviour:
     - hour: 0
       minute: 0
       dayMask: 127
+      allowStroll: 0
       zone: family-home
       objectId: family-mother-bed
       position: {x: -9, y: 4.5499997}
@@ -1810,6 +2400,7 @@ MonoBehaviour:
     - hour: 6
       minute: 45
       dayMask: 127
+      allowStroll: 0
       zone: family-home
       objectId: family-mother-bed
       position: {x: -9, y: 4.5499997}
@@ -1817,27 +2408,31 @@ MonoBehaviour:
     - hour: 7
       minute: 0
       dayMask: 127
+      allowStroll: 0
       zone: family-home
       objectId: family-fridge
       position: {x: 10, y: -2.4}
-      action: 3
+      action: 11
     - hour: 7
       minute: 10
       dayMask: 127
+      allowStroll: 0
       zone: family-home
       objectId: family-cook
       position: {x: 6.5, y: -1.6}
-      action: 3
+      action: 12
     - hour: 7
       minute: 30
       dayMask: 127
+      allowStroll: 0
       zone: family-home
       objectId: family-serve
       position: {x: 6.5, y: -3.5}
-      action: 3
+      action: 13
     - hour: 7
       minute: 35
       dayMask: 127
+      allowStroll: 0
       zone: family-home
       objectId: family-dine-1
       position: {x: 4.5, y: -6.6}
@@ -1845,27 +2440,31 @@ MonoBehaviour:
     - hour: 8
       minute: 0
       dayMask: 127
+      allowStroll: 0
       zone: family-home
       objectId: family-dishes
       position: {x: 3, y: -2.45}
-      action: 3
+      action: 14
     - hour: 9
       minute: 0
       dayMask: 127
+      allowStroll: 0
       zone: family-home
       objectId: family-clean
       position: {x: -3, y: -4}
-      action: 3
+      action: 15
     - hour: 10
       minute: 30
       dayMask: 127
+      allowStroll: 0
       zone: city
       objectId: 
-      position: {x: -8, y: 1.5}
+      position: {x: -2.1000001, y: -7.4}
       action: 2
     - hour: 11
       minute: 0
       dayMask: 127
+      allowStroll: 0
       zone: shop
       objectId: counter
       position: {x: -5.399994, y: 1.6500001}
@@ -1873,34 +2472,39 @@ MonoBehaviour:
     - hour: 11
       minute: 20
       dayMask: 127
+      allowStroll: 0
       zone: city
       objectId: 
-      position: {x: -8, y: 1.5}
+      position: {x: 2.4999998, y: -7.4}
       action: 2
     - hour: 18
       minute: 10
       dayMask: 127
+      allowStroll: 0
       zone: family-home
       objectId: family-fridge
       position: {x: 10, y: -2.4}
-      action: 3
+      action: 11
     - hour: 18
       minute: 20
       dayMask: 127
+      allowStroll: 0
       zone: family-home
       objectId: family-cook
       position: {x: 6.5, y: -1.6}
-      action: 3
+      action: 12
     - hour: 18
       minute: 40
       dayMask: 127
+      allowStroll: 0
       zone: family-home
       objectId: family-serve
       position: {x: 6.5, y: -3.5}
-      action: 3
+      action: 13
     - hour: 18
       minute: 45
       dayMask: 127
+      allowStroll: 0
       zone: family-home
       objectId: family-dine-1
       position: {x: 4.5, y: -6.6}
@@ -1908,30 +2512,94 @@ MonoBehaviour:
     - hour: 19
       minute: 10
       dayMask: 127
+      allowStroll: 0
       zone: family-home
       objectId: family-dishes
       position: {x: 3, y: -2.45}
-      action: 3
+      action: 14
     - hour: 20
       minute: 0
       dayMask: 127
+      allowStroll: 0
       zone: family-home
       objectId: family-tv-mother
       position: {x: -8.600006, y: -5.55}
-      action: 7
+      action: 16
     - hour: 22
       minute: 30
       dayMask: 127
+      allowStroll: 0
       zone: family-home
       objectId: family-mother-bed
       position: {x: -9, y: 4.5499997}
       action: 9
+    - hour: 6
+      minute: 49
+      dayMask: 127
+      allowStroll: 0
+      zone: family-home
+      objectId: family-basin
+      position: {x: 5.600006, y: 4.6}
+      action: 17
+    - hour: 12
+      minute: 15
+      dayMask: 127
+      allowStroll: 0
+      zone: family-home
+      objectId: family-dine-1
+      position: {x: 4.5, y: -6.6}
+      action: 5
+    - hour: 12
+      minute: 55
+      dayMask: 127
+      allowStroll: 0
+      zone: family-home
+      objectId: family-tv-mother
+      position: {x: -8.600006, y: -5.55}
+      action: 16
+    - hour: 15
+      minute: 5
+      dayMask: 127
+      allowStroll: 0
+      zone: family-home
+      objectId: family-care
+      position: {x: 0.7999878, y: 3.1999998}
+      action: 15
+    - hour: 15
+      minute: 22
+      dayMask: 127
+      allowStroll: 0
+      zone: family-home
+      objectId: family-sofa
+      position: {x: -8, y: -6.4}
+      action: 7
+    - hour: 20
+      minute: 25
+      dayMask: 127
+      allowStroll: 0
+      zone: family-home
+      objectId: family-tv-mother
+      position: {x: -8.600006, y: -5.55}
+      action: 8
+    - hour: 20
+      minute: 37
+      dayMask: 127
+      allowStroll: 0
+      zone: family-home
+      objectId: family-tv-mother
+      position: {x: -8.600006, y: -5.55}
+      action: 16
   - npcId: family-father
     title: "\uC544\uBE60"
+    ambient: 0
+    archetype: 0
+    ambientLine:
+    ambientOffsets: []
     homeZone: family-home
     jobId: parent
     workZone: 
-    companionId: 
+    worksFromHome: 0
+    companionId: family-mother
     hasHomePosition: 1
     homePosition: {x: -6, y: 4.5499997}
     personality: 5
@@ -1946,6 +2614,7 @@ MonoBehaviour:
     - hour: 0
       minute: 0
       dayMask: 127
+      allowStroll: 0
       zone: family-home
       objectId: family-father-bed
       position: {x: -6, y: 4.5499997}
@@ -1953,6 +2622,7 @@ MonoBehaviour:
     - hour: 6
       minute: 55
       dayMask: 127
+      allowStroll: 0
       zone: family-home
       objectId: family-father-bed
       position: {x: -6, y: 4.5499997}
@@ -1960,13 +2630,15 @@ MonoBehaviour:
     - hour: 7
       minute: 5
       dayMask: 127
+      allowStroll: 0
       zone: family-home
       objectId: family-care
       position: {x: 0.7999878, y: 3.1999998}
-      action: 8
+      action: 15
     - hour: 7
       minute: 38
       dayMask: 127
+      allowStroll: 0
       zone: family-home
       objectId: family-dine-2
       position: {x: 6.5, y: -6.6}
@@ -1974,41 +2646,47 @@ MonoBehaviour:
     - hour: 8
       minute: 5
       dayMask: 127
+      allowStroll: 0
       zone: family-home
       objectId: family-clean
       position: {x: -3, y: -4}
-      action: 3
+      action: 15
     - hour: 9
       minute: 0
       dayMask: 127
+      allowStroll: 0
       zone: city
       objectId: 
-      position: {x: -8, y: 1.5}
+      position: {x: -6.7, y: -7.4}
       action: 2
     - hour: 12
       minute: 0
       dayMask: 127
+      allowStroll: 0
       zone: family-home
       objectId: family-fridge
       position: {x: 10, y: -2.4}
-      action: 3
+      action: 11
     - hour: 12
       minute: 10
       dayMask: 127
+      allowStroll: 0
       zone: family-home
       objectId: family-cook
       position: {x: 6.5, y: -1.6}
-      action: 3
+      action: 12
     - hour: 12
       minute: 30
       dayMask: 127
+      allowStroll: 0
       zone: family-home
       objectId: family-serve
       position: {x: 6.5, y: -3.5}
-      action: 3
+      action: 13
     - hour: 12
       minute: 35
       dayMask: 127
+      allowStroll: 0
       zone: family-home
       objectId: family-dine-2
       position: {x: 6.5, y: -6.6}
@@ -2016,13 +2694,15 @@ MonoBehaviour:
     - hour: 13
       minute: 0
       dayMask: 127
+      allowStroll: 0
       zone: family-home
       objectId: family-dishes
       position: {x: 3, y: -2.45}
-      action: 3
+      action: 14
     - hour: 15
       minute: 30
       dayMask: 127
+      allowStroll: 0
       zone: shop
       objectId: counter
       position: {x: -5.399994, y: 1.6500001}
@@ -2030,20 +2710,23 @@ MonoBehaviour:
     - hour: 15
       minute: 50
       dayMask: 127
+      allowStroll: 0
       zone: city
       objectId: 
-      position: {x: -8, y: 1.5}
+      position: {x: 0.19999981, y: 1}
       action: 2
     - hour: 17
       minute: 0
       dayMask: 127
+      allowStroll: 0
       zone: family-home
       objectId: family-clean
       position: {x: -3, y: -4}
-      action: 3
+      action: 15
     - hour: 18
       minute: 48
       dayMask: 127
+      allowStroll: 0
       zone: family-home
       objectId: family-dine-2
       position: {x: 6.5, y: -6.6}
@@ -2051,21 +2734,96 @@ MonoBehaviour:
     - hour: 19
       minute: 0
       dayMask: 127
+      allowStroll: 0
       zone: family-home
       objectId: family-care
       position: {x: 0.7999878, y: 3.1999998}
-      action: 8
+      action: 15
     - hour: 21
       minute: 0
       dayMask: 127
+      allowStroll: 0
       zone: family-home
       objectId: family-tv-father
       position: {x: -7.399994, y: -5.55}
-      action: 7
+      action: 16
     - hour: 23
       minute: 0
       dayMask: 127
+      allowStroll: 0
       zone: family-home
       objectId: family-father-bed
       position: {x: -6, y: 4.5499997}
       action: 9
+    - hour: 6
+      minute: 59
+      dayMask: 127
+      allowStroll: 0
+      zone: family-home
+      objectId: family-basin
+      position: {x: 5.600006, y: 4.6}
+      action: 17
+    - hour: 9
+      minute: 29
+      dayMask: 127
+      allowStroll: 0
+      zone: city
+      objectId: city-bench
+      position: {x: 4.300003, y: -8.900001}
+      action: 7
+    - hour: 13
+      minute: 22
+      dayMask: 127
+      allowStroll: 0
+      zone: family-home
+      objectId: family-tv-father
+      position: {x: -7.399994, y: -5.55}
+      action: 16
+    - hour: 15
+      minute: 7
+      dayMask: 127
+      allowStroll: 0
+      zone: city
+      objectId:
+      position: {x: 0.19999981, y: 1}
+      action: 2
+    - hour: 17
+      minute: 35
+      dayMask: 127
+      allowStroll: 0
+      zone: family-home
+      objectId: family-tv-father
+      position: {x: -7.399994, y: -5.55}
+      action: 16
+    - hour: 7
+      minute: 18
+      dayMask: 127
+      allowStroll: 0
+      zone: family-home
+      objectId: family-tv-father
+      position: {x: -7.399994, y: -5.55}
+      action: 16
+    - hour: 19
+      minute: 16
+      dayMask: 127
+      allowStroll: 0
+      zone: family-home
+      objectId: family-tv-father
+      position: {x: -7.399994, y: -5.55}
+      action: 16
+    - hour: 20
+      minute: 25
+      dayMask: 127
+      allowStroll: 0
+      zone: family-home
+      objectId: family-tv-father
+      position: {x: -7.399994, y: -5.55}
+      action: 8
+    - hour: 20
+      minute: 37
+      dayMask: 127
+      allowStroll: 0
+      zone: family-home
+      objectId: family-tv-father
+      position: {x: -7.399994, y: -5.55}
+      action: 16

@@ -36,6 +36,7 @@ namespace IanGame
             public WorldInteractable portal;
             public WorldInteractable nextPortal;
             public WorldDoor door;
+            public WorldDoor entryDoor;
             public int portalPhase;
             public float retry;
             public float releaseSeatUntil;
@@ -50,10 +51,18 @@ namespace IanGame
             public Color baseColor = Color.white;
             public float ambientConversationUntil;
             public bool atActivity;
+            public ResidentActivityStation station;
+            public SpriteRenderer heldItem;
+            public int taskStep;
+            public bool finishedTask;
+            public float workUntil;
             public bool pendingAbstract;
             public float seatedAt;
             public float standingUntil;
             public ActorMotion exitMotion;
+            public WorldInteractable anchor;
+            public WorldInteractable leavingBed;
+            public Vector2 anchorFacing;
             public WorldActivitySlot slot;
             public WorldActivitySlot requestedSlot;
             public WorldActivitySlot departureSlot;
@@ -112,11 +121,23 @@ namespace IanGame
                 return result;
             }
 
-            for (int i = d.schedule.Length - 1; i >= 0; i--)
+            for (int daysAgo = 1; daysAgo <= 7; daysAgo++)
             {
-                if ((d.schedule[i].dayMask & mask) != 0)
+                mask = 1 << ((day - 1 - daysAgo + 7) % 7);
+                for (int i = 0; i < d.schedule.Length; i++)
                 {
-                    return i;
+                    var entry = d.schedule[i];
+                    int at = entry.hour * 60 + entry.minute;
+                    if ((entry.dayMask & mask) != 0 && at >= latest)
+                    {
+                        result = i;
+                        latest = at;
+                    }
+                }
+
+                if (result >= 0)
+                {
+                    return result;
                 }
             }
 
@@ -180,6 +201,8 @@ namespace IanGame
 
             foreach (var r in residents)
             {
+                r.entryDoor?.Release(r.definition.npcId);
+                r.entryDoor = null;
                 r.door?.Release(r.definition.npcId);
                 r.slot?.Release(r.definition.npcId);
                 r.departureSlot?.Release(r.definition.npcId);
@@ -208,12 +231,15 @@ namespace IanGame
             var data = world.Service.State.residents;
             foreach (var r in residents)
             {
+                r.entryDoor?.Release(r.definition.npcId);
+                r.entryDoor = null;
                 r.door?.Release(r.definition.npcId);
                 r.slot?.Release(r.definition.npcId);
                 r.departureSlot?.Release(r.definition.npcId);
                 r.interiorDoor?.Release(r.definition.npcId);
                 r.interiorDoor = null;
                 r.departureSlot = null;
+                r.leavingBed = null;
                 r.seatApproached = false;
                 r.slot = null;
                 r.requestedSlot = null;
@@ -246,35 +272,40 @@ namespace IanGame
             foreach (var r in residents)
             {
                 var saved = data?.FirstOrDefault(n => n.id == r.definition.npcId);
-                if (saved == null || saved.minute != Minute)
-                {
-                    continue;
-                }
-
                 if (
-                    r.slot != null
-                    && (
-                        saved.objectId != r.target.objectId
-                        || saved.action != NPCDailyAction.Walk
-                            && Vector2.Distance(
-                                world.Service.rules.Zone(saved.zone).origin + saved.position,
-                                Destination(r)
-                            ) > .3f
-                    )
+                    saved == null
+                    || world.Service.rules.Zone(saved.zone) == null
+                    || saved.minute != Minute
+                    || saved.scheduleIndex != r.index
+                    || saved.objectId != r.target.objectId
+                    || saved.action != NPCDailyAction.Walk
+                        && (saved.action != r.target.action || saved.zone != r.target.zone || !CanStartHere(r))
                 )
                 {
                     continue;
                 }
 
                 var loaded = world.Service.rules.Zone(saved.zone).origin + saved.position;
-                if (sceneScoped && !SpawnPoint(ref loaded, r.actor))
+                if (saved.action != NPCDailyAction.Walk && r.anchor != null)
+                {
+                    var pose = saved.action == NPCDailyAction.Sleep ? BedPose(r.anchor) : Destination(r);
+                    if (Vector2.Distance(loaded, pose) > .3f)
+                    {
+                        // A stationary snapshot is valid only at its current activity anchor.
+                        r.actor.transform.position = Destination(r);
+                        loaded = pose;
+                    }
+                }
+
+                bool seated = saved.action != NPCDailyAction.Walk && r.slot != null && r.slot.seated;
+                if (sceneScoped && !seated && !SpawnPoint(ref loaded, r.actor))
                 {
                     continue;
                 }
 
                 r.actor.zone = saved.zone;
                 r.actor.transform.position = loaded;
-                r.facing = saved.facing;
+                r.facing = saved.action != NPCDailyAction.Walk && r.slot != null ? r.slot.facing : saved.facing;
                 r.action = saved.action;
                 r.atActivity = saved.action != NPCDailyAction.Walk;
                 r.active = r.actor.zone == world.Service.State.zone;
@@ -335,6 +366,11 @@ namespace IanGame
             if (sceneScoped && world.Room.roomId != world.Service.State.zone)
             {
                 return;
+            }
+
+            if (sceneScoped && ready && lastMinute >= 0 && Math.Abs(Minute - lastMinute) >= 60)
+            {
+                RebuildScoped(true, true);
             }
 
             if (
@@ -413,9 +449,19 @@ namespace IanGame
 
         Vector2 Destination(Resident r)
         {
+            if (HasChore(r) && r.slot != null)
+            {
+                return r.station.Waypoint(r.taskStep);
+            }
+
+            if (r.target.action == NPCDailyAction.Rest && r.slot == null && r.actor.zone == r.target.zone)
+            {
+                return r.actor.transform.position;
+            }
+
             if (r.slot != null)
             {
-                return r.slot.Point;
+                return r.target.action == NPCDailyAction.GetIngredients ? r.slot.ApproachPoint : r.slot.Point;
             }
 
             if (r.requestedSlot != null)
@@ -425,9 +471,10 @@ namespace IanGame
             }
 
             var z = world.Service.rules.Zone(r.target.zone);
-            var point = z.origin + r.target.position;
+            var point = r.anchor != null && r.anchor.zone == z.id ? r.anchor.Point : z.origin + r.target.position;
             if (
                 r.definition.ambient
+                && r.target.allowStroll
                 && r.target.action == NPCDailyAction.Walk
                 && r.definition.ambientOffsets.Length > 0
             )
@@ -454,7 +501,24 @@ namespace IanGame
                 );
                 bool changed = index != r.index;
                 r.target = r.definition.schedule[index];
-                if (changed)
+                bool sameSeat =
+                    changed
+                    && r.atActivity
+                    && r.slot != null
+                    && r.slot.seated
+                    && r.slot.IsOccupied
+                    && r.slot.Occupant == r.definition.npcId
+                    && r.anchor != null
+                    && r.anchor.id == r.target.objectId
+                    && r.target.zone == r.actor.zone
+                    && r.target.action is NPCDailyAction.Rest or NPCDailyAction.Talk or NPCDailyAction.WatchTV;
+                if (sameSeat)
+                {
+                    r.index = index;
+                    r.action = r.target.action;
+                    r.labelUntil = Time.unscaledTime + 2;
+                }
+                else if (changed)
                 {
                     r.hasPersonalGoal = false;
                     r.ambientWaypoint = 0;
@@ -482,11 +546,15 @@ namespace IanGame
 
                     r.seatApproached = false;
                     r.slot = null;
-                    r.requestedSlot = Object(r.target.objectId)?.GetComponent<WorldActivitySlot>();
-                    if (r.requestedSlot != null && r.requestedSlot.TryReserve(r.definition.npcId))
+                    if (r.action == NPCDailyAction.Sleep && r.atActivity && r.actor.zone == local)
                     {
-                        r.slot = r.requestedSlot;
+                        r.leavingBed = r.anchor;
                     }
+
+                    r.taskStep = 0;
+                    r.finishedTask = false;
+                    r.workUntil = 0;
+                    BindActivity(r);
 
                     if (r.action == NPCDailyAction.Sleep || r.action == NPCDailyAction.Rest)
                     {
@@ -507,6 +575,11 @@ namespace IanGame
                     r.departingUntil = 0;
                     r.labelUntil = Time.unscaledTime + 2;
                     r.action = NPCDailyAction.Walk;
+                }
+
+                if (!changed && r.target.action == NPCDailyAction.Rest && r.slot == null)
+                {
+                    BindActivity(r);
                 }
 
                 if (r.slot == null && r.requestedSlot != null && r.requestedSlot.TryReserve(r.definition.npcId))
@@ -532,14 +605,14 @@ namespace IanGame
                     r.pendingAbstract = false;
                     r.actor.zone = r.target.zone;
                     r.actor.transform.position = Destination(r);
-                    r.action = r.requestedSlot != null && r.slot == null ? NPCDailyAction.Idle : r.target.action;
+                    r.action = CanStartHere(r) ? r.target.action : NPCDailyAction.Idle;
                     r.atActivity = r.requestedSlot == null || r.slot != null;
                     if (r.action == NPCDailyAction.Sleep)
                     {
                         var bed = Object(r.target.objectId);
                         if (bed != null)
                         {
-                            r.actor.transform.position = (Vector2)bed.transform.position + Vector2.up * .7f;
+                            r.actor.transform.position = BedPose(bed);
                         }
                     }
 
@@ -558,8 +631,8 @@ namespace IanGame
                     if (restoring || zoneChanged)
                     {
                         r.actor.transform.position = Destination(r);
-                        r.action = r.target.action;
-                        r.atActivity = true;
+                        r.action = CanStartHere(r) ? r.target.action : NPCDailyAction.Idle;
+                        r.atActivity = CanStartHere(r);
                         r.facing = r.slot != null ? r.slot.facing : r.facing;
                         UseObject(r);
                     }
@@ -624,11 +697,46 @@ namespace IanGame
             }
         }
 
+        static Vector2 BedPose(WorldInteractable bed)
+        {
+            var mattress = bed.visual.bounds;
+            return new Vector2(mattress.center.x, mattress.min.y + mattress.size.y * .40f);
+        }
+
+        bool CanStartHere(Resident resident)
+        {
+            var entry = resident.target;
+            if (resident.actor.zone != entry.zone || !NPCActivityLocation.Allows(resident.definition, entry))
+            {
+                return false;
+            }
+
+            if (string.IsNullOrEmpty(entry.objectId))
+            {
+                return !NPCActivityLocation.RequiresAnchor(entry.action);
+            }
+
+            return resident.anchor != null
+                && resident.anchor.zone == entry.zone
+                && NPCActivityLocation.Matches(entry.action, resident.anchor)
+                && (resident.requestedSlot == null || resident.slot != null);
+        }
+
         static ActorMotion Motion(NPCDailyAction action) =>
             action == NPCDailyAction.Sleep ? ActorMotion.Sleep
             : action == NPCDailyAction.Eat ? ActorMotion.Eat
             : action == NPCDailyAction.Work || action == NPCDailyAction.Shop ? ActorMotion.Work
-            : action == NPCDailyAction.Study ? ActorMotion.UseComputer
+            : action == NPCDailyAction.GetIngredients ? ActorMotion.PickUpItem
+            : action == NPCDailyAction.ServeMeal ? ActorMotion.PutDownItem
+            : action == NPCDailyAction.WatchTV ? ActorMotion.SeatedIdle
+            : action == NPCDailyAction.Wash ? ActorMotion.WashFace
+            : action
+                is NPCDailyAction.Cook
+                    or NPCDailyAction.Clean
+                    or NPCDailyAction.WashDishes
+                    or NPCDailyAction.StockShelf
+                ? ActorMotion.Interact
+            : action == NPCDailyAction.Study ? ActorMotion.Study
             : action == NPCDailyAction.Rest ? ActorMotion.SitDown
             : action == NPCDailyAction.Phone ? ActorMotion.UsePhone
             : action == NPCDailyAction.Talk ? ActorMotion.Talk
@@ -638,12 +746,12 @@ namespace IanGame
         void UseObject(Resident r)
         {
             long key = ((long)world.Service.Game.clock.Day << 16) + r.index;
-            if (r.used == key)
+            if (r.used == key || !CanStartHere(r))
             {
                 return;
             }
 
-            var target = Object(r.target.objectId);
+            var target = r.anchor;
             if (target != null)
             {
                 target.RecordNPCUse(r.definition.npcId);
@@ -725,6 +833,11 @@ namespace IanGame
             if (r.actor.zone == "city")
             {
                 var z = world.Service.rules.Zone("city");
+                if (!WorldNPCNavigation.OnPedestrianRoute(z, from, next))
+                {
+                    return false;
+                }
+
                 if (!Road(from - z.origin) && Road(next - z.origin) && street != null && !street.CanEnterCrosswalk)
                 {
                     return false;
@@ -802,6 +915,26 @@ namespace IanGame
             }
 
             Vector2 before = r.actor.transform.position;
+            if (r.entryDoor != null)
+            {
+                if (r.entryDoor.State != DoorState.Open)
+                {
+                    Render(r, index, before, ActorMotion.Idle);
+                    return;
+                }
+
+                if (Vector2.Distance(before, r.entryDoor.portal.Point) > .05f)
+                {
+                    r.action = NPCDailyAction.Walk;
+                    Move(r, index, r.entryDoor.portal.Point, dt);
+                    Render(r, index, before);
+                    return;
+                }
+
+                r.entryDoor.Release(r.definition.npcId);
+                r.entryDoor = null;
+            }
+
             if (r.departureSlot != null)
             {
                 if (Time.unscaledTime < r.standingUntil)
@@ -829,6 +962,20 @@ namespace IanGame
             {
                 Render(r, index, before, r.exitMotion);
                 return;
+            }
+
+            if (r.leavingBed != null)
+            {
+                if (Vector2.Distance(before, r.leavingBed.Point) > .04f)
+                {
+                    r.releaseSeatUntil = Time.unscaledTime + .1f;
+                    Move(r, index, r.leavingBed.Point, dt);
+                    r.action = NPCDailyAction.Walk;
+                    Render(r, index, before);
+                    return;
+                }
+
+                r.leavingBed = null;
             }
 
             if (r.portal != null)
@@ -893,11 +1040,23 @@ namespace IanGame
             }
 
             var nextPortal = leaving ? r.nextPortal : null;
+            if (leaving && nextPortal == null)
+            {
+                r.action = NPCDailyAction.Idle;
+                Render(r, index, before);
+                return;
+            }
+
+            if (!leaving && AdvanceChore(r, index))
+            {
+                return;
+            }
+
             Vector2 goal = nextPortal == null ? Destination(r) : nextPortal.Point;
             bool anchored = !leaving && r.slot != null && r.slot.useSeatAnchors;
             if (anchored && !r.atActivity)
             {
-                goal = r.seatApproached ? r.slot.Point : r.slot.ApproachPoint;
+                goal = r.seatApproached ? Destination(r) : r.slot.ApproachPoint;
                 if (!r.seatApproached && Vector2.Distance(before, goal) < .08f)
                 {
                     r.seatApproached = true;
@@ -925,12 +1084,16 @@ namespace IanGame
             {
                 if (nextPortal != null)
                 {
-                    r.portal = nextPortal;
-                    r.door = nextPortal.GetComponent<WorldDoor>();
-                    if (r.door != null)
+                    var door = nextPortal.GetComponent<WorldDoor>();
+                    if (door != null && !door.Acquire(r.definition.npcId, world.Service.Hour, out _))
                     {
-                        r.door.Acquire(r.definition.npcId, world.Service.Hour, out _);
+                        r.action = NPCDailyAction.Idle;
+                        Render(r, index, before);
+                        return;
                     }
+
+                    r.door = door;
+                    r.portal = nextPortal;
 
                     r.action = NPCDailyAction.Walk;
                     Render(r, index, before);
@@ -951,8 +1114,16 @@ namespace IanGame
                     r.seatedAt = Time.unscaledTime;
                     if (anchored)
                     {
-                        r.actor.transform.position = r.slot.Point;
+                        r.actor.transform.position = Destination(r);
                     }
+                }
+
+                if (!CanStartHere(r))
+                {
+                    r.action = NPCDailyAction.Idle;
+                    r.atActivity = false;
+                    Render(r, index, before);
+                    return;
                 }
 
                 r.atActivity = true;
@@ -966,6 +1137,19 @@ namespace IanGame
                 {
                     r.facing = r.slot.facing;
                 }
+                else if (r.anchorFacing != Vector2.zero)
+                {
+                    r.facing = r.anchorFacing;
+                }
+
+                if (HasChore(r) && r.slot != null)
+                {
+                    r.facing = r.station.workingFacing;
+                    if (r.station.dirtyDishes)
+                    {
+                        r.station.dirtyDishes.enabled = true;
+                    }
+                }
 
                 UseObject(r);
                 if (r.action == NPCDailyAction.Sleep)
@@ -973,11 +1157,7 @@ namespace IanGame
                     var bed = Object(r.target.objectId);
                     if (bed != null)
                     {
-                        r.actor.transform.position = Vector2.MoveTowards(
-                            r.actor.transform.position,
-                            (Vector2)bed.transform.position + Vector2.up * .7f,
-                            dt * 2
-                        );
+                        r.actor.transform.position = BedPose(bed);
                     }
                 }
 
@@ -1067,6 +1247,12 @@ namespace IanGame
                 }
             }
 
+            if (r.action == NPCDailyAction.Talk && FamilyLife.Parent(r.definition.npcId))
+            {
+                motion = ActorMotion.Talk;
+            }
+
+            motion = LifeMotion(r, motion);
             if (forced.HasValue)
             {
                 motion = forced.Value;
@@ -1077,14 +1263,30 @@ namespace IanGame
                 motion,
                 walking ? delta : r.facing,
                 delta.magnitude,
-                walking || motion == ActorMotion.Idle
+                motion == ActorMotion.Walk || motion == ActorMotion.Idle
             );
             r.actor.visual.sortingOrder =
                 1000
                 - Mathf.RoundToInt(r.actor.transform.position.y * 100)
                 + (r.action == NPCDailyAction.Sleep ? 100 : 0);
+            if (r.action == NPCDailyAction.Sleep && r.anchor != null)
+            {
+                r.actor.visual.sortingOrder = Mathf.Max(r.actor.visual.sortingOrder, r.anchor.visual.sortingOrder + 1);
+            }
+
+            if (r.station != null && r.station.seatSurface && r.slot != null && r.slot.IsOccupied && r.atActivity)
+            {
+                r.actor.visual.sortingOrder = Mathf.Max(
+                    r.actor.visual.sortingOrder,
+                    r.station.seatSurface.sortingOrder + 1
+                );
+            }
+
+            DrawHeldItem(r, motion);
+
             if (r.actor.shadow != null)
             {
+                r.actor.shadow.enabled = r.active && r.action != NPCDailyAction.Sleep;
                 r.actor.shadow.sortingOrder = r.actor.visual.sortingOrder - 1;
             }
 
@@ -1111,6 +1313,14 @@ namespace IanGame
             {
                 string label =
                     r.action == NPCDailyAction.Work ? "근무 중"
+                    : r.action == NPCDailyAction.GetIngredients ? "식사 준비"
+                    : r.action == NPCDailyAction.Cook ? "요리 중"
+                    : r.action == NPCDailyAction.ServeMeal ? "상 차리는 중"
+                    : r.action == NPCDailyAction.WashDishes ? "설거지 중"
+                    : r.action == NPCDailyAction.Clean ? "청소 중"
+                    : r.action == NPCDailyAction.WatchTV ? "TV 보는 중"
+                    : r.action == NPCDailyAction.Wash ? "세수 중"
+                    : r.action == NPCDailyAction.StockShelf ? "상품 정리 중"
                     : r.action == NPCDailyAction.Study ? "공부 중"
                     : r.action == NPCDailyAction.Eat ? "식사 중"
                     : r.action == NPCDailyAction.Shop ? "장보기"
@@ -1119,11 +1329,30 @@ namespace IanGame
                     : r.action == NPCDailyAction.Phone ? "휴대폰 확인"
                     : r.action == NPCDailyAction.Rest ? "쉬는 중"
                     : "";
+                label = ChoreLabel(motion) ?? label;
+                if (
+                    HasChore(r)
+                    && r.action is NPCDailyAction.Clean or NPCDailyAction.WashDishes
+                    && ChoreLabel(motion) == null
+                )
+                {
+                    label = r.taskStep == 0 ? "도구 준비 중" : "도구 정리 중";
+                }
                 Label(r, index, label);
                 activityLabels[index].transform.position = r.actor.transform.position + Vector3.up * 2.1f;
                 activityLabels[index].gameObject.SetActive(r.active && Time.unscaledTime < r.labelUntil && label != "");
             }
         }
+
+#if UNITY_EDITOR
+        public bool TryInspectActivity(string id, out NPCDailyAction action, out string anchor)
+        {
+            var resident = Array.Find(residents, r => r.definition.npcId == id);
+            action = resident?.action ?? NPCDailyAction.Idle;
+            anchor = resident?.anchor == null ? "—" : resident.anchor.name;
+            return resident != null;
+        }
+#endif
 
         public NPCResidentSnapshot Inspect(string id)
         {

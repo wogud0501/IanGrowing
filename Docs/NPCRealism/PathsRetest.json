@@ -1,0 +1,78 @@
+[
+  {
+    "room": "family-living",
+    "npc": "family-father",
+    "from": 539,
+    "to": 540,
+    "start": "(490.60, -4.80)",
+    "last": "(497.19, -7.64)",
+    "maxStep": 0.145004079,
+    "nearest": 0.04008469,
+    "count": 4174,
+    "doorStates": [
+      "Opening",
+      "Open",
+      "Closing",
+      "Closed"
+    ],
+    "checkedFacing": 1589,
+    "wrongFacing": 0,
+    "passages": 1
+  },
+  {
+    "room": "workplace",
+    "npc": "colleague",
+    "from": 722,
+    "to": 723,
+    "start": "(214.40, 2.30)",
+    "last": "(222.79, -5.40)",
+    "maxStep": 0.109999612,
+    "nearest": 0.0299508348,
+    "count": 5092,
+    "doorStates": [
+      "Opening",
+      "Open",
+      "Closing",
+      "Closed"
+    ],
+    "checkedFacing": 981,
+    "wrongFacing": 0,
+    "passages": 1
+  },
+  {
+    "room": "school",
+    "npc": "classmate",
+    "from": 724,
+    "to": 725,
+    "start": "(256.60, -0.94)",
+    "last": "(259.99, -4.19)",
+    "maxStep": 0.0117277019,
+    "nearest": 0.0431076847,
+    "count": 4711,
+    "doorStates": [
+      "Opening",
+      "Open",
+      "Closing",
+      "Closed"
+    ],
+    "checkedFacing": 361,
+    "wrongFacing": 0,
+    "passages": 1
+  },
+  {
+    "counter": "resident-2",
+    "occupied": true,
+    "shop": [
+      {
+        "npcId": "shop-clerk",
+        "activity": "Eat",
+        "pos": "(182.00, -0.34, 0.00)"
+      },
+      {
+        "npcId": "resident-2",
+        "activity": "Work",
+        "pos": "(174.60, 2.56, 0.00)"
+      }
+    ]
+  }
+]

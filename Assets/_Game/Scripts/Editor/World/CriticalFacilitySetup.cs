@@ -117,6 +117,10 @@ namespace IanGame.Editor
 
                 slot.seat = null;
                 slot.staffId = d.npcId;
+                if (d.npcId is "resident-1" or "resident-6")
+                {
+                    slot.reliefStaff = new[] { d.npcId == "resident-1" ? "ambient-urban-2" : "ambient-urban-3" };
+                }
                 slot.facing = Vector2.down;
                 d.workZone = zone;
                 d.jobId = zone == "finance" ? "analyst" : "office";

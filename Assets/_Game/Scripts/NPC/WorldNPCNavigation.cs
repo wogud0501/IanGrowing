@@ -179,7 +179,11 @@ namespace IanGame
             while (result.Count > 0)
             {
                 var previous = result.Count > 1 ? result[result.Count - 2] : start;
-                if (!ClearApproach(previous, goal))
+                if (
+                    !OnPedestrianRoute(zone, previous, goal)
+                    || !ClearApproach(previous, goal)
+                    || available != null && !CrowdSegmentFree(previous, goal, available)
+                )
                 {
                     break;
                 }
@@ -205,6 +209,47 @@ namespace IanGame
             }
 
             return result;
+        }
+
+        static bool CrowdSegmentFree(Vector2 from, Vector2 to, System.Func<Vector2, bool> available)
+        {
+            int steps = Mathf.CeilToInt(Vector2.Distance(from, to) / .25f);
+            for (int i = 1; i <= steps; i++)
+            {
+                if (!available(Vector2.Lerp(from, to, (float)i / steps)))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        public static bool OnPedestrianRoute(WorldZoneDefinition zone, Vector2 from, Vector2 to)
+        {
+            if (zone.id != "city")
+            {
+                return true;
+            }
+
+            from -= zone.origin;
+            to -= zone.origin;
+            const float south = -6.7f;
+            const float north = -2.1f;
+            if (Mathf.Max(from.y, to.y) <= south || Mathf.Min(from.y, to.y) >= north)
+            {
+                return true;
+            }
+
+            float enter = Mathf.InverseLerp(from.y, to.y, south);
+            float exit = Mathf.InverseLerp(from.y, to.y, north);
+            if (Mathf.Approximately(from.y, to.y))
+            {
+                exit = 1;
+            }
+
+            return Mathf.Abs(Mathf.Lerp(from.x, to.x, enter)) <= .65f
+                && Mathf.Abs(Mathf.Lerp(from.x, to.x, exit)) <= .65f;
         }
 
         static bool ClearApproach(Vector2 from, Vector2 to)
