@@ -69,6 +69,7 @@ namespace IanGame
         bool started;
         bool integratedGuide;
         int achievementCategory;
+        Button[] categoryButtons;
 
         public void UseIntegratedGuide()
         {
@@ -79,7 +80,7 @@ namespace IanGame
             }
         }
 
-        Color Ink => new Color32(54, 51, 45, 255);
+        Color Ink => LifeRecordUI.Body;
 
         RectTransform Rect(string name, Transform parent, Vector2 min, Vector2 max, Vector2 size, Vector2 position)
         {
@@ -99,7 +100,7 @@ namespace IanGame
             var image = r.gameObject.AddComponent<Image>();
             image.sprite = frame;
             image.type = Image.Type.Sliced;
-            image.color = frame == null ? new Color32(246, 232, 197, 255) : Color.white;
+            image.color = frame == null ? LifeRecordUI.Track : Color.white;
             return image;
         }
 
@@ -314,10 +315,10 @@ namespace IanGame
             AchievementPanel = CreateScreen("Achievements screen", "도전과제 · 자유롭게 경험하기");
             var achievementScroll = Scroll(AchievementPanel.transform);
             var list = achievementScroll.GetComponentInParent<ScrollRect>(true);
-            var badge = LifeRecordUI.Surface(AchievementPanel.transform, "Achievement register", RecordSurface.Selected,
+            var badge = LifeRecordUI.Surface(AchievementPanel.transform, "Achievement register", RecordSurface.Focus,
                 .034f, .06f, .318f, .772f);
             LifeRecordUI.Print(badge.transform, RecordPrint.Achievement, .12f, .32f, .88f, .82f);
-            achievementTotal = LifeRecordUI.Label(badge.transform, font, "", 23, LifeRecordUI.Ink, .09f, .06f, .94f, .32f);
+            achievementTotal = LifeRecordUI.Label(badge.transform, font, "", 23, LifeRecordUI.Body, .09f, .06f, .94f, .32f);
             LifeRecordUI.Place((RectTransform)list.transform, .35f, .055f, .963f, .77f);
             achievementText = Text(
                 "Achievement rows",
@@ -360,10 +361,11 @@ namespace IanGame
                     )
             );
             string[] achievementTabs = { "전체", "생활·성장", "직업·경제", "수집", "사회" };
+            categoryButtons = new Button[achievementTabs.Length];
             for (int i = 0; i < achievementTabs.Length; i++)
             {
                 int index = i;
-                Button(
+                categoryButtons[i] = Button(
                     "Achievement category " + i,
                     AchievementPanel.transform,
                     achievementTabs[i],
@@ -373,12 +375,15 @@ namespace IanGame
                     Vector2.zero,
                     () =>
                     {
+                        LifeRecordUI.StyleButton(categoryButtons[achievementCategory]);
                         achievementCategory = index;
+                        LifeRecordUI.StyleButton(categoryButtons[index], true);
                         Refresh();
                     }
                 );
             }
 
+            LifeRecordUI.StyleButton(categoryButtons[achievementCategory], true);
             var achievementViewport = achievementScroll
                 .GetComponentInParent<ScrollRect>(true)
                 .GetComponent<RectTransform>();
@@ -526,13 +531,13 @@ namespace IanGame
         {
             var image = Panel("Map plot", parent, min, max, Vector2.zero, Vector2.zero);
             image.sprite = null;
-            image.color = new Color32(210, 205, 174, 255);
+            image.color = LifeRecordUI.Track;
             var view = new View { rect = image.rectTransform };
             views.Add(view);
             var zone = world.Room.rules.Zone("city");
             var road = Panel("Road", view.rect, Vector2.zero, Vector2.one, Vector2.zero, Vector2.zero);
             road.sprite = null;
-            road.color = new Color32(154, 144, 123, 255);
+            road.color = LifeRecordUI.Inactive;
             road.rectTransform.anchorMin = Project(new Vector2(-zone.size.x / 2, -6.7f));
             road.rectTransform.anchorMax = Project(new Vector2(zone.size.x / 2, -2.1f));
             foreach (var f in facilities)
@@ -568,7 +573,7 @@ namespace IanGame
                 Vector2.zero
             );
             view.target.sprite = null;
-            view.target.color = new Color32(233, 171, 52, 150);
+            view.target.color = new Color32(244, 244, 244, 200);
             view.target.raycastTarget = false;
             view.target.transform.SetAsFirstSibling();
             view.player = Panel(
@@ -794,7 +799,7 @@ namespace IanGame
                     bool known =
                         f.essential || city.Data.discovered.Contains(f.room) || city.Data.destination == f.room;
                     marker.sprite = known ? f.icon : null;
-                    marker.color = known ? Color.white : new Color32(236, 225, 195, 255);
+                    marker.color = known ? Color.white : LifeRecordUI.Secondary;
                     marker.GetComponentInChildren<TMP_Text>().text = known ? "" : "?";
                     if (
                         cityRoom

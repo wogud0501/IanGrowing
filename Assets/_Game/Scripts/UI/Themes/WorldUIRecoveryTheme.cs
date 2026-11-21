@@ -4,12 +4,12 @@ using UnityEngine.UI;
 
 namespace IanGame
 {
-    // A shared warm paper/ink HUD, with existing pixel buttons and Galmuri fonts.
+    // A shared pixel HUD, with existing pixel buttons and Galmuri fonts.
     // Applied to existing widgets: no alternate menus or input ownership.
     public sealed class WorldUIRecoveryTheme : MonoBehaviour
     {
         public Sprite paper;
-        public Color ink = new Color32(57, 53, 47, 255);
+        public Color ink = LifeRecordUI.Body;
 
         void Awake()
         {
@@ -28,8 +28,8 @@ namespace IanGame
             if (status != null)
             {
                 Paper(status.GetComponent<Image>());
-                status.place.color = ink;
-                status.time.color = ink;
+                status.place.color = LifeRecordUI.Body;
+                status.time.color = LifeRecordUI.Body;
                 Size(status.place, 24);
                 Size(status.time, 24);
                 var row = status.GetComponent<HorizontalLayoutGroup>();
@@ -41,13 +41,13 @@ namespace IanGame
             }
 
             Paper(hud.cash.transform.parent.GetComponent<Image>());
-            hud.cash.color = ink;
+            hud.cash.color = LifeRecordUI.Body;
             Size(hud.cash, 24);
             Paper(hud.needs.transform.parent.GetComponent<Image>());
-            hud.needs.color = ink;
+            hud.needs.color = LifeRecordUI.Body;
             Size(hud.needs, 22);
             Paper(hud.promptPanel.GetComponent<Image>());
-            hud.prompt.color = ink;
+            hud.prompt.color = LifeRecordUI.Body;
             Size(hud.prompt, 22);
         }
 

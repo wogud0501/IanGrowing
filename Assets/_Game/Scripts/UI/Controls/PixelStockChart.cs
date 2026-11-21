@@ -12,19 +12,32 @@ namespace IanGame
 
         public void SetPrices(List<int> values)
         {
-            if (values is IList<int> incoming && incoming.Count == prices.Count)
+            if (values == null)
             {
-                bool same = true;
-                for (int i = 0; i < incoming.Count && same; i++)
-                {
-                    same = prices[i] == incoming[i];
-                }
-                if (same)
+                if (prices.Count == 0)
                 {
                     return;
                 }
+
+                prices.Clear();
             }
-            prices = new List<int>(values);
+            else
+            {
+                bool changed = values.Count != prices.Count;
+                for (int i = 0; !changed && i < prices.Count; i++)
+                {
+                    changed = prices[i] != values[i];
+                }
+
+                if (!changed)
+                {
+                    return;
+                }
+
+                prices.Clear();
+                prices.AddRange(values);
+            }
+
             SetVerticesDirty();
         }
 
@@ -45,10 +58,17 @@ namespace IanGame
             var r = rectTransform.rect;
             for (int i = 0; i < 5; i++)
             {
-                Box(vh, r.x, r.y + r.height * i / 4, r.width, 1, new Color(.8f, .8f, .6f, .15f));
+                Box(vh, r.x, r.y + r.height * i / 4, r.width, 1, LifeRecordUI.Track);
             }
 
-            if (prices.Count < 2)
+            if (prices.Count == 1)
+            {
+                // A new listing has one observed price. Only draw that observation.
+                Box(vh, r.xMin + 4, r.center.y - 3, 6, 6, color);
+                return;
+            }
+
+            if (prices.Count == 0)
             {
                 return;
             }
@@ -68,7 +88,18 @@ namespace IanGame
                 float x = r.x + Mathf.Round((i - 1) * step),
                     y = r.y + 4 + Mathf.Round((prices[i - 1] - low) / range * (r.height - 8)),
                     next = r.y + 4 + Mathf.Round((prices[i] - low) / range * (r.height - 8));
-                Box(vh, x, y, Mathf.Ceil(step) + 1, 2, color);
+                if (next < y)
+                {
+                    for (float dx = 0; dx < step; dx += 8)
+                    {
+                        Box(vh, x + dx, y, Mathf.Min(5, step - dx), 2, color);
+                    }
+                }
+                else
+                {
+                    Box(vh, x, y, Mathf.Ceil(step) + 1, 2, color);
+                }
+
                 Box(vh, x + Mathf.Ceil(step), Mathf.Min(y, next), 2, Mathf.Abs(next - y) + 2, color);
             }
         }

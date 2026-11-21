@@ -53,11 +53,11 @@ namespace IanGame
         void Refresh()
         {
             bool major = shell.Top == null || System.Array.IndexOf(panels, shell.Top) >= 0;
+            group.alpha = major ? 1f : 0f;
             group.interactable = group.blocksRaycasts = major;
             for (int i = 0; i < buttons.Length; i++)
             {
-                buttons[i].GetComponent<Image>().color =
-                    shell.Top == panels[i] ? new Color32(192, 216, 150, 255) : Color.white;
+                LifeRecordUI.StyleButton(buttons[i], shell.Top == panels[i]);
             }
         }
     }

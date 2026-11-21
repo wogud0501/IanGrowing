@@ -104,29 +104,29 @@ namespace IanGame
 
         void Equipped(ItemEvent e)
         {
-            Burst(new Color(.65f, .85f, 1));
+            Burst(LifeRecordUI.Body);
         }
 
         void Discovered(ItemEvent e)
         {
-            Burst(new Color(.86f, .72f, 1));
+            Burst(LifeRecordUI.Secondary);
         }
 
         void Pulled(GachaBatch b)
         {
-            Burst(new Color(.76f, .5f, 1));
+            Burst(LifeRecordUI.Body);
         }
 
         void Rare(GachaResult result)
         {
             Cue("RareReveal");
-            Burst(new Color(1, .79f, .3f), .85f);
+            Burst(LifeRecordUI.Heading, .85f);
         }
 
         void Mission(MissionData mission)
         {
             Cue("Mission");
-            Burst(new Color(1, .85f, .34f));
+            Burst(LifeRecordUI.Heading);
         }
 
         void Stats()
@@ -135,7 +135,7 @@ namespace IanGame
             if (h > lastHealth + 1)
             {
                 Cue("Heal");
-                Burst(new Color(.5f, .95f, .7f));
+                Burst(LifeRecordUI.Body);
             }
             else if (h < lastHealth - 1)
             {
@@ -150,7 +150,7 @@ namespace IanGame
             Cue("Money");
             if (reason != null && reason.Contains("세금"))
             {
-                world.hud.Notify("납부 완료 · 정부가 행복해졌습니다.", 1);
+                world.hud.Notify("납부 완료 · 사회가 정상적으로 작동하고 있습니다.", 1);
             }
         }
 

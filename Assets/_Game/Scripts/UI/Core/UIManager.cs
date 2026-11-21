@@ -466,8 +466,8 @@ namespace IanGame
                     + status;
                 survivalLabel.color =
                     game.survival.InDanger || game.survival.Failed
-                        ? new Color(1, .65f, .45f)
-                        : new Color(.8f, .85f, .75f);
+                        ? LifeRecordUI.Heading
+                        : LifeRecordUI.Body;
             }
         }
 

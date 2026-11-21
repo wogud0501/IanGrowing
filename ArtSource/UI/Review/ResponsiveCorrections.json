@@ -1,0 +1,641 @@
+{
+  "passed": [
+    "New game routes Home",
+    "Inventory",
+    "InventoryStocked",
+    "Equipment",
+    "Probability",
+    "Collection",
+    "LegalDocument",
+    "workplace-actions",
+    "school-actions"
+  ],
+  "failures": [],
+  "samples": {
+    "Inventory-1080x1920": {
+      "width": 1080,
+      "height": 1920,
+      "problems": [],
+      "frames": [
+        {
+          "name": "Item Inventory",
+          "window": "(646.00, 960.00)",
+          "parent": "(1280.00, 2275.56)",
+          "scale": 1.882353
+        }
+      ]
+    },
+    "Inventory-2340x1080": {
+      "width": 2340,
+      "height": 1080,
+      "problems": [],
+      "frames": [
+        {
+          "name": "Item Inventory",
+          "window": "(1120.00, 655.20)",
+          "parent": "(1560.00, 720.00)",
+          "scale": 1.0
+        }
+      ]
+    },
+    "Inventory-2048x1536": {
+      "width": 2048,
+      "height": 1536,
+      "problems": [],
+      "frames": [
+        {
+          "name": "Item Inventory",
+          "window": "(1120.00, 780.00)",
+          "parent": "(1280.00, 960.00)",
+          "scale": 1.0
+        }
+      ]
+    },
+    "Inventory-2208x1768": {
+      "width": 2208,
+      "height": 1768,
+      "problems": [],
+      "frames": [
+        {
+          "name": "Item Inventory",
+          "window": "(1120.00, 780.00)",
+          "parent": "(1280.00, 1024.93)",
+          "scale": 1.0
+        }
+      ]
+    },
+    "Inventory-2560x1600": {
+      "width": 2560,
+      "height": 1600,
+      "problems": [],
+      "frames": [
+        {
+          "name": "Item Inventory",
+          "window": "(1120.00, 728.00)",
+          "parent": "(1280.00, 800.00)",
+          "scale": 1.0
+        }
+      ]
+    },
+    "Inventory-1920x1080": {
+      "width": 1920,
+      "height": 1080,
+      "problems": [],
+      "frames": [
+        {
+          "name": "Item Inventory",
+          "window": "(1120.00, 655.20)",
+          "parent": "(1280.00, 720.00)",
+          "scale": 1.0
+        }
+      ]
+    },
+    "InventoryStocked-1080x1920": {
+      "width": 1080,
+      "height": 1920,
+      "problems": [],
+      "frames": [
+        {
+          "name": "Item Inventory",
+          "window": "(646.00, 960.00)",
+          "parent": "(1280.00, 2275.56)",
+          "scale": 1.882353
+        }
+      ]
+    },
+    "InventoryStocked-2340x1080": {
+      "width": 2340,
+      "height": 1080,
+      "problems": [],
+      "frames": [
+        {
+          "name": "Item Inventory",
+          "window": "(1120.00, 655.20)",
+          "parent": "(1560.00, 720.00)",
+          "scale": 1.0
+        }
+      ]
+    },
+    "InventoryStocked-2048x1536": {
+      "width": 2048,
+      "height": 1536,
+      "problems": [],
+      "frames": [
+        {
+          "name": "Item Inventory",
+          "window": "(1120.00, 780.00)",
+          "parent": "(1280.00, 960.00)",
+          "scale": 1.0
+        }
+      ]
+    },
+    "InventoryStocked-2208x1768": {
+      "width": 2208,
+      "height": 1768,
+      "problems": [],
+      "frames": [
+        {
+          "name": "Item Inventory",
+          "window": "(1120.00, 780.00)",
+          "parent": "(1280.00, 1024.93)",
+          "scale": 1.0
+        }
+      ]
+    },
+    "InventoryStocked-2560x1600": {
+      "width": 2560,
+      "height": 1600,
+      "problems": [],
+      "frames": [
+        {
+          "name": "Item Inventory",
+          "window": "(1120.00, 728.00)",
+          "parent": "(1280.00, 800.00)",
+          "scale": 1.0
+        }
+      ]
+    },
+    "InventoryStocked-1920x1080": {
+      "width": 1920,
+      "height": 1080,
+      "problems": [],
+      "frames": [
+        {
+          "name": "Item Inventory",
+          "window": "(1120.00, 655.20)",
+          "parent": "(1280.00, 720.00)",
+          "scale": 1.0
+        }
+      ]
+    },
+    "Equipment-1080x1920": {
+      "width": 1080,
+      "height": 1920,
+      "problems": [],
+      "frames": [
+        {
+          "name": "Item Equipment",
+          "window": "(646.00, 960.00)",
+          "parent": "(1280.00, 2275.56)",
+          "scale": 1.882353
+        }
+      ]
+    },
+    "Equipment-2340x1080": {
+      "width": 2340,
+      "height": 1080,
+      "problems": [],
+      "frames": [
+        {
+          "name": "Item Equipment",
+          "window": "(1120.00, 655.20)",
+          "parent": "(1560.00, 720.00)",
+          "scale": 1.0
+        }
+      ]
+    },
+    "Equipment-2048x1536": {
+      "width": 2048,
+      "height": 1536,
+      "problems": [],
+      "frames": [
+        {
+          "name": "Item Equipment",
+          "window": "(1120.00, 780.00)",
+          "parent": "(1280.00, 960.00)",
+          "scale": 1.0
+        }
+      ]
+    },
+    "Equipment-2208x1768": {
+      "width": 2208,
+      "height": 1768,
+      "problems": [],
+      "frames": [
+        {
+          "name": "Item Equipment",
+          "window": "(1120.00, 780.00)",
+          "parent": "(1280.00, 1024.93)",
+          "scale": 1.0
+        }
+      ]
+    },
+    "Equipment-2560x1600": {
+      "width": 2560,
+      "height": 1600,
+      "problems": [],
+      "frames": [
+        {
+          "name": "Item Equipment",
+          "window": "(1120.00, 728.00)",
+          "parent": "(1280.00, 800.00)",
+          "scale": 1.0
+        }
+      ]
+    },
+    "Equipment-1920x1080": {
+      "width": 1920,
+      "height": 1080,
+      "problems": [],
+      "frames": [
+        {
+          "name": "Item Equipment",
+          "window": "(1120.00, 655.20)",
+          "parent": "(1280.00, 720.00)",
+          "scale": 1.0
+        }
+      ]
+    },
+    "Probability-1080x1920": {
+      "width": 1080,
+      "height": 1920,
+      "problems": [],
+      "frames": [
+        {
+          "name": "Item Probabilities",
+          "window": "(646.00, 960.00)",
+          "parent": "(1280.00, 2275.56)",
+          "scale": 1.882353
+        }
+      ]
+    },
+    "Probability-2340x1080": {
+      "width": 2340,
+      "height": 1080,
+      "problems": [],
+      "frames": [
+        {
+          "name": "Item Probabilities",
+          "window": "(1120.00, 655.20)",
+          "parent": "(1560.00, 720.00)",
+          "scale": 1.0
+        }
+      ]
+    },
+    "Probability-2048x1536": {
+      "width": 2048,
+      "height": 1536,
+      "problems": [],
+      "frames": [
+        {
+          "name": "Item Probabilities",
+          "window": "(1120.00, 780.00)",
+          "parent": "(1280.00, 960.00)",
+          "scale": 1.0
+        }
+      ]
+    },
+    "Probability-2208x1768": {
+      "width": 2208,
+      "height": 1768,
+      "problems": [],
+      "frames": [
+        {
+          "name": "Item Probabilities",
+          "window": "(1120.00, 780.00)",
+          "parent": "(1280.00, 1024.93)",
+          "scale": 1.0
+        }
+      ]
+    },
+    "Probability-2560x1600": {
+      "width": 2560,
+      "height": 1600,
+      "problems": [],
+      "frames": [
+        {
+          "name": "Item Probabilities",
+          "window": "(1120.00, 728.00)",
+          "parent": "(1280.00, 800.00)",
+          "scale": 1.0
+        }
+      ]
+    },
+    "Probability-1920x1080": {
+      "width": 1920,
+      "height": 1080,
+      "problems": [],
+      "frames": [
+        {
+          "name": "Item Probabilities",
+          "window": "(1120.00, 655.20)",
+          "parent": "(1280.00, 720.00)",
+          "scale": 1.0
+        }
+      ]
+    },
+    "Collection-1080x1920": {
+      "width": 1080,
+      "height": 1920,
+      "problems": [],
+      "frames": [
+        {
+          "name": "Item Collection",
+          "window": "(646.00, 960.00)",
+          "parent": "(1280.00, 2275.56)",
+          "scale": 1.882353
+        }
+      ]
+    },
+    "Collection-2340x1080": {
+      "width": 2340,
+      "height": 1080,
+      "problems": [],
+      "frames": [
+        {
+          "name": "Item Collection",
+          "window": "(1120.00, 655.20)",
+          "parent": "(1560.00, 720.00)",
+          "scale": 1.0
+        }
+      ]
+    },
+    "Collection-2048x1536": {
+      "width": 2048,
+      "height": 1536,
+      "problems": [],
+      "frames": [
+        {
+          "name": "Item Collection",
+          "window": "(1120.00, 780.00)",
+          "parent": "(1280.00, 960.00)",
+          "scale": 1.0
+        }
+      ]
+    },
+    "Collection-2208x1768": {
+      "width": 2208,
+      "height": 1768,
+      "problems": [],
+      "frames": [
+        {
+          "name": "Item Collection",
+          "window": "(1120.00, 780.00)",
+          "parent": "(1280.00, 1024.93)",
+          "scale": 1.0
+        }
+      ]
+    },
+    "Collection-2560x1600": {
+      "width": 2560,
+      "height": 1600,
+      "problems": [],
+      "frames": [
+        {
+          "name": "Item Collection",
+          "window": "(1120.00, 728.00)",
+          "parent": "(1280.00, 800.00)",
+          "scale": 1.0
+        }
+      ]
+    },
+    "Collection-1920x1080": {
+      "width": 1920,
+      "height": 1080,
+      "problems": [],
+      "frames": [
+        {
+          "name": "Item Collection",
+          "window": "(1120.00, 655.20)",
+          "parent": "(1280.00, 720.00)",
+          "scale": 1.0
+        }
+      ]
+    },
+    "LegalDocument-1080x1920": {
+      "width": 1080,
+      "height": 1920,
+      "problems": [],
+      "frames": [
+        {
+          "name": "Release Legal Document",
+          "window": "(646.00, 960.00)",
+          "parent": "(1280.00, 2275.56)",
+          "scale": 1.882353
+        }
+      ]
+    },
+    "LegalDocument-2340x1080": {
+      "width": 2340,
+      "height": 1080,
+      "problems": [],
+      "frames": [
+        {
+          "name": "Release Legal Document",
+          "window": "(1120.00, 655.20)",
+          "parent": "(1560.00, 720.00)",
+          "scale": 1.0
+        }
+      ]
+    },
+    "LegalDocument-2048x1536": {
+      "width": 2048,
+      "height": 1536,
+      "problems": [],
+      "frames": [
+        {
+          "name": "Release Legal Document",
+          "window": "(1120.00, 780.00)",
+          "parent": "(1280.00, 960.00)",
+          "scale": 1.0
+        }
+      ]
+    },
+    "LegalDocument-2208x1768": {
+      "width": 2208,
+      "height": 1768,
+      "problems": [],
+      "frames": [
+        {
+          "name": "Release Legal Document",
+          "window": "(1120.00, 780.00)",
+          "parent": "(1280.00, 1024.93)",
+          "scale": 1.0
+        }
+      ]
+    },
+    "LegalDocument-2560x1600": {
+      "width": 2560,
+      "height": 1600,
+      "problems": [],
+      "frames": [
+        {
+          "name": "Release Legal Document",
+          "window": "(1120.00, 728.00)",
+          "parent": "(1280.00, 800.00)",
+          "scale": 1.0
+        }
+      ]
+    },
+    "LegalDocument-1920x1080": {
+      "width": 1920,
+      "height": 1080,
+      "problems": [],
+      "frames": [
+        {
+          "name": "Release Legal Document",
+          "window": "(1120.00, 655.20)",
+          "parent": "(1280.00, 720.00)",
+          "scale": 1.0
+        }
+      ]
+    },
+    "workplace-actions-1080x1920": {
+      "width": 1080,
+      "height": 1920,
+      "problems": [],
+      "frames": [
+        {
+          "name": "Location record",
+          "window": "(646.00, 960.00)",
+          "parent": "(1216.00, 1922.85)",
+          "scale": 1.78823531
+        }
+      ]
+    },
+    "workplace-actions-2340x1080": {
+      "width": 2340,
+      "height": 1080,
+      "problems": [],
+      "frames": [
+        {
+          "name": "Location record",
+          "window": "(1120.00, 553.64)",
+          "parent": "(1482.00, 608.40)",
+          "scale": 1.0
+        }
+      ]
+    },
+    "workplace-actions-2048x1536": {
+      "width": 2048,
+      "height": 1536,
+      "problems": [],
+      "frames": [
+        {
+          "name": "Location record",
+          "window": "(1120.00, 738.19)",
+          "parent": "(1216.00, 811.20)",
+          "scale": 1.0
+        }
+      ]
+    },
+    "workplace-actions-2208x1768": {
+      "width": 2208,
+      "height": 1768,
+      "problems": [],
+      "frames": [
+        {
+          "name": "Location record",
+          "window": "(1120.00, 780.00)",
+          "parent": "(1216.00, 866.06)",
+          "scale": 1.0
+        }
+      ]
+    },
+    "workplace-actions-2560x1600": {
+      "width": 2560,
+      "height": 1600,
+      "problems": [],
+      "frames": [
+        {
+          "name": "Location record",
+          "window": "(1120.00, 615.16)",
+          "parent": "(1216.00, 676.00)",
+          "scale": 1.0
+        }
+      ]
+    },
+    "workplace-actions-1920x1080": {
+      "width": 1920,
+      "height": 1080,
+      "problems": [],
+      "frames": [
+        {
+          "name": "Location record",
+          "window": "(1120.00, 553.64)",
+          "parent": "(1216.00, 608.40)",
+          "scale": 1.0
+        }
+      ]
+    },
+    "school-actions-1080x1920": {
+      "width": 1080,
+      "height": 1920,
+      "problems": [],
+      "frames": [
+        {
+          "name": "Location record",
+          "window": "(646.00, 960.00)",
+          "parent": "(1216.00, 1922.85)",
+          "scale": 1.78823531
+        }
+      ]
+    },
+    "school-actions-2340x1080": {
+      "width": 2340,
+      "height": 1080,
+      "problems": [],
+      "frames": [
+        {
+          "name": "Location record",
+          "window": "(1120.00, 553.64)",
+          "parent": "(1482.00, 608.40)",
+          "scale": 1.0
+        }
+      ]
+    },
+    "school-actions-2048x1536": {
+      "width": 2048,
+      "height": 1536,
+      "problems": [],
+      "frames": [
+        {
+          "name": "Location record",
+          "window": "(1120.00, 738.19)",
+          "parent": "(1216.00, 811.20)",
+          "scale": 1.0
+        }
+      ]
+    },
+    "school-actions-2208x1768": {
+      "width": 2208,
+      "height": 1768,
+      "problems": [],
+      "frames": [
+        {
+          "name": "Location record",
+          "window": "(1120.00, 780.00)",
+          "parent": "(1216.00, 866.06)",
+          "scale": 1.0
+        }
+      ]
+    },
+    "school-actions-2560x1600": {
+      "width": 2560,
+      "height": 1600,
+      "problems": [],
+      "frames": [
+        {
+          "name": "Location record",
+          "window": "(1120.00, 615.16)",
+          "parent": "(1216.00, 676.00)",
+          "scale": 1.0
+        }
+      ]
+    },
+    "school-actions-1920x1080": {
+      "width": 1920,
+      "height": 1080,
+      "problems": [],
+      "frames": [
+        {
+          "name": "Location record",
+          "window": "(1120.00, 553.64)",
+          "parent": "(1216.00, 608.40)",
+          "scale": 1.0
+        }
+      ]
+    }
+  },
+  "LastFilesUnchanged": true
+}

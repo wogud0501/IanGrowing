@@ -22,6 +22,9 @@ namespace IanGame
         public Button careerButton;
         GameManager game;
         bool subscribed;
+        LocationRecord record;
+        SceneId recordLocation;
+        string recentResult;
 
         void Start()
         {
@@ -64,33 +67,7 @@ namespace IanGame
             for (int i = 0; i < activityButtons.Length; i++)
             {
                 int id = actionIds[i];
-                activityButtons[i]
-                    .onClick.AddListener(() =>
-                    {
-                        if (!game.CanPerformAction(id, out var reason))
-                        {
-                            result.text = reason;
-                            return;
-                        }
-
-                        var ux = game.world?.Host?.hud?.GetComponent<GameplayUXPresenter>();
-                        if (id == 23 && ux != null && game.CanPerformAction(id, out _))
-                        {
-                            ux.Confirm(
-                                "현재 직장을 퇴사하시겠습니까?\n\n고용 상태와 직급에 영향을 줍니다. 다시 취업하려면 기존 채용 조건을 충족해야 합니다.",
-                                () =>
-                                {
-                                    game.TryAction(id);
-                                    Refresh();
-                                }
-                            );
-                        }
-                        else
-                        {
-                            game.TryAction(id);
-                            Refresh();
-                        }
-                    });
+                activityButtons[i].onClick.AddListener(() => RunActivity(id));
             }
 
             var routes = new[] { SceneId.Home, SceneId.School, SceneId.City, SceneId.Workplace };
@@ -132,6 +109,65 @@ namespace IanGame
             });
             Attach();
             Refresh();
+        }
+
+        void RunActivity(int id)
+        {
+            if (!game.CanPerformAction(id, out var reason))
+            {
+                OnLog(reason);
+                return;
+            }
+
+            void Perform()
+            {
+                game.TryAction(id);
+                Refresh();
+            }
+
+            var ux = game.world?.Host?.hud?.GetComponent<GameplayUXPresenter>();
+            if (id == (int)LifeActivity.Resign && ux)
+            {
+                ux.Confirm("현재 직장을 퇴사하시겠습니까?\n\n고용 상태와 직급에 영향을 줍니다. 다시 취업하려면 기존 채용 조건을 충족해야 합니다.", Perform);
+                return;
+            }
+
+            Perform();
+        }
+
+        bool ShowLocationRecord(SceneId location)
+        {
+            var hud = game.world?.Host?.hud;
+            bool supported = hud && (location == SceneId.School || location == SceneId.Workplace);
+            if (record != null && (!supported || recordLocation != location))
+            {
+                Destroy(record.Frame.gameObject);
+                record = null;
+                recentResult = null;
+            }
+
+            var heading = panel.transform.Find("Location heading");
+            var content = panel.transform.Find("Location content");
+            if (!heading || !content)
+            {
+                return false;
+            }
+
+            heading.gameObject.SetActive(!supported);
+            content.gameObject.SetActive(!supported);
+            if (!supported)
+            {
+                return false;
+            }
+
+            if (record == null)
+            {
+                recordLocation = location;
+                record = new LocationRecord(this, game, hud, location, RunActivity);
+            }
+
+            record.Refresh(recentResult);
+            return true;
         }
 
         void OnEnable()
@@ -189,6 +225,8 @@ namespace IanGame
 
         void OnLog(string value)
         {
+            recentResult = value;
+            record?.Refresh(value);
             if (result != null)
             {
                 result.text = value;
@@ -217,6 +255,11 @@ namespace IanGame
             }
 
             var p = game.phase23;
+            if (ShowLocationRecord(p.Location))
+            {
+                return;
+            }
+
             var e = p.Progress.education;
             var s = p.Progress.social;
             var j = p.Progress.employment;

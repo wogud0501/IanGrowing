@@ -1,5 +1,7 @@
 # Higgsfield asset manifest
 
+2026-11-21 UI. [Monochrome production manifest, 40 generations](../ArtSource/UI/Monochrome/Concepts/Manifest.md) · [Unity comparison](../ArtSource/UI/Monochrome/Review/MasterToGame.jpg)
+
 2026-11-18 · 64 candidates, 30 selected production references, 28 separated sprites/emissive masks (+ 2 authored rain VFX textures).
 
 Original Phase 3.3 run only. [Production72](HIGGSFIELD_PRODUCTION72.md) is tracked separately.

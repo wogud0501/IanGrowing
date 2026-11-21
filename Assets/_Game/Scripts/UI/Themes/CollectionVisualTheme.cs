@@ -8,10 +8,10 @@ namespace IanGame
         public Sprite panelSprite;
         public Sprite buttonSprite;
         public Sprite paperSprite;
-        public Color panel = new Color(.2f, .2f, .23f);
-        public Color cell = new Color(.29f, .28f, .3f);
-        public Color button = new Color(.91f, .83f, .67f);
-        public Color ink = new Color(.95f, .92f, .86f);
-        public Color buttonInk = new Color(.22f, .2f, .18f);
+        public Color panel = new Color32(32, 32, 32, 255);
+        public Color cell = new Color32(40, 40, 40, 255);
+        public Color button = new Color32(50, 50, 50, 255);
+        public Color ink = new Color32(221, 221, 221, 255);
+        public Color buttonInk = new Color32(221, 221, 221, 255);
     }
 }

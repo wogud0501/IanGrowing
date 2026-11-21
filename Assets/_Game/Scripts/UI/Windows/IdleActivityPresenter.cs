@@ -16,6 +16,7 @@ namespace IanGame
         public TMP_Text summary;
         public TMP_Text details;
         public TMP_Text reportText;
+        TMP_Text reportTotals;
         public TMP_Text battleText;
         public Button open;
         public Button close;
@@ -170,8 +171,18 @@ namespace IanGame
 
         public void OpenReport()
         {
-            RefreshReport();
             shell.Push(reportPanel);
+            if (!reportTotals)
+            {
+                var frame = reportPanel.transform.Find("Safe area/Pixel window/Away report");
+                if (frame)
+                {
+                    reportTotals = LifeRecordUI.Label(frame, reportText.font, "", 22, LifeRecordUI.Body,
+                        .08f, .035f, .95f, .415f);
+                }
+            }
+
+            RefreshReport();
         }
 
         void ConfirmReport()
@@ -301,11 +312,21 @@ namespace IanGame
             var r = game.idle.State.report;
             if (r == null)
             {
+                if (reportTotals)
+                {
+                    reportTotals.text = "정산 기록 없음";
+                }
+
                 reportText.text = "아직 오프라인 정산 내역이 없습니다.";
                 return;
             }
 
             var duration = TimeSpan.FromSeconds(Math.Min(r.elapsedSeconds, TimeSpan.MaxValue.TotalSeconds));
+            if (reportTotals)
+            {
+                reportTotals.text = $"경과 {(int)duration.TotalHours}시간 {duration.Minutes}분\n{r.gold:+#,0;-#,0;0} G\n{r.experience:+#,0;-#,0;0} EXP";
+            }
+
             reportText.text =
                 "이안이 없는 동안...\n\n경과시간: "
                 + (int)duration.TotalHours
@@ -343,8 +364,7 @@ namespace IanGame
                 + Signed(r.mental)
                 + "\n\n"
                 + (r.clockReversed ? "기기 시각 역행 감지. 해당 시간 보상 없음.\n" : "")
-                + "중지 사유: "
-                + (r.stopReason ?? "설정한 활동을 계속합니다.")
+                + (string.IsNullOrWhiteSpace(r.stopReason) ? "설정한 활동을 계속합니다." : "중지 사유: " + r.stopReason)
                 + "\n\n이 결과는 이미 저장되었습니다. 확인 버튼은 중복 보상을 지급하지 않습니다.";
         }
 

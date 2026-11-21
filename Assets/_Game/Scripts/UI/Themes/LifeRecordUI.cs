@@ -6,14 +6,24 @@ namespace IanGame
 {
     public enum RecordSurface
     {
-        Paper,
-        Charcoal,
-        Jade,
-        Seal,
+        Window,
+        Header,
+        Context,
+        Warning,
         Button,
         Inset,
-        Selected,
-        Reward
+        Focus,
+        Reward,
+        Inverted,
+        Hover,
+        Pressed,
+        Disabled,
+        InvertedFocus,
+        GradeOne,
+        GradeTwo,
+        GradeThree,
+        GradeFour,
+        Specimen
     }
 
     public enum RecordPrint
@@ -35,11 +45,31 @@ namespace IanGame
     // The frame atlas is a single row of 32-pixel, nine-sliced stationery samples.
     public static class LifeRecordUI
     {
-        public static readonly Color Ink = new Color32(38, 52, 49, 255);
-        public static readonly Color Paper = new Color32(249, 244, 223, 255);
-        public static readonly Color Jade = new Color32(44, 86, 72, 255);
-        public static readonly Color Seal = new Color32(145, 62, 53, 255);
-        static readonly Sprite[] frames = new Sprite[8];
+        public static readonly Color Heading = new Color32(244, 244, 244, 255);
+        public static readonly Color Body = new Color32(221, 221, 221, 255);
+        public static readonly Color Secondary = new Color32(184, 184, 184, 255);
+        public static readonly Color ReverseInk = new Color32(16, 16, 16, 255);
+        public static readonly Color Track = new Color32(72, 72, 72, 255);
+        public static readonly Color Inactive = new Color32(160, 160, 160, 255);
+        static readonly Sprite[] frames = new Sprite[(int)RecordSurface.Specimen + 1];
+        static Material specimenInk;
+        static Sprite equippedMark;
+
+        public static Sprite EquippedMark
+        {
+            get
+            {
+                if (!equippedMark)
+                {
+                    var texture = Resources.Load<Texture2D>("IanLedger/EquippedMark");
+                    equippedMark = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height),
+                        Vector2.one * .5f, 100);
+                }
+
+                return equippedMark;
+            }
+        }
+
         static readonly Sprite[] prints = new Sprite[12];
 
         public static RectTransform Rect(Transform parent, string name, float left, float bottom, float right, float top)
@@ -58,13 +88,8 @@ namespace IanGame
             rect.offsetMax = Vector2.zero;
         }
 
-        public static void Skin(Image image, RecordSurface style)
+        public static Sprite Frame(RecordSurface style)
         {
-            if (image == null)
-            {
-                return;
-            }
-
             int index = (int)style;
             if (frames[index] == null)
             {
@@ -73,7 +98,17 @@ namespace IanGame
                     Vector2.one * .5f, 100, 0, SpriteMeshType.FullRect, Vector4.one * 6);
             }
 
-            image.sprite = frames[index];
+            return frames[index];
+        }
+
+        public static void Skin(Image image, RecordSurface style)
+        {
+            if (!image)
+            {
+                return;
+            }
+
+            image.sprite = Frame(style);
             image.overrideSprite = null;
             image.color = Color.white;
             image.type = Image.Type.Sliced;
@@ -127,27 +162,30 @@ namespace IanGame
             return label;
         }
 
-        public static void StyleButton(Button button, bool selected = false)
+        public static void InkSpecimen(Image image)
+        {
+            if (!specimenInk)
+            {
+                specimenInk = Resources.Load<Material>("IanLedger/InventorySpecimen");
+            }
+
+            image.material = specimenInk;
+        }
+
+        public static void StyleButton(Button button, bool selected = false, RecordSurface normal = RecordSurface.Button)
         {
             if (button == null || button.targetGraphic is not Image image)
             {
                 return;
             }
 
-            Skin(image, selected ? RecordSurface.Jade : RecordSurface.Button);
-            button.transition = Selectable.Transition.ColorTint;
-            var colors = ColorBlock.defaultColorBlock;
-            colors.highlightedColor = new Color32(234, 245, 221, 255);
-            colors.selectedColor = new Color32(211, 237, 212, 255);
-            colors.pressedColor = new Color32(167, 193, 169, 255);
-            colors.disabledColor = new Color32(203, 201, 186, 255);
-            colors.fadeDuration = UIShell.ReducedMotion ? 0 : .09f;
-            button.colors = colors;
-            var label = button.GetComponentInChildren<TMP_Text>(true);
-            if (label != null)
+            var state = button.GetComponent<RecordButtonInk>();
+            if (!state)
             {
-                label.color = selected ? Paper : Ink;
+                state = button.gameObject.AddComponent<RecordButtonInk>();
             }
+
+            state.Bind(button, image, selected, normal);
         }
     }
 }

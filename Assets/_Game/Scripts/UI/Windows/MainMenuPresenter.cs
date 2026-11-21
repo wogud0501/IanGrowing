@@ -24,7 +24,7 @@ namespace IanGame
                 return;
             }
 
-            LifeRecordUI.Skin(card.GetComponent<Image>(), RecordSurface.Paper);
+            LifeRecordUI.Skin(card.GetComponent<Image>(), RecordSurface.Window);
             var print = LifeRecordUI.Print(card, RecordPrint.City, .40f, .04f, .80f, .82f);
             print.gameObject.AddComponent<LayoutElement>().ignoreLayout = true;
             print.transform.SetAsFirstSibling();
@@ -53,7 +53,7 @@ namespace IanGame
 
             if (title)
             {
-                title.color = LifeRecordUI.Ink;
+                title.color = LifeRecordUI.Body;
             }
         }
 

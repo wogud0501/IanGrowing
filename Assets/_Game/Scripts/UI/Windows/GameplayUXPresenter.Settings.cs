@@ -10,6 +10,8 @@ namespace IanGame
     public sealed partial class GameplayUXPresenter
     {
         Button[] preferenceActions;
+        Image[] settingFields;
+        TMP_Text[] settingValues;
         int preferenceTab = 4;
         readonly Button[] preferenceTabs = new Button[6];
 
@@ -32,12 +34,12 @@ namespace IanGame
 
             var root = Preferences.transform;
             root.gameObject.AddComponent<RecordWindowBounds>();
-            LifeRecordUI.Skin(root.GetComponent<Image>(), RecordSurface.Paper);
-            var header = LifeRecordUI.Surface(root, "Settings masthead", RecordSurface.Charcoal, .012f, .88f, .988f, .984f);
+            LifeRecordUI.Skin(root.GetComponent<Image>(), RecordSurface.Window);
+            var header = LifeRecordUI.Surface(root, "Settings masthead", RecordSurface.Header, .012f, .88f, .988f, .984f);
             header.transform.SetAsFirstSibling();
             var title = root.Find("Title").GetComponent<TMP_Text>();
             title.text = "환경 설정";
-            MissionRecordLayout.SetText(title, 30, LifeRecordUI.Paper);
+            MissionRecordLayout.SetText(title, 30, LifeRecordUI.Heading);
             LifeRecordUI.StyleButton(root.Find("뒤로").GetComponent<Button>());
             LifeRecordUI.Surface(root, "Category index", RecordSurface.Inset, .022f, .04f, .283f, .855f).transform.SetAsFirstSibling();
             LifeRecordUI.Print(root, RecordPrint.Settings, .07f, .047f, .235f, .19f);
@@ -59,11 +61,21 @@ namespace IanGame
             }
 
             LifeRecordUI.Place((RectTransform)settingsText.rectTransform.parent, .323f, .71f, .948f, .834f);
+            settingFields = new Image[preferenceActions.Length];
+            settingValues = new TMP_Text[preferenceActions.Length];
             for (int i = 0; i < preferenceActions.Length; i++)
             {
                 float y = .575f - i * .101f;
                 LifeRecordUI.Place((RectTransform)preferenceActions[i].transform, .32f, y, .955f, y + .091f);
                 LifeRecordUI.StyleButton(preferenceActions[i]);
+                var label = preferenceActions[i].GetComponentInChildren<TMP_Text>(true);
+                LifeRecordUI.Place(label.rectTransform, .035f, 0, .79f, 1);
+                label.alignment = TextAlignmentOptions.MidlineLeft;
+                settingFields[i] = LifeRecordUI.Surface(preferenceActions[i].transform, "Current value",
+                    RecordSurface.Inset, .78f, .18f, .97f, .82f);
+                settingValues[i] = LifeRecordUI.Label(settingFields[i].transform, title.font, "", 18,
+                    LifeRecordUI.Body, .02f, 0, .98f, 1);
+                settingValues[i].alignment = TextAlignmentOptions.Center;
             }
 
             RefreshPreferences();
@@ -234,9 +246,13 @@ namespace IanGame
                         : PlayerPrefs.GetInt("ian.ui.integerScale", 0) + "×",
                     _ => ""
                 };
-                button.GetComponentInChildren<TMP_Text>().text = string.IsNullOrEmpty(value)
-                    ? action.Item1
-                    : action.Item1 + "  ·  " + value;
+                button.GetComponentInChildren<TMP_Text>().text = action.Item1;
+                var field = settingFields[i];
+                field.gameObject.SetActive(value.Length > 0);
+                bool on = action.Item1 == "모션 줄이기" && UIShell.ReducedMotion;
+                LifeRecordUI.Skin(field, on ? RecordSurface.Inverted : RecordSurface.Inset);
+                settingValues[i].color = on ? LifeRecordUI.ReverseInk : LifeRecordUI.Heading;
+                settingValues[i].text = value;
                 button.onClick.AddListener(() => action.Item2());
             }
 

@@ -55,6 +55,11 @@ namespace IanGame
         readonly Button[] hubTabs = new Button[4];
         readonly Button[] statusTabs = new Button[5];
         TMP_Text residentAge;
+        RectTransform vitalRecord;
+        readonly TMP_Text[] vitalValues = new TMP_Text[8];
+        readonly RectTransform[] vitalLevels = new RectTransform[8];
+        TMP_Text conditionNote;
+        TMP_Text statusAction;
         static readonly string[] StatNames = { "허기", "목마름", "지식", "체력", "멘탈", "사회성", "신용도", "행복도" };
         static readonly string[] FeatureIds = { "items", "school", "jobs", "stocks", "housing" };
         static readonly string[] FeatureNames = { "수집·가챠", "학교 생활", "직업", "주식 거래", "독립·주거" };
@@ -123,12 +128,12 @@ namespace IanGame
                 new Vector2(0, 1)
             );
             card.pivot = new Vector2(0, 1);
-            LifeRecordUI.Skin(card.GetComponent<Image>(), RecordSurface.Paper);
-            LifeRecordUI.Surface(card, "Mission tab", RecordSurface.Seal, 0, .18f, .015f, .84f);
+            LifeRecordUI.Skin(card.GetComponent<Image>(), RecordSurface.Window);
+            LifeRecordUI.Surface(card, "Mission tab", RecordSurface.Warning, 0, .18f, .015f, .84f);
             mission = ui.Text(card, "Current mission", 17, new Vector2(.04f, .71f), new Vector2(.96f, .96f));
             guide = ui.Text(card, "Optional recommendation", 17, new Vector2(.04f, .12f), new Vector2(.96f, .68f));
-            mission.color = LifeRecordUI.Ink;
-            guide.color = LifeRecordUI.Jade;
+            mission.color = LifeRecordUI.Body;
+            guide.color = LifeRecordUI.Secondary;
             var open = card.gameObject.AddComponent<Button>();
             open.onClick.AddListener(OpenHelp);
             saveText = ui.Text(
@@ -188,8 +193,8 @@ namespace IanGame
             }
 
             var stub = LifeRecordUI.Surface(Status.transform, "Resident card", RecordSurface.Inset, .034f, .21f, .366f, .752f);
-            LifeRecordUI.Label(stub.transform, hud.needs.font, "이안", 32, LifeRecordUI.Ink, .09f, .16f, .9f, .36f);
-            residentAge = LifeRecordUI.Label(stub.transform, hud.needs.font, "", 20, LifeRecordUI.Jade, .09f, .025f, .96f, .185f);
+            LifeRecordUI.Label(stub.transform, hud.needs.font, "이안", 32, LifeRecordUI.Body, .09f, .16f, .9f, .36f);
+            residentAge = LifeRecordUI.Label(stub.transform, hud.needs.font, "", 20, LifeRecordUI.Secondary, .09f, .025f, .96f, .185f);
             var portrait = LifeRecordUI.Rect(stub.transform, "Official Ian", .15f, .37f, .85f, .96f);
             var image = portrait.gameObject.AddComponent<Image>();
             image.raycastTarget = false;
@@ -197,7 +202,8 @@ namespace IanGame
             image.sprite = hud.world.Player.identity?.baseSprite;
             image.enabled = image.sprite != null;
             statusText = ui.ScrollText(Status.transform, new Vector2(.40f, .215f), new Vector2(.96f, .751f));
-            ui.Button(
+            BuildVitalRecord();
+            var openRelated = ui.Button(
                 Status.transform,
                 "관련 기능 열기",
                 new Vector2(.06f, .07f),
@@ -230,6 +236,7 @@ namespace IanGame
                     }
                 }
             );
+            statusAction = openRelated.GetComponentInChildren<TMP_Text>();
             Help = Window("도움말 · 선택하는 생활");
             helpText = ui.ScrollText(Help.transform, new Vector2(.06f, .2f), new Vector2(.94f, .86f));
             ui.Button(
@@ -636,6 +643,43 @@ namespace IanGame
                 );
         }
 
+        void BuildVitalRecord()
+        {
+            vitalRecord = LifeRecordUI.Rect(Status.transform, "Health record", .40f, .215f, .96f, .752f);
+            for (int i = 0; i < StatNames.Length; i++)
+            {
+                float x = i / 4 * .515f;
+                float y = .78f - i % 4 * .20f;
+                var cell = LifeRecordUI.Surface(vitalRecord, StatNames[i], RecordSurface.Inset, x, y, x + .485f, y + .175f);
+                LifeRecordUI.Label(cell.transform, hud.needs.font, StatNames[i], 18, LifeRecordUI.Body,
+                    .06f, .25f, .67f, .94f);
+                vitalValues[i] = LifeRecordUI.Label(cell.transform, hud.needs.font, "", 20, LifeRecordUI.Body,
+                    .63f, .25f, .95f, .94f);
+                vitalValues[i].alignment = TextAlignmentOptions.MidlineRight;
+                var track = LifeRecordUI.Rect(cell.transform, "Scale", .07f, .15f, .93f, .23f);
+                var rail = track.gameObject.AddComponent<Image>();
+                rail.raycastTarget = false;
+                rail.color = LifeRecordUI.Track;
+                var fill = LifeRecordUI.Rect(track, "Level", 0, 0, 1, 1).gameObject.AddComponent<Image>();
+                fill.color = LifeRecordUI.Secondary;
+                fill.raycastTarget = false;
+                vitalLevels[i] = fill.rectTransform;
+            }
+
+            conditionNote = LifeRecordUI.Label(vitalRecord, hud.needs.font, "", 18, LifeRecordUI.Body,
+                0, 0, 1, .15f);
+        }
+
+        static string StageName(LifeStage stage) => stage switch
+        {
+            LifeStage.Infancy => "유아기",
+            LifeStage.Childhood => "아동기",
+            LifeStage.Adolescence => "청소년기",
+            LifeStage.YoungAdult => "청년기",
+            LifeStage.MiddleAge => "중년기",
+            _ => "노년기"
+        };
+
         void RefreshStatus()
         {
             if (statusText == null)
@@ -647,19 +691,28 @@ namespace IanGame
             {
                 LifeRecordUI.StyleButton(statusTabs[i], i == statusTab);
             }
-            residentAge.text = $"{game.growth.Age}세 · {game.clock.Day}일째";
+            statusAction.text = statusTab switch
+            {
+                1 => "교육·생활 활동 보기",
+                2 => "채용·근무 보기",
+                3 => "가계 명세서 열기",
+                4 => "장비 확인",
+                _ => "생활 도움말"
+            };
+            residentAge.text = $"{game.growth.Age}세 · {StageName(game.growth.Stage)}";
+            vitalRecord.gameObject.SetActive(statusTab == 0);
+            statusText.GetComponentInParent<ScrollRect>(true).gameObject.SetActive(statusTab != 0);
             string text = "";
             if (statusTab == 0)
             {
-                text =
-                    string.Join(
-                        "\n",
-                        Enumerable.Range(0, 8).Select(i => StatNames[i] + "    <b>" + game.stats.Get((CoreStat)i) + "</b> / 100")
-                    )
-                    + "\n\n피로 "
-                    + game.world.State.fatigue.ToString("0")
-                    + " · 위생 "
-                    + game.world.State.hygiene.ToString("0");
+                for (int i = 0; i < vitalValues.Length; i++)
+                {
+                    int value = game.stats.Get((CoreStat)i);
+                    vitalValues[i].text = value.ToString();
+                    vitalLevels[i].anchorMax = new Vector2(Mathf.Clamp01(value / 100f), 1);
+                }
+
+                conditionNote.text = $"피로 {game.world.State.fatigue:0}  ·  위생 {game.world.State.hygiene:0}";
             }
             else if (statusTab == 1)
             {
@@ -667,7 +720,7 @@ namespace IanGame
                     "나이 "
                     + game.growth.Age
                     + "세 · "
-                    + game.growth.Stage
+                    + StageName(game.growth.Stage)
                     + "\n\n현재 미션: "
                     + game.missions.ActiveMission?.title
                     + "\n\n교육: "
@@ -687,17 +740,17 @@ namespace IanGame
             else if (statusTab == 2)
             {
                 text =
-                    "현재 직업: "
-                    + (game.phase23.Jobs.Current?.DisplayName ?? "없음")
-                    + "\n\n"
+                    "현재 직업\n<size=130%><b>"
+                    + (game.phase23.Jobs.Current?.DisplayName ?? "무직")
+                    + "</b></size>\n예상 일급\n<size=145%><b>"
+                    + game.phase23.Work.Wage.ToString("N0")
+                    + " G</b></size>\n\n"
                     + (
                         game.growth.EmploymentUnlocked
                             ? "회사에서 채용 조건과 근무를 확인하세요."
                             : "아직 직업 활동이 해금되지 않았습니다. 성장 조건을 확인하세요."
                     )
-                    + "\n일급 "
-                    + (game.phase23.Jobs.Current?.BaseDailyWage ?? 0).ToString("N0")
-                    + " G · 직급 "
+                    + "\n직급 "
                     + game.phase23.Progress.employment.rank
                     + " · 경력 "
                     + game.phase23.Progress.employment.experience
@@ -708,7 +761,7 @@ namespace IanGame
             else if (statusTab == 3)
             {
                 text =
-                    $"현금 {game.economy.Cash:N0} G\n루비 {game.economy.Ruby.Total:N0}\n총자산 {game.economy.TotalAssets:N0} G\n부채 {game.economy.Debt:N0} G\n순자산 {game.economy.NetWorth:N0} G\n\n현재 거주: {game.economy.Capture().housing?.residenceId}\n\n세금·대출·거래 내역은 금융 → 경제 화면에서 확인하세요.\n부채는 창을 닫아도 남습니다.";
+                    $"현금 {game.economy.Cash:N0} G\n루비 {game.economy.Ruby.Total:N0}\n총자산 {game.economy.TotalAssets:N0} G\n부채 {game.economy.Debt:N0} G\n순자산 {game.economy.NetWorth:N0} G\n\n현재 거주: {hud.home?.catalog?.Residence(game.economy.Capture().housing?.residenceId)?.title ?? "등록된 거주지 없음"}\n\n세금·대출·거래 내역은 금융 → 경제 화면에서 확인하세요.\n부채는 창을 닫아도 남습니다.";
             }
             else
             {
@@ -776,8 +829,8 @@ namespace IanGame
                 {
                     game.Notifications.Publish(string.Join(" · ", changes.Take(4)), NotificationKind.Info);
                     hud.needs.color = Enumerable.Range(0, 8).Any(i => current[i] < previousStats[i])
-                        ? new Color32(164, 63, 58, 255)
-                        : new Color32(60, 112, 85, 255);
+                        ? LifeRecordUI.Heading
+                        : LifeRecordUI.Body;
                     statUntil = Time.unscaledTime + 2;
                 }
             }

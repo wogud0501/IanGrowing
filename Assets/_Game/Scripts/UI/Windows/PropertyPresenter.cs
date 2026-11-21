@@ -328,7 +328,7 @@ namespace IanGame
 
             for (int i = 0; i < tabs.Length; i++)
             {
-                tabs[i].GetComponent<Image>().color = i == Page ? new Color32(192, 216, 150, 255) : Color.white;
+                LifeRecordUI.StyleButton(tabs[i], i == Page);
             }
 
             for (int i = 0; i < selections.Length; i++)
@@ -337,8 +337,7 @@ namespace IanGame
                 selections[i].gameObject.SetActive(Page == 0 || Page == 1 || Page == 4);
                 selections[i].GetComponentInChildren<TMP_Text>().text =
                     d.PropertyName + (s.owned.Any(o => o.PropertyId == d.PropertyId) ? " · 보유" : "");
-                selections[i].GetComponent<Image>().color =
-                    i == Selected ? new Color32(192, 216, 150, 255) : Color.white;
+                LifeRecordUI.StyleButton(selections[i], i == Selected);
             }
 
             preview.gameObject.SetActive(Page == 0 || Page == 1);

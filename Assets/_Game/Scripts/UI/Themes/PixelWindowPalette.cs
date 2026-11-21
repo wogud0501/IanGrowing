@@ -83,7 +83,7 @@ namespace IanGame
                         || image.sprite == pressed
                         || image.sprite == disabled
                         || image.sprite == theme.tab;
-                    text.color = paper ? new Color32(57, 53, 47, 255) : theme.cream;
+                    text.color = paper ? LifeRecordUI.Body : theme.cream;
                     break;
                 }
             }

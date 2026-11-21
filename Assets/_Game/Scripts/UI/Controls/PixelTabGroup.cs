@@ -91,20 +91,7 @@ namespace IanGame
                     continue;
                 }
 
-                var image = tabs[i].GetComponent<Image>();
-                if (image != null)
-                {
-                    image.sprite = i == selected ? theme.tab : theme.button;
-                }
-
-                var label = tabs[i].GetComponentInChildren<TMP_Text>();
-                if (label != null)
-                {
-                    label.color =
-                        theme.paperButtons ? theme.ink
-                        : i == selected ? theme.gold
-                        : theme.cream;
-                }
+                LifeRecordUI.StyleButton(tabs[i], i == selected);
             }
 
             var shell = UIShell.For(this);

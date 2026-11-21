@@ -39,6 +39,7 @@ namespace IanGame
         string selected;
         int page;
         int lastOrderFrame = -1;
+        TMP_Text firstQuote;
         TMP_Text cashBalance;
         TMP_Text netBalance;
         TMP_Text debtBalance;
@@ -53,19 +54,21 @@ namespace IanGame
 
             var frame = (RectTransform)scroll.transform.parent;
             frame.gameObject.AddComponent<RecordWindowBounds>();
-            LifeRecordUI.Skin(frame.GetComponent<Image>(), RecordSurface.Paper);
-            var mast = LifeRecordUI.Surface(frame, "Statement header", RecordSurface.Charcoal, .01f, .86f, .99f, .986f);
+            LifeRecordUI.Skin(frame.GetComponent<Image>(), RecordSurface.Window);
+            var mast = LifeRecordUI.Surface(frame, "Statement header", RecordSurface.Header, .01f, .86f, .99f, .986f);
             mast.transform.SetAsFirstSibling();
             var title = frame.Find("Title").GetComponent<TMP_Text>();
             title.text = "가계 명세서";
-            MissionRecordLayout.SetText(title, 30, LifeRecordUI.Paper);
-            var left = LifeRecordUI.Surface(frame, "Account balance", RecordSurface.Selected, .024f, .272f, .358f, .83f).transform;
-            LifeRecordUI.Label(left, title.font, "사용 가능 현금", 20, LifeRecordUI.Jade, .07f, .82f, .96f, .96f);
-            cashBalance = LifeRecordUI.Label(left, title.font, "", 35, LifeRecordUI.Ink, .07f, .60f, .96f, .83f);
+            MissionRecordLayout.SetText(title, 30, LifeRecordUI.Heading);
+            var left = LifeRecordUI.Surface(frame, "Account balance", RecordSurface.Focus, .024f, .272f, .358f, .83f).transform;
+            LifeRecordUI.Label(left, title.font, "사용 가능 현금", 20, LifeRecordUI.Secondary, .07f, .82f, .96f, .96f);
+            cashBalance = LifeRecordUI.Label(left, title.font, "", 35, LifeRecordUI.Body, .07f, .60f, .96f, .83f);
             LifeRecordUI.Print(left, RecordPrint.Finance, .07f, .045f, .94f, .57f);
             var debts = LifeRecordUI.Surface(frame, "Liabilities", RecordSurface.Inset, .377f, .685f, .973f, .83f).transform;
-            debtBalance = LifeRecordUI.Label(debts, title.font, "", 21, LifeRecordUI.Seal, .035f, .05f, .54f, .95f);
-            netBalance = LifeRecordUI.Label(debts, title.font, "", 21, LifeRecordUI.Ink, .55f, .05f, .99f, .95f);
+            LifeRecordUI.Label(debts, title.font, "남은 부채", 18, LifeRecordUI.Secondary, .035f, .56f, .51f, .97f);
+            debtBalance = LifeRecordUI.Label(debts, title.font, "", 27, LifeRecordUI.Heading, .035f, .03f, .52f, .59f);
+            LifeRecordUI.Label(debts, title.font, "순자산", 18, LifeRecordUI.Secondary, .53f, .56f, .99f, .97f);
+            netBalance = LifeRecordUI.Label(debts, title.font, "", 27, LifeRecordUI.Heading, .53f, .03f, .99f, .59f);
             LifeRecordUI.Place((RectTransform)scroll.transform, .385f, .28f, .96f, .663f);
             LifeRecordUI.StyleButton(payTax);
             LifeRecordUI.StyleButton(repay, true);
@@ -102,6 +105,10 @@ namespace IanGame
             repay.onClick.AddListener(Repay);
             if (marketScene)
             {
+                chart.color = LifeRecordUI.Heading;
+                firstQuote = LifeRecordUI.Label(chart.transform, header.font, "", 18, LifeRecordUI.Body,
+                    .055f, .54f, .96f, .87f);
+                LifeRecordUI.Skin(quantity.GetComponent<Image>(), RecordSurface.Inset);
                 selected = game.economy.rules.stocks[0].StockId;
                 for (int i = 0; i < tabs.Length; i++)
                 {
@@ -192,6 +199,7 @@ namespace IanGame
             for (int i = 0; i < pages.Length; i++)
             {
                 pages[i].SetActive(i == page);
+                LifeRecordUI.StyleButton(tabs[i], i == page);
             }
 
             if (page == 1 && game != null)
@@ -350,44 +358,56 @@ namespace IanGame
             if (cashBalance != null)
             {
                 cashBalance.text = $"{e.Cash:N0} G";
-                debtBalance.text = $"남은 부채\n{e.Debt:N0} G";
-                netBalance.text = $"순자산\n{e.NetWorth:N0} G";
+                debtBalance.text = $"{e.Debt:N0} G";
+                netBalance.text = $"{e.NetWorth:N0} G";
             }
 
             sb.AppendLine($"총자산   {e.TotalAssets:N0} G");
-            sb.AppendLine($"원금 {e.Principal:N0}G / 미상환 이자 {f.outstandingInterest:N0}G");
-            sb.AppendLine($"누적 이자 {f.cumulativeInterest:N0}G / 신용도 {game.stats.Credit}");
-            sb.AppendLine($"누적 수입 {f.totalIncome:N0}G / 소비·세금 지출 {f.totalExpenses:N0}G");
-            sb.AppendLine($"다음 고지 예정 세금 {f.pendingTax:N0}G / 급여는 전액 수령 후 고지서로 납부");
-            sb.AppendLine(
-                $"세금 {e.rules.taxPeriodDays}게임일 / 이자 {e.rules.debtPeriodDays}게임일마다, 회차당 원금의 {e.rules.debtInterestBasisPoints / 100f:0.##}%"
-            );
-            sb.AppendLine(
-                $"정상 상환 기준 {e.rules.minimumDebtPayment:N0}G/회차 · 매수 신용도 {e.rules.minimumTradingCredit} 이상"
-            );
-            sb.AppendLine("\n세금 고지서 — 오래된 미납분부터 부분 납부 가능");
-            foreach (var b in f.bills.AsEnumerable().Reverse().Take(12))
+            sb.AppendLine($"누적 수입   {f.totalIncome:N0} G     소비·세금 지출   {f.totalExpenses:N0} G");
+            sb.AppendLine();
+            sb.AppendLine("세금 고지서");
+            sb.AppendLine($"다음 고지 예정액   {f.pendingTax:N0} G");
+            if (f.bills.Count == 0)
             {
-                sb.AppendLine(
-                    $"{b.id}  기한 DAY {b.dueDay} {(b.Remaining == 0 ? "납부 완료" : game.clock.Day > b.dueDay ? "체납" : "미납")}\n세액 {b.amount:N0} / 연체료 {b.lateFees:N0} / 납부 {b.paid:N0} / 잔액 {b.Remaining:N0}G"
-                );
+                sb.AppendLine("발행된 고지서가 없습니다.");
             }
 
-            sb.AppendLine("\n최근 상환·납부 기록");
+            foreach (var bill in f.bills.AsEnumerable().Reverse().Take(12))
+            {
+                string status = bill.Remaining == 0 ? "납부 완료" : game.clock.Day > bill.dueDay ? "체납" : "미납";
+                sb.AppendLine($"[{status}]   납부 기한 {bill.dueDay}일차   ·   잔액 {bill.Remaining:N0} G");
+                sb.AppendLine($"발행 {bill.issuedDay}일차   ·   세액 {bill.amount:N0} G   ·   연체료 {bill.lateFees:N0} G   ·   납부 {bill.paid:N0} G");
+            }
+
+            sb.AppendLine();
+            sb.AppendLine("부채 내역");
+            sb.AppendLine($"원금   {e.Principal:N0} G     미상환 이자   {f.outstandingInterest:N0} G");
+            sb.AppendLine($"누적 이자   {f.cumulativeInterest:N0} G     신용도   {game.stats.Credit}");
+            sb.AppendLine();
+            sb.AppendLine("최근 상환·납부 기록");
+            int displayed = 0;
             foreach (
-                var t in f
-                    .transactions.Where(t =>
-                        t.kind == TransactionKind.DebtRepayment
-                        || t.kind == TransactionKind.Tax
-                        || t.kind == TransactionKind.DebtInterest
-                    )
-                    .Reverse()
-                    .Take(12)
+                var transaction in f.transactions.Where(t =>
+                    t.kind == TransactionKind.DebtRepayment
+                    || t.kind == TransactionKind.Tax
+                    || t.kind == TransactionKind.DebtInterest
+                ).Reverse().Take(12)
             )
             {
-                sb.AppendLine($"DAY {t.day} · {t.reason} {t.amount:N0}G");
+                sb.AppendLine($"{transaction.day}일차   ·   {transaction.reason}   {transaction.amount:N0} G");
+                displayed++;
             }
 
+            if (displayed == 0)
+            {
+                sb.AppendLine("기록된 상환·납부 내역이 없습니다.");
+            }
+
+            sb.AppendLine();
+            sb.AppendLine("납부 안내");
+            sb.AppendLine($"세금은 {e.rules.taxPeriodDays}게임일마다 고지합니다. 급여는 전액 입금되며, 오래된 미납분부터 부분 납부할 수 있습니다.");
+            sb.AppendLine($"이자는 {e.rules.debtPeriodDays}게임일마다 원금의 {e.rules.debtInterestBasisPoints / 100f:0.##}%입니다.");
+            sb.AppendLine($"정상 상환 기준   회차당 {e.rules.minimumDebtPayment:N0} G   ·   주식 매수 신용도   {e.rules.minimumTradingCredit} 이상");
             economyText.text = sb.ToString();
             bool adult = GrowthAccess.Adult(game);
             payTax.interactable = repay.interactable = adult && game.State == GameState.Playing;
@@ -413,15 +433,24 @@ namespace IanGame
             {
                 var d = e.rules.stocks[i];
                 var q = f.quotes.Find(x => x.StockId == d.StockId);
+                LifeRecordUI.StyleButton(stocks[i], d.StockId == selected);
                 stocks[i].GetComponentInChildren<TMP_Text>().text =
-                    $"{d.CompanyName}\n<size=14>{q.CurrentPrice:N0}G  {(q.CurrentPrice / (double)q.PreviousPrice - 1) * 100:+0.00;-0.00;0.00}%</size>";
+                    $"{d.CompanyName}\n<size=18>{q.CurrentPrice:N0}G  {(q.CurrentPrice / (double)q.PreviousPrice - 1) * 100:+0.00;-0.00;0.00}%</size>";
             }
 
             var def = Array.Find(e.rules.stocks, d => d.StockId == selected);
             var quote = e.GetQuote(selected);
             var holding = e.GetHolding(selected);
             stockDetail.text =
-                $"{def.CompanyName} · {def.Sector} · {quote.MarketStatus}\n현재가 {quote.CurrentPrice:N0}G / 기준가 {def.BasePrice:N0}G\n보유 {holding?.quantity ?? 0}주 / 평균 {holding?.AveragePrice ?? 0:N2}G";
+                $"{def.CompanyName} · {def.Sector} · {(quote.MarketStatus == MarketStatus.Open ? "거래 가능" : "거래 정지")}\n현재가 {quote.CurrentPrice:N0}G / 기준가 {def.BasePrice:N0}G\n보유 {holding?.quantity ?? 0}주 / 평균 {holding?.AveragePrice ?? 0:N2}G";
+            firstQuote.gameObject.SetActive(quote.PriceHistory.Count < 2);
+            if (quote.PriceHistory.Count < 2)
+            {
+                firstQuote.text = quote.PriceHistory.Count == 0
+                    ? "아직 기록된 시세가 없습니다."
+                    : $"첫 시세  {quote.PriceHistory[0]:N0} G";
+            }
+
             chart.SetPrices(quote.PriceHistory);
             int size;
             bool valid = int.TryParse(quantity.text, out size) && size > 0;

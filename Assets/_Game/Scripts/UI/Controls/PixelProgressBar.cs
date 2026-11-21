@@ -7,8 +7,8 @@ namespace IanGame
     public class PixelProgressBar : MonoBehaviour
     {
         public Image fill;
-        public Color normal = new Color32(127, 182, 150, 255);
-        public Color warning = new Color32(220, 119, 91, 255);
+        public Color normal = LifeRecordUI.Body;
+        public Color warning = LifeRecordUI.Heading;
         float target = -1;
         Coroutine tween;
 
@@ -22,7 +22,8 @@ namespace IanGame
 
             float start = fill.type == Image.Type.Filled ? fill.fillAmount : fill.rectTransform.anchorMax.x;
             target = ratio;
-            fill.color = ratio < .25f ? warning : normal;
+            Color shade = ratio < .25f ? warning : normal;
+            fill.color = new Color(shade.grayscale, shade.grayscale, shade.grayscale, shade.a);
             if (tween != null)
             {
                 StopCoroutine(tween);

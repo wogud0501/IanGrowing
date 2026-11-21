@@ -43,10 +43,13 @@ namespace IanGame
         CanvasGroup[] worldReadouts;
         Image contextStamp;
         TMP_Text contextCaption;
+        Image contextObject;
+        string purchaseResult;
         RectTransform feedbackCard;
         RectTransform activityCard;
         float feedbackWidth;
         CanvasGroup noticeGroup;
+        RectTransform noticeRule;
         Coroutine noticeMotion;
 
         void Start()
@@ -83,16 +86,17 @@ namespace IanGame
             var bar = GetComponentInChildren<CompactWorldStatusBar>(true);
             if (bar != null)
             {
-                LifeRecordUI.Skin(bar.GetComponent<Image>(), RecordSurface.Charcoal);
-                bar.place.color = LifeRecordUI.Paper;
-                bar.time.color = new Color32(195, 218, 183, 255);
+                LifeRecordUI.Skin(bar.GetComponent<Image>(), RecordSurface.Header);
+                bar.place.color = LifeRecordUI.Heading;
+                bar.time.color = LifeRecordUI.Secondary;
             }
 
-            LifeRecordUI.Skin(cash.transform.parent.GetComponent<Image>(), RecordSurface.Paper);
-            LifeRecordUI.StyleButton(menuButton, true);
-            LifeRecordUI.Skin(promptPanel.GetComponent<Image>(), RecordSurface.Jade);
-            prompt.color = LifeRecordUI.Paper;
-            survival = new SurvivalMeters(needs);
+            LifeRecordUI.Skin(cash.transform.parent.GetComponent<Image>(), RecordSurface.Window);
+            cash.color = LifeRecordUI.Heading;
+            LifeRecordUI.StyleButton(menuButton);
+            LifeRecordUI.Skin(promptPanel.GetComponent<Image>(), RecordSurface.Context);
+            prompt.color = LifeRecordUI.Heading;
+            survival = new SurvivalMeters(needs, this);
             worldReadouts = new[] { bar ? bar.transform : null, cash.transform.parent, needs.transform.parent }
                 .Where(readout => readout != null)
                 .Select(readout => readout.TryGetComponent<CanvasGroup>(out var group)
@@ -228,8 +232,21 @@ namespace IanGame
             }
         }
 
+        void UpdateContextCaption()
+        {
+            if (!contextCaption || !source)
+            {
+                return;
+            }
+
+            contextCaption.text = source.kind is WorldInteractionKind.FoodShop or WorldInteractionKind.FurnitureShop
+                ? $"잔액  {game.economy.Cash:N0} G{(string.IsNullOrEmpty(purchaseResult) ? "" : "\n" + purchaseResult)}"
+                : world.CurrentZone.title;
+        }
+
         void Refresh()
         {
+            UpdateContextCaption();
             cash.text = $"{game.economy.Cash:N0} G  ·  루비 {game.economy.Ruby.Total:N0}";
             survival?.Set(0, game.stats.Hunger);
             survival?.Set(1, game.stats.Thirst);
@@ -292,17 +309,23 @@ namespace IanGame
             feedbackCard.anchoredPosition = r.anchoredPosition;
             feedbackCard.sizeDelta = r.sizeDelta;
             var image = feedbackCard.GetComponent<Image>();
-            LifeRecordUI.Skin(image, RecordSurface.Paper);
+            LifeRecordUI.Skin(image, RecordSurface.Window);
             image.raycastTarget = false;
             r.SetParent(feedbackCard, false);
             r.anchorMin = Vector2.zero;
             r.anchorMax = Vector2.one;
             r.offsetMin = new Vector2(16, 8);
             r.offsetMax = new Vector2(-16, -8);
-            feedback.color = new Color32(57, 53, 47, 255);
+            feedback.color = LifeRecordUI.Body;
             feedback.raycastTarget = false;
             noticeGroup = feedbackCard.gameObject.AddComponent<CanvasGroup>();
             noticeGroup.blocksRaycasts = false;
+            noticeRule = LifeRecordUI.Rect(feedbackCard, "Completion line", .025f, .06f, .975f, .06f);
+            noticeRule.offsetMax = new Vector2(0, 2);
+            var ruleImage = noticeRule.gameObject.AddComponent<Image>();
+            ruleImage.color = LifeRecordUI.Heading;
+            ruleImage.raycastTarget = false;
+            noticeRule.gameObject.SetActive(false);
         }
 
         public void ReflowNotification()
@@ -405,6 +428,11 @@ namespace IanGame
             while (feedbackCard.gameObject.activeSelf && Time.unscaledTime < until)
             {
                 float enter = Mathf.Clamp01((Time.unscaledTime - start) / .14f);
+                if (noticeRule.gameObject.activeSelf && noticeRule.anchorMax.x < .975f)
+                {
+                    noticeRule.anchorMax = new Vector2(Mathf.Lerp(.025f, .975f, enter), .06f);
+                }
+
                 noticeGroup.alpha = Mathf.Min(enter, Mathf.Clamp01((until - Time.unscaledTime) / .16f));
                 text.anchoredPosition = rest + Vector2.right * Mathf.Round((1 - enter) * 12);
                 yield return null;
@@ -427,10 +455,22 @@ namespace IanGame
             }
 
             EnsureFeedbackCard();
+            var surface = notice.kind switch
+            {
+                NotificationKind.Mission or NotificationKind.Achievement => RecordSurface.Reward,
+                NotificationKind.Critical or NotificationKind.Warning => RecordSurface.Warning,
+                _ => RecordSurface.Window
+            };
+            LifeRecordUI.Skin(feedbackCard.GetComponent<Image>(), surface);
+            feedback.color = surface == RecordSurface.Warning ? LifeRecordUI.Heading : LifeRecordUI.Body;
+            bool milestone = notice.kind == NotificationKind.Mission || notice.kind == NotificationKind.Achievement;
+            noticeRule.gameObject.SetActive(milestone);
+            noticeRule.anchorMax = new Vector2(UIShell.ReducedMotion ? .975f : .025f, .06f);
             feedback.text = notice.text;
             feedbackCard.gameObject.SetActive(true);
             ReflowNotification();
-            until = Time.unscaledTime + Mathf.Clamp(PlayerPrefs.GetFloat("ian.ui.noticeSeconds", 4), 2, 8);
+            float duration = Mathf.Clamp(PlayerPrefs.GetFloat("ian.ui.noticeSeconds", 4), 2, 8);
+            until = Time.unscaledTime + (notice.kind == NotificationKind.Mission ? duration * .35f : duration);
             if (noticeMotion != null)
             {
                 StopCoroutine(noticeMotion);
@@ -452,7 +492,8 @@ namespace IanGame
             }
 
             world.Player.React(delta > 0 ? ActorMotion.Happy : ActorMotion.Thinking);
-            Notify($"{reason}  {delta:+#,0;-#,0;0}G", 1);
+            string direction = delta > 0 ? "▲" : "▼";
+            Notify($"{reason}  {direction} {delta:+#,0;-#,0;0}G", 1);
         }
 
         void Log(string text)
@@ -514,7 +555,7 @@ namespace IanGame
                 r.anchorMax = Vector2.one;
                 r.offsetMin = new Vector2(16, 8);
                 r.offsetMax = new Vector2(-16, -8);
-                progress.color = new Color32(57, 53, 47, 255);
+                progress.color = LifeRecordUI.Body;
                 progress.raycastTarget = false;
             }
 
@@ -583,23 +624,39 @@ namespace IanGame
             }
 
             source = target;
+            purchaseResult = null;
             var choicesFrame = choices.GetComponentInParent<ScrollRect>(true);
             if (choicesFrame && contextStamp == null)
             {
                 var panel = contextTitle.transform.parent;
                 contextStamp = LifeRecordUI.Surface(panel, "Location card", RecordSurface.Inset, .034f, .075f, .325f, .771f);
-                LifeRecordUI.Print(contextStamp.transform, RecordPrint.City, .06f, .34f, .94f, .90f);
-                contextCaption = LifeRecordUI.Label(contextStamp.transform, contextTitle.font, "", 21, LifeRecordUI.Ink,
+                var art = LifeRecordUI.Rect(contextStamp.transform, "Interaction object", .12f, .36f, .88f, .90f);
+                contextObject = art.gameObject.AddComponent<Image>();
+                contextObject.preserveAspect = true;
+                contextObject.raycastTarget = false;
+                contextCaption = LifeRecordUI.Label(contextStamp.transform, contextTitle.font, "", 21, LifeRecordUI.Body,
                     .09f, .04f, .95f, .32f);
                 LifeRecordUI.Place((RectTransform)choicesFrame.transform, .35f, .066f, .97f, .776f);
             }
-            if (contextCaption)
+            if (contextObject)
             {
-                contextCaption.text = target.kind == WorldInteractionKind.FoodShop
-                    ? $"보유 현금\n{game.economy.Cash:N0} G"
-                    : world.CurrentZone.title;
+                var renderer = target.visual ? target.visual : target.GetComponentInChildren<SpriteRenderer>();
+                contextObject.sprite = renderer ? renderer.sprite : null;
+                if (target.kind == WorldInteractionKind.NPC)
+                {
+                    var actor = target.GetComponentInChildren<WorldActorAnimation>(true);
+                    var portrait = actor?.library?.Find(ActorMotion.Idle, ActorDirection.Down, false);
+                    if (portrait != null && portrait.Available)
+                    {
+                        contextObject.sprite = portrait.frames[0];
+                    }
+                }
+
+                contextObject.enabled = contextObject.sprite;
+                contextObject.color = Color.white;
             }
 
+            UpdateContextCaption();
             foreach (var b in buttons)
             {
                 Destroy(b.gameObject);
@@ -607,14 +664,13 @@ namespace IanGame
 
             buttons.Clear();
             var s = game.world.State;
-            contextTitle.text =
-                target.title
-                + "  /  "
-                + (
-                    target.kind == WorldInteractionKind.Work ? game.phase23.Jobs.Current?.DisplayName
-                    : target.kind == WorldInteractionKind.Fridge ? $"쌀 {s.rice} · 빵 {s.bread}"
-                    : ""
-                );
+            string detail = target.kind switch
+            {
+                WorldInteractionKind.Work => game.phase23.Jobs.Current?.DisplayName,
+                WorldInteractionKind.Fridge => $"쌀 {s.rice} · 빵 {s.bread}",
+                _ => null
+            };
+            contextTitle.text = string.IsNullOrEmpty(detail) ? target.title : $"{target.title} · {detail}";
             var ambient = Array.Find(game.world.rules.npcs, n => n.ambient && n.npcId == target.npcId);
             if (ambient != null)
             {
@@ -815,6 +871,13 @@ namespace IanGame
                 }
             }
 
+            var frame = contextTitle.transform.parent;
+            if (!frame.TryGetComponent<RecordWindowBounds>(out var bounds))
+            {
+                bounds = frame.gameObject.AddComponent<RecordWindowBounds>();
+            }
+
+            bounds.FitChoices(buttons.Count);
             shell.Push(contextPanel);
             UIShell.Focus(contextPanel);
         }
@@ -854,13 +917,12 @@ namespace IanGame
                 return;
             }
 
-            string message;
-            Notify(
-                game.world.PurchaseFood(id, out message)
-                    ? $"식료품 구매 완료 · {(id == "rice" ? game.world.rules.ricePrice : game.world.rules.breadPrice):N0}G 지출"
-                    : message,
-                1
-            );
+            bool purchased = game.world.PurchaseFood(id, out string message);
+            int cost = id == "rice" ? game.world.rules.ricePrice : game.world.rules.breadPrice;
+            string itemName = id == "rice" ? "쌀" : "빵";
+            purchaseResult = purchased ? $"{itemName} +1   ·   −{cost:N0} G" : message;
+            UpdateContextCaption();
+            Notify(purchased ? $"{itemName} 구매 완료 · {cost:N0} G 지출" : message, purchased ? 1 : 2);
         }
     }
 }

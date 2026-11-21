@@ -26,13 +26,13 @@ namespace IanGame
     [CreateAssetMenu(menuName = "Ian/UI/Pixel Theme")]
     public class PixelUITheme : ScriptableObject
     {
-        public Color ink = new Color32(28, 38, 58, 255);
-        public Color cream = new Color32(255, 241, 207, 255);
-        public Color gold = new Color32(240, 188, 99, 255);
-        public Color coral = new Color32(220, 119, 91, 255);
-        public Color mint = new Color32(127, 182, 150, 255);
-        public Color blue = new Color32(106, 153, 173, 255);
-        public Color lilac = new Color32(170, 157, 197, 255);
+        public Color ink = new Color32(221, 221, 221, 255);
+        public Color cream = new Color32(244, 244, 244, 255);
+        public Color gold = new Color32(232, 232, 232, 255);
+        public Color coral = new Color32(204, 204, 204, 255);
+        public Color mint = new Color32(221, 221, 221, 255);
+        public Color blue = new Color32(184, 184, 184, 255);
+        public Color lilac = new Color32(160, 160, 160, 255);
         public bool paperButtons;
         public Sprite panel;
         public Sprite panelDark;

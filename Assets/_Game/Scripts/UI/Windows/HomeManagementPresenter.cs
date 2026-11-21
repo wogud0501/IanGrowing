@@ -39,6 +39,15 @@ namespace IanGame
             }
 
             game = GameContext.Instance.game;
+            if (confirmationText)
+            {
+                var frame = (RectTransform)confirmationText.transform.parent;
+                var title = LifeRecordUI.Label(frame, confirmationText.font, "주거 계약 확인", 29, LifeRecordUI.Body,
+                    .045f, .865f, .79f, .975f);
+                RecordPage.Apply(frame, title);
+                LifeRecordUI.StyleButton(accept, true);
+            }
+
             game.economy.Changed += Refresh;
             game.StateChanged += State;
             for (int i = 0; i < tabs.Length; i++)
@@ -90,7 +99,7 @@ namespace IanGame
             for (int i = 0; i < pages.Length; i++)
             {
                 pages[i].SetActive(i == n);
-                tabs[i].GetComponent<Image>().color = i == n ? new Color32(192, 216, 150, 255) : Color.white;
+                LifeRecordUI.StyleButton(tabs[i], i == n);
             }
 
             if (shell.Top == panel)

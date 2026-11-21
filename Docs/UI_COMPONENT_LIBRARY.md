@@ -1,24 +1,18 @@
-# UI 구성 요소
+# 이안 키우기 UI 구성 요소
 
-| 요소 | 구현과 사용 |
-|---|---|
-| 표면과 버튼 | LifeRecordUI가 8종 9-slice 표면을 공급한다. Button은 Unity Selectable의 입력과 포커스를 사용하며 선택·강조·눌림·비활성 색을 지정한다. |
-| 글자와 삽화 | Galmuri TMP, UITypeScale, 6종 RecordPrint. 영어·한글·숫자는 런타임 텍스트로 표시한다. 삽화는 입력을 가로채지 않는다. |
-| 창과 모달 | UIShell이 스택, 이전 포커스, Back, 열기·닫기 및 접근성 모션을 관리한다. RecordWindowBounds가 장부 판형을 안전영역 안에 맞춘다. |
-| 미션 / 진행률 | 기존 MissionUI의 버튼·스크롤·게이지·조건·보상 바인딩을 MissionRecordLayout에서 재배치한다. |
-| 가방 / 필터 | CollectionUI가 item grid, 상세 스크롤, 비교, 수량, NEW, 필터·정렬·빈 상태를 소유한다. |
-| 금융 입력 | FinancePresenter의 금액 필드, 납부와 상환 명령을 사용한다. 명세서 상단의 잔액·부채·순자산도 같은 모델에서 읽는다. |
-| 생존 게이지 | SurvivalMeters가 이름과 값, 낮은 수치의 색, 네 개의 짧은 막대를 함께 표시한다. 값이 달라질 때 해당 막대를 갱신한다. |
-| 사운드 | 기존 PresentationFeedback의 UIHover, UIClick, 창·알림 이벤트를 사용한다. |
+| 구성 요소 | 구현 | 사용 규칙 |
+|---|---|---|
+| 창·모달·입력 | UIShell, UINavigationService, RecordWindowBounds, UISafeLayout | 최상위 창이 입력을 받는다. Back 시 이전 포커스를 복구한다. 중앙 창은 폭을 제한하고 상황 창은 필요한 선택지만큼 자란다. |
+| 픽셀 면과 삽화 | LifeRecordUI, IanLedger/Surfaces, Prints, SectionIcons | 공통 18종 9-slice 면을 캐시한다. 제목·본문·인셋은 깊이와 선 두께를 달리한다. 삽화는 입력을 가로채지 않는다. |
+| 버튼·탭·포커스 | RecordButtonInk, Unity Selectable, PixelUXWidgets | 기본·호버·누름·현재 선택·비활성·포커스에 각각 면과 글자 대비를 지정한다. 현재 탭에 포커스가 오면 반전과 추가 테두리를 같이 쓴다. |
+| 프리팹과 런타임 창 | RecordPage, LifeRecordUI | 기존 직렬화 리스너와 명령은 유지한다. 만들어진 창을 열 때 공통 버튼·본문·입력필드 잉크를 적용한다. |
+| 읽기·툴팁 | Galmuri TMP, UITypeScale, PixelTooltip, ScrollRect | 스크롤 가능한 장문과 고정 행동을 나눈다. 키보드와 포인터는 툴팁, 터치는 선택된 항목의 상세를 이용한다. |
+| HUD·알림 | WorldHUD, SurvivalMeters, NotificationService | 허기·갈증·체력·멘탈을 흰 막대, 아이콘, 수치로 표시한다. 낮은 값은 느낌표, 직전 증감은 부호와 화살표를 쓴다. 완료 알림은 짧은 선으로 강조한다. |
+| 미션 | MissionUI, MissionRecordLayout | 실제 진행 서비스가 선택한 미션, 현재 챕터 달성 수·보상·다음 조건을 보여준다. 미션 명령은 기존 플레이 흐름에 연결한다. |
+| 가방·장비·도감 | CollectionUI, InventorySpecimen, EquippedMark | 필터·정렬·빈 상태·선택 상세·비교를 공유한다. 장착 여부와 수량은 현재 장비·인벤토리에서 읽는다. 표본 재질은 UI 마스킹을 지원한다. |
+| 가챠 | CollectionUI, PresentationFeedback | 1회·10회 결과는 같은 표본과 등급 프레임을 쓴다. 등급명과 NEW/DUPLICATE를 결과마다 붙인다. 풀과 보장 수치는 기존 서비스가 공급한다. |
+| 금융·증권 | FinancePresenter, PixelStockChart | 현금과 부채·순자산을 분리한다. 흰 실선은 상승, 점선은 하락이다. 실제 가격 관측치만 그린다. |
+| 취업·학교·대화·상점 | GameplayUXPresenter, LocationRecord, WorldHUD | 실제 시급, 교육 상태, 대화 선택지, 구매 가격·잔액을 해당 장소에서 표시한다. 유저 명령은 기존 게임 서비스에 전달한다. |
+| 설정·계산 결과 | GameplayUXPresenter.Settings, IdleActivityPresenter | 설정값은 행 오른쪽에서 읽는다. 오프라인 결과는 실제 경과·Gold·EXP·활동 내역을 보여주며 확인은 기존 정산 확인 명령이다. |
 
-| 구성 요소 | 입력과 상태 |
-|---|---|
-| 메뉴 탭·배지 | 생활·아이템·금융·시스템 탐색은 이미지와 한글 이름을 같이 쓴다. NEW·장착·미획득 상태는 실제 컬렉션을 읽는다. |
-| 설정 선택·토글 | PixelUXWidgets와 실제 옵션 값을 쓰는 행으로 On/Off·단계·음량을 표시한다. 확정 즉시 현재 값이 라벨에 나타난다. |
-| 수량 입력·스크롤 | TMP_InputField에 종이 인셋을 적용한다. 수량 오류는 해당 창에 남긴다. ScrollRect는 기존 마우스·터치·포커스 스크롤을 유지한다. |
-| 툴팁 | 기존 PixelTooltip이 포인터와 키보드 선택으로 설명을 연다. 가방은 선택 상세를 유지해 터치에서도 같은 설명을 읽는다. |
-| 영수증·통지 | 상점의 결과에는 구매량·비용·잔액이 남는다. WorldHUD는 공통 큐에서 읽은 메시지를 한 장씩 재사용한다. 미션·업적과 경고는 표면과 문구로 구별한다. |
-| 학교·회사 | LocationRecord에서 장소별 기록, 가능한 행동, 잠긴 이유, 대화 상대를 제공한다. 행동·퇴사 확인·진로 선택은 기존 서비스 명령에 연결한다. |
-| 주식 차트 | PixelStockChart는 저장된 가격만 메시로 그린다. 한 점은 첫 시세, 두 점 이상은 시세 추이다. 같은 가격 이력이면 메시를 갱신하지 않는다. |
-
-프리팹 기반 화면은 작성된 버튼과 직렬화된 리스너를 재사용한다. 동적 화면은 공통 팩터리에서 Selectable을 만들고 같은 테마를 적용한다. 기능별 UI 데이터를 굽거나 새로운 PlayerPrefs 저장 체계를 추가하지 않았다.
+[화면별 소유자·게임 캡처](UI_SCREEN_INVENTORY.md) · [상태별 입력 검사](../ArtSource/UI/Monochrome/Review/Gate.json) · [픽셀 자산과 재질](../Assets/_Game/UI/Pixel/Resources/IanLedger)

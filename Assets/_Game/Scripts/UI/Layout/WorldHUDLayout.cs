@@ -12,7 +12,7 @@ namespace IanGame
         public bool compactStack;
         WorldHUD hud;
         CompactWorldStatusBar bar;
-        string measured;
+        (float width, string money, float moneySize, string time, float timeSize, string place, float placeSize, bool compact) measured;
 
         void Awake()
         {
@@ -35,28 +35,14 @@ namespace IanGame
                 return;
             }
 
-            string key =
-                width
-                + "/"
-                + hud.cash.text
-                + "/"
-                + hud.cash.fontSize
-                + "/"
-                + bar.time.text
-                + "/"
-                + bar.time.fontSize
-                + "/"
-                + bar.place.text
-                + "/"
-                + bar.place.fontSize
-                + "/"
-                + compactStack;
-            if (key == measured)
+            var metrics = (width, hud.cash.text, hud.cash.fontSize, bar.time.text, bar.time.fontSize,
+                bar.place.text, bar.place.fontSize, compactStack);
+            if (metrics == measured)
             {
                 return;
             }
 
-            measured = key;
+            measured = metrics;
             float cashWidth = hud.cash.GetPreferredValues(hud.cash.text).x + 30;
             float walletWidth = Mathf.Max(212, cashWidth + 104);
             wallet.anchorMin = wallet.anchorMax = Vector2.one;

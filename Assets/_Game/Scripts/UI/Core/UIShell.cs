@@ -73,6 +73,7 @@ namespace IanGame
         void Start()
         {
             game = GameContext.Instance == null ? null : GameContext.Instance.game;
+            RecordPage.StyleAuthored(baseGroup.gameObject);
             Focus(baseGroup.gameObject);
             RefreshSettings();
             ReleaseUI.Attach(this);
@@ -129,6 +130,7 @@ namespace IanGame
             }
 
             RecordPage.OpenAuthored(panel);
+            RecordPage.StyleAuthored(panel);
             stack.Add(entry);
             panel.SetActive(true);
             panel.transform.SetAsLastSibling();

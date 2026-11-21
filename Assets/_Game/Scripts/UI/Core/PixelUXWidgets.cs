@@ -10,7 +10,7 @@ namespace IanGame
     {
         readonly TMP_FontAsset font;
         readonly Sprite frame;
-        public static readonly Color Ink = new Color32(54, 51, 45, 255);
+        public static readonly Color Ink = LifeRecordUI.Body;
 
         public PixelUXWidgets(WorldHUD hud)
         {

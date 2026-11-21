@@ -29,6 +29,8 @@ namespace IanGame
             public string id;
             public Button button;
             public Image icon;
+            public Image mount;
+            public Image equipped;
             public TMP_Text name;
             public TMP_Text quantity;
         }
@@ -58,12 +60,15 @@ namespace IanGame
         TMP_Text collectionSummary;
         TMP_Text collectionDetail;
         TMP_Text equipmentSummary;
+        readonly Image[] equippedIcons = new Image[3];
         TMP_Text feedback;
         TMP_Text balance;
         TMP_Text pity;
         TMP_Text[] guaranteeLabels;
         RectTransform[] guaranteeFills;
         TMP_Text probability;
+        readonly Button[] probabilityTabs = new Button[3];
+        string[] probabilitySections;
         TMP_Text guide;
         TMP_Text resultSummary;
         Button equip;
@@ -77,8 +82,10 @@ namespace IanGame
         Image inventoryTray;
         Image bagIllustration;
         Image itemPreview;
+        Image specimen;
         TMP_Text emptyBag;
         readonly Button[] inventoryFilters = new Button[6];
+        readonly Button[] collectionFilters = new Button[6];
         Button[] slots;
         string selected;
         string selectedCollection;
@@ -92,7 +99,7 @@ namespace IanGame
         GachaBatch activeBatch;
         string Pool => items.catalog.pools[0].poolId;
 
-        Color Ink => visualTheme == null ? new Color32(54, 51, 45, 255) : visualTheme.ink;
+        Color Ink => visualTheme == null ? LifeRecordUI.Body : visualTheme.ink;
 
         RectTransform Rect(string name, Transform parent, Vector2 min, Vector2 max, Vector2 size = default)
         {
@@ -207,6 +214,7 @@ namespace IanGame
         TMP_Text ScrollText(string name, Transform parent, Vector2 min, Vector2 max, float fontSize)
         {
             var scroll = Scroll(name, parent, min, max);
+            RecordPage.FitReadingColumn(scroll.content, 10);
             var t = Text("Content text", scroll.content, "", fontSize, Vector2.zero, Vector2.one, 10);
             t.rectTransform.anchorMin = new Vector2(0, 1);
             t.rectTransform.anchorMax = Vector2.one;
@@ -233,19 +241,6 @@ namespace IanGame
             return s;
         }
 
-        void FitText(TMP_Text t)
-        {
-            Canvas.ForceUpdateCanvases();
-            float h =
-                t.GetPreferredValues(
-                    t.text,
-                    Mathf.Max(100, ((RectTransform)t.transform.parent).rect.width - 20),
-                    Mathf.Infinity
-                ).y + 48;
-            t.rectTransform.sizeDelta = new Vector2(-20, h);
-            ((RectTransform)t.transform.parent).sizeDelta = new Vector2(0, h);
-        }
-
         GridView Grid(string name, Transform parent, Vector2 min, Vector2 max, IEnumerable<ItemDefinition> definitions)
         {
             var s = Scroll(name, parent, min, max);
@@ -259,6 +254,8 @@ namespace IanGame
                 v.cells.Add(CreateCell(d.itemId, s.content));
             }
 
+            var viewport = s.viewport.gameObject.AddComponent<CollectionGridViewport>();
+            viewport.WidthChanged += () => Layout(v);
             grids.Add(v);
             return v;
         }
@@ -268,8 +265,11 @@ namespace IanGame
             var image = Box("Item " + id, parent, Vector2.zero, Vector2.one);
             var c = new Cell { id = id, button = image.gameObject.AddComponent<Button>() };
             c.button.targetGraphic = image;
+            c.mount = LifeRecordUI.Surface(image.transform, "Specimen mount", RecordSurface.Specimen,
+                .03f, .20f, .24f, .86f);
             var icon = Rect("Icon", image.transform, new Vector2(.03f, .20f), new Vector2(.24f, .86f));
             c.icon = icon.gameObject.AddComponent<Image>();
+            LifeRecordUI.InkSpecimen(c.icon);
             c.icon.preserveAspect = true;
             c.icon.raycastTarget = false;
             c.name = Text("Item name", image.transform, "", 18, new Vector2(.26f, .45f), new Vector2(.99f, .98f), 4);
@@ -282,6 +282,12 @@ namespace IanGame
                 new Vector2(.99f, .43f),
                 4
             );
+            c.equipped = LifeRecordUI.Rect(image.transform, "Equipped corner", .85f, .72f, 1, 1)
+                .gameObject.AddComponent<Image>();
+            c.equipped.sprite = LifeRecordUI.EquippedMark;
+            c.equipped.preserveAspect = true;
+            c.equipped.raycastTarget = false;
+            c.equipped.enabled = false;
             c.button.onClick.AddListener(() => Select(id));
             return c;
         }
@@ -351,7 +357,7 @@ namespace IanGame
                         Refresh();
                     }
                 );
-                Button(
+                collectionFilters[i] = Button(
                     "Collection filter " + f,
                     CollectionPanel.transform,
                     filters[i],
@@ -520,6 +526,7 @@ namespace IanGame
                 var photo = Rect("Featured item", featured.transform, new Vector2(.12f, .22f), new Vector2(.88f, .94f))
                     .gameObject.AddComponent<Image>();
                 photo.sprite = featuredItem.icon;
+                LifeRecordUI.InkSpecimen(photo);
                 photo.preserveAspect = true;
                 photo.raycastTarget = false;
                 var caption = Text(
@@ -567,12 +574,24 @@ namespace IanGame
                 new Vector2(.96f, .125f),
                 OpenProbabilities
             );
+            var oddsIndex = LifeRecordUI.Surface(ProbabilityPanel.transform, "Probability index", RecordSurface.Inset,
+                .025f, .052f, .327f, .868f);
+            LifeRecordUI.Print(oddsIndex.transform, RecordPrint.Inventory, .16f, .68f, .84f, .948f);
+            string[] rateTitles = { "기본 확률", "다음 1회", "천장과 고지" };
+            for (int i = 0; i < rateTitles.Length; i++)
+            {
+                int page = i;
+                float top = .627f - i * .174f;
+                probabilityTabs[i] = Button("Probability tab " + i, oddsIndex.transform, rateTitles[i],
+                    new Vector2(.055f, top - .15f), new Vector2(.945f, top), () => ShowProbabilityPage(page));
+            }
+
             probability = ScrollText(
                 "Pool probabilities",
                 ProbabilityPanel.transform,
-                new Vector2(.035f, .04f),
-                new Vector2(.965f, .90f),
-                18
+                new Vector2(.35f, .055f),
+                new Vector2(.968f, .862f),
+                22
             );
             resultGrid = Grid(
                 "Reveal grid",
@@ -669,7 +688,8 @@ namespace IanGame
             var featureCard = GachaPanel.transform.Find("Featured collection photo");
             if (featureCard)
             {
-                LifeRecordUI.Skin(featureCard.GetComponent<Image>(), RecordSurface.Reward);
+                LifeRecordUI.Skin(featureCard.GetComponent<Image>(), RecordSurface.Specimen);
+                featureCard.Find("Featured caption").GetComponent<TMP_Text>().color = LifeRecordUI.ReverseInk;
             }
 
             var pityCard = LifeRecordUI.Surface(GachaPanel.transform, "Guarantee ledger", RecordSurface.Inset, .026f, .359f, .598f, .697f);
@@ -682,20 +702,39 @@ namespace IanGame
             {
                 float row = .73f / rules.Length;
                 float y = .04f + row * (rules.Length - i - 1);
-                guaranteeLabels[i] = LifeRecordUI.Label(pityCard.transform, font, "", 18, LifeRecordUI.Ink,
+                guaranteeLabels[i] = LifeRecordUI.Label(pityCard.transform, font, "", 18, LifeRecordUI.Body,
                     .05f, y + .023f, .96f, y + row);
                 var track = LifeRecordUI.Rect(pityCard.transform, "Guarantee track", .05f, y, .95f, y + .014f);
                 var rail = track.gameObject.AddComponent<Image>();
-                rail.color = new Color32(190, 185, 163, 255);
+                rail.color = LifeRecordUI.Track;
                 rail.raycastTarget = false;
                 var fill = LifeRecordUI.Rect(track, "Progress", 0, 0, 0, 1).gameObject.AddComponent<Image>();
-                fill.color = LifeRecordUI.Jade;
+                fill.color = LifeRecordUI.Secondary;
                 fill.raycastTarget = false;
                 guaranteeFills[i] = fill.rectTransform;
             }
 
             LifeRecordUI.StyleButton(pull10, true);
-            LifeRecordUI.Print(EquipmentPanel.transform, RecordPrint.Equipment, .55f, .42f, .92f, .80f);
+            var wearer = LifeRecordUI.Surface(EquipmentPanel.transform, "Wearer card", RecordSurface.Inset,
+                .53f, .439f, .96f, .80f);
+            var portraitRect = LifeRecordUI.Rect(wearer.transform, "Official Ian portrait", .05f, .07f, .55f, .94f);
+            var portrait = portraitRect.gameObject.AddComponent<Image>();
+            portrait.sprite = world.Player.identity?.baseSprite;
+            portrait.preserveAspect = true;
+            portrait.raycastTarget = false;
+            LifeRecordUI.Label(wearer.transform, font, "이안", 28, LifeRecordUI.Body, .57f, .40f, .95f, .76f);
+            LifeRecordUI.Label(wearer.transform, font, "착용 장비", 18, LifeRecordUI.Secondary, .57f, .17f, .98f, .46f);
+            for (int i = 0; i < slots.Length; i++)
+            {
+                var rect = LifeRecordUI.Rect(slots[i].transform, "Equipped item icon", .06f, .14f, .27f, .86f);
+                equippedIcons[i] = rect.gameObject.AddComponent<Image>();
+                equippedIcons[i].raycastTarget = false;
+                LifeRecordUI.InkSpecimen(equippedIcons[i]);
+                equippedIcons[i].preserveAspect = true;
+                var text = slots[i].GetComponentInChildren<TMP_Text>();
+                LifeRecordUI.Place(text.rectTransform, .32f, .05f, .97f, .95f);
+                text.alignment = TextAlignmentOptions.MidlineLeft;
+            }
             LifeRecordUI.Place((RectTransform)equipmentSummary.GetComponentInParent<ScrollRect>(true).transform, .53f, .16f, .96f, .42f);
 
             started = true;
@@ -847,11 +886,24 @@ namespace IanGame
                 return;
             }
 
-            probability.text = GachaProbabilityDisclosure.Describe(items, Pool);
+            probabilitySections = GachaProbabilityDisclosure.Sections(items, Pool);
             shell.Push(ProbabilityPanel);
+            ShowProbabilityPage(0);
+        }
+
+        void ShowProbabilityPage(int page)
+        {
+            probability.text = probabilitySections[page];
+            for (int i = 0; i < probabilityTabs.Length; i++)
+            {
+                LifeRecordUI.StyleButton(probabilityTabs[i], i == page);
+            }
+
             Canvas.ForceUpdateCanvases();
             probability.ForceMeshUpdate(true);
-            FitText(probability);
+            var scroll = probability.GetComponentInParent<ScrollRect>();
+            scroll.StopMovement();
+            scroll.verticalNormalizedPosition = 1;
         }
 
         string Odds(Dictionary<string, double> odds) =>
@@ -985,6 +1037,7 @@ namespace IanGame
                             "\n"
                             + Target(modifier.Key.stat)
                             + " "
+                            + (delta > 0 ? "▲ " : "▼ ")
                             + delta.ToString("+0.##;-0.##;0")
                             + (modifier.Key.operation == ModifierOperation.Percent ? "%" : "");
                     }
@@ -1003,13 +1056,13 @@ namespace IanGame
         {
             var root = InventoryPanel.transform;
             root.gameObject.AddComponent<RecordWindowBounds>();
-            LifeRecordUI.Skin(root.GetComponent<Image>(), RecordSurface.Paper);
-            var bar = LifeRecordUI.Surface(root, "Inventory masthead", RecordSurface.Charcoal, .009f, .906f, .991f, .99f);
+            LifeRecordUI.Skin(root.GetComponent<Image>(), RecordSurface.Window);
+            var bar = LifeRecordUI.Surface(root, "Inventory masthead", RecordSurface.Header, .009f, .906f, .991f, .99f);
             bar.transform.SetAsFirstSibling();
             var title = root.Find("Title").GetComponent<TMP_Text>();
             title.text = "이안의 가방";
-            MissionRecordLayout.SetText(title, 30, LifeRecordUI.Paper);
-            inventorySummary.color = feedback.color = detail.color = LifeRecordUI.Ink;
+            MissionRecordLayout.SetText(title, 30, LifeRecordUI.Heading);
+            inventorySummary.color = feedback.color = detail.color = LifeRecordUI.Body;
             foreach (var button in root.GetComponentsInChildren<Button>(true))
             {
                 LifeRecordUI.StyleButton(button, button == equip || button.name == "Section 0");
@@ -1018,9 +1071,12 @@ namespace IanGame
             inventoryTray = LifeRecordUI.Surface(root, "Item tray", RecordSurface.Inset, .022f, .157f, .603f, .687f);
             inventoryTray.transform.SetAsFirstSibling();
             bagIllustration = LifeRecordUI.Print(inventoryGrid.view, RecordPrint.Inventory, .22f, .27f, .78f, .82f);
-            emptyBag = LifeRecordUI.Label(inventoryGrid.view, font, "가방이 비어 있습니다", 22, LifeRecordUI.Ink, .04f, .08f, .96f, .27f);
+            emptyBag = LifeRecordUI.Label(inventoryGrid.view, font, "가방이 비어 있습니다", 22, LifeRecordUI.Body, .04f, .08f, .96f, .27f);
             emptyBag.alignment = TextAlignmentOptions.Center;
-            itemPreview = LifeRecordUI.Rect(root, "Selected item preview", .65f, .49f, .945f, .68f).gameObject.AddComponent<Image>();
+            specimen = LifeRecordUI.Surface(root, "Item specimen", RecordSurface.Specimen, .65f, .49f, .945f, .68f);
+            itemPreview = LifeRecordUI.Rect(specimen.transform, "Selected item preview", .06f, .08f, .94f, .92f)
+                .gameObject.AddComponent<Image>();
+            LifeRecordUI.InkSpecimen(itemPreview);
             itemPreview.preserveAspect = true;
             itemPreview.raycastTarget = false;
         }
@@ -1068,16 +1124,18 @@ namespace IanGame
                     }
 
                     c.button.transform.SetSiblingIndex(order++);
+                    c.mount.enabled = d.icon && (!collection || found);
                     c.icon.sprite = d.icon;
                     c.icon.color = collection && !found ? new Color(0, 0, 0, .35f) : Color.white;
                     bool selectedCell = c.id == (collection ? selectedCollection : selected);
-                    LifeRecordUI.Skin(c.button.GetComponent<Image>(), selectedCell ? RecordSurface.Selected : RecordSurface.Paper);
-                    c.name.color = c.quantity.color = LifeRecordUI.Ink;
+                    LifeRecordUI.StyleButton(c.button, selectedCell, GradeFrame(found ? items.catalog.Rarity(d.rarityId).rank : 0));
 
                     c.name.text = collection && !found ? "???" : d.displayName;
+                    c.equipped.enabled = items.Equipment.Current(d.equipmentSlot) == c.id;
                     bool isNew = items.Inventory.Entries.FirstOrDefault(e => e.itemId == c.id)?.isNew == true;
                     c.quantity.text =
-                        (isNew ? "NEW · " : "")
+                        (c.equipped.enabled ? "장착 · " : "")
+                        + (isNew ? "NEW · " : "")
                         + (collection ? (found ? "발견" : "미발견") : "×" + items.Inventory.Count(c.id));
                 }
 
@@ -1088,6 +1146,7 @@ namespace IanGame
             for (int i = 0; i < inventoryFilters.Length; i++)
             {
                 LifeRecordUI.StyleButton(inventoryFilters[i], i == filter);
+                LifeRecordUI.StyleButton(collectionFilters[i], i == filter);
             }
 
             bool empty = !inventoryGrid.cells.Any(cell => cell.button.gameObject.activeSelf);
@@ -1095,11 +1154,9 @@ namespace IanGame
             emptyBag.enabled = empty;
             emptyBag.text = filter == 0 ? "가방이 비어 있습니다" : "이 분류의 아이템이 없습니다";
             itemPreview.sprite = chosen?.icon;
-            itemPreview.enabled = chosen != null && chosen.icon != null;
+            specimen.gameObject.SetActive(chosen != null && chosen.icon != null);
             detail.text = chosen == null ? "아이템 정보\n\n아이템을 선택하면 효과와 장착 상태를 확인할 수 있습니다." : Info(chosen);
-            FitText(detail);
             collectionDetail.text = Info(items.catalog.Item(selectedCollection), true);
-            FitText(collectionDetail);
             equip.interactable = chosen != null && items.Equipment.CanEquip(selected, out _);
             unequip.interactable =
                 items.Unlocked && chosen != null && items.Equipment.Current(chosen.equipmentSlot) == selected;
@@ -1131,6 +1188,8 @@ namespace IanGame
             for (int i = 0; i < 3; i++)
             {
                 var d = items.catalog.Item(items.Equipment.Current((EquipmentSlot)i));
+                equippedIcons[i].sprite = d?.icon;
+                equippedIcons[i].enabled = equippedIcons[i].sprite;
                 slots[i].GetComponentInChildren<TMP_Text>().text =
                     Slot((EquipmentSlot)i) + "\n" + (d?.displayName ?? "미장착");
             }
@@ -1151,7 +1210,6 @@ namespace IanGame
                     " · ",
                     Enumerable.Range(0, 8).Select(i => Target((ModifierTarget)i) + " " + game.stats.Get((CoreStat)i))
                 );
-            FitText(equipmentSummary);
             var pool = items.catalog.Pool(Pool);
             var progress = items.Gacha.Progress(Pool);
             balance.text =
@@ -1300,17 +1358,31 @@ namespace IanGame
             {
                 var c = resultGrid.cells[i];
                 c.button.gameObject.SetActive(true);
+                LifeRecordUI.StyleButton(c.button);
                 c.name.text = "?";
                 c.quantity.text = "공개 대기";
+                c.mount.enabled = false;
                 c.icon.sprite = null;
                 c.icon.color = Color.clear;
             }
 
             resultSummary.text = "새로운 위안을 확인하세요.";
-            Layout(resultGrid);
             shell.Push(ResultPanel);
+            Layout(resultGrid);
             Refresh();
             revealRoutine = StartCoroutine(Reveal());
+        }
+
+        static RecordSurface GradeFrame(int rank)
+        {
+            return rank switch
+            {
+                0 => RecordSurface.Button,
+                1 => RecordSurface.GradeOne,
+                2 => RecordSurface.GradeTwo,
+                3 => RecordSurface.GradeThree,
+                _ => RecordSurface.GradeFour
+            };
         }
 
         IEnumerator Reveal()
@@ -1329,12 +1401,24 @@ namespace IanGame
                 var card = resultGrid.cells[revealed];
                 card.name.text = rarity.displayName;
                 card.quantity.text = "공개 중";
-                card.button.GetComponent<Image>().color = Color.Lerp(
-                    visualTheme == null || visualTheme.panelSprite != null ? Color.white : visualTheme.cell,
-                    rarity.color,
-                    .25f
-                );
-                yield return new WaitForSecondsRealtime(.06f);
+                LifeRecordUI.StyleButton(card.button, false, GradeFrame(rarity.rank));
+                if (rarity.rank >= 2)
+                {
+                    var image = card.button.targetGraphic as Image;
+                    Color rest = image.color;
+                    for (float t = 0; t < 1; t += Time.unscaledDeltaTime / .16f)
+                    {
+                        float light = Mathf.Lerp(.5f, 1, t);
+                        image.color = new Color(light, light, light);
+                        yield return null;
+                    }
+
+                    image.color = rest;
+                }
+                else
+                {
+                    yield return new WaitForSecondsRealtime(.06f);
+                }
                 RevealOne();
                 yield return new WaitForSecondsRealtime(.08f);
             }
@@ -1349,15 +1433,13 @@ namespace IanGame
             var d = items.catalog.Item(r.itemId);
             var rarity = items.catalog.Rarity(r.rarityId);
             var c = resultGrid.cells[revealed++];
+            c.button.targetGraphic.color = Color.white;
             c.name.text = d.displayName;
             c.quantity.text = rarity.displayName + "\n" + (r.isNew ? "NEW" : "DUPLICATE");
+            c.mount.enabled = d.icon;
             c.icon.sprite = d.icon;
             c.icon.color = Color.white;
-            c.button.GetComponent<Image>().color = Color.Lerp(
-                visualTheme == null || visualTheme.panelSprite != null ? Color.white : visualTheme.cell,
-                rarity.color,
-                .25f
-            );
+            LifeRecordUI.StyleButton(c.button, false, GradeFrame(rarity.rank));
             items.Reveal(r);
             if (rarity.rank >= 3)
             {
@@ -1398,9 +1480,9 @@ namespace IanGame
             int columns = single ? 1 : Math.Max(1, Mathf.FloorToInt((width - 8) / 188));
             view.grid.constraintCount = columns;
             view.grid.childAlignment = single ? TextAnchor.UpperCenter : TextAnchor.UpperLeft;
-            float height = single ? Mathf.Min(340, view.view.rect.height - 16) : 142;
+            float height = single ? Mathf.Min(390, view.view.rect.height - 16) : 142;
             view.grid.cellSize = new Vector2(
-                single ? Mathf.Min(360, width - 16) : Mathf.Max(100, (width - 16 - (columns - 1) * 8) / columns),
+                single ? Mathf.Min(400, width - 16) : Mathf.Max(100, (width - 16 - (columns - 1) * 8) / columns),
                 height
             );
             view.content.sizeDelta = new Vector2(0, Mathf.CeilToInt((float)count / columns) * (height + 8) + 16);
@@ -1408,8 +1490,17 @@ namespace IanGame
             {
                 foreach (var c in view.cells)
                 {
+                    var titleScale = c.name.GetComponent<UITypeScale>();
+                    float titleSize = single ? 26 : 18;
+                    if (titleScale.baseSize != titleSize)
+                    {
+                        titleScale.baseSize = titleSize;
+                        titleScale.Apply();
+                    }
                     c.icon.rectTransform.anchorMin = single ? new Vector2(.12f, .28f) : new Vector2(.03f, .20f);
                     c.icon.rectTransform.anchorMax = single ? new Vector2(.88f, .82f) : new Vector2(.24f, .86f);
+                    LifeRecordUI.Place(c.mount.rectTransform, c.icon.rectTransform.anchorMin.x, c.icon.rectTransform.anchorMin.y,
+                        c.icon.rectTransform.anchorMax.x, c.icon.rectTransform.anchorMax.y);
                     c.name.rectTransform.anchorMin = single ? new Vector2(.05f, .82f) : new Vector2(.26f, .45f);
                     c.name.rectTransform.anchorMax = single ? new Vector2(.95f, .98f) : new Vector2(.99f, .98f);
                     c.quantity.rectTransform.anchorMin = single ? new Vector2(.05f, .02f) : new Vector2(.26f, .04f);
@@ -1444,7 +1535,7 @@ namespace IanGame
                 portrait ? .978f : .603f, .687f);
             var id = (RectTransform)detail.transform.parent.parent.parent;
             Set(id, new Vector2(portrait ? .23f : .625f, .16f), new Vector2(.975f, portrait ? .43f : .475f));
-            LifeRecordUI.Place(itemPreview.rectTransform, portrait ? .025f : .64f, portrait ? .18f : .48f,
+            LifeRecordUI.Place(specimen.rectTransform, portrait ? .025f : .64f, portrait ? .18f : .48f,
                 portrait ? .215f : .96f, portrait ? .425f : .68f);
             Set(
                 collectionGrid.view,

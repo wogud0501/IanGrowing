@@ -35,6 +35,44 @@ namespace IanGame
         public MissionRowView rowPrefab;
         readonly List<MissionRowView> rows = new List<MissionRowView>();
         UnityAction[] activityListeners;
+        RectTransform chapterRail;
+        readonly List<Image> chapterMarks = new List<Image>();
+
+        internal void BindChapterRail(RectTransform rail)
+        {
+            chapterRail = rail;
+            Refresh();
+        }
+
+        void DrawChapter(int completed, int total)
+        {
+            if (!chapterRail)
+            {
+                return;
+            }
+
+            for (int i = 0; i < total; i++)
+            {
+                if (i == chapterMarks.Count)
+                {
+                    var mark = LifeRecordUI.Rect(chapterRail, "Chapter step " + (i + 1), 0, 0, 1, 1)
+                        .gameObject.AddComponent<Image>();
+                    mark.raycastTarget = false;
+                    chapterMarks.Add(mark);
+                }
+            }
+
+            for (int i = 0; i < chapterMarks.Count; i++)
+            {
+                var mark = chapterMarks[i];
+                mark.gameObject.SetActive(i < total);
+                if (i < total)
+                {
+                    LifeRecordUI.Place(mark.rectTransform, (float)i / total, 0, (i + .82f) / total, 1);
+                    mark.color = i < completed ? LifeRecordUI.Heading : LifeRecordUI.Track;
+                }
+            }
+        }
 
         public void Bind(MissionService value)
         {
@@ -166,6 +204,7 @@ namespace IanGame
             if (data == null)
             {
                 missionTitle.text = "등록된 미션 종료";
+                DrawChapter(chapterMarks.Count, chapterMarks.Count);
                 claimButton.interactable = false;
                 actionButton.interactable = false;
                 return;
@@ -175,6 +214,7 @@ namespace IanGame
             missionTitle.text = data.Id + " · " + data.title;
             int claimed = service.catalog.missions.Count(m => m.chapter == data.chapter && service.Claimed(m.Id));
             int chapterTotal = service.catalog.missions.Count(m => m.chapter == data.chapter);
+            DrawChapter(claimed, chapterTotal);
             string chapterName =
                 data.chapter > 0 && data.chapter <= service.catalog.chapterTitles.Length
                     ? service.catalog.chapterTitles[data.chapter - 1]
@@ -236,8 +276,8 @@ namespace IanGame
             {
                 educationHint.text =
                     GameContext.Instance != null && CurrentLocation != SceneId.School
-                        ? "학교 행동은 School에서 수행합니다."
-                        : "교육·관계의 최소 활동 / 나이·선행 활동 조건 적용";
+                        ? "수업·과제·시험은 학교에서 진행할 수 있습니다."
+                        : "할 일을 선택해 준비 조건과 보상을 확인하세요.";
             }
 
             if (rows.Count != service.catalog.missions.Length && rowPrefab != null && rowContainer != null)
@@ -334,7 +374,7 @@ namespace IanGame
 
         IEnumerator HideToast()
         {
-            yield return new WaitForSecondsRealtime(5);
+            yield return new WaitForSecondsRealtime(1.25f);
             if (toastPanel != null)
             {
                 toastPanel.SetActive(false);

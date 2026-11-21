@@ -286,6 +286,23 @@ namespace IanGame.Editor
             yield return new WaitForSecondsRealtime(.2f);
             audit(ui.ResultPanel, "Actual ten-result grid");
             check(ui.VisibleResults == 10 && !ui.Revealing, "Fast reveal completes ten cards without reroll");
+            Canvas.ForceUpdateCanvases();
+            var scroll = ui.ResultPanel.GetComponentInChildren<UnityEngine.UI.ScrollRect>();
+            foreach (RectTransform card in scroll.content)
+            {
+                if (!card.gameObject.activeSelf)
+                {
+                    continue;
+                }
+
+                var bounds = RectTransformUtility.CalculateRelativeRectTransformBounds(scroll.viewport, card);
+                check(
+                    bounds.min.x >= scroll.viewport.rect.xMin - 0.5f
+                        && bounds.max.x <= scroll.viewport.rect.xMax + 0.5f,
+                    "The complete result card fits inside the visible grid"
+                );
+            }
+
             yield return Shot("Gacha-Ten");
             B(ui.ResultPanel, "Close").onClick.Invoke();
             yield return new WaitForSecondsRealtime(.2f);

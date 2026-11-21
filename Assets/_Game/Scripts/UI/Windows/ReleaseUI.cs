@@ -54,7 +54,7 @@ namespace IanGame
             var t = r.gameObject.AddComponent<TextMeshProUGUI>();
             t.font = font;
             t.fontSize = size;
-            t.color = LifeRecordUI.Ink;
+            t.color = LifeRecordUI.Body;
             t.text = value;
             t.raycastTarget = false;
             t.textWrappingMode = TextWrappingModes.Normal;
@@ -72,7 +72,7 @@ namespace IanGame
                 image.type = Image.Type.Sliced;
             }
 
-            image.color = theme?.panelSprite != null ? Color.white : new Color(.18f, .16f, .18f);
+            image.color = theme?.panelSprite != null ? Color.white : LifeRecordUI.Track;
             var button = r.gameObject.AddComponent<Button>();
             button.targetGraphic = image;
             var text = Text("Label", r, label, new Vector2(.03f, .05f), new Vector2(.97f, .95f), 20);
@@ -89,7 +89,7 @@ namespace IanGame
             var img = r.gameObject.AddComponent<Image>();
             img.sprite = theme?.panelSprite;
             img.type = Image.Type.Sliced;
-            img.color = img.sprite != null ? Color.white : new Color(.14f, .13f, .15f);
+            img.color = img.sprite != null ? Color.white : LifeRecordUI.ReverseInk;
             Text("Title", r, title, new Vector2(.035f, .88f), new Vector2(.79f, .98f), 25);
             if (closable)
             {
@@ -148,6 +148,7 @@ namespace IanGame
             documentText = Text("Legal Body", content, "", Vector2.zero, Vector2.one, 21);
             documentText.overflowMode = TextOverflowModes.Overflow;
             documentText.richText = false;
+            RecordPage.FitReadingColumn(content, 0);
             documentScroll.viewport = viewport;
             documentScroll.content = content;
             documentScroll.horizontal = false;
@@ -314,15 +315,6 @@ namespace IanGame
                         + LegalDocumentService.Body(d);
             shell.Push(document);
             Canvas.ForceUpdateCanvases();
-            float height =
-                documentText
-                    .GetPreferredValues(
-                        documentText.text,
-                        Mathf.Max(80, documentScroll.viewport.rect.width),
-                        Mathf.Infinity
-                    )
-                    .y + 32;
-            documentScroll.content.sizeDelta = new Vector2(0, height);
             documentScroll.verticalNormalizedPosition = 1;
         }
 

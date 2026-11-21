@@ -24,6 +24,25 @@ namespace IanGame
                 return;
             }
 
+            if (frame && frame.Find("System heading") is RectTransform heading &&
+                heading.TryGetComponent<TMPro.TMP_Text>(out var title))
+            {
+                RecordPage.Apply(frame, title, false);
+                title.text = "출생 신고서";
+                if (frame.Find("Birth greeting") is RectTransform greeting)
+                {
+                    LifeRecordUI.Place(greeting, .045f, .595f, .94f, .785f);
+                }
+                LifeRecordUI.Print(frame, RecordPrint.Life, .69f, .36f, .92f, .67f);
+                var facts = frame.Find("Birth facts") as RectTransform;
+                if (facts)
+                {
+                    LifeRecordUI.Place(facts, .045f, .32f, .68f, .61f);
+                }
+
+                LifeRecordUI.StyleButton(begin, true);
+            }
+
             game = GameContext.Instance.game;
             game.StateChanged += Changed;
             GameContext.Instance.transitions.SceneChanged += SceneChanged;
