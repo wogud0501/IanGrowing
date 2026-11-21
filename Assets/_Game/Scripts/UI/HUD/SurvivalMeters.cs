@@ -47,6 +47,21 @@ namespace IanGame
             }
         }
 
+        public void Focus(int index)
+        {
+            if (host.isActiveAndEnabled)
+            {
+                host.StartCoroutine(FocusLabel(labels[index]));
+            }
+        }
+
+        System.Collections.IEnumerator FocusLabel(TMP_Text label)
+        {
+            label.fontStyle |= FontStyles.Underline;
+            yield return new WaitForSecondsRealtime(2);
+            label.fontStyle &= ~FontStyles.Underline;
+        }
+
         public void Set(int index, int value)
         {
             if (previous[index] == value)

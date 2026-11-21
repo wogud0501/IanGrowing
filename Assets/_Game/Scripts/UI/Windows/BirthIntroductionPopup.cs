@@ -31,15 +31,23 @@ namespace IanGame
                 title.text = "출생 신고서";
                 if (frame.Find("Birth greeting") is RectTransform greeting)
                 {
+                    greeting.GetComponent<TMPro.TMP_Text>().text = "이안의 인생이 시작되었습니다.";
                     LifeRecordUI.Place(greeting, .045f, .595f, .94f, .785f);
                 }
                 LifeRecordUI.Print(frame, RecordPrint.Life, .69f, .36f, .92f, .67f);
                 var facts = frame.Find("Birth facts") as RectTransform;
                 if (facts)
                 {
+                    facts.GetComponent<TMPro.TMP_Text>().text = "아직 혼자 걸을 수 없어요. 부모님의 도움을 받아 먹고, 마시고, 자는 것부터 시작해요.";
                     LifeRecordUI.Place(facts, .045f, .32f, .68f, .61f);
                 }
 
+                if (frame.Find("Satire") is RectTransform hint)
+                {
+                    hint.GetComponent<TMPro.TMP_Text>().text = "무엇을 할지 모르겠다면 현재 미션과 ‘지금 해볼 만한 것’을 확인하세요.";
+                }
+
+                begin.GetComponentInChildren<TMPro.TMP_Text>().text = "시작하기";
                 LifeRecordUI.StyleButton(begin, true);
             }
 
@@ -96,7 +104,7 @@ namespace IanGame
 
                 showing = true;
                 game.clock.SetRunning(false);
-                shell.Push(view);
+
                 if (animation != null)
                 {
                     StopCoroutine(animation);
@@ -113,6 +121,13 @@ namespace IanGame
 
         IEnumerator Reveal()
         {
+            yield return new WaitForSecondsRealtime(.8f);
+            if (!showing || closing)
+            {
+                yield break;
+            }
+
+            shell.Push(view);
             float duration = UIShell.ReducedMotion ? .001f : .16f;
             for (float t = 0; t < 1; t += Time.unscaledDeltaTime / duration)
             {

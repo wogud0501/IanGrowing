@@ -66,6 +66,8 @@ namespace IanGame
         public double UnrealizedPnL =>
             state.finance == null ? 0 : StockValue - state.finance.holdings.Sum(h => h.costBasis);
         public double RealizedPnL => state.finance?.realizedPnL ?? 0;
+        public bool HasIncome => state.finance?.totalIncome > 0;
+        public bool HasTaxBill => state.finance?.bills?.Count > 0;
         public FinanceSnapshot Finance => Clone(state.finance);
 
         public event Action<int, int, string> TransactionCompleted;

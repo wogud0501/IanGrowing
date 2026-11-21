@@ -38,6 +38,7 @@ namespace IanGame
         public WorldInteractable Nearest { get; private set; }
 
         readonly List<WorldInteractable> furniture = new List<WorldInteractable>();
+        internal IEnumerable<WorldInteractable> Interactables => objects.Concat(furniture);
         string furnitureKey;
         bool acting;
         bool travelling;
@@ -202,7 +203,7 @@ namespace IanGame
             float distance = float.MaxValue;
             if (CanControl)
             {
-                foreach (var o in objects.Concat(furniture))
+                foreach (var o in Interactables)
                 {
                     if (o == null || !o.isActiveAndEnabled || o.zone != Service.State.zone)
                     {
@@ -237,7 +238,7 @@ namespace IanGame
                 best.Select(true);
             }
 
-            hud.Prompt(best == null ? null : Service.City.Describe(best));
+            hud.Prompt(best == null ? null : Service.City.Describe(best, hud.InteractionInput));
         }
 
         public bool NearbyKind(WorldInteractionKind kind) => objects.Any(o => o.kind == kind && IsInReach(o));
@@ -252,6 +253,17 @@ namespace IanGame
             && Vector2.Distance(Player.Position, o.Point) <= o.radius + .05f;
 
         public bool Use(WorldInteractable o)
+        {
+            bool used = UseTarget(o);
+            if (used && (hud.shell.Depth > 0 || o.kind == WorldInteractionKind.Wardrobe))
+            {
+                Service.City.UsedObject();
+            }
+
+            return used;
+        }
+
+        bool UseTarget(WorldInteractable o)
         {
             if (!CanControl || !IsInReach(o))
             {
@@ -347,10 +359,10 @@ namespace IanGame
                 : action == 3 ? WorldInteractionKind.Meal
                 : action == 4 ? WorldInteractionKind.Drink
                 : WorldInteractionKind.Rest;
-            var o = objects.Concat(furniture).FirstOrDefault(x => x.kind == kind && IsInReach(x));
+            var o = Interactables.FirstOrDefault(x => x.kind == kind && IsInReach(x));
             if (o == null)
             {
-                hud.Notify("해당 사물이나 사람에게 가까이 가서 [E]로 행동하세요.");
+                hud.Notify("해당 사물이나 사람에게 가까이 가서 [" + hud.InteractionInput + "]로 행동하세요.");
                 return false;
             }
 
@@ -770,6 +782,16 @@ namespace IanGame
                     },
                     out message
                 );
+                if (ok)
+                {
+                    if (action == -1 && FamilyLife.Parent(o.npcId) && Service.Game.growth.IndependentOutdoorUnlocked)
+                    {
+                        Service.City.Learn(GuideLesson.Social);
+                    }
+
+                    Service.City.UsedObject();
+                }
+
                 hud.Notify(ok ? (sleep ? "기상했습니다. " + Service.State.lastSummary : o.title + " 완료") : message);
                 Player.Pose(sleep ? "Wake Up" : "Idle");
                 if (detail != null)
@@ -919,7 +941,12 @@ namespace IanGame
 
         IEnumerator StepTo(Vector2 point, float limit = .8f)
         {
-            Player.BeginTraversal(point, 2.5f);
+            const float speed = 2.5f;
+            float approachSpeed = speed * (Player.growthVisual ? Player.growthVisual.Speed : 1);
+            float distance = Vector2.Distance(Player.Position, point);
+            // A child entering at the edge of the interaction radius needs time to accelerate to the threshold.
+            limit = Mathf.Max(limit, distance / Mathf.Max(.1f, approachSpeed) + .35f);
+            Player.BeginTraversal(point, speed);
             while (Player.IsTraversing && Player.TraversalSeconds < limit)
             {
                 yield return null;
@@ -1018,12 +1045,17 @@ namespace IanGame
                     beforePortalCommit = false;
                     committed = true;
                     GetComponent<WorldNPCScheduler>()?.Capture();
-                    GameContext.Instance.transitions.NavigateRoom(
+                    bool accepted = GameContext.Instance.transitions.NavigateRoom(
                         portal.targetZone,
                         portal.arrival,
                         Player.Facing,
                         Room.catalog.portals.FirstOrDefault(p => p.doorId == portal.id)?.destinationEntryId ?? ""
                     );
+                    if (accepted)
+                    {
+                        Service.City.UsedObject();
+                    }
+
                     yield break;
                 }
 
@@ -1031,6 +1063,7 @@ namespace IanGame
                 {
                     beforePortalCommit = false;
                     committed = true;
+                    Service.City.UsedObject();
                     CapturePosition();
                     Service.Game.SaveAutomaticCheckpoint(out _);
                     yield break;
@@ -1093,6 +1126,7 @@ namespace IanGame
 
                 yield return null;
                 CommitZone(portal.targetZone, portal.arrival);
+                Service.City.UsedObject();
                 beforePortalCommit = false;
                 committed = true;
                 door?.Release("player");

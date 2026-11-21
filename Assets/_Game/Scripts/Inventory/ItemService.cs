@@ -326,6 +326,7 @@ namespace IanGame
                         CollectionUpdated?.Invoke(e);
                         if (e.isNew)
                         {
+                            Game.world?.City?.ItemFound(e);
                             NewItemDiscovered?.Invoke(e);
                             AudioRequested?.Invoke("NewItem");
                         }
@@ -346,6 +347,7 @@ namespace IanGame
                         ItemConsumed?.Invoke(e);
                         break;
                     case "equip":
+                        Game.world?.City?.Equipped(e);
                         ItemEquipped?.Invoke(e);
                         AudioRequested?.Invoke("Equip");
                         NotifyAppearance();

@@ -13,6 +13,26 @@ namespace IanGame
             r.Register(
                 new QAScenario
                 {
+                    id = "city/first-outing",
+                    category = "초반 생활 안내",
+                    title = "아동의 방에서 도심까지 첫 외출",
+                    success = "문 상호작용 반경 안쪽 가장자리에서 세 문 통과",
+                    run = FirstOuting,
+                }
+            );
+            r.Register(
+                new QAScenario
+                {
+                    id = "city/onboarding-save",
+                    category = "초반 생활 안내",
+                    title = "튜토리얼 건너뛰기·다시 보기·저장",
+                    success = "행동 진행 복원, 미션 및 재화 보존",
+                    run = GuideSave,
+                }
+            );
+            r.Register(
+                new QAScenario
+                {
                     id = "city/age-guidance",
                     category = "2.8 도시 UX",
                     title = "연령별 추천·목적지 제한",
@@ -41,6 +61,71 @@ namespace IanGame
                     run = Housing,
                 }
             );
+        }
+
+        static IEnumerator FirstOuting(QAScenarioContext c)
+        {
+            c.Commands.Fixture(7, false, false);
+            var world = c.Game.world;
+            var transitions = GameContext.Instance.transitions;
+            // A fixture may be restored over any active scene. Load the room through its real entry point.
+            yield return c.Commands.Navigate(SceneId.City);
+            yield return c.Commands.Navigate(world.rooms.Find("family-ian-bedroom").sceneId);
+            yield return null;
+            world.City.ResetUXGuides();
+
+            foreach (string destination in new[] { "family-living", "alley", "city" })
+            {
+                var host = world.Host;
+                string id = world.rooms.FirstDoor(world.State.zone, destination);
+                var portal = host.objects.FirstOrDefault(o => o && o.id == id);
+                c.Check(portal, "실제 출입구 " + destination);
+                Vector2 approach = Vector2.MoveTowards(portal.Point, host.Player.Position, portal.radius - .06f);
+                host.Player.Warp(approach);
+                yield return new WaitForFixedUpdate();
+                c.Check(host.Use(portal), "문 사용 " + destination);
+
+                float deadline = Time.realtimeSinceStartup + 15;
+                while (
+                    Time.realtimeSinceStartup < deadline
+                    && (transitions.IsTransitioning || !world.Host || world.Host.Room.roomId != destination)
+                )
+                {
+                    yield return null;
+                }
+                c.Check(
+                    !transitions.IsTransitioning && world.Host && world.Host.Room.roomId == destination,
+                    "통과 " + destination
+                );
+            }
+
+            c.Check(world.City.Progress(GuideLesson.Outside) == LessonState.Completed, "도심 입장으로 외출 안내 완료");
+        }
+
+        static IEnumerator GuideSave(QAScenarioContext c)
+        {
+            c.Commands.Fixture(0, false, false);
+            var city = c.Game.world.City;
+            string missions = JsonUtility.ToJson(c.Game.missions.Capture());
+            long cash = c.Game.economy.Cash;
+            city.ResetUXGuides();
+            city.StartLesson(GuideLesson.Sleep);
+            c.Check(city.Progress(GuideLesson.Sleep) == LessonState.Active, "수면 안내 시작");
+            city.SkipLessons();
+            c.Check(
+                city.Progress(GuideLesson.Sleep) == LessonState.Skipped && city.CurrentLesson() == null,
+                "확정 후 안내 종료"
+            );
+            c.Check(c.Commands.Save() && c.Commands.Load() && city.GuideSkipped, "전용 저장 슬롯에서 건너뛰기 복원");
+            c.Check(city.Suggestions().Count is >= 1 and <= 3, "건너뛴 뒤에도 추천 사용 가능");
+            city.ResetUXGuides();
+            c.Check(!city.GuideSkipped && city.Progress(GuideLesson.Sleep) == LessonState.NotStarted, "안내만 재시작");
+            c.Check(
+                c.Game.economy.Cash == cash && JsonUtility.ToJson(c.Game.missions.Capture()) == missions,
+                "미션·재화 보존"
+            );
+            c.Check(c.Commands.Sandbox.VerifyFiles(), "기존 저장 파일 보존");
+            yield break;
         }
 
         static IEnumerator Housing(QAScenarioContext c)

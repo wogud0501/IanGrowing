@@ -31,6 +31,22 @@ namespace IanGame
 
         public void Select(bool on)
         {
+            selected = on;
+            RefreshHighlight();
+        }
+
+        bool selected;
+        bool guided;
+
+        public void GuideFocus(bool on)
+        {
+            guided = on;
+            RefreshHighlight();
+        }
+
+        void RefreshHighlight()
+        {
+            bool on = selected || guided;
             var door = GetComponent<WorldDoor>();
             if (door != null)
             {

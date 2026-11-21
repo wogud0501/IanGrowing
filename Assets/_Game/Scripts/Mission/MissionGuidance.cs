@@ -230,7 +230,7 @@ namespace IanGame
                         + (g == null || s == null ? 0 : Math.Max(0, g.clock.Day - s.State.startDay))
                         + "/"
                         + c.target
-                        + "일 · 생존 상태 유지";
+                        + "일";
                 case MissionConditionKind.Alive:
                     return "생존 상태 유지";
                 case MissionConditionKind.CashAtLeast:
@@ -284,6 +284,11 @@ namespace IanGame
             if (progress != null && progress.state == MissionState.Completed)
             {
                 return "달성했습니다! ‘보상 수령’을 눌러 다음 미션으로 진행하세요.";
+            }
+
+            if (m.Id == "M009")
+            {
+                return "날짜가 바뀔 때마다 생존 일수가 늘어요. 허기와 수분을 돌보며 하루를 보내세요. 침대에서 잠을 자면 8시간이 지납니다.";
             }
 
             if (m.Id == "M035")

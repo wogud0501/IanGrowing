@@ -4,6 +4,7 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
 
 namespace IanGame
 {
@@ -51,7 +52,7 @@ namespace IanGame
         Action confirmedAction;
         public GameObject Confirmation => confirmation;
 
-        string observedTarget;
+        WorldInteractable observedTarget;
         readonly Button[] hubTabs = new Button[4];
         readonly Button[] statusTabs = new Button[5];
         TMP_Text residentAge;
@@ -95,6 +96,9 @@ namespace IanGame
             game.economy.Changed += Invalidate;
             game.items.Changed += Invalidate;
             game.items.NewItemDiscovered += NewItem;
+            lastInputLabel = hud.InteractionInput;
+            InputSystem.onActionChange += InputChanged;
+            city.TutorialStepCompleted += Learned;
             game.missions.RewardClaimed += RewardClaimed;
             game.missions.Completed += MissionCompleted;
             game.missions.Changed += Invalidate;
@@ -129,7 +133,10 @@ namespace IanGame
             );
             card.pivot = new Vector2(0, 1);
             LifeRecordUI.Skin(card.GetComponent<Image>(), RecordSurface.Window);
-            LifeRecordUI.Surface(card, "Mission tab", RecordSurface.Warning, 0, .18f, .015f, .84f);
+            var guideTab = LifeRecordUI.Rect(card, "Guide tab", 0, .18f, .015f, .84f);
+            guideRail = guideTab.gameObject.AddComponent<Image>();
+            guideRail.raycastTarget = false;
+            guideRail.color = LifeRecordUI.Track;
             mission = ui.Text(card, "Current mission", 17, new Vector2(.04f, .71f), new Vector2(.96f, .96f));
             guide = ui.Text(card, "Optional recommendation", 17, new Vector2(.04f, .12f), new Vector2(.96f, .68f));
             mission.color = LifeRecordUI.Body;
@@ -237,26 +244,7 @@ namespace IanGame
                 }
             );
             statusAction = openRelated.GetComponentInChildren<TMP_Text>();
-            Help = Window("도움말 · 선택하는 생활");
-            helpText = ui.ScrollText(Help.transform, new Vector2(.06f, .2f), new Vector2(.94f, .86f));
-            ui.Button(
-                Help.transform,
-                "추천 표시 / 숨기기",
-                new Vector2(.05f, .06f),
-                new Vector2(.49f, .16f),
-                () => city.ShowSuggestions(city.Data.suggestionsHidden)
-            );
-            ui.Button(
-                Help.transform,
-                "처음 안내 다시 보기",
-                new Vector2(.51f, .06f),
-                new Vector2(.95f, .16f),
-                () =>
-                {
-                    city.ResetUXGuides();
-                    Tutorial("help", "안내를 다시 볼 수 있습니다. 행동 권한과 미션 진행은 유지됩니다.");
-                }
-            );
+            BuildGuide();
             History = Window("최근 기록");
             historyText = ui.ScrollText(History.transform, new Vector2(.06f, .07f), new Vector2(.94f, .86f));
             Preferences = Window("편의 설정");
@@ -400,9 +388,10 @@ namespace IanGame
 
         public void OpenHelp()
         {
-            RefreshGuide();
+            selectedRoute = null;
             Open(Help);
-            Tutorial("help", "추천은 선택 사항입니다. 현재 미션과 도움말에서 가능한 행동과 위치를 확인하세요.");
+            RefreshGuide();
+            city.OpenedHelp();
         }
 
         void Open(GameObject panel)
@@ -450,11 +439,10 @@ namespace IanGame
             {
                 actions.Add(
                     (
-                        "인벤토리",
+                        game.items.Inventory.Entries.Any(e => e.count > 0 && e.isNew) ? "NEW · 인벤토리" : "인벤토리",
                         () =>
                         {
                             collection.OpenInventory();
-                            Tutorial("inventory", "아이템을 선택하면 효과·수량·현재 장비 비교를 확인할 수 있습니다.");
                         }
                     )
                 );
@@ -597,18 +585,43 @@ namespace IanGame
                 city.MarkGuide("ux/unlock/" + FeatureIds[i]);
                 if (!seed)
                 {
-                    game.Notifications.Publish(
-                        "새 기능 해금 · " + FeatureNames[i] + "\n" + FeaturePlaces[i],
-                        NotificationKind.Info
-                    );
+                    if (i == 1)
+                    {
+                        city.StartLesson(GuideLesson.School);
+                        city.StartLesson(GuideLesson.Social);
+                    }
+                    else if (i == 2 || i == 3)
+                    {
+                        city.StartLesson(i == 2 ? GuideLesson.Job : GuideLesson.Stocks);
+                    }
+
+                    AnnounceUnlock(i);
                 }
             }
         }
 
+        void AnnounceUnlock(int index)
+        {
+            game.Notifications.Publish(
+                "새 기능 해금 · " + FeatureNames[index] + "\n" + FeaturePlaces[index],
+                NotificationKind.Info
+            );
+        }
+
+#if UNITY_EDITOR
+        public void PreviewJobUnlock()
+        {
+            if (Ready)
+            {
+                AnnounceUnlock(Array.IndexOf(FeatureIds, "jobs"));
+            }
+        }
+#endif
+
         public void Tutorial(string id, string text)
         {
             string key = "ux/tutorial/" + id;
-            if (city.Seen(key))
+            if (city.GuideSkipped || city.Seen(key))
             {
                 return;
             }
@@ -619,7 +632,6 @@ namespace IanGame
 
         void RefreshGuide()
         {
-            var suggestion = city.Suggest();
             var active = game.missions.ActiveMission;
             mission.text =
                 active == null
@@ -630,17 +642,7 @@ namespace IanGame
                         + game.missions.GetProgress(active).current.ToString("0")
                         + "/"
                         + game.missions.GetProgress(active).target.ToString("0");
-            guide.text = "추천   " + suggestion.title;
-            helpText.text =
-                "지금 해볼 만한 것\n"
-                + suggestion.title
-                + "\n"
-                + suggestion.detail
-                + "\n\n이동: WASD · 방향키 · 터치 조이스틱\n상호작용: 가까이 가서 E · 터치 행동 버튼\n뒤로: ESC · 패드 취소 · 화면 뒤로\n큰 메뉴에서는 이동과 실시간 생활 시계가 멈춥니다.\n\n미션: 생활 → 미션\n아이템·장비·가챠·도감: 아이템 탭\n교육: 학교의 책상\n직업: 회사의 채용·근무\n주식: 도시 투자센터\n독립·가구: 금융 → 집 관리\n\n0세는 보호자 돌봄, 1세부터 보행, 7세부터 독립 외출입니다. 기존 해금 조건이 우선합니다.\n\n인벤토리: 선택한 아이템의 상세 정보에서 장착·사용·분해를 선택합니다. 장착 중이거나 보호된 마지막 아이템은 분해할 수 없습니다.\n가챠: 사용 재화와 확률정보를 먼저 확인하세요.\n\n이미 본 안내: "
-                + string.Join(
-                    " · ",
-                    city.Data.guideSeen.Where(s => s.StartsWith("ux/tutorial/")).Select(s => s.Substring(12))
-                );
+            RefreshLearningCard();
         }
 
         void BuildVitalRecord()
@@ -795,6 +797,9 @@ namespace IanGame
         void Restored()
         {
             previousStats = null;
+            guideFeedback = null;
+            lastPresented = null;
+            selectedRoute = null;
             Invalidate();
         }
 
@@ -803,14 +808,41 @@ namespace IanGame
             Invalidate();
             AudioRequested?.Invoke(shell.Depth == 0 ? "Close" : "Open");
             var collection = GetComponent<CollectionUI>();
-            if (collection != null && shell.Top == collection.InventoryPanel)
+            var nav = GetComponent<UINavigationService>();
+            if (shell.Top && nav && shell.Top == nav.missionPanel)
             {
+                city.Learn(GuideLesson.Mission);
+            }
+
+            if (shell.Top && shell.Top == Status)
+            {
+                city.Learn(GuideLesson.Status);
+            }
+
+            if (collection && shell.Top && shell.Top == collection.ProbabilityPanel)
+            {
+                city.Learn(GuideLesson.Gacha);
+            }
+
+            if (collection != null && shell.Top == collection.InventoryPanel && game.items.Inventory.Entries.Any(e => e.count > 0))
+            {
+                city.Learn(GuideLesson.Inventory);
                 city.MarkGuide("ux/feature/read/items");
                 Tutorial("inventory", "획득한 아이템을 선택하면 효과·수량·현재 장비 비교를 확인할 수 있습니다.");
             }
 
             if (collection != null && shell.Top == collection.GachaPanel)
             {
+                if (city.Progress(GuideLesson.Gacha) == LessonState.NotStarted)
+                {
+                    var odds = collection.GachaPanel.transform.Find("Probabilities");
+                    if (odds && odds.TryGetComponent<Button>(out var button))
+                    {
+                        button.Select();
+                    }
+                }
+
+                city.StartLesson(GuideLesson.Gacha);
                 Tutorial("gacha", "뽑기 전 비용과 확률정보를 확인하세요. 중복은 인벤토리에서 분해할 수 있습니다.");
             }
         }
@@ -911,6 +943,13 @@ namespace IanGame
             if (!game.BirthIntroductionPending && game.State == GameState.Playing)
             {
                 ObserveUnlocks();
+                var catalog = game.economy.housingCatalog;
+                if (new ResidenceAccess(game).IsActiveResidence && catalog && game.economy.HasIncome
+                    && city.Progress(GuideLesson.Furniture) == LessonState.NotStarted
+                    && catalog.furniture.Any(f => f != null && game.economy.CanBuyFurniture(f.id, out _)))
+                {
+                    city.StartLesson(GuideLesson.Furniture);
+                }
             }
         }
 
@@ -932,6 +971,7 @@ namespace IanGame
                     && !city.Data.suggestionsHidden
                     && !(viewportSize.x / Mathf.Max(1, viewportSize.y) < 1.4f && hud.NoticeVisible)
             );
+            PresentLesson();
             if (statUntil > 0 && Time.unscaledTime > statUntil)
             {
                 statUntil = 0;
@@ -954,11 +994,10 @@ namespace IanGame
             }
 
             var target = hud.world.Nearest;
-            string key =
-                target == null ? "" : target.id + "/" + game.growth.Age + "/" + game.clock.Day + "/" + game.world.Hour;
-            if (key != observedTarget)
+            if (target != observedTarget)
             {
-                observedTarget = key;
+                observedTarget = target;
+                Invalidate();
                 if (target != null && !GrowthAccess.Interaction(game, target, -2, out var reason))
                 {
                     hud.Prompt(target.title + "\n" + reason);
@@ -1023,6 +1062,12 @@ namespace IanGame
             game.economy.Changed -= Invalidate;
             game.items.Changed -= Invalidate;
             game.items.NewItemDiscovered -= NewItem;
+            InputSystem.onActionChange -= InputChanged;
+            city.TutorialStepCompleted -= Learned;
+            if (focusObject)
+            {
+                focusObject.GuideFocus(false);
+            }
             game.missions.RewardClaimed -= RewardClaimed;
             game.missions.Completed -= MissionCompleted;
             game.missions.Changed -= Invalidate;

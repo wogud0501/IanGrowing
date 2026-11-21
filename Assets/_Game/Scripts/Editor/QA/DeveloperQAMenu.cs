@@ -27,6 +27,44 @@ namespace IanGame.Editor
             }
         }
 
+        static CityLifeService Guide => EditorApplication.isPlaying ? GameContext.Instance?.game.world?.City : null;
+
+        [MenuItem("Ian/Developer QA Center/Onboarding/Reset guide")]
+        static void ResetGuide()
+        {
+            Guide?.ResetUXGuides();
+        }
+
+        [MenuItem("Ian/Developer QA Center/Onboarding/Start current step")]
+        static void StartStep()
+        {
+            var city = Guide;
+            if (city?.CurrentLesson() is GuideLesson lesson)
+            {
+                city.StartLesson(lesson);
+            }
+        }
+
+        [MenuItem("Ian/Developer QA Center/Onboarding/Complete current step")]
+        static void CompleteStep()
+        {
+            var city = Guide;
+            if (city?.CurrentLesson() is GuideLesson lesson)
+            {
+                city.Learn(lesson);
+            }
+        }
+
+        [MenuItem("Ian/Developer QA Center/Onboarding/Preview job unlock")]
+        static void PreviewJob()
+        {
+            var host = GameContext.Instance?.game.world?.Host;
+            if (EditorApplication.isPlaying && host)
+            {
+                host.hud.GetComponent<GameplayUXPresenter>()?.PreviewJobUnlock();
+            }
+        }
+
         [MenuItem("Ian/Developer QA Center/Run All Registered Tests")]
         static void All()
         {

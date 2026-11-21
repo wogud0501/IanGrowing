@@ -116,10 +116,12 @@ namespace IanGame
         {
             State = new LifeWorldSnapshot
             {
+                cityLife = new CityLifeProgress(),
                 zone = FamilyLife.Home,
                 position = new Vector2(-5, -.7f),
                 family = new FamilyLifeSnapshot { schema = 1 },
             };
+            State.cityLife.guideSeen.Add(CityLifeService.NewGuide);
             if (RoomMode)
             {
                 rooms.Migrate(State, 0);

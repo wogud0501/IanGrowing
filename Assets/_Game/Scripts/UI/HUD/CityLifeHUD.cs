@@ -24,7 +24,9 @@ namespace IanGame
         public GameObject MiniMap { get; private set; }
         public GameObject MapPanel { get; private set; }
         public GameObject AchievementPanel { get; private set; }
-        public GameObject GuidePanel { get; private set; }
+        GameObject fallbackGuide;
+        GameplayUXPresenter learningUI;
+        public GameObject GuidePanel => learningUI && learningUI.Ready ? learningUI.Help : fallbackGuide;
         public TMP_Text SuggestionText { get; private set; }
         public TMP_Text Detail { get; private set; }
 
@@ -74,6 +76,7 @@ namespace IanGame
         public void UseIntegratedGuide()
         {
             integratedGuide = true;
+            learningUI ??= GetComponent<GameplayUXPresenter>();
             if (suggestion != null)
             {
                 suggestion.SetActive(false);
@@ -294,7 +297,7 @@ namespace IanGame
                     if (city.Track(selected, out var why))
                     {
                         shell.Close(MapPanel);
-                        hud.Notify("목적지를 표시했습니다. 문 앞에서 [E]로 이동하세요.");
+                        hud.Notify("목적지를 표시했습니다. 문 앞에서 [" + hud.InteractionInput + "]로 이동하세요.");
                     }
                     else
                     {
@@ -388,7 +391,7 @@ namespace IanGame
                 .GetComponentInParent<ScrollRect>(true)
                 .GetComponent<RectTransform>();
             achievementViewport.anchorMax = new Vector2(.96f, .79f);
-            GuidePanel = CreateScreen("Guide screen", "생활 안내");
+            fallbackGuide = CreateScreen("Guide screen", "생활 안내");
             var guideContent = Scroll(GuidePanel.transform);
             ((RectTransform)guideContent.parent).anchorMin = new Vector2(.05f, .24f);
             ((RectTransform)guideContent.parent).anchorMax = new Vector2(.95f, .85f);
@@ -635,8 +638,14 @@ namespace IanGame
 
         public void OpenGuide()
         {
-            shell.ReplaceMajor(GuidePanel);
             city.MarkGuide("screen/guide");
+            if (learningUI && learningUI.Ready)
+            {
+                learningUI.OpenHelp();
+                return;
+            }
+
+            shell.ReplaceMajor(fallbackGuide);
             Refresh();
         }
 

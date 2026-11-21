@@ -40,6 +40,11 @@ namespace IanGame
         GameManager game;
         bool dirty;
         SurvivalMeters survival;
+
+        public void FocusVital(int index)
+        {
+            survival?.Focus(index);
+        }
         CanvasGroup[] worldReadouts;
         Image contextStamp;
         TMP_Text contextCaption;
@@ -123,7 +128,10 @@ namespace IanGame
                 return;
             }
 
-            Notify("첫 걸음! 집 안을 걸어 보세요.\nWASD · 방향키 · 터치 조이스틱 / 독립 외출은 7세부터", 2);
+            if (!GetComponent<GameplayUXPresenter>() && !game.world.City.GuideSkipped)
+            {
+                Notify("첫 걸음! 집 안을 걸어 보세요.", 2);
+            }
             if (game.State == GameState.Playing)
             {
                 game.SaveAutomaticCheckpoint(out _);
@@ -258,6 +266,21 @@ namespace IanGame
             {
                 inventory.text =
                     $"식료품 · 쌀 {game.world.State.rice} / 빵 {game.world.State.bread}\n준비한 음식 · {(game.world.State.prepared == "" ? "없음" : game.world.State.prepared == "rice" ? "따뜻한 밥" : "빵")}\n위생 {game.world.State.hygiene:0} /100 · 피로 {game.world.State.fatigue:0} /100\n{game.world.State.lastSummary}";
+            }
+        }
+
+        internal bool UsingGamepad { get; set; }
+
+        public string InteractionInput
+        {
+            get
+            {
+                if (GetComponent<WorldMobileHUD>()?.IsMobile == true)
+                {
+                    return "행동 버튼";
+                }
+
+                return UsingGamepad ? "패드 아래쪽 버튼" : "E";
             }
         }
 
@@ -693,7 +716,7 @@ namespace IanGame
             {
                 contextTitle.text = target.title + " · 가족";
                 Choice("가족과 이야기하기", () => world.Begin(target, -1));
-                if (game.growth.Age < 7)
+                if (!game.growth.IndependentOutdoorUnlocked)
                 {
                     foreach (int a in new[] { 3, 4, 5, 2 })
                     {
@@ -706,10 +729,22 @@ namespace IanGame
                             () =>
                             {
                                 CloseContext();
-                                var bed = Array.Find(world.objects, o => o.id == "family-bed");
-                                if (bed != null)
+                                if (action == 5)
                                 {
-                                    world.Begin(bed, action);
+                                    var bed = game.world.City.CareTarget(GuideLesson.Sleep);
+                                    if (bed && world.IsInReach(bed))
+                                    {
+                                        world.Begin(bed, action);
+                                    }
+                                    else
+                                    {
+                                        game.world.City.Track("family-ian-bedroom", out _);
+                                        Notify("잠자리는 이안의 방에 있어요. 침대에서 잠자기를 선택하세요.");
+                                    }
+                                }
+                                else
+                                {
+                                    world.Begin(target, action);
                                 }
                             }
                         );

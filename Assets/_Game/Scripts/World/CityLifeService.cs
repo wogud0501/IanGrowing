@@ -40,11 +40,15 @@ namespace IanGame
         public string title;
         public string detail;
         public string room;
+        public string screen;
+        public WorldInteractable target;
+        public GuideLesson? lesson;
+        public bool urgent;
     }
 
     // Uses the original world snapshot and existing success events. No new wallet,
     // reward payment, age policy, scene loader or quest gate is introduced.
-    public sealed class CityLifeService
+    public sealed partial class CityLifeService
     {
         readonly LifeWorldService world;
         readonly GameManager game;
@@ -194,6 +198,7 @@ namespace IanGame
             game.ActionPerformed += Action;
             game.economy.ActivityProduced += Activity;
             game.economy.TransactionCompleted += Money;
+            game.economy.Changed += ObserveTax;
             game.clock.DayAdvanced += Day;
             game.stats.Changed += Invalidate;
             game.growth.Changed += Invalidate;
@@ -210,6 +215,7 @@ namespace IanGame
             game.ActionPerformed -= Action;
             game.economy.ActivityProduced -= Activity;
             game.economy.TransactionCompleted -= Money;
+            game.economy.Changed -= ObserveTax;
             game.clock.DayAdvanced -= Day;
             game.stats.Changed -= Invalidate;
             game.growth.Changed -= Invalidate;
@@ -292,6 +298,8 @@ namespace IanGame
         void Restored()
         {
             notices.Clear();
+            walked = 0;
+            observedHour = -1;
             if (!string.IsNullOrEmpty(Data.destination) && !GrowthAccess.Zone(game, Data.destination, out _))
             {
                 Data.destination = "";
@@ -310,6 +318,7 @@ namespace IanGame
                 return;
             }
 
+            MigrateLessons();
             if (currentRoom != host.Room.roomId)
             {
                 currentRoom = host.Room.roomId;
@@ -330,6 +339,7 @@ namespace IanGame
                 Record("walk");
             }
 
+            ObserveGuideMovement(host, p);
             observed = true;
             lastPosition = p;
             if (
@@ -367,6 +377,7 @@ namespace IanGame
             var r = world.rooms?.Find(id);
             if (r != null && world.Host != null && world.Host.Room != null && world.Host.Room.roomId == r.roomId)
             {
+                observed = false;
                 currentRoom = r.roomId;
                 EnterRoom(currentRoom);
             }
@@ -388,6 +399,7 @@ namespace IanGame
                 Record("outing");
             }
 
+            EnteredForGuide(id);
             if (!Data.discovered.Contains(id))
             {
                 Data.discovered.Add(id);
@@ -395,7 +407,7 @@ namespace IanGame
                 {
                     Record("visit/" + id);
                     Record("discovery");
-                    notices.Enqueue("장소 발견 · " + world.rules.Zone(id).title);
+                    notices.Enqueue("장소 발견 · " + world.rules.Zone(id).title + "\n" + FacilityPurpose(id));
                 }
 
                 Touch();
@@ -417,7 +429,9 @@ namespace IanGame
 
         public void ResetUXGuides()
         {
-            Data.guideSeen.RemoveAll(id => id.StartsWith("ux/tutorial/"));
+            Data.guideSeen.RemoveAll(id => id.StartsWith("ux/tutorial/") || id.StartsWith(GuidePrefix));
+            Data.guideSeen.Add(NewGuide);
+            walked = 0;
             Touch();
         }
 
@@ -454,6 +468,11 @@ namespace IanGame
                 return;
             }
 
+            if ((action == 9 || action == 18 || action == 19) && game.growth.IndependentOutdoorUnlocked)
+            {
+                Learn(GuideLesson.Social);
+            }
+
             if (action == 3)
             {
                 Record("meal");
@@ -482,6 +501,7 @@ namespace IanGame
         {
             if (e.counter == MissionCounter.FurnitureBought)
             {
+                Learn(GuideLesson.Furniture);
                 Record("furniture", e.amount, e.id);
                 Record("purchase", 1, e.id + "/purchase");
             }
@@ -502,6 +522,7 @@ namespace IanGame
 
             if (last.kind == TransactionKind.Salary)
             {
+                StartLesson(GuideLesson.Salary);
                 Record("salary", 1, last.id + "/city-salary");
                 Record("work", 1, last.id + "/city-work");
             }
@@ -520,7 +541,7 @@ namespace IanGame
             }
         }
 
-        public string Describe(WorldInteractable o)
+        public string Describe(WorldInteractable o, string input = "E")
         {
             if (o == null)
             {
@@ -531,14 +552,14 @@ namespace IanGame
             {
                 string verb =
                     o.kind == WorldInteractionKind.Fridge ? "열기"
-                    : o.kind == WorldInteractionKind.Sleep ? "잠자기"
+                    : o.kind == WorldInteractionKind.Sleep ? (game.growth.IndependentOutdoorUnlocked ? "잠자기" : "돌봄 선택")
                     : o.kind == WorldInteractionKind.Meal ? "식사"
                     : o.kind == WorldInteractionKind.Drink ? "물 마시기"
                     : o.kind == WorldInteractionKind.Study ? "공부"
                     : o.kind == WorldInteractionKind.Work ? "근무·채용"
                     : o.kind == WorldInteractionKind.NPC ? "이야기"
                     : "사용";
-                return o.title + "\n[E] " + verb;
+                return o.title + "\n[" + input + "] " + verb;
             }
 
             if (!GrowthAccess.Interaction(game, o, -2, out var denied))
@@ -546,18 +567,14 @@ namespace IanGame
                 return o.title + "\n" + denied;
             }
 
+            if (o.TryGetComponent<WorldDoor>(out var door) && !door.CanEnter("player", world.Hour, out var reason))
+            {
+                return o.title + "\n" + reason;
+            }
+
             if (Seen("room/" + o.targetZone))
             {
-                string verb =
-                    o.kind == WorldInteractionKind.Fridge ? "열기"
-                    : o.kind == WorldInteractionKind.Sleep ? "잠자기"
-                    : o.kind == WorldInteractionKind.Meal ? "식사"
-                    : o.kind == WorldInteractionKind.Drink ? "물 마시기"
-                    : o.kind == WorldInteractionKind.Study ? "공부"
-                    : o.kind == WorldInteractionKind.Work ? "근무·채용"
-                    : o.kind == WorldInteractionKind.NPC ? "이야기"
-                    : "사용";
-                return o.title + "\n[E] " + verb;
+                return o.title + "\n[" + input + "] 들어가기";
             }
 
             string action =
@@ -567,97 +584,12 @@ namespace IanGame
                 : o.targetZone == "finance" ? "종목 조회 · 매수 · 매도"
                 : o.targetZone == "realestate" ? "매물 · 계약 · 이사"
                 : "생활 공간으로 이동";
-            return o.title + "\n" + action + " · [E] 들어가기";
+            return o.title + "\n" + action + " · [" + input + "] 들어가기";
         }
 
         public CitySuggestion Suggest()
         {
-            string home = FamilyLife.AtFamily(game) ? "family-ian-bedroom" : "home";
-            if (game.growth.Age == 0)
-            {
-                return new CitySuggestion
-                {
-                    title = "부모님께 돌봄 받기",
-                    detail = "잠자리에서 수유·수면·목욕 돌봄을 선택하세요.",
-                };
-            }
-
-            if (game.stats.Hunger < 45 || game.stats.Thirst < 35)
-            {
-                return new CitySuggestion
-                {
-                    title = game.stats.Hunger < 45 ? "식사하며 쉬어 가기" : "물을 마시며 쉬어 가기",
-                    detail =
-                        game.growth.Age < 7
-                            ? "가족과 식사하거나 부모님께 돌봄을 요청하세요."
-                            : "식료품과 가족 식사 상태를 확인하세요.",
-                    room =
-                        game.growth.Age < 7 ? "family-ian-bedroom"
-                        : FamilyLife.AtFamily(game) ? "family-kitchen"
-                        : game.economy.Cash >= world.rules.breadPrice ? "shop"
-                        : home,
-                };
-            }
-
-            if (world.State.fatigue > 75 || game.stats.Health < 25)
-            {
-                return new CitySuggestion
-                {
-                    title = "집에서 충분히 쉬기",
-                    detail = "잠자리에서 수면·휴식으로 회복할 수 있어요.",
-                    room = home,
-                };
-            }
-
-            if (!game.growth.IndependentOutdoorUnlocked)
-            {
-                return new CitySuggestion
-                {
-                    title = "집 안을 걸으며 둘러보기",
-                    detail = "방과 가족을 살펴보세요. 혼자 외출은 7세부터예요.",
-                };
-            }
-
-            if (game.growth.Age >= 19 && game.economy.Cash < 1000)
-            {
-                return new CitySuggestion
-                {
-                    title = string.IsNullOrEmpty(game.phase23.Progress.employment.currentJobId)
-                        ? "회사에서 채용 조건 살펴보기"
-                        : "직업과 다음 출근 시간 확인",
-                    detail = "자격과 근무 시간은 기존 직업 화면에서 확인하세요.",
-                    room = "workplace",
-                };
-            }
-
-            if (game.growth.Age < 19 && GrowthAccess.Zone(game, "school", out _))
-            {
-                return new CitySuggestion
-                {
-                    title = "학교에서 배울 수 있는 것 살펴보기",
-                    detail = "현재 나이에 맞는 교육과 친구를 확인하세요.",
-                    room = "school",
-                };
-            }
-
-            var next = new[] { "shop", "school", "workplace", "finance", "realestate" }.FirstOrDefault(id =>
-                !Data.discovered.Contains(id) && GrowthAccess.Zone(game, id, out _)
-            );
-            if (next != null)
-            {
-                return new CitySuggestion
-                {
-                    title = "새로운 시설 알아보기",
-                    detail = world.rules.Zone(next).title + "에서 가능한 일을 살펴보세요.",
-                    room = next,
-                };
-            }
-
-            return new CitySuggestion
-            {
-                title = "내 속도로 하루 보내기",
-                detail = "가족과 이야기하거나 새로운 생활 행동을 골라 보세요.",
-            };
+            return Suggestions()[0];
         }
 
         public static bool Valid(CityLifeProgress d) =>

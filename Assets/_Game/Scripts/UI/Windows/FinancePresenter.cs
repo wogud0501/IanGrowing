@@ -105,6 +105,11 @@ namespace IanGame
             repay.onClick.AddListener(Repay);
             if (marketScene)
             {
+                if (GrowthAccess.Adult(game))
+                {
+                    game.world?.City?.Learn(GuideLesson.Stocks);
+                }
+
                 chart.color = LifeRecordUI.Heading;
                 firstQuote = LifeRecordUI.Label(chart.transform, header.font, "", 18, LifeRecordUI.Body,
                     .055f, .54f, .96f, .87f);
@@ -191,6 +196,28 @@ namespace IanGame
         {
             shell.Push(economyPanel);
             Refresh();
+            var city = game.world?.City;
+            if (city == null || !GrowthAccess.Adult(game))
+            {
+                return;
+            }
+
+            if (game.economy.Debt > 0 && economyFeedback && city.Progress(GuideLesson.Debt) == LessonState.NotStarted)
+            {
+                city.StartLesson(GuideLesson.Debt);
+                economyFeedback.text = "남은 부채와 이자를 확인하세요. 여유가 생기면 금액을 입력해 조금씩 상환할 수 있어요.";
+                city.Learn(GuideLesson.Debt);
+            }
+
+            if (city.Progress(GuideLesson.Salary) == LessonState.Active)
+            {
+                city.Learn(GuideLesson.Salary);
+            }
+
+            if (city.Progress(GuideLesson.Tax) == LessonState.Active)
+            {
+                city.Learn(GuideLesson.Tax);
+            }
         }
 
         public void ShowTab(int value)

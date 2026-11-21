@@ -636,6 +636,8 @@ namespace IanGame
             bool completed = false;
             try
             {
+                int hungerBefore = stats.Hunger;
+                int thirstBefore = stats.Thirst;
                 completed = actions.Execute(action, out message, seconds);
                 if (completed)
                 {
@@ -645,6 +647,7 @@ namespace IanGame
                         missions.RecordAction(missions.NextEventId(runId), action);
                     }
 
+                    world?.City?.ActionFinishedForGuide(action, hungerBefore, thirstBefore);
                     ActionPerformed?.Invoke(action);
                 }
                 else
