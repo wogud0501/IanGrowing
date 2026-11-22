@@ -120,6 +120,13 @@ namespace IanGame
                 return false;
             }
 
+            if (o.kind == WorldInteractionKind.Sleep && o.TryGetComponent<WorldActivitySlot>(out var bed)
+                && !bed.Allows("player"))
+            {
+                reason = "주민의 개인 침대입니다.";
+                return false;
+            }
+
             bool adult =
                 o.kind == WorldInteractionKind.Work
                 || o.kind == WorldInteractionKind.StockMarket

@@ -179,8 +179,8 @@ namespace IanGame
                 hubActions[i] = ui.Button(
                     Hub.transform,
                     "기능",
-                    new Vector2(.309f + i % 2 * .33f, .507f - row * .144f),
-                    new Vector2(.62f + i % 2 * .33f, .634f - row * .144f),
+                    new Vector2(.309f + i % 2 * .33f, .616f - row * .175f),
+                    new Vector2(.62f + i % 2 * .33f, .766f - row * .175f),
                     () => { }
                 );
             }
@@ -359,29 +359,20 @@ namespace IanGame
             var actions = new List<(string, Action)>();
             if (tab == 0)
             {
-                actions.Add(("상세 상태", () => OpenStatus()));
+                actions.Add(("상태", () => OpenStatus()));
                 actions.Add(("미션", () => nav.Mission()));
-                actions.Add(
-                    (
-                        (FeatureAvailable(2) && !city.Seen("ux/feature/read/jobs") ? "NEW · " : "") + "직업 · 근무",
-                        () => OpenStatus(2)
-                    )
-                );
-                actions.Add(
-                    (
-                        "교육 · 학교",
-                        () =>
-                        {
-                            OpenStatus(1);
-                            Tutorial(
-                                "school",
-                                "공부 · 학교 교실 책상"
-                            );
-                        }
-                    )
-                );
+                if (FeatureAvailable(1))
+                {
+                    actions.Add(("학교", () => OpenStatus(1)));
+                }
+
+                if (FeatureAvailable(2))
+                {
+                    actions.Add(("직업", () => OpenStatus(2)));
+                }
+
                 actions.Add(("도전과제", () => cityUI.OpenAchievements()));
-                actions.Add(("지도 · 장소", () => cityUI.OpenMap()));
+                actions.Add(("지도", () => cityUI.OpenMap()));
             }
             else if (tab == 1)
             {
@@ -394,7 +385,7 @@ namespace IanGame
                         }
                     )
                 );
-                actions.Add(("장착 장비", () => collection.OpenEquipment()));
+                actions.Add(("장비", () => collection.OpenEquipment()));
                 actions.Add(
                     (
                         game.items.Unlocked ? "가챠" : "가챠 · 성장 후 해금",
@@ -418,11 +409,11 @@ namespace IanGame
                         }
                     )
                 );
-                actions.Add(("수집 도감", () => collection.OpenCollection()));
+                actions.Add(("도감", () => collection.OpenCollection()));
             }
             else if (tab == 2)
             {
-                actions.Add(("자산 · 부채", () => OpenStatus(3)));
+
                 actions.Add(("경제 화면", () => GetComponent<FinancePresenter>().OpenEconomy()));
                 actions.Add(
                     (
@@ -462,7 +453,7 @@ namespace IanGame
                 );
                 actions.Add(("편의 설정", () => Open(Preferences)));
                 actions.Add(("환경 설정 · 약관", () => shell.OpenSettings()));
-                actions.Add(("저장", () => game.Save()));
+
                 actions.Add(("자동 활동 · 접속 기록", () => GetComponent<IdleActivityPresenter>().Open()));
             }
 
@@ -471,11 +462,7 @@ namespace IanGame
                 LifeRecordUI.StyleButton(hubTabs[i], i == tab);
             }
 
-            hubText.text =
-                tab == 0 ? "현재 할 수 있는 일을 골라 보세요. 추천과 도전과제는 진행을 막지 않습니다."
-                : tab == 1 ? "획득 → 장착 → 수집. 중복 분해는 확인 후 실행합니다."
-                : tab == 2 ? "현금과 루비는 구분됩니다. 투자는 해당 시설에서 이용합니다."
-                : "진행 기록과 환경 설정입니다. 구매·노동·이사는 각 원래 시스템이 처리합니다.";
+            hubText.text = "";
             for (int i = 0; i < hubActions.Length; i++)
             {
                 var button = hubActions[i];

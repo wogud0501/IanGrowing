@@ -35,9 +35,9 @@
 | macOS | 네이티브 Standalone 개발 빌드. 새 게임 → 수면 → 저장 → 타이틀 → 이어하기 → 저장 후 종료 → 재실행 → 이어하기. 종료 코드 0 |
 | Windows | Windows x64 Standalone 빌드의 EXE를 macOS의 Wine에서 무화면 모드로 종료·재실행. Windows 실기기와 Direct3D 화면은 미검증. 이 환경의 D3D11 장치 생성 실패 |
 | iOS | iPhone 18 Pro(1206×2622)와 iPad mini(1512×2316) 시뮬레이터에서 터치 이벤트로 모바일 메뉴, 저장, 타이틀 복귀, 이어하기, 앱 백그라운드·포그라운드, 프로세스 재실행 검사. 강제 종료 버튼 없음. 실물 단말 미검증 |
-| Android | ARM64 개발 APK 빌드 성공. 연결된 단말 없음. 시스템 뒤로 가기, 실기기 터치·백그라운드 복원은 NOT VERIFIED |
+| Android | Pixel 6 ARM64 에뮬레이터, Android 15/API 35, 1080×2400. 터치 메뉴, 시스템 BACK 키로 일시정지·재개, 설정에서 가장자리 뒤로 가기로 일시정지 복귀, 홈 버튼으로 백그라운드·복귀, 강제 중지와 재실행 후 동일 runId·방·조작 복원. 종료 버튼 없음. 실물 단말과 API 26~32 미검증 |
 
-[macOS 타이틀](MainMenuExit/Title.png) · [일시정지](MainMenuExit/Pause.png) · [저장 실패와 재시도](MainMenuExit/SaveFailure.png) · [사무실에서 종료 확인](MainMenuExit/Quit.png) · [iPhone 일시정지](MainMenuExit/iPhonePause.png) · [iPad 일시정지](MainMenuExit/iPadPause.png)
+[macOS 타이틀](MainMenuExit/Title.png) · [일시정지](MainMenuExit/Pause.png) · [저장 실패와 재시도](MainMenuExit/SaveFailure.png) · [사무실에서 종료 확인](MainMenuExit/Quit.png) · [iPhone 일시정지](MainMenuExit/iPhonePause.png) · [iPad 일시정지](MainMenuExit/iPadPause.png) · [Android 타이틀](MainMenuExit/AndroidTitle.png) · [Android 일시정지](MainMenuExit/AndroidPause.png)
 
 ## 수정과 재검증
 
@@ -47,9 +47,13 @@
 | 주식시장처럼 독립 씬에서 저장하면 직전 생활 공간으로 복귀 | 저장에 독립 씬 식별자를 추가하고 타이틀에서 해당 씬으로 진입. 필드가 없는 저장은 기존 방과 위치를 사용 |
 | 일시정지 상태로 저장하면 생존 미션 M009의 계산값이 0으로 바뀜 | Paused 상태의 생존 판정을 수정. 저장·복원 전후 전체 미션 기록 비교 |
 | 쓰기 실패의 파일 경로가 작은 확인창을 넘침 | 진단 로그와 화면 문구를 분리. 오류 원인은 로그에 보관하고 플레이어에게 저장 공간·쓰기 권한 확인 및 재시도를 제시 |
+| Android QA APK가 현재 버튼 원본 대신 구형 256×32 아틀라스를 로드 | 이전 Gradle 작업 폴더의 오래된 압축 데이터와 새 빌드 데이터가 같이 패키징됐다. 격리 Gradle 재생성 후 동일한 원본에서 576×32 프레임과 1344px 타이틀 배경을 확인했다. Android 빌드 명령에 LZ4 압축을 명시하고 구형 묶음을 다시 넣은 조건에서 새 묶음으로 교체되는 것까지 재검증했다 |
+| Android 시스템 Back이 메뉴 스택에 전달되지 않음 | API 33 이상에서 시스템 뒤로 가기 콜백을 현재 메뉴의 Back 처리에 연결. 기기 BACK 키와 OS 가장자리 제스처를 구분해 확인했다. [Android API](https://developer.android.com/reference/android/window/OnBackInvokedDispatcher) |
 | 첫 iPhone 검사에서 터치 장치 등록 시 Enhanced Touch의 업데이트 마스크가 초기화되지 않음 | 입력 패키지들의 SubsystemRegistration 완료 뒤 모바일 터치 추적 초기화. 네이티브 Touchscreen의 터치 이벤트가 실제 메뉴 버튼까지 전달되는지 재검사 |
 | iPhone 일시정지 메뉴의 계속하기 버튼 높이가 약 97 물리 픽셀 | 모바일 행 간격 및 터치 높이 확대. 같은 기기에서 약 135 물리 픽셀, iPad mini에서 약 146 물리 픽셀로 측정 |
 
 PlayMode 자동 검사 13/13 통과. 등록된 시나리오 160개 중 142개 PASS, 11개 NOT_IMPLEMENTED, 6개 MANUAL, 1개 BLOCKED. BLOCKED는 복사할 실제 사용자 원본 저장이 없는 격리 환경의 source-copy 검사다. 핵심 회귀 범위에는 미션, 경제, 장비, 가챠, 주거, NPC와 장소 전환이 포함된다.
 
 격리된 Editor를 열 때 Unity Quick Search 인덱싱에서 예외 1건이 기록됐다. 타이틀을 조작하기 전 발생했으며, 같은 실행에서 저장과 Play Mode 종료 검사는 통과했다. 작업용 Editor 콘솔에는 Unity AI 구독 관련 메시지도 있었다.
+
+Android 일반 조작용 개발 APK는 자동 입력 코드를 제외해 다시 빌드했다. 실제 좌표 터치로 이어하기 → 수동 저장 → 타이틀 복귀를 확인했고, 타이틀에서 시스템 Back을 누르면 홈 화면으로 돌아갔다. 격리 패키지 ID는 `com.iangrowing.qa.titlesession`이다. [개발 APK](../Builds/MainMenuQA/Android/IanGrowing-Menu-QA.apk)

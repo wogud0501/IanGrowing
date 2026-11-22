@@ -16,6 +16,8 @@ namespace IanGame
         public Vector2 legacyOffset;
         public Rect legacyBounds;
         public bool family;
+        public ResidenceFloorPlan floorPlan;
+        public Sprite keepsake;
     }
 
     [Serializable]
@@ -78,6 +80,26 @@ namespace IanGame
 
             foreach (var npc in state.residents)
             {
+                var resident = rules?.npcs?.FirstOrDefault(n => n.npcId == npc.id);
+                if (resident != null)
+                {
+                    if (string.IsNullOrEmpty(npc.residenceId) && npc.zone == "residence")
+                    {
+                        npc.zone = resident.homeZone;
+                        var bed = resident.schedule.FirstOrDefault(e => e.zone == resident.homeZone);
+                        npc.position = bed?.position ?? Vector2.zero;
+                        npc.minute = -1;
+                    }
+
+                    if (npc.destinationZone == "residence")
+                    {
+                        npc.destinationZone = resident.homeZone;
+                    }
+
+                    npc.residenceId = resident.homeZone;
+                    npc.householdId = Find(resident.homeZone)?.homeId;
+                }
+
                 r = Resolve(npc.zone, npc.position);
                 if (r != null && npc.zone != r.roomId)
                 {
@@ -114,6 +136,11 @@ namespace IanGame
 
         public string FirstDoor(string from, string destination)
         {
+            return FirstEdge(from, destination)?.doorId;
+        }
+
+        RoomPortalDefinition FirstEdge(string from, string destination)
+        {
             var q = new System.Collections.Generic.Queue<string>();
             var previous = new System.Collections.Generic.Dictionary<string, RoomPortalDefinition>();
             q.Enqueue(from);
@@ -137,7 +164,7 @@ namespace IanGame
                             edge = previous[edge.sourceRoom];
                         }
 
-                        return edge.doorId;
+                        return edge;
                     }
 
                     q.Enqueue(p.destinationRoom);
@@ -151,8 +178,7 @@ namespace IanGame
         {
             for (int step = 0; step < rooms.Length && source != destination; step++)
             {
-                string door = FirstDoor(source, destination);
-                var edge = System.Array.Find(portals, p => p.sourceRoom == source && p.doorId == door);
+                var edge = FirstEdge(source, destination);
                 if (edge == null)
                 {
                     return false;
@@ -170,8 +196,7 @@ namespace IanGame
 
         public RoomPortalDefinition EntryFrom(string room, string prior)
         {
-            var outgoing = FirstDoor(room, prior);
-            return portals.FirstOrDefault(p => p.sourceRoom == room && p.doorId == outgoing)
+            return FirstEdge(room, prior)
                 ?? portals.FirstOrDefault(p => p.sourceRoom == room);
         }
     }

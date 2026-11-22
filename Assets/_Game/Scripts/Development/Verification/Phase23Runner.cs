@@ -344,8 +344,8 @@ namespace IanGame.Editor
                 "M031-M034 real resume interview hire salary"
             );
             Check(
-                g.phase23.Progress.education.books >= 3
-                    && g.phase23.Progress.education.homework >= 5
+                g.phase23.Progress.education.books >= 1
+                    && g.phase23.Progress.education.homework >= 1
                     && g.stats.Knowledge >= 35,
                 "Childhood education counts and knowledge"
             );

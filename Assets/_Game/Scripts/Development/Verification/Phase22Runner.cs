@@ -244,11 +244,11 @@ namespace IanGame.Editor
             var confirmed = new[]
             {
                 "학교 입학",
-                "책 3권 읽기",
-                "지식 20 달성",
-                "친구 1명 만들기",
+                "책 한 권 읽기",
+                "첫 수업",
+                "첫 친구 만들기",
                 "사회성 15 달성",
-                "숙제 5회",
+                "첫 숙제",
                 "시험 응시",
                 "첫 성적표 받기",
                 "방과 후 학습",
@@ -346,8 +346,6 @@ namespace IanGame.Editor
                 );
                 if (n == 16)
                 {
-                    Education(10);
-                    Education(10);
                     Click(HUD().saveButton);
                     SaveData saved;
                     string message;
@@ -356,23 +354,20 @@ namespace IanGame.Editor
                         throw new Exception(message);
                     }
 
-                    for (int i = 0; i < 3; i++)
-                    {
-                        Education(10);
-                    }
+                    Education(10);
 
                     Check(
                         game.missions.GetProgress(catalog.missions[15]).state == MissionState.Completed,
-                        "Homework completion from five actual actions"
+                        "Homework completion from the first real assignment"
                     );
                     Click(MissionView().claimButton);
                     Click(HUD().loadButton);
                     Check(
-                        game.missions.Counter(MissionCounter.Homework) == 2
+                        game.missions.Counter(MissionCounter.Homework) == 0
                             && !game.missions.Claimed("M016")
                             && game.growth.Age == saved.progression.age
                             && game.stats.Money == saved.stats.money,
-                        "Mid-mission manual save/load restores homework2, age and reward receipts"
+                        "Pre-homework save/load restores age, progress and unclaimed reward"
                     );
                 }
 

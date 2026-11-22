@@ -47,12 +47,14 @@ namespace IanGame
                 NPCDailyAction.Shop => entry.zone == "shop",
                 NPCDailyAction.GetIngredients
                 or NPCDailyAction.Cook
-                or NPCDailyAction.ServeMeal
-                or NPCDailyAction.WashDishes => familyRoom && entry.zone is "family-kitchen" or "family-home",
+                or NPCDailyAction.ServeMeal => familyRoom && entry.zone is "family-kitchen" or "family-home",
+                NPCDailyAction.WashDishes => atHome && entry.objectId == "house-dishes"
+                    || familyRoom && entry.zone is "family-kitchen" or "family-home",
                 NPCDailyAction.Clean => familyRoom
                     && entry.zone is "family-living" or "family-home" or "family-ian-bedroom" or "family-kitchen",
-                NPCDailyAction.WatchTV => familyRoom && entry.zone is "family-living" or "family-home",
-                NPCDailyAction.Wash => entry.zone == "family-bathroom",
+                NPCDailyAction.WatchTV => atHome && entry.objectId == resident.residentBedId + "-rest"
+                    || familyRoom && entry.zone is "family-living" or "family-home",
+                NPCDailyAction.Wash => entry.zone == "family-bathroom" || atHome && entry.objectId == "house-wash",
                 _ => true,
             };
         }
@@ -72,14 +74,16 @@ namespace IanGame
                 NPCDailyAction.GetIngredients => anchor.kind == WorldInteractionKind.Fridge,
                 NPCDailyAction.Cook => anchor.id == "family-cook",
                 NPCDailyAction.ServeMeal => anchor.id == "family-serve",
-                NPCDailyAction.WashDishes => anchor.id == "family-dishes"
+                NPCDailyAction.WashDishes => anchor.id is "family-dishes" or "house-dishes"
                     && anchor.TryGetComponent<ResidentActivityStation>(out var sink)
                     && sink.HasWorkRoute,
                 NPCDailyAction.Clean => anchor.TryGetComponent<ResidentActivityStation>(out var task)
                     && task.HasWorkRoute,
                 NPCDailyAction.Rest => anchor.TryGetComponent<ResidentActivityStation>(out var station)
                     && station.HasSeat,
-                NPCDailyAction.WatchTV => anchor.id.StartsWith("family-tv-"),
+                NPCDailyAction.WatchTV => anchor.id.StartsWith("family-tv-")
+                    || anchor.id.EndsWith("-rest") && anchor.TryGetComponent<ResidentActivityStation>(out var sofa)
+                        && sofa.HasSeat,
                 NPCDailyAction.Wash => anchor.kind == WorldInteractionKind.Wash,
                 _ => true,
             };

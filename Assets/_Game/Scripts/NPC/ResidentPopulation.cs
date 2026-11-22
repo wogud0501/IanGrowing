@@ -207,6 +207,7 @@ namespace IanGame
 
         void ReleaseScopedActor(Resident resident)
         {
+            resident.quilt?.Release(resident.actor.visual);
             if (resident.definition.ambient && resident.actor != null)
             {
                 if (resident.heldItem != null)

@@ -106,3 +106,10 @@ Selections passed Codex visual QA; final human art approval remains open. RAW is
 | [Store](../ArtSource/Higgsfield/Selected/RestAreas/Store.png) | SHOP_CONVENIENCE_MASTER · 창고 쪽 직원석 | `8e2ebe37-0b9f-4aa4-af7e-78c5cd487646` | [프롬프트](../ArtSource/Higgsfield/Raw/RestAreas/Store.prompt.txt) · [생성 원본](https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261119_133842_8e2ebe37-0b9f-4aa4-af7e-78c5cd487646.png) |
 | [Cafe](../ArtSource/Higgsfield/Selected/RestAreas/Cafe.png) | SHOP_CONVENIENCE_MASTER · 같은 건물 내 카페 직원석 | `a2bd35d9-ac18-4ee3-91c6-6f8f7a0e36d2` | [프롬프트](../ArtSource/Higgsfield/Raw/RestAreas/Cafe.prompt.txt) · [생성 원본](https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261119_133922_a2bd35d9-ac18-4ee3-91c6-6f8f7a0e36d2.png) |
 | [Chores](../ArtSource/Higgsfield/Selected/RestAreas/Chores.png) | PARENTS_HOME_MASTER · HouseholdTools.png | `d873e479-6417-40cc-b824-a16aa44fdda7` | [프롬프트](../ArtSource/Higgsfield/Raw/RestAreas/Chores.prompt.txt) · [생성 원본](https://d8j0ntlcm91z4.cloudfront.net/user_3MGx08m3U7arfm3zQaLFfUL3gdY/hf_20261119_133938_d873e479-6417-40cc-b824-a16aa44fdda7.png) |
+
+## 주민 아파트 · 2026-11-22
+
+| 선정본 | 모델 | Generation ID | 참조 | Unity 적용 |
+| --- | --- | --- | --- | --- |
+| [ResidentHouseholds](../ArtSource/Higgsfield/Selected/ResidentHouseholds.png) · [프롬프트](../ArtSource/Higgsfield/Prompts/ResidentHouseholds.txt) | GPT Image 2.6 | `56163f32-e307-4718-bfc7-cfada9185296` | PARENTS_HOME_MASTER | 원룸·가족형 배치, 이불·화분·책 스프라이트 |
+| [ResidentFurniture](../ArtSource/Higgsfield/Selected/ResidentFurniture.png) · [프롬프트](../ArtSource/Higgsfield/Prompts/ResidentFurniture.txt) | GPT Image 2.6 | `7652d262-fa13-4177-afbc-794f51adbd4f` | ResidentHouseholds | 주방 기기·욕실 세면대·거실 및 현관 가구 스프라이트 11종 |

@@ -80,6 +80,8 @@ namespace IanGame
         public string id;
         public string zone;
         public string destinationZone;
+        public string residenceId;
+        public string householdId;
 
         [NonSerialized]
         public string passingRoom;
@@ -116,6 +118,8 @@ namespace IanGame
         [TextArea]
         public string ambientLine;
         public Vector2[] ambientOffsets = Array.Empty<Vector2>();
+        public int homePlace;
+        public string residentBedId;
         public string homeZone = "residence";
         public string jobId;
         public string workZone;

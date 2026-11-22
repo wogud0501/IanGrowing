@@ -18,6 +18,77 @@ namespace IanGame
         public RelationshipProgress Relationship(string id) =>
             Progress.relationships.FirstOrDefault(r => r.npcId == id);
 
+        bool FirstIntroduction(string npcId, int action)
+        {
+            return action is 9 or 18
+                && owner.Game.missions?.ActiveMission?.Id == "M014"
+                && !Progress.relationships.Any(r => r.friend)
+                && owner.catalog.NPC(npcId) != null;
+        }
+
+        public string IntroductionHint()
+        {
+            return IntroductionHint(out _);
+        }
+
+        public string IntroductionHint(out string destination)
+        {
+            destination = null;
+            var game = owner.Game;
+            var world = game.world;
+            if (world?.rules == null)
+            {
+                return "학교에서 민수에게 말을 걸어 보세요.";
+            }
+
+            string hint = null;
+            foreach (var npc in world.rules.npcs)
+            {
+                var profile = owner.catalog.NPC(npc.npcId);
+                if (profile == null || game.growth.Age < profile.minAge || game.growth.Age > profile.maxAge
+                    || game.stats.Social < profile.minSocial || npc.schedule.Length == 0)
+                {
+                    continue;
+                }
+
+                int index = WorldNPCScheduler.Schedule(npc, game.clock.Day, (int)(game.clock.SubDaySeconds / 60));
+                var visit = npc.schedule[index];
+                var resident = world.State.residents.Find(r => r.id == npc.npcId);
+                string zone = resident?.zone ?? visit.zone;
+                if (visit.action == NPCDailyAction.Sleep || !GrowthAccess.Zone(game, zone, out _))
+                {
+                    continue;
+                }
+
+                string place = world.rules.Zone(zone)?.title;
+                if (place == null)
+                {
+                    continue;
+                }
+
+                string clue = $"{place} · {npc.title}에게 말 걸기";
+                if (zone == world.State.zone)
+                {
+                    destination = zone;
+                    return clue;
+                }
+
+                if (hint == null)
+                {
+                    destination = zone;
+                    hint = clue;
+                }
+            }
+
+            if (hint == null)
+            {
+                destination = "school";
+                return "학생들은 귀가했습니다. 평일 오전 8시 30분에 학교에서 만나요.";
+            }
+
+            return hint;
+        }
+
         public bool Can(int action, out string reason)
         {
             reason = null;
@@ -29,12 +100,18 @@ namespace IanGame
                 return false;
             }
 
+            var resident = g.world?.State?.residents?.Find(person => person.id == npc.npcId);
+            if (g.world != null && g.world.Active && resident?.action == NPCDailyAction.Sleep)
+            {
+                reason = npc.displayName + "는 자고 있습니다.";
+                return false;
+            }
+
             var a = (SocialActivityData)owner.catalog.Find(action);
             var r = Relationship(npc.npcId);
-            if (
-                r != null && g.clock.Day - r.lastInteractionDay < a.cooldownDays
-                || Progress.history.Count(h => h.npcId == npc.npcId && h.day == g.clock.Day) >= npc.interactionsPerDay
-            )
+            bool onCooldown = r != null && g.clock.Day - r.lastInteractionDay < a.cooldownDays;
+            int interactionsToday = Progress.history.Count(h => h.npcId == npc.npcId && h.day == g.clock.Day);
+            if (!FirstIntroduction(npc.npcId, action) && (onCooldown || interactionsToday >= npc.interactionsPerDay))
             {
                 reason = "오늘 상호작용을 완료했습니다. 다음 날 다시 대화하세요.";
                 return false;
@@ -68,13 +145,20 @@ namespace IanGame
                 .05f,
                 .95f
             );
-            bool success = owner.Roll() < chance;
+            bool introduction = FirstIntroduction(npc.npcId, action);
+            bool success = introduction || owner.Roll() < chance;
             r.lastInteractionDay = day;
             r.lastDecayDay = day;
             r.affinity = Mathf.Clamp(r.affinity + (success ? data.affinityGain : -data.affinityLoss), 0, 100);
-            if (success && action == 9 && !r.friend)
+            if (success && (introduction || action == 9) && !r.friend)
             {
                 r.friend = true;
+                if (introduction)
+                {
+                    r.affinity = Math.Max(10, r.affinity);
+                    owner.Game.Log(npc.displayName + "와 친구가 되었습니다.");
+                }
+
                 owner.Signal(id, MissionCounter.FriendsMade);
             }
 

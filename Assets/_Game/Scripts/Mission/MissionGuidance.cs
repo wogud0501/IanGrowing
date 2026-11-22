@@ -291,6 +291,11 @@ namespace IanGame
                 return "날짜가 바뀔 때마다 생존 일수가 늘어요. 허기와 수분을 돌보며 하루를 보내세요. 침대에서 잠을 자면 8시간이 지납니다.";
             }
 
+            if (m.Id == "M014" && g?.phase23 != null)
+            {
+                return g.phase23.Social.IntroductionHint();
+            }
+
             if (m.Id == "M035")
             {
                 return "상태 → 경제·세금·부채 관리에서 고지서를 납부하세요. 급여 소득은 게임 날짜에 따라 고지됩니다. 부분 납부는 잔액이 0이 될 때 완료됩니다.";
@@ -334,10 +339,6 @@ namespace IanGame
                     ? Place(g.phase23.Destination(m.suggestedAction))
                 : "School · 학교";
             string text = place + " → ‘" + name + "’ 선택 후 실행하세요.";
-            if (m.suggestedAction == 9)
-            {
-                text += " 친구 만들기에 성공해야 집계됩니다. 대화만으로는 친구가 생기지 않습니다.";
-            }
 
             if (m.suggestedAction == 12)
             {

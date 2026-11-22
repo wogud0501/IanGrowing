@@ -88,6 +88,9 @@ namespace IanGame
 
         void OnDisable()
         {
+#if UNITY_ANDROID && !UNITY_EDITOR
+            ReleaseAndroidBack();
+#endif
             Application.wantsToQuit -= WantsToQuit;
             StopAllCoroutines();
             animations.Clear();

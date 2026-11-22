@@ -23,6 +23,7 @@ namespace IanGame
         public List<CityCounter> counters = new List<CityCounter>();
         public string destination = "";
         public bool suggestionsHidden;
+        public bool followingFirstFriend;
     }
 
     public sealed class CityAchievement
@@ -58,6 +59,7 @@ namespace IanGame
         readonly Queue<string> notices = new Queue<string>();
         float nextNotice;
         string currentRoom;
+        int friendHintMinute = -1;
         Vector2 lastPosition;
         bool observed;
         public event Action Changed;
@@ -300,6 +302,7 @@ namespace IanGame
             notices.Clear();
             walked = 0;
             observedHour = -1;
+            friendHintMinute = -1;
             if (!string.IsNullOrEmpty(Data.destination) && !GrowthAccess.Zone(game, Data.destination, out _))
             {
                 Data.destination = "";
@@ -324,6 +327,27 @@ namespace IanGame
                 currentRoom = host.Room.roomId;
                 observed = false;
                 EnterRoom(currentRoom);
+            }
+
+            if (Data.followingFirstFriend)
+            {
+                int minute = (int)(game.clock.SubDaySeconds / 60);
+                if (minute != friendHintMinute)
+                {
+                    friendHintMinute = minute;
+                    if (game.missions.ActiveMission?.Id != "M014" || game.missions.Counter(MissionCounter.FriendsMade) > 0)
+                    {
+                        Track("", out _);
+                    }
+                    else
+                    {
+                        game.phase23.Social.IntroductionHint(out var room);
+                        if (room != null && room != Data.destination)
+                        {
+                            Track(room, out _, true);
+                        }
+                    }
+                }
             }
 
             var p = host.Player.Position;
@@ -435,11 +459,12 @@ namespace IanGame
             Touch();
         }
 
-        public bool Track(string room, out string reason)
+        public bool Track(string room, out string reason, bool followFirstFriend = false)
         {
             reason = null;
             if (string.IsNullOrEmpty(room))
             {
+                Data.followingFirstFriend = false;
                 Data.destination = "";
                 Touch();
                 return true;
@@ -451,6 +476,7 @@ namespace IanGame
             }
 
             Data.destination = room;
+            Data.followingFirstFriend = followFirstFriend;
             Touch();
             return true;
         }
@@ -572,7 +598,7 @@ namespace IanGame
                 return o.title + "\n" + reason;
             }
 
-            return "[" + input + "] " + o.title;
+            return input == "사용" || input == "터치" ? o.title : "[" + input + "] " + o.title;
         }
 
         public CitySuggestion Suggest()

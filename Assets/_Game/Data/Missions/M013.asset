@@ -15,21 +15,23 @@ MonoBehaviour:
   stableId: M013
   number: 13
   chapter: 2
-  suggestedAction: 8
-  title: "\uC9C0\uC2DD 20 \uB2EC\uC131"
-  description: "\uC9C0\uC2DD 20 \uB2EC\uC131\uC758 \uBA85\uC2DC\uB41C \uC870\uAC74\uC744 \uB2EC\uC131\uD558\uC138\uC694."
+  suggestedAction: 14
+  title: "첫 수업"
+  description: "학교에서 공부해 보세요. 지식 20을 달성해도 완료됩니다."
   source: 1
   prerequisiteIds:
   - M012
   condition:
-    kind: 2
+    kind: 1
     stat: 2
     counter: 0
     item: 0
     unlock: 0
-    target: 20
+    target: 1
     missionId: 
-    children: []
+    children:
+    - rid: 75013001
+    - rid: 75013002
   rewards:
     gold: 50
     experience: 20
@@ -39,6 +41,33 @@ MonoBehaviour:
     unlocks: 
   requiredFeatures: 2
   futurePhase: 
-  completionMessage: "\uC774\uC548\uC740 \uC138\uC0C1\uC774 \uBD88\uACF5\uD3C9\uD558\uB2E4\uB294 \uC0AC\uC2E4\uC744 \uC774\uD574\uD558\uAE30 \uC2DC\uC791\uD588\uC2B5\uB2C8\uB2E4."
+  completionMessage: "첫 수업 완료"
   targetAge: 8
   enterLifeReview: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: 75013001
+      type: {class: MissionCondition, ns: IanGame, asm: Assembly-CSharp}
+      data:
+        kind: 2
+        choice: 0
+        stat: 2
+        counter: 0
+        item: 0
+        unlock: 0
+        target: 20
+        missionId:
+        children: []
+    - rid: 75013002
+      type: {class: MissionCondition, ns: IanGame, asm: Assembly-CSharp}
+      data:
+        kind: 3
+        choice: 0
+        stat: 0
+        counter: 17
+        item: 0
+        unlock: 0
+        target: 1
+        missionId:
+        children: []

@@ -69,7 +69,6 @@ namespace IanGame
             public WorldInteractable anchor;
             public WorldInteractable leavingBed;
             public BedQuilt quilt;
-            public Vector2 bedEntryFrom;
             public bool enteringBed;
             public WorldActivitySlot bedExitSlot;
             public float walkSpeed;
@@ -252,6 +251,8 @@ namespace IanGame
                 r.awaitingSpace = false;
                 r.bedExitSlot?.Release(r.definition.npcId);
                 r.bedExitSlot = null;
+                r.quilt?.Release(r.actor.visual);
+                r.quilt = null;
                 r.enteringBed = false;
                 r.leavingBed = null;
                 r.seatApproached = false;
@@ -304,7 +305,7 @@ namespace IanGame
                 var loaded = world.Service.rules.Zone(saved.zone).origin + saved.position;
                 if (saved.action != NPCDailyAction.Walk && r.anchor != null)
                 {
-                    var pose = saved.action == NPCDailyAction.Sleep ? BedPose(r.anchor) : Destination(r);
+                    var pose = saved.action == NPCDailyAction.Sleep ? r.anchor.Point : Destination(r);
                     if (Vector2.Distance(loaded, pose) > .3f)
                     {
                         // A stationary snapshot is valid only at its current activity anchor.
@@ -552,7 +553,10 @@ namespace IanGame
                     && r.anchor.id == r.target.objectId
                     && r.target.zone == r.actor.zone
                     && r.target.action is NPCDailyAction.Rest or NPCDailyAction.Talk or NPCDailyAction.WatchTV;
-                if (sameSeat)
+                bool sameBed = changed && r.atActivity && r.action == NPCDailyAction.Sleep
+                    && r.target.action == NPCDailyAction.Sleep && r.anchor && r.anchor.id == r.target.objectId
+                    && r.actor.zone == r.target.zone;
+                if (sameSeat || sameBed)
                 {
                     r.index = index;
                     r.action = r.target.action;
@@ -602,7 +606,7 @@ namespace IanGame
 
                     if (r.action == NPCDailyAction.Sleep || r.action == NPCDailyAction.Rest)
                     {
-                        r.standingUntil = Time.unscaledTime + (r.action == NPCDailyAction.Sleep ? 1.35f : .55f);
+                        r.standingUntil = Time.unscaledTime + (r.action == NPCDailyAction.Sleep ? BedQuilt.TransferSeconds : .55f);
                         r.exitMotion = r.action == NPCDailyAction.Sleep ? ActorMotion.WakeUp : ActorMotion.StandUp;
                     }
 
@@ -665,7 +669,7 @@ namespace IanGame
                         var bed = Object(r.target.objectId);
                         if (bed != null)
                         {
-                            r.actor.transform.position = BedPose(bed);
+                            r.actor.transform.position = bed.Point;
                         }
                     }
 
@@ -753,13 +757,6 @@ namespace IanGame
                     r.animation.Seek(30);
                 }
             }
-        }
-
-        static Vector2 BedPose(WorldInteractable bed)
-        {
-            var mattress = bed.visual.sprite.bounds;
-            return bed.visual.transform.TransformPoint(new Vector3(mattress.center.x,
-                mattress.min.y + mattress.size.y * .52f, 0));
         }
 
         bool CanStartHere(Resident resident)
@@ -1127,14 +1124,6 @@ namespace IanGame
 
             if (Time.unscaledTime < r.standingUntil)
             {
-                if (r.leavingBed && r.exitMotion == ActorMotion.WakeUp)
-                {
-                    var remaining = r.standingUntil - Time.unscaledTime;
-                    float sit = 1 - Mathf.SmoothStep(0, 1, remaining / .65f);
-                    r.actor.transform.position = Vector2.Lerp(BedPose(r.leavingBed), r.leavingBed.Point, sit);
-                    crowd.Set(r.definition.npcId, r.actor.transform.position);
-                }
-
                 Render(r, index, before, r.exitMotion);
                 return;
             }
@@ -1194,7 +1183,8 @@ namespace IanGame
 
                 r.departingUntil = 0;
                 door?.Release(r.definition.npcId);
-                r.actor.zone = portal.targetZone;
+                r.actor.zone = sceneScoped && portal.id == "npc-residence-front"
+                    ? r.definition.homeZone : portal.targetZone;
                 r.actor.transform.position = world.Service.rules.Zone(r.actor.zone).origin + portal.arrival;
                 r.portal = null;
                 r.door = null;
@@ -1305,7 +1295,7 @@ namespace IanGame
                 var poseOwner = anchored ? (r.slot.seated ? r.slot.PoseFurniture : null) : r.anchor?.transform;
                 if (!r.atActivity && (anchored || r.target.action == NPCDailyAction.Sleep && r.anchor != null))
                 {
-                    var pose = anchored ? Destination(r) : BedPose(r.anchor);
+                    var pose = anchored ? Destination(r) : r.anchor.Point;
                     if (WorldNPCNavigation.Obstacle(before, pose, poseOwner) != null)
                     {
                         Render(r, index, before, ActorMotion.Idle);
@@ -1318,7 +1308,6 @@ namespace IanGame
                     r.seatedAt = Time.unscaledTime;
                     if (r.target.action == NPCDailyAction.Sleep)
                     {
-                        r.bedEntryFrom = before;
                         r.enteringBed = true;
                     }
 
@@ -1362,19 +1351,9 @@ namespace IanGame
                 }
 
                 UseObject(r);
-                if (r.action == NPCDailyAction.Sleep)
+                if (r.enteringBed && Time.unscaledTime - r.seatedAt >= BedQuilt.TransferSeconds)
                 {
-                    var bed = Object(r.target.objectId);
-                    if (bed != null)
-                    {
-                        var point = BedPose(bed);
-                        float lean = Mathf.SmoothStep(0, 1, (Time.unscaledTime - r.seatedAt) / .65f);
-                        r.actor.transform.position = r.enteringBed ? Vector2.Lerp(r.bedEntryFrom, point, lean) : point;
-                        if (lean >= 1)
-                        {
-                            r.enteringBed = false;
-                        }
-                    }
+                    r.enteringBed = false;
                 }
 
                 if (r.action == NPCDailyAction.Talk)
@@ -1526,7 +1505,12 @@ namespace IanGame
                 }
                 float phase = sleeping ? Time.unscaledTime - r.seatedAt : r.standingUntil - Time.unscaledTime;
                 bedPhase = Mathf.Clamp01(phase / .65f);
-                r.quilt.Draw(r.actor.visual, Mathf.SmoothStep(0, 1, (phase - .65f) / .7f));
+                if (sleeping && !r.enteringBed)
+                {
+                    phase = BedQuilt.TransferSeconds;
+                }
+                int column = r.definition.animations ? r.definition.animations.sleepwearColumn : 0;
+                r.quilt.ResidentPose(r.actor, column, r.definition.jobId == "student", phase);
             }
             else if (r.quilt)
             {

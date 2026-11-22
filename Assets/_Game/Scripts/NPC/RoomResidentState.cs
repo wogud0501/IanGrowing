@@ -59,6 +59,8 @@ namespace IanGame
                     n = new NPCResidentSnapshot
                     {
                         id = d.npcId,
+                        residenceId = d.homeZone,
+                        householdId = rooms.Find(d.homeZone)?.homeId,
                         zone = target.zone,
                         destinationZone = target.zone,
                         position = target.position,

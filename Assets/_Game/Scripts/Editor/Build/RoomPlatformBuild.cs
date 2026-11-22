@@ -64,7 +64,7 @@ namespace IanGame.Editor
                             scenes = EditorBuildSettings.scenes.Where(s => s.enabled).Select(s => s.path).ToArray(),
                             locationPathName = "Builds/SceneArchitecture/Ian-Rooms-Development.apk",
                             target = BuildTarget.Android,
-                            options = BuildOptions.Development,
+                            options = BuildOptions.Development | BuildOptions.CompressWithLz4,
                         }
                     );
                     File.WriteAllText(

@@ -31,6 +31,12 @@ namespace IanGame
             game.world.UseRoomRules(roomCatalog);
             string desired = direct?.roomId;
             bool resume = id == SceneId.LifeWorld || id == SceneId.Home && CurrentScene == SceneId.MainMenu;
+            if (id == SceneId.RoomResidence && roomCatalog.Find(game.world.State.zone)?.sceneId == id)
+            {
+                desired = game.world.State.zone;
+                resume = true;
+            }
+
             if (desired == null)
             {
                 desired =
@@ -87,7 +93,8 @@ namespace IanGame
                 return false;
             }
 
-            if (CurrentScene == room.sceneId && SceneManager.GetActiveScene().name == room.sceneName)
+            if (CurrentScene == room.sceneId && SceneManager.GetActiveScene().name == room.sceneName
+                && game.world.Host?.Room.roomId == room.roomId)
             {
                 if (game.world.Host != null)
                 {
@@ -195,7 +202,9 @@ namespace IanGame
                 yield return null;
             }
 
-            var destination = SceneManager.GetSceneByName(room.sceneName);
+            var destination = Enumerable.Range(0, SceneManager.sceneCount)
+                .Select(SceneManager.GetSceneAt)
+                .FirstOrDefault(scene => scene != prior && scene.name == room.sceneName);
             if (
                 !destination.IsValid()
                 || !destination.isLoaded

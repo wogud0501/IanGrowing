@@ -115,6 +115,26 @@ namespace IanGame
             {
                 Game.StateChanged -= OnGameState;
                 Game.StateChanged += OnGameState;
+                Game.clock.SimulationAdvanced -= UpdateIntroduction;
+                Game.clock.SimulationAdvanced += UpdateIntroduction;
+            }
+        }
+
+        int hintMinute = -1;
+        bool showingIntroduction;
+
+        void UpdateIntroduction(double elapsed)
+        {
+            if (!showingIntroduction)
+            {
+                return;
+            }
+
+            int minute = (int)(Game.clock.SubDaySeconds / 60);
+            if (minute != hintMinute && service.GetProgress(service.ActiveMission).state == MissionState.InProgress)
+            {
+                hintMinute = minute;
+                conditionText.text = Game.phase23.Social.IntroductionHint();
             }
         }
 
@@ -135,6 +155,7 @@ namespace IanGame
             if (Game != null)
             {
                 Game.StateChanged -= OnGameState;
+                Game.clock.SimulationAdvanced -= UpdateIntroduction;
             }
         }
 
@@ -203,6 +224,7 @@ namespace IanGame
             var data = service.ActiveMission;
             if (data == null)
             {
+                showingIntroduction = false;
                 missionTitle.text = "등록된 미션 종료";
                 DrawChapter(chapterMarks.Count, chapterMarks.Count);
                 claimButton.interactable = false;
@@ -265,6 +287,14 @@ namespace IanGame
                     : MissionGuidance.ActionName(data.suggestedAction, Game);
             }
 
+            showingIntroduction = data.Id == "M014" && Game?.world?.Active == true && p.state == MissionState.InProgress;
+            if (showingIntroduction)
+            {
+                conditionText.text = Game.phase23.Social.IntroductionHint();
+                actionButton.interactable = true;
+                actionLabel.text = "친구 위치 확인";
+            }
+
             if (activityButtons != null)
             {
                 for (int i = 0; i < activityButtons.Length; i++)
@@ -322,6 +352,19 @@ namespace IanGame
             var data = service == null ? null : service.ActiveMission;
             if (data == null || data.suggestedAction < 0)
             {
+                return;
+            }
+
+            if (data.Id == "M014" && Game.world.Active)
+            {
+                string hint = Game.phase23.Social.IntroductionHint(out string room);
+                if (room != null)
+                {
+                    Game.world.City.Track(room, out _, true);
+                }
+
+                Game.world.Host.hud.GetComponent<UINavigationService>()?.CloseAll();
+                Game.world.Host.hud.Notify(hint);
                 return;
             }
 

@@ -22006,7 +22006,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 120, y: -1}
+  m_AnchoredPosition: {x: 117.35, y: -5.98}
   m_SizeDelta: {x: 3.4, y: 0.55}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &509221649
@@ -22029,7 +22029,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uB3C4\uC2DC \uC911\uC2EC \u2191"
+  m_text: "← 주거지역"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: bafaafa0ca396b248a02b77eea99a4c7, type: 2}
   m_sharedMaterial: {fileID: 1909164035370475347, guid: bafaafa0ca396b248a02b77eea99a4c7, type: 2}
@@ -22150,7 +22150,7 @@ MeshRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1801
+  m_SortingOrder: 1641
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &513942624
@@ -71302,7 +71302,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::IanGame.WorldInteractable
   id: alley-path
-  title: "\uC8FC\uAC70 \uACE8\uBAA9\uB85C \uC774\uB3D9"
+  title: "주거지역으로 이동"
   zone: city
   targetZone: alley
   npcId: 
@@ -84791,8 +84791,8 @@ Transform:
   m_GameObject: {fileID: 2126245406}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 120, y: -1, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 117.35, y: -6.22, z: 0}
+  m_LocalScale: {x: 1.6, y: 1.6, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2122785949}
@@ -84844,13 +84844,13 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1800
+  m_SortingOrder: 1640
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 21300000, guid: 9756adf19c5580c4a90234a3ad9c2e06, type: 3}
-  m_Color: {r: 0.16862746, g: 0.21960784, b: 0.25490198, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 8c9843135f524a8f9b169cb6932559ec, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
-  m_DrawMode: 1
+  m_DrawMode: 0
   m_Size: {x: 3.4, y: 0.55}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0

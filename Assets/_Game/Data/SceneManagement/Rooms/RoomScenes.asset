@@ -113,9 +113,203 @@ MonoBehaviour:
       height: 12
     family: 0
   - roomId: residence
+    floorPlan: {fileID: 11300, guid: 2539b904faef4aea875bf133b1b81019, type: 3}
+    keepsake: {fileID: 21300000, guid: 96364769827b4e1c82a97504faea3a16, type: 3}
     sceneName: Resident_Housing
-    title: "\uC8FC\uBBFC \uC0DD\uD65C\uAD00"
-    homeId: 
+    title: "101호 · 수연"
+    homeId: household-101
+    legacyZone: residence
+    sceneId: 28
+    legacyOffset: {x: 0, y: 0}
+    legacyBounds:
+      serializedVersion: 2
+      x: -9
+      y: -6
+      width: 18
+      height: 12
+    family: 0
+  - roomId: apt-102
+    floorPlan: {fileID: 11392, guid: 398f2ab9885a44b191a53e322d4faffa, type: 3}
+    keepsake: {fileID: 21300000, guid: 00723423c4ef4bdea9b8374f3e70fa34, type: 3}
+    sceneName: Resident_Housing
+    title: "102호 · 지은 · 민수"
+    homeId: household-102
+    legacyZone: residence
+    sceneId: 28
+    legacyOffset: {x: 0, y: 0}
+    legacyBounds:
+      serializedVersion: 2
+      x: -9
+      y: -6
+      width: 18
+      height: 12
+    family: 0
+  - roomId: apt-103
+    floorPlan: {fileID: 11392, guid: 398f2ab9885a44b191a53e322d4faffa, type: 3}
+    keepsake: {fileID: 21300000, guid: 994aa4bc37be42b4b3b54663d4e4467c, type: 3}
+    sceneName: Resident_Housing
+    title: "103호 · 정호"
+    homeId: household-103
+    legacyZone: residence
+    sceneId: 28
+    legacyOffset: {x: 0, y: 0}
+    legacyBounds:
+      serializedVersion: 2
+      x: -9
+      y: -6
+      width: 18
+      height: 12
+    family: 0
+  - roomId: apt-201
+    floorPlan: {fileID: 11300, guid: 2539b904faef4aea875bf133b1b81019, type: 3}
+    keepsake: {fileID: 21300000, guid: 00723423c4ef4bdea9b8374f3e70fa34, type: 3}
+    sceneName: Resident_Housing
+    title: "201호 · 도윤"
+    homeId: household-201
+    legacyZone: residence
+    sceneId: 28
+    legacyOffset: {x: 0, y: 0}
+    legacyBounds:
+      serializedVersion: 2
+      x: -9
+      y: -6
+      width: 18
+      height: 12
+    family: 0
+  - roomId: apt-202
+    floorPlan: {fileID: 11300, guid: 2539b904faef4aea875bf133b1b81019, type: 3}
+    keepsake: {fileID: 21300000, guid: 994aa4bc37be42b4b3b54663d4e4467c, type: 3}
+    sceneName: Resident_Housing
+    title: "202호 · 순자"
+    homeId: household-202
+    legacyZone: residence
+    sceneId: 28
+    legacyOffset: {x: 0, y: 0}
+    legacyBounds:
+      serializedVersion: 2
+      x: -9
+      y: -6
+      width: 18
+      height: 12
+    family: 0
+  - roomId: apt-203
+    floorPlan: {fileID: 11392, guid: a106354c238b48398d9ec058ee43117e, type: 3}
+    keepsake: {fileID: 21300000, guid: 96364769827b4e1c82a97504faea3a16, type: 3}
+    sceneName: Resident_Housing
+    title: "203호 · 지은 · 준서"
+    homeId: household-203
+    legacyZone: residence
+    sceneId: 28
+    legacyOffset: {x: 0, y: 0}
+    legacyBounds:
+      serializedVersion: 2
+      x: -9
+      y: -6
+      width: 18
+      height: 12
+    family: 0
+  - roomId: apt-301
+    floorPlan: {fileID: 11403, guid: e1e4e588af904d1db2bd4cf82c1e6f44, type: 3}
+    keepsake: {fileID: 21300000, guid: 994aa4bc37be42b4b3b54663d4e4467c, type: 3}
+    sceneName: Resident_Housing
+    title: "301호 · 정호 · 어르신"
+    homeId: household-301
+    legacyZone: residence
+    sceneId: 28
+    legacyOffset: {x: 0, y: 0}
+    legacyBounds:
+      serializedVersion: 2
+      x: -9
+      y: -6
+      width: 18
+      height: 12
+    family: 0
+  - roomId: apt-302
+    floorPlan: {fileID: 11300, guid: 2539b904faef4aea875bf133b1b81019, type: 3}
+    keepsake: {fileID: 21300000, guid: 96364769827b4e1c82a97504faea3a16, type: 3}
+    sceneName: Resident_Housing
+    title: "302호 · 도윤"
+    homeId: household-302
+    legacyZone: residence
+    sceneId: 28
+    legacyOffset: {x: 0, y: 0}
+    legacyBounds:
+      serializedVersion: 2
+      x: -9
+      y: -6
+      width: 18
+      height: 12
+    family: 0
+  - roomId: apt-303
+    floorPlan: {fileID: 11300, guid: 2539b904faef4aea875bf133b1b81019, type: 3}
+    keepsake: {fileID: 21300000, guid: 00723423c4ef4bdea9b8374f3e70fa34, type: 3}
+    sceneName: Resident_Housing
+    title: "303호 · 순자"
+    homeId: household-303
+    legacyZone: residence
+    sceneId: 28
+    legacyOffset: {x: 0, y: 0}
+    legacyBounds:
+      serializedVersion: 2
+      x: -9
+      y: -6
+      width: 18
+      height: 12
+    family: 0
+  - roomId: apt-401
+    floorPlan: {fileID: 11300, guid: 2539b904faef4aea875bf133b1b81019, type: 3}
+    keepsake: {fileID: 21300000, guid: 96364769827b4e1c82a97504faea3a16, type: 3}
+    sceneName: Resident_Housing
+    title: "401호 · 지은"
+    homeId: household-401
+    legacyZone: residence
+    sceneId: 28
+    legacyOffset: {x: 0, y: 0}
+    legacyBounds:
+      serializedVersion: 2
+      x: -9
+      y: -6
+      width: 18
+      height: 12
+    family: 0
+  - roomId: apt-402
+    floorPlan: {fileID: 11300, guid: 2539b904faef4aea875bf133b1b81019, type: 3}
+    keepsake: {fileID: 21300000, guid: 00723423c4ef4bdea9b8374f3e70fa34, type: 3}
+    sceneName: Resident_Housing
+    title: "402호 · 정호"
+    homeId: household-402
+    legacyZone: residence
+    sceneId: 28
+    legacyOffset: {x: 0, y: 0}
+    legacyBounds:
+      serializedVersion: 2
+      x: -9
+      y: -6
+      width: 18
+      height: 12
+    family: 0
+  - roomId: apt-403
+    floorPlan: {fileID: 11392, guid: 398f2ab9885a44b191a53e322d4faffa, type: 3}
+    keepsake: {fileID: 21300000, guid: 994aa4bc37be42b4b3b54663d4e4467c, type: 3}
+    sceneName: Resident_Housing
+    title: "403호 · 서윤"
+    homeId: household-403
+    legacyZone: residence
+    sceneId: 28
+    legacyOffset: {x: 0, y: 0}
+    legacyBounds:
+      serializedVersion: 2
+      x: -9
+      y: -6
+      width: 18
+      height: 12
+    family: 0
+  - roomId: apt-501
+    floorPlan: {fileID: 11300, guid: 2539b904faef4aea875bf133b1b81019, type: 3}
+    keepsake: {fileID: 21300000, guid: 00723423c4ef4bdea9b8374f3e70fa34, type: 3}
+    sceneName: Resident_Housing
+    title: "501호 · 영호"
+    homeId: household-501
     legacyZone: residence
     sceneId: 28
     legacyOffset: {x: 0, y: 0}
@@ -315,10 +509,154 @@ MonoBehaviour:
     sourceRoom: alley
     destinationRoom: residence
     destinationEntryId: resident-exit/arrival
-    arrival: {x: 0, y: -4.5}
+    arrival: {x: 1.5, y: -4.2}
     facing: {x: -0, y: 1}
   - doorId: resident-exit
     sourceRoom: residence
+    destinationRoom: alley
+    destinationEntryId: npc-residence-front/arrival
+    arrival: {x: 7, y: 2}
+    facing: {x: -0, y: -1}
+  - doorId: npc-residence-front
+    sourceRoom: alley
+    destinationRoom: apt-102
+    destinationEntryId: resident-exit/arrival
+    arrival: {x: 1.5, y: -4.2}
+    facing: {x: -0, y: 1}
+  - doorId: resident-exit
+    sourceRoom: apt-102
+    destinationRoom: alley
+    destinationEntryId: npc-residence-front/arrival
+    arrival: {x: 7, y: 2}
+    facing: {x: -0, y: -1}
+  - doorId: npc-residence-front
+    sourceRoom: alley
+    destinationRoom: apt-103
+    destinationEntryId: resident-exit/arrival
+    arrival: {x: 1.5, y: -4.2}
+    facing: {x: -0, y: 1}
+  - doorId: resident-exit
+    sourceRoom: apt-103
+    destinationRoom: alley
+    destinationEntryId: npc-residence-front/arrival
+    arrival: {x: 7, y: 2}
+    facing: {x: -0, y: -1}
+  - doorId: npc-residence-front
+    sourceRoom: alley
+    destinationRoom: apt-201
+    destinationEntryId: resident-exit/arrival
+    arrival: {x: 1.5, y: -4.2}
+    facing: {x: -0, y: 1}
+  - doorId: resident-exit
+    sourceRoom: apt-201
+    destinationRoom: alley
+    destinationEntryId: npc-residence-front/arrival
+    arrival: {x: 7, y: 2}
+    facing: {x: -0, y: -1}
+  - doorId: npc-residence-front
+    sourceRoom: alley
+    destinationRoom: apt-202
+    destinationEntryId: resident-exit/arrival
+    arrival: {x: 1.5, y: -4.2}
+    facing: {x: -0, y: 1}
+  - doorId: resident-exit
+    sourceRoom: apt-202
+    destinationRoom: alley
+    destinationEntryId: npc-residence-front/arrival
+    arrival: {x: 7, y: 2}
+    facing: {x: -0, y: -1}
+  - doorId: npc-residence-front
+    sourceRoom: alley
+    destinationRoom: apt-203
+    destinationEntryId: resident-exit/arrival
+    arrival: {x: 1.5, y: -4.2}
+    facing: {x: -0, y: 1}
+  - doorId: resident-exit
+    sourceRoom: apt-203
+    destinationRoom: alley
+    destinationEntryId: npc-residence-front/arrival
+    arrival: {x: 7, y: 2}
+    facing: {x: -0, y: -1}
+  - doorId: npc-residence-front
+    sourceRoom: alley
+    destinationRoom: apt-301
+    destinationEntryId: resident-exit/arrival
+    arrival: {x: 1.5, y: -4.2}
+    facing: {x: -0, y: 1}
+  - doorId: resident-exit
+    sourceRoom: apt-301
+    destinationRoom: alley
+    destinationEntryId: npc-residence-front/arrival
+    arrival: {x: 7, y: 2}
+    facing: {x: -0, y: -1}
+  - doorId: npc-residence-front
+    sourceRoom: alley
+    destinationRoom: apt-302
+    destinationEntryId: resident-exit/arrival
+    arrival: {x: 1.5, y: -4.2}
+    facing: {x: -0, y: 1}
+  - doorId: resident-exit
+    sourceRoom: apt-302
+    destinationRoom: alley
+    destinationEntryId: npc-residence-front/arrival
+    arrival: {x: 7, y: 2}
+    facing: {x: -0, y: -1}
+  - doorId: npc-residence-front
+    sourceRoom: alley
+    destinationRoom: apt-303
+    destinationEntryId: resident-exit/arrival
+    arrival: {x: 1.5, y: -4.2}
+    facing: {x: -0, y: 1}
+  - doorId: resident-exit
+    sourceRoom: apt-303
+    destinationRoom: alley
+    destinationEntryId: npc-residence-front/arrival
+    arrival: {x: 7, y: 2}
+    facing: {x: -0, y: -1}
+  - doorId: npc-residence-front
+    sourceRoom: alley
+    destinationRoom: apt-401
+    destinationEntryId: resident-exit/arrival
+    arrival: {x: 1.5, y: -4.2}
+    facing: {x: -0, y: 1}
+  - doorId: resident-exit
+    sourceRoom: apt-401
+    destinationRoom: alley
+    destinationEntryId: npc-residence-front/arrival
+    arrival: {x: 7, y: 2}
+    facing: {x: -0, y: -1}
+  - doorId: npc-residence-front
+    sourceRoom: alley
+    destinationRoom: apt-402
+    destinationEntryId: resident-exit/arrival
+    arrival: {x: 1.5, y: -4.2}
+    facing: {x: -0, y: 1}
+  - doorId: resident-exit
+    sourceRoom: apt-402
+    destinationRoom: alley
+    destinationEntryId: npc-residence-front/arrival
+    arrival: {x: 7, y: 2}
+    facing: {x: -0, y: -1}
+  - doorId: npc-residence-front
+    sourceRoom: alley
+    destinationRoom: apt-403
+    destinationEntryId: resident-exit/arrival
+    arrival: {x: 1.5, y: -4.2}
+    facing: {x: -0, y: 1}
+  - doorId: resident-exit
+    sourceRoom: apt-403
+    destinationRoom: alley
+    destinationEntryId: npc-residence-front/arrival
+    arrival: {x: 7, y: 2}
+    facing: {x: -0, y: -1}
+  - doorId: npc-residence-front
+    sourceRoom: alley
+    destinationRoom: apt-501
+    destinationEntryId: resident-exit/arrival
+    arrival: {x: 1.5, y: -4.2}
+    facing: {x: -0, y: 1}
+  - doorId: resident-exit
+    sourceRoom: apt-501
     destinationRoom: alley
     destinationEntryId: npc-residence-front/arrival
     arrival: {x: 7, y: 2}

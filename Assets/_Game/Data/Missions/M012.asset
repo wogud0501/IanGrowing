@@ -16,8 +16,8 @@ MonoBehaviour:
   number: 12
   chapter: 2
   suggestedAction: 8
-  title: "\uCC45 3\uAD8C \uC77D\uAE30"
-  description: "\uCC45 3\uAD8C \uC77D\uAE30\uC758 \uBA85\uC2DC\uB41C \uC870\uAC74\uC744 \uB2EC\uC131\uD558\uC138\uC694."
+  title: "책 한 권 읽기"
+  description: "학교 책상에서 책을 읽으세요."
   source: 1
   prerequisiteIds:
   - M011
@@ -27,7 +27,7 @@ MonoBehaviour:
     counter: 11
     item: 0
     unlock: 0
-    target: 3
+    target: 1
     missionId: 
     children: []
   rewards:
@@ -39,6 +39,6 @@ MonoBehaviour:
     unlocks: 
   requiredFeatures: 2
   futurePhase: 
-  completionMessage: "\uCD95\uD558\uD569\uB2C8\uB2E4. \uCC45 3\uAD8C \uC77D\uAE30 \uD56D\uBAA9\uC774 \uC778\uC0DD \uBA85\uC138\uC11C\uC5D0 \uCD94\uAC00\uB418\uC5C8\uC2B5\uB2C8\uB2E4."
+  completionMessage: "책 한 권 읽기 완료"
   targetAge: 8
   enterLifeReview: 0

@@ -47,7 +47,9 @@ namespace IanGame.Editor
                         target = target,
                         locationPathName =
                             folder + (target == BuildTarget.Android ? "/IanGrowing.apk" : "/IanGrowing.exe"),
-                        options = BuildOptions.Development,
+                        options = target == BuildTarget.Android
+                            ? BuildOptions.Development | BuildOptions.CompressWithLz4
+                            : BuildOptions.Development,
                     };
                     var built = BuildPipeline.BuildPlayer(options);
                     result.status = built.summary.result.ToString();

@@ -277,6 +277,7 @@ namespace IanGame
                 return true;
             }
 
+            scheduler ??= world.GetComponent<WorldNPCScheduler>();
             if (scheduler != null)
             {
                 foreach (var actor in scheduler.actors)

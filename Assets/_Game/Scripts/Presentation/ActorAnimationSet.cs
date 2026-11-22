@@ -81,6 +81,8 @@ namespace IanGame
     [CreateAssetMenu(menuName = "Ian/World/Actor animation set")]
     public sealed class ActorAnimationSet : ScriptableObject
     {
+        [Range(0, 3)]
+        public int sleepwearColumn;
         public bool ageScoped;
         public ActorSpriteClip[] clips = Array.Empty<ActorSpriteClip>();
 

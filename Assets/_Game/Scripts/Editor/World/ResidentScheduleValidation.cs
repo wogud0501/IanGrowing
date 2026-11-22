@@ -13,14 +13,16 @@ namespace IanGame.Editor
         [MenuItem("Ian/Verification/Validate resident week")]
         public static void Validate()
         {
-            var rules = AssetDatabase.LoadAssetAtPath<LifeWorldRules>(
-                "Assets/_Game/Data/SceneManagement/Rooms/RoomWorldRules.asset"
+            var catalog = AssetDatabase.LoadAssetAtPath<RoomSceneCatalog>(
+                "Assets/_Game/Data/SceneManagement/Rooms/RoomScenes.asset"
             );
-            var exclusive = new HashSet<string>();
-            var valid = new HashSet<(string, NPCDailyAction, string)>();
+            var rules = catalog.rules;
+            var exclusive = new HashSet<(string zone, string slot)>();
+            var valid = new HashSet<(string npc, string zone, NPCDailyAction action, string slot)>();
             var problems = new HashSet<string>();
-            foreach (string path in Directory.GetFiles("Assets/_Game/Scenes/Rooms", "*.unity"))
+            foreach (var room in catalog.rooms)
             {
+                string path = $"Assets/_Game/Scenes/Rooms/{room.sceneName}.unity";
                 var scene = EditorSceneManager.OpenPreviewScene(path);
                 try
                 {
@@ -30,6 +32,11 @@ namespace IanGame.Editor
                             .SelectMany(o => o.GetComponentsInChildren<LifeWorldController>(true))
                     )
                     {
+                        if (world.TryGetComponent<ResidentApartment>(out var apartment))
+                        {
+                            apartment.Furnish(world, room);
+                        }
+
                         var beds = world
                             .objects.Where(o => o != null && o.kind == WorldInteractionKind.Sleep)
                             .ToArray();
@@ -66,14 +73,14 @@ namespace IanGame.Editor
                                 var slot = anchor.GetComponent<WorldActivitySlot>();
                                 if (slot != null)
                                 {
-                                    exclusive.Add(e.objectId);
+                                    exclusive.Add((e.zone, e.objectId));
                                     if (!slot.Allows(npc.npcId))
                                     {
                                         continue;
                                     }
                                 }
 
-                                valid.Add((npc.npcId, e.action, e.objectId));
+                                valid.Add((npc.npcId, e.zone, e.action, e.objectId));
                             }
                         }
                     }
@@ -107,7 +114,7 @@ namespace IanGame.Editor
                         || e.dayMask > 127
                         || rules.Zone(e.zone) == null
                         || !NPCActivityLocation.Allows(npc, e)
-                        || !string.IsNullOrEmpty(e.objectId) && !valid.Contains((npc.npcId, e.action, e.objectId))
+                        || !string.IsNullOrEmpty(e.objectId) && !valid.Contains((npc.npcId, e.zone, e.action, e.objectId))
                     )
                     {
                         problems.Add(
@@ -130,14 +137,15 @@ namespace IanGame.Editor
             {
                 foreach (int time in boundaries)
                 {
-                    var occupants = new Dictionary<string, string>();
+                    var occupants = new Dictionary<(string zone, string slot), string>();
                     foreach (var npc in rules.npcs.Where(n => n.schedule.Length > 0))
                     {
                         var e = npc.schedule[WorldNPCScheduler.Schedule(npc, day, time)];
-                        if (exclusive.Contains(e.objectId) && !occupants.TryAdd(e.objectId, npc.npcId))
+                        var slot = (e.zone, e.objectId);
+                        if (exclusive.Contains(slot) && !occupants.TryAdd(slot, npc.npcId))
                         {
                             problems.Add(
-                                $"D{day} {time / 60:00}:{time % 60:00} {occupants[e.objectId]} and {npc.npcId} need {e.objectId}"
+                                $"D{day} {time / 60:00}:{time % 60:00} {occupants[slot]} and {npc.npcId} need {e.objectId}"
                             );
                         }
                     }

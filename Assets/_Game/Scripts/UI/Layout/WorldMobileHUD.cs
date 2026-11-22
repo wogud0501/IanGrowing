@@ -209,7 +209,7 @@ namespace IanGame
                 needs.anchorMin = needs.anchorMax = new Vector2(.5f, 0);
                 needs.pivot = new Vector2(.5f, 0);
                 needs.anchoredPosition = new Vector2(0, 12);
-                needs.sizeDelta = new Vector2(244, 40);
+                needs.sizeDelta = new Vector2(Mathf.Min(354, safeRoot.rect.width * .64f), 52);
                 FitTouchArea(safe);
                 ConfigureControls();
             }

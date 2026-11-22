@@ -254,7 +254,13 @@ namespace IanGame
         public long Counter(MissionCounter counter)
         {
             var value = state.counters.FirstOrDefault(v => v.counter == counter);
-            return value == null ? 0 : value.value;
+            long recorded = value == null ? 0 : value.value;
+            if (counter == MissionCounter.FriendsMade && game?.phase23?.Progress?.social?.relationships != null)
+            {
+                return Math.Max(recorded, game.phase23.Progress.social.relationships.Count(r => r.friend));
+            }
+
+            return recorded;
         }
 
         public bool Claimed(string id) => state.claimedMissionIds.Contains(id);

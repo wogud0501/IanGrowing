@@ -733,6 +733,12 @@ namespace IanGame.Editor
                     windows && channel == BuildReleaseChannel.Development
                         ? BuildOptions.Development
                         : BuildOptions.None;
+                if (target == BuildTarget.Android)
+                {
+                    // Refresh the player-data archive when Gradle already contains a previous build.
+                    options |= BuildOptions.CompressWithLz4;
+                }
+
                 using (
                     var contextScope = new BuildValidationContext.Scope(
                         new BuildValidationContext

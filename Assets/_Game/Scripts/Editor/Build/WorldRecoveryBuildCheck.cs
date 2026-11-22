@@ -79,7 +79,7 @@ namespace IanGame.Editor
                             scenes = EditorBuildSettings.scenes.Where(s => s.enabled).Select(s => s.path).ToArray(),
                             target = targetBuild,
                             locationPathName = phase == 1 ? Path.Combine(folder, "IanGrowing.apk") : folder,
-                            options = BuildOptions.None,
+                            options = targetBuild == BuildTarget.Android ? BuildOptions.CompressWithLz4 : BuildOptions.None,
                         }
                     );
                     File.WriteAllText(

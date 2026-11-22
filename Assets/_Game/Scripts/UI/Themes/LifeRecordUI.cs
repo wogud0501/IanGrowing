@@ -42,7 +42,7 @@ namespace IanGame
         Education
     }
 
-    // Power-of-two sheet with 32-pixel, nine-sliced frames, ordered from the bottom left.
+    // The frame atlas is a single row of 32-pixel, nine-sliced stationery samples.
     public static class LifeRecordUI
     {
         public static readonly Color Heading = new Color32(244, 244, 244, 255);
@@ -94,10 +94,7 @@ namespace IanGame
             if (frames[index] == null)
             {
                 var atlas = Resources.Load<Texture2D>("IanLedger/Surfaces");
-                const int cell = 32;
-                int columns = atlas.width / cell;
-                var bounds = new Rect(index % columns * cell, index / columns * cell, cell, cell);
-                frames[index] = Sprite.Create(atlas, bounds,
+                frames[index] = Sprite.Create(atlas, new Rect(index * 32, 0, 32, 32),
                     Vector2.one * .5f, 100, 0, SpriteMeshType.FullRect, Vector4.one * 6);
             }
 

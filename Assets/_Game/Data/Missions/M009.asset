@@ -16,8 +16,8 @@ MonoBehaviour:
   number: 9
   chapter: 1
   suggestedAction: 5
-  title: "\uC0AC\uD758 \uB3D9\uC548 \uC0B4\uC544\uB0A8\uC790"
-  description: "\uC0AC\uD758 \uB3D9\uC548 \uC0B4\uC544\uB0A8\uC790\uC758 \uBA85\uC2DC\uB41C \uC870\uAC74\uC744 \uB2EC\uC131\uD558\uC138\uC694."
+  title: "3일째 맞이하기"
+  description: "먹고 쉬며 셋째 날을 맞으세요."
   source: 0
   prerequisiteIds:
   - M008
@@ -42,7 +42,7 @@ MonoBehaviour:
     unlocks: 
   requiredFeatures: 1
   futurePhase: 
-  completionMessage: "\uCD95\uD558\uD569\uB2C8\uB2E4. \uC0AC\uD758 \uB3D9\uC548 \uC0B4\uC544\uB0A8\uC790 \uD56D\uBAA9\uC774 \uC778\uC0DD \uBA85\uC138\uC11C\uC5D0 \uCD94\uAC00\uB418\uC5C8\uC2B5\uB2C8\uB2E4."
+  completionMessage: "3일째 맞이하기 완료"
   targetAge: 6
   enterLifeReview: 0
   references:
@@ -57,7 +57,7 @@ MonoBehaviour:
         counter: 0
         item: 0
         unlock: 0
-        target: 3
+        target: 2
         missionId:
         children: []
     - rid: 4119027142553240482

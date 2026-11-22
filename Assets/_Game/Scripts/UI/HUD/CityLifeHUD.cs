@@ -64,6 +64,8 @@ namespace IanGame
         TMP_Text routeText;
         GameObject suggestion;
         string selected;
+        string mappedDestination;
+        Facility mappedFacility;
         float next;
         int width;
         int height;
@@ -196,12 +198,27 @@ namespace IanGame
                 "매물 · 계약 · 이사",
             };
             Sprite[] icons = { homeIcon, workIcon, schoolIcon, shopIcon, financeIcon, propertyIcon };
+            bool residential = world.Room.roomId == "alley";
+            if (residential)
+            {
+                ids = new[] { "city", "family-living", "home", "residence" };
+                titles = new[] { "도심", "부모님 집", "독립 집", "주민 아파트" };
+                actions = new[] { "학교 · 회사 · 상점 · 금융", "가족 방문", "내 집", "세대 현관" };
+                icons = new[] { workIcon, homeIcon, homeIcon, propertyIcon };
+            }
+
             for (int i = 0; i < ids.Length; i++)
             {
                 var edge = world.Room.catalog.portals.FirstOrDefault(p =>
-                    p.sourceRoom == "city" && p.destinationRoom == ids[i]
+                    p.sourceRoom == MapZone && p.destinationRoom == ids[i]
                 );
                 if (edge == null)
+                {
+                    continue;
+                }
+
+                var door = world.objects.FirstOrDefault(o => o && o.id == edge.doorId && o.zone == MapZone);
+                if (residential && (!door || !door.gameObject.activeInHierarchy))
                 {
                     continue;
                 }
@@ -213,9 +230,10 @@ namespace IanGame
                         title = titles[i],
                         actions = actions[i],
                         icon = icons[i],
-                        point = cityDoorPoints.Length > i ? cityDoorPoints[i] : Vector2.zero,
+                        point = door ? door.Point - world.Room.rules.Zone(MapZone).origin
+                            : i < cityDoorPoints.Length ? cityDoorPoints[i] : Vector2.zero,
                         door = edge.doorId,
-                        essential = i == 0 || i == 2 || i == 3,
+                        essential = residential || i == 0 || i == 2 || i == 3,
                     }
                 );
             }
@@ -242,7 +260,7 @@ namespace IanGame
                 Vector2.zero,
                 OpenMap
             );
-            MapPanel = CreateScreen("City map screen", "지도 · 시설과 가능한 일");
+            MapPanel = CreateScreen("City map screen", residential ? "주거지역 지도" : "도심 지도");
             BuildView(MapPanel.transform, new Vector2(.04f, .26f), new Vector2(.64f, .86f));
             for (int i = 0; i < facilities.Count; i++)
             {
@@ -263,7 +281,7 @@ namespace IanGame
             Detail = Text(
                 "Facility detail",
                 MapPanel.transform,
-                "시설을 선택하면 가능한 일과 해금 조건을 확인할 수 있어요.",
+                "장소 선택",
                 18,
                 new Vector2(.04f, .10f),
                 new Vector2(.72f, .24f),
@@ -527,12 +545,12 @@ namespace IanGame
             image.color = LifeRecordUI.Track;
             var view = new View { rect = image.rectTransform };
             views.Add(view);
-            var zone = world.Room.rules.Zone("city");
+            var zone = world.Room.rules.Zone(MapZone);
             var road = Panel("Road", view.rect, Vector2.zero, Vector2.one, Vector2.zero, Vector2.zero);
             road.sprite = null;
             road.color = LifeRecordUI.Inactive;
-            road.rectTransform.anchorMin = Project(new Vector2(-zone.size.x / 2, -6.7f));
-            road.rectTransform.anchorMax = Project(new Vector2(zone.size.x / 2, -2.1f));
+            road.rectTransform.anchorMin = Project(new Vector2(-zone.size.x / 2, MapZone == "alley" ? -4.45f : -6.7f));
+            road.rectTransform.anchorMax = Project(new Vector2(zone.size.x / 2, MapZone == "alley" ? -2.55f : -2.1f));
             foreach (var f in facilities)
             {
                 var b = Button(
@@ -543,7 +561,15 @@ namespace IanGame
                     Vector2.zero,
                     new Vector2(28, 28),
                     Vector2.zero,
-                    () => Select(f)
+                    () =>
+                    {
+                        if (shell.Depth == 0)
+                        {
+                            OpenMap();
+                        }
+
+                        Select(f);
+                    }
                 );
                 var marker = b.GetComponent<Image>();
                 marker.sprite = f.icon;
@@ -583,9 +609,11 @@ namespace IanGame
             view.player.raycastTarget = false;
         }
 
+        string MapZone => world.Room.roomId == "alley" ? "alley" : "city";
+
         Vector2 Project(Vector2 local)
         {
-            var z = world.Room.rules.Zone("city");
+            var z = world.Room.rules.Zone(MapZone);
             return new Vector2(Mathf.Clamp01(local.x / z.size.x + .5f), Mathf.Clamp01(local.y / z.size.y + .5f));
         }
 
@@ -599,12 +627,7 @@ namespace IanGame
                 f.title
                 + " · "
                 + f.actions
-                + "\n"
-                + (allowed ? "도전과제와 관계없이 자유롭게 이용할 수 있어요." : reason);
-            if (shell.Depth == 0)
-            {
-                hud.Notify(f.title + " · " + f.actions + (allowed ? "" : "\n" + reason));
-            }
+                + (allowed ? "" : "\n" + reason);
         }
 
         public void OpenMap()
@@ -772,7 +795,7 @@ namespace IanGame
             }
 
             next = Time.unscaledTime + .1f;
-            bool cityRoom = world.Room.roomId == "city";
+            bool cityRoom = world.Room.roomId == MapZone;
             bool clear = shell.Depth == 0 && !world.Busy && !game.BirthIntroductionPending;
             MiniMap.SetActive(cityRoom && clear);
             suggestion.SetActive(clear && !city.Data.suggestionsHidden && !integratedGuide);
@@ -817,7 +840,18 @@ namespace IanGame
                     0,
                     Mathf.Atan2(world.Player.Facing.y, world.Player.Facing.x) * Mathf.Rad2Deg
                 );
-                var target = facilities.FirstOrDefault(f => f.room == city.Data.destination);
+                if (mappedDestination != city.Data.destination)
+                {
+                    mappedDestination = city.Data.destination;
+                    mappedFacility = facilities.FirstOrDefault(f => f.room == mappedDestination);
+                    if (mappedFacility == null && !string.IsNullOrEmpty(mappedDestination))
+                    {
+                        string door = world.Room.catalog.FirstDoor(MapZone, mappedDestination);
+                        mappedFacility = facilities.FirstOrDefault(f => f.door == door);
+                    }
+                }
+
+                var target = mappedFacility;
                 view.target.gameObject.SetActive(target != null);
                 if (target != null)
                 {

@@ -143,7 +143,7 @@ namespace IanGame
                             yield return null;
                         }
                         actor.Pose("Lie Down");
-                        yield return BedTransfer(destination, .58f, cancelled);
+                        yield return BedTransfer(.58f, cancelled);
                     }
                     else if (actor.MovementAllowed)
                     {
@@ -313,13 +313,11 @@ namespace IanGame
             }
         }
 
-        IEnumerator BedTransfer(Vector2 destination, float duration, Func<bool> cancelled)
+        IEnumerator BedTransfer(float duration, Func<bool> cancelled)
         {
-            Vector2 from = actor.Position;
             for (float t = 0; t < duration && !cancelled(); t += Time.unscaledDeltaTime)
             {
                 float blend = Mathf.SmoothStep(0, 1, t / duration);
-                actor.growthVisual.ActionOffset = (destination - from) * blend;
                 float lean = Phase == "Exit" ? 1 - blend : blend;
                 actor.growthVisual.Recline = lean;
                 quilt.PlayerPose(actor, approach, lean, 1, false);
@@ -328,7 +326,6 @@ namespace IanGame
 
             if (!cancelled())
             {
-                actor.Warp(destination);
                 actor.growthVisual.ActionOffset = Vector2.zero;
             }
         }
@@ -473,8 +470,7 @@ namespace IanGame
                     actor.Pose("Wake Up");
                     if (actor.MovementAllowed)
                     {
-                        yield return BedTransfer(standUp != null ? (Vector2)standUp.position : target.Point,
-                            .62f, cancelled);
+                        yield return BedTransfer(.62f, cancelled);
                         actor.Pose("Sit");
                         for (float t = 0; t < .25f && !cancelled(); t += Time.unscaledDeltaTime)
                         {

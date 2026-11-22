@@ -170,6 +170,7 @@ namespace IanGame.Editor
             catalog.npcs = new[]
             {
                 NPC("classmate", "옆자리 민수", 7, 150, 0),
+                NPC("school-pupil", "같은 반 준서", 7, 150, 0),
                 NPC("clubmate", "동아리 지우", 13, 150, -.1f),
                 NPC("colleague", "동네 선배 수연", 19, 150, .05f),
             };
@@ -324,6 +325,10 @@ namespace IanGame.Editor
                     e.prerequisiteMission = prerequisite;
                     e.enrollmentEvent = counter;
                     e.graduationStudies = studies;
+                    if (id == "elementary")
+                    {
+                        e.graduationHomework = 1;
+                    }
                 }
             );
 

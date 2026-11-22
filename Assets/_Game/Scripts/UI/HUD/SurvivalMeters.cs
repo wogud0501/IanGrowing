@@ -51,17 +51,29 @@ namespace IanGame
             }
         }
 
+        bool compact;
+
         public void SetCompact(bool compact)
         {
+            this.compact = compact;
             for (int i = 0; i < labels.Length; i++)
             {
                 float x = .035f + i * .24f;
-                labels[i].enabled = !compact;
-                symbols[i].anchorMin = new Vector2(x, compact ? .23f : .38f);
-                symbols[i].anchorMax = new Vector2(x + (compact ? .082f : .033f), .82f);
-                tracks[i].anchorMin = new Vector2(x + (compact ? .095f : 0), compact ? .41f : .17f);
-                tracks[i].anchorMax = new Vector2(x + .20f, compact ? .58f : .235f);
+                labels[i].text = MeterLabel(i);
+                labels[i].fontSize = 17;
+                labels[i].textWrappingMode = TextWrappingModes.NoWrap;
+                LifeRecordUI.Place(labels[i].rectTransform,
+                    x + (compact ? .085f : .04f), compact ? .47f : .29f, x + .228f, .97f);
+                symbols[i].anchorMin = new Vector2(x, compact ? .17f : .38f);
+                symbols[i].anchorMax = new Vector2(x + (compact ? .073f : .033f), compact ? .85f : .82f);
+                tracks[i].anchorMin = new Vector2(x + (compact ? .085f : 0), compact ? .22f : .17f);
+                tracks[i].anchorMax = new Vector2(x + .20f, compact ? .36f : .235f);
             }
+        }
+
+        string MeterLabel(int index)
+        {
+            return compact ? Names[index] : (previous[index] <= 25 ? "! " : "") + Names[index] + " " + previous[index];
         }
 
         public void Focus(int index)
@@ -88,7 +100,7 @@ namespace IanGame
 
             int old = previous[index];
             previous[index] = value;
-            labels[index].text = (value <= 25 ? "! " : "") + Names[index] + " " + value;
+            labels[index].text = MeterLabel(index);
             meters[index].color = LifeRecordUI.Heading;
             meters[index].rectTransform.anchorMax = new Vector2(Mathf.Clamp01(value / 100f), 1);
             if (old >= 0 && host.isActiveAndEnabled)
@@ -104,11 +116,11 @@ namespace IanGame
 
         System.Collections.IEnumerator Highlight(int index, int change)
         {
-            labels[index].text = Names[index] + (change > 0 ? " +" : " ") + change;
+            labels[index].text = compact ? Names[index] : Names[index] + (change > 0 ? " +" : " ") + change;
             meters[index].transform.parent.GetComponent<Image>().color = LifeRecordUI.Body;
             labels[index].color = Color.white;
             yield return new WaitForSecondsRealtime(.8f);
-            labels[index].text = (previous[index] <= 25 ? "! " : "") + Names[index] + " " + previous[index];
+            labels[index].text = MeterLabel(index);
             labels[index].color = LifeRecordUI.Heading;
             meters[index].transform.parent.GetComponent<Image>().color = LifeRecordUI.Track;
             pulses[index] = null;

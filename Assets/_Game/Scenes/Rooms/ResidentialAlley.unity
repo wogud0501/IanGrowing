@@ -15351,7 +15351,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 86, y: -1.7}
+  m_AnchoredPosition: {x: 87.8, y: -5.18}
   m_SizeDelta: {x: 3, y: 0.55}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &389656084
@@ -15374,7 +15374,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uB3C4\uC2DC \u2192"
+  m_text: "도심 →"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: bafaafa0ca396b248a02b77eea99a4c7, type: 2}
   m_sharedMaterial: {fileID: 1909164035370475347, guid: bafaafa0ca396b248a02b77eea99a4c7, type: 2}
@@ -15495,7 +15495,7 @@ MeshRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1801
+  m_SortingOrder: 1641
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &390184856
@@ -32725,7 +32725,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::IanGame.WorldInteractable
   id: city-path
-  title: "\uB3C4\uC2DC \uC911\uC2EC\uB85C \uC774\uB3D9"
+  title: "도심으로 이동"
   zone: alley
   targetZone: city
   npcId: 
@@ -48131,7 +48131,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::IanGame.WorldInteractable
   id: npc-residence-front
-  title: "\uC8FC\uBBFC \uC0DD\uD65C\uAD00\uC73C\uB85C"
+  title: "주민 아파트 현관"
   zone: alley
   targetZone: residence
   npcId: 
@@ -48641,8 +48641,8 @@ Transform:
   m_GameObject: {fileID: 1359557175}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 86, y: -1.7, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 87.8, y: -5.42, z: 0}
+  m_LocalScale: {x: 1.6, y: 1.6, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2122785949}
@@ -48694,13 +48694,13 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1800
+  m_SortingOrder: 1640
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 21300000, guid: 9756adf19c5580c4a90234a3ad9c2e06, type: 3}
-  m_Color: {r: 0.16862746, g: 0.21960784, b: 0.25490198, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 8c9843135f524a8f9b169cb6932559ec, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
-  m_DrawMode: 1
+  m_DrawMode: 0
   m_Size: {x: 3, y: 0.55}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0

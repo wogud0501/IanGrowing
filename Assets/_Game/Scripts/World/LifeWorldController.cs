@@ -68,6 +68,15 @@ namespace IanGame
             }
 
             Service = GameContext.Instance.game.world;
+            if (TryGetComponent<ResidentApartment>(out var apartment))
+            {
+                var unit = Room.catalog.Find(Service.State.zone);
+                if (unit != null && unit.sceneName == gameObject.scene.name)
+                {
+                    apartment.Furnish(this, unit);
+                }
+            }
+
             Service.Attach(this);
             if (Room != null && GameContext.Instance.transitions.IsTransitioning)
             {
@@ -299,6 +308,12 @@ namespace IanGame
                         return false;
                     }
 
+                    if (Room && o.id == "npc-residence-front")
+                    {
+                        hud.OpenContext(o);
+                        return true;
+                    }
+
                     StartCoroutine(DoorTravel(o));
                     return true;
                 case WorldInteractionKind.Fridge:
@@ -361,7 +376,8 @@ namespace IanGame
                 : action == 3 ? WorldInteractionKind.Meal
                 : action == 4 ? WorldInteractionKind.Drink
                 : WorldInteractionKind.Rest;
-            var o = Interactables.FirstOrDefault(x => x.kind == kind && IsInReach(x));
+            var o = Interactables.FirstOrDefault(x => x.kind == kind && IsInReach(x)
+                && (kind != WorldInteractionKind.NPC || Service.Game.phase23.catalog.NPC(x.npcId) != null));
             if (o == null)
             {
                 hud.Notify("해당 사물이나 사람에게 가까이 가서 [" + hud.InteractionInput + "]로 행동하세요.");
@@ -976,7 +992,17 @@ namespace IanGame
             }
         }
 
-        IEnumerator DoorTravel(WorldInteractable portal)
+        public void VisitApartment(WorldInteractable entrance, RoomSceneDefinition apartment)
+        {
+            hud.CloseContext();
+            if (CanControl && entrance.id == "npc-residence-front" && IsInReach(entrance)
+                && apartment.sceneName == "Resident_Housing" && GrowthAccess.Zone(Service.Game, apartment.roomId, out _))
+            {
+                StartCoroutine(DoorTravel(entrance, apartment.roomId));
+            }
+        }
+
+        IEnumerator DoorTravel(WorldInteractable portal, string apartment = null)
         {
             travelling = true;
             int generation = restoreGeneration;
@@ -1064,7 +1090,7 @@ namespace IanGame
                     committed = true;
                     GetComponent<WorldNPCScheduler>()?.Capture();
                     bool accepted = GameContext.Instance.transitions.NavigateRoom(
-                        portal.targetZone,
+                        apartment ?? portal.targetZone,
                         portal.arrival,
                         Player.Facing,
                         Room.catalog.portals.FirstOrDefault(p => p.doorId == portal.id)?.destinationEntryId ?? ""

@@ -346,6 +346,7 @@ namespace IanGame
                 bool claimable = game.missions.GetProgress(mission).state == MissionState.Completed;
                 string direction =
                     claimable ? "미션 창 → 보상 수령"
+                    : mission.Id == "M014" ? game.phase23.Social.IntroductionHint()
                     : mission.Id == "M009" ? "날짜가 바뀌면 생존 일수가 늘어요"
                     : "생활 메뉴 → 미션에서 조건과 보상 확인";
                 add("현재 미션 · " + mission.title, direction, screen: "mission");

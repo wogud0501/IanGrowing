@@ -717,7 +717,15 @@ namespace IanGame
             };
             contextTitle.text = string.IsNullOrEmpty(detail) ? target.title : $"{target.title} · {detail}";
             var ambient = Array.Find(game.world.rules.npcs, n => n.ambient && n.npcId == target.npcId);
-            if (ambient != null)
+            if (target.id == "npc-residence-front" && world.Room)
+            {
+                contextTitle.text = "주민 아파트 · 방문할 집";
+                foreach (var unit in world.Room.catalog.rooms.Where(r => r.sceneName == "Resident_Housing"))
+                {
+                    Choice(unit.title, () => world.VisitApartment(target, unit));
+                }
+            }
+            else if (ambient != null)
             {
                 contextTitle.text = target.title + " · 주변 주민";
                 Choice(
@@ -922,9 +930,23 @@ namespace IanGame
             else if (target.kind == WorldInteractionKind.NPC)
             {
                 game.phase23.SelectedNpcId = target.npcId;
-                foreach (int a in new[] { 18, 9, 19 })
+                var profile = game.phase23.catalog.NPC(target.npcId);
+                if (profile == null || game.growth.Age < profile.minAge || game.growth.Age > profile.maxAge)
                 {
-                    ActionChoice(target, a);
+                    Choice("인사하기", () => world.Begin(target, -1));
+                }
+                else
+                {
+                    ActionChoice(target, 18);
+                    var relationship = game.phase23.Social.Relationship(target.npcId);
+                    if (relationship?.friend == true)
+                    {
+                        ActionChoice(target, 19);
+                    }
+                    else if (game.missions.ActiveMission?.Id != "M014")
+                    {
+                        ActionChoice(target, 9);
+                    }
                 }
             }
 
