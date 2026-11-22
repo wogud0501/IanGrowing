@@ -43,12 +43,16 @@ namespace IanGame
             public float nextCollisionCheck;
 #endif
             public float arrivingUntil;
+            public float changingClothesUntil;
+            public bool puttingBagAway;
+            public WorldDoor wardrobeEntrance;
             public float departingUntil;
             public bool active;
             public float nextVisualTick;
             public float lastVisualStep;
             public int ambientWaypoint;
             public float ambientPauseUntil;
+            public Color? shadowInk;
             public Color baseColor = Color.white;
             public float ambientConversationUntil;
             public bool atActivity;
@@ -65,6 +69,9 @@ namespace IanGame
             public WorldInteractable anchor;
             public WorldInteractable leavingBed;
             public BedQuilt quilt;
+            public Vector2 bedEntryFrom;
+            public bool enteringBed;
+            public WorldActivitySlot bedExitSlot;
             public float walkSpeed;
             public float lastMovement;
             public Vector2 anchorFacing;
@@ -243,6 +250,9 @@ namespace IanGame
                 r.interiorDoor = null;
                 r.departureSlot = null;
                 r.awaitingSpace = false;
+                r.bedExitSlot?.Release(r.definition.npcId);
+                r.bedExitSlot = null;
+                r.enteringBed = false;
                 r.leavingBed = null;
                 r.seatApproached = false;
                 r.slot = null;
@@ -251,6 +261,8 @@ namespace IanGame
                 r.portal = null;
                 r.nextPortal = null;
                 r.portalPhase = 0;
+                r.changingClothesUntil = 0;
+                r.wardrobeEntrance = null;
                 r.index = -1;
                 r.path.Clear();
                 r.waypoint = 0;
@@ -406,7 +418,7 @@ namespace IanGame
 
             if (Time.unscaledTime >= nextDecision)
             {
-                nextDecision = Time.unscaledTime + Mathf.Lerp(.30f, .14f, WorldGraphicsSettings.Crowd / 3f);
+                nextDecision = Time.unscaledTime + .25f;
                 Decide(false);
             }
 
@@ -449,7 +461,7 @@ namespace IanGame
 
                     dt =
                         resident.lastVisualStep <= 0 ? dt : Mathf.Min(Time.unscaledTime - resident.lastVisualStep, .3f);
-                    resident.nextVisualTick = Time.unscaledTime + .25f;
+                    resident.nextVisualTick = Time.unscaledTime + Mathf.Lerp(.30f, .14f, WorldGraphicsSettings.Crowd / 3f);
                 }
 
                 resident.lastVisualStep = Time.unscaledTime;
@@ -566,11 +578,16 @@ namespace IanGame
                         r.standingUntil = Time.unscaledTime + .55f;
                         r.exitMotion = ActorMotion.StandUp;
                     }
+                    else if (r.atActivity && r.action == NPCDailyAction.Sleep && r.actor.zone == local && r.anchor)
+                    {
+                        r.bedExitSlot = r.slot;
+                    }
                     else
                     {
                         r.slot?.Release(r.definition.npcId);
                     }
 
+                    r.enteringBed = false;
                     r.seatApproached = false;
                     r.slot = null;
                     if (r.action == NPCDailyAction.Sleep && r.atActivity && r.actor.zone == local)
@@ -594,6 +611,7 @@ namespace IanGame
                     r.portal = null;
                     r.nextPortal = null;
                     r.portalPhase = 0;
+                    r.changingClothesUntil = 0;
                     r.path.Clear();
                     r.waypoint = 0;
                     r.index = index;
@@ -739,8 +757,9 @@ namespace IanGame
 
         static Vector2 BedPose(WorldInteractable bed)
         {
-            var mattress = bed.visual.bounds;
-            return new Vector2(mattress.center.x, mattress.min.y + mattress.size.y * .52f);
+            var mattress = bed.visual.sprite.bounds;
+            return bed.visual.transform.TransformPoint(new Vector3(mattress.center.x,
+                mattress.min.y + mattress.size.y * .52f, 0));
         }
 
         bool CanStartHere(Resident resident)
@@ -1001,6 +1020,19 @@ namespace IanGame
             return true;
         }
 
+        static bool UsesFamilyEntrance(Resident r, WorldInteractable door)
+        {
+            return door && FamilyLife.Parent(r.definition.npcId) && FamilyLife.IsFamilyRoom(r.actor.zone)
+                && !string.IsNullOrEmpty(door.targetZone) && !FamilyLife.IsFamilyRoom(door.targetZone);
+        }
+
+        static void StartClothingChange(Resident r, bool puttingBagAway)
+        {
+            r.puttingBagAway = puttingBagAway;
+            r.changingClothesUntil = Time.unscaledTime + FamilyWardrobe.ChangeDuration;
+            r.action = NPCDailyAction.Idle;
+        }
+
         void Step(Resident r, int index, float dt)
         {
             if (!r.active)
@@ -1019,6 +1051,28 @@ namespace IanGame
             }
 
             Vector2 before = r.actor.transform.position;
+            if (r.wardrobeEntrance)
+            {
+                // Finish crossing the entry before putting the bag down. The tall door
+                // sprite otherwise hides the actor during the whole change of clothes.
+                Vector2 offset = before - r.wardrobeEntrance.portal.Point;
+                Vector2 normal = r.wardrobeEntrance.normal.normalized;
+                float sideways = Mathf.Abs(Vector2.Dot(offset, Vector2.Perpendicular(normal)));
+                if (sideways >= 1.15f || Vector2.Dot(offset, -normal) >= 2.15f || r.atActivity)
+                {
+                    r.wardrobeEntrance = null;
+                    StartClothingChange(r, true);
+                }
+            }
+
+            if (Time.unscaledTime < r.changingClothesUntil)
+            {
+                Render(r, index, before, ActorMotion.Idle);
+                float remaining = (r.changingClothesUntil - Time.unscaledTime) / FamilyWardrobe.ChangeDuration;
+                FamilyWardrobe.ChangeAtDoor(r.animation, r.definition.npcId, r.puttingBagAway ? 1 - remaining : remaining);
+                return;
+            }
+
             if (r.entryDoor != null)
             {
                 if (r.entryDoor.State != DoorState.Open)
@@ -1033,6 +1087,11 @@ namespace IanGame
                     Move(r, index, r.entryDoor.portal.Point, dt);
                     Render(r, index, before);
                     return;
+                }
+
+                if (UsesFamilyEntrance(r, r.entryDoor.portal))
+                {
+                    r.wardrobeEntrance = r.entryDoor;
                 }
 
                 r.entryDoor.Release(r.definition.npcId);
@@ -1068,6 +1127,14 @@ namespace IanGame
 
             if (Time.unscaledTime < r.standingUntil)
             {
+                if (r.leavingBed && r.exitMotion == ActorMotion.WakeUp)
+                {
+                    var remaining = r.standingUntil - Time.unscaledTime;
+                    float sit = 1 - Mathf.SmoothStep(0, 1, remaining / .65f);
+                    r.actor.transform.position = Vector2.Lerp(BedPose(r.leavingBed), r.leavingBed.Point, sit);
+                    crowd.Set(r.definition.npcId, r.actor.transform.position);
+                }
+
                 Render(r, index, before, r.exitMotion);
                 return;
             }
@@ -1082,6 +1149,12 @@ namespace IanGame
                     return;
                 }
 
+                if (r.bedExitSlot != r.slot)
+                {
+                    r.bedExitSlot?.Release(r.definition.npcId);
+                }
+
+                r.bedExitSlot = null;
                 r.leavingBed = null;
             }
 
@@ -1144,6 +1217,11 @@ namespace IanGame
             if (leaving && (r.nextPortal == null || r.nextPortal.zone != r.actor.zone))
             {
                 r.nextPortal = NextPortal(r.actor.zone, r.target.zone);
+                if (UsesFamilyEntrance(r, r.nextPortal))
+                {
+                    StartClothingChange(r, false);
+                    return;
+                }
             }
 
             var nextPortal = leaving ? r.nextPortal : null;
@@ -1238,6 +1316,12 @@ namespace IanGame
                 if (!r.atActivity)
                 {
                     r.seatedAt = Time.unscaledTime;
+                    if (r.target.action == NPCDailyAction.Sleep)
+                    {
+                        r.bedEntryFrom = before;
+                        r.enteringBed = true;
+                    }
+
                     if (anchored)
                     {
                         r.actor.transform.position = Destination(r);
@@ -1283,7 +1367,13 @@ namespace IanGame
                     var bed = Object(r.target.objectId);
                     if (bed != null)
                     {
-                        r.actor.transform.position = BedPose(bed);
+                        var point = BedPose(bed);
+                        float lean = Mathf.SmoothStep(0, 1, (Time.unscaledTime - r.seatedAt) / .65f);
+                        r.actor.transform.position = r.enteringBed ? Vector2.Lerp(r.bedEntryFrom, point, lean) : point;
+                        if (lean >= 1)
+                        {
+                            r.enteringBed = false;
+                        }
                     }
                 }
 
@@ -1384,6 +1474,16 @@ namespace IanGame
             }
 
             motion = LifeMotion(r, motion);
+            if (r.action == NPCDailyAction.Sleep && r.enteringBed)
+            {
+                float elapsed = Time.unscaledTime - r.seatedAt;
+                motion = elapsed < .23f ? ActorMotion.SitDown : ActorMotion.LieDown;
+                if (r.animation?.library?.Find(motion, ActorAnimationSet.Direction(r.facing), false) == null)
+                {
+                    motion = elapsed < .23f ? ActorMotion.SitDown : ActorMotion.Sleep;
+                }
+            }
+
             if (forced.HasValue)
             {
                 motion = forced.Value;
@@ -1419,7 +1519,11 @@ namespace IanGame
             if (sleeping || waking)
             {
                 var bed = sleeping ? r.anchor : r.leavingBed;
-                r.quilt = BedQuilt.For(bed);
+                r.actor.visual.sortingOrder = Mathf.Max(r.actor.visual.sortingOrder, bed.visual.sortingOrder + 1);
+                if (!r.quilt || r.quilt.gameObject != bed.gameObject)
+                {
+                    r.quilt = BedQuilt.For(bed);
+                }
                 float phase = sleeping ? Time.unscaledTime - r.seatedAt : r.standingUntil - Time.unscaledTime;
                 bedPhase = Mathf.Clamp01(phase / .65f);
                 r.quilt.Draw(r.actor.visual, Mathf.SmoothStep(0, 1, (phase - .65f) / .7f));
@@ -1430,13 +1534,22 @@ namespace IanGame
                 r.quilt = null;
             }
 
-            if (FamilyLife.Parent(r.definition.npcId) && r.actor.zone.StartsWith("family-")
-                && (sleeping || waking || r.portal == null || r.target.zone.StartsWith("family-")))
+            var threshold = r.portal ? r.portal : r.nextPortal;
+            bool goingOut = threshold && !string.IsNullOrEmpty(threshold.targetZone)
+                && !FamilyLife.IsFamilyRoom(threshold.targetZone);
+            bool returning = r.wardrobeEntrance || r.entryDoor && r.entryDoor.portal
+                && !FamilyLife.IsFamilyRoom(r.entryDoor.portal.targetZone);
+            if (FamilyLife.Parent(r.definition.npcId) && FamilyLife.IsFamilyRoom(r.actor.zone)
+                && (sleeping || waking || !goingOut && !returning))
             {
                 FamilyWardrobe.Dress(r.animation, r.definition.npcId, motion, walking ? delta : r.facing, bedPhase);
                 if (r.action == NPCDailyAction.Cook && r.animation)
                 {
                     FamilyWardrobe.Cook(r.animation, r.definition.npcId, r.facing);
+                }
+                else if (r.action == NPCDailyAction.WatchTV && r.atActivity && r.animation && r.facing.y > 0)
+                {
+                    FamilyWardrobe.WatchTV(r.animation, r.definition.npcId);
                 }
             }
 
@@ -1445,6 +1558,10 @@ namespace IanGame
             if (r.actor.shadow != null)
             {
                 r.actor.shadow.enabled = r.active && r.action != NPCDailyAction.Sleep;
+                r.shadowInk ??= r.actor.shadow.color;
+                var ink = r.shadowInk.Value;
+                ink.a *= .55f + WorldGraphicsSettings.Shadows * .15f;
+                r.actor.shadow.color = ink;
                 r.actor.shadow.sortingOrder = r.actor.visual.sortingOrder - 1;
             }
 

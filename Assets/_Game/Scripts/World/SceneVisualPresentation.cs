@@ -61,6 +61,11 @@ namespace IanGame
                 if (lamp != null)
                 {
                     lamp.enabled = night && !lowDetail && tier > 0;
+                    if (bases.TryGetValue(lamp, out var authored))
+                    {
+                        authored.a *= Mathf.Lerp(.45f, 1f, tier / 3f);
+                        lamp.color = authored;
+                    }
                 }
             }
 

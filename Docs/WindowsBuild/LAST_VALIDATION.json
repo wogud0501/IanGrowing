@@ -1,8 +1,8 @@
 {
-  "target": "Android",
-  "channel": "Development",
+  "target": "StandaloneWindows64",
+  "channel": "WindowsTest",
   "production": false,
-  "development": true,
+  "development": false,
   "internalBuild": true,
   "storeDistribution": false,
   "issues": [
@@ -117,10 +117,6 @@
     {
       "severity": "Warning",
       "message": "Effective date: licenses"
-    },
-    {
-      "severity": "Warning",
-      "message": "Production Bundle Identifier required: Android"
     },
     {
       "severity": "Warning",

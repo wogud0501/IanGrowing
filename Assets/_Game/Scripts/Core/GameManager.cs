@@ -126,7 +126,13 @@ namespace IanGame
 
         void Start()
         {
-            if (enabled)
+            if (enabled && GameContext.Instance?.game == this
+                && UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "Bootstrap")
+            {
+                ResetModel();
+                EnterTitle();
+            }
+            else if (enabled)
             {
                 StartGame();
             }
@@ -266,16 +272,23 @@ namespace IanGame
 
         public void NewGame()
         {
+            TryStartNewLife(out _, false);
+        }
+
+        public bool TryStartNewLife(out string message, bool titleSlot = true)
+        {
             Notifications.Clear();
             if (LegalDocumentService.NeedsConsent)
             {
-                Log("이용약관과 개인정보처리방침을 먼저 확인하세요.");
-                return;
+                message = "이용약관과 개인정보처리방침을 먼저 확인하세요.";
+                Log(message);
+                return false;
             }
 
             if (!enabled || State == GameState.Resolving)
             {
-                return;
+                message = "현재 행동이 끝난 뒤 다시 시도하세요.";
+                return false;
             }
 
             SetState(GameState.Starting);
@@ -285,7 +298,7 @@ namespace IanGame
             SetState(GameState.Playing);
             clock.SetRunning(!BirthIntroductionPending);
             BirthMessage();
-            SaveQuietly();
+            return titleSlot ? SaveForMenu(out message) : SaveAutomaticCheckpoint(out message);
         }
 
         void SetState(GameState state)
@@ -557,6 +570,7 @@ namespace IanGame
                     legal = LegalDocumentService.Capture(),
                     items = items?.Capture(),
                     world = world?.Capture(),
+                    resumeScene = SceneTransitionService.ResumeTarget(GameContext.Instance?.transitions?.CurrentScene ?? SceneId.LifeWorld),
                     birthIntroCompleted = saves.BirthIntroCompleted,
                     idle = idle == null ? new IdleProgressSnapshot() : idle.Capture(),
                     phase23 = phase23.Capture(),
@@ -750,6 +764,50 @@ namespace IanGame
             Log(message);
         }
 
+        public void EnterTitle()
+        {
+            missionCheckpointPending = false;
+            checkpointPending = false;
+            Notifications.Clear();
+            SetState(GameState.Starting);
+            clock.SetRunning(false);
+        }
+
+        public bool SaveForMenu(out string message)
+        {
+            if (!enabled || State == GameState.Starting || State == GameState.Resolving || missions.IsBusy
+                || world.Busy || GameContext.Instance?.transitions.IsTransitioning == true)
+            {
+                message = "현재 행동을 마친 뒤 다시 시도하세요.";
+                return false;
+            }
+
+            bool saved = saves.Save(stats, clock, State == GameState.GameOver, runId, settledDay, out message);
+            if (saved)
+            {
+                connectionStamp = saves.LastSavedUtcTicks;
+                missionCheckpointPending = false;
+            }
+            else
+            {
+                Log(message);
+            }
+
+            return saved;
+        }
+
+        public void ContinueSnapshot(SaveData data)
+        {
+            var routes = GameContext.Instance?.transitions;
+            if (routes != null && routes.IsRoomArchitecture)
+            {
+                world.UseRoomRules(routes.roomCatalog);
+            }
+
+            RestoreLoaded(data, false);
+            clock.SetRunning(false);
+        }
+
         public void Load()
         {
             if (enabled && State != GameState.Resolving)
@@ -770,36 +828,7 @@ namespace IanGame
 
             if (loaded)
             {
-                long previousIdleWatermark = idle == null ? 0 : idle.State.accountedUtcTicks;
-                long previousMarketWatermark = economy.Finance?.marketUtcTicks ?? 0;
-                if (data.runId == runId && saves.BirthIntroCompleted)
-                {
-                    data.birthIntroCompleted = true;
-                }
-
-                SetState(GameState.Starting);
-                saves.ApplyToModels(data, stats, clock);
-                runId = data.runId;
-                settledDay = data.settledDay;
-                connectionStamp = data.lastSeenUtcTicks;
-                clock.RecordConnection(
-                    data.lastSeenUtcTicks,
-                    LifeMode ? balance.survival.maxOfflineInspectionSeconds : 28800
-                );
-                SetState(data.gameOver || survival.Failed ? GameState.GameOver : GameState.Playing);
-                economy.EnsureFinance(clock.Day, DateTime.UtcNow.Ticks);
-                if (preserve)
-                {
-                    economy.ReanchorMarket(Math.Max(previousMarketWatermark, DateTime.UtcNow.Ticks));
-                }
-
-                idle?.Loaded(preserve, previousIdleWatermark);
-                economy.SettleMarket(DateTime.UtcNow.Ticks);
-                if (preserve)
-                {
-                    SaveQuietly();
-                }
-
+                RestoreLoaded(data, preserve);
                 Log(message);
                 return;
             }
@@ -822,9 +851,42 @@ namespace IanGame
             }
         }
 
+        void RestoreLoaded(SaveData data, bool preserve)
+        {
+            long previousIdleWatermark = idle == null ? 0 : idle.State.accountedUtcTicks;
+            long previousMarketWatermark = economy.Finance?.marketUtcTicks ?? 0;
+            if (data.runId == runId && saves.BirthIntroCompleted)
+            {
+                data.birthIntroCompleted = true;
+            }
+
+            SetState(GameState.Starting);
+            saves.ApplyToModels(data, stats, clock);
+            runId = data.runId;
+            settledDay = data.settledDay;
+            connectionStamp = data.lastSeenUtcTicks;
+            clock.RecordConnection(
+                data.lastSeenUtcTicks,
+                LifeMode ? balance.survival.maxOfflineInspectionSeconds : 28800
+            );
+            SetState(data.gameOver || survival.Failed ? GameState.GameOver : GameState.Playing);
+            economy.EnsureFinance(clock.Day, DateTime.UtcNow.Ticks);
+            if (preserve)
+            {
+                economy.ReanchorMarket(Math.Max(previousMarketWatermark, DateTime.UtcNow.Ticks));
+            }
+
+            idle?.Loaded(preserve, previousIdleWatermark);
+            economy.SettleMarket(DateTime.UtcNow.Ticks);
+            if (preserve)
+            {
+                SaveQuietly();
+            }
+        }
+
         void OnApplicationPause(bool paused)
         {
-            if (appSuspended == paused)
+            if (State == GameState.Starting || appSuspended == paused)
             {
                 return;
             }

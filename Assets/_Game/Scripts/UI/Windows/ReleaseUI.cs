@@ -21,6 +21,7 @@ namespace IanGame
         GameObject document;
         GameObject shop;
         GameObject consent;
+        Action afterConsent;
         bool agreed;
         bool privacyRead;
         public GameObject DocumentPanel => document;
@@ -267,6 +268,9 @@ namespace IanGame
 
                     LegalDocumentService.AcceptRequired();
                     shell.Close(consent);
+                    var proceed = afterConsent;
+                    afterConsent = null;
+                    proceed?.Invoke();
                 }
             );
             accept.interactable = false;
@@ -274,11 +278,18 @@ namespace IanGame
             {
                 game.economy.Ruby.Changed += RefreshRuby;
             }
+        }
 
-            if (shell.mainMenu && LegalDocumentService.NeedsConsent)
+        public void BeforePlay(Action proceed)
+        {
+            if (LegalDocumentService.NeedsConsent)
             {
+                afterConsent = proceed;
                 shell.Push(consent);
+                return;
             }
+
+            proceed();
         }
 
         void OnDestroy()

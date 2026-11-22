@@ -73,7 +73,7 @@ namespace IanGame
         {
             if (GameContext.Instance != null)
             {
-                GameContext.Instance.transitions.Navigate(SceneId.MainMenu);
+                UIShell.For(this)?.RequestTitle();
             }
         }
     }

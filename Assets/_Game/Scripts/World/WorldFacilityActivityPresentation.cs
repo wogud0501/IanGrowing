@@ -19,9 +19,11 @@ namespace IanGame
         WorldInteractable actor;
         string owner;
         float phase;
+        bool familyStove;
 
         void Awake()
         {
+            familyStove = GetComponent<WorldInteractable>()?.id == "family-cook";
             phase = Mathf.Abs(transform.position.x * .37f) % 3;
         }
 
@@ -64,6 +66,18 @@ namespace IanGame
                 Frame = Mathf.FloorToInt((Time.unscaledTime + phase) * 2.8f) % 4;
                 occupied.sprite = frames[row * 4 + Frame];
                 occupied.sortingOrder = 1000 - Mathf.RoundToInt(transform.position.y * 100) + 2;
+                if (familyStove && FamilyLife.Parent(actor.npcId))
+                {
+                    occupied.sprite = actor.visual.sprite;
+                    occupied.flipX = actor.visual.flipX;
+                    occupied.color = actor.visual.color;
+                    occupied.transform.position = actor.transform.position + Vector3.up * (actor.visual.sprite.bounds.size.y * actor.visual.transform.lossyScale.y * .46f);
+                    occupied.transform.localScale = Vector3.one * (actor.visual.transform.lossyScale.y
+                        / occupied.transform.parent.lossyScale.y);
+                    occupied.sortingLayerID = empty.sortingLayerID;
+                    occupied.sortingOrder = empty.sortingOrder - 1;
+                }
+
                 actor.visual.enabled = false;
                 if (actor.shadow != null)
                 {
@@ -81,7 +95,7 @@ namespace IanGame
             }
 
             occupied.enabled = active;
-            empty.enabled = !active;
+            empty.enabled = !active || familyStove;
             IsPresenting = active;
         }
 

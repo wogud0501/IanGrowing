@@ -7,29 +7,44 @@ using UnityEngine.UI;
 
 namespace IanGame
 {
-    public sealed partial class GameplayUXPresenter
+    internal sealed class SessionPreferences
     {
+        readonly UIShell shell;
+        readonly PixelUXWidgets ui;
+        readonly CityLifeService city;
+        readonly Action openHelp;
+        readonly Action openIdle;
+        readonly Action layout;
+        readonly TMP_Text settingsText;
+        public GameObject Preferences { get; }
         Button[] preferenceActions;
+
+        public SessionPreferences(UIShell shell, PixelUXWidgets ui, CityLifeService city = null,
+            Action openHelp = null, Action openIdle = null, Action layout = null)
+        {
+            this.shell = shell;
+            this.ui = ui;
+            this.city = city;
+            this.openHelp = openHelp;
+            this.openIdle = openIdle;
+            this.layout = layout;
+            Preferences = ui.Window(shell, "편의 설정");
+            settingsText = ui.ScrollText(Preferences.transform, new Vector2(.06f, .57f), new Vector2(.94f, .86f));
+            BuildSettingsCategories();
+        }
+
         Image[] settingFields;
         TMP_Text[] settingValues;
         int preferenceTab = 4;
+        bool displayOptions;
         readonly Button[] preferenceTabs = new Button[6];
 
         void BuildSettingsCategories()
         {
-            string[] names =
+            preferenceActions = new Button[6];
+            for (int i = 0; i < preferenceActions.Length; i++)
             {
-                "모션 줄이기",
-                "글자 크기",
-                "알림 표시 시간",
-                "환경 설정 · 약관",
-                "도움말",
-                "추천 표시 / 숨기기",
-            };
-            preferenceActions = new Button[names.Length];
-            for (int i = 0; i < names.Length; i++)
-            {
-                preferenceActions[i] = Preferences.GetComponentsInChildren<Button>(true).First(b => b.name == names[i]);
+                preferenceActions[i] = ui.Button(Preferences.transform, "설정 항목", Vector2.zero, Vector2.one, () => { });
             }
 
             var root = Preferences.transform;
@@ -60,6 +75,17 @@ namespace IanGame
                 );
             }
 
+            if (city == null)
+            {
+                preferenceTab = 2;
+                preferenceTabs[0].gameObject.SetActive(false);
+                for (int i = 1; i < preferenceTabs.Length; i++)
+                {
+                    float y = .738f - (i - 1) * .104f;
+                    LifeRecordUI.Place((RectTransform)preferenceTabs[i].transform, .039f, y, .266f, y + .089f);
+                }
+            }
+
             LifeRecordUI.Place((RectTransform)settingsText.rectTransform.parent, .323f, .71f, .948f, .834f);
             settingFields = new Image[preferenceActions.Length];
             settingValues = new TMP_Text[preferenceActions.Length];
@@ -88,7 +114,7 @@ namespace IanGame
             RefreshPreferences();
         }
 
-        void RefreshPreferences()
+        public void RefreshPreferences()
         {
             if (settingsText == null || preferenceActions == null)
             {
@@ -112,11 +138,11 @@ namespace IanGame
                         () =>
                         {
                             city.ResetUXGuides();
-                            OpenHelp();
+                            openHelp?.Invoke();
                         }
                     )
                 );
-                actions.Add(("자동 활동 설정", () => GetComponent<IdleActivityPresenter>().Open()));
+                actions.Add(("자동 활동 설정", openIdle));
             }
             else if (preferenceTab == 1)
             {
@@ -150,26 +176,56 @@ namespace IanGame
                     }));
                 }
 
-                Adjust("품질   " + WorldGraphicsSettings.Names[WorldGraphicsSettings.Preset],
-                    () => WorldGraphicsSettings.Select((WorldGraphicsSettings.Preset + 1) % 5));
-                Adjust("조명 · 날씨   " + WorldGraphicsSettings.Names[WorldGraphicsSettings.Detail],
-                    WorldGraphicsSettings.NextDetail);
-                Adjust("배경 인구   " + WorldGraphicsSettings.Names[WorldGraphicsSettings.Crowd],
-                    WorldGraphicsSettings.NextCrowd);
-                Adjust(WorldGraphicsSettings.FrameLimit == 0 ? "수직 동기화" : WorldGraphicsSettings.FrameLimit + " FPS",
-                    WorldGraphicsSettings.NextFrameLimit);
-                if (WorldGraphicsSettings.HasPipeline)
+                if (displayOptions)
                 {
-                    Adjust("월드 해상도   " + WorldGraphicsSettings.RenderScale.ToString("P0"),
-                        WorldGraphicsSettings.NextScale);
-                    Adjust("윤곽선   " + (WorldGraphicsSettings.Smooth ? "FXAA" : "픽셀"), WorldGraphicsSettings.ToggleAA);
+                    if (WorldGraphicsSettings.HasPipeline)
+                    {
+                        Adjust("윤곽선   " + (WorldGraphicsSettings.Smooth ? "FXAA" : "픽셀"),
+                            WorldGraphicsSettings.ToggleAA);
+                    }
+
+                    Adjust("접지 그림자   " + WorldGraphicsSettings.Names[WorldGraphicsSettings.Shadows],
+                        WorldGraphicsSettings.NextShadows);
+                    Adjust("장소 전환   " + PlayerPrefs.GetInt("ian.visual.transitions", 0),
+                        () => Setting("ian.visual.transitions", 3));
+                    if (!Application.isMobilePlatform && !Application.isEditor)
+                    {
+                        Adjust(Screen.fullScreen ? "화면 모드   전체 화면" : "화면 모드   창",
+                            () => WorldGraphicsSettings.ChangeDisplay(true));
+                        if (Screen.resolutions.Length > 0)
+                        {
+                            Adjust("해상도   " + Screen.width + " × " + Screen.height,
+                                () => WorldGraphicsSettings.ChangeDisplay(false));
+                        }
+                    }
                 }
+                else
+                {
+                    Adjust("품질   " + WorldGraphicsSettings.Names[WorldGraphicsSettings.Preset],
+                        () => WorldGraphicsSettings.Select((WorldGraphicsSettings.Preset + 1) % 5));
+                    Adjust("조명 · 날씨   " + WorldGraphicsSettings.Names[WorldGraphicsSettings.Detail],
+                        WorldGraphicsSettings.NextDetail);
+                    Adjust("배경 인구   " + WorldGraphicsSettings.Names[WorldGraphicsSettings.Crowd],
+                        WorldGraphicsSettings.NextCrowd);
+                    Adjust(WorldGraphicsSettings.FrameLimit == 0 ? "수직 동기화" : WorldGraphicsSettings.FrameLimit + " FPS",
+                        WorldGraphicsSettings.NextFrameLimit);
+                    if (WorldGraphicsSettings.HasPipeline)
+                    {
+                        Adjust("월드 해상도   " + WorldGraphicsSettings.RenderScale.ToString("P0"),
+                            WorldGraphicsSettings.NextScale);
+                    }
+                }
+
+                Adjust(displayOptions ? "기본 설정" : "화면 세부 설정", () => displayOptions = !displayOptions);
             }
             else if (preferenceTab == 3)
             {
                 settingsText.text =
                     "입력\n이동: WASD · 방향키 · 터치 조이스틱\n상호작용: E · 행동 버튼\n뒤로: ESC · 패드 취소 · UI 뒤로\n선택 이동: Tab · 방향키 · 패드\n장문 스크롤: Page Up/Down · 패드 오른쪽 스틱\n\n키 재지정은 이 단계에서 추가하지 않습니다.";
-                actions.Add(("도움말", OpenHelp));
+                if (openHelp != null)
+                {
+                    actions.Add(("도움말", openHelp));
+                }
             }
             else if (preferenceTab == 4)
             {
@@ -191,7 +247,7 @@ namespace IanGame
                         {
                             shell.ToggleText();
                             RefreshPreferences();
-                            Layout();
+                            layout?.Invoke();
                         }
                     )
                 );
@@ -217,28 +273,34 @@ namespace IanGame
                         () =>
                         {
                             Setting("ian.ui.integerScale", 3);
-                            GetComponentInParent<Canvas>()?.GetComponent<PixelCanvasScale>()?.Apply();
-                            Layout();
+                            shell.GetComponentInParent<Canvas>()?.GetComponent<PixelCanvasScale>()?.Apply();
+                            layout?.Invoke();
                         }
                     )
                 );
-                actions.Add(
-                    (
-                        "안내 다시 보기",
-                        () =>
-                        {
-                            city.ResetUXGuides();
-                            OpenHelp();
-                        }
-                    )
-                );
+                if (city != null)
+                {
+                    actions.Add(
+                        (
+                            "안내 다시 보기",
+                            () =>
+                            {
+                                city.ResetUXGuides();
+                                openHelp?.Invoke();
+                            }
+                        )
+                    );
+                }
             }
             else
             {
                 settingsText.text =
                     "약관\n이용약관 · 개인정보 · 유료재화 · 환불 · 확률정보 · 운영정책 · 라이선스는 기존 법적 고지에서 확인합니다. 실제 결제 연결과 출시 승인은 기존 정책을 유지합니다.";
                 actions.Add(("약관 및 정책", () => shell.GetComponent<ReleaseUI>().OpenLegal()));
-                actions.Add(("루비 안내", () => shell.GetComponent<ReleaseUI>().OpenRuby()));
+                if (city != null)
+                {
+                    actions.Add(("루비 안내", () => shell.GetComponent<ReleaseUI>().OpenRuby()));
+                }
             }
 
             for (int i = 0; i < preferenceActions.Length; i++)

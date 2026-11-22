@@ -279,15 +279,17 @@ namespace IanGame
             }
         }
 
+        internal bool HasHardwareInput { get; set; }
+        internal bool TouchHints => !HasHardwareInput && GetComponent<WorldMobileHUD>()?.IsMobile == true;
         internal bool UsingGamepad { get; set; }
 
         public string InteractionInput
         {
             get
             {
-                if (GetComponent<WorldMobileHUD>()?.IsMobile == true)
+                if (TouchHints)
                 {
-                    return "행동 버튼";
+                    return "사용";
                 }
 
                 return UsingGamepad ? "패드 아래쪽 버튼" : "E";
@@ -442,15 +444,7 @@ namespace IanGame
 
         public void OpenMenu()
         {
-            var ux = GetComponent<GameplayUXPresenter>();
-            if (ux != null && ux.Ready)
-            {
-                ux.OpenHub();
-            }
-            else
-            {
-                shell.Push(menuPanel);
-            }
+            shell.OpenPause();
         }
 
         System.Collections.IEnumerator AnimateNotice()
@@ -566,7 +560,7 @@ namespace IanGame
 
         public void Activity(string text, float amount)
         {
-            bool touch = GetComponent<WorldMobileHUD>()?.IsMobile == true;
+            bool touch = TouchHints;
             int percent = Mathf.Clamp(Mathf.RoundToInt(amount * 100), 0, 100);
             var viewport = new Vector2(Screen.width, Screen.height);
             if (
@@ -586,7 +580,7 @@ namespace IanGame
             activityTouch = touch;
             activityGamepad = UsingGamepad;
             activityViewport = viewport;
-            var cancelHint = touch ? "" : UsingGamepad ? "   [패드 오른쪽] 취소" : "   [Esc] 취소";
+            var cancelHint = TouchHints ? "" : UsingGamepad ? "   [패드 오른쪽] 취소" : "   [Esc] 취소";
             progress.text = string.IsNullOrEmpty(text) ? "" : $"{text} · {percent}%{cancelHint}";
             if (activityCard == null)
             {

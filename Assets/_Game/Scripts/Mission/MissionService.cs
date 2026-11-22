@@ -740,7 +740,8 @@ namespace IanGame
             public int DaysSurvived => Math.Max(0, game.clock.Day - owner.state.startDay);
             public long Cash => game.economy.Cash;
             public bool Alive =>
-                (game.State == GameState.Playing || game.State == GameState.Resolving) && !game.survival.Failed;
+                (game.State == GameState.Playing || game.State == GameState.Paused || game.State == GameState.Resolving)
+                && !game.survival.Failed;
 
             public bool HasItem(MissionItemKey item) => owner.sources.Any(s => s.IsAvailable && s.HasItem(item));
 

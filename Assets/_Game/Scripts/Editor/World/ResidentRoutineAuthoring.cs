@@ -362,6 +362,13 @@ namespace IanGame.Editor
             }
 
             p.Visit(1192 + i * 7, "alley", new Vector2(x, -1.2f), Walk);
+            if (i == 4 || i == 6)
+            {
+                // Evening delivery pickup and neighbourhood walk use opposite sidewalks.
+                p.Street(1235 + i * 3, i == 4 ? 6 : 3);
+                p.Visit(1267 + i * 3, "alley", new Vector2(x, -1.2f), Walk);
+            }
+
             p.Visit(1318 + i * 6, d.homeZone, Vector2.zero, Idle);
         }
 

@@ -60,7 +60,7 @@ namespace IanGame.Editor
                 mobile.joystick = handle.gameObject.AddComponent<OnScreenStick>();
                 mobile.joystick.controlPath = "<Gamepad>/leftStick";
                 mobile.joystick.movementRange = 64;
-                mobile.joystick.useIsolatedInputActions = true;
+                mobile.joystick.useIsolatedInputActions = false;
                 // Layout positions the input area. Its base plate follows the same anchor.
                 baseplate.anchorMin = baseplate.anchorMax = Vector2.zero;
                 baseplate.sizeDelta = Vector2.zero;

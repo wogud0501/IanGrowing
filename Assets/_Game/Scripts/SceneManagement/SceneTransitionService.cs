@@ -18,6 +18,13 @@ namespace IanGame
         public string LastError { get; private set; }
         public SceneId CurrentScene { get; private set; } = SceneId.Bootstrap;
 
+        // Room scenes already store their room ID, approach position and facing in the world snapshot.
+        // These two standalone gameplay scenes have no LifeWorldController to capture.
+        public static SceneId ResumeTarget(SceneId scene)
+        {
+            return scene is SceneId.StockMarket or SceneId.Battle ? scene : SceneId.LifeWorld;
+        }
+
         public event Action<SceneId> SceneChanged;
 
         public bool Navigate(SceneId id)
@@ -235,6 +242,11 @@ namespace IanGame
                 Fail("장소를 불러오지 못했습니다. 이전 화면으로 돌아갑니다.");
                 yield return Recover(game, running, profile);
                 yield break;
+            }
+
+            if (route.id == SceneId.MainMenu)
+            {
+                game?.EnterTitle();
             }
 
             CurrentScene = route.id;

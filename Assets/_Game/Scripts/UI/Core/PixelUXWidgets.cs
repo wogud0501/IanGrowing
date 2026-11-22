@@ -18,6 +18,12 @@ namespace IanGame
             frame = hud.promptPanel.GetComponent<Image>().sprite;
         }
 
+        public PixelUXWidgets(TMP_FontAsset font, Sprite frame)
+        {
+            this.font = font;
+            this.frame = frame;
+        }
+
         public RectTransform Rect(string name, Transform parent, Vector2 min, Vector2 max)
         {
             var r = new GameObject(name, typeof(RectTransform)).GetComponent<RectTransform>();

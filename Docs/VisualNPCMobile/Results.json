@@ -1,0 +1,313 @@
+{
+  "date_local": "2026-11-22",
+  "engine": "6000.6.8f1",
+  "platforms": [
+    "OSXEditor Game View",
+    "macOS standalone development player, Metal"
+  ],
+  "sleep": {
+    "age_years": [
+      0,
+      1,
+      3,
+      8,
+      14,
+      19,
+      35,
+      65
+    ],
+    "play_mode": {
+      "recorded": 28,
+      "failures": [],
+      "original_save_files_unchanged": true
+    },
+    "adult_game_view_source_frames": 84,
+    "family_wake_local_game_time": {
+      "mother": "06:45",
+      "father": "06:55"
+    }
+  },
+  "route_audit": {
+    "rooms": {
+      "family-ian-bedroom": {
+        "approach_anchors": 6,
+        "obstructed": 0,
+        "sampled_movements": 0
+      },
+      "family-parents-bedroom": {
+        "approach_anchors": 7,
+        "obstructed": 0,
+        "sampled_movements": 0
+      },
+      "family-living": {
+        "approach_anchors": 11,
+        "obstructed": 0,
+        "sampled_movements": 285
+      },
+      "family-kitchen": {
+        "approach_anchors": 9,
+        "obstructed": 0,
+        "sampled_movements": 39
+      },
+      "family-bathroom": {
+        "approach_anchors": 4,
+        "obstructed": 0,
+        "sampled_movements": 0
+      },
+      "workplace": {
+        "approach_anchors": 12,
+        "obstructed": 0,
+        "sampled_movements": 228
+      },
+      "school": {
+        "approach_anchors": 11,
+        "obstructed": 0,
+        "sampled_movements": 1001
+      },
+      "shop": {
+        "approach_anchors": 16,
+        "obstructed": 0,
+        "sampled_movements": 1168
+      },
+      "city": {
+        "approach_anchors": 8,
+        "obstructed": 0,
+        "sampled_movements": 654
+      },
+      "finance": {
+        "approach_anchors": 8,
+        "obstructed": 0,
+        "sampled_movements": 1423
+      },
+      "realestate": {
+        "approach_anchors": 8,
+        "obstructed": 0,
+        "sampled_movements": 0
+      }
+    },
+    "foreign_solid_crossings_in_trace": 0,
+    "total_approach_anchors": 100,
+    "sampled_movements": 4798
+  },
+  "city_center_observations": [
+    {
+      "hour": 7,
+      "visible": 1,
+      "ambient": 0,
+      "nearest_world_units": null
+    },
+    {
+      "hour": 9,
+      "visible": 13,
+      "ambient": 6,
+      "nearest_world_units": 0.78
+    },
+    {
+      "hour": 12,
+      "visible": 2,
+      "ambient": 1,
+      "nearest_world_units": 10.99
+    },
+    {
+      "hour": 15,
+      "visible": 1,
+      "ambient": 0,
+      "nearest_world_units": null
+    },
+    {
+      "hour": 18,
+      "visible": 15,
+      "ambient": 8,
+      "nearest_world_units": 0.78
+    },
+    {
+      "hour": 21,
+      "visible": 2,
+      "ambient": 2,
+      "nearest_world_units": 11.35
+    },
+    {
+      "hour": 2,
+      "visible": 0,
+      "ambient": 0,
+      "nearest_world_units": null
+    }
+  ],
+  "graphics": {
+    "comparison": "same camera, 21:00, rain; 2 s per preset, editor",
+    "fps": [
+      30,
+      45,
+      60,
+      120
+    ],
+    "world_render_scale": [
+      0.75,
+      0.875,
+      1,
+      1
+    ],
+    "lit_wet_street_streaks": [
+      0,
+      0,
+      4,
+      4
+    ],
+    "streak_width_scale": [
+      0,
+      0,
+      0.8,
+      1.25
+    ],
+    "macos_fxaa_raster": {
+      "crop_xyxy": [
+        601,
+        320,
+        678,
+        363
+      ],
+      "sample_pixels": 3311,
+      "off_to_fxaa_changed_pixels": 3311,
+      "off_to_off_changed_pixels": 0,
+      "repeat": "One repeat capture included an OS focus-loss pause menu. With the world foregrounded, switching FXAA off reproduced the Off reference."
+    }
+  },
+  "mobile": {
+    "game_view_sizes_px": [
+      [
+        1080,
+        2340
+      ],
+      [
+        2340,
+        1080
+      ],
+      [
+        1536,
+        2048
+      ],
+      [
+        1768,
+        2208
+      ]
+    ],
+    "simulated_insets_px": {
+      "left": 96,
+      "right": 96,
+      "bottom": 88,
+      "top": 80
+    },
+    "standalone_tests": {
+      "passed": [
+        "New game routes Home",
+        "Touchscreen drag moves world player",
+        "Equip real starter headphones",
+        "Mobile home bed",
+        "Headphones hidden while equipped",
+        "Waking restores equipped inventory and control"
+      ],
+      "failures": [],
+      "LastFilesUnchanged": true
+    },
+    "touch_drag": {
+      "input": "Input System Touchscreen events in foreground macOS player",
+      "start_xy": [
+        500,
+        4.4
+      ],
+      "end_xy": [
+        502.18,
+        4.36
+      ],
+      "virtual_stick_xy": [
+        1,
+        0
+      ]
+    },
+    "focus_interruption": "A separate run interrupted by desktop window activation recorded movement with a divergent virtual stick direction. Foreground-only reruns recorded the expected horizontal stick and actual displacement."
+  },
+  "approval_runs": {
+    "playmode_ui_world": {
+      "recorded": 49,
+      "failures": [],
+      "original_save_files_unchanged": true
+    },
+    "playmode_navigation": {
+      "recorded": 64,
+      "failures": [],
+      "original_save_files_unchanged": true
+    },
+    "second_world_review": {
+      "recorded": 54,
+      "failures": [
+        "Touchscreen drag moves world player"
+      ],
+      "original_save_files_unchanged": true,
+      "resolution": "Touch drag fixed and verified in standalone player."
+    },
+    "registered_scenarios": {
+      "PASS": 142,
+      "BLOCKED": 1,
+      "MANUAL": 6,
+      "NOT_IMPLEMENTED": 11
+    },
+    "registered_blockers": [
+      {
+        "id": "core/source-copy",
+        "reason": "복사할 원본 저장 파일이 없습니다."
+      }
+    ],
+    "playmode_nunit": {
+      "total": 12,
+      "passed": 12,
+      "failed": 0,
+      "skipped": 0,
+      "duration_seconds": 45.13
+    },
+    "after_entrance_change": {
+      "sampled_movements": 2467,
+      "reach_points": 100,
+      "foreign_solid_crossings_in_trace": 0,
+      "passed_test_and_trace_records": 63,
+      "failures": [
+        "Graphics persistence"
+      ],
+      "original_save_files_unchanged": true,
+      "graphics_persistence_resolution": {
+        "initial_condition": "This separate checkout had not been set to the Custom preset expected by the route fixture.",
+        "before_full_exit": {
+          "passed": [
+            "New game routes Home",
+            "Custom graphics saved before full process exit"
+          ],
+          "failures": [],
+          "LastFilesUnchanged": true
+        },
+        "after_process_restart": {
+          "passed": [
+            "New game routes Home",
+            "Custom 120 FPS / minimal shadows / Point restored on process restart"
+          ],
+          "failures": [],
+          "LastFilesUnchanged": true
+        }
+      }
+    }
+  },
+  "unverified": [
+    "Physical Android or iOS display and touch affordance",
+    "Sustained mobile frame time, battery and thermal behaviour",
+    "Every NPC performing every possible action for a continuous 24-hour period"
+  ],
+  "family_entrance": {
+    "passed": [
+      "leave family-father frames=3,2,1,0",
+      "leave family-mother frames=3,2,1,0",
+      "return family-father frames=0,1,2,3",
+      "return family-mother frames=0,1,2,3"
+    ],
+    "failures": [],
+    "original_save_files_unchanged": true,
+    "review_fix": "The door frame hid the bag during the first returning-home capture. Clothing now changes after walking clear of the door."
+  }
+}

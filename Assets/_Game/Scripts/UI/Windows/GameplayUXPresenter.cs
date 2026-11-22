@@ -34,7 +34,7 @@ namespace IanGame
         TMP_Text helpText;
         TMP_Text historyText;
         TMP_Text hubText;
-        TMP_Text settingsText;
+        SessionPreferences preferences;
         TMP_Text saveText;
         readonly List<GameObject> windows = new List<GameObject>();
         readonly Button[] hubActions = new Button[8];
@@ -107,7 +107,6 @@ namespace IanGame
             city.Changed += Invalidate;
             shell.Changed += NavigationChanged;
             game.saves.WriteCompleted += Saved;
-            AudioListener.volume = Mathf.Clamp01(PlayerPrefs.GetFloat("ian.audio.master", 1));
             Ready = true;
             Refresh();
             Layout();
@@ -252,71 +251,10 @@ namespace IanGame
             BuildGuide();
             History = Window("최근 기록");
             historyText = ui.ScrollText(History.transform, new Vector2(.06f, .07f), new Vector2(.94f, .86f));
-            Preferences = Window("편의 설정");
-            settingsText = ui.ScrollText(Preferences.transform, new Vector2(.06f, .57f), new Vector2(.94f, .86f));
-            ui.Button(
-                Preferences.transform,
-                "모션 줄이기",
-                new Vector2(.06f, .43f),
-                new Vector2(.48f, .53f),
-                () =>
-                {
-                    shell.ToggleMotion();
-                    RefreshPreferences();
-                }
-            );
-            ui.Button(
-                Preferences.transform,
-                "글자 크기",
-                new Vector2(.52f, .43f),
-                new Vector2(.94f, .53f),
-                () =>
-                {
-                    shell.ToggleText();
-                    Layout();
-                }
-            );
-            ui.Button(
-                Preferences.transform,
-                "알림 표시 시간",
-                new Vector2(.06f, .29f),
-                new Vector2(.48f, .39f),
-                () =>
-                {
-                    PlayerPrefs.SetFloat(
-                        "ian.ui.noticeSeconds",
-                        PlayerPrefs.GetFloat("ian.ui.noticeSeconds", 4) >= 8
-                            ? 2
-                            : PlayerPrefs.GetFloat("ian.ui.noticeSeconds", 4) + 2
-                    );
-                    PlayerPrefs.Save();
-                    RefreshPreferences();
-                }
-            );
-            ui.Button(
-                Preferences.transform,
-                "환경 설정 · 약관",
-                new Vector2(.52f, .29f),
-                new Vector2(.94f, .39f),
-                () => shell.OpenSettings()
-            );
-            ui.Button(Preferences.transform, "도움말", new Vector2(.06f, .15f), new Vector2(.48f, .25f), OpenHelp);
-            ui.Button(
-                Preferences.transform,
-                "추천 표시 / 숨기기",
-                new Vector2(.52f, .15f),
-                new Vector2(.94f, .25f),
-                () => city.ShowSuggestions(city.Data.suggestionsHidden)
-            );
-            var settingsRect = (RectTransform)shell.settingsPanel.transform;
-            ui.Button(
-                settingsRect,
-                "도움말 · 편의",
-                new Vector2(.04f, .02f),
-                new Vector2(.45f, .1f),
-                () => Open(Preferences)
-            );
-            BuildSettingsCategories();
+            preferences = new SessionPreferences(shell, ui, city, OpenHelp,
+                () => GetComponent<IdleActivityPresenter>().Open(), Layout);
+            Preferences = preferences.Preferences;
+            windows.Add(Preferences);
             shell.statusPanel = Status;
             confirmation = Window("실행 확인");
             confirmationText = ui.ScrollText(confirmation.transform, new Vector2(.06f, .3f), new Vector2(.94f, .84f));
@@ -368,6 +306,11 @@ namespace IanGame
             }
         }
 
+        public void OpenPreferences()
+        {
+            Open(Preferences);
+        }
+
         public void OpenHub()
         {
             HubTab(hubTab);
@@ -401,7 +344,7 @@ namespace IanGame
 
         void Open(GameObject panel)
         {
-            RefreshPreferences();
+            preferences?.RefreshPreferences();
             shell.Push(panel);
             AudioRequested?.Invoke("Open");
             Layout();
@@ -920,7 +863,7 @@ namespace IanGame
 
             if (Preferences.activeSelf)
             {
-                RefreshPreferences();
+                preferences?.RefreshPreferences();
             }
 
             Layout();

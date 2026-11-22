@@ -49,6 +49,10 @@ namespace IanGame
         {
             frameRateButton?.onClick.AddListener(ToggleFrameRate);
             detailButton?.onClick.AddListener(ToggleDetails);
+            inventory.enabled = false;
+            menu.enabled = false;
+            inventory.GetComponent<Button>().onClick.AddListener(OpenInventory);
+            menu.GetComponent<Button>().onClick.AddListener(OpenMenu);
             Apply(true);
         }
 
@@ -206,15 +210,48 @@ namespace IanGame
                 needs.pivot = new Vector2(.5f, 0);
                 needs.anchoredPosition = new Vector2(0, 12);
                 needs.sizeDelta = new Vector2(244, 40);
+                FitTouchArea(safe);
                 ConfigureControls();
             }
 
             hud.SetCompactVitals(mobile);
-            touchRoot.gameObject.SetActive(mobile && !paused);
+            SyncTouchControls();
             hud.ReflowNotification();
             ApplyQuality();
             Canvas.ForceUpdateCanvases();
             hud.Prompt(hud.promptPanel.activeSelf ? hud.prompt.text : null);
+        }
+
+        void OpenInventory()
+        {
+            if (hud.world.CanControl)
+            {
+                hud.GetComponent<UINavigationService>().Inventory();
+            }
+        }
+
+        void OpenMenu()
+        {
+            if (hud.world.CanControl)
+            {
+                hud.OpenMenu();
+            }
+        }
+
+        void FitTouchArea(Rect safe)
+        {
+            var parent = (RectTransform)touchRoot.parent;
+            var canvas = scaler.GetComponent<Canvas>();
+            var camera = canvas.renderMode == RenderMode.ScreenSpaceOverlay ? null : canvas.worldCamera;
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(parent, safe.min, camera, out var min);
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(parent, safe.max, camera, out var max);
+            var bounds = parent.rect;
+            touchRoot.anchorMin = new Vector2(Mathf.InverseLerp(bounds.xMin, bounds.xMax, min.x),
+                Mathf.InverseLerp(bounds.yMin, bounds.yMax, min.y));
+            touchRoot.anchorMax = new Vector2(Mathf.InverseLerp(bounds.xMin, bounds.xMax, max.x),
+                Mathf.InverseLerp(bounds.yMin, bounds.yMax, max.y));
+            touchRoot.offsetMin = Vector2.zero;
+            touchRoot.offsetMax = Vector2.zero;
         }
 
         void ConfigureControls()
@@ -223,8 +260,13 @@ namespace IanGame
             Position(stick, Vector2.zero, new Vector2(86, 92), new Vector2(124, 124));
             var handle = (RectTransform)joystick.transform;
             Position(handle, Vector2.one * .5f, Vector2.zero, new Vector2(132, 132));
+            // The scene's InputSystemUIInputModule routes each finger to its pressed control.
+            joystick.useIsolatedInputActions = false;
             joystick.movementRange = 40;
-            handle.GetComponent<Image>().color = Color.clear;
+            var hitArea = handle.GetComponent<Image>();
+            hitArea.color = Color.clear;
+            hitArea.canvasRenderer.cullTransparentMesh = false;
+            hitArea.raycastTarget = true;
             var runLabel = run.GetComponentInChildren<TMP_Text>();
             runLabel.text = "뛰기";
             runLabel.textWrappingMode = TextWrappingModes.NoWrap;
@@ -335,8 +377,29 @@ namespace IanGame
             }
         }
 
+        void OnEnable()
+        {
+            if (hud && hud.shell)
+            {
+                hud.shell.Changed += SyncTouchControls;
+            }
+        }
+
+        void SyncTouchControls()
+        {
+            if (touchRoot && hud && hud.shell)
+            {
+                touchRoot.gameObject.SetActive(IsMobile && !paused && hud.shell.Depth == 0);
+            }
+        }
+
         void OnDisable()
         {
+            if (hud && hud.shell)
+            {
+                hud.shell.Changed -= SyncTouchControls;
+            }
+
             Release();
         }
     }

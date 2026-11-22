@@ -48,7 +48,11 @@ namespace IanGame
                     shell.OpenStatus();
                     break;
                 case Command.Route:
-                    if (GameContext.Instance != null)
+                    if (route == SceneId.MainMenu && !shell.mainMenu)
+                    {
+                        shell.RequestTitle();
+                    }
+                    else if (GameContext.Instance != null)
                     {
                         GameContext.Instance.transitions.Navigate(route);
                     }

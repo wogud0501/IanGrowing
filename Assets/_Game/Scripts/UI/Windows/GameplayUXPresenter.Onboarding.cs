@@ -65,12 +65,15 @@ namespace IanGame
             }
 
             var device = action.activeControl.device;
-            if (device is not (Keyboard or Mouse or Gamepad))
+            if (device is not (Keyboard or Mouse or Gamepad or Touchscreen))
             {
                 return;
             }
 
-            hud.UsingGamepad = device is Gamepad;
+            var mobile = GetComponent<WorldMobileHUD>();
+            bool onScreen = mobile && (mobile.joystick.control?.device == device || mobile.interact.control?.device == device);
+            hud.HasHardwareInput = mobile && mobile.IsMobile && !onScreen && device is Keyboard or Gamepad;
+            hud.UsingGamepad = device is Gamepad && !onScreen;
             string label = hud.InteractionInput;
             if (lastInputLabel == label)
             {
@@ -124,7 +127,7 @@ namespace IanGame
                 case GuideLesson.Status:
                     return "메뉴 → 생활 → 상세 상태에서 허기·수분·체력·멘탈을 확인하세요.";
                 case GuideLesson.Walk:
-                    return GetComponent<WorldMobileHUD>()?.IsMobile == true
+                    return hud.TouchHints
                             ? "이제 걸을 수 있어요. 화면의 이동 스틱으로 조금 걸어 보세요."
                         : hud.InteractionInput == "E" ? "이제 걸을 수 있어요. WASD 또는 방향키로 조금 걸어 보세요."
                         : "이제 걸을 수 있어요. 왼쪽 스틱으로 조금 걸어 보세요.";
@@ -362,7 +365,7 @@ namespace IanGame
             switch (lesson)
             {
                 case GuideLesson.Walk:
-                    return GetComponent<WorldMobileHUD>()?.IsMobile == true ? "이동 스틱으로 걷기"
+                    return hud.TouchHints ? "이동 스틱으로 걷기"
                         : hud.UsingGamepad ? "왼쪽 스틱으로 걷기" : "WASD · 방향키로 걷기";
                 case GuideLesson.Interact:
                     return hud.InteractionInput + " · 주변과 상호작용";

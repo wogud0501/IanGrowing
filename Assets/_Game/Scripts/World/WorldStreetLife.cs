@@ -29,6 +29,9 @@ namespace IanGame
         public Rigidbody2D body;
         public SpriteRenderer visual;
         public SpriteRenderer headlights;
+
+        [NonSerialized]
+        public Color? headlightTint;
         public SpriteRenderer shadow;
         public UrbanVehicleKind kind;
         public float length = 2.5f;
@@ -208,6 +211,10 @@ namespace IanGame
                 if (v.headlights != null)
                 {
                     v.headlights.enabled = v.visual.enabled && (hour < 7 || hour >= 19);
+                    v.headlightTint ??= v.headlights.color;
+                    var beam = v.headlightTint.Value;
+                    beam.a *= .52f + .16f * WorldGraphicsSettings.Detail;
+                    v.headlights.color = beam;
                 }
             }
 

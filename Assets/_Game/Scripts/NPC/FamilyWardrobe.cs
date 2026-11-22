@@ -5,7 +5,10 @@ namespace IanGame
     // Art is indexed the same way as the existing walk cycle. The renderer and collider keep their pivots.
     internal static class FamilyWardrobe
     {
+        public const float ChangeDuration = .9f;
         static Sprite[,] frames;
+        static Sprite[,] doorwayFrames;
+        static readonly Sprite[] watchingTV = new Sprite[2];
         static readonly int[] DirectionRow = { 0, 1, 3, 2 };
 
         public static void Dress(WorldActorAnimation animation, string id, ActorMotion motion,
@@ -80,6 +83,54 @@ namespace IanGame
 
             animation.visual.sprite = frames[row, (id == "family-father" ? 4 : 0) + frame];
             animation.visual.flipX = mirror;
+        }
+
+        public static void ChangeAtDoor(WorldActorAnimation animation, string id, float indoorProgress)
+        {
+            if (!animation || !animation.visual)
+            {
+                return;
+            }
+
+            if (doorwayFrames == null)
+            {
+                var sheet = Resources.Load<Texture2D>("FamilySleep/DoorwayFamily");
+                if (!sheet)
+                {
+                    return;
+                }
+
+                doorwayFrames = new Sprite[2, 4];
+                for (int row = 0; row < 2; row++)
+                {
+                    for (int column = 0; column < 4; column++)
+                    {
+                        var rect = new Rect(column * 96, (1 - row) * 96 + 3, 96, 81);
+                        doorwayFrames[row, column] = Sprite.Create(sheet, rect, new Vector2(.5f, 0),
+                            43, 0, SpriteMeshType.Tight);
+                    }
+                }
+            }
+
+            int frame = Mathf.Clamp(Mathf.FloorToInt(indoorProgress * 4), 0, 3);
+            animation.visual.sprite = doorwayFrames[id == "family-father" ? 1 : 0, frame];
+            animation.visual.flipX = false;
+        }
+
+        public static void WatchTV(WorldActorAnimation animation, string id)
+        {
+            int parent = id == "family-father" ? 1 : 0;
+            if (!watchingTV[parent])
+            {
+                var back = frames[1, parent * 4];
+                var rect = back.rect;
+                rect.yMin += 18;
+                watchingTV[parent] = Sprite.Create(back.texture, rect, new Vector2(.5f, 0),
+                    back.pixelsPerUnit, 0, SpriteMeshType.Tight);
+            }
+
+            animation.visual.sprite = watchingTV[parent];
+            animation.visual.flipX = false;
         }
 
         public static void Cook(WorldActorAnimation animation, string id, Vector2 facing)

@@ -17,6 +17,7 @@ namespace IanGame
         public bool hasHousing;
         public bool hasWorld;
         public LifeWorldSnapshot world;
+        public SceneId resumeScene;
         public IdleProgressSnapshot idle = new IdleProgressSnapshot();
         public int birthIntroVersion = 1;
         public bool birthIntroCompleted = true;
@@ -377,6 +378,7 @@ namespace IanGame
                     legal = LegalDocumentService.Capture(),
                     items = items?.Capture(),
                     world = world?.Capture(),
+                    resumeScene = SceneTransitionService.ResumeTarget(GameContext.Instance?.transitions?.CurrentScene ?? SceneId.LifeWorld),
                     phase23 = phase23 == null ? new Phase23Snapshot() : phase23.Capture(),
                     stats = stats.Capture(),
                     day = clock.Day,
@@ -445,17 +447,37 @@ namespace IanGame
                     }
                 }
 
-                File.WriteAllText(temp, json);
+                using (var file = new FileStream(temp, FileMode.Create, FileAccess.Write, FileShare.None))
+                {
+                    byte[] bytes = Encoding.UTF8.GetBytes(json);
+                    file.Write(bytes, 0, bytes.Length);
+                    file.Flush(true);
+                }
                 if (File.Exists(target))
                 {
+                    bool validPrevious = committed.TryGetValue(target, out var stamp) && stamp == Stamp(target)
+                        || Inspect(target, out _, out _, out _, out _);
+                    string backup = validPrevious ? target + ".bak" : target + ".damaged-" + DateTime.UtcNow.Ticks;
                     try
                     {
-                        File.Replace(temp, target, target + ".bak");
+                        File.Replace(temp, target, backup);
                     }
                     catch (PlatformNotSupportedException)
                     {
-                        File.Copy(target, target + ".bak", true);
-                        File.Copy(temp, target, true);
+                        File.Copy(target, backup, true);
+                        string prior = target + ".swap";
+                        File.Move(target, prior);
+                        try
+                        {
+                            File.Move(temp, target);
+                        }
+                        catch
+                        {
+                            File.Move(prior, target);
+                            throw;
+                        }
+
+                        File.Delete(prior);
                     }
                 }
                 else
@@ -463,6 +485,7 @@ namespace IanGame
                     File.Move(temp, target);
                 }
 
+                committed[target] = Stamp(target);
                 LastSavedUtcTicks = d.lastSeenUtcTicks;
                 message = "저장 완료. 부채도 빠짐없이 보관했습니다.";
                 PublishWrite(true);
@@ -537,11 +560,116 @@ namespace IanGame
 
         public bool TryRead(out SaveData data, out string message)
         {
+            return TryReadFile(ResolveReadPath(), false, out data, out message);
+        }
+
+        // Both channels contain complete snapshots. Choose by the committed timestamp
+        // so an older checkpoint cannot undo a successful manual save.
+        public bool ReadContinue(out SaveData latest, out bool hasFiles, out bool recovery, out string message)
+        {
+            string manual = ResolveReadPath();
+            var channel = EnterAutomatic();
+            string automatic;
+            try
+            {
+                automatic = ResolveReadPath();
+            }
+            finally
+            {
+                LeaveAutomatic(channel);
+            }
+
+            latest = null;
+            hasFiles = false;
+            recovery = false;
+            message = "저장된 게임이 없습니다.";
+            string selected = null;
+            int selectedVersion = 0;
+            bool damaged = (!File.Exists(manual) && File.Exists(manual + ".bak"))
+                || (!File.Exists(automatic) && File.Exists(automatic + ".bak"));
+            bool blocked = WritesBlocked;
+            foreach (string path in new[] { manual, automatic, manual + ".bak", automatic + ".bak" })
+            {
+                if (latest != null && !damaged && path != manual && path != automatic)
+                {
+                    // A healthy primary always supersedes its own previous generation.
+                    break;
+                }
+
+                if (!File.Exists(path))
+                {
+                    continue;
+                }
+
+                hasFiles = true;
+                if (!Inspect(path, out var candidate, out var error, out var status, out int version))
+                {
+                    if (path == manual || path == automatic)
+                    {
+                        damaged = true;
+                        message = error;
+                        LastLoadStatus = status;
+                    }
+
+                    continue;
+                }
+
+                if (latest == null || candidate.lastSeenUtcTicks > latest.lastSeenUtcTicks)
+                {
+                    latest = candidate;
+                    selected = path;
+                    selectedVersion = version;
+                }
+            }
+
+            WritesBlocked = latest == null && (hasFiles || blocked);
+            if (latest == null)
+            {
+                return false;
+            }
+
+            recovery = damaged || selected.EndsWith(".bak", StringComparison.Ordinal);
+            LastSourcePath = selected;
+            LastSourceVersion = selectedVersion;
+            WasMigrated = selectedVersion < 4;
+            LastLoadStatus = SaveLoadStatus.Loaded;
+            message = recovery ? "사용 가능한 저장 사본으로 복구할 수 있습니다." : "이어하기";
+            return true;
+        }
+
+        // Probe a snapshot without changing the active slot or migration diagnostics.
+        bool Inspect(string path, out SaveData data, out string message, out SaveLoadStatus status, out int version)
+        {
+            var before = (WritesBlocked, LastLoadStatus, LastSourceVersion, LastRecoveryCopy, WasMigrated, LastSourcePath);
+            try
+            {
+                bool valid = TryReadFile(path, true, out data, out message);
+                status = LastLoadStatus;
+                version = LastSourceVersion;
+                return valid;
+            }
+            finally
+            {
+                (WritesBlocked, LastLoadStatus, LastSourceVersion, LastRecoveryCopy, WasMigrated, LastSourcePath) = before;
+            }
+        }
+
+        // The process already verified and committed these bytes. Recheck the old
+        // primary before rotating it if another writer has changed the file.
+        readonly System.Collections.Generic.Dictionary<string, (long time, long size)> committed = new();
+
+        static (long time, long size) Stamp(string path)
+        {
+            var info = new FileInfo(path);
+            return (info.LastWriteTimeUtc.Ticks, info.Length);
+        }
+
+        bool TryReadFile(string path, bool inspect, out SaveData data, out string message)
+        {
             data = null;
             LastRecoveryCopy = null;
             WasMigrated = false;
             LastSourceVersion = 0;
-            string path = ResolveReadPath();
             LastSourcePath = path;
             try
             {
@@ -558,7 +686,7 @@ namespace IanGame
                 }
 
                 string json = File.ReadAllText(path);
-                Require(json, new[] { "version", "day", "stats", "happiness", "stress", "energy", "money" });
+                Require(json, new[] { "version" });
                 var header = JsonUtility.FromJson<SaveHeader>(json);
                 if (header == null)
                 {
@@ -574,6 +702,7 @@ namespace IanGame
                     return false;
                 }
 
+                Require(json, new[] { "day", "stats", "happiness", "stress", "energy", "money" });
                 var value = JsonUtility.FromJson<SaveData>(json);
                 if (value == null)
                 {
@@ -670,7 +799,7 @@ namespace IanGame
                     }
                 }
 
-                if (header.version < 4)
+                if (header.version < 4 && !inspect)
                 {
                     WasMigrated = true;
                     string backup = path + ".pre-phase22.bak";
@@ -788,7 +917,7 @@ namespace IanGame
             }
             catch (InvalidDataException e)
             {
-                return Corrupt(path, e, out message);
+                return Corrupt(path, e, inspect, out message);
             }
             catch (IOException e)
             {
@@ -799,7 +928,7 @@ namespace IanGame
             }
             catch (Exception e)
             {
-                return Corrupt(path, e, out message);
+                return Corrupt(path, e, inspect, out message);
             }
         }
 
@@ -839,11 +968,16 @@ namespace IanGame
             };
         }
 
-        bool Corrupt(string path, Exception e, out string message)
+        bool Corrupt(string path, Exception e, bool inspect, out string message)
         {
             LastLoadStatus = SaveLoadStatus.Corrupt;
             WritesBlocked = true;
             message = "저장 손상: " + e.Message + " / 현재 인생과 원본은 초기화하지 않습니다.";
+            if (inspect)
+            {
+                return false;
+            }
+
             try
             {
                 string copy = path + ".corrupt-" + DateTime.UtcNow.Ticks;

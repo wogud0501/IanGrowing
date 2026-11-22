@@ -39,6 +39,37 @@ namespace IanQA.Tests
         }
 
         [Test]
+        public void SleepwearAndQuiltRetainTheirAuthoredPixelFrames()
+        {
+            var source = Resources.Load<Texture2D>("FamilySleep/IanSleepwear");
+            Assert.NotNull(source);
+            Assert.AreEqual(FilterMode.Point, source.filterMode);
+            var profile = ((IEnumerable)Field(Catalog, "profiles")).Cast<object>().First();
+            var stage = Field(profile, "stage").GetType();
+            var bank = stage.Assembly.GetType("IanGame.SleepwearFrames", true);
+            var pose = bank.GetMethod("Pose");
+            foreach (var age in Enum.GetValues(stage))
+            {
+                var sprites = Enumerable.Range(0, 5)
+                    .Select(i => (Sprite)pose.Invoke(null, new[] { age, (object)i })).ToArray();
+                Assert.IsTrue(sprites.All(s => s.texture == source && s.rect.yMin >= 0
+                    && s.rect.yMax <= source.height && s.rect.xMax <= source.width), age.ToString());
+                Assert.AreEqual(5, sprites.Select(s => s.rect).Distinct().Count(), age.ToString());
+            }
+
+            var quilt = Resources.Load<Texture2D>("FamilySleep/Quilt");
+            Assert.NotNull(quilt);
+            Assert.AreEqual(FilterMode.Point, quilt.filterMode);
+            Assert.Greater(quilt.height, 21);
+
+            var doorway = Resources.Load<Texture2D>("FamilySleep/DoorwayFamily");
+            Assert.NotNull(doorway);
+            Assert.AreEqual(FilterMode.Point, doorway.filterMode);
+            Assert.AreEqual(4 * 96, doorway.width);
+            Assert.AreEqual(2 * 96, doorway.height);
+        }
+
+        [Test]
         public void InfantNeverContainsLocomotionAndAllAgeBanksHaveRealFrames()
         {
             var profiles = ((IEnumerable)Field(Catalog, "profiles")).Cast<object>().ToArray();

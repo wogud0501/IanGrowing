@@ -74,12 +74,14 @@ namespace IanGame
                 {
                     var texture = Resources.Load<Texture2D>("FamilySleep/Quilt");
                     fabric = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height),
-                        new Vector2(.5f, 0), texture.width, 0, SpriteMeshType.FullRect);
+                        new Vector2(.5f, 0), texture.width, 0, SpriteMeshType.FullRect,
+                        new Vector4(7, 7, 7, 14));
                 }
 
                 cloth = new GameObject("Stitched quilt", typeof(SpriteRenderer)).GetComponent<SpriteRenderer>();
                 cloth.transform.SetParent(mattress.transform, false);
                 cloth.sprite = fabric;
+                cloth.drawMode = SpriteDrawMode.Sliced;
                 cloth.sharedMaterial = mattress.sharedMaterial;
             }
 
@@ -91,7 +93,7 @@ namespace IanGame
 
             var bed = mattress.sprite.bounds;
             bool framedBed = mattress.sprite.name == "Appliances_12";
-            float width = framedBed ? .55f : .77f;
+            float width = framedBed ? .55f : .87f;
             float foot = bed.min.y + bed.size.y * (framedBed ? .16f : .13f);
             float folded = foot + bed.size.y * .13f;
             if (player && player.growthVisual.Current.stage != VisualGrowthStage.Newborn)
@@ -103,16 +105,17 @@ namespace IanGame
             bool occupied = sleeper && sleeper.enabled && sleeper.gameObject.activeInHierarchy;
             if (occupied && coverage > 0)
             {
-                var bounds = sleeper.bounds;
-                var shoulder = bounds.center + mattress.transform.up * (bounds.size.y * .015f);
+                var bounds = sleeper.sprite.bounds;
+                var shoulder = sleeper.transform.TransformPoint(bounds.center + Vector3.up * (bounds.size.y * .015f));
                 float chest = mattress.transform.InverseTransformPoint(shoulder).y;
                 float breath = Mathf.Sin(Time.unscaledTime * 1.68f) * .006f * bed.size.y;
                 top = Mathf.Lerp(folded, Mathf.Clamp(chest + breath, folded, bed.max.y - bed.size.y * .19f), coverage);
             }
 
             cloth.transform.localPosition = new Vector3(bed.center.x, foot, 0);
-            cloth.transform.localScale = new Vector3(bed.size.x * width / fabric.bounds.size.x,
-                (top - foot) / fabric.bounds.size.y, 1);
+            float fabricScale = bed.size.x * width / fabric.bounds.size.x;
+            cloth.transform.localScale = Vector3.one * fabricScale;
+            cloth.size = new Vector2(fabric.bounds.size.x, (top - foot) / fabricScale);
             cloth.sortingLayerID = mattress.sortingLayerID;
             cloth.sortingOrder = occupied && coverage > 0
                 ? Mathf.Max(mattress.sortingOrder + 2, sleeper.sortingOrder + 1)

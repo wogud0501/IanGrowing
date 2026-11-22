@@ -102,7 +102,7 @@ namespace IanGame.Commercial
                             + Vector3.right * (departing && !reduced ? .04f : 0);
                     }
 
-                    float hour = game == null ? 12 : (float)(game.clock.SubDaySeconds / 3600 + 8) % 24;
+                    float hour = game == null ? 12 : (float)(game.clock.SubDaySeconds / 3600);
                     Color lighting =
                         hour < 6 ? nightTint
                         : hour < 9 ? Color.Lerp(nightTint, dayTint, (hour - 6) / 3)

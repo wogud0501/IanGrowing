@@ -10,7 +10,7 @@ using UnityEngine.UI;
 
 namespace IanGame
 {
-    public class UIShell : MonoBehaviour, ICancelHandler
+    public partial class UIShell : MonoBehaviour, ICancelHandler
     {
         class ScreenEntry
         {
@@ -75,12 +75,20 @@ namespace IanGame
             game = GameContext.Instance == null ? null : GameContext.Instance.game;
             RecordPage.StyleAuthored(baseGroup.gameObject);
             Focus(baseGroup.gameObject);
+            AudioListener.volume = Mathf.Clamp01(PlayerPrefs.GetFloat("ian.audio.master", 1));
             RefreshSettings();
             ReleaseUI.Attach(this);
+#if !UNITY_EDITOR
+            if (DesktopExit)
+            {
+                Application.wantsToQuit += WantsToQuit;
+            }
+#endif
         }
 
         void OnDisable()
         {
+            Application.wantsToQuit -= WantsToQuit;
             StopAllCoroutines();
             animations.Clear();
             stack.Clear();
@@ -191,7 +199,7 @@ namespace IanGame
 
         public void Pop()
         {
-            if (stack.Count == 0)
+            if (stack.Count == 0 || saving)
             {
                 return;
             }
@@ -312,12 +320,25 @@ namespace IanGame
                 game = GameContext.Instance.game;
             }
 
-            if (mainMenu)
+            if (saving || GameContext.Instance?.transitions.IsTransitioning == true)
             {
-                Push(settingsPanel);
                 return;
             }
 
+            if (mainMenu)
+            {
+                OpenSettings();
+                return;
+            }
+
+            if (Top != null)
+            {
+                Pop();
+                return;
+            }
+
+            BuildPause();
+            saveStatus.text = "";
             bool resume = game != null && game.State == GameState.Playing;
             if (resume)
             {
@@ -333,8 +354,19 @@ namespace IanGame
 
         public void OpenSettings()
         {
+            var hud = game?.world?.Host?.hud;
+            var ux = hud ? hud.GetComponent<GameplayUXPresenter>() : null;
+            if (!mainMenu && ux && ux.Ready)
+            {
+                settingsPanel = ux.Preferences;
+                ux.OpenPreferences();
+                return;
+            }
+
+            titlePreferences ??= new SessionPreferences(this, Widgets);
+            settingsPanel = titlePreferences.Preferences;
+            titlePreferences.RefreshPreferences();
             Push(settingsPanel);
-            RefreshSettings();
         }
 
         public void OpenStatus()
@@ -344,27 +376,41 @@ namespace IanGame
 
         public void ConfirmNewLife()
         {
+            if (mainMenu && GetComponentInChildren<MainMenuPresenter>(true) is { } title)
+            {
+                title.NewGame();
+                return;
+            }
+
             Push(confirmPanel);
         }
 
         public void AcceptNewLife()
         {
-            if (GameContext.Instance != null && GameContext.Instance.game.BirthIntroductionPending)
+            if (!mainMenu && GameContext.Instance != null && GameContext.Instance.game.BirthIntroductionPending)
             {
                 return;
             }
 
             while (stack.Count > 0)
             {
+                int depth = stack.Count;
                 Pop();
+                if (depth == stack.Count)
+                {
+                    return;
+                }
             }
 
             if (GameContext.Instance != null)
             {
-                GameContext.Instance.game.NewGame();
-                if (mainMenu)
+                if (mainMenu && GetComponentInChildren<MainMenuPresenter>(true) is { } title)
                 {
-                    GameContext.Instance.transitions.Navigate(SceneId.Home);
+                    title.BeforePlay(title.StartLife);
+                }
+                else
+                {
+                    GameContext.Instance.game.NewGame();
                 }
             }
         }
@@ -447,22 +493,12 @@ namespace IanGame
 
         void Back()
         {
-            if (
-                GameContext.Instance != null
-                && GameContext.Instance.game.world != null
-                && GameContext.Instance.game.world.Busy
-            )
-            {
-                GameContext.Instance.game.world.Host.CancelAction();
-                return;
-            }
-
             if (GameContext.Instance != null && GameContext.Instance.transitions.IsTransitioning)
             {
                 return;
             }
 
-            if (lastBackFrame == Time.frameCount)
+            if (saving || lastBackFrame == Time.frameCount)
             {
                 return;
             }
@@ -474,6 +510,12 @@ namespace IanGame
             }
             else if (!mainMenu)
             {
+                if (game?.world?.Busy == true)
+                {
+                    game.world.Host.CancelAction();
+                    return;
+                }
+
                 OpenPause();
             }
         }
@@ -512,6 +554,15 @@ namespace IanGame
 
         void Update()
         {
+            if (savedNoticeUntil > 0 && Time.unscaledTime >= savedNoticeUntil)
+            {
+                savedNoticeUntil = 0;
+                if (saveStatus && saveStatus.text == "저장 완료")
+                {
+                    saveStatus.text = "";
+                }
+            }
+
             if (DeveloperInputLock.Active)
             {
                 return;

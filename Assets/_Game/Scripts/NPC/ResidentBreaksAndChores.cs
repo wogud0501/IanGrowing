@@ -187,7 +187,9 @@ namespace IanGame
             // The seated clips include the cup or phone in the animated hand.
             // A character using a fallback clip still needs the separate prop.
             bool seated = motion is ActorMotion.SeatedDrink or ActorMotion.SeatedPhone;
-            bool inFrame = seated && r.animation && !r.animation.UsedMotionFallback;
+            bool familyDish = motion == ActorMotion.WashDishes && FamilyLife.Parent(r.definition.npcId)
+                && FamilyLife.IsFamilyRoom(r.actor.zone);
+            bool inFrame = familyDish || seated && r.animation && !r.animation.UsedMotionFallback;
             Sprite sprite = activityArt && !inFrame ? activityArt.Prop(motion) : null;
             bool carrying =
                 HasChore(r)

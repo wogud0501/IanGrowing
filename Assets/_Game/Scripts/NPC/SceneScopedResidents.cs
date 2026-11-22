@@ -35,6 +35,7 @@ namespace IanGame
                 r.interiorDoor?.Release(r.definition.npcId);
                 r.slot?.Release(r.definition.npcId);
                 r.departureSlot?.Release(r.definition.npcId);
+                r.bedExitSlot?.Release(r.definition.npcId);
                 if (r.actor != null)
                 {
                     world.objects = world.objects.Where(o => o != r.actor).ToArray();
@@ -234,6 +235,7 @@ namespace IanGame
             {
                 r.slot?.Release(r.definition.npcId);
                 r.departureSlot?.Release(r.definition.npcId);
+                r.bedExitSlot?.Release(r.definition.npcId);
                 r.entryDoor?.Release(r.definition.npcId);
                 r.door?.Release(r.definition.npcId);
                 r.interiorDoor?.Release(r.definition.npcId);

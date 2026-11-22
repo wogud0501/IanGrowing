@@ -34,6 +34,7 @@ namespace IanGame
         ActorMotion variation;
         GameManager game;
         Vector3 shadowScale;
+        Color shadowTint;
 
         void Awake()
         {
@@ -54,6 +55,7 @@ namespace IanGame
             if (motor.contactShadow != null)
             {
                 shadowScale = motor.contactShadow.transform.localScale;
+                shadowTint = motor.contactShadow.color;
             }
 
             nextIdle = 7 + ((System.Runtime.CompilerServices.RuntimeHelpers.GetHashCode(this) & int.MaxValue) % 5);
@@ -181,6 +183,9 @@ namespace IanGame
                     shadowScale.z
                 );
                 shadow.enabled = State != PlayerVisualState.Sleeping;
+                var ink = shadowTint;
+                ink.a *= .55f + WorldGraphicsSettings.Shadows * .15f;
+                shadow.color = ink;
             }
         }
 
