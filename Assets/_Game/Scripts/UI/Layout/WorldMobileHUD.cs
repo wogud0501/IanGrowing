@@ -39,16 +39,14 @@ namespace IanGame
         int height;
         Rect area;
         bool paused;
-        int previousFps;
-        int previousVsync;
-        bool lowDetails;
+        Button cancelAction;
+        static Sprite stickPlate;
+        static Sprite stickThumb;
         readonly Dictionary<LayoutElement, float> originalRows = new Dictionary<LayoutElement, float>();
         readonly Dictionary<RectTransform, Vector4> originalWindows = new Dictionary<RectTransform, Vector4>();
 
         void Start()
         {
-            previousFps = Application.targetFrameRate;
-            previousVsync = QualitySettings.vSyncCount;
             frameRateButton?.onClick.AddListener(ToggleFrameRate);
             detailButton?.onClick.AddListener(ToggleDetails);
             Apply(true);
@@ -60,6 +58,11 @@ namespace IanGame
             if (touchRoot != null && touchRoot.gameObject.activeInHierarchy)
             {
                 bool enabled = hud.world.CanControl;
+                bool walking = enabled && hud.world.Player.MovementAllowed;
+                joystick.transform.parent.gameObject.SetActive(walking);
+                run.gameObject.SetActive(walking);
+                cancelAction.gameObject.SetActive(hud.world.CanCancelAction);
+                interact.gameObject.SetActive(!hud.world.CanCancelAction);
                 joystick.enabled = enabled;
                 interact.enabled = enabled;
                 run.enabled = enabled;
@@ -197,40 +200,16 @@ namespace IanGame
             }
 
             var needs = (RectTransform)hud.needs.transform.parent;
-            needs.anchorMin = mobile ? new Vector2(.018f, compact ? .25f : .02f) : new Vector2(.018f, .02f);
-            needs.anchorMax = mobile
-                ? new Vector2(compact ? .982f : .48f, compact ? .30f : .085f)
-                : new Vector2(.46f, .085f);
-            needs.offsetMin = needs.offsetMax = Vector2.zero;
-            Position(
-                joystick.transform.parent as RectTransform,
-                compact ? new Vector2(.2f, .115f) : new Vector2(.12f, .19f),
-                new Vector2(200, 200)
-            );
-            var handle = (RectTransform)joystick.transform;
-            handle.anchorMin = handle.anchorMax = new Vector2(.5f, .5f);
-            handle.anchoredPosition = Vector2.zero;
-            handle.sizeDelta = new Vector2(200, 200);
-            Position(
-                interact.transform as RectTransform,
-                compact ? new Vector2(.84f, .12f) : new Vector2(.9f, .18f),
-                new Vector2(112, 112)
-            );
-            Position(
-                inventory.transform as RectTransform,
-                compact ? new Vector2(.72f, .215f) : new Vector2(.9f, .43f),
-                new Vector2(92, 92)
-            );
-            Position(
-                menu.transform as RectTransform,
-                compact ? new Vector2(.9f, .215f) : new Vector2(.78f, .43f),
-                new Vector2(92, 92)
-            );
-            Position(
-                run.transform as RectTransform,
-                compact ? new Vector2(.61f, .10f) : new Vector2(.78f, .18f),
-                new Vector2(92, 92)
-            );
+            if (mobile)
+            {
+                needs.anchorMin = needs.anchorMax = new Vector2(.5f, 0);
+                needs.pivot = new Vector2(.5f, 0);
+                needs.anchoredPosition = new Vector2(0, 12);
+                needs.sizeDelta = new Vector2(244, 40);
+                ConfigureControls();
+            }
+
+            hud.SetCompactVitals(mobile);
             touchRoot.gameObject.SetActive(mobile && !paused);
             hud.ReflowNotification();
             ApplyQuality();
@@ -238,48 +217,88 @@ namespace IanGame
             hud.Prompt(hud.promptPanel.activeSelf ? hud.prompt.text : null);
         }
 
-        static void Position(RectTransform r, Vector2 anchor, Vector2 size)
+        void ConfigureControls()
         {
-            r.anchorMin = r.anchorMax = anchor;
-            r.pivot = Vector2.one * .5f;
-            r.anchoredPosition = Vector2.zero;
-            r.sizeDelta = size;
+            var stick = (RectTransform)joystick.transform.parent;
+            Position(stick, Vector2.zero, new Vector2(86, 92), new Vector2(124, 124));
+            var handle = (RectTransform)joystick.transform;
+            Position(handle, Vector2.one * .5f, Vector2.zero, new Vector2(132, 132));
+            joystick.movementRange = 40;
+            handle.GetComponent<Image>().color = Color.clear;
+            var runLabel = run.GetComponentInChildren<TMP_Text>();
+            runLabel.text = "뛰기";
+            runLabel.textWrappingMode = TextWrappingModes.NoWrap;
+            if (!stickPlate)
+            {
+                var atlas = Resources.Load<Texture2D>("IanLedger/TouchStick");
+                stickPlate = Sprite.Create(atlas, new Rect(0, 0, 64, 64), Vector2.one * .5f, 64);
+                stickThumb = Sprite.Create(atlas, new Rect(64, 0, 64, 64), Vector2.one * .5f, 64);
+            }
+
+            var plate = stick.GetComponent<Image>();
+            plate.sprite = stickPlate;
+            plate.type = Image.Type.Simple;
+            plate.color = Color.white;
+            var thumb = handle.GetChild(0).GetComponent<Image>();
+            thumb.sprite = stickThumb;
+            thumb.type = Image.Type.Simple;
+            thumb.color = Color.white;
+            thumb.rectTransform.sizeDelta = new Vector2(52, 52);
+
+            var corner = Vector2.right;
+            Position((RectTransform)interact.transform, corner, new Vector2(-64, 86), new Vector2(86, 72));
+            Position((RectTransform)run.transform, corner, new Vector2(-157, 86), new Vector2(78, 64));
+            Position((RectTransform)inventory.transform, corner, new Vector2(-157, 173), new Vector2(78, 56));
+            Position((RectTransform)menu.transform, corner, new Vector2(-64, 173), new Vector2(78, 56));
+            if (!cancelAction)
+            {
+                var go = new GameObject("Cancel current action", typeof(RectTransform), typeof(Image), typeof(Button));
+                go.transform.SetParent(touchRoot, false);
+                var background = go.GetComponent<Image>();
+                LifeRecordUI.Skin(background, RecordSurface.Header);
+                cancelAction = go.GetComponent<Button>();
+                cancelAction.targetGraphic = background;
+                var label = LifeRecordUI.Label(go.transform, hud.prompt.font, "취소", 21,
+                    LifeRecordUI.Heading, 0, 0, 1, 1);
+                label.alignment = TextAlignmentOptions.Center;
+                cancelAction.onClick.AddListener(hud.world.CancelAction);
+            }
+
+            Position((RectTransform)cancelAction.transform, corner, new Vector2(-64, 86), new Vector2(86, 72));
+        }
+
+        static void Position(RectTransform rect, Vector2 anchor, Vector2 offset, Vector2 size)
+        {
+            rect.anchorMin = rect.anchorMax = anchor;
+            rect.pivot = Vector2.one * .5f;
+            rect.anchoredPosition = offset;
+            rect.sizeDelta = size;
         }
 
         public void ToggleFrameRate()
         {
-            PlayerPrefs.SetInt("ian.mobile.fps", PlayerPrefs.GetInt("ian.mobile.fps", 60) == 60 ? 30 : 60);
-            PlayerPrefs.Save();
+            WorldGraphicsSettings.NextFrameLimit();
             ApplyQuality();
         }
 
         public void ToggleDetails()
         {
-            PlayerPrefs.SetInt("ian.mobile.lowDetail", PlayerPrefs.GetInt("ian.mobile.lowDetail", 0) == 0 ? 1 : 0);
-            PlayerPrefs.Save();
+            WorldGraphicsSettings.NextDetail();
             ApplyQuality();
         }
 
         void ApplyQuality()
         {
-            lowDetails = PlayerPrefs.GetInt("ian.mobile.lowDetail", 0) == 1;
-            hud.world.lowDetail = IsMobile && lowDetails;
-            if (IsMobile)
+            if (frameRateButton)
             {
-                QualitySettings.vSyncCount = 0;
-                Application.targetFrameRate = PlayerPrefs.GetInt("ian.mobile.fps", 60) == 30 ? 30 : 60;
+                frameRateButton.GetComponentInChildren<TMP_Text>().text = WorldGraphicsSettings.FrameLimit == 0
+                    ? "수직 동기화" : "목표 FPS · " + WorldGraphicsSettings.FrameLimit;
             }
 
-            if (frameRateButton != null)
-            {
-                frameRateButton.GetComponentInChildren<TMP_Text>().text =
-                    "모바일 목표 FPS · " + PlayerPrefs.GetInt("ian.mobile.fps", 60);
-            }
-
-            if (detailButton != null)
+            if (detailButton)
             {
                 detailButton.GetComponentInChildren<TMP_Text>().text =
-                    "모바일 환경 효과 · " + (lowDetails ? "절전" : "기본");
+                    "환경 효과 · " + WorldGraphicsSettings.Names[WorldGraphicsSettings.Detail];
             }
         }
 
@@ -319,11 +338,6 @@ namespace IanGame
         void OnDisable()
         {
             Release();
-            if (IsMobile)
-            {
-                Application.targetFrameRate = previousFps;
-                QualitySettings.vSyncCount = previousVsync;
-            }
         }
     }
 }

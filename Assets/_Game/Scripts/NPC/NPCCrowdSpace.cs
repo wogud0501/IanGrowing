@@ -117,7 +117,14 @@ namespace IanGame
         {
             var cell = Cell(next);
             // Query radius can exceed one cell when used by a future larger archetype.
-            int reach = Mathf.Max(1, Mathf.CeilToInt(radius / .8f));
+            var delta = next - from;
+            float lengthSquared = delta.sqrMagnitude;
+            if (inwardOnly && lengthSquared == 0)
+            {
+                return false;
+            }
+
+            int reach = Mathf.Max(1, Mathf.CeilToInt((radius + delta.magnitude) / .8f));
             for (int y = -reach; y <= reach; y++)
             {
                 for (int x = -reach; x <= reach; x++)
@@ -137,11 +144,11 @@ namespace IanGame
                             continue;
                         }
 
-                        float after = (entry.position - next).sqrMagnitude;
-                        if (
-                            after < radius * radius
-                            && (!inwardOnly || after < (entry.position - from).sqrMagnitude - .0000001f)
-                        )
+                        var offset = entry.position - from;
+                        float fraction = inwardOnly && lengthSquared > 0
+                            ? Mathf.Clamp01(Vector2.Dot(offset, delta) / lengthSquared)
+                            : 1f;
+                        if (fraction > 0 && (offset - fraction * delta).sqrMagnitude < radius * radius)
                         {
                             return true;
                         }
@@ -159,7 +166,24 @@ namespace IanGame
 
         public bool Blocks(string id, Vector2 from, Vector2 next)
         {
-            return Blocked(id, from, next, Clearance, true);
+            return Blocks(id, from, next, Clearance);
+        }
+
+        internal bool Blocks(string id, Vector2 from, Vector2 next, float radius)
+        {
+            // Limit the spatial hash query to nearby cells, even when testing a whole path edge.
+            int steps = Mathf.Max(1, Mathf.CeilToInt(Vector2.Distance(from, next) / .5f));
+            Vector2 previous = from;
+            for (int i = 1; i <= steps; i++)
+            {
+                var point = Vector2.Lerp(from, next, (float)i / steps);
+                if (Blocked(id, previous, point, radius, true))
+                {
+                    return true;
+                }
+                previous = point;
+            }
+            return false;
         }
     }
 }

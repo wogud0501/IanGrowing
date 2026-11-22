@@ -29,6 +29,19 @@ namespace IanQA.Tests
         }
 
         [Test]
+        public void WalkingSegmentCannotGrazeAnOccupiedSeatBetweenClearEndpoints()
+        {
+            var type = T("NPCCrowdSpace");
+            var space = Activator.CreateInstance(type);
+            type.GetMethod("Set").Invoke(space, new object[] { "customer", Vector2.zero });
+            var blocks = type.GetMethod("Blocks");
+            var from = new Vector2(-.15f, .77f);
+            var to = new Vector2(.15f, .77f);
+            Assert.IsTrue((bool)blocks.Invoke(space, new object[] { "clerk", from, to }));
+            Assert.IsFalse((bool)blocks.Invoke(space, new object[] { "clerk", from, from + Vector2.up }));
+        }
+
+        [Test]
         public void SpatialQueryDoesNotReturnAllDistantResidents()
         {
             var t = T("NPCCrowdSpace");

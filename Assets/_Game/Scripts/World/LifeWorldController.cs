@@ -23,6 +23,7 @@ namespace IanGame
         public WorldZoneDefinition CurrentZone { get; private set; }
 
         public bool lowDetail;
+        public bool CanCancelAction => acting && !cancel;
         public bool Busy => acting || travelling;
         public bool CanControl =>
             !DeveloperInputLock.Active
@@ -40,6 +41,7 @@ namespace IanGame
         readonly List<WorldInteractable> furniture = new List<WorldInteractable>();
         internal IEnumerable<WorldInteractable> Interactables => objects.Concat(furniture);
         string furnitureKey;
+        public int FurnitureRevision { get; private set; }
         bool acting;
         bool travelling;
         bool cancel;
@@ -502,6 +504,9 @@ namespace IanGame
         {
             Player.ClearReaction();
             acting = true;
+            string label = action == 3 ? "식사" : action == 4 ? "마시기" : action == 5 ? "잠자기" : o.title;
+            hud.Prompt(null);
+            hud.Activity(label, 0);
             cancel = false;
             int generation = restoreGeneration;
             activityEntry = Player.Position;
@@ -562,12 +567,13 @@ namespace IanGame
                     }
                 }
 
-                if (Player.growthVisual?.Young == true && o.kind == WorldInteractionKind.Sleep)
+                if (
+                    Player.growthVisual?.Young == true
+                    && !sleep
+                    && (o.kind == WorldInteractionKind.Sleep || FamilyLife.Parent(o.npcId) && action is 3 or 4)
+                )
                 {
-                    if (!sleep)
-                    {
-                        pose = Player.growthVisual.CarePose(action);
-                    }
+                    pose = Player.growthVisual.CarePose(action);
                 }
 
                 Player.Pose(pose);
@@ -592,6 +598,15 @@ namespace IanGame
                             : 1.7f
                         )
                 );
+                bool newbornCare =
+                    Service.Game.growth.Age == 0
+                    && (o.id == "family-bed" || FamilyLife.Parent(o.npcId))
+                    && action is 3 or 4 or 5;
+                if (newbornCare)
+                {
+                    duration = Mathf.Min(duration, sleep ? 1.2f : .7f);
+                }
+
                 for (float t = 0; t < duration; )
                 {
                     if (cancel || !o.gameObject.activeInHierarchy)
@@ -624,10 +639,10 @@ namespace IanGame
                         }
                     }
 
-                    hud.Activity(o.title, t / duration);
+                    hud.Activity(label, t / duration);
                     if (sleep)
                     {
-                        hud.Dim(Mathf.Sin(t / duration * Mathf.PI) * .9f);
+                        hud.Dim(Mathf.Sin(t / duration * Mathf.PI) * .16f);
                     }
 
                     yield return null;
@@ -793,7 +808,10 @@ namespace IanGame
                 }
 
                 hud.Notify(ok ? (sleep ? "기상했습니다. " + Service.State.lastSummary : o.title + " 완료") : message);
-                Player.Pose(sleep ? "Wake Up" : "Idle");
+                if (!sleep || detail == null)
+                {
+                    Player.Pose(sleep ? "Wake Up" : "Idle");
+                }
                 if (detail != null)
                 {
                     yield return detail.Exit(this, () => cancel || generation != restoreGeneration);
@@ -1150,7 +1168,6 @@ namespace IanGame
                     yield return null;
                 }
 
-                hud.Notify(CurrentZone.title);
                 CapturePosition();
                 string error;
                 if (!Service.Game.SaveAutomaticCheckpoint(out error))
@@ -1490,6 +1507,7 @@ namespace IanGame
                 if (previous != null)
                 {
                     colors.Remove(previous.visual);
+                    previous.gameObject.SetActive(false);
                     Destroy(previous.gameObject);
                 }
             }
@@ -1591,6 +1609,7 @@ namespace IanGame
             }
 
             Physics2D.SyncTransforms();
+            FurnitureRevision++;
             if (!Busy && CurrentZone != null && !Clear(Player.Position))
             {
                 Player.Warp(Safe(CurrentZone, Player.Position - CurrentZone.origin));

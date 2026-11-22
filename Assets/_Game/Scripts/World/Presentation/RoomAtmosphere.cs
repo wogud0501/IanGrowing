@@ -93,7 +93,7 @@ namespace IanGame.Commercial
                     }
 
                     bool reduced = UIShell.ReducedMotion;
-                    int quality = PlayerPrefs.GetInt("ian.visual.effects", 1);
+                    int quality = WorldGraphicsSettings.Detail;
                     if (character != null)
                     {
                         character.transform.localPosition =
@@ -121,7 +121,7 @@ namespace IanGame.Commercial
 
                     for (int i = 0; i < motes.Length; i++)
                     {
-                        bool active = !reduced && quality > 0 && (quality > 1 || i < 4);
+                        bool active = !reduced && quality > 0 && i < Mathf.CeilToInt(motes.Length * quality / 3f);
                         motes[i].enabled = active;
                         if (!active)
                         {

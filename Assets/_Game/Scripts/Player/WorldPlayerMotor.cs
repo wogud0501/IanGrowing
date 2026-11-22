@@ -35,6 +35,7 @@ namespace IanGame
         [Min(1)]
         public float runMultiplier = 1.65f;
         Rigidbody2D body;
+        WorldNPCScheduler residents;
         Vector2 input;
         Vector2 velocity;
         Vector2 observedPosition;
@@ -90,6 +91,7 @@ namespace IanGame
                 GetComponent<PlayerAnimationPresentation>() ?? gameObject.AddComponent<PlayerAnimationPresentation>();
             presentation.motor = this;
             body = GetComponent<Rigidbody2D>();
+            residents = world ? world.GetComponent<WorldNPCScheduler>() : null;
             body.gravityScale = 0;
             body.freezeRotation = true;
             body.interpolation = RigidbodyInterpolation2D.Interpolate;
@@ -304,7 +306,7 @@ namespace IanGame
                 next = traversalTarget;
             }
 
-            body.MovePosition(next);
+            body.MovePosition(residents ? residents.PlayerStep(body.position, next) : next);
         }
 
         public void StopForControlLock()

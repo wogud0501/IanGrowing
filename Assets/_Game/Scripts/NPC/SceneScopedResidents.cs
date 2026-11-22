@@ -21,7 +21,6 @@ namespace IanGame
         void StartScoped()
         {
             street = world.GetComponentInChildren<WorldStreetLife>();
-            hitFilter = new ContactFilter2D { useTriggers = false };
             ready = true;
             world.Service.Restored += Restore;
             RebuildScoped(true);
@@ -147,6 +146,13 @@ namespace IanGame
                 return;
             }
 
+            if (entryDoor != null && (entryDoor.State != DoorState.Open || WorldNPCNavigation.Occupant(p) != null))
+            {
+                // An unmaterialized traveller must not hold a door if their schedule changes.
+                entryDoor.Release(saved.id, lifeProfile == null ? .5f : lifeProfile.populationTickSeconds + .3f);
+                return;
+            }
+
             var a = AcquireScopedActor(template, d);
             a.name = d.npcId;
             a.zone = local;
@@ -181,7 +187,10 @@ namespace IanGame
             residents = residents.Concat(new[] { r }).ToArray();
             saved.passingRoom = null;
             saved.zone = a.zone;
-            saved.position = p - world.CurrentZone.origin;
+            if (!loading)
+            {
+                saved.position = p - world.CurrentZone.origin;
+            }
             saved.action = r.action;
             nextDecision = 0;
         }
@@ -194,11 +203,24 @@ namespace IanGame
             {
                 if (
                     resident.definition.ambient
+                    && resident.actor.zone == world.Room.roomId
                     && !AdmitResident(resident.definition)
                     && OutsidePopulationView(resident.actor.transform.position)
                 )
                 {
-                    resident.actor.zone = resident.definition.homeZone;
+                    var definition = resident.definition;
+                    int index = Schedule(
+                        definition,
+                        world.Service.Game.clock.Day,
+                        (int)(world.Service.Game.clock.SubDaySeconds / 60)
+                    );
+                    if (definition.schedule[index].zone != world.Room.roomId)
+                    {
+                        // The new room's budget does not cancel a journey already in progress.
+                        continue;
+                    }
+
+                    resident.actor.zone = definition.homeZone;
                     var saved = world.Service.State.residents.Find(n => n.id == resident.definition.npcId);
                     if (saved != null)
                     {

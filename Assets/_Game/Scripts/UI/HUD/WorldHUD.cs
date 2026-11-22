@@ -41,6 +41,11 @@ namespace IanGame
         bool dirty;
         SurvivalMeters survival;
 
+        public void SetCompactVitals(bool compact)
+        {
+            survival?.SetCompact(compact);
+        }
+
         public void FocusVital(int index)
         {
             survival?.Focus(index);
@@ -52,6 +57,11 @@ namespace IanGame
         string purchaseResult;
         RectTransform feedbackCard;
         RectTransform activityCard;
+        string activityLabel;
+        int activityPercent;
+        Vector2 activityViewport;
+        bool activityTouch;
+        bool activityGamepad;
         float feedbackWidth;
         CanvasGroup noticeGroup;
         RectTransform noticeRule;
@@ -255,7 +265,7 @@ namespace IanGame
         void Refresh()
         {
             UpdateContextCaption();
-            cash.text = $"{game.economy.Cash:N0} G  ·  루비 {game.economy.Ruby.Total:N0}";
+            cash.text = $"{game.economy.Cash:N0} G";
             survival?.Set(0, game.stats.Hunger);
             survival?.Set(1, game.stats.Thirst);
             survival?.Set(2, game.stats.Health);
@@ -300,7 +310,7 @@ namespace IanGame
             rect.anchorMin = rect.anchorMax = new Vector2(
                 .5f,
                 mobile != null && mobile.IsMobile
-                    ? (mobile.Profile == WorldScreenProfile.PhonePortrait ? .33f : .37f)
+                    ? (mobile.Profile == WorldScreenProfile.PhonePortrait ? .18f : .27f)
                     : .09f
             );
             rect.pivot = new Vector2(.5f, 0);
@@ -556,9 +566,28 @@ namespace IanGame
 
         public void Activity(string text, float amount)
         {
-            progress.text = string.IsNullOrEmpty(text)
-                ? ""
-                : $"{text} · {Mathf.RoundToInt(amount * 100)}%   [Esc] 취소";
+            bool touch = GetComponent<WorldMobileHUD>()?.IsMobile == true;
+            int percent = Mathf.Clamp(Mathf.RoundToInt(amount * 100), 0, 100);
+            var viewport = new Vector2(Screen.width, Screen.height);
+            if (
+                activityCard
+                && activityLabel == text
+                && activityPercent == percent
+                && activityTouch == touch
+                && activityGamepad == UsingGamepad
+                && activityViewport == viewport
+            )
+            {
+                return;
+            }
+
+            activityLabel = text;
+            activityPercent = percent;
+            activityTouch = touch;
+            activityGamepad = UsingGamepad;
+            activityViewport = viewport;
+            var cancelHint = touch ? "" : UsingGamepad ? "   [패드 오른쪽] 취소" : "   [Esc] 취소";
+            progress.text = string.IsNullOrEmpty(text) ? "" : $"{text} · {percent}%{cancelHint}";
             if (activityCard == null)
             {
                 var r = progress.rectTransform;
@@ -588,8 +617,7 @@ namespace IanGame
                 return;
             }
 
-            bool touch = GetComponent<WorldMobileHUD>()?.IsMobile == true;
-            activityCard.anchorMin = activityCard.anchorMax = new Vector2(.5f, touch ? .5f : .16f);
+            activityCard.anchorMin = activityCard.anchorMax = new Vector2(.5f, touch ? .27f : .16f);
             activityCard.pivot = new Vector2(.5f, 0);
             activityCard.anchoredPosition = Vector2.zero;
             float width = Mathf.Min(

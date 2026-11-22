@@ -1,51 +1,51 @@
 # Codex usage report
 
-Generated 2026-11-21 23:26 (Asia/Seoul) by codex-usage-report from the Codex session logs on this machine. Costs are what the same tokens would have cost at OpenAI API rates.
+Generated 2026-11-22 13:17 (Asia/Seoul) by codex-usage-report from the Codex session logs on this machine. Costs are what the same tokens would have cost at OpenAI API rates.
 
 ## Last 365 days
 
-2025-11-22 to 2026-11-21
+2025-11-23 to 2026-11-22
 
 | Model | Requests | Input | Cached input | Output | Reasoning | Cached share | Cost |
 |---|--:|--:|--:|--:|--:|--:|--:|
-| gpt-6.2-astra | 1,835 | 324,340,573 | 320,011,008 | 702,490 | 138,317 | 98.7% | $190.74 |
+| gpt-6.2-astra | 2,344 | 412,667,526 | 406,964,864 | 882,093 | 171,527 | 98.6% | $243.69 |
 | gpt-6.1-sol | 2,666 | 653,441,947 | 644,258,304 | 2,638,935 | 1,495,320 | 98.6% | $165.09 |
 | gpt-6-astra | 128 | 19,700,570 | 19,431,168 | 72,891 | 21,814 | 98.6% | $25.77 |
 | gpt-oss:20b | 242 | 17,689,554 | 16,768,938 | 130,293 | 0 | 94.8% | N/A |
 | qwen3.8:27b-mlx | 28 | 2,657,073 | 2,163,819 | 44,766 | 0 | 81.4% | N/A |
-| **Total** | **4,899** | **1,017,829,717** | **1,002,633,237** | **3,589,375** | **1,655,451** | **98.5%** | **$381.60** |
+| **Total** | **5,408** | **1,106,156,670** | **1,089,587,093** | **3,768,978** | **1,688,661** | **98.5%** | **$434.55** |
 
-Compaction made 35 of these requests, with 10,392,105 input tokens and $7.34 of the cost.
+Compaction made 40 of these requests, with 11,605,932 input tokens and $8.63 of the cost.
 
 ## Month to date
 
-2026-11-01 to 2026-11-21
+2026-11-01 to 2026-11-22
 
 | Model | Requests | Input | Cached input | Output | Reasoning | Cached share | Cost |
 |---|--:|--:|--:|--:|--:|--:|--:|
-| gpt-6.2-astra | 1,835 | 324,340,573 | 320,011,008 | 702,490 | 138,317 | 98.7% | $190.74 |
+| gpt-6.2-astra | 2,344 | 412,667,526 | 406,964,864 | 882,093 | 171,527 | 98.6% | $243.69 |
 | gpt-6.1-sol | 2,666 | 653,441,947 | 644,258,304 | 2,638,935 | 1,495,320 | 98.6% | $165.09 |
 | gpt-6-astra | 128 | 19,700,570 | 19,431,168 | 72,891 | 21,814 | 98.6% | $25.77 |
 | gpt-oss:20b | 242 | 17,689,554 | 16,768,938 | 130,293 | 0 | 94.8% | N/A |
 | qwen3.8:27b-mlx | 28 | 2,657,073 | 2,163,819 | 44,766 | 0 | 81.4% | N/A |
-| **Total** | **4,899** | **1,017,829,717** | **1,002,633,237** | **3,589,375** | **1,655,451** | **98.5%** | **$381.60** |
+| **Total** | **5,408** | **1,106,156,670** | **1,089,587,093** | **3,768,978** | **1,688,661** | **98.5%** | **$434.55** |
 
-Compaction made 35 of these requests, with 10,392,105 input tokens and $7.34 of the cost.
+Compaction made 40 of these requests, with 11,605,932 input tokens and $8.63 of the cost.
 
 ## All time
 
-2026-11-12 to 2026-11-21
+2026-11-12 to 2026-11-22
 
 | Model | Requests | Input | Cached input | Output | Reasoning | Cached share | Cost |
 |---|--:|--:|--:|--:|--:|--:|--:|
-| gpt-6.2-astra | 1,835 | 324,340,573 | 320,011,008 | 702,490 | 138,317 | 98.7% | $190.74 |
+| gpt-6.2-astra | 2,344 | 412,667,526 | 406,964,864 | 882,093 | 171,527 | 98.6% | $243.69 |
 | gpt-6.1-sol | 2,666 | 653,441,947 | 644,258,304 | 2,638,935 | 1,495,320 | 98.6% | $165.09 |
 | gpt-6-astra | 128 | 19,700,570 | 19,431,168 | 72,891 | 21,814 | 98.6% | $25.77 |
 | gpt-oss:20b | 242 | 17,689,554 | 16,768,938 | 130,293 | 0 | 94.8% | N/A |
 | qwen3.8:27b-mlx | 28 | 2,657,073 | 2,163,819 | 44,766 | 0 | 81.4% | N/A |
-| **Total** | **4,899** | **1,017,829,717** | **1,002,633,237** | **3,589,375** | **1,655,451** | **98.5%** | **$381.60** |
+| **Total** | **5,408** | **1,106,156,670** | **1,089,587,093** | **3,768,978** | **1,688,661** | **98.5%** | **$434.55** |
 
-Compaction made 35 of these requests, with 10,392,105 input tokens and $7.34 of the cost.
+Compaction made 40 of these requests, with 11,605,932 input tokens and $8.63 of the cost.
 
 ## Rate limits
 
@@ -53,15 +53,15 @@ The latest snapshot Codex logged for each bucket, not a total for any period. Ti
 
 | Bucket | Plan | Window | Used | Resets | As of |
 |---|---|---|--:|---|---|
-| codex | self\_serve\_business\_prolite | weekly | 41% | 2026-11-23 19:03 | 2026-11-21 23:26 |
+| codex | self\_serve\_business\_prolite | weekly | 50% | 2026-11-23 19:03 | 2026-11-22 13:16 |
 
 ## Prices
 
-Prices come from the LiteLLM public price table, fetched 2026-11-21 23:26.
+Prices come from the LiteLLM public price table, fetched 2026-11-22 13:17.
 
 ## Checks
 
-- 22 files read, 4,899 requests counted, 0 duplicates skipped.
+- 22 files read, 5,408 requests counted, 0 duplicates skipped.
 - All 19 files with usage reconcile, meaning the per-request usage adds up to Codex's own running total.
 - 0 directories and 0 files could not be read. 0 malformed lines in the middle of a file, 0 at the end of one.
 - 0 requests with no model, 0 with no readable timestamp, 0 with cache-write tokens.

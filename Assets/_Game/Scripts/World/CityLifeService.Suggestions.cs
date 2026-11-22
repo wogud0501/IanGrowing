@@ -162,6 +162,10 @@ namespace IanGame
             {
                 if (
                     active(lesson)
+                    && (
+                        lesson != GuideLesson.Social
+                        || nearby && nearby.isActiveAndEnabled && nearby.kind == WorldInteractionKind.NPC
+                    )
                     && (lesson != GuideLesson.School || CanVisit("school") && SchoolInSession())
                     && (lesson != GuideLesson.Job || CanVisit("workplace"))
                     && (lesson != GuideLesson.Headphones && lesson != GuideLesson.Equipment || HasWearable(lesson))
@@ -313,6 +317,12 @@ namespace IanGame
 
             var lesson = CurrentLesson();
             var entrance = NearbyFacility();
+            void suggestFacility()
+            {
+                string room = entrance.targetZone;
+                add(world.rules.Zone(room).title + " 방문", FacilityPurpose(room), room);
+            }
+
             if (
                 choices.Count < 3
                 && lesson.HasValue
@@ -377,7 +387,7 @@ namespace IanGame
             {
                 if (entrance)
                 {
-                    add(entrance.title + " 방문", FacilityPurpose(entrance.targetZone), entrance.targetZone);
+                    suggestFacility();
                 }
                 else
                 {
@@ -414,7 +424,7 @@ namespace IanGame
 
             if (entrance && !choices.Exists(choice => choice.room == entrance.targetZone))
             {
-                add(entrance.title + " 방문", FacilityPurpose(entrance.targetZone), entrance.targetZone);
+                suggestFacility();
             }
 
             add("이안의 상태 살펴보기", "생활 메뉴 → 상세 상태", screen: "status");

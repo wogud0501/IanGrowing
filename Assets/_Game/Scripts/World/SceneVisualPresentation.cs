@@ -28,9 +28,11 @@ namespace IanGame
                 return;
             }
 
+            WorldGraphicsSettings.Bind(world?.follow?.target);
+            int tier = WorldGraphicsSettings.Detail;
             float visualHour =
                 world != null && world.Service != null ? (float)(world.Service.Game.clock.SubDaySeconds / 3600) : hour;
-            var tint = Color.Lerp(Color.white, profile.AtHour(visualHour), profile.paletteStrength);
+            var tint = Color.Lerp(Color.white, profile.AtHour(visualHour), Mathf.Clamp01(profile.paletteStrength * (.68f + tier * .14f)));
             foreach (var pair in bases)
             {
                 var renderer = pair.Key;
@@ -50,14 +52,15 @@ namespace IanGame
                 if (window != null)
                 {
                     window.enabled = night;
-                    window.color = Color.white;
+                    window.color = Color.Lerp(new Color(.72f, .73f, .76f),
+                        new Color(1f, .91f, .76f), tier / 3f);
                 }
             }
             foreach (var lamp in lamps)
             {
                 if (lamp != null)
                 {
-                    lamp.enabled = night && !lowDetail;
+                    lamp.enabled = night && !lowDetail && tier > 0;
                 }
             }
 

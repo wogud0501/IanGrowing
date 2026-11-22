@@ -219,8 +219,12 @@ namespace IanGame
                 data.chapter > 0 && data.chapter <= service.catalog.chapterTitles.Length
                     ? service.catalog.chapterTitles[data.chapter - 1]
                     : "CHAPTER " + data.chapter;
-            chapterText.text = chapterName + " · " + claimed + " / " + chapterTotal + " · 진행 목표";
-            conditionText.text = data.description + "\n\n" + MissionGuidance.Summary(data, service);
+            chapterText.text = chapterName + " · " + claimed + " / " + chapterTotal;
+            string guidance = MissionGuidance.Summary(data, service);
+            conditionText.text = string.IsNullOrWhiteSpace(data.description)
+                || data.description == data.title + "의 명시된 조건을 달성하세요."
+                ? guidance
+                : data.description + "\n\n" + guidance;
             progressText.text =
                 MissionRowView.StateName(p.state) + "   " + p.current.ToString("0") + " / " + p.target.ToString("0");
             rewardText.text =

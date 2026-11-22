@@ -266,30 +266,31 @@ namespace IanGame
                 return;
             }
 
-            Coroutine current;
-            if (animations.TryGetValue(view, out current) && current != null)
+            var group = Group(view);
+            bool interrupted = animations.TryGetValue(view, out var current) && current != null;
+            if (interrupted)
             {
                 StopCoroutine(current);
+                animations.Remove(view);
             }
 
+            group.interactable = show && Top == view;
+            group.blocksRaycasts = group.interactable;
             if (!isActiveAndEnabled || ReducedMotion)
             {
-                Group(view).alpha = show ? 1 : 0;
+                group.alpha = show ? 1 : 0;
                 view.SetActive(show);
                 return;
             }
 
-            animations[view] = StartCoroutine(Fade(view, show));
+            float start = show && !interrupted ? 0 : group.alpha;
+            animations[view] = StartCoroutine(Fade(view, group, show, start));
         }
 
-        IEnumerator Fade(GameObject view, bool show)
+        IEnumerator Fade(GameObject view, CanvasGroup group, bool show, float start)
         {
-            var group = Group(view);
-            bool input = show && Top == view;
-            group.interactable = input;
-            group.blocksRaycasts = input;
-            float start = show ? 0 : group.alpha;
-            for (float t = 0; t < 1; t += Time.unscaledDeltaTime / .15f)
+            float duration = show ? .15f : .09f;
+            for (float t = 0; t < 1; t += Time.unscaledDeltaTime / duration)
             {
                 group.alpha = Mathf.Lerp(start, show ? 1 : 0, 1 - (1 - t) * (1 - t));
                 yield return null;

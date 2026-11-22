@@ -101,7 +101,7 @@ namespace IanGame.Editor
             var sr = Image(root, name, facilityFurniture[item], p);
             sr.enabled = true;
             sr.transform.localScale = Vector3.one * width / Mathf.Max(.01f, sr.sprite.bounds.size.x);
-            if (new[] { 5, 8, 9, 10, 11, 12, 15 }.Contains(item))
+            if (new[] { 5, 8, 9, 10, 11, 12, 13, 14, 15 }.Contains(item))
             {
                 var c = Component<BoxCollider2D>(sr.gameObject);
                 c.size = new Vector2(sr.sprite.bounds.size.x * .8f, .35f / sr.transform.localScale.y);

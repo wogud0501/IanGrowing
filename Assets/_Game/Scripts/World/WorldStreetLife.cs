@@ -266,6 +266,7 @@ namespace IanGame
                 Vector2 to = Vector2.MoveTowards(from, target, p.speed * Time.deltaTime);
                 bool nearPlayer =
                     Vector2.Distance(to, player) < .7f && Vector2.Distance(to, player) < Vector2.Distance(from, player);
+                blocked |= WorldNPCNavigation.Obstacle(Origin + from, Origin + to) != null;
                 bool walking = !blocked && !nearPlayer && p.waiting <= 0 && Vector2.Distance(from, target) > .025f;
                 if (walking)
                 {

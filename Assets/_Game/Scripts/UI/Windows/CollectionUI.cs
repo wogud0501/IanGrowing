@@ -843,10 +843,6 @@ namespace IanGame
             if (items.Unlocked && !game.world.City.Seen(guideId))
             {
                 game.world.City.MarkGuide(guideId);
-                if (panel == InventoryPanel)
-                {
-                    feedback.text = "아이템을 선택해 장착·사용하세요. 중복은 분해할 수 있어요.";
-                }
             }
 
             Resize();
@@ -1155,7 +1151,7 @@ namespace IanGame
             emptyBag.text = filter == 0 ? "가방이 비어 있습니다" : "이 분류의 아이템이 없습니다";
             itemPreview.sprite = chosen?.icon;
             specimen.gameObject.SetActive(chosen != null && chosen.icon != null);
-            detail.text = chosen == null ? "아이템 정보\n\n아이템을 선택하면 효과와 장착 상태를 확인할 수 있습니다." : Info(chosen);
+            detail.text = chosen == null ? (empty ? "" : "아이템을 선택하세요.") : Info(chosen);
             collectionDetail.text = Info(items.catalog.Item(selectedCollection), true);
             equip.interactable = chosen != null && items.Equipment.CanEquip(selected, out _);
             unequip.interactable =

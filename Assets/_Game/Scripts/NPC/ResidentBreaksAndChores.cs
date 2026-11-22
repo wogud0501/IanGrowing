@@ -63,6 +63,11 @@ namespace IanGame
                 : Vector2.zero;
             r.station = r.anchor ? r.anchor.GetComponent<ResidentActivityStation>() : null;
             r.requestedSlot = r.anchor ? r.anchor.GetComponent<WorldActivitySlot>() : null;
+            if (r.anchor && r.target.action == NPCDailyAction.Sleep && !r.requestedSlot)
+            {
+                r.requestedSlot = r.anchor.gameObject.AddComponent<WorldActivitySlot>();
+            }
+
             if (r.requestedSlot != null && r.requestedSlot.TryReserve(r.definition.npcId))
             {
                 r.slot = r.requestedSlot;

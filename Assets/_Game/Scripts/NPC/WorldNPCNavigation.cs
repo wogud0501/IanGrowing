@@ -13,6 +13,8 @@ namespace IanGame
             public int width;
             public int height;
             public bool[] blocked;
+            public byte[] testedEdges;
+            public byte[] closedEdges;
 
             public Vector2 Point(int i) => origin + new Vector2(i % width, i / width) * .5f;
         }
@@ -26,30 +28,78 @@ namespace IanGame
             cache.Clear();
         }
 
-        public static bool StaticFree(Vector2 p)
+        const float Radius = .22f;
+        const float CrossingLaneOffset = .42f;
+        static readonly ContactFilter2D solids = new ContactFilter2D { useTriggers = false };
+        static readonly List<Collider2D> overlaps = new List<Collider2D>(16);
+        static readonly List<RaycastHit2D> hits = new List<RaycastHit2D>(16);
+
+        static bool Blocks(Collider2D collider, Transform furniture, bool planning)
         {
-            foreach (var c in Physics2D.OverlapCircleAll(p, .22f))
+            if (furniture != null && collider.transform.IsChildOf(furniture))
             {
-                if (c.isTrigger || c.attachedRigidbody != null)
-                {
-                    continue;
-                }
-
-                var door = c.GetComponentInParent<WorldDoor>();
-                if (door != null && c == door.closedCollider)
-                {
-                    continue;
-                }
-
                 return false;
+            }
+
+            if (planning)
+            {
+                if (collider.attachedRigidbody != null && collider.attachedRigidbody.bodyType != RigidbodyType2D.Static)
+                {
+                    return false;
+                }
+
+                var door = collider.GetComponentInParent<WorldDoor>();
+                if (door != null && door.closedCollider == collider)
+                {
+                    return false;
+                }
             }
 
             return true;
         }
 
+        public static Collider2D Occupant(Vector2 point, Transform furniture = null, bool planning = false)
+        {
+            Physics2D.OverlapCircle(point, Radius, solids, overlaps);
+            foreach (var collider in overlaps)
+            {
+                if (Blocks(collider, furniture, planning))
+                {
+                    return collider;
+                }
+            }
+
+            return null;
+        }
+
+        public static Collider2D Obstacle(Vector2 from, Vector2 to, Transform furniture = null, bool planning = false)
+        {
+            var delta = to - from;
+            if (delta.sqrMagnitude < .0000001f)
+            {
+                return Occupant(to, furniture, planning);
+            }
+
+            Physics2D.CircleCast(from, Radius, delta.normalized, solids, hits, delta.magnitude);
+            foreach (var hit in hits)
+            {
+                if (Blocks(hit.collider, furniture, planning))
+                {
+                    return hit.collider;
+                }
+            }
+
+            return planning ? null : Occupant(to, furniture);
+        }
+
+        public static bool StaticFree(Vector2 point)
+        {
+            return Occupant(point, planning: true) == null;
+        }
+
         Grid Get(LifeWorldController world, WorldZoneDefinition zone)
         {
-            int count = world.furnishingRoot.childCount;
+            int count = world.FurnitureRevision;
             if (count != furnishings)
             {
                 furnishings = count;
@@ -70,6 +120,8 @@ namespace IanGame
                 height = Mathf.FloorToInt((top - bottom) / .5f) + 1,
             };
             grid.blocked = new bool[grid.width * grid.height];
+            grid.testedEdges = new byte[grid.blocked.Length];
+            grid.closedEdges = new byte[grid.blocked.Length];
             for (int i = 0; i < grid.blocked.Length; i++)
             {
                 var p = grid.Point(i);
@@ -84,7 +136,13 @@ namespace IanGame
             return grid;
         }
 
-        static int Nearest(Grid g, Vector2 p)
+        static int Nearest(
+            Grid g,
+            Vector2 p,
+            System.Func<Vector2, bool> available,
+            System.Func<Vector2, Vector2, bool> clearSegment,
+            bool enteringGrid
+        )
         {
             int cx = Mathf.Clamp(Mathf.RoundToInt((p.x - g.origin.x) / .5f), 0, g.width - 1),
                 cy = Mathf.Clamp(Mathf.RoundToInt((p.y - g.origin.y) / .5f), 0, g.height - 1);
@@ -96,7 +154,15 @@ namespace IanGame
                 {
                     int i = y * g.width + x;
                     float d = (g.Point(i) - p).sqrMagnitude;
-                    if (!g.blocked[i] && d < distance)
+                    if (
+                        !g.blocked[i]
+                        && d < distance
+                        && (available == null || available(g.Point(i)))
+                        && (enteringGrid
+                            ? CrowdSegmentFree(p, g.Point(i), available, clearSegment)
+                            : CrowdSegmentFree(g.Point(i), p, available, clearSegment))
+                        && Obstacle(p, g.Point(i), planning: true) == null
+                    )
                     {
                         distance = d;
                         best = i;
@@ -112,13 +178,56 @@ namespace IanGame
             string zoneId,
             Vector2 start,
             Vector2 goal,
-            System.Func<Vector2, bool> available = null
+            System.Func<Vector2, bool> available = null,
+            System.Func<Vector2, Vector2, bool> clearSegment = null
         )
         {
             var zone = world.Service.rules.Zone(zoneId);
+            if (zoneId == "city")
+            {
+                const float south = -6.7f;
+                const float north = -2.1f;
+                float fromY = start.y - zone.origin.y;
+                float toY = goal.y - zone.origin.y;
+                bool northbound = fromY <= south && toY >= north;
+                if (northbound || fromY >= north && toY <= south)
+                {
+                    // Keep both curb points even when the general path can be simplified to one line.
+                    float x = northbound ? CrossingLaneOffset : -CrossingLaneOffset;
+                    var entry = zone.origin + new Vector2(x, northbound ? south - .15f : north + .15f);
+                    var exit = zone.origin + new Vector2(x, northbound ? north + .15f : south - .15f);
+                    if (
+                        Obstacle(entry, exit, planning: true) == null
+                        && CrowdSegmentFree(entry, exit, available, clearSegment)
+                    )
+                    {
+                        var approach = FindPath(world, zone, start, entry, available, clearSegment);
+                        var departure = FindPath(world, zone, exit, goal, available, clearSegment);
+                        if (approach.Count > 0 && departure.Count > 0)
+                        {
+                            approach.Add(exit);
+                            approach.AddRange(departure);
+                            return approach;
+                        }
+                    }
+                }
+            }
+
+            return FindPath(world, zone, start, goal, available, clearSegment);
+        }
+
+        List<Vector2> FindPath(
+            LifeWorldController world,
+            WorldZoneDefinition zone,
+            Vector2 start,
+            Vector2 goal,
+            System.Func<Vector2, bool> available,
+            System.Func<Vector2, Vector2, bool> clearSegment
+        )
+        {
             var g = Get(world, zone);
-            int first = Nearest(g, start),
-                last = Nearest(g, goal);
+            int first = Nearest(g, start, available, clearSegment, true),
+                last = Nearest(g, goal, available, clearSegment, false);
             if (first < 0 || last < 0)
             {
                 return new List<Vector2>();
@@ -129,8 +238,8 @@ namespace IanGame
             var queue = new Queue<int>();
             queue.Enqueue(first);
             parent[first] = first;
-            int[] dx =  { 0, 1, 0, -1, 1, 1, -1, -1 },
-                dy =  { 1, 0, -1, 0, 1, -1, 1, -1 };
+            int[] dx = { 0, 1, 0, -1, 1, 1, -1, -1 },
+                dy = { 1, 0, -1, 0, 1, -1, 1, -1 };
             while (queue.Count > 0 && parent[last] < 0)
             {
                 int current = queue.Dequeue(),
@@ -156,6 +265,24 @@ namespace IanGame
                         continue;
                     }
 
+                    byte edge = (byte)(1 << s);
+                    if ((g.testedEdges[current] & edge) == 0)
+                    {
+                        g.testedEdges[current] |= edge;
+                        if (Obstacle(g.Point(current), g.Point(next), planning: true) != null)
+                        {
+                            g.closedEdges[current] |= edge;
+                        }
+                    }
+
+                    if (
+                        (g.closedEdges[current] & edge) != 0
+                        || !CrowdSegmentFree(g.Point(current), g.Point(next), available, clearSegment)
+                    )
+                    {
+                        continue;
+                    }
+
                     parent[next] = current;
                     queue.Enqueue(next);
                 }
@@ -172,17 +299,18 @@ namespace IanGame
                 result.Add(g.Point(i));
             }
 
+            result.Add(g.Point(first));
             result.Reverse();
             // Grid rounding can put the final node beyond a door's interaction point,
-            // inside its closed collider. Connect to the exact goal from the last safe
-            // waypoint instead. Unlike the cached grid, this sweep includes closed doors.
+            // inside a fixture. Join only physically reachable endpoints. Door leaves
+            // are planned as portals and checked in their live state on every footstep.
             while (result.Count > 0)
             {
                 var previous = result.Count > 1 ? result[result.Count - 2] : start;
                 if (
                     !OnPedestrianRoute(zone, previous, goal)
-                    || !ClearApproach(previous, goal)
-                    || available != null && !CrowdSegmentFree(previous, goal, available)
+                    || Obstacle(previous, goal, planning: true) != null
+                    || !CrowdSegmentFree(previous, goal, available, clearSegment)
                 )
                 {
                     break;
@@ -191,19 +319,41 @@ namespace IanGame
                 result.RemoveAt(result.Count - 1);
             }
 
+            var tail = result.Count > 0 ? result[result.Count - 1] : start;
+            if (
+                !OnPedestrianRoute(zone, tail, goal)
+                || Obstacle(tail, goal, planning: true) != null
+                || !CrowdSegmentFree(tail, goal, available, clearSegment)
+            )
+            {
+                return new List<Vector2>();
+            }
+
             result.Add(goal);
             // Fixed opposing pedestrian lanes keep the shared crossing from becoming a
             // head-on single-file bottleneck. This changes waypoints, never actor poses.
-            if (zoneId == "city" && Mathf.Abs(goal.y - start.y) > .2f)
+            if (zone.id == "city" && Mathf.Abs(goal.y - start.y) > .2f)
             {
-                float lane = goal.y > start.y ? .32f : -.32f;
+                float lane = goal.y > start.y ? CrossingLaneOffset : -CrossingLaneOffset;
                 for (int i = 0; i < result.Count - 1; i++)
                 {
                     var p = result[i];
                     var local = p - zone.origin;
                     if (local.y > -6.7f && local.y < -2.1f && Mathf.Abs(local.x) <= .65f)
                     {
-                        result[i] = new Vector2(zone.origin.x + lane, p.y);
+                        var lanePoint = new Vector2(zone.origin.x + lane, p.y);
+                        var previous = i == 0 ? start : result[i - 1];
+                        var next = result[i + 1];
+                        if (OnPedestrianRoute(zone, previous, lanePoint)
+                            && OnPedestrianRoute(zone, lanePoint, next)
+                            && Obstacle(previous, lanePoint, planning: true) == null
+                            && Obstacle(lanePoint, next, planning: true) == null
+                            && (available == null || available(lanePoint))
+                            && CrowdSegmentFree(previous, lanePoint, available, clearSegment)
+                            && CrowdSegmentFree(lanePoint, next, available, clearSegment))
+                        {
+                            result[i] = lanePoint;
+                        }
                     }
                 }
             }
@@ -211,8 +361,22 @@ namespace IanGame
             return result;
         }
 
-        static bool CrowdSegmentFree(Vector2 from, Vector2 to, System.Func<Vector2, bool> available)
+        static bool CrowdSegmentFree(
+            Vector2 from,
+            Vector2 to,
+            System.Func<Vector2, bool> available,
+            System.Func<Vector2, Vector2, bool> clearSegment
+        )
         {
+            if (clearSegment != null)
+            {
+                return clearSegment(from, to);
+            }
+            if (available == null)
+            {
+                return true;
+            }
+
             int steps = Mathf.CeilToInt(Vector2.Distance(from, to) / .25f);
             for (int i = 1; i <= steps; i++)
             {
@@ -250,23 +414,6 @@ namespace IanGame
 
             return Mathf.Abs(Mathf.Lerp(from.x, to.x, enter)) <= .65f
                 && Mathf.Abs(Mathf.Lerp(from.x, to.x, exit)) <= .65f;
-        }
-
-        static bool ClearApproach(Vector2 from, Vector2 to)
-        {
-            var delta = to - from;
-            foreach (var hit in Physics2D.CircleCastAll(from, .22f, delta.normalized, delta.magnitude))
-            {
-                var c = hit.collider;
-                if (c == null || c.isTrigger || c.attachedRigidbody != null)
-                {
-                    continue;
-                }
-
-                return false;
-            }
-
-            return true;
         }
     }
 }

@@ -12,10 +12,6 @@ namespace IanGame
         Sprite original;
         Vector3 originalScale;
         SpriteRenderer rail;
-        SpriteRenderer blanket;
-        Sprite blanketSource;
-        Sprite blanketSprite;
-
         void Awake()
         {
             original = bed.visual.sprite;
@@ -67,53 +63,6 @@ namespace IanGame
                 rail.sortingOrder = bed.visual.sortingOrder + 5;
             }
 
-            bool cover =
-                growth.BodyInteractions
-                && p.stage != VisualGrowthStage.Newborn
-                && growth.InBed
-                && (growth.ActivePose == "Sleep" || growth.ActivePose == "Wake Up" && world.Player.advanced.Frame == 0);
-            if (cover)
-            {
-                if (blanket == null)
-                {
-                    var go = new GameObject("Age-appropriate bed blanket", typeof(SpriteRenderer));
-                    go.transform.SetParent(transform, false);
-                    blanket = go.GetComponent<SpriteRenderer>();
-                    blanket.sharedMaterial = bed.visual.sharedMaterial;
-                }
-
-                if (blanketSource != replacement)
-                {
-                    if (blanketSprite != null)
-                    {
-                        Destroy(blanketSprite);
-                    }
-
-                    blanketSource = replacement;
-                    var r = replacement.rect;
-                    r.height *= .5f;
-                    blanketSprite = Sprite.Create(
-                        replacement.texture,
-                        r,
-                        new Vector2(.5f, 0),
-                        replacement.pixelsPerUnit,
-                        0,
-                        SpriteMeshType.FullRect
-                    );
-                }
-
-                blanket.sprite = blanketSprite;
-                blanket.transform.position = new Vector3(bed.visual.bounds.center.x, bed.visual.bounds.min.y, 0);
-                blanket.transform.localScale = bed.visual.transform.lossyScale;
-                blanket.sortingOrder = bed.visual.sortingOrder + 4;
-                blanket.color = bed.visual.color;
-            }
-
-            if (blanket != null)
-            {
-                blanket.enabled = cover;
-            }
-
             if (p.stage == VisualGrowthStage.Newborn && !world.Busy)
             {
                 bed.visual.enabled = true;
@@ -128,12 +77,5 @@ namespace IanGame
             }
         }
 
-        void OnDestroy()
-        {
-            if (blanketSprite != null)
-            {
-                Destroy(blanketSprite);
-            }
-        }
     }
 }

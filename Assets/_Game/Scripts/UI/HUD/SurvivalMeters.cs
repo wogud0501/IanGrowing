@@ -9,6 +9,8 @@ namespace IanGame
         static readonly string[] Names = { "허기", "수분", "체력", "멘탈" };
         static readonly Sprite[] icons = new Sprite[4];
         readonly TMP_Text[] labels = new TMP_Text[4];
+        readonly RectTransform[] symbols = new RectTransform[4];
+        readonly RectTransform[] tracks = new RectTransform[4];
         readonly Image[] meters = new Image[4];
         readonly MonoBehaviour host;
         readonly Coroutine[] pulses = new Coroutine[4];
@@ -35,15 +37,30 @@ namespace IanGame
 
                 var icon = LifeRecordUI.Rect(frame, Names[i] + " icon", x, .38f, x + .033f, .82f)
                     .gameObject.AddComponent<Image>();
+                symbols[i] = icon.rectTransform;
                 icon.sprite = icons[i];
                 icon.preserveAspect = true;
                 icon.raycastTarget = false;
                 var track = LifeRecordUI.Rect(frame, Names[i] + " track", x, .17f, x + .20f, .235f);
+                tracks[i] = track;
                 var baseImage = track.gameObject.AddComponent<Image>();
                 baseImage.raycastTarget = false;
                 baseImage.color = LifeRecordUI.Track;
                 meters[i] = LifeRecordUI.Rect(track, "Level", 0, 0, 1, 1).gameObject.AddComponent<Image>();
                 meters[i].raycastTarget = false;
+            }
+        }
+
+        public void SetCompact(bool compact)
+        {
+            for (int i = 0; i < labels.Length; i++)
+            {
+                float x = .035f + i * .24f;
+                labels[i].enabled = !compact;
+                symbols[i].anchorMin = new Vector2(x, compact ? .23f : .38f);
+                symbols[i].anchorMax = new Vector2(x + (compact ? .082f : .033f), .82f);
+                tracks[i].anchorMin = new Vector2(x + (compact ? .095f : 0), compact ? .41f : .17f);
+                tracks[i].anchorMax = new Vector2(x + .20f, compact ? .58f : .235f);
             }
         }
 
@@ -87,11 +104,13 @@ namespace IanGame
 
         System.Collections.IEnumerator Highlight(int index, int change)
         {
-            labels[index].text = Names[index] + (change > 0 ? " ▲ +" : " ▼ ") + change;
+            labels[index].text = Names[index] + (change > 0 ? " +" : " ") + change;
+            meters[index].transform.parent.GetComponent<Image>().color = LifeRecordUI.Body;
             labels[index].color = Color.white;
             yield return new WaitForSecondsRealtime(.8f);
             labels[index].text = (previous[index] <= 25 ? "! " : "") + Names[index] + " " + previous[index];
             labels[index].color = LifeRecordUI.Heading;
+            meters[index].transform.parent.GetComponent<Image>().color = LifeRecordUI.Track;
             pulses[index] = null;
         }
     }

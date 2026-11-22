@@ -559,7 +559,7 @@ namespace IanGame
                     : o.kind == WorldInteractionKind.Work ? "근무·채용"
                     : o.kind == WorldInteractionKind.NPC ? "이야기"
                     : "사용";
-                return o.title + "\n[" + input + "] " + verb;
+                return "[" + input + "] " + (verb is "사용" or "열기" ? o.title + " " : "") + verb;
             }
 
             if (!GrowthAccess.Interaction(game, o, -2, out var denied))
@@ -572,19 +572,7 @@ namespace IanGame
                 return o.title + "\n" + reason;
             }
 
-            if (Seen("room/" + o.targetZone))
-            {
-                return o.title + "\n[" + input + "] 들어가기";
-            }
-
-            string action =
-                o.targetZone == "shop" ? "식료품 · 식사 · 가구"
-                : o.targetZone == "workplace" ? "채용 조건 · 업무 · 급여"
-                : o.targetZone == "school" ? "수업 · 공부 · 친구"
-                : o.targetZone == "finance" ? "종목 조회 · 매수 · 매도"
-                : o.targetZone == "realestate" ? "매물 · 계약 · 이사"
-                : "생활 공간으로 이동";
-            return o.title + "\n" + action + " · [" + input + "] 들어가기";
+            return "[" + input + "] " + o.title;
         }
 
         public CitySuggestion Suggest()

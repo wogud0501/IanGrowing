@@ -43,6 +43,25 @@ namespace IanGame
         public Vector2 StandUpPoint =>
             useSeatAnchors && standUpAnchor != null ? (Vector2)standUpAnchor.position : ApproachPoint;
 
+        Transform poseFurniture;
+
+        // A shared sofa can expose two reservable slots on separate GameObjects.
+        public Transform PoseFurniture
+        {
+            get
+            {
+                if (poseFurniture == null)
+                {
+                    var surface = GetComponent<ResidentActivityStation>()?.seatSurface;
+                    var solid = surface ? surface.GetComponentInParent<Collider2D>() : null;
+                    var owner = surface ? surface.GetComponentInParent<WorldInteractable>() : null;
+                    poseFurniture = solid ? solid.transform : owner ? owner.transform : transform;
+                }
+
+                return poseFurniture;
+            }
+        }
+
         public bool TryReserve(string id)
         {
             if (string.IsNullOrEmpty(id) || !Allows(id) || !string.IsNullOrEmpty(Occupant) && Occupant != id)

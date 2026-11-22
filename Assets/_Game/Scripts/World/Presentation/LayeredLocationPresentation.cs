@@ -56,7 +56,7 @@ namespace IanGame.Commercial
                 {
                     TickCount++;
                     float time = Time.unscaledTime;
-                    int quality = PlayerPrefs.GetInt("ian.visual.effects", 1);
+                    int quality = WorldGraphicsSettings.Detail;
                     bool motion = !UIShell.ReducedMotion && quality > 0;
                     float travel = motion ? Mathf.Round(Mathf.Sin(time * .17f) * 2) / 100f : 0;
                     sceneCamera.transform.position = cameraOrigin + Vector3.right * travel;

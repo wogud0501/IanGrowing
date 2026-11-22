@@ -190,11 +190,11 @@ namespace IanGame.Editor
                         Vector2.up,
                         new[] { ActorMotion.CarryLaundry },
                         new(.5f, -.9f),
-                        new(.9f, -.2f),
+                        new(1.33f, -.5f),
                         new(1.65f, -.38f),
                         new(1.6f, -.42f)
                     );
-                    Furnish(w, "Laundry hamper", library.tools[6], new Vector2(.6f, -.35f), .63f, Vector2.zero);
+                    Furnish(w, "Laundry hamper", library.tools[6], new Vector2(.6f, -.35f), .63f, new Vector2(.43f, .22f));
                     break;
                 case "family-kitchen":
                     var sink = Object(w, "family-dishes");
@@ -317,7 +317,7 @@ namespace IanGame.Editor
                         .29f,
                         new(.23f, 1.45f)
                     );
-                    Fixture(w, "Staff cupboard", Furniture, "Nightstand", 4.9f, -1.35f, .75f);
+                    Fixture(w, "Staff cupboard", Furniture, "Nightstand", 4.9f, -1.35f, .75f, new(.57f, .27f));
                     Seat(
                         w,
                         room + "-staff-rest-0",
@@ -340,8 +340,8 @@ namespace IanGame.Editor
                     Place(w, Named(w, "Beverage station"), 6.25f, 3.85f);
                     Fixture(w, "Staff locker", Furniture, "Wardrobe", 7.9f, 3.65f, .95f, new(.77f, .3f));
                     Fixture(w, "Stockroom partition", Architecture, "VerticalWall", 2.5f, 1.95f, .27f, new(.23f, 1.4f));
-                    Fixture(w, "Stockroom folding chair", Furniture, "Chair", 4.2f, 2.05f, .88f);
-                    Fixture(w, "Cafe staff chair", Furniture, "Chair", 6.1f, 2.05f, .88f);
+                    Fixture(w, "Stockroom folding chair", Furniture, "Chair", 4.2f, 2.05f, .88f, new(.62f, .26f));
+                    Fixture(w, "Cafe staff chair", Furniture, "Chair", 6.1f, 2.05f, .88f, new(.62f, .26f));
                     Fixture(w, "Staff tea table", Furniture, "Nightstand", 5.12f, 2.02f, .9f, new(.55f, .25f));
                     Seat(
                         w,

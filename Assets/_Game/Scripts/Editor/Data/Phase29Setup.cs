@@ -162,7 +162,7 @@ namespace IanGame.Editor
                 "스타터 헤드폰",
                 ItemType.Headphone,
                 "common",
-                "첫 소음 차단. 기존 미션 지급품을 그대로 이어갑니다.",
+                "첫 소음 차단.",
                 M(ModifierTarget.Mental, 2)
             );
             Item(

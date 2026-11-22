@@ -48,6 +48,7 @@ namespace IanGame
         bool care;
         bool infantCare;
         bool guardianBath;
+        BedQuilt quilt;
         WorldPlayerMotor actor;
         WorldInteractable target;
         bool active;
@@ -132,18 +133,23 @@ namespace IanGame
                     growth.InBed = action != -4;
                     var destination =
                         action == -4 ? (Vector2)approach.position + Vector2.right * .55f : growth.SleepPoint(this);
-                    if (actor.MovementAllowed)
+                    if (actor.MovementAllowed && !care)
                     {
                         actor.Pose("Sit");
-                        yield return Wait(.2f, cancelled);
-                        actor.BeginTraversal(destination, 1.7f);
-                        while (actor.IsTraversing && actor.TraversalSeconds < 5)
+                        quilt = BedQuilt.For(target);
+                        for (float t = 0; t < .25f && !cancelled(); t += Time.unscaledDeltaTime)
                         {
-                            if (cancelled())
-                            {
-                                yield break;
-                            }
-
+                            quilt.PlayerPose(actor, approach, 0, Mathf.SmoothStep(0, 1, t / .25f), false);
+                            yield return null;
+                        }
+                        actor.Pose("Lie Down");
+                        yield return BedTransfer(destination, .58f, cancelled);
+                    }
+                    else if (actor.MovementAllowed)
+                    {
+                        actor.BeginTraversal(destination, 1.7f);
+                        while (actor.IsTraversing && actor.TraversalSeconds < 5 && !cancelled())
+                        {
                             yield return null;
                         }
 
@@ -153,18 +159,6 @@ namespace IanGame
                         }
 
                         actor.CancelTraversal();
-                        if (!care)
-                        {
-                            actor.Pose("Lie Down");
-                            yield return Wait(
-                                Mathf.Max(.35f, actor.advanced.Duration(ActorMotion.LieDown, facing)),
-                                cancelled
-                            );
-                            if (cancelled())
-                            {
-                                yield break;
-                            }
-                        }
                     }
                     else if (action == -4)
                     {
@@ -189,7 +183,16 @@ namespace IanGame
                         growth.ActionOffset = destination - actor.Position;
                     }
 
+                    if (cancelled())
+                    {
+                        yield break;
+                    }
+
                     actor.Pose(care ? growth.CarePose(action) : "Sleep");
+                    if (!care)
+                    {
+                        yield return DrawCover(true, cancelled);
+                    }
                 }
                 else
                 {
@@ -310,6 +313,42 @@ namespace IanGame
             }
         }
 
+        IEnumerator BedTransfer(Vector2 destination, float duration, Func<bool> cancelled)
+        {
+            Vector2 from = actor.Position;
+            for (float t = 0; t < duration && !cancelled(); t += Time.unscaledDeltaTime)
+            {
+                float blend = Mathf.SmoothStep(0, 1, t / duration);
+                actor.growthVisual.ActionOffset = (destination - from) * blend;
+                float lean = Phase == "Exit" ? 1 - blend : blend;
+                actor.growthVisual.Recline = lean;
+                quilt.PlayerPose(actor, approach, lean, 1, false);
+                yield return null;
+            }
+
+            if (!cancelled())
+            {
+                actor.Warp(destination);
+                actor.growthVisual.ActionOffset = Vector2.zero;
+            }
+        }
+
+        IEnumerator DrawCover(bool pull, Func<bool> cancelled)
+        {
+            quilt = BedQuilt.For(target);
+            float duration = actor.MovementAllowed ? .66f : .38f;
+            for (float t = 0; t < duration && !cancelled(); t += Time.unscaledDeltaTime)
+            {
+                float amount = Mathf.SmoothStep(0, 1, t / duration);
+                quilt.PlayerPose(actor, approach, 1, 1, false);
+                quilt.Draw(actor.sprite, pull ? amount : 1 - amount);
+                yield return null;
+            }
+
+            quilt.PlayerPose(actor, approach, 1, 1, pull);
+            quilt.Draw(actor.sprite, pull ? 1 : 0);
+        }
+
         public void Animate(float seconds)
         {
             if (!active)
@@ -428,17 +467,50 @@ namespace IanGame
                     }
                 }
 
-                actor.Pose(mode == LifeActionVisual.Bed ? "Wake Up" : "Stand Up");
-                yield return Wait(
-                    Mathf.Max(
-                        .45f,
-                        actor.advanced.Duration(
-                            mode == LifeActionVisual.Bed ? ActorMotion.WakeUp : ActorMotion.StandUp,
-                            facing
-                        )
-                    ),
-                    cancelled
-                );
+                if (mode == LifeActionVisual.Bed && !care)
+                {
+                    yield return DrawCover(false, cancelled);
+                    actor.Pose("Wake Up");
+                    if (actor.MovementAllowed)
+                    {
+                        yield return BedTransfer(standUp != null ? (Vector2)standUp.position : target.Point,
+                            .62f, cancelled);
+                        actor.Pose("Sit");
+                        for (float t = 0; t < .25f && !cancelled(); t += Time.unscaledDeltaTime)
+                        {
+                            quilt.PlayerPose(actor, approach, 0, 1 - Mathf.SmoothStep(0, 1, t / .25f), false);
+                            yield return null;
+                        }
+
+                        quilt.Release(actor.sprite);
+                    }
+
+                    if (!cancelled())
+                    {
+                        actor.Pose(actor.MovementAllowed ? "Stand Up" : "Wake Up");
+                        yield return Wait(.24f, cancelled);
+                    }
+
+                    ResetVisual();
+                    Completed = !cancelled();
+                    yield break;
+                }
+
+                if (!infantCare || guardianBath)
+                {
+                    actor.Pose(mode == LifeActionVisual.Bed ? "Wake Up" : "Stand Up");
+                    yield return Wait(
+                        Mathf.Max(
+                            .45f,
+                            actor.advanced.Duration(
+                                mode == LifeActionVisual.Bed ? ActorMotion.WakeUp : ActorMotion.StandUp,
+                                facing
+                            )
+                        ),
+                        cancelled
+                    );
+                }
+
                 if (cancelled())
                 {
                     yield break;
@@ -617,6 +689,7 @@ namespace IanGame
 
             if (actor != null)
             {
+                quilt?.Release(actor.sprite);
                 actor.growthVisual?.ClearAction();
                 actor.sprite.enabled = visualWasEnabled;
                 actor.GetComponent<CircleCollider2D>().enabled = colliderWasEnabled;
@@ -642,6 +715,12 @@ namespace IanGame
                 return;
             }
 
+            if (mode == LifeActionVisual.Bed)
+            {
+                quilt = BedQuilt.For(target);
+                seat = seat ? seat : GetComponent<WorldActivitySlot>() ?? gameObject.AddComponent<WorldActivitySlot>();
+            }
+
             if (chairSprite != null && chair == null && anchor != null)
             {
                 var go = new GameObject("Interaction chair", typeof(SpriteRenderer));
@@ -652,6 +731,14 @@ namespace IanGame
                 chair.sortingOrder = target.visual.sortingOrder + 1;
                 chair.transform.position = anchor.position;
                 chair.transform.localScale = Vector3.one * (.85f / chairSprite.bounds.size.y);
+                if (mode == LifeActionVisual.Dining)
+                {
+                    var feet = go.AddComponent<BoxCollider2D>();
+                    var bounds = chairSprite.bounds;
+                    float depth = bounds.size.y * .22f;
+                    feet.size = new Vector2(bounds.size.x * .78f, depth);
+                    feet.offset = new Vector2(bounds.center.x, bounds.min.y + depth * .5f);
+                }
             }
 
             if (tableOcclusion && front == null)

@@ -49,17 +49,17 @@ namespace IanGame.Commercial
 
             // Wait for layout, binding and a rendered destination before uncovering it.
             yield return null;
-            yield return new WaitForEndOfFrame();
+            if (!Application.isBatchMode)
+            {
+                yield return new WaitForEndOfFrame();
+            }
+
             if (GameContext.Instance != null)
             {
                 GameContext.Instance.game.RefreshAvailability();
             }
 
             Canvas.ForceUpdateCanvases();
-            foreach (var text in Object.FindObjectsByType<TMPro.TMP_Text>())
-            {
-                text.ForceMeshUpdate(false, true);
-            }
 
             if (profile != null && Duration(profile.coveredSeconds) > 0)
             {

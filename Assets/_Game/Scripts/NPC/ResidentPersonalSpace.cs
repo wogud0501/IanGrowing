@@ -8,10 +8,28 @@ namespace IanGame
     {
         readonly NPCCrowdSpace crowd = new NPCCrowdSpace();
 
+        public Vector2 PlayerStep(Vector2 from, Vector2 to)
+        {
+            const float contact = .59f;
+            if (!crowd.Blocks("@player", from, to, contact))
+            {
+                return to;
+            }
+
+            var horizontal = new Vector2(to.x, from.y);
+            var vertical = new Vector2(from.x, to.y);
+            if (horizontal != from && !crowd.Blocks("@player", from, horizontal, contact))
+            {
+                return horizontal;
+            }
+
+            return crowd.Blocks("@player", from, vertical, contact) ? from : vertical;
+        }
+
         bool SidewalkOrCrossing(Vector2 p)
         {
             var local = p - world.CurrentZone.origin;
-            return world.Room.roomId != "city" || local.y <= -6.7f || local.y >= -2.1f || Mathf.Abs(local.x) <= .65f;
+            return world.CurrentZone.id != "city" || local.y <= -6.7f || local.y >= -2.1f || Mathf.Abs(local.x) <= .65f;
         }
 
         void FillCrowd()
@@ -27,13 +45,8 @@ namespace IanGame
             }
         }
 
-        bool SpawnPoint(ref Vector2 point, WorldInteractable self = null)
+        bool SpawnPoint(ref Vector2 point, WorldInteractable self = null, Transform furniture = null)
         {
-            if (world.Room.roomId != "city")
-            {
-                return true;
-            }
-
             var requested = point;
             for (int ring = 0; ring < 7; ring++)
             {
@@ -49,11 +62,14 @@ namespace IanGame
                                 : new Vector2(Mathf.Cos(angle), Mathf.Sin(angle))
                                     * (ring * (NPCCrowdSpace.Clearance + .1f))
                         );
-                    var safe = world.Safe(world.CurrentZone, p - world.CurrentZone.origin);
+                    var zone = world.CurrentZone;
+                    var local = p - zone.origin;
                     if (
                         !SidewalkOrCrossing(p)
-                        || Vector2.Distance(safe, p) > .02f
-                        || !WorldNPCNavigation.StaticFree(p)
+                        || Mathf.Abs(local.x) > zone.size.x / 2 - .4f
+                        || local.y < -zone.size.y / 2 + .4f
+                        || local.y > Mathf.Min(zone.size.y / 2 - .4f, zone.walkableTop - .4f)
+                        || WorldNPCNavigation.Occupant(p, ring == 0 ? furniture : null) != null
                         || Vector2.Distance(p, world.Player.Position) < .6f
                     )
                     {
@@ -64,7 +80,7 @@ namespace IanGame
                         residents.Any(r =>
                             r.actor != null
                             && r.actor != self
-                            && r.actor.zone == world.Room.roomId
+                            && r.actor.zone == world.CurrentZone.id
                             && Vector2.Distance(r.actor.transform.position, p) < NPCCrowdSpace.Clearance
                         )
                     )
@@ -148,13 +164,17 @@ namespace IanGame
             if (now - r.blockedSince > .7f && now >= r.detourRetry)
             {
                 r.detourRetry = now + 1.1f;
-                var final = r.nextPortal != null ? r.nextPortal.Point : Destination(r);
+                var final = r.nextPortal != null ? r.nextPortal.Point
+                    : r.slot != null && r.slot.useSeatAnchors && !r.seatApproached ? r.slot.ApproachPoint
+                    : Destination(r);
+                const float pathClearance = NPCCrowdSpace.Clearance + .04f;
                 var bypass = navigation.Find(
                     world,
                     r.actor.zone,
                     from,
                     final,
-                    p => crowd.Free(r.definition.npcId, p, NPCCrowdSpace.Clearance + .05f)
+                    p => crowd.Free(r.definition.npcId, p, pathClearance),
+                    (a, b) => !crowd.Blocks(r.definition.npcId, a, b, pathClearance)
                 );
                 if (bypass.Count > 0)
                 {
@@ -172,7 +192,7 @@ namespace IanGame
                     if (
                         !SidewalkOrCrossing(candidate)
                         || !crowd.Free(r.definition.npcId, candidate, .6f)
-                        || !WorldNPCNavigation.StaticFree(candidate)
+                        || WorldNPCNavigation.Obstacle(from, candidate) != null
                         || Vector2.Distance(
                             world.Safe(world.CurrentZone, candidate - world.CurrentZone.origin),
                             candidate

@@ -59,12 +59,10 @@ namespace IanGame
                 time.text = clock;
             }
 
-            message.text =
-                hour < 6 ? "새벽 · 조용한 생활권"
-                : hour < 9 ? "아침 · 하루를 시작하세요"
-                : hour < 18 ? "낮 · 각자의 하루"
-                : hour < 22 ? "저녁 · 돌아갈 시간"
-                : "밤 · 충분히 쉬세요";
+            if (message && !string.IsNullOrEmpty(message.text))
+            {
+                message.text = "";
+            }
         }
     }
 }

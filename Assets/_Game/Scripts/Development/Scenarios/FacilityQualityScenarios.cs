@@ -20,8 +20,60 @@ namespace IanGame
             run();
         }
 
+        static void CheckFootprint(QAScenarioContext context)
+        {
+            var seat = new GameObject("QA seat footprint");
+            var wall = new GameObject("QA narrow wall");
+            try
+            {
+                Vector2 origin = new Vector2(900, 900);
+                seat.transform.position = origin;
+                wall.transform.position = origin + Vector2.right * .65f;
+                var body = wall.AddComponent<Rigidbody2D>();
+                body.bodyType = RigidbodyType2D.Static;
+                var solid = wall.AddComponent<BoxCollider2D>();
+                solid.size = new Vector2(.08f, 1);
+                var cushion = seat.AddComponent<CircleCollider2D>();
+                cushion.radius = .16f;
+                Physics2D.SyncTransforms();
+                var end = origin + Vector2.right;
+                context.Check(!WorldNPCNavigation.StaticFree(wall.transform.position), "고정 Rigidbody2D 가구 점유");
+                context.Check(
+                    WorldNPCNavigation.Obstacle(origin, end, seat.transform) == solid,
+                    "예약 좌석에서 일어날 때 인접 벽 충돌"
+                );
+                body.bodyType = RigidbodyType2D.Kinematic;
+                context.Check(
+                    WorldNPCNavigation.StaticFree(wall.transform.position)
+                        && WorldNPCNavigation.Obstacle(origin, end, seat.transform) == solid,
+                    "이동 장애물은 매 보행 시 검사"
+                );
+                solid.isTrigger = true;
+                context.Check(
+                    WorldNPCNavigation.Obstacle(origin, end, seat.transform) == null,
+                    "연출 트리거와 예약한 좌석의 정렬 허용"
+                );
+            }
+            finally
+            {
+                UnityEngine.Object.Destroy(seat);
+                UnityEngine.Object.Destroy(wall);
+            }
+        }
+
         public static void Register(TestScenarioRegistry registry)
         {
+            registry.Register(
+                new QAScenario
+                {
+                    id = "world/npc-footprint",
+                    title = "NPC 보행과 좌석 충돌",
+                    category = "월드·시설",
+                    description = "고정 가구, 얇은 벽, 이동 장애물과 착석 예외 확인",
+                    success = "장애물과 상호작용 자세 구분",
+                    run = c => Once(() => CheckFootprint(c)),
+                }
+            );
             registry.Register(
                 new QAScenario
                 {

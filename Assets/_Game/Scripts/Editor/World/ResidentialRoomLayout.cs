@@ -329,6 +329,14 @@ namespace IanGame.Editor
             sr.sharedMaterial = Material;
             sr.sortingOrder = order;
             go.transform.localScale = Vector3.one * (width / sprite.bounds.size.x);
+            if (spriteName == "Laundry")
+            {
+                var basket = go.AddComponent<BoxCollider2D>();
+                float scale = go.transform.localScale.x;
+                basket.size = new Vector2(.53f, .23f) / scale;
+                basket.offset = Vector2.up * (.115f / scale);
+            }
+
             if (spriteName == "WindowDay")
             {
                 AttachWindow(root.GetComponentInParent<LifeWorldController>(), sr);

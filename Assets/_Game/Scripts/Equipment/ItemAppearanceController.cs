@@ -88,6 +88,15 @@ namespace IanGame
                 return;
             }
 
+            if (player.growthVisual != null && player.growthVisual.InBed
+                && player.growthVisual.ActivePose is "Sit" or "Lie Down" or "Sleep" or "Wake Up")
+            {
+                headphone.enabled = false;
+                cosmetic.enabled = false;
+                HasRenderedOverride = false;
+                return;
+            }
+
             var stage = player.growthVisual?.Current?.stage ?? VisualGrowthStage.Adult;
             HasRenderedOverride =
                 Draw(headphone, items.Equipment.Current(EquipmentSlot.Headphone), stage, headphoneCache)

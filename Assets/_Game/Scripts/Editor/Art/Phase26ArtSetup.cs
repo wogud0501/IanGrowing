@@ -441,7 +441,7 @@ namespace IanGame.Editor
                 if (o.id == "alley-path")
                 {
                     Move(o, rules, new Vector2(-14, -7.2f));
-                    o.UsePoint = Vector2.up * .9f;
+                    o.UsePoint = new Vector2(.8f, -.2f);
                     o.arrival = new Vector2(7, -6);
                 }
 

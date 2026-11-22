@@ -10,6 +10,8 @@ namespace IanGame
         readonly HashSet<string> admittedAmbient = new HashSet<string>();
         long populationMinute = -1;
         string populationZone;
+        int previousBudgetRevision = -1;
+        readonly Dictionary<Vector2Int, int> districtCounts = new Dictionary<Vector2Int, int>();
 
         public int PooledAmbientCount => ambientPool.Count;
         public int ActiveAmbientCount
@@ -30,7 +32,8 @@ namespace IanGame
         }
 
         public int AmbientCapacity =>
-            lifeProfile == null ? 0 : lifeProfile.AmbientLimit(world.Room.roomId, world.Service.Hour);
+            lifeProfile == null ? 0 : Mathf.CeilToInt(lifeProfile.AmbientLimit(world.Room.roomId, world.Service.Hour)
+                * (.40f + .20f * WorldGraphicsSettings.Crowd));
 
         void RefreshPopulationBudget()
         {
@@ -41,7 +44,7 @@ namespace IanGame
 
             int hourKey = world.Service.Game.clock.Day * 24 + world.Service.Hour;
             string zone = world.Room.roomId;
-            if (Minute == populationMinute && populationZone == zone)
+            if (Minute == populationMinute && populationZone == zone && previousBudgetRevision == WorldGraphicsSettings.Revision)
             {
                 return;
             }
@@ -49,6 +52,8 @@ namespace IanGame
             populationMinute = Minute;
             populationZone = zone;
             admittedAmbient.Clear();
+            districtCounts.Clear();
+            previousBudgetRevision = WorldGraphicsSettings.Revision;
             var definitions = world.Service.rules.npcs;
             if (definitions.Length == 0)
             {
@@ -57,22 +62,43 @@ namespace IanGame
 
             int capacity = AmbientCapacity;
             int offset = hourKey % definitions.Length;
-            for (int i = 0; i < definitions.Length && admittedAmbient.Count < capacity; i++)
+            // Admit one scheduled destination per street block before filling a second slot.
+            // The rule never moves a resident away from their scheduled destination.
+            for (int perBlock = 1; perBlock <= capacity && admittedAmbient.Count < capacity; perBlock++)
             {
-                var definition = definitions[(i + offset) % definitions.Length];
-                if (!definition.ambient || definition.schedule == null || definition.schedule.Length == 0)
+                bool overflow = false;
+                for (int i = 0; i < definitions.Length && admittedAmbient.Count < capacity; i++)
                 {
-                    continue;
+                    var definition = definitions[(i + offset) % definitions.Length];
+                    if (!definition.ambient || definition.schedule == null || definition.schedule.Length == 0
+                        || admittedAmbient.Contains(definition.npcId))
+                    {
+                        continue;
+                    }
+
+                    int index = Schedule(definition, world.Service.Game.clock.Day,
+                        (int)(world.Service.Game.clock.SubDaySeconds / 60));
+                    var visit = definition.schedule[index];
+                    if (visit.zone != zone)
+                    {
+                        continue;
+                    }
+
+                    var block = Vector2Int.FloorToInt(visit.position / 6);
+                    districtCounts.TryGetValue(block, out int count);
+                    if (count >= perBlock)
+                    {
+                        overflow = true;
+                        continue;
+                    }
+
+                    districtCounts[block] = count + 1;
+                    admittedAmbient.Add(definition.npcId);
                 }
 
-                int index = Schedule(
-                    definition,
-                    world.Service.Game.clock.Day,
-                    (int)(world.Service.Game.clock.SubDaySeconds / 60)
-                );
-                if (definition.schedule[index].zone == zone)
+                if (!overflow)
                 {
-                    admittedAmbient.Add(definition.npcId);
+                    break;
                 }
             }
         }

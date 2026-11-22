@@ -20,6 +20,7 @@ namespace IanGame
         public bool Deferred { get; private set; }
 
         public Vector2 ActionOffset;
+        public float Recline;
         public int ActionOrder = int.MinValue;
         public bool InBed { get; set; }
         public bool Seated { get; set; }
@@ -28,9 +29,9 @@ namespace IanGame
         public Quaternion DisplayRotation =>
             BodyInteractions
             && InBed
-            && (ActivePose == "Sleep" || ActivePose == "Wake Up" && motor.advanced.Frame == 0)
+            && (ActivePose == "Sleep" || ActivePose == "Lie Down" || ActivePose == "Wake Up")
             && Current.sleepHorizontal
-                ? Quaternion.Euler(0, 0, -90)
+                ? Quaternion.Euler(0, 0, -90 * (ActivePose == "Sleep" ? 1 : Recline))
                 : Quaternion.identity;
         public float Speed => Young ? Current.speedFactor : 1;
 
@@ -172,6 +173,7 @@ namespace IanGame
         public void ClearAction()
         {
             ActionOffset = Vector2.zero;
+            Recline = 0;
             ActionOrder = int.MinValue;
             InBed = Seated = false;
         }

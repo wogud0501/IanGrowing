@@ -39,8 +39,9 @@ namespace IanGame
             public WorldDoor entryDoor;
             public int portalPhase;
             public float retry;
-            public float releaseSeatUntil;
-            public float labelUntil;
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+            public float nextCollisionCheck;
+#endif
             public float arrivingUntil;
             public float departingUntil;
             public bool active;
@@ -57,11 +58,15 @@ namespace IanGame
             public bool finishedTask;
             public float workUntil;
             public bool pendingAbstract;
+            public bool awaitingSpace;
             public float seatedAt;
             public float standingUntil;
             public ActorMotion exitMotion;
             public WorldInteractable anchor;
             public WorldInteractable leavingBed;
+            public BedQuilt quilt;
+            public float walkSpeed;
+            public float lastMovement;
             public Vector2 anchorFacing;
             public WorldActivitySlot slot;
             public WorldActivitySlot requestedSlot;
@@ -79,8 +84,7 @@ namespace IanGame
         bool ready;
         WorldStreetLife street;
         SceneVisualPresentation scenePresentation;
-        readonly RaycastHit2D[] hits = new RaycastHit2D[16];
-        ContactFilter2D hitFilter;
+        int furnitureRevision = -1;
         public int AbstractUpdates { get; private set; }
         public int VisibleSteps { get; private set; }
         public int DoorPassages { get; private set; }
@@ -159,7 +163,6 @@ namespace IanGame
             }
 
             street = world.GetComponentInChildren<WorldStreetLife>();
-            hitFilter = new ContactFilter2D { useTriggers = false };
             if (world.Service == null)
             {
                 return;
@@ -239,6 +242,7 @@ namespace IanGame
                 r.interiorDoor?.Release(r.definition.npcId);
                 r.interiorDoor = null;
                 r.departureSlot = null;
+                r.awaitingSpace = false;
                 r.leavingBed = null;
                 r.seatApproached = false;
                 r.slot = null;
@@ -292,22 +296,25 @@ namespace IanGame
                     if (Vector2.Distance(loaded, pose) > .3f)
                     {
                         // A stationary snapshot is valid only at its current activity anchor.
-                        r.actor.transform.position = Destination(r);
                         loaded = pose;
                     }
                 }
 
-                bool seated = saved.action != NPCDailyAction.Walk && r.slot != null && r.slot.seated;
-                if (sceneScoped && !seated && !SpawnPoint(ref loaded, r.actor))
+                Transform furniture = saved.action == NPCDailyAction.Sleep ? r.anchor?.transform
+                    : saved.action != NPCDailyAction.Walk && r.slot != null && r.slot.seated ? r.slot.PoseFurniture
+                    : null;
+                var requested = loaded;
+                if (saved.zone == world.CurrentZone.id && !SpawnPoint(ref loaded, r.actor, furniture))
                 {
                     continue;
                 }
 
+                r.awaitingSpace = false;
                 r.actor.zone = saved.zone;
                 r.actor.transform.position = loaded;
                 r.facing = saved.action != NPCDailyAction.Walk && r.slot != null ? r.slot.facing : saved.facing;
-                r.action = saved.action;
-                r.atActivity = saved.action != NPCDailyAction.Walk;
+                r.action = loaded == requested ? saved.action : NPCDailyAction.Walk;
+                r.atActivity = r.action != NPCDailyAction.Walk;
                 r.active = r.actor.zone == world.Service.State.zone;
                 r.actor.visual.enabled = r.active;
                 if (r.actor.shadow != null)
@@ -399,14 +406,35 @@ namespace IanGame
 
             if (Time.unscaledTime >= nextDecision)
             {
-                nextDecision = Time.unscaledTime + .25f;
+                nextDecision = Time.unscaledTime + Mathf.Lerp(.30f, .14f, WorldGraphicsSettings.Crowd / 3f);
                 Decide(false);
             }
 
+            bool movedFurniture = furnitureRevision != world.FurnitureRevision;
+            furnitureRevision = world.FurnitureRevision;
             FillCrowd();
             for (int i = 0; i < residents.Length; i++)
             {
                 var resident = residents[i];
+                if (movedFurniture && resident.active)
+                {
+                    resident.path.Clear();
+                    resident.waypoint = 0;
+                    resident.hasPersonalGoal = false;
+                    ValidateMaterialization(resident);
+                    if (resident.awaitingSpace)
+                    {
+                        resident.active = false;
+                        resident.actor.visual.enabled = false;
+                        if (resident.actor.shadow != null)
+                        {
+                            resident.actor.shadow.enabled = false;
+                        }
+                    }
+                }
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+                InspectCollision(resident);
+#endif
                 float dt = Mathf.Min(Time.deltaTime, .1f);
                 if (
                     resident.definition.ambient
@@ -516,7 +544,6 @@ namespace IanGame
                 {
                     r.index = index;
                     r.action = r.target.action;
-                    r.labelUntil = Time.unscaledTime + 2;
                 }
                 else if (changed)
                 {
@@ -530,7 +557,7 @@ namespace IanGame
                         r.slot != null
                         && r.slot.useSeatAnchors
                         && r.slot.seated
-                        && r.atActivity
+                        && (r.atActivity || r.seatApproached)
                         && r.actor.zone == local
                         && r.target.objectId != r.slot.GetComponent<WorldInteractable>().id
                     )
@@ -558,8 +585,7 @@ namespace IanGame
 
                     if (r.action == NPCDailyAction.Sleep || r.action == NPCDailyAction.Rest)
                     {
-                        r.releaseSeatUntil = Time.unscaledTime + 1;
-                        r.standingUntil = Time.unscaledTime + .55f;
+                        r.standingUntil = Time.unscaledTime + (r.action == NPCDailyAction.Sleep ? 1.35f : .55f);
                         r.exitMotion = r.action == NPCDailyAction.Sleep ? ActorMotion.WakeUp : ActorMotion.StandUp;
                     }
 
@@ -573,8 +599,17 @@ namespace IanGame
                     r.index = index;
                     r.atActivity = false;
                     r.departingUntil = 0;
-                    r.labelUntil = Time.unscaledTime + 2;
                     r.action = NPCDailyAction.Walk;
+                }
+
+                if (r.slot != null && r.slot.Occupant != r.definition.npcId && !r.slot.TryReserve(r.definition.npcId))
+                {
+                    r.slot = null;
+                    r.seatApproached = false;
+                    r.atActivity = false;
+                    r.action = NPCDailyAction.Idle;
+                    r.path.Clear();
+                    r.waypoint = 0;
                 }
 
                 if (!changed && r.target.action == NPCDailyAction.Rest && r.slot == null)
@@ -663,12 +698,17 @@ namespace IanGame
                     r.waypoint = 0;
                 }
 
+                if (r.actor.zone == local && (restoring || zoneChanged || !here || r.awaitingSpace))
+                {
+                    ValidateMaterialization(r);
+                }
+
                 if (r.atActivity && r.slot != null)
                 {
                     r.slot.MarkOccupied(r.definition.npcId);
                 }
 
-                r.active = r.actor.zone == local;
+                r.active = r.actor.zone == local && !r.awaitingSpace;
                 r.actor.visual.enabled = r.active;
                 if (r.actor.shadow != null)
                 {
@@ -700,7 +740,7 @@ namespace IanGame
         static Vector2 BedPose(WorldInteractable bed)
         {
             var mattress = bed.visual.bounds;
-            return new Vector2(mattress.center.x, mattress.min.y + mattress.size.y * .40f);
+            return new Vector2(mattress.center.x, mattress.min.y + mattress.size.y * .52f);
         }
 
         bool CanStartHere(Resident resident)
@@ -804,7 +844,74 @@ namespace IanGame
 
         static bool Road(Vector2 local) => local.y > -6.7f && local.y < -2.1f && Mathf.Abs(local.x) < 1;
 
-        bool Move(Resident r, int index, Vector2 target, float dt)
+        static Transform PoseFurniture(Resident r)
+        {
+            if (r.leavingBed != null)
+            {
+                return r.leavingBed.transform;
+            }
+
+            if (r.departureSlot != null)
+            {
+                return r.departureSlot.PoseFurniture;
+            }
+
+            if (r.atActivity && r.action == NPCDailyAction.Sleep)
+            {
+                return r.anchor?.transform;
+            }
+
+            return r.slot != null && r.slot.seated && (r.seatApproached || r.atActivity)
+                ? r.slot.PoseFurniture
+                : null;
+        }
+
+        void ValidateMaterialization(Resident r)
+        {
+            Vector2 position = r.actor.transform.position;
+            if (!r.awaitingSpace && WorldNPCNavigation.Occupant(position, PoseFurniture(r)) == null)
+            {
+                return;
+            }
+
+            r.awaitingSpace = !SpawnPoint(ref position, r.actor);
+            if (r.awaitingSpace)
+            {
+                return;
+            }
+
+            r.actor.transform.position = position;
+            r.atActivity = false;
+            r.seatApproached = false;
+            r.action = NPCDailyAction.Walk;
+            r.path.Clear();
+            r.waypoint = 0;
+        }
+
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+        void InspectCollision(Resident r)
+        {
+            if (!r.active || Time.unscaledTime < r.nextCollisionCheck)
+            {
+                return;
+            }
+
+            Vector2 position = r.actor.transform.position;
+            var solid = WorldNPCNavigation.Occupant(position, PoseFurniture(r));
+            r.nextCollisionCheck = Time.unscaledTime + (solid == null ? 1f : 15f);
+            if (solid != null)
+            {
+                Debug.LogWarning(
+                    $"NPC overlap {r.definition.npcId} in {r.actor.zone} at {position}, "
+                        + $"{r.action} toward {r.target.objectId} in {r.target.zone} {r.target.position}, "
+                        + $"waypoint {r.waypoint}, solid {solid.name}",
+                    r.actor
+                );
+            }
+        }
+#endif
+
+        bool Move(Resident r, int index, Vector2 target, float dt, Transform poseFurniture = null)
         {
             if (Time.unscaledTime < r.waitUntil)
             {
@@ -812,7 +919,7 @@ namespace IanGame
             }
 
             Vector2 from = r.actor.transform.position;
-            if (r.detourUntil > Time.unscaledTime)
+            if (poseFurniture == null && r.detourUntil > Time.unscaledTime)
             {
                 if (Vector2.Distance(from, r.detour) > .1f)
                 {
@@ -821,10 +928,21 @@ namespace IanGame
                 else
                 {
                     r.detourUntil = 0;
+                    r.path.Clear();
+                    r.waypoint = 0;
+                    r.retry = 0;
+                    return false;
                 }
             }
 
-            var next = Vector2.MoveTowards(from, target, r.definition.speed * dt);
+            if (Time.unscaledTime - r.lastMovement > Mathf.Max(.35f, dt * 2))
+            {
+                r.walkSpeed = 0;
+            }
+
+            float speed = r.definition.speed;
+            r.walkSpeed = Mathf.MoveTowards(r.walkSpeed, speed, dt * speed * 5);
+            var next = Vector2.MoveTowards(from, target, r.walkSpeed * dt);
             if (Vector2.Distance(from, next) < .00001f)
             {
                 return false;
@@ -849,47 +967,33 @@ namespace IanGame
                 return false;
             }
 
-            if (Time.unscaledTime > r.releaseSeatUntil)
+            var blocker = WorldNPCNavigation.Obstacle(from, next, poseFurniture);
+            if (blocker != null)
             {
-                int count = Physics2D.CircleCast(
-                    from,
-                    .2f,
-                    (next - from).normalized,
-                    hitFilter,
-                    hits,
-                    Vector2.Distance(from, next)
-                );
-                for (int h = 0; h < count; h++)
+                var interior = blocker.GetComponentInParent<WorldDoor>();
+                if (interior != null && blocker == interior.closedCollider && interior.portal.zone == interior.portal.targetZone)
                 {
-                    var hit = hits[h];
-                    if (
-                        hit.collider == null
-                        || hit.collider.isTrigger
-                        || hit.collider.attachedRigidbody != null
-                        || hit.collider.GetComponentInParent<WorldInteractable>() == r.actor
-                    )
+                    if (r.interiorDoor != interior)
                     {
-                        continue;
+                        r.interiorDoor?.Release(r.definition.npcId);
+                        r.interiorSide = interior.SideOf(from);
+                        r.interiorDoor = interior;
                     }
 
-                    var interior = hit.collider.GetComponentInParent<WorldDoor>();
-                    if (interior != null && interior.portal.zone == interior.portal.targetZone)
-                    {
-                        if (r.interiorDoor != interior)
-                        {
-                            r.interiorDoor?.Release(r.definition.npcId);
-                            r.interiorSide = interior.SideOf(from);
-                            r.interiorDoor = interior;
-                        }
-
-                        interior.Acquire(r.definition.npcId, world.Service.Hour, out _);
-                    }
-
-                    return false;
+                    interior.Acquire(r.definition.npcId, world.Service.Hour, out _);
                 }
+                else if (Time.unscaledTime >= r.retry)
+                {
+                    r.path.Clear();
+                    r.waypoint = 0;
+                    r.retry = Time.unscaledTime + .2f;
+                }
+
+                return false;
             }
 
             r.blockedSince = 0;
+            r.lastMovement = Time.unscaledTime;
             r.actor.transform.position = next;
             crowd.Set(r.definition.npcId, next);
             r.facing = (next - from).normalized;
@@ -945,14 +1049,18 @@ namespace IanGame
 
                 if (Vector2.Distance(before, r.departureSlot.StandUpPoint) > .025f)
                 {
-                    r.releaseSeatUntil = Time.unscaledTime + .1f;
-                    Move(r, index, r.departureSlot.StandUpPoint, dt);
+                    Move(r, index, r.departureSlot.StandUpPoint, dt, r.departureSlot.PoseFurniture);
                     r.action = NPCDailyAction.Walk;
-                    Render(r, index, before);
+                    r.facing = r.departureSlot.facing;
+                    Render(r, index, before, ActorMotion.StandUp);
                     return;
                 }
 
-                r.departureSlot.Release(r.definition.npcId);
+                // A new schedule can return to this very seat before standing has finished.
+                if (r.departureSlot != r.slot)
+                {
+                    r.departureSlot.Release(r.definition.npcId);
+                }
                 r.departureSlot = null;
                 r.path.Clear();
                 r.waypoint = 0;
@@ -968,8 +1076,7 @@ namespace IanGame
             {
                 if (Vector2.Distance(before, r.leavingBed.Point) > .04f)
                 {
-                    r.releaseSeatUntil = Time.unscaledTime + .1f;
-                    Move(r, index, r.leavingBed.Point, dt);
+                    Move(r, index, r.leavingBed.Point, dt, r.leavingBed.transform);
                     r.action = NPCDailyAction.Walk;
                     Render(r, index, before);
                     return;
@@ -1069,10 +1176,18 @@ namespace IanGame
 
                 if (r.seatApproached && Vector2.Distance(before, goal) > .025f)
                 {
-                    r.releaseSeatUntil = Time.unscaledTime + .1f;
-                    Move(r, index, goal, dt);
-                    r.action = NPCDailyAction.Walk;
-                    Render(r, index, before);
+                    if (!r.slot.TryReserve(r.definition.npcId))
+                    {
+                        r.seatApproached = false;
+                        Render(r, index, before, ActorMotion.Idle);
+                        return;
+                    }
+
+                    bool moved = Move(r, index, goal, dt, r.slot.seated ? r.slot.PoseFurniture : null);
+                    r.action = moved ? NPCDailyAction.Walk : NPCDailyAction.Idle;
+                    r.facing = r.slot.facing;
+                    var pose = r.slot.seated ? ActorMotion.SitDown : ActorMotion.Walk;
+                    Render(r, index, before, moved ? pose : ActorMotion.Idle);
                     return;
                 }
             }
@@ -1107,6 +1222,17 @@ namespace IanGame
                     Label(r, index, "휴게 자리 대기");
                     Render(r, index, before);
                     return;
+                }
+
+                var poseOwner = anchored ? (r.slot.seated ? r.slot.PoseFurniture : null) : r.anchor?.transform;
+                if (!r.atActivity && (anchored || r.target.action == NPCDailyAction.Sleep && r.anchor != null))
+                {
+                    var pose = anchored ? Destination(r) : BedPose(r.anchor);
+                    if (WorldNPCNavigation.Obstacle(before, pose, poseOwner) != null)
+                    {
+                        Render(r, index, before, ActorMotion.Idle);
+                        return;
+                    }
                 }
 
                 if (!r.atActivity)
@@ -1195,10 +1321,7 @@ namespace IanGame
             if (r.path.Count > 0 && r.waypoint < r.path.Count)
             {
                 var p = r.path[r.waypoint];
-                if (
-                    Vector2.Distance(r.actor.transform.position, p)
-                    < (anchored && r.waypoint == r.path.Count - 1 ? .015f : .09f)
-                )
+                if (Vector2.Distance(r.actor.transform.position, p) < .015f)
                 {
                     r.waypoint++;
                 }
@@ -1216,8 +1339,16 @@ namespace IanGame
         {
             if (index < activityLabels.Length && activityLabels[index] != null)
             {
-                activityLabels[index].text = value;
-                activityLabels[index].gameObject.SetActive(r.active);
+                var label = activityLabels[index];
+                if (label.text != value)
+                {
+                    label.text = value;
+                }
+                bool visible = r.active && world.Nearest == r.actor && !string.IsNullOrEmpty(value) && !world.Busy;
+                if (label.gameObject.activeSelf != visible)
+                {
+                    label.gameObject.SetActive(visible);
+                }
             }
         }
 
@@ -1282,6 +1413,33 @@ namespace IanGame
                 );
             }
 
+            bool sleeping = r.action == NPCDailyAction.Sleep && r.atActivity && r.anchor;
+            bool waking = r.leavingBed && forced == ActorMotion.WakeUp;
+            float bedPhase = -1;
+            if (sleeping || waking)
+            {
+                var bed = sleeping ? r.anchor : r.leavingBed;
+                r.quilt = BedQuilt.For(bed);
+                float phase = sleeping ? Time.unscaledTime - r.seatedAt : r.standingUntil - Time.unscaledTime;
+                bedPhase = Mathf.Clamp01(phase / .65f);
+                r.quilt.Draw(r.actor.visual, Mathf.SmoothStep(0, 1, (phase - .65f) / .7f));
+            }
+            else if (r.quilt)
+            {
+                r.quilt.Release(r.actor.visual);
+                r.quilt = null;
+            }
+
+            if (FamilyLife.Parent(r.definition.npcId) && r.actor.zone.StartsWith("family-")
+                && (sleeping || waking || r.portal == null || r.target.zone.StartsWith("family-")))
+            {
+                FamilyWardrobe.Dress(r.animation, r.definition.npcId, motion, walking ? delta : r.facing, bedPhase);
+                if (r.action == NPCDailyAction.Cook && r.animation)
+                {
+                    FamilyWardrobe.Cook(r.animation, r.definition.npcId, r.facing);
+                }
+            }
+
             DrawHeldItem(r, motion);
 
             if (r.actor.shadow != null)
@@ -1340,7 +1498,6 @@ namespace IanGame
                 }
                 Label(r, index, label);
                 activityLabels[index].transform.position = r.actor.transform.position + Vector3.up * 2.1f;
-                activityLabels[index].gameObject.SetActive(r.active && Time.unscaledTime < r.labelUntil && label != "");
             }
         }
 

@@ -147,9 +147,15 @@ namespace IanGame
                     var entrance = city.NearbyFacility();
                     if (entrance)
                     {
-                        return "도시에 왔어요. 가까운 ‘"
-                            + entrance.title
-                            + "’에서 건물에 들어갈 수 있어요. 다른 곳을 둘러봐도 좋아요.";
+                        var host = game.world.Host;
+                        bool crossStreet = !WorldNPCNavigation.OnPedestrianRoute(
+                            host.CurrentZone,
+                            host.Player.Position,
+                            entrance.Point
+                        );
+                        return (crossStreet ? "도시에 왔어요. 횡단보도를 건너 ‘" : "도시에 왔어요. 가까운 ‘")
+                            + game.world.rules.Zone(entrance.targetZone).title
+                            + "’ 입구에서 상호작용해 보세요. 다른 곳을 둘러봐도 좋아요.";
                     }
 
                     return "지금은 방문할 시설이 없어요. 동네 상점은 "
@@ -339,6 +345,42 @@ namespace IanGame
             helpText.text = selectedRoute;
         }
 
+        string LessonHint(GuideLesson lesson)
+        {
+            if (Array.IndexOf(CityLifeService.Basics, lesson) >= 0)
+            {
+                var target = city.CareTarget(lesson);
+                if (target)
+                {
+                    string verb = lesson == GuideLesson.Sleep ? "잠자기"
+                        : lesson == GuideLesson.Meal ? (city.OffersCare(target) ? "식사 돌봄" : "식사")
+                        : city.OffersCare(target) ? "수분 돌봄" : "물 마시기";
+                    return target.title + " · " + hud.InteractionInput + " → " + verb;
+                }
+            }
+
+            switch (lesson)
+            {
+                case GuideLesson.Walk:
+                    return GetComponent<WorldMobileHUD>()?.IsMobile == true ? "이동 스틱으로 걷기"
+                        : hud.UsingGamepad ? "왼쪽 스틱으로 걷기" : "WASD · 방향키로 걷기";
+                case GuideLesson.Interact:
+                    return hud.InteractionInput + " · 주변과 상호작용";
+                case GuideLesson.Mission:
+                    return "생활 → 미션에서 보상 받기";
+                case GuideLesson.Outside:
+                    return (city.ExitTarget()?.title ?? "현관") + " → 도시";
+                case GuideLesson.Visit:
+                    var entrance = city.NearbyFacility();
+                    return entrance ? game.world.rules.Zone(entrance.targetZone).title + " 입구로 가기"
+                        : "상점 " + game.world.rules.shopOpen + "시 개점 · 집으로";
+                case GuideLesson.Independence:
+                    return "독립 첫날 · 생활 → 직업";
+                default:
+                    return LessonNames[(int)lesson] + " · 도움말";
+            }
+        }
+
         void RefreshLearningCard()
         {
             var options = city.Suggestions();
@@ -348,12 +390,7 @@ namespace IanGame
             {
                 displayedLesson = null;
             }
-            string caption = displayedLesson.HasValue ? LessonText(displayedLesson.Value) : options[0].title;
-            guide.text =
-                (guideFeedback != null ? guideFeedback + "\n" : "")
-                + (displayedLesson.HasValue ? "생활 안내   " : "지금 해볼 만한 것   ")
-                + caption
-                + "\n[추천 행동 보기]";
+            guide.text = guideFeedback ?? (displayedLesson.HasValue ? LessonHint(displayedLesson.Value) : options[0].title);
             visibleChoices.Clear();
             visibleChoices.AddRange(options);
             skipButton.gameObject.SetActive(!city.GuideSkipped);
@@ -379,7 +416,7 @@ namespace IanGame
                 button.gameObject.SetActive(i < options.Count);
                 if (i < options.Count)
                 {
-                    button.GetComponentInChildren<TMP_Text>().text = options[i].title + "   ·   " + options[i].detail;
+                    button.GetComponentInChildren<TMP_Text>().text = options[i].title;
                 }
             }
         }

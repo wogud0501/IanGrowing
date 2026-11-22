@@ -284,7 +284,6 @@ namespace IanGame
             }
 
             host.transitions?.End();
-            host.hud.Notify(room.title);
             Finish(game, true);
             SceneChanged?.Invoke(room.sceneId);
             game.SaveAutomaticCheckpoint(out _);

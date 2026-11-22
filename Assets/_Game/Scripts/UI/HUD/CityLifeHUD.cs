@@ -61,7 +61,6 @@ namespace IanGame
         TMP_Text achievementTotal;
         TMP_Text achievementText;
         TMP_Text guideText;
-        TMP_Text miniTitle;
         TMP_Text routeText;
         GameObject suggestion;
         string selected;
@@ -232,24 +231,15 @@ namespace IanGame
             mini.rectTransform.pivot = Vector2.one;
             mini.rectTransform.anchoredPosition = new Vector2(-24, -76);
             MiniMap = mini.gameObject;
-            miniTitle = Text(
-                "District",
-                mini.transform,
-                "도시 중심",
-                18,
-                new Vector2(.05f, .82f),
-                new Vector2(.76f, .99f),
-                Vector2.zero
-            );
             BuildView(mini.transform, new Vector2(.06f, .12f), new Vector2(.94f, .81f));
             Button(
                 "ExpandMap",
                 mini.transform,
-                "지도",
-                Vector2.one,
-                Vector2.one,
-                new Vector2(64, 40),
-                new Vector2(-36, -22),
+                "지도 열기",
+                new Vector2(.06f, .82f),
+                new Vector2(.94f, .99f),
+                Vector2.zero,
+                Vector2.zero,
                 OpenMap
             );
             MapPanel = CreateScreen("City map screen", "지도 · 시설과 가능한 일");

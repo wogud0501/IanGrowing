@@ -158,7 +158,12 @@ namespace IanGame
             }
 
             var context = GameContext.Instance;
-            if (context == null || context.game == null || context.game.State == GameState.Starting)
+            if (
+                context == null
+                || context.game == null
+                || context.game.State == GameState.Starting
+                || context.transitions.CurrentScene == SceneId.Bootstrap
+            )
             {
                 return false;
             }

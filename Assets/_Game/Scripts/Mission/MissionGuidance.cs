@@ -283,7 +283,7 @@ namespace IanGame
 
             if (progress != null && progress.state == MissionState.Completed)
             {
-                return "달성했습니다! ‘보상 수령’을 눌러 다음 미션으로 진행하세요.";
+                return "보상 수령 → 다음 미션";
             }
 
             if (m.Id == "M009")
@@ -319,6 +319,12 @@ namespace IanGame
             if (m.suggestedAction < 0)
             {
                 return "선행 미션의 보상을 모두 수령하고 위 조건을 충족하세요. 시간 경과만으로 나이가 오르지 않습니다.";
+            }
+
+            if (g != null && !g.growth.WalkingUnlocked && m.suggestedAction is 3 or 4 or 5)
+            {
+                string verb = m.suggestedAction == 3 ? "식사 돌봄" : m.suggestedAction == 4 ? "수분 돌봄" : "잠자기";
+                return "이안의 잠자리 → " + verb;
             }
 
             string name = ActionName(m.suggestedAction, g);

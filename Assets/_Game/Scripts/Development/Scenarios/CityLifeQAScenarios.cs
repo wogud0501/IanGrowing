@@ -65,6 +65,28 @@ namespace IanGame
 
         static IEnumerator FirstOuting(QAScenarioContext c)
         {
+            var panel = DeveloperQACenter.Instance;
+            bool returnToPanel = panel != null && panel.Visible;
+            if (returnToPanel)
+            {
+                panel.Minimize();
+            }
+
+            try
+            {
+                yield return WalkToCity(c);
+            }
+            finally
+            {
+                if (returnToPanel)
+                {
+                    panel.Open();
+                }
+            }
+        }
+
+        static IEnumerator WalkToCity(QAScenarioContext c)
+        {
             c.Commands.Fixture(7, false, false);
             var world = c.Game.world;
             var transitions = GameContext.Instance.transitions;
@@ -100,6 +122,34 @@ namespace IanGame
             }
 
             c.Check(world.City.Progress(GuideLesson.Outside) == LessonState.Completed, "도심 입장으로 외출 안내 완료");
+            var origin = world.Host.CurrentZone.origin;
+            var north = origin + Vector2.down * 1.25f;
+            var south = origin + Vector2.down * 7.4f;
+            var planner = new WorldNPCNavigation();
+            float inbound = CrossingX(planner.Find(world.Host, "city", south, north), south, origin.y - 4);
+            float outbound = CrossingX(planner.Find(world.Host, "city", north, south), north, origin.y - 4);
+            c.Check(Mathf.Abs(inbound - outbound) >= NPCCrowdSpace.Clearance, "횡단보도 양방향 보행 간격");
+
+            var clock = c.Game.clock;
+            clock.Restore(clock.Day, new TimeSnapshot { subDaySeconds = 4 * 3600 });
+            yield return null;
+            c.Check(!world.City.NearbyFacility(), "새벽에 이용할 수 없는 건물 제외");
+            clock.Restore(clock.Day, new TimeSnapshot { subDaySeconds = 10 * 3600 });
+            yield return null;
+            c.Check(world.City.NearbyFacility(), "낮에는 실제로 열린 건물 입구 추천");
+        }
+
+        static float CrossingX(System.Collections.Generic.List<Vector2> path, Vector2 previous, float y)
+        {
+            foreach (var point in path)
+            {
+                if (previous.y != point.y && (previous.y - y) * (point.y - y) <= 0)
+                {
+                    return Mathf.Lerp(previous.x, point.x, Mathf.InverseLerp(previous.y, point.y, y));
+                }
+                previous = point;
+            }
+            return float.NaN;
         }
 
         static IEnumerator GuideSave(QAScenarioContext c)

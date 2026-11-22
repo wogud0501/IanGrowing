@@ -140,14 +140,30 @@ namespace IanGame
             }
             else if (preferenceTab == 2)
             {
-                settingsText.text =
-                    "그래픽\n환경 효과 "
-                    + PlayerPrefs.GetInt("ian.visual.effects", 1)
-                    + " / 2\n전환 "
-                    + PlayerPrefs.GetInt("ian.visual.transitions", 0)
-                    + " / 2\n픽셀 렌더링과 정수 배율은 유지합니다.";
-                actions.Add(("환경 효과", () => Setting("ian.visual.effects", 3)));
-                actions.Add(("장소 전환", () => Setting("ian.visual.transitions", 3)));
+                settingsText.text = "그래픽  /  " + WorldGraphicsSettings.Names[WorldGraphicsSettings.Preset];
+                void Adjust(string label, Action change)
+                {
+                    actions.Add((label, () =>
+                    {
+                        change();
+                        RefreshPreferences();
+                    }));
+                }
+
+                Adjust("품질   " + WorldGraphicsSettings.Names[WorldGraphicsSettings.Preset],
+                    () => WorldGraphicsSettings.Select((WorldGraphicsSettings.Preset + 1) % 5));
+                Adjust("조명 · 날씨   " + WorldGraphicsSettings.Names[WorldGraphicsSettings.Detail],
+                    WorldGraphicsSettings.NextDetail);
+                Adjust("배경 인구   " + WorldGraphicsSettings.Names[WorldGraphicsSettings.Crowd],
+                    WorldGraphicsSettings.NextCrowd);
+                Adjust(WorldGraphicsSettings.FrameLimit == 0 ? "수직 동기화" : WorldGraphicsSettings.FrameLimit + " FPS",
+                    WorldGraphicsSettings.NextFrameLimit);
+                if (WorldGraphicsSettings.HasPipeline)
+                {
+                    Adjust("월드 해상도   " + WorldGraphicsSettings.RenderScale.ToString("P0"),
+                        WorldGraphicsSettings.NextScale);
+                    Adjust("윤곽선   " + (WorldGraphicsSettings.Smooth ? "FXAA" : "픽셀"), WorldGraphicsSettings.ToggleAA);
+                }
             }
             else if (preferenceTab == 3)
             {

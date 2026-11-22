@@ -11,6 +11,8 @@ namespace IanGame
         VisualWeather? preview;
         VisualWeather applied = (VisualWeather)(-1);
         float nextTick;
+        int previousDetail = -1;
+        float authoredRate;
         public VisualWeather Current => preview ?? (presentation == null ? VisualWeather.Clear : presentation.Weather);
 
         public void SetWeather(VisualWeather weather)
@@ -45,7 +47,18 @@ namespace IanGame
         void Apply()
         {
             var weather = Current;
-            bool reduced = UIShell.ReducedMotion || PlayerPrefs.GetInt("ian.visual.effects", 1) == 0;
+            int tier = WorldGraphicsSettings.Detail;
+            bool reduced = UIShell.ReducedMotion || tier == 0;
+            if (rain && previousDetail != tier)
+            {
+                var emission = rain.emission;
+                if (authoredRate <= 0)
+                {
+                    authoredRate = Mathf.Max(1, emission.rateOverTimeMultiplier);
+                }
+
+                emission.rateOverTimeMultiplier = authoredRate * (.3f + .35f * tier);
+            }
             bool raining = weather == VisualWeather.Rain && !reduced;
             if (rain != null && rain.isPlaying != raining)
             {
@@ -59,17 +72,18 @@ namespace IanGame
                 }
             }
 
-            if (weather == applied)
+            if (weather == applied && previousDetail == tier)
             {
                 return;
             }
 
             applied = weather;
+            previousDetail = tier;
             foreach (var reflection in wetReflections)
             {
                 if (reflection != null)
                 {
-                    reflection.enabled = weather == VisualWeather.Rain;
+                    reflection.enabled = weather == VisualWeather.Rain && tier >= 2;
                 }
             }
         }

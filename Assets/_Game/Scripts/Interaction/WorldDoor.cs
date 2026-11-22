@@ -169,17 +169,18 @@ namespace IanGame
             return true;
         }
 
-        public void Release(string actor)
+        public void Release(string actor, float holdOpenSeconds = .12f)
         {
             if (users.Remove(actor))
             {
-                releaseAt = Time.unscaledTime + .12f;
+                releaseAt = Mathf.Max(releaseAt, Time.unscaledTime + holdOpenSeconds);
             }
         }
 
         public void ResetClosed()
         {
             users.Clear();
+            releaseAt = 0;
             progress = Aperture = 0;
             passable = false;
             Set(locked ? DoorState.Locked : DoorState.Closed);
@@ -283,6 +284,8 @@ namespace IanGame
                     if (
                         actor != null
                         && actor.isActiveAndEnabled
+                        && actor.visual != null
+                        && actor.visual.enabled
                         && actor.zone == portal.zone
                         && InSweep(actor.transform.position, .28f)
                     )

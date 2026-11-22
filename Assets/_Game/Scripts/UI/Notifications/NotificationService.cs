@@ -23,6 +23,7 @@ namespace IanGame
         public NotificationKind kind;
         public int priority;
         public long sequence;
+        internal float displayedAt = float.NegativeInfinity;
     }
 
     // Session history survives room changes. Presentation never grants a reward.
@@ -38,7 +39,9 @@ namespace IanGame
 
         public void Publish(string text, NotificationKind kind = NotificationKind.Info, int priority = -1)
         {
-            if (string.IsNullOrWhiteSpace(text) || pending.Any(n => n.text == text))
+            if (string.IsNullOrWhiteSpace(text) || pending.Any(n => n.text == text && n.kind == kind)
+                || kind is NotificationKind.Info or NotificationKind.System
+                    && history.Any(n => n.kind == kind && n.text == text && UnityEngine.Time.unscaledTime - n.displayedAt < 2f))
             {
                 return;
             }
@@ -72,6 +75,7 @@ namespace IanGame
             if (next != null)
             {
                 pending.Remove(next);
+                next.displayedAt = UnityEngine.Time.unscaledTime;
             }
 
             return next;

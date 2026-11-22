@@ -44,8 +44,6 @@ namespace IanGame
         int height;
         Vector2 viewportSize;
         bool dirty;
-        int[] previousStats;
-        float statUntil;
         float saveUntil;
         GameObject confirmation;
         TMP_Text confirmationText;
@@ -90,7 +88,6 @@ namespace IanGame
             shell = hud.shell;
             ui = new PixelUXWidgets(hud);
             Build();
-            previousStats = Enumerable.Range(0, 8).Select(i => game.stats.Get((CoreStat)i)).ToArray();
             game.stats.Changed += Stats;
             game.StateChanged += GameStateChanged;
             game.economy.Changed += Invalidate;
@@ -141,6 +138,14 @@ namespace IanGame
             guide = ui.Text(card, "Optional recommendation", 17, new Vector2(.04f, .12f), new Vector2(.96f, .68f));
             mission.color = LifeRecordUI.Body;
             guide.color = LifeRecordUI.Secondary;
+            var helpMark = ui.Text(card, "Help shortcut", 17, Vector2.one, Vector2.one);
+            helpMark.text = "?";
+            helpMark.color = LifeRecordUI.Secondary;
+            helpMark.alignment = TextAlignmentOptions.Center;
+            helpMark.rectTransform.pivot = Vector2.one;
+            helpMark.rectTransform.sizeDelta = new Vector2(22, 24);
+            helpMark.rectTransform.anchoredPosition = new Vector2(-6, -8);
+            helpMark.raycastTarget = false;
             var open = card.gameObject.AddComponent<Button>();
             open.onClick.AddListener(OpenHelp);
             saveText = ui.Text(
@@ -359,7 +364,7 @@ namespace IanGame
         {
             if (shell.Top == Hub)
             {
-                hubText.text = reason + "\n이용 조건과 장소는 도움말에서 확인할 수 있습니다.";
+                hubText.text = reason;
             }
         }
 
@@ -412,7 +417,7 @@ namespace IanGame
             if (tab == 0)
             {
                 actions.Add(("상세 상태", () => OpenStatus()));
-                actions.Add(("미션 · 진행 목표", () => nav.Mission()));
+                actions.Add(("미션", () => nav.Mission()));
                 actions.Add(
                     (
                         (FeatureAvailable(2) && !city.Seen("ux/feature/read/jobs") ? "NEW · " : "") + "직업 · 근무",
@@ -427,7 +432,7 @@ namespace IanGame
                             OpenStatus(1);
                             Tutorial(
                                 "school",
-                                "학교의 책상에서 공부합니다. 교육 조건과 과제는 학교 화면에서 확인하세요."
+                                "공부 · 학교 교실 책상"
                             );
                         }
                     )
@@ -486,7 +491,7 @@ namespace IanGame
                                 city.Track("finance", out _);
                                 Tutorial(
                                     "stocks",
-                                    "도시 투자센터에서 종목·보유 자산·뉴스·거래 내역을 확인할 수 있습니다."
+                                    "주식 거래 · 도시 투자센터"
                                 );
                                 OpenHelp();
                             }
@@ -635,9 +640,8 @@ namespace IanGame
             var active = game.missions.ActiveMission;
             mission.text =
                 active == null
-                    ? "진행 목표 · 미션 창"
-                    : "진행 목표 · "
-                        + active.title
+                    ? "미션 보기"
+                    : active.title
                         + "  "
                         + game.missions.GetProgress(active).current.ToString("0")
                         + "/"
@@ -737,7 +741,7 @@ namespace IanGame
                     + game.phase23.Progress.education.studies
                     + " · 과제 "
                     + game.phase23.Progress.education.homework
-                    + "\n\n학습은 학교 책상에서 E로 시작합니다. 등록·시험·과제는 기존 학교 화면에서 확인하세요.";
+                    + "\n\n공부 · 학교 책상에서 상호작용";
             }
             else if (statusTab == 2)
             {
@@ -750,7 +754,7 @@ namespace IanGame
                     + (
                         game.growth.EmploymentUnlocked
                             ? "회사에서 채용 조건과 근무를 확인하세요."
-                            : "아직 직업 활동이 해금되지 않았습니다. 성장 조건을 확인하세요."
+                            : "성장 후 취업 가능"
                     )
                     + "\n직급 "
                     + game.phase23.Progress.employment.rank
@@ -763,7 +767,7 @@ namespace IanGame
             else if (statusTab == 3)
             {
                 text =
-                    $"현금 {game.economy.Cash:N0} G\n루비 {game.economy.Ruby.Total:N0}\n총자산 {game.economy.TotalAssets:N0} G\n부채 {game.economy.Debt:N0} G\n순자산 {game.economy.NetWorth:N0} G\n\n현재 거주: {hud.home?.catalog?.Residence(game.economy.Capture().housing?.residenceId)?.title ?? "등록된 거주지 없음"}\n\n세금·대출·거래 내역은 금융 → 경제 화면에서 확인하세요.\n부채는 창을 닫아도 남습니다.";
+                    $"현금 {game.economy.Cash:N0} G\n루비 {game.economy.Ruby.Total:N0}\n총자산 {game.economy.TotalAssets:N0} G\n부채 {game.economy.Debt:N0} G\n순자산 {game.economy.NetWorth:N0} G\n\n현재 거주: {hud.home?.catalog?.Residence(game.economy.Capture().housing?.residenceId)?.title ?? "등록된 거주지 없음"}\n\n세금·대출·거래 내역  →  금융";
             }
             else
             {
@@ -796,7 +800,6 @@ namespace IanGame
 
         void Restored()
         {
-            previousStats = null;
             guideFeedback = null;
             lastPresented = null;
             selectedRoute = null;
@@ -849,25 +852,6 @@ namespace IanGame
 
         void Stats()
         {
-            var current = Enumerable.Range(0, 8).Select(i => game.stats.Get((CoreStat)i)).ToArray();
-            if (previousStats != null && (game.State == GameState.Playing || game.State == GameState.Resolving))
-            {
-                var changes = Enumerable
-                    .Range(0, 8)
-                    .Where(i => Math.Abs(current[i] - previousStats[i]) >= 1)
-                    .Select(i => StatNames[i] + " " + (current[i] - previousStats[i]).ToString("+0;-0;0"))
-                    .ToArray();
-                if (changes.Length > 0)
-                {
-                    game.Notifications.Publish(string.Join(" · ", changes.Take(4)), NotificationKind.Info);
-                    hud.needs.color = Enumerable.Range(0, 8).Any(i => current[i] < previousStats[i])
-                        ? LifeRecordUI.Heading
-                        : LifeRecordUI.Body;
-                    statUntil = Time.unscaledTime + 2;
-                }
-            }
-
-            previousStats = current;
             Invalidate();
         }
 
@@ -877,7 +861,7 @@ namespace IanGame
             if (definition != null)
             {
                 game.Notifications.Publish(
-                    "NEW · " + definition.displayName + "\n아이템 → 인벤토리에서 확인할 수 있습니다.",
+                    "NEW · " + definition.displayName + "\n아이템 → 인벤토리",
                     NotificationKind.Item
                 );
             }
@@ -886,7 +870,7 @@ namespace IanGame
         void MissionCompleted(MissionData data)
         {
             game.Notifications.Publish(
-                "MISSION COMPLETE\n" + data.title + "\n" + data.completionMessage + "\n보상은 미션 창에서 수령하세요.",
+                data.title + " 완료\n미션 → 보상 받기",
                 NotificationKind.Mission
             );
         }
@@ -972,12 +956,6 @@ namespace IanGame
                     && !(viewportSize.x / Mathf.Max(1, viewportSize.y) < 1.4f && hud.NoticeVisible)
             );
             PresentLesson();
-            if (statUntil > 0 && Time.unscaledTime > statUntil)
-            {
-                statUntil = 0;
-                hud.needs.color = PixelUXWidgets.Ink;
-            }
-
             if (saveUntil > 0 && Time.unscaledTime > saveUntil)
             {
                 saveText.text = "";
@@ -1014,20 +992,23 @@ namespace IanGame
             viewportSize = ((RectTransform)shell.overlayRoot).rect.size;
             bool compact = safe.rect.width / Mathf.Max(1, safe.rect.height) < 1.4f;
             card.anchoredPosition = new Vector2(w * .018f, compact ? -160 : -68);
+            var mobile = hud.GetComponent<WorldMobileHUD>();
+            saveText.rectTransform.anchorMin = mobile && mobile.IsMobile ? new Vector2(.46f, .80f) : new Vector2(.72f, .02f);
+            saveText.rectTransform.anchorMax = mobile && mobile.IsMobile ? new Vector2(.97f, .84f) : new Vector2(.97f, .07f);
             float cardWidth = Mathf.Min(350, w * (compact ? .92f : .34f));
-            mission.maxVisibleLines = 2;
+            mission.maxVisibleLines = 1;
             mission.overflowMode = TextOverflowModes.Ellipsis;
             float missionHeight = Mathf.Min(
                 52,
-                mission.GetPreferredValues(mission.text, cardWidth - 24, Mathf.Infinity).y
+                mission.GetPreferredValues(mission.text, cardWidth - 50, Mathf.Infinity).y
             );
             float guideHeight = guide.GetPreferredValues(guide.text, cardWidth - 24, Mathf.Infinity).y;
             card.sizeDelta = new Vector2(cardWidth, missionHeight + guideHeight + 36);
             mission.rectTransform.anchorMin = guide.rectTransform.anchorMin = new Vector2(0, 1);
             mission.rectTransform.anchorMax = guide.rectTransform.anchorMax = Vector2.one;
             mission.rectTransform.pivot = guide.rectTransform.pivot = new Vector2(.5f, 1);
-            mission.rectTransform.anchoredPosition = new Vector2(0, -12);
-            mission.rectTransform.sizeDelta = new Vector2(-24, missionHeight);
+            mission.rectTransform.anchoredPosition = new Vector2(-12, -12);
+            mission.rectTransform.sizeDelta = new Vector2(-48, missionHeight);
             guide.rectTransform.anchoredPosition = new Vector2(0, -24 - missionHeight);
             guide.rectTransform.sizeDelta = new Vector2(-24, guideHeight);
             foreach (var panel in windows)

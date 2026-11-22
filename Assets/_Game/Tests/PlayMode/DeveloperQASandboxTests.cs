@@ -58,6 +58,22 @@ namespace IanQA.Tests
             }
         }
 
+        static IEnumerator WaitForPlayableScene()
+        {
+            var transitions = Context.GetType().GetField("transitions").GetValue(Context);
+            var current = transitions.GetType().GetProperty("CurrentScene");
+            var busy = transitions.GetType().GetProperty("IsTransitioning");
+            float deadline = Time.realtimeSinceStartup + 20;
+            while ((current.GetValue(transitions).ToString() == "Bootstrap" || (bool)busy.GetValue(transitions))
+                && Time.realtimeSinceStartup < deadline)
+            {
+                yield return null;
+            }
+
+            Assert.AreNotEqual("Bootstrap", current.GetValue(transitions).ToString());
+            Assert.IsFalse((bool)busy.GetValue(transitions));
+        }
+
         [UnityTest]
         public IEnumerator SandboxCommandsSaveAndRestorePreserveSourceFiles()
         {
@@ -79,13 +95,7 @@ namespace IanQA.Tests
             }
 
             Assert.NotNull(Context);
-            var transitions = Context.GetType().GetField("transitions").GetValue(Context);
-            while ((bool)transitions.GetType().GetProperty("IsTransitioning").GetValue(transitions))
-            {
-                yield return null;
-            }
-
-            yield return null;
+            yield return WaitForPlayableScene();
             var qa = Type("DeveloperQACenter").GetMethod("Ensure").Invoke(null, null);
             qa.GetType().GetMethod("Open").Invoke(qa, null);
             var sandbox = qa.GetType().GetProperty("Sandbox").GetValue(qa);
@@ -129,13 +139,7 @@ namespace IanQA.Tests
                 SceneManager.sceneLoaded -= IsolateBootstrap;
             }
 
-            var transitions = Context.GetType().GetField("transitions").GetValue(Context);
-            while ((bool)transitions.GetType().GetProperty("IsTransitioning").GetValue(transitions))
-            {
-                yield return null;
-            }
-
-            yield return null;
+            yield return WaitForPlayableScene();
             var qa = Type("DeveloperQACenter").GetMethod("Ensure").Invoke(null, null);
             qa.GetType().GetMethod("Open").Invoke(qa, null);
             qa.GetType().GetMethod("RunAll").Invoke(qa, null);
