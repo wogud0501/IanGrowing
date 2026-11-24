@@ -537,6 +537,7 @@ namespace IanGame
                         }
                     }
 
+                    LocalDiagnostics.Record(DiagnosticEvent.MissionCompleted);
                     Completed?.Invoke(mission);
                     CheckpointRequested?.Invoke();
                 }

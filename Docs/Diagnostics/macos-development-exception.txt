@@ -1,0 +1,29 @@
+IAN GROWING — LOCAL ERROR REPORT
+
+Report ID: ERR-20261124-105836-ac622e2e6b2d4a49b81c95d704af4fbb
+UTC: 2026-11-24T10:58:36.3455620Z
+Game version: 0.1.0
+Build ID: a7aed93b956745e194d7a4cb9e2d9d75
+Platform: OSXPlayer
+
+Type: NullReferenceException
+Message: Object reference not set to an instance of an object
+Scene: MainMenu
+Age: 0   Day: 1   Activity: Idle
+
+Class: IanGame.LocalDiagnosticsProbe
+Method: ReadLength
+File: LocalDiagnosticsProbe.cs
+Line: 36
+
+STACK TRACE
+IanGame.LocalDiagnosticsProbe.ReadLength (LocalDiagnosticsProbe.cs:36)
+System.Reflection.RuntimeMethodInfo.Invoke
+UnityEngine.Debug:LogException
+<Start>d__3:MoveNext (DiagnosticQARunner.cs:33)
+UnityEngine.SetupCoroutine:InvokeMoveNext (Coroutines.cs:17)
+
+RECENT EVENTS
+10:58:34 SessionStarted
+10:58:34 SceneEntered
+10:58:35 SceneEntered

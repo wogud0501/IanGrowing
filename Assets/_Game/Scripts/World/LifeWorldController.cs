@@ -522,6 +522,16 @@ namespace IanGame
 
         IEnumerator Activity(WorldInteractable o, int action, string food)
         {
+            var interactionKind = o.kind;
+            LocalDiagnostics.Record(DiagnosticEvent.InteractionStarted, interactionKind);
+            if (interactionKind == WorldInteractionKind.NPC)
+            {
+                LocalDiagnostics.Record(DiagnosticEvent.DialogueStarted);
+            }
+            else if (interactionKind == WorldInteractionKind.Sleep)
+            {
+                LocalDiagnostics.Record(DiagnosticEvent.SleepStarted);
+            }
             Player.ClearReaction();
             acting = true;
             string label = action == 3 ? "식사" : action == 4 ? "마시기" : action == 5 ? "잠자기" : o.title;
@@ -867,6 +877,11 @@ namespace IanGame
                 Service.State.pendingAction = "";
                 acting = false;
                 CapturePosition();
+                if (interactionKind == WorldInteractionKind.NPC)
+                {
+                    LocalDiagnostics.Record(DiagnosticEvent.DialogueEnded);
+                }
+                LocalDiagnostics.Record(DiagnosticEvent.InteractionEnded, interactionKind);
                 TraceActivity(o, sourceRoom, activityEntry, positionPolicy);
                 hud.Dim(0);
                 hud.Activity(null, 0);
@@ -1266,6 +1281,7 @@ namespace IanGame
                     return false;
                 }
 
+                LocalDiagnostics.Record(DiagnosticEvent.SceneTransitionRequested);
                 return GameContext.Instance.transitions.NavigateRoom(room.roomId, arrival, Player.Facing);
             }
 
@@ -1286,6 +1302,7 @@ namespace IanGame
                 return false;
             }
 
+            LocalDiagnostics.Record(DiagnosticEvent.SceneTransitionRequested);
             StartCoroutine(ChangeZone(zone, arrival));
             return true;
         }

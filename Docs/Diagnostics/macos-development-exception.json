@@ -1,0 +1,29 @@
+{
+    "id": "ERR-20261124-105836-ac622e2e6b2d4a49b81c95d704af4fbb",
+    "utc": "2026-11-24T10:58:36.3455620Z",
+    "type": "NullReferenceException",
+    "message": "Object reference not set to an instance of an object",
+    "scene": "MainMenu",
+    "version": "0.1.0",
+    "build": "a7aed93b956745e194d7a4cb9e2d9d75",
+    "platform": "OSXPlayer",
+    "activity": "Idle",
+    "age": 0,
+    "day": 1,
+    "sourceClass": "IanGame.LocalDiagnosticsProbe",
+    "method": "ReadLength",
+    "file": "LocalDiagnosticsProbe.cs",
+    "line": "36",
+    "stack": [
+        "IanGame.LocalDiagnosticsProbe.ReadLength (LocalDiagnosticsProbe.cs:36)",
+        "System.Reflection.RuntimeMethodInfo.Invoke",
+        "UnityEngine.Debug:LogException",
+        "<Start>d__3:MoveNext (DiagnosticQARunner.cs:33)",
+        "UnityEngine.SetupCoroutine:InvokeMoveNext (Coroutines.cs:17)"
+    ],
+    "events": [
+        "10:58:34 SessionStarted",
+        "10:58:34 SceneEntered",
+        "10:58:35 SceneEntered"
+    ]
+}

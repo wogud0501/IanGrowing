@@ -60,6 +60,7 @@ namespace IanGame
 
         void PublishWrite(bool success)
         {
+            LocalDiagnostics.Record(success ? DiagnosticEvent.SaveCompleted : DiagnosticEvent.SaveFailed);
             if (WriteCompleted == null)
             {
                 return;
@@ -327,6 +328,7 @@ namespace IanGame
             out string message
         )
         {
+            LocalDiagnostics.Record(DiagnosticEvent.SaveStarted);
             EnsureSlot();
 #if UNITY_EDITOR
             // A test session may outlive a scene or serialized-channel reset on Play exit.
@@ -495,6 +497,7 @@ namespace IanGame
             {
                 message = "저장 실패: " + e.Message;
                 PublishWrite(false);
+                LocalDiagnostics.HandledSaveError(e);
                 return false;
             }
         }

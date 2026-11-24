@@ -229,6 +229,7 @@ namespace IanGame
             }
             else if (preferenceTab == 4)
             {
+                actions.Add(("진단 및 오류 기록", shell.OpenDiagnostics));
                 settingsText.text = "<b>편의 기능</b>\n글자와 움직임을 편하게 조정하세요.";
                 actions.Add(
                     (

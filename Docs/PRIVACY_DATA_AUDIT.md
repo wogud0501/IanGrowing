@@ -25,3 +25,5 @@ SDK Privacy Manifest: 설치 IAP의 iOS PrivacyInfo에는 tracking=false, 수집
 참고: [Unity 플레이어 개인정보 정책](https://unity.com/legal/game-player-and-app-user-privacy-policy), [Apple Privacy Manifest](https://developer.apple.com/documentation/bundleresources/privacy-manifest-files), [Unity SDK 개인정보 관리](https://docs.unity.com/en-us/analytics/privacy-and-consent/manage-data-privacy). 정책은 공급자 일반 설명이며 이 앱의 실제 활성화 상태는 위 소스 감사와 별도로 판단합니다.
 
 패키지 원문 고지 55개와 폰트 라이선스를 앱 내 읽기 화면에 포함했습니다. [고지 목록](Release/LICENSE_INVENTORY.json). 전체 사용 아트/상업 에셋의 라이선스 검토 완료를 의미하지 않습니다.
+
+2026-11-24 변경 사항은 기기 내 오류 보고서와 명시적 공유, Unity Engine Diagnostics 전송 설정에 관한 [진단 개인정보 검토](DIAGNOSTIC_PRIVACY_REVIEW.md)에 기록했습니다.

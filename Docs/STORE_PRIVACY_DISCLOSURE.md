@@ -8,11 +8,11 @@ LEGAL REVIEW REQUIRED BEFORE RELEASE. [감사](PRIVACY_DATA_AUDIT.md)에 근거�
 | 이름·연락처·실제 생년월일·위치·광고 ID | 게임 코드에서 수집/서버 전송 없음 |
 | 진행·약관 확인·Ruby 원장 | 로컬 파일/PlayerPrefs. 운영자 서버 없음 |
 | Purchase History | 실제 구매 미연결. 향후 Store 거래/서버 검증 도입 시 수집·연결 여부 갱신 |
-| Analytics/Crash/Ads | 현재 서비스 비활성. 엔진·전이 SDK 최종 빌드 및 통신 확인은 남음 |
+| Analytics/Crash/Ads | 외부 서비스와 Engine Diagnostics 전송은 비활성. 게임 자체 TXT/JSON 진단은 기기 내 저장 및 이용자 선택 공유. 최종 SDK 통신 계측과 고객지원 수령 절차 검토 필요. [진단 감사](DIAGNOSTIC_PRIVACY_REVIEW.md) |
 | Tracking | 게임 코드에서 광고 추적 구현 없음. 최종 SDK 처리 확인 전 Store 답변 확정 불가 |
 | Data linked to user | 운영자 계정 없음. 향후 Store/서버 식별자 연결 여부 검토 필요 |
 | Encryption in transit | 게임 자체 서버 통신 없음. 네이티브 SDK가 포함하면 실제 전송 프로토콜 확인 필요. 일괄 Yes 답변 금지 |
-| Deletion | OS 앱 데이터 삭제/앱 제거. 계정 삭제 대상 없음. OS 백업은 해당 플랫폼 설정에 따름 |
+| Deletion | 게임 설정에서 진단 기록 개별·전체 삭제. 외부 복사본은 별도 관리. OS 앱 데이터 삭제/앱 제거. 계정 삭제 대상 없음. OS 백업은 해당 플랫폼 설정에 따름 |
 | Privacy Policy URL | 미등록, 출시 차단 |
 | Support URL | 미등록, 출시 차단 |
 

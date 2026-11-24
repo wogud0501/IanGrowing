@@ -145,7 +145,7 @@ namespace IanGame.Editor
                         documentId = x.Item1,
                         title = x.Item2,
                         locale = "ko",
-                        version = "0.1.0-draft",
+                        version = x.Item1 == "terms" || x.Item1 == "privacy" ? "0.2.0-draft" : "0.1.0-draft",
                         body = AssetDatabase.LoadAssetAtPath<TextAsset>(
                             "Assets/Resources/Legal/ko/" + x.Item1 + ".txt"
                         ),

@@ -1,0 +1,10 @@
+apply plugin: 'com.android.library'
+
+android {
+    namespace 'com.iangrowing.diagnostics'
+    compileSdkVersion project.property('unity.compileSdkVersion').toInteger()
+    defaultConfig {
+        minSdkVersion project.property('unity.minSdkVersion').toInteger()
+        consumerProguardFiles 'consumer-rules.pro'
+    }
+}

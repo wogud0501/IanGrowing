@@ -808,7 +808,10 @@ PlayerSettings:
   il2cppCompilerConfiguration: {}
   il2cppCodeGeneration: {}
   il2cppLTOMode: {}
-  il2cppStacktraceInformation: {}
+  il2cppStacktraceInformation:
+    Android: 1
+    Standalone: 1
+    iPhone: 1
   managedStrippingLevel: {}
   incrementalIl2cppBuild: {}
   suppressCommonWarnings: 1

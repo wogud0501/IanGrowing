@@ -100,6 +100,11 @@ namespace IanGame
             }
 
             Reflow();
+            if (!entering && shell.Depth == 0 && LocalDiagnostics.Current && LocalDiagnostics.Current.ConsumeNotice())
+            {
+                shell.ConfirmSession("지난 실행 확인", "이전 게임 실행이 정상적으로 종료되지 않았을 수 있습니다.",
+                    "오류 기록 보기", shell.OpenDiagnostics);
+            }
             var transitions = GameContext.Instance.transitions;
             if (entering && !transitions.IsTransitioning && !string.IsNullOrEmpty(transitions.LastError))
             {

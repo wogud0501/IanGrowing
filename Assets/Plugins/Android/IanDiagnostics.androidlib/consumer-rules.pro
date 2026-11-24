@@ -1,0 +1,2 @@
+-keep class com.iangrowing.diagnostics.ExportReport { *; }
+-keep class com.iangrowing.diagnostics.ReportProvider { *; }
