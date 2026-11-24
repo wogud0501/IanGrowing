@@ -38,7 +38,7 @@ namespace IanGame.Editor
             EditorGUILayout.LabelField("행동 지점", anchor);
             for (int offset = 0; offset <= 7; offset++)
             {
-                int mask = 1 << ((day - 1 + offset) % 7);
+                int mask = 1 << TimeManager.WeekdayIndex(day + offset);
                 var next = npc
                     .schedule.Where(e => (e.dayMask & mask) != 0 && (offset > 0 || e.hour * 60 + e.minute > minute))
                     .OrderBy(e => e.hour * 60 + e.minute)

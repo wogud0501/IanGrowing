@@ -12,6 +12,7 @@ namespace IanGame
         public string fixedPlace;
         public bool world;
         float next;
+        (int age, int day, int minute) displayed = (-1, -1, -1);
 
         static string HomePlace(GameManager game)
         {
@@ -39,25 +40,31 @@ namespace IanGame
 
         void Update()
         {
-            if (Time.unscaledTime < next || GameContext.Instance == null)
+            if (GameContext.Instance == null)
+            {
+                return;
+            }
+
+            var game = GameContext.Instance.game;
+            int minuteOfDay = (int)(game.clock.SubDaySeconds / 60);
+            var date = (game.growth.Age, game.clock.Day, minuteOfDay);
+            if (displayed != date)
+            {
+                displayed = date;
+                time.text = $"{date.Age}세 · DAY {date.Day} · {game.clock.WeekdayName} · {minuteOfDay / 60:00}:{minuteOfDay % 60:00}";
+            }
+
+            if (Time.unscaledTime < next)
             {
                 return;
             }
 
             next = Time.unscaledTime + .25f;
-            var game = GameContext.Instance.game;
             var w = game.world;
-            int hour = (int)(game.clock.SubDaySeconds / 3600),
-                minute = (int)(game.clock.SubDaySeconds / 60) % 60;
             place.text =
                 world && w != null && w.Active
                     ? (w.State.zone == "home" ? HomePlace(game) : w.rules.Zone(w.State.zone).title)
                     : fixedPlace;
-            string clock = $"{game.growth.Age}세 · DAY {game.clock.Day}  {hour:00}:{minute:00}";
-            if (time.text != clock)
-            {
-                time.text = clock;
-            }
 
             if (message && !string.IsNullOrEmpty(message.text))
             {

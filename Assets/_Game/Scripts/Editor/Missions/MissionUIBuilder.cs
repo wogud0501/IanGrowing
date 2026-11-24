@@ -50,7 +50,7 @@ namespace IanGame.Editor
         {
             if (font == null)
             {
-                font = AssetDatabase.LoadAssetAtPath<TMP_FontAsset>("Assets/_Game/UI/Fonts/IanKoreanSDF.asset");
+                font = StardustTypography.Main;
             }
 
             var text = Rect(p, n, x, y, w, h).gameObject.AddComponent<TextMeshProUGUI>();

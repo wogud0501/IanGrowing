@@ -27,6 +27,9 @@ namespace IanGame
     public sealed class StreetVehicle
     {
         public Rigidbody2D body;
+
+        [NonSerialized]
+        public BoxCollider2D footprint;
         public SpriteRenderer visual;
         public SpriteRenderer headlights;
 
@@ -183,6 +186,11 @@ namespace IanGame
                     if (show && !v.body.simulated && Vector2.Distance(v.body.position, world.Player.Position) < 3)
                     {
                         v.body.position = Origin + new Vector2(-v.direction * 16, v.laneY);
+                    }
+
+                    if (show && !v.body.simulated && PersonInSweep(v, v.body.position, 0))
+                    {
+                        show = false;
                     }
 
                     if (show)
@@ -352,6 +360,29 @@ namespace IanGame
             return Mathf.Abs(player.x) < 2.7f && player.y > -6.7f && player.y < -2.1f;
         }
 
+        bool PersonInSweep(StreetVehicle vehicle, Vector2 position, float stepX)
+        {
+            if (!vehicle.footprint)
+            {
+                vehicle.footprint = vehicle.body.GetComponent<BoxCollider2D>();
+            }
+
+            var collider = vehicle.footprint;
+            var half = new Vector2(vehicle.length * .5f, .4f);
+            if (collider)
+            {
+                position += (Vector2)collider.transform.TransformVector(collider.offset);
+                var scale = collider.transform.lossyScale;
+                half = new Vector2(collider.size.x * Mathf.Abs(scale.x), collider.size.y * Mathf.Abs(scale.y)) * .5f;
+            }
+
+            // Keep the pedestrian's collision circle outside the full upcoming physics step.
+            half += Vector2.one * .27f;
+            var area = Rect.MinMaxRect(position.x - half.x + Mathf.Min(0, stepX), position.y - half.y,
+                position.x + half.x + Mathf.Max(0, stepX), position.y + half.y);
+            return area.Contains(world.Player.Position) || scheduler && scheduler.ResidentInStreetFootprint(area, zoneId);
+        }
+
         void FixedUpdate()
         {
             if (world == null || world.Service == null)
@@ -445,7 +476,7 @@ namespace IanGame
                     }
 
                     Vector2 spawn = new Vector2(-v.direction * 16.8f, v.laneY);
-                    if (Vector2.Distance(spawn, player) > 3)
+                    if (Vector2.Distance(spawn, player) > 3 && !PersonInSweep(v, Origin + spawn, 0))
                     {
                         bool free = true;
                         foreach (var other in vehicles)
@@ -483,7 +514,15 @@ namespace IanGame
                 }
                 else
                 {
-                    v.body.MovePosition(Origin + to);
+                    if (PersonInSweep(v, v.body.position, to.x - at.x))
+                    {
+                        v.velocity = 0;
+                        v.body.linearVelocity = Vector2.zero;
+                    }
+                    else
+                    {
+                        v.body.MovePosition(Origin + to);
+                    }
                 }
 
                 v.visual.sortingOrder = 1000 - Mathf.RoundToInt(v.body.position.y * 100);

@@ -213,7 +213,7 @@ namespace IanGame.Editor
 
         void Fonts(string label)
         {
-            string[] allowed = { "IanBodyPixel", "IanHeadingPixel", "IanTitlePixel", "IanNumbersPixel" };
+            string[] allowed = { "PFStardust_Main" };
             var texts = UnityEngine.Object.FindObjectsByType<TMP_Text>(FindObjectsInactive.Include);
             Check(
                 texts.All(t => t.font != null && allowed.Contains(t.font.name)),
@@ -240,11 +240,12 @@ namespace IanGame.Editor
             yield return Route(SceneId.MainMenu);
             Fonts("MainMenu");
             var body = UnityEditor.AssetDatabase.LoadAssetAtPath<TMP_FontAsset>(
-                "Assets/_Game/UI/Pixel/Fonts/Galmuri/IanBodyPixel.asset"
+                "Assets/_Game/UI/Pixel/Fonts/PFStardust/PFStardust_Main.asset"
             );
             Check(
-                Enumerable.Range(0xAC00, 11172).All(c => body.HasCharacter((char)c)),
-                "All 11172 modern Hangul syllables baked"
+                "이안키우기0123456789금요일₩".All(c => body.HasCharacter(c, true, true))
+                    && body.fallbackFontAssetTable.Any(a => a.sourceFontFile && a.faceInfo.familyName.Contains("Stardust")),
+                "Game glyphs and extended Stardust source"
             );
             Check(
                 body.atlasPopulationMode == AtlasPopulationMode.Static

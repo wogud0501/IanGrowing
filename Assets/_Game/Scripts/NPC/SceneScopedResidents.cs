@@ -174,6 +174,7 @@ namespace IanGame
             var r = new Resident
             {
                 actor = a,
+                visualOrigin = PrepareArtwork(a),
                 definition = d,
                 animation = a.GetComponent<WorldActorAnimation>(),
                 baseColor = a.visual.color,

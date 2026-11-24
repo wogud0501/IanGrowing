@@ -3,8 +3,7 @@ using UnityEngine;
 
 namespace IanGame
 {
-    // Authored front-facing workstation frames include the chair, desk and hands.
-    // The reserved NPC remains the navigation/interaction owner; furniture is world-owned.
+    // Keep the employee's own body and animation through arrival, work and departure.
     [DefaultExecutionOrder(100)]
     public sealed class WorldWorkstationPresentation : MonoBehaviour
     {
@@ -16,18 +15,6 @@ namespace IanGame
         public bool IsWorking { get; private set; }
         public int Frame { get; private set; }
 
-        float phase;
-
-        void Awake()
-        {
-            foreach (char c in slot.staffId)
-            {
-                phase = (phase * 31 + c) % 101;
-            }
-
-            phase *= .071f;
-        }
-
         void LateUpdate()
         {
             if (slot == null)
@@ -35,11 +22,11 @@ namespace IanGame
                 return;
             }
 
-            if (actor == null)
+            if (actor == null || actor.npcId != slot.Occupant)
             {
                 actor = GameContext
                     .Instance?.game.world.Host?.GetComponent<WorldNPCScheduler>()
-                    ?.actors.FirstOrDefault(a => a.npcId == slot.staffId);
+                    ?.actors.FirstOrDefault(a => a && a.npcId == slot.Occupant);
             }
 
             if (actor == null)
@@ -63,19 +50,14 @@ namespace IanGame
             bool active =
                 local
                 && slot.Occupant == actor.npcId
-                && Vector2.Distance(actor.transform.position, slot.Point) < .2f
+                && slot.IsOccupied
+                && Vector2.Distance(actor.transform.position, slot.ApproachPoint) < .2f
                 && world != null
                 && (world.Motion == ActorMotion.UseComputer || world.Motion == ActorMotion.Work);
             if (active)
             {
-                float t = (Time.unscaledTime + phase) % 8;
-                Frame =
-                    t < 5 ? Mathf.FloorToInt(t * 3) % 2
-                    : t < 7 ? 2
-                    : 3;
-                working.sprite = frames[Frame];
-                working.sortingOrder = 1000 - Mathf.RoundToInt(transform.position.y * 100) + 2;
-                actor.visual.enabled = false;
+                Frame = world.Frame;
+                actor.visual.enabled = true;
                 if (actor.shadow != null)
                 {
                     actor.shadow.enabled = false;
@@ -90,8 +72,8 @@ namespace IanGame
                 }
             }
 
-            working.enabled = active;
-            empty.enabled = !active;
+            working.enabled = false;
+            empty.enabled = true;
             IsWorking = active;
         }
 

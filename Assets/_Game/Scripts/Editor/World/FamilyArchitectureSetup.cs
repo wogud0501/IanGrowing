@@ -312,6 +312,10 @@ namespace IanGame.Editor
                     var a = FamilyAction(o, LifeActionVisual.Dining, o.UsePoint, Vector2.zero);
                     a.frames = Array.Empty<Sprite>();
                     a.overlay.enabled = false;
+                    a.chairSprite = null;
+                    a.mealProp = null;
+                    a.emptyMealProp = null;
+                    a.tableOcclusion = false;
                     a.seat = slot;
                     a.facing = Vector2.down;
                 }

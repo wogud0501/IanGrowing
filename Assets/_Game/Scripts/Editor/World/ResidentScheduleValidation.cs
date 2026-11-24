@@ -34,7 +34,14 @@ namespace IanGame.Editor
                     {
                         if (world.TryGetComponent<ResidentApartment>(out var apartment))
                         {
+                            if (!room.floorPlan || string.IsNullOrEmpty(room.homeId))
+                            {
+                                problems.Add(room.roomId + " missing floor plan or household");
+                                continue;
+                            }
+
                             apartment.Furnish(world, room);
+                            ValidateApartment(world, room, problems);
                         }
 
                         var beds = world
@@ -158,6 +165,38 @@ namespace IanGame.Editor
             }
 
             Debug.Log($"Resident schedules validated for {rules.npcs.Length} residents across seven game days.");
+        }
+
+        static void ValidateApartment(LifeWorldController world, RoomSceneDefinition room, HashSet<string> problems)
+        {
+            var members = world.Room.rules.npcs.Where(n => !n.ambient && n.homeZone == room.roomId).ToArray();
+            var beds = world.objects.Where(o => o.kind == WorldInteractionKind.Sleep).ToArray();
+            var origin = world.Room.rules.Zone(room.roomId).origin;
+            if (beds.Length != members.Length || !room.floorPlan.doorways.Any())
+            {
+                problems.Add(room.roomId + " bedroom capacity or doorway missing");
+            }
+
+            foreach (var member in members)
+            {
+                var bed = beds.SingleOrDefault(b => b.id == member.residentBedId);
+                var bedding = bed ? bed.GetComponent<BedQuilt>() : null;
+                if (!bedding || !bedding.approachAnchor || !bedding.sitAnchor || !bedding.pillowAnchor
+                    || !bedding.exitAnchor || bed.GetComponent<WorldActivitySlot>()?.staffId != member.npcId)
+                {
+                    problems.Add(room.roomId + " invalid personal berth for " + member.npcId);
+                    continue;
+                }
+
+                foreach (var entry in member.schedule.Where(e => e.action == NPCDailyAction.Sleep))
+                {
+                    if (entry.zone != room.roomId || entry.objectId != bed.id
+                        || Vector2.Distance(origin + entry.position, bed.Point) > .025f)
+                    {
+                        problems.Add(member.npcId + " offscreen bed differs from physical bedside");
+                    }
+                }
+            }
         }
     }
 }

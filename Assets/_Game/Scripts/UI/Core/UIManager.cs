@@ -318,7 +318,7 @@ namespace IanGame
             {
                 header.text =
                     "DAY "
-                    + game.clock.Day.ToString("000")
+                    + game.clock.Day + " · " + game.clock.WeekdayName
                     + " / "
                     + (game.growth == null ? 0 : game.growth.Age)
                     + "세\n현금 "

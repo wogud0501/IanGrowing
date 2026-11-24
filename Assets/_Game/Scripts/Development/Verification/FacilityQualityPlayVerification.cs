@@ -140,7 +140,7 @@ namespace IanGame.Editor
                     var actor = scheduler.actors.First(a => a.npcId == slot.Occupant);
                     check(
                         slot.IsOccupied
-                            && Vector2.Distance(actor.transform.position, slot.Point) < .03f
+                            && Vector2.Distance(actor.transform.position, slot.seated ? slot.ApproachPoint : slot.Point) < .03f
                             && visual.IsPresenting,
                         "Actor aligned to actual furniture " + id
                     );
@@ -153,7 +153,7 @@ namespace IanGame.Editor
                     float end = Time.unscaledTime + 1.5f;
                     while (Time.unscaledTime < end)
                     {
-                        frames.Add(visual.occupied.sprite);
+                        frames.Add(slot.seated ? actor.visual.sprite : visual.occupied.sprite);
                         yield return null;
                     }
 
@@ -279,7 +279,7 @@ namespace IanGame.Editor
             {
                 var actor = scheduler.actors.First(a => a.npcId == d.slot.Occupant);
                 check(
-                    Vector2.Distance(actor.transform.position, d.slot.Point) < .03f,
+                    Vector2.Distance(actor.transform.position, d.slot.seated ? d.slot.ApproachPoint : d.slot.Point) < .03f,
                     "Diner sits exactly on chair " + actor.npcId
                 );
                 var frames = new HashSet<Sprite>();

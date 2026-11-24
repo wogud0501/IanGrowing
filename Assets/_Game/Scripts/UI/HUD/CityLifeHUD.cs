@@ -249,12 +249,12 @@ namespace IanGame
             mini.rectTransform.pivot = Vector2.one;
             mini.rectTransform.anchoredPosition = new Vector2(-24, -76);
             MiniMap = mini.gameObject;
-            BuildView(mini.transform, new Vector2(.06f, .12f), new Vector2(.94f, .81f));
+            BuildView(mini.transform, new Vector2(.06f, .12f), new Vector2(.94f, .65f));
             Button(
                 "ExpandMap",
                 mini.transform,
                 "지도 열기",
-                new Vector2(.06f, .82f),
+                new Vector2(.06f, .66f),
                 new Vector2(.94f, .99f),
                 Vector2.zero,
                 Vector2.zero,

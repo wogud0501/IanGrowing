@@ -206,7 +206,7 @@ namespace IanGame.Editor
             notice.transform.position = new Vector3(0, 2.2f, 2.83f);
             notice.transform.localScale = Vector3.one * .065f;
             var text = notice.GetComponent<TMPro.TextMeshPro>();
-            text.font = AssetDatabase.LoadAssetAtPath<TMPro.TMP_FontAsset>("Assets/_Game/UI/Fonts/IanKoreanSDF.asset");
+            text.font = StardustTypography.Main;
             text.text = "HAPPINESS\nSOLD SEPARATELY";
             text.fontSize = 38;
             text.alignment = TMPro.TextAlignmentOptions.Center;

@@ -5,7 +5,6 @@ using TMPro;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
-using UnityEngine.TextCore.LowLevel;
 using UnityEngine.UI;
 
 namespace IanGame.Editor
@@ -18,43 +17,6 @@ namespace IanGame.Editor
         static TMP_FontAsset numbers;
         static Sprite panel;
 
-        static TMP_FontAsset Font(string source, string file, string name, string chars, int size = 2048)
-        {
-            string path = PixelFontSystemBuilder.Folder + file + ".asset";
-            var f = AssetDatabase.LoadAssetAtPath<TMP_FontAsset>(path);
-            if (f != null)
-            {
-                return f;
-            }
-
-            f = TMP_FontAsset.CreateFontAsset(
-                AssetDatabase.LoadAssetAtPath<UnityEngine.Font>(PixelFontSystemBuilder.Folder + source),
-                18,
-                1,
-                GlyphRenderMode.RASTER_HINTED,
-                size,
-                size,
-                AtlasPopulationMode.Dynamic,
-                true
-            );
-            f.name = name;
-            AssetDatabase.CreateAsset(f, path);
-            AssetDatabase.AddObjectToAsset(f.material, f);
-            string missing;
-            f.TryAddCharacters(chars, out missing);
-            f.atlasPopulationMode = AtlasPopulationMode.Static;
-            foreach (var t in f.atlasTextures)
-            {
-                t.filterMode = FilterMode.Point;
-                if (!AssetDatabase.Contains(t))
-                {
-                    AssetDatabase.AddObjectToAsset(t, f);
-                }
-            }
-
-            return f;
-        }
-
         public static void Build()
         {
             if (Application.isPlaying)
@@ -64,49 +26,7 @@ namespace IanGame.Editor
 
             theme = AssetDatabase.LoadAssetAtPath<PixelUITheme>("Assets/_Game/UI/Pixel/PixelTheme.asset");
             panel = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/_Game/Art/Commercial/UI/Panel_64.png");
-            string chars =
-                new string(
-                    Enumerable
-                        .Range(0xAC00, 11172)
-                        .Concat(Enumerable.Range(0x3131, 94))
-                        .Concat(Enumerable.Range(32, 95))
-                        .Select(c => (char)c)
-                        .ToArray()
-                ) + "·₩→♥★…“”‘’—–";
-            body = Font("Galmuri11.ttf", "IanBodyPixel18", "IanBodyPixel", chars);
-            heading = Font(
-                "Galmuri11-Bold.ttf",
-                "IanHeadingPixel18",
-                "IanHeadingPixel",
-                PixelFontSystemBuilder.Corpus(),
-                1024
-            );
-            numbers = Font("Galmuri11.ttf", "IanNumbersPixel18", "IanNumbersPixel", "0123456789.,+-/%G: ", 512);
-            body.fallbackFontAssetTable = new System.Collections.Generic.List<TMP_FontAsset>
-            {
-                AssetDatabase.LoadAssetAtPath<TMP_FontAsset>(
-                    PixelFontSystemBuilder.Folder + "IanSymbolsFallback.asset"
-                ),
-            };
-            heading.fallbackFontAssetTable = new System.Collections.Generic.List<TMP_FontAsset> { body };
-            numbers.fallbackFontAssetTable = new System.Collections.Generic.List<TMP_FontAsset> { body };
-            foreach (var f in new[] { body, heading, numbers })
-            {
-                float a = Enumerable
-                    .Range('0', 10)
-                    .Max(c => f.characterLookupTable[(uint)c].glyph.metrics.horizontalAdvance);
-                foreach (int c in Enumerable.Range('0', 10))
-                {
-                    var g = f.characterLookupTable[(uint)c].glyph;
-                    var m = g.metrics;
-                    m.horizontalBearingX += (a - m.horizontalAdvance) / 2;
-                    m.horizontalAdvance = a;
-                    g.metrics = m;
-                }
-
-                EditorUtility.SetDirty(f);
-            }
-
+            body = heading = numbers = StardustTypography.Main;
             theme.font = body;
             EditorUtility.SetDirty(theme);
             foreach (
@@ -240,9 +160,7 @@ namespace IanGame.Editor
         {
             var r = Rect(parent, name, min, max);
             var t = r.gameObject.AddComponent<TextMeshProUGUI>();
-            t.font =
-                body
-                ?? AssetDatabase.LoadAssetAtPath<TMP_FontAsset>(PixelFontSystemBuilder.Folder + "IanBodyPixel18.asset");
+            t.font = body ?? StardustTypography.Main;
             t.fontSize = size;
             t.color = new Color32(255, 238, 205, 255);
             t.text = value;

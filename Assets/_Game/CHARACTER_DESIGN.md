@@ -1,9 +1,10 @@
 # 이안 공식 캐릭터 디자인 기준
 게임: 이안 키우기 — BLACK COMEDY EDITION
-이 문서 및 Reference/Ian_OfficialDesign.png는 이후 캐릭터 관련 작업의 기준입니다.
+이 문서 및 Reference/Ian_OfficialTurnaround.png는 이후 캐릭터 관련 작업의 기준입니다.
 
 ## 단일 기준
-- 공식 원본: Art/Characters/Ian/Reference/Ian_OfficialDesign.png (사용자 업로드 원본 그대로).
+- 공식 다각도 원본은 [이안 기본 외형 시트](Art/Characters/Ian/Reference/Ian_OfficialTurnaround.png)입니다. 2026-11-22에 사용자가 첨부한 PNG를 그대로 보존합니다. 정면·사선·측면·후면과 위·아래 시점을 이 시트로 확인합니다.
+- 이전 정면 자료는 Art/Characters/Ian/Reference/Ian_OfficialDesign.png에 보존합니다.
 - 게임용 파생본: Art/Characters/Ian/Sprites/Ian_Base_Cutout.png (built-in image_gen으로 흰 배경을 투명하게 처리한 파생 이미지).
 - 파생본은 원본 픽셀과 완전히 동일한 복사본이 아닙니다. 디테일 판단 시 공식 원본이 우선입니다.
 - 중앙 데이터: Data/IanOfficialIdentity.asset.

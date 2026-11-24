@@ -8,7 +8,6 @@ namespace IanGame.Editor
 {
     public static partial class WorldLayoutAuthoring
     {
-        const string SofaPath = "Assets/_Game/Art/Interiors/FamilySofaNorth.png";
         const string Furniture = "Assets/_Game/Art/VisualRebuild/Furniture.png";
         const string Architecture = "Assets/_Game/Art/VisualRebuild/Architecture.png";
 
@@ -93,16 +92,19 @@ namespace IanGame.Editor
             return child;
         }
 
-        static void SofaSeat(LifeWorldController world, string id, float side)
+        static void SofaSeat(LifeWorldController world, string id)
         {
             var slot = Object(world, id).GetComponent<WorldActivitySlot>();
-            var approach = new Vector2(side * 1.4f, -.33f);
+            var sofa = Object(world, "family-sofa").transform;
+            var lateral = id == "family-tv-mother" ? -.64f : .64f;
+            slot.transform.position = sofa.position + Vector3.right * lateral;
             slot.useSeatAnchors = true;
             slot.seated = true;
-            slot.seatAnchor = Anchor(slot.transform, "Seat", slot.transform.InverseTransformVector(Vector2.up * .28f));
-            slot.approachAnchor = Anchor(slot.transform, "Approach", approach);
+            slot.seatAnchor = Anchor(slot.transform, "Seat", Vector2.up * .505f);
+            slot.soleAnchor = Anchor(slot.transform, "Soles", Vector2.down * .055f);
+            slot.approachAnchor = Anchor(slot.transform, "Approach", Vector2.down * .53f);
             slot.standUpAnchor = slot.approachAnchor;
-            slot.facing = Vector2.up;
+            slot.facing = Vector2.down;
             slot.activityMotion = ActorMotion.SeatedIdle;
         }
 
@@ -152,15 +154,20 @@ namespace IanGame.Editor
             {
                 case "family-living":
                     var couch = Object(world, "family-sofa").visual;
-                    couch.sprite = AssetDatabase.LoadAssetAtPath<Sprite>(SofaPath);
-                    if (!couch.sprite)
-                    {
-                        throw new InvalidOperationException("Missing family sofa sprite.");
-                    }
-
-                    couch.transform.localScale = Vector3.one * (3f / couch.sprite.bounds.size.x);
-                    SofaSeat(world, "family-tv-mother", -1);
-                    SofaSeat(world, "family-tv-father", 1);
+                    Place(world, Object(world, "family-sofa").transform, -1, .35f);
+                    couch.sprite = SpriteFrom(Furniture, "Settee");
+                    couch.transform.localScale = new Vector3(
+                        2.9f / couch.sprite.bounds.size.x, 1.35f / couch.sprite.bounds.size.y, 1);
+                    var sofaBox = Object(world, "family-sofa").GetComponent<BoxCollider2D>();
+                    sofaBox.offset = Vector2.up * .45f;
+                    sofaBox.size = new Vector2(2.8f, .86f);
+                    Place(world, Object(world, "family-coffee-table").transform, -3.25f, -.98f);
+                    var television = Named(world, "Family TV");
+                    Place(world, television, -.58f, -2.92f);
+                    television.GetComponent<SpriteRenderer>().sprite =
+                        AssetDatabase.LoadAssetAtPath<Sprite>("Assets/_Game/Art/Interiors/FamilyTVRear.png");
+                    SofaSeat(world, "family-tv-mother");
+                    SofaSeat(world, "family-tv-father");
                     break;
 
                 case "family-bathroom":

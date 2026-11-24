@@ -149,7 +149,7 @@ namespace IanGame
             {
                 SpriteRenderer body = sleeper;
                 int pose = recline < .18f ? 0 : recline < .75f ? 1
-                    : atRest ? 4 : coverage > .015f && coverage < .98f ? 3 : 2;
+                    : atRest || coverage >= .98f ? 4 : coverage > .015f ? 3 : 2;
                 if (resident)
                 {
                     if (!residentBody)
@@ -198,14 +198,15 @@ namespace IanGame
         {
             body.sprite = sprite;
             body.flipX = false;
-            body.transform.rotation = mattress.transform.rotation;
+            body.transform.rotation = Quaternion.Slerp(Quaternion.identity, mattress.transform.rotation, recline);
             float worldBed = bed.size.y * Mathf.Abs(mattress.transform.lossyScale.y);
             float h = Mathf.Min(height, worldBed * .68f) * Mathf.Lerp(.91f, 1, recline);
             var parentScale = body.transform.parent.lossyScale;
             float factor = h / sprite.bounds.size.y;
             body.transform.localScale = new Vector3(factor / Mathf.Abs(parentScale.x),
                 factor / Mathf.Abs(parentScale.y), 1);
-            Vector3 edge = mattress.transform.InverseTransformPoint(bedside.position);
+            Vector3 approach = bedside ? bedside.position : sleeper.transform.position;
+            Vector3 edge = mattress.transform.InverseTransformPoint(approach);
             edge.x = Mathf.Clamp(edge.x, bed.center.x - bed.size.x * .36f, bed.center.x + bed.size.x * .36f);
             edge.y = Mathf.Clamp(edge.y, foot + bed.size.y * .12f, foot + bed.size.y * .35f);
             if (sitAnchor)
@@ -213,16 +214,16 @@ namespace IanGame
                 edge = mattress.transform.InverseTransformPoint(sitAnchor.position);
             }
 
-            float pillow = pillowAnchor ? mattress.transform.InverseTransformPoint(pillowAnchor.position).y
-                : bed.min.y + bed.size.y * .84f;
-            var lying = new Vector3(bed.center.x, pillow - h / Mathf.Abs(mattress.transform.lossyScale.y), 0);
+            var pillow = pillowAnchor ? mattress.transform.InverseTransformPoint(pillowAnchor.position)
+                : new Vector3(bed.center.x, bed.min.y + bed.size.y * .84f, 0);
+            var lying = pillow - Vector3.up * (h / Mathf.Abs(mattress.transform.lossyScale.y));
             if (atRest)
             {
                 lying.y += Mathf.Sin(Time.time * 1.64f) * bed.size.y * .002f;
             }
 
             var contact = mattress.transform.TransformPoint(Vector3.Lerp(edge, lying, recline));
-            Vector3 start = resident || !player ? bedside.position : player.transform.position;
+            Vector3 start = resident || !player ? approach : player.transform.position;
             body.transform.position = Vector3.Lerp(start, contact, entry);
         }
 

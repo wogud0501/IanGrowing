@@ -207,7 +207,11 @@ namespace IanGame
 
         void ReleaseScopedActor(Resident resident)
         {
-            resident.quilt?.Release(resident.actor.visual);
+            if (resident.quilt && resident.actor)
+            {
+                resident.quilt.Release(resident.actor.visual);
+            }
+
             if (resident.definition.ambient && resident.actor != null)
             {
                 if (resident.heldItem != null)
@@ -215,6 +219,8 @@ namespace IanGame
                     resident.heldItem.enabled = false;
                 }
 
+                resident.bend?.Hide();
+                resident.actor.visual.transform.localPosition = resident.visualOrigin;
                 resident.actor.visual.color = resident.baseColor;
                 resident.actor.gameObject.SetActive(false);
                 ambientPool[resident.definition.npcId] = resident.actor;

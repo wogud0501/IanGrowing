@@ -20,6 +20,14 @@ namespace IanGame
             bar = GetComponentInChildren<CompactWorldStatusBar>(true);
         }
 
+        static void HeaderLine(RectTransform line, float bottom, float top)
+        {
+            line.anchorMin = new Vector2(0, bottom);
+            line.anchorMax = new Vector2(1, top);
+            line.offsetMin = new Vector2(12, 0);
+            line.offsetMax = new Vector2(-12, 0);
+        }
+
         void LateUpdate()
         {
             if (bar == null || hud.cash == null)
@@ -72,16 +80,40 @@ namespace IanGame
             place.flexibleWidth = 1;
             float available = compactStack ? width * .964f : width * .964f - walletWidth - 18;
             float wanted = place.preferredWidth + clockWidth + 58;
+            bool twoRows = available < wanted;
+            var row = bar.GetComponent<HorizontalLayoutGroup>();
+            if (row && row.enabled == twoRows)
+            {
+                row.enabled = !twoRows;
+                LayoutRebuilder.MarkLayoutForRebuild(header);
+            }
+
+            float headerHeight = twoRows ? Mathf.Max(68, bar.time.preferredHeight + bar.place.preferredHeight + 8)
+                : compactStack ? 64 : 48;
+            if (twoRows)
+            {
+                HeaderLine(bar.place.rectTransform, .5f, 1);
+                HeaderLine(bar.time.rectTransform, 0, .5f);
+            }
+
             if (compactStack)
             {
-                wallet.anchoredPosition = new Vector2(-width * .018f, -84);
+                wallet.anchoredPosition = new Vector2(-width * .018f, -headerHeight - 20);
                 wallet.sizeDelta = new Vector2(Mathf.Min(walletWidth, width * .964f), 64);
             }
 
             header.anchorMin = header.anchorMax = new Vector2(0, 1);
             header.pivot = new Vector2(0, 1);
             header.anchoredPosition = new Vector2(width * .018f, -12);
-            header.sizeDelta = new Vector2(Mathf.Min(available, wanted), compactStack ? 64 : 48);
+            header.sizeDelta = new Vector2(Mathf.Min(available, wanted), headerHeight);
+            var city = hud.GetComponent<CityLifeHUD>();
+            if (city && city.MiniMap)
+            {
+                var map = (RectTransform)city.MiniMap.transform;
+                map.anchoredPosition = new Vector2(wallet.anchoredPosition.x,
+                    wallet.anchoredPosition.y - wallet.sizeDelta.y - 8);
+            }
+
             var mobile = hud.GetComponent<WorldMobileHUD>();
             if (mobile == null || !mobile.IsMobile)
             {

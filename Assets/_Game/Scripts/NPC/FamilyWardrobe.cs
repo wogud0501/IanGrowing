@@ -7,38 +7,21 @@ namespace IanGame
     {
         public const float ChangeDuration = .9f;
         static Sprite[,] frames;
+        static Sprite[,] homewear;
         static Sprite[,] doorwayFrames;
-        static readonly Sprite[] watchingTV = new Sprite[2];
+        static readonly Sprite[] watchingTV = new Sprite[6];
         static readonly int[] DirectionRow = { 0, 1, 3, 2 };
 
         public static void Dress(WorldActorAnimation animation, string id, ActorMotion motion,
-            Vector2 facing, float bedPhase)
+            Vector2 facing, float bedPhase, int residentStyle = -1)
         {
             if (!animation || !animation.visual)
             {
                 return;
             }
 
-            if (frames == null)
-            {
-                var sheet = Resources.Load<Texture2D>("FamilySleep/IndoorFamily");
-                if (!sheet)
-                {
-                    return;
-                }
-
-                frames = new Sprite[9, 8];
-                for (int y = 0; y < 9; y++)
-                {
-                    for (int x = 0; x < 8; x++)
-                    {
-                        int height = y == 8 ? (x % 4 == 0 ? 64 : x % 4 == 1 ? 57 : 52)
-                            : y == 7 ? 62 : y == 6 ? 73 : y == 5 ? 80 : 81;
-                        var rect = new Rect(x * 96, (8 - y) * 96 + 3, 96, height);
-                        frames[y, x] = Sprite.Create(sheet, rect, new Vector2(.5f, 0), 43, 0, SpriteMeshType.Tight);
-                    }
-                }
-            }
+            var clothes = Clothes(residentStyle >= 0);
+            int first = residentStyle >= 0 ? residentStyle * 4 : id == "family-father" ? 4 : 0;
 
             var direction = ActorAnimationSet.Direction(facing, animation.Direction);
             int row = DirectionRow[(int)direction];
@@ -81,8 +64,50 @@ namespace IanGame
                 mirror = false;
             }
 
-            animation.visual.sprite = frames[row, (id == "family-father" ? 4 : 0) + frame];
+            animation.visual.sprite = clothes[row, first + frame];
             animation.visual.flipX = mirror;
+        }
+
+        static Sprite[,] Clothes(bool apartment)
+        {
+            var cached = apartment ? homewear : frames;
+            if (cached != null)
+            {
+                return cached;
+            }
+
+            var sheet = Resources.Load<Texture2D>(apartment ? "FamilySleep/ResidentHomewear" : "FamilySleep/IndoorFamily");
+            int rows = sheet.height / 96;
+            int columns = sheet.width / 96;
+            cached = new Sprite[rows, columns];
+            for (int y = 0; y < rows; y++)
+            {
+                for (int x = 0; x < columns; x++)
+                {
+                    int height = y switch
+                    {
+                        8 when x % 4 == 0 => 64,
+                        8 when x % 4 == 1 => 57,
+                        8 => 52,
+                        7 => 62,
+                        6 => 73,
+                        5 => 80,
+                        _ => 81,
+                    };
+                    var rect = new Rect(x * 96, (rows - 1 - y) * 96 + 3, 96, height);
+                    cached[y, x] = Sprite.Create(sheet, rect, new Vector2(.5f, 0), 43, 0, SpriteMeshType.Tight);
+                }
+            }
+
+            if (apartment)
+            {
+                homewear = cached;
+            }
+            else
+            {
+                frames = cached;
+            }
+            return cached;
         }
 
         public static void ChangeAtDoor(WorldActorAnimation animation, string id, float indoorProgress)
@@ -117,12 +142,12 @@ namespace IanGame
             animation.visual.flipX = false;
         }
 
-        public static void WatchTV(WorldActorAnimation animation, string id)
+        public static void WatchTV(WorldActorAnimation animation, string id, int residentStyle = -1)
         {
-            int parent = id == "family-father" ? 1 : 0;
+            int parent = residentStyle >= 0 ? 2 + residentStyle : id == "family-father" ? 1 : 0;
             if (!watchingTV[parent])
             {
-                var back = frames[1, parent * 4];
+                var back = Clothes(residentStyle >= 0)[1, (residentStyle >= 0 ? residentStyle : parent) * 4];
                 var rect = back.rect;
                 rect.yMin += 18;
                 watchingTV[parent] = Sprite.Create(back.texture, rect, new Vector2(.5f, 0),

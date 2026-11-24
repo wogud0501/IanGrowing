@@ -47,6 +47,8 @@ namespace IanGame
         bool cancel;
         int restoreGeneration;
         Vector2 activityEntry;
+        Vector2 activityCheckpoint;
+        public WorldInteractable ConversationPartner { get; private set; }
         Vector2 transitionEntry;
         bool beforePortalCommit;
         bool started;
@@ -77,6 +79,7 @@ namespace IanGame
                 }
             }
 
+            FurnitureSeatPose.BindRoom(this);
             Service.Attach(this);
             if (Room != null && GameContext.Instance.transitions.IsTransitioning)
             {
@@ -147,6 +150,7 @@ namespace IanGame
             Service.Game.economy.Changed -= RefreshFurniture;
             Service.Game.StateChanged -= StateChanged;
             StopAllCoroutines();
+            ConversationPartner = null;
             acting = travelling = false;
             if (Player != null)
             {
@@ -430,7 +434,7 @@ namespace IanGame
 
             if (o.GetComponent<WorldLifeAction>() is WorldLifeAction quality && !quality.Available)
             {
-                reason = "지금 다른 가족이 사용 중입니다.";
+                reason = "지금은 빈자리가 없습니다.";
                 return false;
             }
 
@@ -526,6 +530,9 @@ namespace IanGame
             cancel = false;
             int generation = restoreGeneration;
             activityEntry = Player.Position;
+            activityCheckpoint = activityEntry;
+            string sourceRoom = CurrentZone.id;
+            string positionPolicy = "stay";
             Service.State.pendingAction = o.kind.ToString();
             var collider = Player.GetComponent<CircleCollider2D>();
             bool sleep = o.kind == WorldInteractionKind.Sleep && action == 5;
@@ -543,18 +550,12 @@ namespace IanGame
             var detail = o.GetComponent<WorldLifeAction>();
             var controlLease = Player.controlLocks?.Acquire("life-action");
             var conversation = o.kind == WorldInteractionKind.NPC ? o.GetComponent<WorldActorAnimation>() : null;
-            var previousNpcMotion = conversation == null ? ActorMotion.Idle : conversation.Motion;
-            Vector2 previousNpcFacing =
-                conversation == null ? Vector2.down
-                : conversation.Direction == ActorDirection.Up ? Vector2.up
-                : conversation.Direction == ActorDirection.Left ? Vector2.left
-                : conversation.Direction == ActorDirection.Right ? Vector2.right
-                : Vector2.down;
             Vector2 talkFacing = (Vector2)o.transform.position - Player.Position;
             try
             {
                 if (conversation != null)
                 {
+                    ConversationPartner = o;
                     Player.Face(talkFacing);
                 }
 
@@ -564,6 +565,12 @@ namespace IanGame
                     if (!detail.Ready)
                     {
                         yield break;
+                    }
+
+                    if (detail.standUp && Player.MovementAllowed && detail.UsesExitAnchor)
+                    {
+                        activityCheckpoint = detail.standUp.position;
+                        positionPolicy = "object exit";
                     }
 
                     if (!string.IsNullOrEmpty(detail.activePose))
@@ -596,12 +603,6 @@ namespace IanGame
                 if (o.activityEffect != null)
                 {
                     o.activityEffect.SetActive(true);
-                }
-
-                if (sleep && detail == null)
-                {
-                    collider.enabled = false;
-                    Player.Warp((Vector2)o.transform.position + Vector2.up * .1f);
                 }
 
                 float duration = Mathf.Max(
@@ -638,11 +639,6 @@ namespace IanGame
 
                     t += Time.unscaledDeltaTime;
                     detail?.Animate(t);
-                    if (conversation != null)
-                    {
-                        conversation.Render(ActorMotion.Talk, -talkFacing);
-                    }
-
                     if (o.activityEffect != null)
                     {
                         for (int i = 0; i < o.activityEffect.transform.childCount; i++)
@@ -833,46 +829,6 @@ namespace IanGame
                     yield return detail.Exit(this, () => cancel || generation != restoreGeneration);
                 }
 
-                if (sleep && detail == null)
-                {
-                    var wakeFrom = Player.Position;
-                    var wakeTo = Safe(CurrentZone, activityEntry - CurrentZone.origin);
-                    for (
-                        float t = 0,
-                            d = Mathf.Max(
-                                .35f,
-                                Player.advanced == null
-                                    ? 0
-                                    : Player.advanced.Duration(ActorMotion.WakeUp, Player.Facing)
-                            );
-                        t < d;
-                        t += Time.unscaledDeltaTime
-                    )
-                    {
-                        if (cancel || generation != restoreGeneration)
-                        {
-                            yield break;
-                        }
-
-                        Player.Warp(
-                            Vector2.Lerp(
-                                wakeFrom,
-                                wakeTo,
-                                Mathf.Clamp01(
-                                    t
-                                        / Mathf.Max(
-                                            .35f,
-                                            Player.advanced == null
-                                                ? 0
-                                                : Player.advanced.Duration(ActorMotion.WakeUp, Player.Facing)
-                                        )
-                                )
-                            )
-                        );
-                        yield return null;
-                    }
-                }
-
                 if (
                     detail == null
                     && (
@@ -888,11 +844,7 @@ namespace IanGame
             }
             finally
             {
-                if (conversation != null)
-                {
-                    conversation.Render(previousNpcMotion, previousNpcFacing);
-                }
-
+                ConversationPartner = null;
                 detail?.ResetVisual();
                 if (o != null && o.activityEffect != null)
                 {
@@ -900,18 +852,79 @@ namespace IanGame
                 }
 
                 collider.enabled = true;
-                if (generation == restoreGeneration && (detail == null || !detail.Completed))
+                if (generation != restoreGeneration)
                 {
-                    Player.Warp(Safe(CurrentZone, activityEntry - CurrentZone.origin));
+                    positionPolicy = "save restore";
+                }
+                else if (detail && !detail.Completed && !Clear(Player.Position) && Player.Position != activityEntry)
+                {
+                    Player.Warp(LocalExit(activityEntry, Player.Position));
+                    positionPolicy = "local return";
                 }
 
                 Player.Pose("Idle");
                 controlLease?.Dispose();
                 Service.State.pendingAction = "";
                 acting = false;
+                CapturePosition();
+                TraceActivity(o, sourceRoom, activityEntry, positionPolicy);
                 hud.Dim(0);
                 hud.Activity(null, 0);
                 Service.Game.clock.RealtimeSuppressed = Service.Game.idle.State.active || hud.shell.Depth > 0;
+            }
+        }
+
+        Vector2 LocalExit(Vector2 preferred, Vector2 current)
+        {
+            if (Clear(preferred))
+            {
+                return preferred;
+            }
+
+            if (TryNearbyFloor(CurrentZone, preferred, out var nearby))
+            {
+                return nearby;
+            }
+
+            return current;
+        }
+
+        bool TryNearbyFloor(WorldZoneDefinition zone, Vector2 center, out Vector2 floor)
+        {
+            const int directions = 16;
+            for (int ring = 1; ring <= 6; ring++)
+            {
+                for (int i = 0; i < directions; i++)
+                {
+                    float angle = i * Mathf.PI * 2 / directions;
+                    floor = center + new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * (ring * .16f);
+                    Vector2 local = floor - zone.origin;
+                    if (Mathf.Abs(local.x) <= zone.size.x / 2 - .6f && local.y >= -zone.size.y / 2 + .6f
+                        && local.y <= Mathf.Min(zone.size.y / 2 - .6f, zone.walkableTop - .65f) && Clear(floor))
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            floor = center;
+            return false;
+        }
+
+        [System.Diagnostics.Conditional("UNITY_EDITOR")]
+        [System.Diagnostics.Conditional("DEVELOPMENT_BUILD")]
+        void TraceActivity(WorldInteractable source, string room, Vector2 entry, string policy)
+        {
+            bool changedRoom = room != CurrentZone.id;
+            string trace = $"Interaction {source?.id} in {room}, {entry} -> {Player.Position}, "
+                + $"position policy={policy}, scene transition={changedRoom}";
+            if (policy == "stay" && !changedRoom && Vector2.Distance(entry, Player.Position) > .5f)
+            {
+                Debug.LogWarning(trace, this);
+            }
+            else
+            {
+                Debug.Log(trace, this);
             }
         }
 
@@ -1372,7 +1385,7 @@ namespace IanGame
 
             Service.State.position =
                 (
-                    acting ? activityEntry
+                    acting ? activityCheckpoint
                     : beforePortalCommit ? transitionEntry
                     : Player.Position
                 ) - CurrentZone.origin;
@@ -1447,6 +1460,11 @@ namespace IanGame
                 return p;
             }
 
+            if (TryNearbyFloor(zone, p, out var floor))
+            {
+                return floor;
+            }
+
             p = zone.origin + zone.spawn;
             if (Clear(p))
             {
@@ -1470,9 +1488,13 @@ namespace IanGame
 
         bool Clear(Vector2 p)
         {
-            foreach (var c in Physics2D.OverlapCircleAll(p, .32f))
+            var feet = Player.GetComponent<CircleCollider2D>();
+            Vector2 offset = feet.transform.TransformVector(feet.offset);
+            Vector3 scale = feet.transform.lossyScale;
+            float radius = feet.radius * Mathf.Max(Mathf.Abs(scale.x), Mathf.Abs(scale.y));
+            foreach (var c in Physics2D.OverlapCircleAll(p + offset, radius))
             {
-                if (!c.isTrigger && c.attachedRigidbody != Player.GetComponent<Rigidbody2D>())
+                if (!c.isTrigger && c.attachedRigidbody != feet.attachedRigidbody)
                 {
                     return false;
                 }

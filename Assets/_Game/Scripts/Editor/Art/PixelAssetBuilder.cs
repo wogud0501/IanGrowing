@@ -121,13 +121,7 @@ namespace IanGame.Editor
                 AssetDatabase.CreateAsset(theme, path);
             }
 
-            var pixelFont = AssetDatabase.LoadAssetAtPath<TMPro.TMP_FontAsset>(
-                Folder + "Fonts/IanPixelKoreanSDF.asset"
-            );
-            theme.font =
-                pixelFont != null
-                    ? pixelFont
-                    : AssetDatabase.LoadAssetAtPath<TMPro.TMP_FontAsset>("Assets/_Game/UI/Fonts/IanKoreanSDF.asset");
+            theme.font = StardustTypography.Main;
             theme.panel = Frame("Panel-Parchment", Cream);
             theme.panelDark = Frame("Panel-Night", Ink);
             theme.panelBlue = Frame("Panel-Teal", Blue);

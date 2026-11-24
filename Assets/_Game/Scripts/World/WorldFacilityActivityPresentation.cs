@@ -47,13 +47,22 @@ namespace IanGame
             bool active =
                 local
                 && slot.IsOccupied
-                && Vector2.Distance(actor.transform.position, slot.Point) < .045f
+                && Vector2.Distance(actor.transform.position, slot.seated ? slot.ApproachPoint : slot.Point) < .10f
                 && animation != null
                 && animation.Motion != ActorMotion.Walk
                 && animation.Motion != ActorMotion.SitDown
                 && animation.Motion != ActorMotion.StandUp
                 && frames != null
                 && frames.Length >= 4;
+            if (slot.seated)
+            {
+                Frame = active ? animation.Frame : 0;
+                occupied.enabled = false;
+                empty.enabled = true;
+                IsPresenting = active;
+                return;
+            }
+
             if (active)
             {
                 int row = 0;
@@ -78,7 +87,7 @@ namespace IanGame
                     occupied.sortingOrder = empty.sortingOrder - 1;
                 }
 
-                actor.visual.enabled = false;
+                actor.visual.enabled = slot.seated;
                 if (actor.shadow != null)
                 {
                     actor.shadow.enabled = false;
@@ -94,8 +103,8 @@ namespace IanGame
                 RestoreActor();
             }
 
-            occupied.enabled = active;
-            empty.enabled = !active || familyStove;
+            occupied.enabled = active && !slot.seated;
+            empty.enabled = !active || familyStove || slot.seated;
             IsPresenting = active;
         }
 
@@ -108,14 +117,10 @@ namespace IanGame
 
             var host = GameContext.Instance?.game.world.Host;
             bool local = host != null && host.Service.State.zone == actor.zone;
-            bool covered =
-                host != null
-                && host.GetComponentsInChildren<WorldWorkstationPresentation>()
-                    .Any(p => p.actor == actor && p.IsWorking);
-            actor.visual.enabled = local && !covered;
+            actor.visual.enabled = local;
             if (actor.shadow != null)
             {
-                actor.shadow.enabled = local && !covered;
+                actor.shadow.enabled = local;
             }
         }
 

@@ -28,7 +28,13 @@ namespace IanGame
         }
 
         public float realSecondsPerGameDay = 300;
+        static readonly string[] Weekdays = { "월요일", "화요일", "수요일", "목요일", "금요일", "토요일", "일요일" };
+
+        // Day one is Monday, matching the first bit in resident schedule masks.
+        public static int WeekdayIndex(int dayNumber) => (Math.Max(1, dayNumber) - 1) % 7;
+
         public int Day => day;
+        public string WeekdayName => Weekdays[WeekdayIndex(day)];
         public double SubDaySeconds => subDay;
         public double ElapsedSeconds => elapsed;
         public double LastOfflineSeconds { get; private set; }

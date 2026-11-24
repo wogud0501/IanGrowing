@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace IanGame
 {
-    // A shared pixel HUD, with existing pixel buttons and Galmuri fonts.
+    // A shared pixel HUD, with existing pixel buttons and the shared game typeface.
     // Applied to existing widgets: no alternate menus or input ownership.
     public sealed class WorldUIRecoveryTheme : MonoBehaviour
     {

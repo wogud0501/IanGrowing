@@ -60,6 +60,18 @@ namespace IanGame.Editor
                 slot.transform.InverseTransformVector(approach - point)
             );
             slot.standUpAnchor = slot.approachAnchor;
+            var interaction = surface ? surface.GetComponent<WorldInteractable>() : null;
+            if (interaction && interaction.enabled && interaction.kind == WorldInteractionKind.Rest)
+            {
+                var action = Component<WorldLifeAction>(interaction.gameObject);
+                action.mode = LifeActionVisual.Seat;
+                action.seat = slot;
+                action.approach = slot.approachAnchor;
+                action.anchor = slot.seatAnchor;
+                action.standUp = slot.standUpAnchor;
+                action.facing = slot.facing;
+                action.activePose = "SeatedIdle";
+            }
         }
 
         static void Fixture(
@@ -128,28 +140,15 @@ namespace IanGame.Editor
             {
                 case "family-living":
                     var sofa = Object(w, "family-sofa").visual;
-                    const string panelPath = "Assets/_Game/Data/World/Interiors/SofaBackPanel.asset";
-                    var panelSprite = AssetDatabase.LoadAssetAtPath<Sprite>(panelPath);
-                    if (!panelSprite)
+                    var oldBack = sofa.transform.Find("Foreground sofa back");
+                    if (oldBack)
                     {
-                        var cut = sofa.sprite.rect;
-                        cut.height = Mathf.Round(cut.height * .61f);
-                        panelSprite = Sprite.Create(
-                            sofa.sprite.texture,
-                            cut,
-                            new Vector2(.5f, 0),
-                            sofa.sprite.pixelsPerUnit,
-                            0,
-                            SpriteMeshType.FullRect
-                        );
-                        AssetDatabase.CreateAsset(panelSprite, panelPath);
+                        oldBack.gameObject.SetActive(false);
+                        if (oldBack.TryGetComponent<SpriteRenderer>(out var duplicate))
+                        {
+                            duplicate.sprite = null;
+                        }
                     }
-                    var panel = Component<SpriteRenderer>(
-                        Anchor(sofa.transform, "Foreground sofa back", Vector2.zero).gameObject
-                    );
-                    panel.sprite = panelSprite;
-                    panel.sharedMaterial = sofa.sharedMaterial;
-                    panel.sortingOrder = sofa.sortingOrder + 2;
                     foreach (var id in new[] { "family-tv-mother", "family-tv-father" })
                     {
                         var breakSeat = Component<ResidentActivityStation>(Object(w, id).gameObject);

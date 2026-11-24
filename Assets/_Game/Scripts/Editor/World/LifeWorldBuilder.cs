@@ -501,9 +501,7 @@ namespace IanGame.Editor
             go.transform.SetParent(root, false);
             go.transform.position = new Vector3(pos.x, pos.y, -.1f);
             var t = go.GetComponent<TextMeshPro>();
-            t.font = AssetDatabase.LoadAssetAtPath<TMP_FontAsset>(
-                "Assets/_Game/UI/Pixel/Fonts/Galmuri/IanBodyPixel18.asset"
-            );
+            t.font = StardustTypography.Main;
             t.fontSize = 3.2f;
             t.text = text;
             t.alignment = TextAlignmentOptions.Center;

@@ -165,9 +165,10 @@ namespace IanGame.Editor
                 {
                     check(
                         p.slot.facing == Vector2.down
-                            && !p.empty.enabled
-                            && !p.actor.visual.enabled
-                            && p.working.enabled,
+                            && p.empty.enabled
+                            && p.actor.visual.enabled
+                            && !p.working.enabled
+                            && Vector2.Distance(p.actor.transform.position, p.slot.ApproachPoint) < .05f,
                         "One front-facing seated presentation without duplicate desk " + p.actor.npcId
                     );
                 }
@@ -176,7 +177,7 @@ namespace IanGame.Editor
                 float end = Time.unscaledTime + 3;
                 while (Time.unscaledTime < end)
                 {
-                    frames.Add(working[0].working.sprite);
+                    frames.Add(working[0].actor.visual.sprite);
                     yield return null;
                 }
 

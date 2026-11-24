@@ -159,34 +159,7 @@ namespace IanGame.Editor
 
         static void MakeAssets()
         {
-            var fontPath = "Assets/_Game/UI/Fonts/IanKoreanSDF.asset";
-            font = AssetDatabase.LoadAssetAtPath<TMP_FontAsset>(fontPath);
-            if (font == null)
-            {
-                var source = new Font("Malgun Gothic");
-                // Use an OS-backed dynamic font: no redistribution of the Windows font file.
-                font = TMP_FontAsset.CreateFontAsset("Malgun Gothic", "Regular", 64);
-                if (font == null)
-                {
-                    throw new Exception("Korean system font unavailable");
-                }
-
-                font.name = "Ian Korean SDF";
-                font.isMultiAtlasTexturesEnabled = true;
-                AssetDatabase.CreateAsset(font, fontPath);
-                if (font.material != null)
-                {
-                    AssetDatabase.AddObjectToAsset(font.material, font);
-                }
-
-                foreach (var atlas in font.atlasTextures)
-                {
-                    if (atlas != null && !AssetDatabase.Contains(atlas))
-                    {
-                        AssetDatabase.AddObjectToAsset(atlas, font);
-                    }
-                }
-            }
+            font = StardustTypography.Main;
 
             string path = "Assets/_Game/Art/Circle.png";
             if (!File.Exists(path))

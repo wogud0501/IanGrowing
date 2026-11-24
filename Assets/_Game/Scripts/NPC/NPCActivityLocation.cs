@@ -50,7 +50,7 @@ namespace IanGame
                 or NPCDailyAction.ServeMeal => familyRoom && entry.zone is "family-kitchen" or "family-home",
                 NPCDailyAction.WashDishes => atHome && entry.objectId == "house-dishes"
                     || familyRoom && entry.zone is "family-kitchen" or "family-home",
-                NPCDailyAction.Clean => familyRoom
+                NPCDailyAction.Clean => atHome && entry.objectId == "house-table" || familyRoom
                     && entry.zone is "family-living" or "family-home" or "family-ian-bedroom" or "family-kitchen",
                 NPCDailyAction.WatchTV => atHome && entry.objectId == resident.residentBedId + "-rest"
                     || familyRoom && entry.zone is "family-living" or "family-home",

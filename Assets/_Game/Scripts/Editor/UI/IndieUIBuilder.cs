@@ -366,7 +366,7 @@ namespace IanGame.Editor
             if (theme == null)
             {
                 theme = ScriptableObject.CreateInstance<IndieUITheme>();
-                theme.font = AssetDatabase.LoadAssetAtPath<TMP_FontAsset>("Assets/_Game/UI/Fonts/IanKoreanSDF.asset");
+                theme.font = StardustTypography.Main;
                 AssetDatabase.CreateAsset(theme, ThemePath);
             }
 

@@ -58,14 +58,15 @@ namespace IanGame
                 fixtures.Add(item);
             }
 
-            foreach (var threshold in plan.doorways)
+            for (int i = 0; i < plan.doorways.Length; i++)
             {
+                var threshold = plan.doorways[i];
                 var door = Instantiate(interiorDoor, threshold);
                 door.transform.localPosition = -(Vector3)door.threshold;
                 door.world = world;
                 door.portal.zone = unit.roomId;
                 door.portal.targetZone = unit.roomId;
-                door.portal.id = unit.roomId + "-" + threshold.name;
+                door.portal.id = unit.roomId + "-door-" + i;
                 door.portal.title = threshold.name;
                 fixtures.Add(door.portal);
             }

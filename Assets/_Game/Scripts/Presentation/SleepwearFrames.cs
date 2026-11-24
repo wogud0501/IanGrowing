@@ -15,7 +15,7 @@ namespace IanGame
 
         public static Sprite ResidentPose(int column, int frame)
         {
-            return Lookup(ref residents, "FamilySleep/ResidentSleepwear", 5, column, frame);
+            return Lookup(ref residents, "FamilySleep/ResidentSleepwear", 6, column, frame);
         }
 
         static Sprite Lookup(ref Sprite[,] frames, string path, int columns, int column, int frame)

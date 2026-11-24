@@ -69,6 +69,39 @@ namespace IanQA.Tests
             Assert.AreEqual(2 * 96, doorway.height);
         }
 
+        [TestCase("ResidentSleepwear", 6, 5)]
+        [TestCase("ResidentHomewear", 16, 8)]
+        public void ResidentialClothingSurvivesTheWorldAlphaCut(string name, int columns, int rows)
+        {
+            var texture = Resources.Load<Texture2D>("FamilySleep/" + name);
+            Assert.NotNull(texture);
+            Assert.AreEqual(columns * 96, texture.width);
+            Assert.AreEqual(rows * 96, texture.height);
+            Assert.AreEqual(FilterMode.Point, texture.filterMode);
+
+            var readable = new Texture2D(2, 2);
+            try
+            {
+                byte[] png = System.IO.File.ReadAllBytes(AssetDatabase.GetAssetPath(texture));
+                Assert.IsTrue(readable.LoadImage(png));
+                var pixels = readable.GetPixels32();
+                Assert.IsFalse(pixels.Any(pixel => pixel.a >= 128 && pixel.a < 250),
+                    "The world shader clips these body and face pixels.");
+                for (int row = 0; row < rows; row++)
+                {
+                    for (int column = 0; column < columns; column++)
+                    {
+                        Assert.Greater(readable.GetPixels(column * 96, row * 96, 96, 96)
+                            .Count(pixel => pixel.a > .98f), 500, $"{name} [{column}, {row}]");
+                    }
+                }
+            }
+            finally
+            {
+                UnityEngine.Object.DestroyImmediate(readable);
+            }
+        }
+
         [Test]
         public void InfantNeverContainsLocomotionAndAllAgeBanksHaveRealFrames()
         {

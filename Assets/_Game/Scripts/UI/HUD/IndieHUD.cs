@@ -109,7 +109,7 @@ namespace IanGame
             }
 
             var g = game;
-            ageText.text = g.growth.Age + "세  /  DAY " + g.clock.Day.ToString("000");
+            ageText.text = $"{g.growth.Age}세 · DAY {g.clock.Day} · {g.clock.WeekdayName}";
             debtText.text = "미상환 부채\n" + g.economy.Debt.ToString("N0") + " G";
             if (lastCash != g.economy.Cash)
             {
@@ -216,7 +216,7 @@ namespace IanGame
                     + g.growth.Level
                     + " / EXP "
                     + g.growth.Experience
-                    + "\n現 순자산 "
+                    + "\n순자산 "
                     + g.economy.NetWorth.ToString("N0")
                     + "G\n"
                     + (g.survival.InDanger ? "생존 위험: 돌봄 행동이 필요합니다." : "생존 상태: 안정");

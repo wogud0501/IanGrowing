@@ -705,9 +705,7 @@ namespace IanGame
 
         void Build()
         {
-            font =
-                Resources.FindObjectsOfTypeAll<TMP_FontAsset>().FirstOrDefault(f => f.name == "IanBodyPixel")
-                ?? GameContext.Instance.transitions.loadingText.font;
+            font = TMP_Settings.defaultFontAsset;
             frame = Resources.FindObjectsOfTypeAll<Sprite>().FirstOrDefault(s => s.name == "Panel_64");
             var root = Rect(transform, "QA Canvas");
             canvas = root.gameObject.AddComponent<Canvas>();

@@ -25,7 +25,7 @@ namespace IanGame
         public Vector2 facing = Vector2.up;
         public ShowerBoothVisual booth;
         public SpriteRenderer overlay;
-        public Sprite[] frames;
+        public Sprite[] frames = Array.Empty<Sprite>();
         public WorldActivitySlot seat;
         public bool familyOwned;
         public string activePose;
@@ -55,7 +55,162 @@ namespace IanGame
         bool colliderWasEnabled;
         bool visualWasEnabled;
         SpriteRenderer furnitureVisual;
-        public bool Available => seat == null || string.IsNullOrEmpty(seat.Occupant);
+        public bool UsesExitAnchor => mode is LifeActionVisual.Bed or LifeActionVisual.Dining
+            or LifeActionVisual.Seat or LifeActionVisual.Shower;
+
+        WorldActivitySlot[] sharedSeats;
+        WorldNPCNavigation approachRoutes;
+        bool arrived;
+        SeatBend bend;
+
+        public bool Available => sharedSeats == null
+            ? seat == null || string.IsNullOrEmpty(seat.Occupant)
+            : Array.Exists(sharedSeats, s => s && s.Allows("player") && string.IsNullOrEmpty(s.Occupant));
+
+        public void SetSeats(WorldActivitySlot[] seats)
+        {
+            sharedSeats = seats;
+        }
+
+        public void BindSeatAnchors(WorldInteractable obj)
+        {
+            if (mode is not (LifeActionVisual.Dining or LifeActionVisual.Seat) || sharedSeats != null)
+            {
+                return;
+            }
+
+            seat = seat ? seat : GetComponent<WorldActivitySlot>() ?? gameObject.AddComponent<WorldActivitySlot>();
+            seat.seatAnchor = seat.seatAnchor ? seat.seatAnchor : anchor;
+            seat.approachAnchor = seat.approachAnchor ? seat.approachAnchor : approach;
+            seat.standUpAnchor = seat.standUpAnchor ? seat.standUpAnchor : standUp;
+            seat.ConfigureSeat(anchor ? (Vector2)anchor.position : obj.Point,
+                approach ? (Vector2)approach.position : obj.Point, facing, seat.Surface ? seat.Surface : obj.visual);
+            if (mode == LifeActionVisual.Seat && seat.Surface)
+            {
+                FurnitureSeatPose.BindFrontChair(this, seat, seat.Surface);
+            }
+        }
+
+        bool SelectSeat()
+        {
+            if (sharedSeats != null)
+            {
+                seat = null;
+                float nearest = float.PositiveInfinity;
+                foreach (var candidate in sharedSeats)
+                {
+                    if (!candidate || !candidate.Allows("player") || !string.IsNullOrEmpty(candidate.Occupant))
+                    {
+                        continue;
+                    }
+
+                    float distance = (candidate.ApproachPoint - actor.Position).sqrMagnitude;
+                    if (distance < nearest)
+                    {
+                        nearest = distance;
+                        seat = candidate;
+                    }
+                }
+
+                if (!seat)
+                {
+                    return false;
+                }
+            }
+
+            if (seat && seat.seated && mode is LifeActionVisual.Dining or LifeActionVisual.Seat)
+            {
+                approach = seat.approachAnchor;
+                anchor = seat.seatAnchor;
+                standUp = seat.standUpAnchor;
+                facing = seat.facing;
+            }
+
+            return !seat || seat.TryReserve("player");
+        }
+
+        IEnumerator WalkToFloor(LifeWorldController world, Vector2 floor, Func<bool> cancelled)
+        {
+            arrived = false;
+            if (!actor.MovementAllowed || Vector2.Distance(actor.Position, floor) <= .05f)
+            {
+                arrived = mode == LifeActionVisual.Bed || Vector2.Distance(actor.Position, floor) <= .05f;
+                yield break;
+            }
+
+            approachRoutes ??= new WorldNPCNavigation();
+            var path = seat && seat.seated && floor == seat.ApproachPoint
+                ? FurnitureSeatPose.ApproachRoute(approachRoutes, world, target.zone, actor.Position, seat)
+                : approachRoutes.Find(world, target.zone, actor.Position, floor);
+            if (path.Count == 0 || Vector2.Distance(path[path.Count - 1], floor) > .08f)
+            {
+                yield break;
+            }
+
+            foreach (Vector2 step in path)
+            {
+                if (Vector2.Distance(actor.Position, step) <= .05f)
+                {
+                    continue;
+                }
+
+                actor.BeginTraversal(step, 2.2f);
+                while (actor.IsTraversing && actor.TraversalSeconds < 4 && !cancelled())
+                {
+                    yield return null;
+                }
+
+                bool reached = actor.TraversalArrived && !cancelled();
+                actor.CancelTraversal();
+                if (!reached)
+                {
+                    yield break;
+                }
+            }
+
+            arrived = true;
+        }
+
+        IEnumerator SeatTransfer(bool sitting, Func<bool> cancelled)
+        {
+            float duration = sitting ? FurnitureSeatPose.SitSeconds : FurnitureSeatPose.StandSeconds;
+            actor.Face(facing);
+            if (sitting)
+            {
+                actor.advanced?.Render(ActorMotion.Idle, facing);
+                bend = actor.GetComponent<SeatBend>() ?? actor.gameObject.AddComponent<SeatBend>();
+                bend.Remember(actor.sprite, actor.sprite.sprite, actor.sprite.flipX);
+            }
+
+            actor.Pose(sitting ? "Sit" : "Stand Up");
+            for (float time = 0; time < duration && !cancelled(); time += Time.deltaTime)
+            {
+                float progress = sitting ? time / duration : 1 - time / duration;
+                ApplySeatOffset(progress);
+                bend.Show(progress, seat);
+                yield return null;
+            }
+
+            if (sitting)
+            {
+                bend.Show(1, seat);
+            }
+            else
+            {
+                bend.Hide();
+            }
+
+            ApplySeatOffset(sitting ? 1 : 0);
+        }
+
+        void ApplySeatOffset(float progress)
+        {
+            if (actor.growthVisual)
+            {
+                Vector2 offset = FurnitureSeatPose.Offset(actor.Position, seat.SolePoint, facing, progress);
+                actor.growthVisual.ActionOffset = actor.transform.InverseTransformVector(offset);
+            }
+        }
 
         public IEnumerator Enter(LifeWorldController world, int action, Func<bool> cancelled)
         {
@@ -70,7 +225,8 @@ namespace IanGame
             infantCare = care && world.Service.Game.growth.Age == 0;
             actor = world.Player;
             target = GetComponent<WorldInteractable>();
-            if (seat != null && !seat.TryReserve("player"))
+            BindSeatAnchors(target);
+            if (!SelectSeat())
             {
                 yield break;
             }
@@ -80,7 +236,16 @@ namespace IanGame
             colliderWasEnabled = actor.GetComponent<CircleCollider2D>().enabled;
             visualWasEnabled = actor.sprite.enabled;
             var p = approach == null ? target.Point : (Vector2)approach.position;
-            if (actor.MovementAllowed && Vector2.Distance(actor.Position, p) > .05f)
+            bool sitting = mode is LifeActionVisual.Dining or LifeActionVisual.Seat;
+            if (sitting || mode == LifeActionVisual.Bed)
+            {
+                yield return WalkToFloor(world, p, cancelled);
+                if (!arrived || cancelled())
+                {
+                    yield break;
+                }
+            }
+            else if (actor.MovementAllowed && Vector2.Distance(actor.Position, p) > .05f)
             {
                 actor.BeginTraversal(p, 2.2f);
                 while (actor.IsTraversing && actor.TraversalSeconds < 5)
@@ -106,20 +271,30 @@ namespace IanGame
                 : mode == LifeActionVisual.Dining ? "Sit"
                 : "Interact"
             );
-            if (mode == LifeActionVisual.Bed || mode == LifeActionVisual.Dining || mode == LifeActionVisual.Seat)
+            if (sitting || mode == LifeActionVisual.Bed)
             {
-                actor.GetComponent<CircleCollider2D>().enabled = false;
                 seat?.MarkOccupied("player");
             }
 
             var growth = actor.growthVisual;
-            if (
-                growth != null
-                && growth.BodyInteractions
-                && (mode == LifeActionVisual.Bed || mode == LifeActionVisual.Dining || mode == LifeActionVisual.Seat)
-            )
+            if (sitting)
             {
-                actor.GetComponent<CircleCollider2D>().enabled = false;
+                if (growth)
+                {
+                    var surface = seat.Surface ? seat.Surface : furnitureVisual;
+                    growth.ActionOrder = surface.sortingOrder + 1;
+                }
+
+                if (front)
+                {
+                    front.enabled = tableOcclusion;
+                }
+
+                yield return SeatTransfer(true, cancelled);
+                actor.Pose(mode == LifeActionVisual.Dining ? "Eat" : "SeatedIdle");
+            }
+            else if (growth && mode == LifeActionVisual.Bed)
+            {
                 growth.ActionOrder = furnitureVisual.sortingOrder + 3;
                 actor.sprite.enabled = true;
                 furnitureVisual.enabled = true;
@@ -145,24 +320,9 @@ namespace IanGame
                         actor.Pose("Lie Down");
                         yield return BedTransfer(.58f, cancelled);
                     }
-                    else if (actor.MovementAllowed)
+                    else if (action == -4 || actor.MovementAllowed)
                     {
-                        actor.BeginTraversal(destination, 1.7f);
-                        while (actor.IsTraversing && actor.TraversalSeconds < 5 && !cancelled())
-                        {
-                            yield return null;
-                        }
-
-                        if (!actor.TraversalArrived)
-                        {
-                            yield break;
-                        }
-
-                        actor.CancelTraversal();
-                    }
-                    else if (action == -4)
-                    {
-                        actor.Pose("Carried");
+                        actor.Pose(actor.MovementAllowed ? "Sit" : "Carried");
                         var from = growth.ActionOffset;
                         var to = destination - actor.Position;
                         for (float t = 0; t < .6f; t += Time.unscaledDeltaTime)
@@ -194,58 +354,14 @@ namespace IanGame
                         yield return DrawCover(true, cancelled);
                     }
                 }
-                else
-                {
-                    actor.Pose("Sit");
-                    yield return Wait(Mathf.Max(.25f, actor.advanced.Duration(ActorMotion.SitDown, facing)), cancelled);
-                    actor.BeginTraversal(growth.Inside(this), 1.7f);
-                    while (actor.IsTraversing && actor.TraversalSeconds < 5)
-                    {
-                        if (cancelled())
-                        {
-                            yield break;
-                        }
-
-                        yield return null;
-                    }
-
-                    if (!actor.TraversalArrived)
-                    {
-                        yield break;
-                    }
-
-                    actor.CancelTraversal();
-                    growth.Seated = true;
-                    actor.Face(facing);
-                    actor.Pose(mode == LifeActionVisual.Dining ? "Eat" : "SeatedIdle");
-                }
             }
             else if (care && world.Service.Game.growth.Age == 0)
             {
                 Show(action == 3 || action == 4 ? 13 : 14);
             }
-            else if (mode == LifeActionVisual.Bed && !care)
+            else if (mode == LifeActionVisual.Bed)
             {
-                int start = world.Service.Game.growth.Age == 0 && frames.Length >= 16 ? 12 : 0;
-                yield return Sequence(start, Math.Min(start + 2, frames.Length - 1), .2f, cancelled);
-                if (cancelled())
-                {
-                    yield break;
-                }
-
-                actor.Warp(anchor == null ? p : (Vector2)anchor.position);
-                Show(start == 12 ? 15 : 3);
-            }
-            else if (mode == LifeActionVisual.Dining)
-            {
-                yield return Wait(.35f, cancelled);
-                if (cancelled())
-                {
-                    yield break;
-                }
-
-                actor.Warp(anchor == null ? p : (Vector2)anchor.position);
-                Show(8);
+                yield break;
             }
             else if (mode == LifeActionVisual.Appliance)
             {
@@ -365,7 +481,7 @@ namespace IanGame
             {
                 Show(13 + Mathf.FloorToInt(seconds * 3) % 2);
             }
-            else if (mode == LifeActionVisual.Dining)
+            else if (mode == LifeActionVisual.Dining && !seat)
             {
                 Show(8 + Mathf.FloorToInt(seconds * 4) % 4);
             }
@@ -440,11 +556,20 @@ namespace IanGame
                 ShowProp(emptyMealProp);
             }
 
-            if (
-                actor?.growthVisual != null
-                && actor.growthVisual.BodyInteractions
-                && (mode == LifeActionVisual.Bed || mode == LifeActionVisual.Dining || mode == LifeActionVisual.Seat)
-            )
+            if (mode is LifeActionVisual.Seat or LifeActionVisual.Dining)
+            {
+                yield return SeatTransfer(false, cancelled);
+                if (!cancelled() && standUp != approach)
+                {
+                    yield return WalkToFloor(world, seat.StandUpPoint, cancelled);
+                }
+
+                ResetVisual();
+                Completed = !cancelled() && arrived;
+                yield break;
+            }
+
+            if (actor.growthVisual && mode == LifeActionVisual.Bed)
             {
                 if (mode == LifeActionVisual.Bed && !actor.MovementAllowed && guardianBath)
                 {
@@ -487,8 +612,13 @@ namespace IanGame
                         yield return Wait(.24f, cancelled);
                     }
 
+                    if (actor.MovementAllowed && standUp && standUp != approach && !cancelled())
+                    {
+                        yield return WalkToFloor(world, standUp.position, cancelled);
+                    }
+
                     ResetVisual();
-                    Completed = !cancelled();
+                    Completed = !cancelled() && arrived;
                     yield break;
                 }
 
@@ -547,20 +677,6 @@ namespace IanGame
                 yield break;
             }
 
-            if (mode == LifeActionVisual.Bed && !care)
-            {
-                world.Player.Pose("Wake Up");
-                if (world.Service.Game.growth.Age == 0)
-                {
-                    Show(12);
-                    yield return Wait(.5f, cancelled);
-                }
-                else
-                {
-                    yield return Sequence(4, 7, .18f, cancelled);
-                }
-            }
-
             if (mode == LifeActionVisual.Appliance)
             {
                 for (int i = 2; i >= 0; i--)
@@ -604,46 +720,6 @@ namespace IanGame
                 yield break;
             }
 
-            bool leaving =
-                mode == LifeActionVisual.Bed || mode == LifeActionVisual.Dining || mode == LifeActionVisual.Seat;
-            var destination = standUp == null ? target.Point : (Vector2)standUp.position;
-            if (leaving && !cancelled())
-            {
-                if (world.Service.Game.growth.Age == 0)
-                {
-                    actor.Warp(destination);
-                }
-                else
-                {
-                    if (mode == LifeActionVisual.Bed)
-                    {
-                        actor.Warp((Vector2)transform.position + Vector2.down * .05f);
-                    }
-
-                    ResetVisual();
-                    actor.GetComponent<CircleCollider2D>().enabled = false;
-                    actor.Pose(mode == LifeActionVisual.Dining ? "Stand Up" : "Idle");
-                    yield return Wait(mode == LifeActionVisual.Dining ? .45f : .1f, cancelled);
-                    if (!cancelled())
-                    {
-                        actor.BeginTraversal(destination, 1.7f);
-                        while (actor.IsTraversing && actor.TraversalSeconds < 2)
-                        {
-                            if (cancelled())
-                            {
-                                break;
-                            }
-
-                            yield return null;
-                        }
-
-                        actor.CancelTraversal();
-                    }
-
-                    actor.GetComponent<CircleCollider2D>().enabled = colliderWasEnabled;
-                }
-            }
-
             ResetVisual();
             Completed = !cancelled();
         }
@@ -655,6 +731,7 @@ namespace IanGame
                 return;
             }
 
+            bend?.Hide();
             active = false;
             Ready = false;
             Phase = "Idle";
@@ -688,6 +765,7 @@ namespace IanGame
                 quilt?.Release(actor.sprite);
                 actor.growthVisual?.ClearAction();
                 actor.sprite.enabled = visualWasEnabled;
+                actor.CancelTraversal();
                 actor.GetComponent<CircleCollider2D>().enabled = colliderWasEnabled;
                 if (actor.contactShadow != null)
                 {
@@ -751,7 +829,8 @@ namespace IanGame
 
         void ShowProp(Sprite sprite)
         {
-            if (sprite == null)
+            // The shared dining sprite already has a place setting at each chair.
+            if (sprite == null || (mode == LifeActionVisual.Dining && seat && seat.Surface != furnitureVisual))
             {
                 return;
             }
@@ -818,6 +897,7 @@ namespace IanGame
             {
                 a.seat = target.gameObject.AddComponent<WorldActivitySlot>();
                 a.seat.facing = a.facing;
+                a.BindSeatAnchors(target);
             }
 
             var overlay = new GameObject("Life action occupied", typeof(SpriteRenderer));

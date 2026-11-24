@@ -234,11 +234,12 @@ namespace IanGame.Editor
             Check(g.BirthIntroductionPending, "Explicit new life resets introduction");
             g.CompleteBirthIntroduction();
             var f = UnityEditor.AssetDatabase.LoadAssetAtPath<TMP_FontAsset>(
-                "Assets/_Game/UI/Pixel/Fonts/Galmuri/IanBodyPixel18.asset"
+                "Assets/_Game/UI/Pixel/Fonts/PFStardust/PFStardust_Main.asset"
             );
             Check(
-                Enumerable.Range(0xAC00, 11172).All(c => f.HasCharacter((char)c)),
-                "All modern Hangul baked at native 18pt"
+                "이안키우기0123456789금요일₩".All(c => f.HasCharacter(c, true, true))
+                    && f.fallbackFontAssetTable.Any(a => a.sourceFontFile && a.faceInfo.familyName.Contains("Stardust")),
+                "Game glyphs and extended Stardust source"
             );
             Check(f.atlasTextures.All(t => t.filterMode == FilterMode.Point), "Readable bitmap atlases use Point");
             CommercialSliceVerification.SetSize(1920, 1080);

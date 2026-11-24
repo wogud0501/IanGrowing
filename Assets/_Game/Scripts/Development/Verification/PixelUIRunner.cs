@@ -570,8 +570,8 @@ namespace IanGame.Editor
             shell.Pop();
             var theme = UnityEngine.Object.FindFirstObjectByType<PixelHomePresenter>().theme;
             Check(
-                theme.fontLicense != null && theme.font.sourceFontFile != null,
-                "OFL notice and source font are included in UI theme"
+                theme.fontLicense != null && theme.font == TMP_Settings.defaultFontAsset,
+                "Official font notice and shared typeface are included in UI theme"
             );
         }
 

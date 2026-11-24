@@ -237,7 +237,7 @@ namespace IanGame
                 : .62f;
             float side = r.facing.x < -.2f ? -1 : 1;
             sr.transform.position =
-                r.actor.transform.position
+                (seated ? r.actor.visual.transform.position : r.actor.transform.position)
                 + new Vector3(
                     side * (floor ? .39f + .14f * stroke : .32f),
                     floor ? -.02f
