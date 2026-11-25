@@ -90,6 +90,7 @@ namespace IanGame
         static string Stamp() => DateTime.UtcNow.ToString("HH:mm:ss");
         internal static void Record(DiagnosticEvent code, WorldInteractionKind? kind = null)
         {
+            AndroidQAEvent.Breadcrumb(code);
             var recorder = Current;
             if (recorder == null)
             {

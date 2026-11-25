@@ -79,6 +79,7 @@ namespace IanGame
                 );
             }
 
+            AndroidQAEvent.Log("LEGAL", "RequiredDocumentsAcknowledged");
             PlayerPrefs.SetString(Key, JsonUtility.ToJson(a));
             PlayerPrefs.Save();
         }

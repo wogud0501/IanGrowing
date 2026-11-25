@@ -605,6 +605,7 @@ namespace IanGame
                 busy = false;
             }
 
+            AndroidQAEvent.Log("REWARD", "Claimed " + mission.Id);
             RewardClaimed?.Invoke(mission);
             Refresh();
             CheckpointRequested?.Invoke();

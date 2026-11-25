@@ -143,6 +143,7 @@ namespace IanGame
             RecordPage.OpenAuthored(panel);
             RecordPage.StyleAuthored(panel);
             stack.Add(entry);
+            AndroidQAEvent.Log("UI", "WindowOpened");
             panel.SetActive(true);
             panel.transform.SetAsLastSibling();
             Sync();
