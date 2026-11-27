@@ -102,7 +102,7 @@ namespace IanGame.Editor
             return Save(s, Root + name + ".asset");
         }
 
-        [MenuItem("Ian/Growth/Build age art and bind existing room scenes")]
+        [MenuItem("Ian/Growth/Build official growth visuals and bind room scenes")]
         public static void Build()
         {
             if (Application.isPlaying)
@@ -111,212 +111,12 @@ namespace IanGame.Editor
             }
 
             Directory.CreateDirectory(Root);
-            var rooms = AssetDatabase.LoadAssetAtPath<RoomSceneCatalog>(
-                "Assets/_Game/Data/SceneManagement/Rooms/RoomScenes.asset"
-            );
-            EditorSceneManager.OpenScene("Assets/_Game/Scenes/Rooms/FamilyHome_IanBedroom.unity");
-            var originalMotor = UnityEngine.Object.FindAnyObjectByType<WorldPlayerMotor>();
-            var adult = originalMotor.advanced.library;
-            float scale = originalMotor.visualScale;
-            float adultRadius = originalMotor.GetComponent<CircleCollider2D>().radius;
-            var prior = Catalog;
-            if (prior != null && prior.profiles.Length == 9)
+            var catalog = Catalog;
+            if (!catalog)
             {
-                adult = prior.profiles[8].animations;
+                catalog = ScriptableObject.CreateInstance<GrowthVisualCatalog>();
+                AssetDatabase.CreateAsset(catalog, Root + "GrowthVisuals.asset");
             }
-
-            var catalog = ScriptableObject.CreateInstance<GrowthVisualCatalog>();
-            var profiles = new List<GrowthVisualProfile>();
-            string[] files =
-            {
-                "01_newborn",
-                "02_toddler",
-                "03_preschool",
-                "04_child",
-                "05_schoolchild",
-                "06_preteen",
-                "07_teen",
-                "08_late_teen",
-            };
-            int[] min =  { 0, 1, 3, 5, 8, 11, 14, 17, 19 },
-                max =  { 0, 2, 4, 7, 10, 13, 16, 18, int.MaxValue };
-            float[] height =  { .35f, .58f, .66f, .78f, .9f, 1f, 1.08f, 1.14f, 1.2f },
-                radius =  { .07f, .11f, .13f, .145f, .16f, .17f, .18f, .19f, .21f },
-                speed =  { 0, .48f, .56f, .65f, .78f, .86f, .94f, .98f, 1 };
-            float adultHeight = adult.Find(ActorMotion.Idle, ActorDirection.Down).frames[0].bounds.size.y * scale;
-            float[] proportions = { .23f, .41f, .5f, .59f, .67f, .76f, .85f, .94f, 1 };
-            for (int i = 0; i < 9; i++)
-            {
-                height[i] = adultHeight * proportions[i];
-            }
-
-            for (int i = 0; i < 9; i++)
-            {
-                ActorAnimationSet bank;
-                Sprite preview;
-                if (i < 8)
-                {
-                    var t = Texture(Art + files[i] + ".png");
-                    float ppu =
-                        (Opaque(t, Cell(t, 0, 0)).height + Opaque(t, Cell(t, 0, 1)).height) * .5f / height[i] * scale;
-                    var sprites = new Sprite[8, 8];
-                    for (int row = 0; row < 8; row++)
-                    {
-                        for (int col = 0; col < 8; col++)
-                        {
-                            sprites[row, col] = Slice(
-                                t,
-                                files[i] + "_" + row + "_" + col,
-                                Opaque(t, Cell(t, row, col)),
-                                ppu,
-                                row == 4 && col < 2
-                            );
-                        }
-                    }
-
-                    var clips = new List<ActorSpriteClip>();
-                    Action<ActorMotion, int, int, int, bool, ActorDirection> clip = (
-                        motion,
-                        row,
-                        col,
-                        count,
-                        loop,
-                        direction
-                    ) =>
-                        clips.Add(
-                            new ActorSpriteClip
-                            {
-                                motion = motion,
-                                direction = direction,
-                                frames = Enumerable.Range(col, count).Select(c => sprites[row, c]).ToArray(),
-                                loop = loop,
-                                framesPerSecond = motion == ActorMotion.Idle ? 2 : 6,
-                                strideLength = height[i] * 1.2f,
-                            }
-                        );
-                    if (i == 0)
-                    {
-                        clip(ActorMotion.Idle, 0, 0, 2, true, ActorDirection.Down);
-                        clips.Add(
-                            new ActorSpriteClip
-                            {
-                                motion = ActorMotion.InfantCry,
-                                direction = ActorDirection.Down,
-                                frames = new[] { sprites[0, 5], sprites[1, 5] },
-                                loop = true,
-                                framesPerSecond = 4,
-                            }
-                        );
-                        clip(ActorMotion.Carried, 4, 4, 2, true, ActorDirection.Down);
-                        clip(ActorMotion.CareFeed, 5, 0, 2, true, ActorDirection.Down);
-                        clip(ActorMotion.CareBath, 6, 0, 2, true, ActorDirection.Down);
-                        clip(ActorMotion.Play, 6, 4, 2, true, ActorDirection.Down);
-                        clip(ActorMotion.Interact, 7, 0, 2, true, ActorDirection.Down);
-                    }
-                    else
-                    {
-                        for (int d = 0; d < 4; d++)
-                        {
-                            clip(ActorMotion.Idle, d, 0, 2, true, (ActorDirection)d);
-                            clip(ActorMotion.Walk, d, 2, 3, true, (ActorDirection)d);
-                            clip(ActorMotion.Run, d, 5, 3, true, (ActorDirection)d);
-                            clip(ActorMotion.Turn, d, 0, 2, false, (ActorDirection)d);
-                            clip(ActorMotion.Stop, d, 0, 2, false, (ActorDirection)d);
-                        }
-
-                        clip(ActorMotion.SitDown, 4, 4, 2, false, ActorDirection.Down);
-                        clip(ActorMotion.StandUp, 4, 6, 2, false, ActorDirection.Down);
-                        ActorMotion[] actions =
-                        {
-                            ActorMotion.Eat,
-                            ActorMotion.Drink,
-                            ActorMotion.WashFace,
-                            ActorMotion.Shower,
-                            ActorMotion.Study,
-                            ActorMotion.UseComputer,
-                            ActorMotion.OpenDoor,
-                            ActorMotion.PickUpItem,
-                            ActorMotion.PutDownItem,
-                            ActorMotion.Talk,
-                            ActorMotion.Interact,
-                            ActorMotion.Play,
-                        };
-                        for (int a = 0; a < actions.Length; a++)
-                        {
-                            clip(actions[a], 5 + a / 4, (a % 4) * 2, 2, true, ActorDirection.Down);
-                        }
-
-                        // Care feeding uses this age's eating art; these aliases are documented.
-                        clips.Add(
-                            new ActorSpriteClip
-                            {
-                                motion = ActorMotion.CareFeed,
-                                direction = ActorDirection.Down,
-                                frames = new[] { sprites[5, 0], sprites[5, 1] },
-                                loop = true,
-                                framesPerSecond = 4,
-                            }
-                        );
-                        if (i == 1)
-                        {
-                            clips.Add(
-                                new ActorSpriteClip
-                                {
-                                    motion = ActorMotion.CareBath,
-                                    direction = ActorDirection.Down,
-                                    frames = new[] { sprites[5, 6], sprites[5, 7] },
-                                    loop = true,
-                                    framesPerSecond = 4,
-                                }
-                            );
-                        }
-                    }
-
-                    clip(ActorMotion.Sleep, 4, 0, 2, true, ActorDirection.Down);
-                    clip(ActorMotion.WakeUp, 4, 2, 2, false, ActorDirection.Down);
-                    bank = ScriptableObject.CreateInstance<ActorAnimationSet>();
-                    bank.ageScoped = true;
-                    bank.clips = clips.ToArray();
-                    bank.name = files[i];
-                    bank = Save(bank, Root + files[i] + "_Animations.asset");
-                    preview = sprites[0, 0];
-                }
-                else
-                {
-                    bank = adult;
-                    preview = adult.Find(ActorMotion.Idle, ActorDirection.Down).frames[0];
-                }
-
-                profiles.Add(
-                    new GrowthVisualProfile
-                    {
-                        stage = (VisualGrowthStage)i,
-                        id = ((VisualGrowthStage)i).ToString(),
-                        minAge = min[i],
-                        maxAge = max[i],
-                        height = height[i],
-                        colliderRadius = i == 8 ? adultRadius : radius[i],
-                        colliderOffset = Vector2.zero,
-                        speedFactor = speed[i],
-                        stride = height[i] * 1.2f,
-                        foot = Vector2.zero,
-                        hand = new Vector2(0, height[i] * .45f),
-                        eye = new Vector2(0, height[i] * .82f),
-                        seatOffset = new Vector2(0, i < 5 ? .12f : 0),
-                        showerOffset = Vector2.zero,
-                        basinOffset = Vector2.zero,
-                        animations = bank,
-                        idlePreview = preview,
-                        sleepHorizontal = i > 0 && i < 8,
-                        artNotes =
-                            i == 8
-                                ? "Original adult art retained unchanged"
-                                : "Generated original age-specific atlas; four-direction locomotion (except newborn); interaction directions use Down fallback. Turn/Stop and care-feed are explicit aliases. Missing motions remain queryable; not authored coverage.",
-                    }
-                );
-            }
-
-            catalog.profiles = profiles.ToArray();
             var furniture = Texture(Art + "GrowthFurniture.png");
             if (furniture.GetPixel(0, 0).a > .01f)
             {
@@ -341,12 +141,13 @@ namespace IanGame.Editor
             catalog.stepStool = parts[4];
             catalog.babyBath = parts[5];
             catalog.name = "Growth visuals";
-            Save(catalog, Root + "GrowthVisuals.asset");
+            EditorUtility.SetDirty(catalog);
+            IanGaitImport.Apply();
             ApplyToRooms();
             AssetDatabase.SaveAssets();
             File.WriteAllText(
                 "Docs/AgeGrowth/BUILD.txt",
-                "9 visual profiles; eight original age atlases; original adult bank; 16 scene bindings. Age is derived from LifeProgression.\n"
+                $"{catalog.profiles.Length} official growth sprites. Age is derived from LifeProgression.\n"
                     + DateTime.UtcNow.ToString("O")
             );
         }
@@ -359,36 +160,6 @@ namespace IanGame.Editor
                 return;
             }
 
-            if (File.Exists(Art + "ToddlerGuardianBath.png"))
-            {
-                var t = Texture(Art + "ToddlerGuardianBath.png");
-                var pieces = new Sprite[2];
-                for (int c = 0; c < 2; c++)
-                {
-                    var r = Opaque(t, Cell(t, 0, c, 2, 1));
-                    pieces[c] = Slice(
-                        t,
-                        "ToddlerGuardianBath_" + c,
-                        r,
-                        r.height / (catalog.profiles[1].height * 1.25f) * .8f
-                    );
-                }
-
-                var clip = catalog.profiles[1].animations.clips.First(x => x.motion == ActorMotion.CareBath);
-                clip.frames = pieces;
-                EditorUtility.SetDirty(catalog.profiles[1].animations);
-            }
-
-            foreach (var p in catalog.profiles)
-            {
-                var sleep = p.animations.Find(ActorMotion.Sleep, ActorDirection.Down);
-                p.sleepHorizontal =
-                    p.stage != VisualGrowthStage.Adult
-                    && sleep != null
-                    && sleep.frames[0].bounds.size.x > sleep.frames[0].bounds.size.y;
-            }
-
-            EditorUtility.SetDirty(catalog);
             var rooms = AssetDatabase.LoadAssetAtPath<RoomSceneCatalog>(
                 "Assets/_Game/Data/SceneManagement/Rooms/RoomScenes.asset"
             );

@@ -86,6 +86,7 @@ namespace IanGame
         public List<MissionProgress> progress = new List<MissionProgress>();
         public List<MissionChoiceOutcome> choiceOutcomes = new List<MissionChoiceOutcome>();
         public bool finalReviewRequested;
+        public int freeLifeDays;
     }
 
     public struct MissionActivityEvent

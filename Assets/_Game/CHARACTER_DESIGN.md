@@ -2,7 +2,11 @@
 게임: 이안 키우기 — BLACK COMEDY EDITION
 이 문서 및 Reference/Ian_OfficialTurnaround.png는 이후 캐릭터 관련 작업의 기준입니다.
 
-## 단일 기준
+## 연령별 게임 외형
+
+게임 속 이안의 정면 원화는 사용자가 제공한 5×4 성장 시트다. 왼쪽 위 S01부터 오른쪽 아래 S20까지 순서대로 적용한다. 헤드폰과 복장은 각 칸을 따른다. S01과 S02의 기본 자세는 앉기다. [공식 성장 원본](Art/Characters/Ian/Reference/Ian_OfficialGrowth.png) · [나이별 매핑](../../Docs/IAN_GROWTH_SPRITE_MAPPING.md)
+
+## 기본 디자인과 다각도 자료
 - 공식 다각도 원본은 [이안 기본 외형 시트](Art/Characters/Ian/Reference/Ian_OfficialTurnaround.png)입니다. 2026-11-22에 사용자가 첨부한 PNG를 그대로 보존합니다. 정면·사선·측면·후면과 위·아래 시점을 이 시트로 확인합니다.
 - 이전 정면 자료는 Art/Characters/Ian/Reference/Ian_OfficialDesign.png에 보존합니다.
 - 게임용 파생본: Art/Characters/Ian/Sprites/Ian_Base_Cutout.png (built-in image_gen으로 흰 배경을 투명하게 처리한 파생 이미지).

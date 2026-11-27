@@ -1,0 +1,289 @@
+#!/usr/bin/env python3
+"""Operator CLI for Ian Growing's private cloud diagnostics."""
+
+import argparse
+import datetime as dt
+import hashlib
+import json
+import os
+from pathlib import Path
+import subprocess
+import sys
+import time
+import urllib.error
+
+from archive import CONFIG, SOURCES, ID, MAX, issue, master, recent, resolve, secure_write
+from collect import Journal, ROOT, STORE, adb_once, editor_file, queue_native, watch_native
+from privacy import clean
+from enrollment import maintain, provision
+from services import manage
+import sqlite3
+
+
+def parser():
+    p = argparse.ArgumentParser(description=__doc__)
+    s = p.add_subparsers(dest="command", required=True)
+    ls = s.add_parser("list", help="List recent private R2 object metadata")
+    ls.add_argument("--platform", choices=SOURCES, required=True)
+    ls.add_argument("--date")
+    ls.add_argument("--limit", type=int, default=20)
+    ls.add_argument("--days", type=int, default=3)
+    ls.add_argument("--build", help="Exact game version or build ID")
+    for cmd in ("get", "download"):
+        get = s.add_parser(cmd)
+        get.add_argument("event", help="Event ID or platform/YYYY-MM-DD/filename")
+        get.add_argument("--platform", choices=SOURCES)
+        get.add_argument("--date")
+        if cmd == "download":
+            get.add_argument("--output", type=Path)
+    prov = s.add_parser(
+        "provision", help="Enroll an internal Editor/Development player with a 12-hour write-only ticket"
+    )
+    prov.add_argument("--platform", required=True, choices=SOURCES[:8])
+    dest = prov.add_mutually_exclusive_group(required=True)
+    dest.add_argument("--directory", type=Path, help="Player's actual persistentDataPath")
+    dest.add_argument(
+        "--device", action="store_true", help="Provision the game's private Android no-backup directory"
+    )
+    prov.add_argument("--target", help="Authorized ADB transport ID if multiple phones are attached")
+    for cmd in ("watch-editor", "watch-adb", "watch-native"):
+        watch = s.add_parser(cmd)
+        watch.add_argument("--once", action="store_true")
+        watch.add_argument(
+            "--renew", action="store_true", help="Renew an existing operator-signed internal enrollment"
+        )
+        if cmd == "watch-editor":
+            watch.add_argument(
+                "--enrollment-directory", type=Path, help="Editors persistentDataPath for renewal"
+            )
+        if cmd == "watch-editor":
+            default = ROOT / "Logs/Editor.log"
+            if not default.is_file():
+                default = (
+                    Path(os.environ.get("LOCALAPPDATA", ".")) / "Unity/Editor/Editor.log"
+                    if sys.platform == "win32"
+                    else Path.home()
+                    / (
+                        "Library/Logs/Unity/Editor.log"
+                        if sys.platform == "darwin"
+                        else ".config/unity3d/Editor.log"
+                    )
+                )
+            watch.add_argument("--log", type=Path, default=default)
+            watch.add_argument(
+                "--from-start", action="store_true", help="Only on first attachment; default begins at EOF"
+            )
+        elif cmd == "watch-native":
+            watch.add_argument("--directory", type=Path, required=True)
+        else:
+            watch.add_argument("--target")
+            watch.add_argument(
+                "--since", type=float, help="Initial device epoch seconds; default begins now"
+            )
+    s.add_parser("flush", help="Retry the durable developer outbox")
+    native = s.add_parser("native", help="Upload an explicitly reviewed game-only native text report")
+    native.add_argument("file", type=Path)
+    legacy = s.add_parser(
+        "import-legacy", help="Inspect, mask and enqueue old pending JSON; preserves originals"
+    )
+    legacy.add_argument("directory", type=Path)
+    svc = s.add_parser("service", help="Manage macOS login collectors")
+    svc.add_argument("action", choices=("install", "status", "remove"))
+    svc.add_argument("watcher", choices=("editor", "adb", "native"))
+    svc.add_argument("--log", type=Path, help="Editor log or native crash directory")
+    svc.add_argument("--enrollment-directory", type=Path)
+    return p
+
+
+def reviewed_native(j, file):
+    if not queue_native(j, file):
+        raise ValueError(
+            "Select a game-owned UTF-8 native report with a verified process header and no raw memory dump."
+        )
+    j.flush()
+
+
+def import_legacy(j, folder):
+    if not folder.is_dir():
+        raise ValueError("Select the existing PendingCloudErrors directory.")
+    with j.db:
+        for path in sorted(folder.glob("*.json")):
+            if path.stat().st_size > MAX:
+                raise ValueError("Legacy report exceeds the documented size limit.")
+            raw = path.read_bytes()
+            old = json.loads(raw)
+            src = str(old.get("platform", "")).lower()
+            src = {"iphoneplayer": "ios", "windowsplayer": "windows"}.get(src, src)
+            if src not in SOURCES or not isinstance(old.get("message"), str):
+                raise ValueError("Unrecognized legacy schema; original retained.")
+            stamp = dt.datetime.fromisoformat(old["timestamp"].replace("Z", "+00:00"))
+            if stamp.tzinfo is None:
+                raise ValueError("Legacy timestamp is missing its UTC offset.")
+            eid = format(int(stamp.timestamp() * 1000), "012x") + hashlib.sha256(raw).hexdigest()[:20]
+            doc = {k: old.get(k) for k in ("level", "buildId", "gameVersion", "sessionId")}
+            for k in doc:
+                if doc[k] is not None:
+                    doc[k] = clean(str(doc[k]), master())
+            doc.update(
+                eventId=eid,
+                timestamp=stamp.astimezone(dt.timezone.utc).isoformat(),
+                platform=src,
+                message=clean(old["message"], master()),
+                stackTrace=clean(old.get("stackTrace") or "", master()),
+            )
+            j.queue(
+                src,
+                json.dumps(doc, ensure_ascii=False).encode(),
+                b"legacy",
+                stamp.timestamp(),
+                True,
+                doc["buildId"] or "",
+                doc["gameVersion"] or "",
+                eid,
+            )
+    j.flush()
+
+
+def main():
+    args = parser().parse_args()
+    if args.command == "service":
+        return manage(args.action, args.watcher, args.log, args.enrollment_directory)
+    if args.command == "list":
+        for item in recent(args.platform, args.date, args.limit, args.build, args.days):
+            print(json.dumps(item))
+        return
+    if args.command in ("get", "download"):
+        key, data = resolve(args.event, args.platform, args.date)
+        if args.command == "get":
+            content = data.decode("utf-8", "replace")
+            if key.endswith(".json"):
+                # Parse first: an escaped newline in a compact JSON document is a real boundary in a trace.
+                obj = json.loads(content)
+                private_fields = {
+                    "email",
+                    "phone",
+                    "password",
+                    "authorization",
+                    "token",
+                    "deviceid",
+                    "userid",
+                    "userinput",
+                }
+
+                def safe(value):
+                    if isinstance(value, dict):
+                        return {
+                            k: "[redacted]" if k.replace("_", "").lower() in private_fields else safe(v)
+                            for k, v in value.items()
+                        }
+                    if isinstance(value, list):
+                        return [safe(v) for v in value]
+                    return clean(value) if isinstance(value, str) else value
+
+                print(json.dumps(safe(obj), ensure_ascii=False, indent=2))
+            else:
+                print(clean(content), end="" if content.endswith("\n") else "\n")
+        else:
+            path = args.output or STORE / "downloads" / key
+            secure_write(path, data, replace=False)
+            print(key, hashlib.sha256(data).hexdigest())
+        return
+    if args.command == "provision":
+        if args.device and args.platform != "android":
+            raise ValueError("--device provisions Android only.")
+        phone = None
+        if args.device:
+            from device import Phone
+
+            phone = Phone(args.target)
+        ticket = provision(args.platform, phone, args.directory)
+        print(
+            "Enrolled",
+            args.platform,
+            "until",
+            dt.datetime.fromtimestamp(ticket["expires"], dt.timezone.utc).isoformat(),
+        )
+        return
+    j = Journal()
+    if args.command == "native":
+        return reviewed_native(j, args.file)
+    if args.command == "import-legacy":
+        return import_legacy(j, args.directory)
+    if args.command == "flush":
+        return j.flush()
+    if args.command == "watch-adb":
+        from device import Phone
+    delay = 2
+    enrollment_check = 0
+    enrolled = False
+    active_device = None
+    while True:
+        problem = None
+        try:
+            if args.command == "watch-adb":
+                phone = Phone(args.target)
+                identity = (phone.row["_serial"], phone.row["target"])
+                if active_device != identity or time.monotonic() >= enrollment_check:
+                    enrolled = maintain("android", phone=phone, renew=args.renew)
+                    active_device = identity
+                    enrollment_check = time.monotonic() + 60
+                if enrolled:
+                    adb_once(j, phone, args.since)
+                elif args.once:
+                    raise ValueError("Internal phone enrollment unavailable.")
+            elif args.command == "watch-native":
+                watch_native(j, args.directory)
+            else:
+                if args.renew and time.monotonic() >= enrollment_check:
+                    if not args.enrollment_directory:
+                        raise ValueError("Specify --enrollment-directory for renewal.")
+                    maintain(
+                        "windowseditor"
+                        if sys.platform == "win32"
+                        else "osxeditor"
+                        if sys.platform == "darwin"
+                        else "linuxeditor",
+                        directory=args.enrollment_directory,
+                        renew=True,
+                    )
+                    enrollment_check = time.monotonic() + 60
+                editor_file(j, args.log, args.from_start, 0 if args.once else 2)
+        except (OSError, ValueError, sqlite3.Error, subprocess.SubprocessError) as exc:
+            problem = exc
+        # A disconnected phone must not strand previously committed developer records.
+        try:
+            j.flush()
+        except (OSError, ValueError, sqlite3.Error, subprocess.SubprocessError) as exc:
+            problem = exc
+        if problem:
+            if args.once:
+                raise problem
+            print(
+                "Waiting to retry",
+                type(problem).__name__,
+                getattr(problem, "code", ""),
+                file=sys.stderr,
+                flush=True,
+            )
+            delay = min(60, delay * 2)
+        else:
+            delay = 4
+        if args.once:
+            return
+        time.sleep(delay)
+
+
+if __name__ == "__main__":
+    try:
+        main()
+    except KeyboardInterrupt:
+        pass
+    except (OSError, ValueError, RuntimeError, sqlite3.Error, subprocess.SubprocessError) as exc:
+        # Authentication material, paths and private error text stay out of CLI failures.
+        sys.exit(
+            "Operation failed: "
+            + type(exc).__name__
+            + " "
+            + str(getattr(exc, "code", ""))
+            + " (inspect local enrollment, permissions and selection)."
+        )

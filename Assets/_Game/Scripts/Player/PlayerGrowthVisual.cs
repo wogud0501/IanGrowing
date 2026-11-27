@@ -95,7 +95,7 @@ namespace IanGame
                 return;
             }
 
-            if (Current != null && lastAge == game.growth.Age && !Deferred)
+            if (Current != null && lastAge == game.growth.Age && !Deferred && motor.advanced.library == Current.animations)
             {
                 return;
             }
@@ -106,8 +106,9 @@ namespace IanGame
                 return;
             }
 
-            if (p == Current)
+            if (p == Current && motor.advanced.library == p.animations)
             {
+                Deferred = false;
                 lastAge = game.growth.Age;
                 return;
             }
@@ -125,15 +126,22 @@ namespace IanGame
                 motor.StopForControlLock();
                 Current = p;
                 lastAge = game.growth.Age;
+                bool changeArt = previous == null || motor.advanced.library != p.animations;
                 motor.advanced.library = p.animations;
                 motor.GetComponent<CircleCollider2D>().radius = p.colliderRadius;
                 motor.GetComponent<CircleCollider2D>().offset = p.colliderOffset;
-                motor.advanced.Play(ActorMotion.Idle, motor.Facing, true);
-                motor.advanced.Render(ActorMotion.Idle, motor.Facing);
+                if (changeArt)
+                {
+                    motor.advanced.Play(ActorMotion.Idle, motor.Facing, true);
+                    motor.advanced.Render(ActorMotion.Idle, motor.Facing);
+                }
                 ActionOffset = Vector2.zero;
                 ActionOrder = int.MinValue;
                 InBed = Seated = false;
-                VisualChanged?.Invoke(previous, p);
+                if (previous != p)
+                {
+                    VisualChanged?.Invoke(previous, p);
+                }
             }
         }
 

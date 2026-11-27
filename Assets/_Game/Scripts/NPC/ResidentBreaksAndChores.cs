@@ -248,6 +248,25 @@ namespace IanGame
                 );
             sr.transform.localScale = Vector3.one * (height / sprite.bounds.size.y / r.actor.transform.lossyScale.y);
             sr.transform.rotation = Quaternion.Euler(0, 0, floor ? side * (10 + 15 * stroke) : 3 * stroke);
+            if (seated && motion == ActorMotion.SeatedDrink)
+            {
+                // Bring the rim to the lower face, pause for a sip, then return it to the lap.
+                float phase = Mathf.Repeat(Time.time + r.index * .71f, 4.4f);
+                float lift = Mathf.SmoothStep(0, 1, Mathf.InverseLerp(.40f, 1.35f, phase))
+                    - Mathf.SmoothStep(0, 1, Mathf.InverseLerp(2.05f, 3.25f, phase));
+                Bounds body = r.actor.visual.bounds;
+                var lap = body.min + Vector3.Scale(body.size, new Vector3(side > 0 ? .74f : .26f, .32f));
+                var mouth = body.min + Vector3.Scale(body.size, new Vector3(side > 0 ? .54f : .46f, .62f));
+                sr.transform.rotation = Quaternion.Euler(0, 0, side * 14 * lift);
+                sr.transform.position = Vector3.Lerp(lap, mouth, lift)
+                    - sr.transform.TransformVector(new Vector3(sprite.bounds.center.x, sprite.bounds.max.y, 0));
+            }
+            if (floor)
+            {
+                // Rotate about the bristles at floor level even for a centre-pivot tool.
+                float contact = r.actor.transform.position.y + .025f;
+                sr.transform.position += Vector3.up * (contact - sr.bounds.min.y);
+            }
             sr.sortingOrder = r.actor.visual.sortingOrder + (r.facing.y > .6f && !floor ? -1 : 1);
         }
 

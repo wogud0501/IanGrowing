@@ -74,6 +74,25 @@ namespace IanGame.Editor
             }
         }
 
+        static void FamilyCleaningRoute(LifeWorldController world, ResidentActivityArt library)
+        {
+            // Both parents take tools from the south side of the coffee table.
+            var start = new Vector2(-3.93f, -1.62f);
+            Chore(world, "family-clean", start, Vector2.right,
+                new[] { ActorMotion.Sweep, ActorMotion.Mop, ActorMotion.Vacuum },
+                start, new Vector2(-3.10f, -2.15f), new Vector2(-1.45f, -1.65f),
+                new Vector2(.15f, -2.35f), start);
+            Furnish(world, "Cleaning tool holder", library.tools[0], new Vector2(-4.23f, -1.68f), .58f, Vector2.zero);
+            foreach (var resident in world.Room.rules.npcs)
+            {
+                foreach (var entry in resident.schedule.Where(e => e.zone == "family-living" && e.objectId == "family-clean"))
+                {
+                    entry.position = start;
+                }
+            }
+            EditorUtility.SetDirty(world.Room.rules);
+        }
+
         static void Fixture(
             LifeWorldController w,
             string name,
@@ -156,19 +175,7 @@ namespace IanGame.Editor
                         breakSeat.seatGroup = "family-sofa";
                         breakSeat.seatSurface = sofa;
                     }
-                    Chore(
-                        w,
-                        "family-clean",
-                        new Vector2(-3.4f, -.8f),
-                        Vector2.right,
-                        new[] { ActorMotion.Sweep, ActorMotion.Mop, ActorMotion.Vacuum },
-                        new(-3.6f, -1),
-                        new(-3.4f, .35f),
-                        new(-3.3f, 1.25f),
-                        new(-2.4f, 1.6f),
-                        new(-3.6f, -1)
-                    );
-                    Furnish(w, "Cleaning tool holder", library.tools[0], new Vector2(-4.23f, -.9f), .58f, Vector2.zero);
+                    FamilyCleaningRoute(w, library);
                     Chore(
                         w,
                         "family-waste",
@@ -278,7 +285,8 @@ namespace IanGame.Editor
                     );
                     break;
                 case "school":
-                    Fixture(w, "Student lounge bench", Furniture, "Settee", -6.65f, -2.8f, 2.7f, new(2.25f, .34f));
+                    Furnish(w, "Student lounge bench", AssetDatabase.LoadAssetAtPath<Sprite>(StreetArt + "ENV_City_Bench_02.png"),
+                        new Vector2(-6.65f, -2.8f), 2.7f, new Vector2(2.25f, .34f));
                     Seat(
                         w,
                         "school-break-0",
@@ -316,7 +324,7 @@ namespace IanGame.Editor
                         .29f,
                         new(.23f, 1.45f)
                     );
-                    Fixture(w, "Staff cupboard", Furniture, "Nightstand", 4.9f, -1.35f, .75f, new(.57f, .27f));
+                    StaffFurniture(w, room);
                     Seat(
                         w,
                         room + "-staff-rest-0",
@@ -341,7 +349,7 @@ namespace IanGame.Editor
                     Fixture(w, "Stockroom partition", Architecture, "VerticalWall", 2.5f, 1.95f, .27f, new(.23f, 1.4f));
                     Fixture(w, "Stockroom folding chair", Furniture, "Chair", 4.2f, 2.05f, .88f, new(.62f, .26f));
                     Fixture(w, "Cafe staff chair", Furniture, "Chair", 6.1f, 2.05f, .88f, new(.62f, .26f));
-                    Fixture(w, "Staff tea table", Furniture, "Nightstand", 5.12f, 2.02f, .9f, new(.55f, .25f));
+                    StaffFurniture(w, room);
                     Seat(
                         w,
                         "shop-backroom-seat",

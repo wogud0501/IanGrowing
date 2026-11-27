@@ -203,136 +203,8 @@ namespace IanGame.Editor
             Directory.CreateDirectory(Data31);
             var original = UnityEngine.SceneManagement.SceneManager.GetActiveScene().path;
             var catalog = GrowthVisualSetup.Catalog;
-            var profile = catalog.profiles.First(p => p.stage == VisualGrowthStage.Adult);
-            var originalBank = AssetDatabase.LoadAssetAtPath<ActorAnimationSet>(
-                "Assets/_Game/Data/World/Shared/Advanced/IanAdvanced.asset"
-            );
-            var texture = Texture31("Ian_YoungAdult_Life");
-            var parts = new Sprite[8, 8];
-            var bodyCells = Frames31(texture, 8, 8);
-            float ppu = bodyCells[0, 0].height / profile.height;
-            for (int r = 0; r < 8; r++)
-            {
-                for (int c = 0; c < 8; c++)
-                {
-                    parts[r, c] = Slice31(texture, "Ian_Life_" + r + "_" + c, bodyCells[r, c], ppu);
-                }
-            }
-
-            var bank = UnityEngine.Object.Instantiate(originalBank);
-            bank.name = "Ian YoungAdult production";
-            bank.ageScoped = true;
-            var clips = bank.clips.ToList();
-            void Add(
-                ActorMotion motion,
-                ActorDirection dir,
-                Sprite[] frames,
-                bool loop = false,
-                bool mirror = false,
-                float fps = 6
-            )
-            {
-                clips.RemoveAll(c => c.motion == motion && c.direction == dir);
-                clips.Add(
-                    new ActorSpriteClip
-                    {
-                        motion = motion,
-                        direction = dir,
-                        frames = frames,
-                        loop = loop,
-                        mirror = mirror,
-                        framesPerSecond = fps,
-                        strideLength = 1.6f,
-                    }
-                );
-            }
-
-            Sprite[] Row(int r, int c, int n) => Enumerable.Range(c, n).Select(x => parts[r, x]).ToArray();
-            Add(ActorMotion.SitDown, ActorDirection.Down, Row(0, 0, 4));
-            Add(ActorMotion.StandUp, ActorDirection.Down, Row(0, 4, 4));
-            Add(ActorMotion.SeatedIdle, ActorDirection.Down, Row(7, 0, 2), true, false, 2);
-            Add(ActorMotion.Eat, ActorDirection.Down, Row(1, 0, 4), true, false, 5);
-            Add(ActorMotion.Drink, ActorDirection.Down, Row(1, 4, 4), true, false, 5);
-            foreach (var dir in new[] { ActorDirection.Right, ActorDirection.Left })
-            {
-                bool mirror = dir == ActorDirection.Left;
-                Add(ActorMotion.SitDown, dir, Row(2, 0, 2), false, mirror);
-                Add(ActorMotion.StandUp, dir, Row(2, 0, 2).Reverse().ToArray(), false, mirror);
-                Add(ActorMotion.SeatedIdle, dir, new[] { parts[2, 1], parts[2, 7] }, true, mirror, 2);
-                Add(ActorMotion.UseComputer, dir, Row(2, 2, 4), true, mirror);
-                Add(ActorMotion.Work, dir, Row(2, 2, 4), true, mirror);
-                Add(ActorMotion.Talk, dir, Row(2, 6, 2), true, mirror, 4);
-                Add(ActorMotion.OpenDoor, dir, Row(6, 2, 2), false, mirror);
-                Add(ActorMotion.PickUpItem, dir, Row(6, 2, 2), false, mirror);
-            }
-
-            Add(ActorMotion.SitDown, ActorDirection.Up, Row(3, 0, 3));
-            Add(ActorMotion.StandUp, ActorDirection.Up, Row(3, 0, 3).Reverse().ToArray());
-            Add(ActorMotion.SeatedIdle, ActorDirection.Up, Row(3, 2, 2), true, false, 2);
-            Add(ActorMotion.UseComputer, ActorDirection.Up, Row(3, 2, 4), true);
-            Add(ActorMotion.Work, ActorDirection.Up, Row(3, 2, 4), true);
-            Add(ActorMotion.Study, ActorDirection.Up, Row(3, 6, 2), true, false, 4);
-            Add(ActorMotion.OpenDoor, ActorDirection.Up, Row(6, 0, 2));
-            Add(ActorMotion.PickUpItem, ActorDirection.Up, Row(6, 0, 2));
-            Add(ActorMotion.UseComputer, ActorDirection.Down, Row(7, 2, 2), true);
-            Add(ActorMotion.Work, ActorDirection.Down, Row(7, 2, 2), true);
-            Add(ActorMotion.Study, ActorDirection.Down, Row(7, 4, 2), true, false, 4);
-            Add(ActorMotion.Talk, ActorDirection.Down, Row(7, 6, 2), true, false, 4);
-            Add(ActorMotion.UsePhone, ActorDirection.Down, Row(6, 6, 2), true, false, 3);
-            foreach (
-                var entry in new[]
-                {
-                    (ActorMotion.Exhausted, 0),
-                    (ActorMotion.Tired, 0),
-                    (ActorMotion.Stressed, 2),
-                    (ActorMotion.Sick, 4),
-                    (ActorMotion.Happy, 6),
-                }
-            )
-            {
-                Add(entry.Item1, ActorDirection.Down, Row(5, entry.Item2, 2), true, false, 2);
-            }
-
-            Add(ActorMotion.LieDown, ActorDirection.Down, Row(4, 0, 4));
-            var sleep = originalBank.Find(ActorMotion.Sleep, ActorDirection.Down).frames[3];
-            var sleepImporter = (TextureImporter)AssetImporter.GetAtPath(AssetDatabase.GetAssetPath(sleep.texture));
-            bool wasReadable = sleepImporter.isReadable;
-            sleepImporter.isReadable = true;
-            sleepImporter.SaveAndReimport();
-            var sleepTexture = AssetDatabase.LoadAssetAtPath<Texture2D>(AssetDatabase.GetAssetPath(sleep.texture));
-            var lying = Slice31(
-                sleepTexture,
-                "Ian_RestingBody",
-                Opaque31(sleepTexture, sleep.rect),
-                sleep.pixelsPerUnit,
-                true
-            );
-            sleepImporter.isReadable = wasReadable;
-            sleepImporter.SaveAndReimport();
-            Add(ActorMotion.Sleep, ActorDirection.Down, new[] { lying, lying }, true, false, 2);
-            Add(
-                ActorMotion.WakeUp,
-                ActorDirection.Down,
-                new[] { lying, parts[0, 3], parts[0, 2], parts[0, 1] },
-                false,
-                false,
-                5
-            );
-            bank.clips = clips.ToArray();
-            bank = Save31(bank, "IanYoungAdultAnimations");
-            profile.animations = bank;
-            profile.bodyInteractions = true;
-            profile.sleepHorizontal = true;
-            profile.seatOffset = Vector2.zero;
-            foreach (var growth in catalog.profiles)
-            {
-                growth.headphoneAnchorOffset = Vector2.down * (.13f * growth.height / profile.height);
-                growth.headphoneDisplayHeight = .32f * growth.height / profile.height;
-            }
-
-            profile.artNotes =
-                "Phase31: retained official 4-direction locomotion, original independent seated life frames; rest body from original art; per-pose pivot/anchor; side/missing directions explicitly queryable.";
-            EditorUtility.SetDirty(catalog);
+            IanGaitImport.Apply();
+            var bank = catalog.AtAge(19).animations;
             var propTexture = Texture31("LifeProps");
             var props = new Sprite[6];
             var propCells = Frames31(propTexture, 2, 3);
@@ -465,7 +337,7 @@ namespace IanGame.Editor
                 Newtonsoft.Json.JsonConvert.SerializeObject(
                     new
                     {
-                        adultBank = Data31 + "IanYoungAdultAnimations.asset",
+                        adultBank = AssetDatabase.GetAssetPath(bank),
                         clips = bank.clips.Length,
                         rooms = rooms.rooms.Length,
                         originalAdultRetained = "Assets/_Game/Data/World/Shared/Advanced/IanAdvanced.asset",

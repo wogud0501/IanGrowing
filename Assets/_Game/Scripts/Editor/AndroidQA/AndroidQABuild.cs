@@ -1,9 +1,7 @@
 using System;
 using System.IO;
-using System.Linq;
 using UnityEditor;
 using UnityEditor.Build;
-using UnityEditor.Build.Reporting;
 
 namespace IanGame.Editor
 {
@@ -11,23 +9,43 @@ namespace IanGame.Editor
     {
         public const string Apk = "Builds/AndroidQA/IanGrowing.apk";
         public const string Status = "Library/AndroidQA-build.txt";
-        static bool queued;
+        const string Pending = "IanGrowing.AndroidQA.Pending";
+
+        [InitializeOnLoadMethod]
+        static void ResumeQueue()
+        {
+            if (SessionState.GetBool(Pending, false))
+            {
+                EditorApplication.update -= BuildWhenReady;
+                EditorApplication.update += BuildWhenReady;
+            }
+        }
 
         [MenuItem("Tools/IanGrowing/Build Android QA APK")]
         public static void Queue()
         {
-            if (queued || BuildPipeline.isBuildingPlayer || EditorApplication.isPlayingOrWillChangePlaymode
-                || EditorApplication.isCompiling || EditorUserBuildSettings.activeBuildTarget != BuildTarget.Android)
+            if (SessionState.GetBool(Pending, false) || BuildPipeline.isBuildingPlayer || EditorApplication.isPlayingOrWillChangePlaymode
+                || EditorUtility.scriptCompilationFailed || EditorApplication.isCompiling || EditorUserBuildSettings.activeBuildTarget != BuildTarget.Android)
             {
                 throw new InvalidOperationException("Select Android and wait for an idle Editor.");
             }
-            queued = true;
+            SessionState.SetBool(Pending, true);
             File.WriteAllText(Status, "QUEUED");
-            EditorApplication.delayCall += Build;
+            ResumeQueue();
         }
 
-        static void Build()
+        static void BuildWhenReady()
         {
+            if (!SessionState.GetBool(Pending, false))
+            {
+                return;
+            }
+            if (EditorApplication.isCompiling || EditorApplication.isUpdating)
+            {
+                return;
+            }
+            EditorApplication.update -= BuildWhenReady;
+            SessionState.SetBool(Pending, false);
             try
             {
                 if (EditorUserBuildSettings.buildAppBundle || EditorUserBuildSettings.exportAsGoogleAndroidProject)
@@ -36,14 +54,7 @@ namespace IanGame.Editor
                 }
                 Directory.CreateDirectory(Path.GetDirectoryName(Apk));
                 File.WriteAllText(Status, "BUILDING");
-                // Use the same enabled scene list and Development options as RoomPlatformBuild.
-                var result = BuildPipeline.BuildPlayer(new BuildPlayerOptions
-                {
-                    target = BuildTarget.Android,
-                    scenes = EditorBuildSettings.scenes.Where(scene => scene.enabled).Select(scene => scene.path).ToArray(),
-                    locationPathName = Apk,
-                    options = BuildOptions.Development | BuildOptions.CompressWithLz4 | BuildOptions.ConnectWithProfiler
-                });
+                var result = RoomPlatformBuild.BuildDevelopmentApk(Apk, BuildOptions.ConnectWithProfiler);
                 File.WriteAllText(Status, result.summary.result + " · " + result.summary.totalErrors + " errors · "
                     + PlayerSettings.GetApplicationIdentifier(NamedBuildTarget.Android));
             }
@@ -51,10 +62,6 @@ namespace IanGame.Editor
             {
                 File.WriteAllText(Status, "FAILED · " + error.GetType().Name + " · " + error.Message);
                 throw;
-            }
-            finally
-            {
-                queued = false;
             }
         }
     }

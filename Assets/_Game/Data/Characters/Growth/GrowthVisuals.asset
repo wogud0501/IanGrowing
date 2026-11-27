@@ -12,249 +12,448 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d138dd7909c646888d07a0d025ec188, type: 3}
   m_Name: Growth visuals
   m_EditorClassIdentifier: Assembly-CSharp::IanGame.GrowthVisualCatalog
+  growthSheet: {fileID: 2800000, guid: 842cc4f4f84bd4ea0aeeb9e7482f4d85, type: 3}
   profiles:
   - stage: 0
-    id: Newborn
+    id: S01
     minAge: 0
     maxAge: 0
-    animations: {fileID: 11400000, guid: 9c32ef9a9ae474dca90738159ead008f, type: 2}
-    height: 0.39297587
-    colliderRadius: 0.07
+    animations: {fileID: 11400000, guid: 2ffb5505092b24854aff781ecf878b3f, type: 2}
+    height: 0.89375
+    colliderRadius: 0.1316875
     speedFactor: 0
-    stride: 0.47157106
+    stride: 0.28599998
     colliderOffset: {x: 0, y: 0}
     foot: {x: 0, y: 0}
-    hand: {x: 0, y: 0.17683913}
-    eye: {x: 0, y: 0.3222402}
-    seatOffset: {x: 0, y: 0.12}
+    hand: {x: 0, y: 0.34856248}
+    eye: {x: 0, y: 0.53625005}
+    seatOffset: {x: 0, y: 0}
     showerOffset: {x: 0, y: 0}
     basinOffset: {x: 0, y: 0}
-    idlePreview: {fileID: 21300000, guid: 3f0e9b18717e34b0c975ac014611224c, type: 2}
-    bodyInteractions: 0
-    headphoneAnchorOffset: {x: 0, y: -0.029899998}
-    headphoneDisplayHeight: 0.073599994
+    idlePreview: {fileID: 21300000, guid: d9ba17524c9c7493f8613660d5613ce6, type: 3}
+    bodyInteractions: 1
+    headphoneAnchorOffset: {x: 0, y: 0}
+    headphoneDisplayHeight: 0
     sleepHorizontal: 0
-    artNotes: Generated original age-specific atlas; four-direction locomotion (except newborn); interaction directions use Down fallback. Turn/Stop and care-feed are explicit aliases. Missing motions remain queryable; not authored coverage.
+    artNotes: Official front S01. Supplementary directions and furniture poses.
   - stage: 1
-    id: Toddler
+    id: S02
     minAge: 1
     maxAge: 2
-    animations: {fileID: 11400000, guid: 98b87dc5cb364435aba3d8288f27335c, type: 2}
-    height: 0.7005222
-    colliderRadius: 0.11
+    animations: {fileID: 11400000, guid: c0c79b6909472430aa44fe0b29011309, type: 2}
+    height: 1.0812501
+    colliderRadius: 0.15721875
     speedFactor: 0.48
-    stride: 0.84062666
+    stride: 0.34600002
     colliderOffset: {x: 0, y: 0}
     foot: {x: 0, y: 0}
-    hand: {x: 0, y: 0.315235}
-    eye: {x: 0, y: 0.5744282}
-    seatOffset: {x: 0, y: 0.12}
+    hand: {x: 0, y: 0.4216875}
+    eye: {x: 0, y: 0.64875007}
+    seatOffset: {x: 0, y: 0}
     showerOffset: {x: 0, y: 0}
     basinOffset: {x: 0, y: 0}
-    idlePreview: {fileID: 21300000, guid: f37cd50ccbd264a8f8989b0d4039c70e, type: 2}
-    bodyInteractions: 0
-    headphoneAnchorOffset: {x: 0, y: -0.053299997}
-    headphoneDisplayHeight: 0.13119999
-    sleepHorizontal: 1
-    artNotes: Generated original age-specific atlas; four-direction locomotion (except newborn); interaction directions use Down fallback. Turn/Stop and care-feed are explicit aliases. Missing motions remain queryable; not authored coverage.
+    idlePreview: {fileID: 21300000, guid: 1d564e04380514587bf134661f9b3d6f, type: 3}
+    bodyInteractions: 1
+    headphoneAnchorOffset: {x: 0, y: 0}
+    headphoneDisplayHeight: 0
+    sleepHorizontal: 0
+    artNotes: Official front S02. Supplementary directions and furniture poses.
   - stage: 2
-    id: Preschool
+    id: S03
     minAge: 3
     maxAge: 4
-    animations: {fileID: 11400000, guid: d21740045f6c6469fb5258b5e763c492, type: 2}
-    height: 0.8542954
-    colliderRadius: 0.13
+    animations: {fileID: 11400000, guid: ede3d33fd28a94b5db69751d37cea5cb, type: 2}
+    height: 1.24375
+    colliderRadius: 0.1693125
     speedFactor: 0.56
-    stride: 1.0251545
+    stride: 0.522375
     colliderOffset: {x: 0, y: 0}
     foot: {x: 0, y: 0}
-    hand: {x: 0, y: 0.3844329}
-    eye: {x: 0, y: 0.7005222}
-    seatOffset: {x: 0, y: 0.12}
+    hand: {x: 0, y: 0.48506248}
+    eye: {x: 0, y: 0.74625003}
+    seatOffset: {x: 0, y: 0}
     showerOffset: {x: 0, y: 0}
     basinOffset: {x: 0, y: 0}
-    idlePreview: {fileID: 21300000, guid: 7235342a36fa24dc4af32b50a3c606f2, type: 2}
-    bodyInteractions: 0
-    headphoneAnchorOffset: {x: 0, y: -0.065}
-    headphoneDisplayHeight: 0.16
-    sleepHorizontal: 1
-    artNotes: Generated original age-specific atlas; four-direction locomotion (except newborn); interaction directions use Down fallback. Turn/Stop and care-feed are explicit aliases. Missing motions remain queryable; not authored coverage.
+    idlePreview: {fileID: 21300000, guid: 56fe29b5a2ac84e99b453c5502c199b8, type: 3}
+    bodyInteractions: 1
+    headphoneAnchorOffset: {x: 0, y: 0}
+    headphoneDisplayHeight: 0
+    sleepHorizontal: 0
+    artNotes: Official front S03. Supplementary directions and furniture poses.
   - stage: 3
-    id: EarlyChild
+    id: S04
     minAge: 5
-    maxAge: 7
-    animations: {fileID: 11400000, guid: 525d03f576f614ad1aad62089fbc51ab, type: 2}
-    height: 1.0080684
-    colliderRadius: 0.145
+    maxAge: 6
+    animations: {fileID: 11400000, guid: a3c6c7f344917444297b8599696c39de, type: 2}
+    height: 1.34375
+    colliderRadius: 0.1693125
     speedFactor: 0.65
-    stride: 1.2096822
+    stride: 0.564375
     colliderOffset: {x: 0, y: 0}
     foot: {x: 0, y: 0}
-    hand: {x: 0, y: 0.45363078}
-    eye: {x: 0, y: 0.8266161}
-    seatOffset: {x: 0, y: 0.12}
+    hand: {x: 0, y: 0.52406245}
+    eye: {x: 0, y: 0.80625004}
+    seatOffset: {x: 0, y: 0}
     showerOffset: {x: 0, y: 0}
     basinOffset: {x: 0, y: 0}
-    idlePreview: {fileID: 21300000, guid: d156405ed8e614b59a300cb1faf76062, type: 2}
-    bodyInteractions: 0
-    headphoneAnchorOffset: {x: 0, y: -0.07669999}
-    headphoneDisplayHeight: 0.18879998
-    sleepHorizontal: 1
-    artNotes: Generated original age-specific atlas; four-direction locomotion (except newborn); interaction directions use Down fallback. Turn/Stop and care-feed are explicit aliases. Missing motions remain queryable; not authored coverage.
+    idlePreview: {fileID: 21300000, guid: 850d8b0a92ae84435802325685b540bc, type: 3}
+    bodyInteractions: 1
+    headphoneAnchorOffset: {x: 0, y: 0}
+    headphoneDisplayHeight: 0
+    sleepHorizontal: 0
+    artNotes: Official front S04. Supplementary directions and furniture poses.
   - stage: 4
-    id: SchoolChild
-    minAge: 8
-    maxAge: 10
-    animations: {fileID: 11400000, guid: 2039ee79ccb1d4becbdeb338142ee5a0, type: 2}
-    height: 1.1447558
-    colliderRadius: 0.16
+    id: S05
+    minAge: 7
+    maxAge: 8
+    animations: {fileID: 11400000, guid: 1e60470d1ed8a490899bcc0d0de625be, type: 2}
+    height: 1.44375
+    colliderRadius: 0.17334376
     speedFactor: 0.78
-    stride: 1.373707
+    stride: 0.606375
     colliderOffset: {x: 0, y: 0}
     foot: {x: 0, y: 0}
-    hand: {x: 0, y: 0.5151401}
-    eye: {x: 0, y: 0.9386998}
-    seatOffset: {x: 0, y: 0.12}
+    hand: {x: 0, y: 0.5630625}
+    eye: {x: 0, y: 0.86625004}
+    seatOffset: {x: 0, y: 0}
     showerOffset: {x: 0, y: 0}
     basinOffset: {x: 0, y: 0}
-    idlePreview: {fileID: 21300000, guid: e89b3b8c6f8f245c1bf4a28864e38b05, type: 2}
-    bodyInteractions: 0
-    headphoneAnchorOffset: {x: 0, y: -0.0871}
-    headphoneDisplayHeight: 0.21440001
-    sleepHorizontal: 1
-    artNotes: Generated original age-specific atlas; four-direction locomotion (except newborn); interaction directions use Down fallback. Turn/Stop and care-feed are explicit aliases. Missing motions remain queryable; not authored coverage.
+    idlePreview: {fileID: 21300000, guid: b22e613e070904b598926fd653cf92b8, type: 3}
+    bodyInteractions: 1
+    headphoneAnchorOffset: {x: 0, y: 0}
+    headphoneDisplayHeight: 0
+    sleepHorizontal: 0
+    artNotes: Official front S05. Supplementary directions and furniture poses.
+  - stage: 4
+    id: S06
+    minAge: 9
+    maxAge: 10
+    animations: {fileID: 11400000, guid: 6941e96e7209c4fbc9b696e2503c708f, type: 2}
+    height: 1.45
+    colliderRadius: 0.1746875
+    speedFactor: 0.78
+    stride: 0.609
+    colliderOffset: {x: 0, y: 0}
+    foot: {x: 0, y: 0}
+    hand: {x: 0, y: 0.5655}
+    eye: {x: 0, y: 0.87000006}
+    seatOffset: {x: 0, y: 0}
+    showerOffset: {x: 0, y: 0}
+    basinOffset: {x: 0, y: 0}
+    idlePreview: {fileID: 21300000, guid: b911cfcafad96437b99c75d0f6596993, type: 3}
+    bodyInteractions: 1
+    headphoneAnchorOffset: {x: 0, y: 0}
+    headphoneDisplayHeight: 0
+    sleepHorizontal: 0
+    artNotes: Official front S06. Supplementary directions and furniture poses.
   - stage: 5
-    id: Preteen
+    id: S07
     minAge: 11
-    maxAge: 13
-    animations: {fileID: 11400000, guid: a9ea3d01dceac4791b3dd9d30794ed83, type: 2}
-    height: 1.2985289
-    colliderRadius: 0.17
+    maxAge: 12
+    animations: {fileID: 11400000, guid: 5dd498bb94b294e899f6ff90d71bcf0a, type: 2}
+    height: 1.4625
+    colliderRadius: 0.17334376
     speedFactor: 0.86
-    stride: 1.5582348
+    stride: 0.61424994
     colliderOffset: {x: 0, y: 0}
     foot: {x: 0, y: 0}
-    hand: {x: 0, y: 0.584338}
-    eye: {x: 0, y: 1.0647937}
+    hand: {x: 0, y: 0.57037497}
+    eye: {x: 0, y: 0.8775}
     seatOffset: {x: 0, y: 0}
     showerOffset: {x: 0, y: 0}
     basinOffset: {x: 0, y: 0}
-    idlePreview: {fileID: 21300000, guid: 91d863e55c4d345059458cb01bec7dce, type: 2}
-    bodyInteractions: 0
-    headphoneAnchorOffset: {x: 0, y: -0.09879999}
-    headphoneDisplayHeight: 0.24319999
-    sleepHorizontal: 1
-    artNotes: Generated original age-specific atlas; four-direction locomotion (except newborn); interaction directions use Down fallback. Turn/Stop and care-feed are explicit aliases. Missing motions remain queryable; not authored coverage.
+    idlePreview: {fileID: 21300000, guid: eb9b0ade7cffd4b88a06a777ce7d1676, type: 3}
+    bodyInteractions: 1
+    headphoneAnchorOffset: {x: 0, y: 0}
+    headphoneDisplayHeight: 0
+    sleepHorizontal: 0
+    artNotes: Official front S07. Supplementary directions and furniture poses.
   - stage: 6
-    id: Teen
-    minAge: 14
-    maxAge: 16
-    animations: {fileID: 11400000, guid: 7eabd3c64c6134f6ba28d7775f4835cd, type: 2}
-    height: 1.4523022
-    colliderRadius: 0.18
+    id: S08
+    minAge: 13
+    maxAge: 14
+    animations: {fileID: 11400000, guid: c3aadb4b7de2c4959b4ea54d33d5796b, type: 2}
+    height: 1.5375
+    colliderRadius: 0.177375
     speedFactor: 0.94
-    stride: 1.7427627
+    stride: 0.7995
     colliderOffset: {x: 0, y: 0}
     foot: {x: 0, y: 0}
-    hand: {x: 0, y: 0.65353596}
-    eye: {x: 0, y: 1.1908878}
+    hand: {x: 0, y: 0.599625}
+    eye: {x: 0, y: 0.9225001}
     seatOffset: {x: 0, y: 0}
     showerOffset: {x: 0, y: 0}
     basinOffset: {x: 0, y: 0}
-    idlePreview: {fileID: 21300000, guid: 05433f43a8c834bdaa52c9ef6a11859b, type: 2}
-    bodyInteractions: 0
-    headphoneAnchorOffset: {x: 0, y: -0.1105}
-    headphoneDisplayHeight: 0.272
-    sleepHorizontal: 1
-    artNotes: Generated original age-specific atlas; four-direction locomotion (except newborn); interaction directions use Down fallback. Turn/Stop and care-feed are explicit aliases. Missing motions remain queryable; not authored coverage.
+    idlePreview: {fileID: 21300000, guid: f9a06da22b5b3412b95671da8f72aebd, type: 3}
+    bodyInteractions: 1
+    headphoneAnchorOffset: {x: 0, y: 0}
+    headphoneDisplayHeight: 0
+    sleepHorizontal: 0
+    artNotes: Official front S08. Supplementary directions and furniture poses.
+  - stage: 6
+    id: S09
+    minAge: 15
+    maxAge: 16
+    animations: {fileID: 11400000, guid: 90b5ad20606a9418d8e02c4002591d0e, type: 2}
+    height: 1.54375
+    colliderRadius: 0.18006252
+    speedFactor: 0.94
+    stride: 0.80275
+    colliderOffset: {x: 0, y: 0}
+    foot: {x: 0, y: 0}
+    hand: {x: 0, y: 0.6020625}
+    eye: {x: 0, y: 0.92625004}
+    seatOffset: {x: 0, y: 0}
+    showerOffset: {x: 0, y: 0}
+    basinOffset: {x: 0, y: 0}
+    idlePreview: {fileID: 21300000, guid: 82b960580b3454a6b8c8f762b5dd0d60, type: 3}
+    bodyInteractions: 1
+    headphoneAnchorOffset: {x: 0, y: 0}
+    headphoneDisplayHeight: 0
+    sleepHorizontal: 0
+    artNotes: Official front S09. Supplementary directions and furniture poses.
   - stage: 7
-    id: LateTeen
+    id: S10
     minAge: 17
     maxAge: 18
-    animations: {fileID: 11400000, guid: b9f92ed4cf5c64cb58a217726844f743, type: 2}
-    height: 1.6060753
-    colliderRadius: 0.19
+    animations: {fileID: 11400000, guid: bb60352f920f34aeeaf8741975eef283, type: 2}
+    height: 1.5875
+    colliderRadius: 0.1854375
     speedFactor: 0.98
-    stride: 1.9272904
+    stride: 0.82549995
     colliderOffset: {x: 0, y: 0}
     foot: {x: 0, y: 0}
-    hand: {x: 0, y: 0.72273386}
-    eye: {x: 0, y: 1.3169817}
+    hand: {x: 0, y: 0.61912495}
+    eye: {x: 0, y: 0.95250005}
     seatOffset: {x: 0, y: 0}
     showerOffset: {x: 0, y: 0}
     basinOffset: {x: 0, y: 0}
-    idlePreview: {fileID: 21300000, guid: 0e79c300bd9a34d7da21fc13788aace3, type: 2}
-    bodyInteractions: 0
-    headphoneAnchorOffset: {x: 0, y: -0.1222}
-    headphoneDisplayHeight: 0.3008
-    sleepHorizontal: 1
-    artNotes: Generated original age-specific atlas; four-direction locomotion (except newborn); interaction directions use Down fallback. Turn/Stop and care-feed are explicit aliases. Missing motions remain queryable; not authored coverage.
-  - stage: 8
-    id: Adult
-    minAge: 19
-    maxAge: 29
-    animations: {fileID: 11400000, guid: 18498fed06e084255b60990305a9079f, type: 2}
-    height: 1.7085907
-    colliderRadius: 0.28
-    speedFactor: 1
-    stride: 2.050309
-    colliderOffset: {x: 0, y: 0}
-    foot: {x: 0, y: 0}
-    hand: {x: 0, y: 0.7688658}
-    eye: {x: 0, y: 1.4010444}
-    seatOffset: {x: 0, y: 0}
-    showerOffset: {x: 0, y: 0}
-    basinOffset: {x: 0, y: 0}
-    idlePreview: {fileID: 28776294171772349, guid: 187d56c84d77b4114af3bac280974d98, type: 3}
+    idlePreview: {fileID: 21300000, guid: a4bedfbc38bde4366a2e70baba1adaba, type: 3}
     bodyInteractions: 1
-    headphoneAnchorOffset: {x: 0, y: -0.13}
-    headphoneDisplayHeight: 0.32
-    sleepHorizontal: 1
-    artNotes: 'Phase31: retained official 4-direction locomotion, original independent seated life frames; rest body from original art; per-pose pivot/anchor; side/missing directions explicitly queryable.'
+    headphoneAnchorOffset: {x: 0, y: 0}
+    headphoneDisplayHeight: 0
+    sleepHorizontal: 0
+    artNotes: Official front S10. Supplementary directions and furniture poses.
+  - stage: 8
+    id: S11
+    minAge: 19
+    maxAge: 21
+    animations: {fileID: 11400000, guid: e5a3e5e4330da44a187e456363d5f7b3, type: 2}
+    height: 1.5375
+    colliderRadius: 0.18946876
+    speedFactor: 1
+    stride: 0.7995
+    colliderOffset: {x: 0, y: 0}
+    foot: {x: 0, y: 0}
+    hand: {x: 0, y: 0.599625}
+    eye: {x: 0, y: 0.9225001}
+    seatOffset: {x: 0, y: 0}
+    showerOffset: {x: 0, y: 0}
+    basinOffset: {x: 0, y: 0}
+    idlePreview: {fileID: 21300000, guid: 858631de2b59b4dc4add8a452525b760, type: 3}
+    bodyInteractions: 1
+    headphoneAnchorOffset: {x: 0, y: 0}
+    headphoneDisplayHeight: 0
+    sleepHorizontal: 0
+    artNotes: Official front S11. Supplementary directions and furniture poses.
+  - stage: 8
+    id: S12
+    minAge: 22
+    maxAge: 25
+    animations: {fileID: 11400000, guid: 62f2c7f91953b4fe690bc35882a3b612, type: 2}
+    height: 1.54375
+    colliderRadius: 0.18006252
+    speedFactor: 1
+    stride: 0.80275
+    colliderOffset: {x: 0, y: 0}
+    foot: {x: 0, y: 0}
+    hand: {x: 0, y: 0.6020625}
+    eye: {x: 0, y: 0.92625004}
+    seatOffset: {x: 0, y: 0}
+    showerOffset: {x: 0, y: 0}
+    basinOffset: {x: 0, y: 0}
+    idlePreview: {fileID: 21300000, guid: 6741135ae6c9c4018b9696aea1e836d7, type: 3}
+    bodyInteractions: 1
+    headphoneAnchorOffset: {x: 0, y: 0}
+    headphoneDisplayHeight: 0
+    sleepHorizontal: 0
+    artNotes: Official front S12. Supplementary directions and furniture poses.
+  - stage: 8
+    id: S13
+    minAge: 26
+    maxAge: 29
+    animations: {fileID: 11400000, guid: 47345b512613a453eb1fb9d541a27cdb, type: 2}
+    height: 1.59375
+    colliderRadius: 0.1854375
+    speedFactor: 1
+    stride: 0.82874995
+    colliderOffset: {x: 0, y: 0}
+    foot: {x: 0, y: 0}
+    hand: {x: 0, y: 0.6215625}
+    eye: {x: 0, y: 0.95625}
+    seatOffset: {x: 0, y: 0}
+    showerOffset: {x: 0, y: 0}
+    basinOffset: {x: 0, y: 0}
+    idlePreview: {fileID: 21300000, guid: 76e87a3d2d68a4fc3a3aa50758ddb6c7, type: 3}
+    bodyInteractions: 1
+    headphoneAnchorOffset: {x: 0, y: 0}
+    headphoneDisplayHeight: 0
+    sleepHorizontal: 0
+    artNotes: Official front S13. Supplementary directions and furniture poses.
   - stage: 9
-    id: MiddleAge
+    id: S14
     minAge: 30
-    maxAge: 59
-    animations: {fileID: 11400000, guid: 46d61bc4c7bf74964b69bd7cb0c76046, type: 2}
-    height: 1.74
-    colliderRadius: 0.21
+    maxAge: 34
+    animations: {fileID: 11400000, guid: dccda07836363484b8edba6102bfa337, type: 2}
+    height: 1.63125
+    colliderRadius: 0.18140626
     speedFactor: 1
-    stride: 2.088
+    stride: 0.84825
     colliderOffset: {x: 0, y: 0}
     foot: {x: 0, y: 0}
-    hand: {x: 0, y: 0.783}
-    eye: {x: 0, y: 1.4268}
+    hand: {x: 0, y: 0.6361875}
+    eye: {x: 0, y: 0.97875005}
     seatOffset: {x: 0, y: 0}
     showerOffset: {x: 0, y: 0}
     basinOffset: {x: 0, y: 0}
-    idlePreview: {fileID: 21300000, guid: 806cbe806ea06416b82badc12ca2d5de, type: 2}
-    bodyInteractions: 0
-    headphoneAnchorOffset: {x: 0, y: -0.1323898}
-    headphoneDisplayHeight: 0.32588258
-    sleepHorizontal: 1
-    artNotes: Phase30 original generated age atlas. Four-way Idle/Walk/FastWalk; actions authored Down only. Turn/Stop reuse idle, Work uses typing, PutDown uses pickup. No new gameplay unlocks.
+    idlePreview: {fileID: 21300000, guid: 785df9814807a41518f80c215bf186dc, type: 3}
+    bodyInteractions: 1
+    headphoneAnchorOffset: {x: 0, y: 0}
+    headphoneDisplayHeight: 0
+    sleepHorizontal: 0
+    artNotes: Official front S14. Supplementary directions and furniture poses.
+  - stage: 9
+    id: S15
+    minAge: 35
+    maxAge: 39
+    animations: {fileID: 11400000, guid: 1c983ce68c43940b58e1178e7388ed4f, type: 2}
+    height: 1.65625
+    colliderRadius: 0.188125
+    speedFactor: 1
+    stride: 0.86125
+    colliderOffset: {x: 0, y: 0}
+    foot: {x: 0, y: 0}
+    hand: {x: 0, y: 0.6459375}
+    eye: {x: 0, y: 0.99375004}
+    seatOffset: {x: 0, y: 0}
+    showerOffset: {x: 0, y: 0}
+    basinOffset: {x: 0, y: 0}
+    idlePreview: {fileID: 21300000, guid: bf206935c966f4b8f94f2afa960f8a26, type: 3}
+    bodyInteractions: 1
+    headphoneAnchorOffset: {x: 0, y: 0}
+    headphoneDisplayHeight: 0
+    sleepHorizontal: 0
+    artNotes: Official front S15. Supplementary directions and furniture poses.
+  - stage: 9
+    id: S16
+    minAge: 40
+    maxAge: 44
+    animations: {fileID: 11400000, guid: cbd0efe4f1e3c4f04b3be08c73561596, type: 2}
+    height: 1.79375
+    colliderRadius: 0.20290627
+    speedFactor: 1
+    stride: 0.93275
+    colliderOffset: {x: 0, y: 0}
+    foot: {x: 0, y: 0}
+    hand: {x: 0, y: 0.6995625}
+    eye: {x: 0, y: 1.0762501}
+    seatOffset: {x: 0, y: 0}
+    showerOffset: {x: 0, y: 0}
+    basinOffset: {x: 0, y: 0}
+    idlePreview: {fileID: 21300000, guid: 1e0c363cf93454a758521939222fd1cb, type: 3}
+    bodyInteractions: 1
+    headphoneAnchorOffset: {x: 0, y: 0}
+    headphoneDisplayHeight: 0
+    sleepHorizontal: 0
+    artNotes: Official front S16. Supplementary directions and furniture poses.
+  - stage: 9
+    id: S17
+    minAge: 45
+    maxAge: 49
+    animations: {fileID: 11400000, guid: 7c52da67959ba4a31b639f45d4bc2799, type: 2}
+    height: 1.79375
+    colliderRadius: 0.20021877
+    speedFactor: 1
+    stride: 0.93275
+    colliderOffset: {x: 0, y: 0}
+    foot: {x: 0, y: 0}
+    hand: {x: 0, y: 0.6995625}
+    eye: {x: 0, y: 1.0762501}
+    seatOffset: {x: 0, y: 0}
+    showerOffset: {x: 0, y: 0}
+    basinOffset: {x: 0, y: 0}
+    idlePreview: {fileID: 21300000, guid: 372600cf1f56e48c588555c759e19f5e, type: 3}
+    bodyInteractions: 1
+    headphoneAnchorOffset: {x: 0, y: 0}
+    headphoneDisplayHeight: 0
+    sleepHorizontal: 0
+    artNotes: Official front S17. Supplementary directions and furniture poses.
+  - stage: 9
+    id: S18
+    minAge: 50
+    maxAge: 54
+    animations: {fileID: 11400000, guid: f9fcaba4cea7c451080a02f2b6da3806, type: 2}
+    height: 1.825
+    colliderRadius: 0.2123125
+    speedFactor: 1
+    stride: 0.949
+    colliderOffset: {x: 0, y: 0}
+    foot: {x: 0, y: 0}
+    hand: {x: 0, y: 0.71175}
+    eye: {x: 0, y: 1.095}
+    seatOffset: {x: 0, y: 0}
+    showerOffset: {x: 0, y: 0}
+    basinOffset: {x: 0, y: 0}
+    idlePreview: {fileID: 21300000, guid: 947205c5ecd6b431ea897ac0060d8bcc, type: 3}
+    bodyInteractions: 1
+    headphoneAnchorOffset: {x: 0, y: 0}
+    headphoneDisplayHeight: 0
+    sleepHorizontal: 0
+    artNotes: Official front S18. Supplementary directions and furniture poses.
+  - stage: 9
+    id: S19
+    minAge: 55
+    maxAge: 64
+    animations: {fileID: 11400000, guid: 065a3909e959c4c91b8322bae735a26f, type: 2}
+    height: 1.8375
+    colliderRadius: 0.20021877
+    speedFactor: 1
+    stride: 0.95549995
+    colliderOffset: {x: 0, y: 0}
+    foot: {x: 0, y: 0}
+    hand: {x: 0, y: 0.716625}
+    eye: {x: 0, y: 1.1025001}
+    seatOffset: {x: 0, y: 0}
+    showerOffset: {x: 0, y: 0}
+    basinOffset: {x: 0, y: 0}
+    idlePreview: {fileID: 21300000, guid: 5549d88fbe0524bed85bfc4d532bcb32, type: 3}
+    bodyInteractions: 1
+    headphoneAnchorOffset: {x: 0, y: 0}
+    headphoneDisplayHeight: 0
+    sleepHorizontal: 0
+    artNotes: Official front S19. Supplementary directions and furniture poses.
   - stage: 10
-    id: Elder
-    minAge: 60
+    id: S20
+    minAge: 65
     maxAge: 2147483647
-    animations: {fileID: 11400000, guid: 029c00db1ea664e72aed5a0fce6b51b5, type: 2}
-    height: 1.56
-    colliderRadius: 0.21
+    animations: {fileID: 11400000, guid: a39a6d54da23b4365981363d01582a70, type: 2}
+    height: 1.85625
+    colliderRadius: 0.2123125
     speedFactor: 1
-    stride: 1.872
+    stride: 0.96525
     colliderOffset: {x: 0, y: 0}
     foot: {x: 0, y: 0}
-    hand: {x: 0, y: 0.70199996}
-    eye: {x: 0, y: 1.2792}
+    hand: {x: 0, y: 0.7239375}
+    eye: {x: 0, y: 1.1137501}
     seatOffset: {x: 0, y: 0}
     showerOffset: {x: 0, y: 0}
     basinOffset: {x: 0, y: 0}
-    idlePreview: {fileID: 21300000, guid: 570204719adf846d3a6e5bf6b47265fa, type: 2}
-    bodyInteractions: 0
-    headphoneAnchorOffset: {x: 0, y: -0.1186943}
-    headphoneDisplayHeight: 0.29217058
-    sleepHorizontal: 1
-    artNotes: Phase30 original generated age atlas. Four-way Idle/Walk/FastWalk; actions authored Down only. Turn/Stop reuse idle, Work uses typing, PutDown uses pickup. No new gameplay unlocks.
+    idlePreview: {fileID: 21300000, guid: c5c33b8be3bb34f27821474a977b8b91, type: 3}
+    bodyInteractions: 1
+    headphoneAnchorOffset: {x: 0, y: 0}
+    headphoneDisplayHeight: 0
+    sleepHorizontal: 0
+    artNotes: Official front S20. Supplementary directions and furniture poses.
   emptyCrib: {fileID: 21300000, guid: c36052a164a49459db67a56aeef312a4, type: 2}
   cribFront: {fileID: 21300000, guid: e016374cd9bb441c1837770747cd8466, type: 2}
   toddlerBed: {fileID: 21300000, guid: 2b8ce517ed9be459e904afd9320499f0, type: 2}

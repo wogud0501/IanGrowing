@@ -193,6 +193,7 @@ namespace IanGame.Editor
             {
                 p.At(626, desk, Talk, Weekdays);
                 p.At(629, desk, lesson, Weekdays);
+                if (p.Has("faculty-break")) p.At(918, "faculty-break", Rest, Weekdays);
             }
 
             p.At(725 + i * 2, "cafe-table-" + i, Eat, Weekdays);
@@ -417,6 +418,11 @@ namespace IanGame.Editor
             };
             foreach (var d in rules.npcs)
             {
+                // Furnished apartments own their individual meal, rest and bed assignments.
+                if (!string.IsNullOrEmpty(d.residentBedId) && !places.ContainsKey(d.residentBedId))
+                {
+                    continue;
+                }
                 var p = new DayPlan(places);
                 string id = d.npcId;
                 if (FamilyLife.Parent(id))

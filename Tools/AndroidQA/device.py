@@ -2,7 +2,9 @@
 import json
 import os
 import re
+import shlex
 import shutil
+import statistics
 import subprocess
 import time
 from pathlib import Path
@@ -30,11 +32,13 @@ def run(args, timeout=12, check=True):
 
 
 def clean(text):
-    text = re.sub(r"(?i)(authorization|bearer|token|api[_-]?key|secret|password|receipt|cookie|account|결제|비밀번호)\b.*",
+    text = re.sub(r"(?i)(authorization|bearer|token|api[_-]?key|secret|password|receipt|cookie|account|serial(?:no|number)?|latitude|longitude|광고식별자|결제|비밀번호)\b.*",
                   "[redacted]", text)
     text = re.sub(r"https?://\S+|[\w.+-]+@[\w.-]+\.[\w-]+|(?:\d{1,3}\.){3}\d{1,3}(?::\d+)?|\b[\d-]{10,19}\b",
                   "[redacted]", text)
     text = re.sub(r"(?:/Users/|/home/|[A-Za-z]:[\\/]Users[\\/])[^\s/\\]+", "[home]", text)
+    text = re.sub(r"/data/app/[\w.+/=_~-]+", "[installed APK]", text)
+    text = re.sub(r"(?<!\d)(?:\d[ -]?){13,19}(?!\d)", "[redacted]", text)
     return re.sub(r"(?i)(?:/sdcard|/storage/emulated/\d+)/(?!Android/data/)[^\n]+", "[private path]", text)[:1800]
 
 
@@ -188,6 +192,30 @@ class Phone:
         pss = re.search(r"TOTAL PSS:\s*([\d,]+)", mem)
         gfx = self.shell("dumpsys", "gfxinfo", PACKAGE)
         metrics = re.findall(r"^\s*((?:50th|90th|95th|99th) percentile):\s*(\d+)ms", gfx, re.M)
-        return {"pss_kib": int(pss[1].replace(",", "")) if pss else None,
+        # Use the actual game SurfaceView. gfxinfo measures the host Activity's UI.
+        layers = self.shell("dumpsys", "SurfaceFlinger", "--list", check=False)
+        surface = None
+        for line in layers.splitlines():
+            if "SurfaceView[" + PACKAGE + "/" not in line or "Background for " in line:
+                continue
+            label = line.split("{")[-1].split(" parentId=")[0].strip()
+            if "(BLAST)" in label or surface is None:
+                surface = label
+        intervals = []
+        if surface:
+            latency = self.shell("dumpsys", "SurfaceFlinger", "--latency", shlex.quote(surface), check=False)
+            presented = []
+            for row in latency.splitlines():
+                fields = row.split()
+                if len(fields) == 3 and fields[1].isdigit():
+                    ns = int(fields[1])
+                    if 0 < ns < 2**63 - 1 and (not presented or ns > presented[-1]):
+                        presented.append(ns)
+            intervals = sorted((b - a) / 1e6 for a, b in zip(presented, presented[1:]))
+        return {"unity_surface_intervals": len(intervals),
+                "present_ms_median": round(statistics.median(intervals), 2) if intervals else None,
+                "present_ms_p95": round(intervals[int(.95 * (len(intervals) - 1))], 2) if intervals else None,
+                "present_fps_mean": round(1000 / statistics.mean(intervals), 1) if intervals else None,
+                "pss_kib": int(pss[1].replace(",", "")) if pss else None,
                 "android_ui_frame_ms": dict(metrics),
-                "note": "Android UI renderer statistics; Unity SurfaceView frame time requires Profiler or SurfaceFlinger."}
+                "note": "Display presentation intervals from the game SurfaceView. GPU/CPU simulation times require Unity Profiler."}

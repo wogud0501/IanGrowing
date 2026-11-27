@@ -70,7 +70,7 @@ namespace IanGame
             continueButton = Choice("이어하기", .55f, Continue);
             newGameButton = Choice("새 게임", .445f, NewGame);
             Choice("설정", .34f, shell.OpenSettings);
-            if (UIShell.DesktopExit)
+            if (UIShell.CanExitGame)
             {
                 Choice("게임 종료", .235f, shell.RequestQuit);
             }

@@ -251,7 +251,7 @@ namespace IanGame
             BuildGuide();
             History = Window("최근 기록");
             historyText = ui.ScrollText(History.transform, new Vector2(.06f, .07f), new Vector2(.94f, .86f));
-            preferences = new SessionPreferences(shell, ui, city, OpenHelp,
+            preferences = new SessionPreferences(shell, ui, city, OpenManual,
                 () => GetComponent<IdleActivityPresenter>().Open(), Layout);
             Preferences = preferences.Preferences;
             windows.Add(Preferences);
@@ -440,7 +440,7 @@ namespace IanGame
             }
             else
             {
-                actions.Add(("도움말", OpenHelp));
+                actions.Add(("도움말 · 튜토리얼", OpenManual));
                 actions.Add(
                     (
                         "최근 알림",
@@ -556,7 +556,7 @@ namespace IanGame
         public void Tutorial(string id, string text)
         {
             string key = "ux/tutorial/" + id;
-            if (city.GuideSkipped || city.Seen(key))
+            if (game.missions.FreeLifeMode || city.GuideSkipped || city.Seen(key))
             {
                 return;
             }
@@ -657,8 +657,7 @@ namespace IanGame
                     + game.growth.Age
                     + "세 · "
                     + StageName(game.growth.Stage)
-                    + "\n\n현재 미션: "
-                    + game.missions.ActiveMission?.title
+                    + (game.missions.FreeLifeMode ? "\n\n자유 생활" : "\n\n현재 미션 · " + game.missions.ActiveMission?.title)
                     + "\n\n교육: "
                     + (
                         game.phase23.catalog.education.FirstOrDefault(e =>
@@ -799,6 +798,10 @@ namespace IanGame
 
         void MissionCompleted(MissionData data)
         {
+            if (data.Id == MissionService.FinalGrowthMission)
+            {
+                return;
+            }
             game.Notifications.Publish(
                 data.title + " 완료\n미션 → 보상 받기",
                 NotificationKind.Mission
@@ -854,7 +857,7 @@ namespace IanGame
             }
 
             Layout();
-            if (!game.BirthIntroductionPending && game.State == GameState.Playing)
+            if (!game.missions.FreeLifeMode && !game.BirthIntroductionPending && game.State == GameState.Playing)
             {
                 ObserveUnlocks();
                 var catalog = game.economy.housingCatalog;
@@ -880,12 +883,17 @@ namespace IanGame
             }
 
             bool clear = shell.Depth == 0 && !hud.world.Busy && !game.BirthIntroductionPending;
+            UpdateEncounter(clear);
             card.gameObject.SetActive(
                 clear
+                    && !game.missions.FreeLifeMode
                     && !city.Data.suggestionsHidden
                     && !(viewportSize.x / Mathf.Max(1, viewportSize.y) < 1.4f && hud.NoticeVisible)
             );
-            PresentLesson();
+            if (!game.missions.FreeLifeMode)
+            {
+                PresentLesson();
+            }
             if (saveUntil > 0 && Time.unscaledTime > saveUntil)
             {
                 saveText.text = "";

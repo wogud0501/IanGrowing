@@ -358,8 +358,11 @@ namespace IanGame
 
             currentSeat = slot;
             slot.OccupiedPose = this;
-            float weight = Mathf.SmoothStep(0, 1, progress);
-            float lean = Mathf.Sin(progress * Mathf.PI);
+            // Set the feet and flex the trunk before transferring weight between the soles and cushion.
+            float weight = Mathf.SmoothStep(0, 1, Mathf.InverseLerp(.09f, .88f, progress));
+            float leanIn = Mathf.SmoothStep(0, 1, Mathf.InverseLerp(0, .30f, progress));
+            float settle = Mathf.SmoothStep(0, 1, Mathf.InverseLerp(.58f, 1, progress));
+            float lean = leanIn * (1 - settle);
             Vector2 facing = slot.facing;
             bool front = facing.y < -.6f;
             float height = shape.height;

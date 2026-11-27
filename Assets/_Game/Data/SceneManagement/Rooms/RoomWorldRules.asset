@@ -95,25 +95,25 @@ MonoBehaviour:
     walkableTop: 4.7
     cameraSize: 7
   - id: residence
-    title: "101호 · 수연"
+    title: "101\uD638 \xB7 \uC218\uC5F0"
     location: 2
     origin: {x: 310, y: 0}
-    size: {x: 10.3, y: 11.8}
+    size: {x: 14.24, y: 11.8}
     spawn: {x: 1.5, y: -4.2}
     outdoor: 0
-    walkableTop: 3.25
-    cameraSize: 5.55
+    walkableTop: 4.65
+    cameraSize: 6.2
   - id: apt-102
-    title: "102호 · 지은 · 민수"
+    title: "102\uD638 \xB7 \uC9C0\uC740 \xB7 \uBBFC\uC218"
     location: 2
     origin: {x: 310, y: 0}
-    size: {x: 13.1, y: 11.8}
+    size: {x: 14.24, y: 11.8}
     spawn: {x: 1.5, y: -4.2}
     outdoor: 0
-    walkableTop: 4.05
-    cameraSize: 5.95
+    walkableTop: 4.65
+    cameraSize: 6.2
   - id: apt-103
-    title: "103호 · 정호"
+    title: "103\uD638 \xB7 \uC815\uD638"
     location: 2
     origin: {x: 310, y: 0}
     size: {x: 13.1, y: 11.8}
@@ -122,25 +122,25 @@ MonoBehaviour:
     walkableTop: 4.05
     cameraSize: 5.95
   - id: apt-201
-    title: "201호 · 도윤"
+    title: "201\uD638 \xB7 \uB3C4\uC724"
     location: 2
     origin: {x: 310, y: 0}
-    size: {x: 10.3, y: 11.8}
+    size: {x: 13.1, y: 11.8}
     spawn: {x: 1.5, y: -4.2}
     outdoor: 0
-    walkableTop: 3.25
-    cameraSize: 5.55
+    walkableTop: 4.05
+    cameraSize: 5.95
   - id: apt-202
-    title: "202호 · 순자"
+    title: "202\uD638 \xB7 \uC21C\uC790"
     location: 2
     origin: {x: 310, y: 0}
-    size: {x: 10.3, y: 11.8}
+    size: {x: 13.1, y: 11.8}
     spawn: {x: 1.5, y: -4.2}
     outdoor: 0
-    walkableTop: 3.25
-    cameraSize: 5.55
+    walkableTop: 4.05
+    cameraSize: 5.95
   - id: apt-203
-    title: "203호 · 지은 · 준서"
+    title: "203\uD638 \xB7 \uC9C0\uC740 \xB7 \uC900\uC11C"
     location: 2
     origin: {x: 310, y: 0}
     size: {x: 14.24, y: 11.8}
@@ -149,7 +149,7 @@ MonoBehaviour:
     walkableTop: 4.65
     cameraSize: 6.2
   - id: apt-301
-    title: "301호 · 정호 · 어르신"
+    title: "301\uD638 \xB7 \uC815\uD638 \xB7 \uC5B4\uB974\uC2E0"
     location: 2
     origin: {x: 310, y: 0}
     size: {x: 13.84, y: 11.8}
@@ -158,16 +158,16 @@ MonoBehaviour:
     walkableTop: 4.32
     cameraSize: 6.04
   - id: apt-302
-    title: "302호 · 도윤"
+    title: "302\uD638 \xB7 \uB3C4\uC724"
     location: 2
     origin: {x: 310, y: 0}
-    size: {x: 10.3, y: 11.8}
+    size: {x: 13.1, y: 11.8}
     spawn: {x: 1.5, y: -4.2}
     outdoor: 0
-    walkableTop: 3.25
-    cameraSize: 5.55
+    walkableTop: 4.05
+    cameraSize: 5.95
   - id: apt-303
-    title: "303호 · 순자"
+    title: "303\uD638 \xB7 \uC21C\uC790"
     location: 2
     origin: {x: 310, y: 0}
     size: {x: 10.3, y: 11.8}
@@ -176,7 +176,7 @@ MonoBehaviour:
     walkableTop: 3.25
     cameraSize: 5.55
   - id: apt-401
-    title: "401호 · 지은"
+    title: "401\uD638 \xB7 \uC9C0\uC740"
     location: 2
     origin: {x: 310, y: 0}
     size: {x: 10.3, y: 11.8}
@@ -185,7 +185,7 @@ MonoBehaviour:
     walkableTop: 3.25
     cameraSize: 5.55
   - id: apt-402
-    title: "402호 · 정호"
+    title: "402\uD638 \xB7 \uC815\uD638"
     location: 2
     origin: {x: 310, y: 0}
     size: {x: 10.3, y: 11.8}
@@ -194,7 +194,7 @@ MonoBehaviour:
     walkableTop: 3.25
     cameraSize: 5.55
   - id: apt-403
-    title: "403호 · 서윤"
+    title: "403\uD638 \xB7 \uC11C\uC724"
     location: 2
     origin: {x: 310, y: 0}
     size: {x: 13.1, y: 11.8}
@@ -203,7 +203,7 @@ MonoBehaviour:
     walkableTop: 4.05
     cameraSize: 5.95
   - id: apt-501
-    title: "501호 · 영호"
+    title: "501\uD638 \xB7 \uC601\uD638"
     location: 2
     origin: {x: 310, y: 0}
     size: {x: 10.3, y: 11.8}
@@ -211,6 +211,24 @@ MonoBehaviour:
     outdoor: 0
     walkableTop: 3.25
     cameraSize: 5.55
+  - id: station-alley
+    title: "\uC8FC\uAC70\uC9C0\uC5ED\uC5ED"
+    location: 5
+    origin: {x: 430, y: 0}
+    size: {x: 7, y: 7}
+    spawn: {x: 0, y: -2.1}
+    outdoor: 0
+    walkableTop: 2.2
+    cameraSize: 4.3
+  - id: station-city
+    title: "\uB3C4\uC2EC\uC5ED"
+    location: 5
+    origin: {x: 430, y: 0}
+    size: {x: 7, y: 7}
+    spawn: {x: 0, y: -2.1}
+    outdoor: 0
+    walkableTop: 2.2
+    cameraSize: 4.3
   - id: office-bathroom
     title: "\uC0AC\uBB34\uC2E4 \uD654\uC7A5\uC2E4"
     location: 5
@@ -299,15 +317,15 @@ MonoBehaviour:
     archetype: 2
     ambientLine: 
     ambientOffsets: []
-    homeZone: residence
     homePlace: 0
     residentBedId: resident-bed-0
+    homeZone: residence
     jobId: office
     workZone: workplace
     worksFromHome: 0
     companionId: classmate
-    hasHomePosition: 0
-    homePosition: {x: 0, y: 0}
+    hasHomePosition: 1
+    homePosition: {x: -4.9900002, y: 3.1699998}
     personality: 3
     speed: 1.1
     animations: {fileID: 11400000, guid: 4d251d34a4b9b4dd280859fa9b30cdc5, type: 2}
@@ -323,7 +341,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: residence
       objectId: resident-bed-0
-      position: {x: -2.80, y: 1.72}
+      position: {x: -4.9900002, y: 3.1699998}
       action: 9
     - hour: 6
       minute: 42
@@ -331,7 +349,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: residence
       objectId: resident-bed-0
-      position: {x: -2.80, y: 1.72}
+      position: {x: -4.9900002, y: 3.1699998}
       action: 1
     - hour: 6
       minute: 44
@@ -339,7 +357,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: residence
       objectId: house-wash
-      position: {x: 3.76, y: 1.24}
+      position: {x: 5.7299995, y: 1.24}
       action: 17
     - hour: 6
       minute: 51
@@ -347,7 +365,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: residence
       objectId: house-dining-0
-      position: {x: 3.25, y: -3.62}
+      position: {x: 4.74, y: -3.62}
       action: 5
     - hour: 7
       minute: 6
@@ -355,14 +373,14 @@ MonoBehaviour:
       allowStroll: 0
       zone: residence
       objectId: resident-bed-0-rest
-      position: {x: -3.35, y: -3.47}
+      position: {x: -5.81, y: -0.5}
       action: 7
     - hour: 8
       minute: 14
       dayMask: 31
       allowStroll: 0
       zone: alley
-      objectId:
+      objectId: 
       position: {x: 7, y: 1}
       action: 2
     - hour: 8
@@ -402,7 +420,7 @@ MonoBehaviour:
       dayMask: 96
       allowStroll: 0
       zone: alley
-      objectId:
+      objectId: 
       position: {x: 7, y: 1}
       action: 2
     - hour: 10
@@ -474,7 +492,7 @@ MonoBehaviour:
       dayMask: 127
       allowStroll: 0
       zone: alley
-      objectId:
+      objectId: 
       position: {x: 6, y: 2}
       action: 2
     - hour: 18
@@ -483,7 +501,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: residence
       objectId: resident-bed-0-rest
-      position: {x: -3.35, y: -3.47}
+      position: {x: -5.81, y: -0.5}
       action: 7
     - hour: 19
       minute: 7
@@ -491,7 +509,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: residence
       objectId: house-dining-0
-      position: {x: 3.25, y: -3.62}
+      position: {x: 4.74, y: -3.62}
       action: 5
     - hour: 19
       minute: 31
@@ -499,7 +517,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: residence
       objectId: house-dishes
-      position: {x: 2.33, y: -1.38}
+      position: {x: 4.3, y: -1.375}
       action: 14
     - hour: 19
       minute: 40
@@ -507,7 +525,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: residence
       objectId: house-table
-      position: {x: 2.75, y: -2.11}
+      position: {x: 4.72, y: -2.11}
       action: 15
     - hour: 19
       minute: 47
@@ -515,7 +533,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: residence
       objectId: resident-bed-0-rest
-      position: {x: -3.35, y: -3.47}
+      position: {x: -5.81, y: -0.5}
       action: 16
     - hour: 20
       minute: 0
@@ -530,7 +548,7 @@ MonoBehaviour:
       dayMask: 127
       allowStroll: 0
       zone: alley
-      objectId:
+      objectId: 
       position: {x: 6, y: 2}
       action: 2
     - hour: 20
@@ -539,7 +557,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: residence
       objectId: resident-bed-0-rest
-      position: {x: -3.35, y: -3.47}
+      position: {x: -5.81, y: -0.5}
       action: 7
     - hour: 22
       minute: 40
@@ -547,7 +565,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: residence
       objectId: resident-bed-0
-      position: {x: -2.80, y: 1.72}
+      position: {x: -4.9900002, y: 3.1699998}
       action: 9
   - npcId: classmate
     title: "\uC606\uC790\uB9AC \uBBFC\uC218"
@@ -555,15 +573,15 @@ MonoBehaviour:
     archetype: 1
     ambientLine: 
     ambientOffsets: []
-    homeZone: apt-102
     homePlace: 1
     residentBedId: resident-bed-1
+    homeZone: apt-102
     jobId: student
     workZone: school
     worksFromHome: 0
     companionId: colleague
-    hasHomePosition: 0
-    homePosition: {x: 0, y: 0}
+    hasHomePosition: 1
+    homePosition: {x: -0.24000001, y: 3.1699998}
     personality: 2
     speed: 1.23
     animations: {fileID: 11400000, guid: 9f8407b30c9f6485a88698b8d55d2862, type: 2}
@@ -579,7 +597,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-102
       objectId: resident-bed-1
-      position: {x: 4.42, y: 2.57}
+      position: {x: -0.24000001, y: 3.1699998}
       action: 9
     - hour: 6
       minute: 37
@@ -587,7 +605,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-102
       objectId: resident-bed-1
-      position: {x: 4.42, y: 2.57}
+      position: {x: -0.24000001, y: 3.1699998}
       action: 1
     - hour: 6
       minute: 39
@@ -595,7 +613,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-102
       objectId: house-wash
-      position: {x: 0.74, y: 1.24}
+      position: {x: 5.7299995, y: 1.24}
       action: 17
     - hour: 6
       minute: 46
@@ -603,7 +621,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-102
       objectId: house-dining-1
-      position: {x: -4.17, y: -3.62}
+      position: {x: 6.06, y: -3.62}
       action: 5
     - hour: 7
       minute: 1
@@ -611,14 +629,14 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-102
       objectId: resident-bed-1-rest
-      position: {x: 5.24, y: -3.47}
+      position: {x: -4.83, y: -0.5}
       action: 7
     - hour: 7
       minute: 37
       dayMask: 31
       allowStroll: 0
       zone: alley
-      objectId:
+      objectId: 
       position: {x: 7, y: 1}
       action: 2
     - hour: 7
@@ -698,7 +716,7 @@ MonoBehaviour:
       dayMask: 127
       allowStroll: 0
       zone: alley
-      objectId:
+      objectId: 
       position: {x: 6, y: 2}
       action: 2
     - hour: 17
@@ -707,7 +725,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-102
       objectId: resident-bed-1-rest
-      position: {x: 5.24, y: -3.47}
+      position: {x: -4.83, y: -0.5}
       action: 7
     - hour: 19
       minute: 5
@@ -715,7 +733,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-102
       objectId: house-dining-1
-      position: {x: -4.17, y: -3.62}
+      position: {x: 6.06, y: -3.62}
       action: 5
     - hour: 19
       minute: 29
@@ -723,7 +741,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-102
       objectId: house-dishes
-      position: {x: -3.73, y: -1.38}
+      position: {x: 4.3, y: -1.375}
       action: 14
     - hour: 19
       minute: 38
@@ -731,7 +749,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-102
       objectId: house-table
-      position: {x: -5.15, y: -2.11}
+      position: {x: 4.72, y: -2.11}
       action: 15
     - hour: 19
       minute: 45
@@ -739,7 +757,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-102
       objectId: resident-bed-1-rest
-      position: {x: 5.24, y: -3.47}
+      position: {x: -4.83, y: -0.5}
       action: 16
     - hour: 20
       minute: 0
@@ -754,7 +772,7 @@ MonoBehaviour:
       dayMask: 127
       allowStroll: 0
       zone: alley
-      objectId:
+      objectId: 
       position: {x: 6, y: 2}
       action: 2
     - hour: 20
@@ -763,7 +781,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-102
       objectId: resident-bed-1-rest
-      position: {x: 5.24, y: -3.47}
+      position: {x: -4.83, y: -0.5}
       action: 7
     - hour: 21
       minute: 4
@@ -771,7 +789,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-102
       objectId: resident-bed-1-rest
-      position: {x: 5.24, y: -3.47}
+      position: {x: -4.83, y: -0.5}
       action: 8
     - hour: 21
       minute: 15
@@ -779,7 +797,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-102
       objectId: resident-bed-1-rest
-      position: {x: 5.24, y: -3.47}
+      position: {x: -4.83, y: -0.5}
       action: 7
     - hour: 22
       minute: 17
@@ -787,7 +805,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-102
       objectId: resident-bed-1
-      position: {x: 4.42, y: 2.57}
+      position: {x: -0.24000001, y: 3.1699998}
       action: 9
   - npcId: resident-0
     title: "\uC9C0\uC740"
@@ -795,15 +813,15 @@ MonoBehaviour:
     archetype: 2
     ambientLine: 
     ambientOffsets: []
-    homeZone: apt-102
     homePlace: 0
     residentBedId: resident-bed-2
+    homeZone: apt-102
     jobId: office
     workZone: workplace
     worksFromHome: 0
     companionId: 
-    hasHomePosition: 0
-    homePosition: {x: 0, y: 0}
+    hasHomePosition: 1
+    homePosition: {x: -4.9900002, y: 3.1699998}
     personality: 3
     speed: 1.36
     animations: {fileID: 11400000, guid: 4d251d34a4b9b4dd280859fa9b30cdc5, type: 2}
@@ -819,7 +837,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-102
       objectId: resident-bed-2
-      position: {x: -4.42, y: 2.57}
+      position: {x: -4.9900002, y: 3.1699998}
       action: 9
     - hour: 6
       minute: 47
@@ -827,7 +845,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-102
       objectId: resident-bed-2
-      position: {x: -4.42, y: 2.57}
+      position: {x: -4.9900002, y: 3.1699998}
       action: 1
     - hour: 6
       minute: 49
@@ -835,7 +853,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-102
       objectId: house-wash
-      position: {x: 0.74, y: 1.24}
+      position: {x: 5.7299995, y: 1.24}
       action: 17
     - hour: 6
       minute: 56
@@ -843,7 +861,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-102
       objectId: house-dining-0
-      position: {x: -5.13, y: -3.62}
+      position: {x: 4.38, y: -3.62}
       action: 5
     - hour: 7
       minute: 11
@@ -851,14 +869,14 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-102
       objectId: resident-bed-2-rest
-      position: {x: 4.26, y: -3.47}
+      position: {x: -5.81, y: -0.5}
       action: 7
     - hour: 8
       minute: 22
       dayMask: 31
       allowStroll: 0
       zone: alley
-      objectId:
+      objectId: 
       position: {x: 7, y: 1}
       action: 2
     - hour: 8
@@ -898,7 +916,7 @@ MonoBehaviour:
       dayMask: 96
       allowStroll: 0
       zone: alley
-      objectId:
+      objectId: 
       position: {x: 7, y: 1}
       action: 2
     - hour: 11
@@ -970,7 +988,7 @@ MonoBehaviour:
       dayMask: 127
       allowStroll: 0
       zone: alley
-      objectId:
+      objectId: 
       position: {x: 6, y: 2}
       action: 2
     - hour: 18
@@ -979,7 +997,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-102
       objectId: resident-bed-2-rest
-      position: {x: 4.26, y: -3.47}
+      position: {x: -5.81, y: -0.5}
       action: 7
     - hour: 19
       minute: 3
@@ -987,7 +1005,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-102
       objectId: house-dining-0
-      position: {x: -5.13, y: -3.62}
+      position: {x: 4.38, y: -3.62}
       action: 5
     - hour: 19
       minute: 27
@@ -995,7 +1013,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-102
       objectId: house-dishes
-      position: {x: -3.73, y: -1.38}
+      position: {x: 4.3, y: -1.375}
       action: 14
     - hour: 19
       minute: 36
@@ -1003,7 +1021,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-102
       objectId: house-table
-      position: {x: -5.15, y: -2.11}
+      position: {x: 4.72, y: -2.11}
       action: 15
     - hour: 19
       minute: 43
@@ -1011,7 +1029,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-102
       objectId: resident-bed-2-rest
-      position: {x: 4.26, y: -3.47}
+      position: {x: -5.81, y: -0.5}
       action: 16
     - hour: 21
       minute: 4
@@ -1019,7 +1037,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-102
       objectId: resident-bed-2-rest
-      position: {x: 4.26, y: -3.47}
+      position: {x: -5.81, y: -0.5}
       action: 8
     - hour: 21
       minute: 15
@@ -1027,7 +1045,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-102
       objectId: resident-bed-2-rest
-      position: {x: 4.26, y: -3.47}
+      position: {x: -5.81, y: -0.5}
       action: 7
     - hour: 22
       minute: 44
@@ -1035,7 +1053,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-102
       objectId: resident-bed-2
-      position: {x: -4.42, y: 2.57}
+      position: {x: -4.9900002, y: 3.1699998}
       action: 9
   - npcId: resident-1
     title: "\uC815\uD638"
@@ -1043,15 +1061,15 @@ MonoBehaviour:
     archetype: 2
     ambientLine: 
     ambientOffsets: []
-    homeZone: apt-103
     homePlace: 0
     residentBedId: resident-bed-3
+    homeZone: apt-103
     jobId: office
     workZone: workplace
     worksFromHome: 0
     companionId: 
-    hasHomePosition: 0
-    homePosition: {x: 0, y: 0}
+    hasHomePosition: 1
+    homePosition: {x: -4.42, y: 2.57}
     personality: 1
     speed: 1.49
     animations: {fileID: 11400000, guid: 0767c8e9b91b74b279a6f36a21050a93, type: 2}
@@ -1106,7 +1124,7 @@ MonoBehaviour:
       dayMask: 42
       allowStroll: 0
       zone: alley
-      objectId:
+      objectId: 
       position: {x: 6, y: 2}
       action: 2
     - hour: 7
@@ -1147,7 +1165,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-103
       objectId: resident-bed-3-rest
-      position: {x: 4.26, y: -3.47}
+      position: {x: 4.26, y: -0.5}
       action: 7
     - hour: 15
       minute: 6
@@ -1179,14 +1197,14 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-103
       objectId: resident-bed-3-rest
-      position: {x: 4.26, y: -3.47}
+      position: {x: 4.26, y: -0.5}
       action: 7
     - hour: 16
       minute: 42
       dayMask: 127
       allowStroll: 0
       zone: alley
-      objectId:
+      objectId: 
       position: {x: 7, y: 1}
       action: 2
     - hour: 16
@@ -1210,7 +1228,7 @@ MonoBehaviour:
       dayMask: 127
       allowStroll: 0
       zone: alley
-      objectId:
+      objectId: 
       position: {x: 6, y: 2}
       action: 2
     - hour: 21
@@ -1219,14 +1237,14 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-103
       objectId: resident-bed-3-rest
-      position: {x: 4.26, y: -3.47}
+      position: {x: 4.26, y: -0.5}
       action: 7
     - hour: 21
       minute: 30
       dayMask: 21
       allowStroll: 0
       zone: alley
-      objectId:
+      objectId: 
       position: {x: 7, y: 1}
       action: 2
     - hour: 21
@@ -1259,15 +1277,15 @@ MonoBehaviour:
     archetype: 0
     ambientLine: 
     ambientOffsets: []
-    homeZone: apt-201
     homePlace: 0
     residentBedId: resident-bed-4
+    homeZone: apt-201
     jobId: convenience
     workZone: shop
     worksFromHome: 0
     companionId: resident-3
-    hasHomePosition: 0
-    homePosition: {x: 0, y: 0}
+    hasHomePosition: 1
+    homePosition: {x: -4.42, y: 2.57}
     personality: 5
     speed: 1.1
     animations: {fileID: 11400000, guid: 9f8407b30c9f6485a88698b8d55d2862, type: 2}
@@ -1283,7 +1301,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-201
       objectId: resident-bed-4
-      position: {x: -2.80, y: 1.72}
+      position: {x: -4.42, y: 2.57}
       action: 9
     - hour: 7
       minute: 28
@@ -1291,7 +1309,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-201
       objectId: resident-bed-4
-      position: {x: -2.80, y: 1.72}
+      position: {x: -4.42, y: 2.57}
       action: 1
     - hour: 7
       minute: 30
@@ -1299,7 +1317,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-201
       objectId: house-wash
-      position: {x: 3.76, y: 1.24}
+      position: {x: 0.74, y: 1.24}
       action: 17
     - hour: 7
       minute: 37
@@ -1307,7 +1325,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-201
       objectId: house-dining-0
-      position: {x: 3.25, y: -3.62}
+      position: {x: -5.13, y: -3.62}
       action: 5
     - hour: 7
       minute: 52
@@ -1315,14 +1333,14 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-201
       objectId: resident-bed-4-rest
-      position: {x: -3.35, y: -3.47}
+      position: {x: 4.26, y: -0.5}
       action: 7
     - hour: 8
       minute: 51
       dayMask: 127
       allowStroll: 0
       zone: alley
-      objectId:
+      objectId: 
       position: {x: 7, y: 1}
       action: 2
     - hour: 8
@@ -1418,7 +1436,7 @@ MonoBehaviour:
       dayMask: 127
       allowStroll: 0
       zone: alley
-      objectId:
+      objectId: 
       position: {x: 6, y: 2}
       action: 2
     - hour: 18
@@ -1427,7 +1445,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-201
       objectId: resident-bed-4-rest
-      position: {x: -3.35, y: -3.47}
+      position: {x: 4.26, y: -0.5}
       action: 7
     - hour: 19
       minute: 5
@@ -1435,7 +1453,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-201
       objectId: house-dining-0
-      position: {x: 3.25, y: -3.62}
+      position: {x: -5.13, y: -3.62}
       action: 5
     - hour: 19
       minute: 29
@@ -1443,7 +1461,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-201
       objectId: house-dishes
-      position: {x: 2.33, y: -1.38}
+      position: {x: -3.73, y: -1.375}
       action: 14
     - hour: 19
       minute: 38
@@ -1451,7 +1469,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-201
       objectId: house-table
-      position: {x: 2.75, y: -2.11}
+      position: {x: -5.15, y: -2.11}
       action: 15
     - hour: 19
       minute: 45
@@ -1459,7 +1477,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-201
       objectId: resident-bed-4-rest
-      position: {x: -3.35, y: -3.47}
+      position: {x: 4.26, y: -0.5}
       action: 16
     - hour: 22
       minute: 55
@@ -1467,7 +1485,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-201
       objectId: resident-bed-4
-      position: {x: -2.80, y: 1.72}
+      position: {x: -4.42, y: 2.57}
       action: 9
   - npcId: resident-3
     title: "\uC21C\uC790"
@@ -1475,15 +1493,15 @@ MonoBehaviour:
     archetype: 8
     ambientLine: 
     ambientOffsets: []
-    homeZone: apt-202
     homePlace: 0
     residentBedId: resident-bed-5
+    homeZone: apt-202
     jobId: analyst
     workZone: finance
     worksFromHome: 0
     companionId: 
-    hasHomePosition: 0
-    homePosition: {x: 0, y: 0}
+    hasHomePosition: 1
+    homePosition: {x: -4.42, y: 2.57}
     personality: 3
     speed: 1.23
     animations: {fileID: 11400000, guid: caa1a24b2b2f14def9c286f44e83de15, type: 2}
@@ -1499,7 +1517,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-202
       objectId: resident-bed-5
-      position: {x: -2.80, y: 1.72}
+      position: {x: -4.42, y: 2.57}
       action: 9
     - hour: 6
       minute: 57
@@ -1507,7 +1525,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-202
       objectId: resident-bed-5
-      position: {x: -2.80, y: 1.72}
+      position: {x: -4.42, y: 2.57}
       action: 1
     - hour: 6
       minute: 59
@@ -1515,7 +1533,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-202
       objectId: house-wash
-      position: {x: 3.76, y: 1.24}
+      position: {x: 0.74, y: 1.24}
       action: 17
     - hour: 7
       minute: 6
@@ -1523,7 +1541,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-202
       objectId: house-dining-0
-      position: {x: 3.25, y: -3.62}
+      position: {x: -5.13, y: -3.62}
       action: 5
     - hour: 7
       minute: 21
@@ -1531,14 +1549,14 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-202
       objectId: resident-bed-5-rest
-      position: {x: -3.35, y: -3.47}
+      position: {x: 4.26, y: -0.5}
       action: 7
     - hour: 8
       minute: 19
       dayMask: 31
       allowStroll: 0
       zone: alley
-      objectId:
+      objectId: 
       position: {x: 7, y: 1}
       action: 2
     - hour: 8
@@ -1578,7 +1596,7 @@ MonoBehaviour:
       dayMask: 96
       allowStroll: 0
       zone: alley
-      objectId:
+      objectId: 
       position: {x: 7, y: 1}
       action: 2
     - hour: 11
@@ -1650,7 +1668,7 @@ MonoBehaviour:
       dayMask: 127
       allowStroll: 0
       zone: alley
-      objectId:
+      objectId: 
       position: {x: 6, y: 2}
       action: 2
     - hour: 18
@@ -1659,7 +1677,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-202
       objectId: resident-bed-5-rest
-      position: {x: -3.35, y: -3.47}
+      position: {x: 4.26, y: -0.5}
       action: 7
     - hour: 19
       minute: 6
@@ -1667,7 +1685,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-202
       objectId: house-dining-0
-      position: {x: 3.25, y: -3.62}
+      position: {x: -5.13, y: -3.62}
       action: 5
     - hour: 19
       minute: 30
@@ -1675,7 +1693,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-202
       objectId: house-dishes
-      position: {x: 2.33, y: -1.38}
+      position: {x: -3.73, y: -1.375}
       action: 14
     - hour: 19
       minute: 39
@@ -1683,7 +1701,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-202
       objectId: house-table
-      position: {x: 2.75, y: -2.11}
+      position: {x: -5.15, y: -2.11}
       action: 15
     - hour: 19
       minute: 46
@@ -1691,7 +1709,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-202
       objectId: resident-bed-5-rest
-      position: {x: -3.35, y: -3.47}
+      position: {x: 4.26, y: -0.5}
       action: 16
     - hour: 22
       minute: 52
@@ -1699,7 +1717,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-202
       objectId: resident-bed-5
-      position: {x: -2.80, y: 1.72}
+      position: {x: -4.42, y: 2.57}
       action: 9
   - npcId: resident-4
     title: "\uC9C0\uC740"
@@ -1707,15 +1725,15 @@ MonoBehaviour:
     archetype: 8
     ambientLine: 
     ambientOffsets: []
-    homeZone: apt-203
     homePlace: 0
     residentBedId: resident-bed-6
+    homeZone: apt-203
     jobId: analyst
     workZone: finance
     worksFromHome: 0
     companionId: 
-    hasHomePosition: 0
-    homePosition: {x: 0, y: 0}
+    hasHomePosition: 1
+    homePosition: {x: -5.1600003, y: 3.1699998}
     personality: 3
     speed: 1.36
     animations: {fileID: 11400000, guid: 4d251d34a4b9b4dd280859fa9b30cdc5, type: 2}
@@ -1731,7 +1749,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-203
       objectId: resident-bed-6
-      position: {x: -4.99, y: 3.17}
+      position: {x: -5.1600003, y: 3.1699998}
       action: 9
     - hour: 7
       minute: 2
@@ -1739,7 +1757,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-203
       objectId: resident-bed-6
-      position: {x: -4.99, y: 3.17}
+      position: {x: -5.1600003, y: 3.1699998}
       action: 1
     - hour: 7
       minute: 4
@@ -1747,7 +1765,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-203
       objectId: house-wash
-      position: {x: 5.73, y: 1.24}
+      position: {x: 5.7299995, y: 1.24}
       action: 17
     - hour: 7
       minute: 11
@@ -1755,7 +1773,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-203
       objectId: house-dining-0
-      position: {x: 4.74, y: -3.62}
+      position: {x: 4.38, y: -3.62}
       action: 5
     - hour: 7
       minute: 26
@@ -1763,14 +1781,14 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-203
       objectId: resident-bed-6-rest
-      position: {x: -5.81, y: -3.47}
+      position: {x: -5.81, y: -0.5}
       action: 7
     - hour: 8
       minute: 28
       dayMask: 31
       allowStroll: 0
       zone: alley
-      objectId:
+      objectId: 
       position: {x: 7, y: 1}
       action: 2
     - hour: 8
@@ -1810,7 +1828,7 @@ MonoBehaviour:
       dayMask: 96
       allowStroll: 0
       zone: alley
-      objectId:
+      objectId: 
       position: {x: 7, y: 1}
       action: 2
     - hour: 11
@@ -1882,7 +1900,7 @@ MonoBehaviour:
       dayMask: 127
       allowStroll: 0
       zone: alley
-      objectId:
+      objectId: 
       position: {x: 6, y: 2}
       action: 2
     - hour: 18
@@ -1891,7 +1909,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-203
       objectId: resident-bed-6-rest
-      position: {x: -5.81, y: -3.47}
+      position: {x: -5.81, y: -0.5}
       action: 7
     - hour: 19
       minute: 7
@@ -1899,7 +1917,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-203
       objectId: house-dining-0
-      position: {x: 4.74, y: -3.62}
+      position: {x: 4.38, y: -3.62}
       action: 5
     - hour: 19
       minute: 31
@@ -1907,7 +1925,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-203
       objectId: house-dishes
-      position: {x: 4.30, y: -1.38}
+      position: {x: 4.3, y: -1.375}
       action: 14
     - hour: 19
       minute: 40
@@ -1923,7 +1941,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-203
       objectId: resident-bed-6-rest
-      position: {x: -5.81, y: -3.47}
+      position: {x: -5.81, y: -0.5}
       action: 16
     - hour: 21
       minute: 9
@@ -1931,7 +1949,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-203
       objectId: resident-bed-6-rest
-      position: {x: -5.81, y: -3.47}
+      position: {x: -5.81, y: -0.5}
       action: 8
     - hour: 21
       minute: 20
@@ -1939,7 +1957,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-203
       objectId: resident-bed-6-rest
-      position: {x: -5.81, y: -3.47}
+      position: {x: -5.81, y: -0.5}
       action: 7
     - hour: 22
       minute: 56
@@ -1947,7 +1965,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-203
       objectId: resident-bed-6
-      position: {x: -4.99, y: 3.17}
+      position: {x: -5.1600003, y: 3.1699998}
       action: 9
   - npcId: resident-5
     title: "\uC815\uD638"
@@ -1955,15 +1973,15 @@ MonoBehaviour:
     archetype: 2
     ambientLine: 
     ambientOffsets: []
-    homeZone: apt-301
     homePlace: 0
     residentBedId: resident-bed-7
+    homeZone: apt-301
     jobId: office
     workZone: workplace
     worksFromHome: 0
     companionId: 
-    hasHomePosition: 0
-    homePosition: {x: 0, y: 0}
+    hasHomePosition: 1
+    homePosition: {x: -4.79, y: 2.84}
     personality: 3
     speed: 1.49
     animations: {fileID: 11400000, guid: 0767c8e9b91b74b279a6f36a21050a93, type: 2}
@@ -1995,7 +2013,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-301
       objectId: house-wash
-      position: {x: 0.16, y: 1.24}
+      position: {x: 0.16000003, y: 1.24}
       action: 17
     - hour: 7
       minute: 1
@@ -2011,14 +2029,14 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-301
       objectId: resident-bed-7-rest
-      position: {x: -5.61, y: -3.47}
+      position: {x: -5.61, y: -0.5}
       action: 7
     - hour: 8
       minute: 29
       dayMask: 31
       allowStroll: 0
       zone: alley
-      objectId:
+      objectId: 
       position: {x: 7, y: 1}
       action: 2
     - hour: 8
@@ -2058,7 +2076,7 @@ MonoBehaviour:
       dayMask: 96
       allowStroll: 0
       zone: alley
-      objectId:
+      objectId: 
       position: {x: 7, y: 1}
       action: 2
     - hour: 11
@@ -2130,7 +2148,7 @@ MonoBehaviour:
       dayMask: 127
       allowStroll: 0
       zone: alley
-      objectId:
+      objectId: 
       position: {x: 6, y: 2}
       action: 2
     - hour: 18
@@ -2139,7 +2157,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-301
       objectId: resident-bed-7-rest
-      position: {x: -5.61, y: -3.47}
+      position: {x: -5.61, y: -0.5}
       action: 7
     - hour: 19
       minute: 8
@@ -2155,7 +2173,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-301
       objectId: house-dishes
-      position: {x: 4.10, y: -1.38}
+      position: {x: 4.1, y: -1.375}
       action: 14
     - hour: 19
       minute: 41
@@ -2171,7 +2189,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-301
       objectId: resident-bed-7-rest
-      position: {x: -5.61, y: -3.47}
+      position: {x: -5.61, y: -0.5}
       action: 16
     - hour: 22
       minute: 48
@@ -2187,15 +2205,15 @@ MonoBehaviour:
     archetype: 2
     ambientLine: 
     ambientOffsets: []
-    homeZone: apt-302
     homePlace: 0
     residentBedId: resident-bed-8
+    homeZone: apt-302
     jobId: office
     workZone: workplace
     worksFromHome: 0
     companionId: 
-    hasHomePosition: 0
-    homePosition: {x: 0, y: 0}
+    hasHomePosition: 1
+    homePosition: {x: -4.42, y: 2.57}
     personality: 1
     speed: 1.1
     animations: {fileID: 11400000, guid: 9f8407b30c9f6485a88698b8d55d2862, type: 2}
@@ -2211,7 +2229,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-302
       objectId: resident-bed-8
-      position: {x: -2.80, y: 1.72}
+      position: {x: -4.42, y: 2.57}
       action: 9
     - hour: 0
       minute: 0
@@ -2250,7 +2268,7 @@ MonoBehaviour:
       dayMask: 85
       allowStroll: 0
       zone: alley
-      objectId:
+      objectId: 
       position: {x: 6, y: 2}
       action: 2
     - hour: 7
@@ -2259,7 +2277,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-302
       objectId: resident-bed-8
-      position: {x: -2.80, y: 1.72}
+      position: {x: -4.42, y: 2.57}
       action: 9
     - hour: 9
       minute: 19
@@ -2267,7 +2285,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-302
       objectId: resident-bed-8
-      position: {x: -2.80, y: 1.72}
+      position: {x: -4.42, y: 2.57}
       action: 1
     - hour: 9
       minute: 21
@@ -2275,7 +2293,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-302
       objectId: house-wash
-      position: {x: 3.76, y: 1.24}
+      position: {x: 0.74, y: 1.24}
       action: 17
     - hour: 9
       minute: 28
@@ -2283,7 +2301,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-302
       objectId: house-dining-0
-      position: {x: 3.25, y: -3.62}
+      position: {x: -5.13, y: -3.62}
       action: 5
     - hour: 9
       minute: 43
@@ -2291,7 +2309,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-302
       objectId: resident-bed-8-rest
-      position: {x: -3.35, y: -3.47}
+      position: {x: 4.26, y: -0.5}
       action: 7
     - hour: 15
       minute: 15
@@ -2299,7 +2317,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-302
       objectId: resident-bed-8
-      position: {x: -2.80, y: 1.72}
+      position: {x: -4.42, y: 2.57}
       action: 1
     - hour: 15
       minute: 17
@@ -2307,7 +2325,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-302
       objectId: house-wash
-      position: {x: 3.76, y: 1.24}
+      position: {x: 0.74, y: 1.24}
       action: 17
     - hour: 15
       minute: 24
@@ -2315,7 +2333,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-302
       objectId: house-dining-0
-      position: {x: 3.25, y: -3.62}
+      position: {x: -5.13, y: -3.62}
       action: 5
     - hour: 15
       minute: 39
@@ -2323,14 +2341,14 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-302
       objectId: resident-bed-8-rest
-      position: {x: -3.35, y: -3.47}
+      position: {x: 4.26, y: -0.5}
       action: 7
     - hour: 16
       minute: 54
       dayMask: 127
       allowStroll: 0
       zone: alley
-      objectId:
+      objectId: 
       position: {x: 7, y: 1}
       action: 2
     - hour: 16
@@ -2354,7 +2372,7 @@ MonoBehaviour:
       dayMask: 127
       allowStroll: 0
       zone: alley
-      objectId:
+      objectId: 
       position: {x: 6, y: 2}
       action: 2
     - hour: 21
@@ -2363,14 +2381,14 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-302
       objectId: resident-bed-8-rest
-      position: {x: -3.35, y: -3.47}
+      position: {x: 4.26, y: -0.5}
       action: 7
     - hour: 21
       minute: 38
       dayMask: 106
       allowStroll: 0
       zone: alley
-      objectId:
+      objectId: 
       position: {x: 7, y: 1}
       action: 2
     - hour: 21
@@ -2395,7 +2413,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-302
       objectId: resident-bed-8
-      position: {x: -2.80, y: 1.72}
+      position: {x: -4.42, y: 2.57}
       action: 9
   - npcId: resident-7
     title: "\uC21C\uC790"
@@ -2403,15 +2421,15 @@ MonoBehaviour:
     archetype: 0
     ambientLine: 
     ambientOffsets: []
-    homeZone: apt-303
     homePlace: 0
     residentBedId: resident-bed-9
+    homeZone: apt-303
     jobId: convenience
     workZone: shop
     worksFromHome: 0
     companionId: resident-8
-    hasHomePosition: 0
-    homePosition: {x: 0, y: 0}
+    hasHomePosition: 1
+    homePosition: {x: -2.8000002, y: 1.72}
     personality: 5
     speed: 1.23
     animations: {fileID: 11400000, guid: caa1a24b2b2f14def9c286f44e83de15, type: 2}
@@ -2427,7 +2445,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-303
       objectId: resident-bed-9
-      position: {x: -2.80, y: 1.72}
+      position: {x: -2.8000002, y: 1.72}
       action: 9
     - hour: 8
       minute: 45
@@ -2435,7 +2453,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-303
       objectId: resident-bed-9
-      position: {x: -2.80, y: 1.72}
+      position: {x: -2.8000002, y: 1.72}
       action: 1
     - hour: 8
       minute: 47
@@ -2459,14 +2477,14 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-303
       objectId: resident-bed-9-rest
-      position: {x: -3.35, y: -3.47}
+      position: {x: -3.35, y: -0.5}
       action: 7
     - hour: 10
       minute: 9
       dayMask: 127
       allowStroll: 0
       zone: alley
-      objectId:
+      objectId: 
       position: {x: 7, y: 1}
       action: 2
     - hour: 10
@@ -2546,7 +2564,7 @@ MonoBehaviour:
       dayMask: 127
       allowStroll: 0
       zone: alley
-      objectId:
+      objectId: 
       position: {x: 6, y: 2}
       action: 2
     - hour: 23
@@ -2555,7 +2573,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-303
       objectId: resident-bed-9-rest
-      position: {x: -3.35, y: -3.47}
+      position: {x: -3.35, y: -0.5}
       action: 7
     - hour: 23
       minute: 50
@@ -2563,7 +2581,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-303
       objectId: resident-bed-9
-      position: {x: -2.80, y: 1.72}
+      position: {x: -2.8000002, y: 1.72}
       action: 9
   - npcId: resident-8
     title: "\uC9C0\uC740"
@@ -2571,15 +2589,15 @@ MonoBehaviour:
     archetype: 2
     ambientLine: 
     ambientOffsets: []
-    homeZone: apt-401
     homePlace: 0
     residentBedId: resident-bed-10
+    homeZone: apt-401
     jobId: office
     workZone: realestate
     worksFromHome: 0
     companionId: 
-    hasHomePosition: 0
-    homePosition: {x: 0, y: 0}
+    hasHomePosition: 1
+    homePosition: {x: -2.8000002, y: 1.72}
     personality: 3
     speed: 1.36
     animations: {fileID: 11400000, guid: 4d251d34a4b9b4dd280859fa9b30cdc5, type: 2}
@@ -2595,7 +2613,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-401
       objectId: resident-bed-10
-      position: {x: -2.80, y: 1.72}
+      position: {x: -2.8000002, y: 1.72}
       action: 9
     - hour: 7
       minute: 7
@@ -2603,7 +2621,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-401
       objectId: resident-bed-10
-      position: {x: -2.80, y: 1.72}
+      position: {x: -2.8000002, y: 1.72}
       action: 1
     - hour: 7
       minute: 9
@@ -2627,14 +2645,14 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-401
       objectId: resident-bed-10-rest
-      position: {x: -3.35, y: -3.47}
+      position: {x: -3.35, y: -0.5}
       action: 7
     - hour: 8
       minute: 34
       dayMask: 31
       allowStroll: 0
       zone: alley
-      objectId:
+      objectId: 
       position: {x: 7, y: 1}
       action: 2
     - hour: 8
@@ -2674,7 +2692,7 @@ MonoBehaviour:
       dayMask: 96
       allowStroll: 0
       zone: alley
-      objectId:
+      objectId: 
       position: {x: 7, y: 1}
       action: 2
     - hour: 11
@@ -2746,7 +2764,7 @@ MonoBehaviour:
       dayMask: 127
       allowStroll: 0
       zone: alley
-      objectId:
+      objectId: 
       position: {x: 6, y: 2}
       action: 2
     - hour: 18
@@ -2755,7 +2773,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-401
       objectId: resident-bed-10-rest
-      position: {x: -3.35, y: -3.47}
+      position: {x: -3.35, y: -0.5}
       action: 7
     - hour: 19
       minute: 11
@@ -2771,7 +2789,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-401
       objectId: house-dishes
-      position: {x: 2.33, y: -1.38}
+      position: {x: 2.33, y: -1.375}
       action: 14
     - hour: 19
       minute: 44
@@ -2787,7 +2805,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-401
       objectId: resident-bed-10-rest
-      position: {x: -3.35, y: -3.47}
+      position: {x: -3.35, y: -0.5}
       action: 16
     - hour: 23
       minute: 0
@@ -2795,7 +2813,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-401
       objectId: resident-bed-10
-      position: {x: -2.80, y: 1.72}
+      position: {x: -2.8000002, y: 1.72}
       action: 9
   - npcId: resident-9
     title: "\uC815\uD638"
@@ -2803,15 +2821,15 @@ MonoBehaviour:
     archetype: 2
     ambientLine: 
     ambientOffsets: []
-    homeZone: apt-402
     homePlace: 0
     residentBedId: resident-bed-11
+    homeZone: apt-402
     jobId: office
     workZone: realestate
     worksFromHome: 0
     companionId: 
-    hasHomePosition: 0
-    homePosition: {x: 0, y: 0}
+    hasHomePosition: 1
+    homePosition: {x: -2.8000002, y: 1.72}
     personality: 3
     speed: 1.49
     animations: {fileID: 11400000, guid: 0767c8e9b91b74b279a6f36a21050a93, type: 2}
@@ -2827,7 +2845,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-402
       objectId: resident-bed-11
-      position: {x: -2.80, y: 1.72}
+      position: {x: -2.8000002, y: 1.72}
       action: 9
     - hour: 7
       minute: 12
@@ -2835,7 +2853,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-402
       objectId: resident-bed-11
-      position: {x: -2.80, y: 1.72}
+      position: {x: -2.8000002, y: 1.72}
       action: 1
     - hour: 7
       minute: 14
@@ -2859,14 +2877,14 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-402
       objectId: resident-bed-11-rest
-      position: {x: -3.35, y: -3.47}
+      position: {x: -3.35, y: -0.5}
       action: 7
     - hour: 8
       minute: 39
       dayMask: 31
       allowStroll: 0
       zone: alley
-      objectId:
+      objectId: 
       position: {x: 7, y: 1}
       action: 2
     - hour: 8
@@ -2906,7 +2924,7 @@ MonoBehaviour:
       dayMask: 96
       allowStroll: 0
       zone: alley
-      objectId:
+      objectId: 
       position: {x: 7, y: 1}
       action: 2
     - hour: 11
@@ -2978,7 +2996,7 @@ MonoBehaviour:
       dayMask: 127
       allowStroll: 0
       zone: alley
-      objectId:
+      objectId: 
       position: {x: 6, y: 2}
       action: 2
     - hour: 18
@@ -2987,7 +3005,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-402
       objectId: resident-bed-11-rest
-      position: {x: -3.35, y: -3.47}
+      position: {x: -3.35, y: -0.5}
       action: 7
     - hour: 19
       minute: 12
@@ -3003,7 +3021,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-402
       objectId: house-dishes
-      position: {x: 2.33, y: -1.38}
+      position: {x: 2.33, y: -1.375}
       action: 14
     - hour: 19
       minute: 45
@@ -3019,7 +3037,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-402
       objectId: resident-bed-11-rest
-      position: {x: -3.35, y: -3.47}
+      position: {x: -3.35, y: -0.5}
       action: 16
     - hour: 23
       minute: 4
@@ -3027,7 +3045,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-402
       objectId: resident-bed-11
-      position: {x: -2.80, y: 1.72}
+      position: {x: -2.8000002, y: 1.72}
       action: 9
   - npcId: school-teacher
     title: "\uB2F4\uC784 \uC120\uC0DD\uB2D8 \uC11C\uC724"
@@ -3035,15 +3053,15 @@ MonoBehaviour:
     archetype: 0
     ambientLine: 
     ambientOffsets: []
-    homeZone: apt-403
     homePlace: 0
     residentBedId: school-teacher-bed
+    homeZone: apt-403
     jobId: teacher
     workZone: school
     worksFromHome: 0
     companionId: school-pupil
-    hasHomePosition: 0
-    homePosition: {x: 0, y: 0}
+    hasHomePosition: 1
+    homePosition: {x: -4.42, y: 2.57}
     personality: 0
     speed: 1.25
     animations: {fileID: 11400000, guid: 4d251d34a4b9b4dd280859fa9b30cdc5, type: 2}
@@ -3091,14 +3109,14 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-403
       objectId: school-teacher-bed-rest
-      position: {x: 4.26, y: -3.47}
+      position: {x: 4.26, y: -0.5}
       action: 7
     - hour: 7
       minute: 45
       dayMask: 31
       allowStroll: 0
       zone: alley
-      objectId:
+      objectId: 
       position: {x: 7, y: 1}
       action: 2
     - hour: 7
@@ -3181,6 +3199,14 @@ MonoBehaviour:
       objectId: 
       position: {x: -4.4, y: 1}
       action: 2
+    - hour: 15
+      minute: 18
+      dayMask: 31
+      allowStroll: 0
+      zone: school
+      objectId: faculty-break
+      position: {x: -7.220001, y: 2.76}
+      action: 7
     - hour: 16
       minute: 42
       dayMask: 31
@@ -3194,7 +3220,7 @@ MonoBehaviour:
       dayMask: 127
       allowStroll: 0
       zone: alley
-      objectId:
+      objectId: 
       position: {x: 6, y: 2}
       action: 2
     - hour: 17
@@ -3203,7 +3229,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-403
       objectId: school-teacher-bed-rest
-      position: {x: 4.26, y: -3.47}
+      position: {x: 4.26, y: -0.5}
       action: 7
     - hour: 19
       minute: 11
@@ -3219,7 +3245,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-403
       objectId: house-dishes
-      position: {x: -3.73, y: -1.38}
+      position: {x: -3.73, y: -1.375}
       action: 14
     - hour: 19
       minute: 44
@@ -3235,7 +3261,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-403
       objectId: school-teacher-bed-rest
-      position: {x: 4.26, y: -3.47}
+      position: {x: 4.26, y: -0.5}
       action: 16
     - hour: 22
       minute: 31
@@ -3251,15 +3277,15 @@ MonoBehaviour:
     archetype: 1
     ambientLine: 
     ambientOffsets: []
-    homeZone: apt-203
     homePlace: 1
     residentBedId: school-pupil-bed
+    homeZone: apt-203
     jobId: student
     workZone: school
     worksFromHome: 0
     companionId: school-teacher
-    hasHomePosition: 0
-    homePosition: {x: 0, y: 0}
+    hasHomePosition: 1
+    homePosition: {x: -0.07000005, y: 3.1699998}
     personality: 2
     speed: 1.25
     animations: {fileID: 11400000, guid: 9f8407b30c9f6485a88698b8d55d2862, type: 2}
@@ -3275,7 +3301,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-203
       objectId: school-pupil-bed
-      position: {x: -0.07, y: 3.17}
+      position: {x: -0.07000005, y: 3.1699998}
       action: 9
     - hour: 6
       minute: 46
@@ -3283,7 +3309,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-203
       objectId: school-pupil-bed
-      position: {x: -0.07, y: 3.17}
+      position: {x: -0.07000005, y: 3.1699998}
       action: 1
     - hour: 6
       minute: 48
@@ -3291,7 +3317,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-203
       objectId: house-wash
-      position: {x: 5.73, y: 1.24}
+      position: {x: 5.7299995, y: 1.24}
       action: 17
     - hour: 6
       minute: 55
@@ -3299,7 +3325,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-203
       objectId: house-dining-1
-      position: {x: 5.70, y: -3.62}
+      position: {x: 6.06, y: -3.62}
       action: 5
     - hour: 7
       minute: 10
@@ -3307,14 +3333,14 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-203
       objectId: school-pupil-bed-rest
-      position: {x: -4.83, y: -3.47}
+      position: {x: -4.83, y: -0.5}
       action: 7
     - hour: 7
       minute: 41
       dayMask: 31
       allowStroll: 0
       zone: alley
-      objectId:
+      objectId: 
       position: {x: 7, y: 1}
       action: 2
     - hour: 7
@@ -3394,7 +3420,7 @@ MonoBehaviour:
       dayMask: 127
       allowStroll: 0
       zone: alley
-      objectId:
+      objectId: 
       position: {x: 6, y: 2}
       action: 2
     - hour: 17
@@ -3403,7 +3429,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-203
       objectId: school-pupil-bed-rest
-      position: {x: -4.83, y: -3.47}
+      position: {x: -4.83, y: -0.5}
       action: 7
     - hour: 19
       minute: 1
@@ -3411,7 +3437,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-203
       objectId: house-dining-1
-      position: {x: 5.70, y: -3.62}
+      position: {x: 6.06, y: -3.62}
       action: 5
     - hour: 19
       minute: 25
@@ -3419,7 +3445,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-203
       objectId: house-dishes
-      position: {x: 4.30, y: -1.38}
+      position: {x: 4.3, y: -1.375}
       action: 14
     - hour: 19
       minute: 34
@@ -3435,7 +3461,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-203
       objectId: school-pupil-bed-rest
-      position: {x: -4.83, y: -3.47}
+      position: {x: -4.83, y: -0.5}
       action: 16
     - hour: 21
       minute: 9
@@ -3443,7 +3469,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-203
       objectId: school-pupil-bed-rest
-      position: {x: -4.83, y: -3.47}
+      position: {x: -4.83, y: -0.5}
       action: 8
     - hour: 21
       minute: 20
@@ -3451,7 +3477,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-203
       objectId: school-pupil-bed-rest
-      position: {x: -4.83, y: -3.47}
+      position: {x: -4.83, y: -0.5}
       action: 7
     - hour: 22
       minute: 24
@@ -3459,7 +3485,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-203
       objectId: school-pupil-bed
-      position: {x: -0.07, y: 3.17}
+      position: {x: -0.07000005, y: 3.1699998}
       action: 9
   - npcId: shop-clerk
     title: "\uB3D9\uB124 \uC0C1\uC810 \uC8FC\uC778 \uC601\uD638"
@@ -3467,15 +3493,15 @@ MonoBehaviour:
     archetype: 3
     ambientLine: 
     ambientOffsets: []
-    homeZone: apt-501
     homePlace: 0
     residentBedId: shop-clerk-bed
+    homeZone: apt-501
     jobId: shopkeeper
     workZone: shop
     worksFromHome: 0
     companionId: 
-    hasHomePosition: 0
-    homePosition: {x: 0, y: 0}
+    hasHomePosition: 1
+    homePosition: {x: -2.8000002, y: 1.72}
     personality: 4
     speed: 1.25
     animations: {fileID: 11400000, guid: caa1a24b2b2f14def9c286f44e83de15, type: 2}
@@ -3491,7 +3517,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-501
       objectId: shop-clerk-bed
-      position: {x: -2.80, y: 1.72}
+      position: {x: -2.8000002, y: 1.72}
       action: 9
     - hour: 6
       minute: 15
@@ -3499,7 +3525,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-501
       objectId: shop-clerk-bed
-      position: {x: -2.80, y: 1.72}
+      position: {x: -2.8000002, y: 1.72}
       action: 1
     - hour: 6
       minute: 17
@@ -3523,14 +3549,14 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-501
       objectId: shop-clerk-bed-rest
-      position: {x: -3.35, y: -3.47}
+      position: {x: -3.35, y: -0.5}
       action: 7
     - hour: 6
       minute: 30
       dayMask: 127
       allowStroll: 0
       zone: alley
-      objectId:
+      objectId: 
       position: {x: 7, y: 1}
       action: 2
     - hour: 6
@@ -3602,7 +3628,7 @@ MonoBehaviour:
       dayMask: 127
       allowStroll: 0
       zone: alley
-      objectId:
+      objectId: 
       position: {x: 6, y: 2}
       action: 2
     - hour: 18
@@ -3611,7 +3637,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-501
       objectId: shop-clerk-bed-rest
-      position: {x: -3.35, y: -3.47}
+      position: {x: -3.35, y: -0.5}
       action: 7
     - hour: 19
       minute: 8
@@ -3627,7 +3653,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-501
       objectId: house-dishes
-      position: {x: 2.33, y: -1.38}
+      position: {x: 2.33, y: -1.375}
       action: 14
     - hour: 19
       minute: 41
@@ -3643,7 +3669,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-501
       objectId: shop-clerk-bed-rest
-      position: {x: -3.35, y: -3.47}
+      position: {x: -3.35, y: -0.5}
       action: 16
     - hour: 22
       minute: 45
@@ -3651,7 +3677,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-501
       objectId: shop-clerk-bed
-      position: {x: -2.80, y: 1.72}
+      position: {x: -2.8000002, y: 1.72}
       action: 9
   - npcId: family-mother
     title: "\uC5C4\uB9C8"
@@ -3659,6 +3685,8 @@ MonoBehaviour:
     archetype: 5
     ambientLine: 
     ambientOffsets: []
+    homePlace: 0
+    residentBedId: 
     homeZone: family-parents-bedroom
     jobId: parent
     workZone: 
@@ -3737,7 +3765,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: family-living
       objectId: family-clean
-      position: {x: -3.399994, y: -0.8000002}
+      position: {x: -3.93, y: -1.62}
       action: 15
     - hour: 10
       minute: 30
@@ -3905,6 +3933,8 @@ MonoBehaviour:
     archetype: 5
     ambientLine: 
     ambientOffsets: []
+    homePlace: 0
+    residentBedId: 
     homeZone: family-parents-bedroom
     jobId: parent
     workZone: 
@@ -3959,7 +3989,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: family-living
       objectId: family-clean
-      position: {x: -3.399994, y: -0.8000002}
+      position: {x: -3.93, y: -1.62}
       action: 15
     - hour: 9
       minute: 0
@@ -4031,7 +4061,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: family-living
       objectId: family-clean
-      position: {x: -3.399994, y: -0.8000002}
+      position: {x: -3.93, y: -1.62}
       action: 15
     - hour: 18
       minute: 48
@@ -4162,13 +4192,15 @@ MonoBehaviour:
     - {x: 0, y: 0}
     - {x: 1.6, y: 0}
     - {x: -1.6, y: 0}
+    homePlace: 1
+    residentBedId: ambient-urban-0-bed
     homeZone: residence
     jobId: student
     workZone: school
     worksFromHome: 0
     companionId: 
-    hasHomePosition: 0
-    homePosition: {x: 0, y: 0}
+    hasHomePosition: 1
+    homePosition: {x: -0.07000005, y: 3.1699998}
     personality: 2
     speed: 0.95
     animations: {fileID: 11400000, guid: 9f8407b30c9f6485a88698b8d55d2862, type: 2}
@@ -4183,9 +4215,33 @@ MonoBehaviour:
       dayMask: 127
       allowStroll: 0
       zone: residence
-      objectId: 
-      position: {x: 0, y: 0}
+      objectId: ambient-urban-0-bed
+      position: {x: -0.07000005, y: 3.1699998}
       action: 9
+    - hour: 5
+      minute: 35
+      dayMask: 127
+      allowStroll: 0
+      zone: residence
+      objectId: ambient-urban-0-bed
+      position: {x: -0.07000005, y: 3.1699998}
+      action: 1
+    - hour: 5
+      minute: 43
+      dayMask: 127
+      allowStroll: 0
+      zone: residence
+      objectId: house-wash
+      position: {x: 5.7299995, y: 1.24}
+      action: 17
+    - hour: 6
+      minute: 0
+      dayMask: 127
+      allowStroll: 0
+      zone: residence
+      objectId: house-dining-1
+      position: {x: 5.7, y: -3.62}
+      action: 5
     - hour: 6
       minute: 30
       dayMask: 127
@@ -4258,14 +4314,30 @@ MonoBehaviour:
       objectId: 
       position: {x: -8.5, y: -1.2}
       action: 2
-    - hour: 21
-      minute: 58
+    - hour: 20
+      minute: 5
       dayMask: 127
       allowStroll: 0
       zone: residence
-      objectId: 
-      position: {x: 0, y: 0}
-      action: 0
+      objectId: house-dining-1
+      position: {x: 5.7, y: -3.62}
+      action: 5
+    - hour: 20
+      minute: 20
+      dayMask: 127
+      allowStroll: 0
+      zone: residence
+      objectId: ambient-urban-0-bed-rest
+      position: {x: -4.83, y: -0.5}
+      action: 16
+    - hour: 22
+      minute: 20
+      dayMask: 127
+      allowStroll: 0
+      zone: residence
+      objectId: ambient-urban-0-bed
+      position: {x: -0.07000005, y: 3.1699998}
+      action: 9
   - npcId: ambient-urban-1
     title: "\uBC84\uC2A4\uB97C \uAE30\uB2E4\uB9AC\uB294 \uD559\uC0DD"
     ambient: 1
@@ -4275,13 +4347,15 @@ MonoBehaviour:
     - {x: 0, y: 0}
     - {x: 1.6, y: 0}
     - {x: -1.6, y: 0}
+    homePlace: 2
+    residentBedId: ambient-urban-1-bed
     homeZone: apt-102
     jobId: student
     workZone: school
     worksFromHome: 0
     companionId: 
-    hasHomePosition: 0
-    homePosition: {x: 0, y: 0}
+    hasHomePosition: 1
+    homePosition: {x: 0.59000003, y: 2.59}
     personality: 2
     speed: 1.1
     animations: {fileID: 11400000, guid: 9f8407b30c9f6485a88698b8d55d2862, type: 2}
@@ -4296,9 +4370,33 @@ MonoBehaviour:
       dayMask: 127
       allowStroll: 0
       zone: apt-102
-      objectId: 
-      position: {x: 0, y: 0}
+      objectId: ambient-urban-1-bed
+      position: {x: 0.59000003, y: 2.59}
       action: 9
+    - hour: 5
+      minute: 39
+      dayMask: 127
+      allowStroll: 0
+      zone: apt-102
+      objectId: ambient-urban-1-bed
+      position: {x: 0.59000003, y: 2.59}
+      action: 1
+    - hour: 5
+      minute: 47
+      dayMask: 127
+      allowStroll: 0
+      zone: apt-102
+      objectId: house-wash
+      position: {x: 5.7299995, y: 1.24}
+      action: 17
+    - hour: 6
+      minute: 4
+      dayMask: 127
+      allowStroll: 0
+      zone: apt-102
+      objectId: house-dining-2
+      position: {x: 5.22, y: -3.62}
+      action: 5
     - hour: 6
       minute: 37
       dayMask: 127
@@ -4371,14 +4469,30 @@ MonoBehaviour:
       objectId: 
       position: {x: -6.2, y: -1.2}
       action: 2
-    - hour: 22
-      minute: 4
+    - hour: 20
+      minute: 12
       dayMask: 127
       allowStroll: 0
       zone: apt-102
-      objectId: 
-      position: {x: 0, y: 0}
-      action: 0
+      objectId: house-dining-2
+      position: {x: 5.22, y: -3.62}
+      action: 5
+    - hour: 20
+      minute: 27
+      dayMask: 127
+      allowStroll: 0
+      zone: apt-102
+      objectId: ambient-urban-1-bed-rest
+      position: {x: -3.45, y: -3.42}
+      action: 16
+    - hour: 22
+      minute: 25
+      dayMask: 127
+      allowStroll: 0
+      zone: apt-102
+      objectId: ambient-urban-1-bed
+      position: {x: 0.59000003, y: 2.59}
+      action: 9
   - npcId: ambient-urban-2
     title: "\uCD9C\uADFC\uD558\uB294 \uC8FC\uBBFC"
     ambient: 1
@@ -4388,13 +4502,15 @@ MonoBehaviour:
     - {x: 0, y: 0}
     - {x: 1.6, y: 0}
     - {x: -1.6, y: 0}
+    homePlace: 1
+    residentBedId: ambient-urban-2-bed
     homeZone: apt-103
     jobId: office
     workZone: workplace
     worksFromHome: 0
     companionId: 
-    hasHomePosition: 0
-    homePosition: {x: 0, y: 0}
+    hasHomePosition: 1
+    homePosition: {x: 4.42, y: 2.57}
     personality: 3
     speed: 1.25
     animations: {fileID: 11400000, guid: 4d251d34a4b9b4dd280859fa9b30cdc5, type: 2}
@@ -4409,9 +4525,33 @@ MonoBehaviour:
       dayMask: 127
       allowStroll: 0
       zone: apt-103
-      objectId: 
-      position: {x: 0, y: 0}
+      objectId: ambient-urban-2-bed
+      position: {x: 4.42, y: 2.57}
       action: 9
+    - hour: 5
+      minute: 43
+      dayMask: 127
+      allowStroll: 0
+      zone: apt-103
+      objectId: ambient-urban-2-bed
+      position: {x: 4.42, y: 2.57}
+      action: 1
+    - hour: 5
+      minute: 51
+      dayMask: 127
+      allowStroll: 0
+      zone: apt-103
+      objectId: house-wash
+      position: {x: 0.74, y: 1.24}
+      action: 17
+    - hour: 6
+      minute: 8
+      dayMask: 127
+      allowStroll: 0
+      zone: apt-103
+      objectId: house-dining-1
+      position: {x: -4.17, y: -3.62}
+      action: 5
     - hour: 6
       minute: 44
       dayMask: 127
@@ -4484,14 +4624,30 @@ MonoBehaviour:
       objectId: 
       position: {x: -3.9, y: -1.2}
       action: 2
-    - hour: 22
-      minute: 10
+    - hour: 20
+      minute: 19
       dayMask: 127
       allowStroll: 0
       zone: apt-103
-      objectId: 
-      position: {x: 0, y: 0}
-      action: 0
+      objectId: house-dining-1
+      position: {x: -4.17, y: -3.62}
+      action: 5
+    - hour: 20
+      minute: 34
+      dayMask: 127
+      allowStroll: 0
+      zone: apt-103
+      objectId: ambient-urban-2-bed-rest
+      position: {x: 5.24, y: -0.5}
+      action: 16
+    - hour: 22
+      minute: 30
+      dayMask: 127
+      allowStroll: 0
+      zone: apt-103
+      objectId: ambient-urban-2-bed
+      position: {x: 4.42, y: 2.57}
+      action: 9
   - npcId: ambient-urban-3
     title: "\uD1F4\uADFC\uAE38 \uC9C1\uC7A5\uC778"
     ambient: 1
@@ -4501,13 +4657,15 @@ MonoBehaviour:
     - {x: 0, y: 0}
     - {x: 1.6, y: 0}
     - {x: -1.6, y: 0}
+    homePlace: 1
+    residentBedId: ambient-urban-3-bed
     homeZone: apt-201
     jobId: office
     workZone: workplace
     worksFromHome: 0
     companionId: 
-    hasHomePosition: 0
-    homePosition: {x: 0, y: 0}
+    hasHomePosition: 1
+    homePosition: {x: 4.42, y: 2.57}
     personality: 3
     speed: 0.95
     animations: {fileID: 11400000, guid: 4d251d34a4b9b4dd280859fa9b30cdc5, type: 2}
@@ -4522,9 +4680,33 @@ MonoBehaviour:
       dayMask: 127
       allowStroll: 0
       zone: apt-201
-      objectId: 
-      position: {x: 0, y: 0}
+      objectId: ambient-urban-3-bed
+      position: {x: 4.42, y: 2.57}
       action: 9
+    - hour: 5
+      minute: 47
+      dayMask: 127
+      allowStroll: 0
+      zone: apt-201
+      objectId: ambient-urban-3-bed
+      position: {x: 4.42, y: 2.57}
+      action: 1
+    - hour: 5
+      minute: 55
+      dayMask: 127
+      allowStroll: 0
+      zone: apt-201
+      objectId: house-wash
+      position: {x: 0.74, y: 1.24}
+      action: 17
+    - hour: 6
+      minute: 12
+      dayMask: 127
+      allowStroll: 0
+      zone: apt-201
+      objectId: house-dining-1
+      position: {x: -4.17, y: -3.62}
+      action: 5
     - hour: 6
       minute: 51
       dayMask: 127
@@ -4597,14 +4779,30 @@ MonoBehaviour:
       objectId: 
       position: {x: -1.6000001, y: -1.2}
       action: 2
-    - hour: 22
-      minute: 16
+    - hour: 20
+      minute: 26
       dayMask: 127
       allowStroll: 0
       zone: apt-201
-      objectId: 
-      position: {x: 0, y: 0}
-      action: 0
+      objectId: house-dining-1
+      position: {x: -4.17, y: -3.62}
+      action: 5
+    - hour: 20
+      minute: 41
+      dayMask: 127
+      allowStroll: 0
+      zone: apt-201
+      objectId: ambient-urban-3-bed-rest
+      position: {x: 5.24, y: -0.5}
+      action: 16
+    - hour: 22
+      minute: 35
+      dayMask: 127
+      allowStroll: 0
+      zone: apt-201
+      objectId: ambient-urban-3-bed
+      position: {x: 4.42, y: 2.57}
+      action: 9
   - npcId: ambient-urban-4
     title: "\uBC30\uB2EC \uB300\uAE30 \uC8FC\uBBFC"
     ambient: 1
@@ -4614,13 +4812,15 @@ MonoBehaviour:
     - {x: 0, y: 0}
     - {x: 1.6, y: 0}
     - {x: -1.6, y: 0}
+    homePlace: 1
+    residentBedId: ambient-urban-4-bed
     homeZone: apt-202
     jobId: 
     workZone: 
     worksFromHome: 0
     companionId: 
-    hasHomePosition: 0
-    homePosition: {x: 0, y: 0}
+    hasHomePosition: 1
+    homePosition: {x: 4.42, y: 2.57}
     personality: 1
     speed: 1.1
     animations: {fileID: 11400000, guid: 9f8407b30c9f6485a88698b8d55d2862, type: 2}
@@ -4635,9 +4835,33 @@ MonoBehaviour:
       dayMask: 127
       allowStroll: 0
       zone: apt-202
-      objectId: 
-      position: {x: 0, y: 0}
+      objectId: ambient-urban-4-bed
+      position: {x: 4.42, y: 2.57}
       action: 9
+    - hour: 5
+      minute: 51
+      dayMask: 127
+      allowStroll: 0
+      zone: apt-202
+      objectId: ambient-urban-4-bed
+      position: {x: 4.42, y: 2.57}
+      action: 1
+    - hour: 5
+      minute: 59
+      dayMask: 127
+      allowStroll: 0
+      zone: apt-202
+      objectId: house-wash
+      position: {x: 0.74, y: 1.24}
+      action: 17
+    - hour: 6
+      minute: 16
+      dayMask: 127
+      allowStroll: 0
+      zone: apt-202
+      objectId: house-dining-1
+      position: {x: -4.17, y: -3.62}
+      action: 5
     - hour: 6
       minute: 58
       dayMask: 127
@@ -4699,7 +4923,7 @@ MonoBehaviour:
       dayMask: 127
       allowStroll: 0
       zone: city
-      objectId:
+      objectId: 
       position: {x: 4.7999997, y: 1}
       action: 2
     - hour: 21
@@ -4707,17 +4931,33 @@ MonoBehaviour:
       dayMask: 127
       allowStroll: 1
       zone: alley
-      objectId:
+      objectId: 
       position: {x: 0.6999998, y: -1.2}
       action: 2
-    - hour: 22
-      minute: 22
+    - hour: 21
+      minute: 31
       dayMask: 127
       allowStroll: 0
       zone: apt-202
-      objectId: 
-      position: {x: 0, y: 0}
-      action: 0
+      objectId: house-dining-1
+      position: {x: -4.17, y: -3.62}
+      action: 5
+    - hour: 21
+      minute: 46
+      dayMask: 127
+      allowStroll: 0
+      zone: apt-202
+      objectId: ambient-urban-4-bed-rest
+      position: {x: 5.24, y: -0.5}
+      action: 16
+    - hour: 22
+      minute: 40
+      dayMask: 127
+      allowStroll: 0
+      zone: apt-202
+      objectId: ambient-urban-4-bed
+      position: {x: 4.42, y: 2.57}
+      action: 9
   - npcId: ambient-urban-5
     title: "\uC7A5\uBCF4\uB294 \uC8FC\uBBFC"
     ambient: 1
@@ -4727,13 +4967,15 @@ MonoBehaviour:
     - {x: 0, y: 0}
     - {x: 1.6, y: 0}
     - {x: -1.6, y: 0}
+    homePlace: 2
+    residentBedId: ambient-urban-5-bed
     homeZone: apt-203
     jobId: 
     workZone: 
     worksFromHome: 0
     companionId: 
-    hasHomePosition: 0
-    homePosition: {x: 0, y: 0}
+    hasHomePosition: 1
+    homePosition: {x: -4.2, y: 2.59}
     personality: 5
     speed: 1.25
     animations: {fileID: 11400000, guid: caa1a24b2b2f14def9c286f44e83de15, type: 2}
@@ -4748,9 +4990,33 @@ MonoBehaviour:
       dayMask: 127
       allowStroll: 0
       zone: apt-203
-      objectId: 
-      position: {x: 0, y: 0}
+      objectId: ambient-urban-5-bed
+      position: {x: -4.2, y: 2.59}
       action: 9
+    - hour: 5
+      minute: 55
+      dayMask: 127
+      allowStroll: 0
+      zone: apt-203
+      objectId: ambient-urban-5-bed
+      position: {x: -4.2, y: 2.59}
+      action: 1
+    - hour: 6
+      minute: 3
+      dayMask: 127
+      allowStroll: 0
+      zone: apt-203
+      objectId: house-wash
+      position: {x: 5.7299995, y: 1.24}
+      action: 17
+    - hour: 6
+      minute: 20
+      dayMask: 127
+      allowStroll: 0
+      zone: apt-203
+      objectId: house-dining-2
+      position: {x: 5.22, y: -3.62}
+      action: 5
     - hour: 7
       minute: 5
       dayMask: 127
@@ -4823,14 +5089,30 @@ MonoBehaviour:
       objectId: 
       position: {x: 2.9999998, y: -1.2}
       action: 2
-    - hour: 22
-      minute: 28
+    - hour: 20
+      minute: 40
       dayMask: 127
       allowStroll: 0
       zone: apt-203
-      objectId: 
-      position: {x: 0, y: 0}
-      action: 0
+      objectId: house-dining-2
+      position: {x: 5.22, y: -3.62}
+      action: 5
+    - hour: 20
+      minute: 55
+      dayMask: 127
+      allowStroll: 0
+      zone: apt-203
+      objectId: ambient-urban-5-bed-rest
+      position: {x: -3.45, y: -3.42}
+      action: 16
+    - hour: 22
+      minute: 45
+      dayMask: 127
+      allowStroll: 0
+      zone: apt-203
+      objectId: ambient-urban-5-bed
+      position: {x: -4.2, y: 2.59}
+      action: 9
   - npcId: ambient-urban-6
     title: "\uC0B0\uCC45\uD558\uB294 \uC8FC\uBBFC"
     ambient: 0
@@ -4840,15 +5122,15 @@ MonoBehaviour:
     - {x: 0, y: 0}
     - {x: 1.6, y: 0}
     - {x: -1.6, y: 0}
-    homeZone: apt-301
     homePlace: 1
     residentBedId: elder-301-bed
+    homeZone: apt-301
     jobId: 
     workZone: 
     worksFromHome: 0
     companionId: 
-    hasHomePosition: 0
-    homePosition: {x: 0, y: 0}
+    hasHomePosition: 1
+    homePosition: {x: 5.2999997, y: 1.8499999}
     personality: 5
     speed: 0.95
     animations: {fileID: 11400000, guid: caa1a24b2b2f14def9c286f44e83de15, type: 2}
@@ -4864,7 +5146,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-301
       objectId: elder-301-bed
-      position: {x: 5.30, y: 1.85}
+      position: {x: 5.2999997, y: 1.8499999}
       action: 9
     - hour: 6
       minute: 31
@@ -4872,7 +5154,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-301
       objectId: elder-301-bed
-      position: {x: 5.30, y: 1.85}
+      position: {x: 5.2999997, y: 1.8499999}
       action: 1
     - hour: 6
       minute: 38
@@ -4880,7 +5162,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-301
       objectId: house-wash
-      position: {x: 0.16, y: 1.24}
+      position: {x: 0.16000003, y: 1.24}
       action: 17
     - hour: 6
       minute: 50
@@ -4888,7 +5170,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-301
       objectId: house-dining-1
-      position: {x: 5.50, y: -3.62}
+      position: {x: 5.5, y: -3.62}
       action: 5
     - hour: 7
       minute: 12
@@ -4951,7 +5233,7 @@ MonoBehaviour:
       dayMask: 127
       allowStroll: 0
       zone: city
-      objectId:
+      objectId: 
       position: {x: -2.1000004, y: -7.4}
       action: 2
     - hour: 21
@@ -4959,7 +5241,7 @@ MonoBehaviour:
       dayMask: 127
       allowStroll: 1
       zone: alley
-      objectId:
+      objectId: 
       position: {x: 5.2999997, y: -1.2}
       action: 2
     - hour: 21
@@ -4968,7 +5250,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-301
       objectId: elder-301-bed-rest
-      position: {x: -4.63, y: -3.47}
+      position: {x: -4.63, y: -0.5}
       action: 7
     - hour: 22
       minute: 34
@@ -4976,7 +5258,7 @@ MonoBehaviour:
       allowStroll: 0
       zone: apt-301
       objectId: elder-301-bed
-      position: {x: 5.30, y: 1.85}
+      position: {x: 5.2999997, y: 1.8499999}
       action: 9
   - npcId: ambient-urban-7
     title: "\uC11C\uB958\uB97C \uB4E0 \uC8FC\uBBFC"
@@ -4987,13 +5269,15 @@ MonoBehaviour:
     - {x: 0, y: 0}
     - {x: 1.6, y: 0}
     - {x: -1.6, y: 0}
+    homePlace: 1
+    residentBedId: ambient-urban-7-bed
     homeZone: apt-302
     jobId: 
     workZone: 
     worksFromHome: 0
     companionId: 
-    hasHomePosition: 0
-    homePosition: {x: 0, y: 0}
+    hasHomePosition: 1
+    homePosition: {x: 4.42, y: 2.57}
     personality: 3
     speed: 1.1
     animations: {fileID: 11400000, guid: 4d251d34a4b9b4dd280859fa9b30cdc5, type: 2}
@@ -5008,9 +5292,33 @@ MonoBehaviour:
       dayMask: 127
       allowStroll: 0
       zone: apt-302
-      objectId: 
-      position: {x: 0, y: 0}
+      objectId: ambient-urban-7-bed
+      position: {x: 4.42, y: 2.57}
       action: 9
+    - hour: 6
+      minute: 3
+      dayMask: 127
+      allowStroll: 0
+      zone: apt-302
+      objectId: ambient-urban-7-bed
+      position: {x: 4.42, y: 2.57}
+      action: 1
+    - hour: 6
+      minute: 11
+      dayMask: 127
+      allowStroll: 0
+      zone: apt-302
+      objectId: house-wash
+      position: {x: 0.74, y: 1.24}
+      action: 17
+    - hour: 6
+      minute: 28
+      dayMask: 127
+      allowStroll: 0
+      zone: apt-302
+      objectId: house-dining-1
+      position: {x: -4.17, y: -3.62}
+      action: 5
     - hour: 7
       minute: 19
       dayMask: 127
@@ -5067,11 +5375,27 @@ MonoBehaviour:
       objectId: 
       position: {x: 7.5999994, y: -1.2}
       action: 2
-    - hour: 22
-      minute: 40
+    - hour: 20
+      minute: 54
       dayMask: 127
       allowStroll: 0
       zone: apt-302
-      objectId: 
-      position: {x: 0, y: 0}
-      action: 0
+      objectId: house-dining-1
+      position: {x: -4.17, y: -3.62}
+      action: 5
+    - hour: 21
+      minute: 9
+      dayMask: 127
+      allowStroll: 0
+      zone: apt-302
+      objectId: ambient-urban-7-bed-rest
+      position: {x: 5.24, y: -0.5}
+      action: 16
+    - hour: 22
+      minute: 55
+      dayMask: 127
+      allowStroll: 0
+      zone: apt-302
+      objectId: ambient-urban-7-bed
+      position: {x: 4.42, y: 2.57}
+      action: 9

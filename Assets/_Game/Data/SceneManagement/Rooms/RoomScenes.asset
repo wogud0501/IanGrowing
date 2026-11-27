@@ -28,6 +28,8 @@ MonoBehaviour:
       width: 12
       height: 8
     family: 0
+    floorPlan: {fileID: 0}
+    keepsake: {fileID: 0}
   - roomId: bathroom
     sceneName: IndependentHome_Bathroom
     title: "\uC625\uC0C9 \uD654\uC7A5\uC2E4"
@@ -42,6 +44,8 @@ MonoBehaviour:
       width: 6
       height: 5.5
     family: 0
+    floorPlan: {fileID: 0}
+    keepsake: {fileID: 0}
   - roomId: alley
     sceneName: ResidentialAlley
     title: "\uC8FC\uAC70 \uACE8\uBAA9"
@@ -56,6 +60,8 @@ MonoBehaviour:
       width: 24
       height: 16
     family: 0
+    floorPlan: {fileID: 0}
+    keepsake: {fileID: 0}
   - roomId: city
     sceneName: City_Center
     title: "\uB3C4\uC2DC \uC911\uC2EC"
@@ -70,6 +76,8 @@ MonoBehaviour:
       width: 32
       height: 20
     family: 0
+    floorPlan: {fileID: 0}
+    keepsake: {fileID: 0}
   - roomId: shop
     sceneName: NeighborhoodShop
     title: "\uB3D9\uB124 \uC0C1\uC810"
@@ -84,6 +92,8 @@ MonoBehaviour:
       width: 18
       height: 12
     family: 0
+    floorPlan: {fileID: 0}
+    keepsake: {fileID: 0}
   - roomId: workplace
     sceneName: Workspace_Office
     title: "\uC774\uC548 \uC0AC\uBB34\uC2E4"
@@ -98,6 +108,8 @@ MonoBehaviour:
       width: 18
       height: 12
     family: 0
+    floorPlan: {fileID: 0}
+    keepsake: {fileID: 0}
   - roomId: school
     sceneName: School_Classroom
     title: "\uD559\uAD50"
@@ -112,11 +124,11 @@ MonoBehaviour:
       width: 18
       height: 12
     family: 0
+    floorPlan: {fileID: 0}
+    keepsake: {fileID: 0}
   - roomId: residence
-    floorPlan: {fileID: 11300, guid: 2539b904faef4aea875bf133b1b81019, type: 3}
-    keepsake: {fileID: 21300000, guid: 96364769827b4e1c82a97504faea3a16, type: 3}
     sceneName: Resident_Housing
-    title: "101호 · 수연"
+    title: "101\uD638 \xB7 \uC218\uC5F0"
     homeId: household-101
     legacyZone: residence
     sceneId: 28
@@ -128,11 +140,11 @@ MonoBehaviour:
       width: 18
       height: 12
     family: 0
+    floorPlan: {fileID: 11392, guid: a106354c238b48398d9ec058ee43117e, type: 3}
+    keepsake: {fileID: 21300000, guid: 96364769827b4e1c82a97504faea3a16, type: 3}
   - roomId: apt-102
-    floorPlan: {fileID: 11392, guid: 398f2ab9885a44b191a53e322d4faffa, type: 3}
-    keepsake: {fileID: 21300000, guid: 00723423c4ef4bdea9b8374f3e70fa34, type: 3}
     sceneName: Resident_Housing
-    title: "102호 · 지은 · 민수"
+    title: "102\uD638 \xB7 \uC9C0\uC740 \xB7 \uBBFC\uC218"
     homeId: household-102
     legacyZone: residence
     sceneId: 28
@@ -144,11 +156,11 @@ MonoBehaviour:
       width: 18
       height: 12
     family: 0
+    floorPlan: {fileID: 6945911096259055466, guid: 0676d4d2363a749469e7168333ae2dfe, type: 3}
+    keepsake: {fileID: 21300000, guid: 00723423c4ef4bdea9b8374f3e70fa34, type: 3}
   - roomId: apt-103
-    floorPlan: {fileID: 11392, guid: 398f2ab9885a44b191a53e322d4faffa, type: 3}
-    keepsake: {fileID: 21300000, guid: 994aa4bc37be42b4b3b54663d4e4467c, type: 3}
     sceneName: Resident_Housing
-    title: "103호 · 정호"
+    title: "103\uD638 \xB7 \uC815\uD638"
     homeId: household-103
     legacyZone: residence
     sceneId: 28
@@ -160,11 +172,11 @@ MonoBehaviour:
       width: 18
       height: 12
     family: 0
+    floorPlan: {fileID: 11392, guid: 398f2ab9885a44b191a53e322d4faffa, type: 3}
+    keepsake: {fileID: 21300000, guid: 994aa4bc37be42b4b3b54663d4e4467c, type: 3}
   - roomId: apt-201
-    floorPlan: {fileID: 11300, guid: 2539b904faef4aea875bf133b1b81019, type: 3}
-    keepsake: {fileID: 21300000, guid: 00723423c4ef4bdea9b8374f3e70fa34, type: 3}
     sceneName: Resident_Housing
-    title: "201호 · 도윤"
+    title: "201\uD638 \xB7 \uB3C4\uC724"
     homeId: household-201
     legacyZone: residence
     sceneId: 28
@@ -176,11 +188,11 @@ MonoBehaviour:
       width: 18
       height: 12
     family: 0
+    floorPlan: {fileID: 11392, guid: 398f2ab9885a44b191a53e322d4faffa, type: 3}
+    keepsake: {fileID: 21300000, guid: 00723423c4ef4bdea9b8374f3e70fa34, type: 3}
   - roomId: apt-202
-    floorPlan: {fileID: 11300, guid: 2539b904faef4aea875bf133b1b81019, type: 3}
-    keepsake: {fileID: 21300000, guid: 994aa4bc37be42b4b3b54663d4e4467c, type: 3}
     sceneName: Resident_Housing
-    title: "202호 · 순자"
+    title: "202\uD638 \xB7 \uC21C\uC790"
     homeId: household-202
     legacyZone: residence
     sceneId: 28
@@ -192,11 +204,11 @@ MonoBehaviour:
       width: 18
       height: 12
     family: 0
+    floorPlan: {fileID: 11392, guid: 398f2ab9885a44b191a53e322d4faffa, type: 3}
+    keepsake: {fileID: 21300000, guid: 994aa4bc37be42b4b3b54663d4e4467c, type: 3}
   - roomId: apt-203
-    floorPlan: {fileID: 11392, guid: a106354c238b48398d9ec058ee43117e, type: 3}
-    keepsake: {fileID: 21300000, guid: 96364769827b4e1c82a97504faea3a16, type: 3}
     sceneName: Resident_Housing
-    title: "203호 · 지은 · 준서"
+    title: "203\uD638 \xB7 \uC9C0\uC740 \xB7 \uC900\uC11C"
     homeId: household-203
     legacyZone: residence
     sceneId: 28
@@ -208,11 +220,11 @@ MonoBehaviour:
       width: 18
       height: 12
     family: 0
+    floorPlan: {fileID: 1539223076638739397, guid: 06c6ee428dd1f4de7b1a2e0e018f1be9, type: 3}
+    keepsake: {fileID: 21300000, guid: 96364769827b4e1c82a97504faea3a16, type: 3}
   - roomId: apt-301
-    floorPlan: {fileID: 11403, guid: e1e4e588af904d1db2bd4cf82c1e6f44, type: 3}
-    keepsake: {fileID: 21300000, guid: 994aa4bc37be42b4b3b54663d4e4467c, type: 3}
     sceneName: Resident_Housing
-    title: "301호 · 정호 · 어르신"
+    title: "301\uD638 \xB7 \uC815\uD638 \xB7 \uC5B4\uB974\uC2E0"
     homeId: household-301
     legacyZone: residence
     sceneId: 28
@@ -224,11 +236,11 @@ MonoBehaviour:
       width: 18
       height: 12
     family: 0
+    floorPlan: {fileID: 11403, guid: e1e4e588af904d1db2bd4cf82c1e6f44, type: 3}
+    keepsake: {fileID: 21300000, guid: 994aa4bc37be42b4b3b54663d4e4467c, type: 3}
   - roomId: apt-302
-    floorPlan: {fileID: 11300, guid: 2539b904faef4aea875bf133b1b81019, type: 3}
-    keepsake: {fileID: 21300000, guid: 96364769827b4e1c82a97504faea3a16, type: 3}
     sceneName: Resident_Housing
-    title: "302호 · 도윤"
+    title: "302\uD638 \xB7 \uB3C4\uC724"
     homeId: household-302
     legacyZone: residence
     sceneId: 28
@@ -240,11 +252,11 @@ MonoBehaviour:
       width: 18
       height: 12
     family: 0
+    floorPlan: {fileID: 11392, guid: 398f2ab9885a44b191a53e322d4faffa, type: 3}
+    keepsake: {fileID: 21300000, guid: 96364769827b4e1c82a97504faea3a16, type: 3}
   - roomId: apt-303
-    floorPlan: {fileID: 11300, guid: 2539b904faef4aea875bf133b1b81019, type: 3}
-    keepsake: {fileID: 21300000, guid: 00723423c4ef4bdea9b8374f3e70fa34, type: 3}
     sceneName: Resident_Housing
-    title: "303호 · 순자"
+    title: "303\uD638 \xB7 \uC21C\uC790"
     homeId: household-303
     legacyZone: residence
     sceneId: 28
@@ -256,11 +268,11 @@ MonoBehaviour:
       width: 18
       height: 12
     family: 0
-  - roomId: apt-401
     floorPlan: {fileID: 11300, guid: 2539b904faef4aea875bf133b1b81019, type: 3}
-    keepsake: {fileID: 21300000, guid: 96364769827b4e1c82a97504faea3a16, type: 3}
+    keepsake: {fileID: 21300000, guid: 00723423c4ef4bdea9b8374f3e70fa34, type: 3}
+  - roomId: apt-401
     sceneName: Resident_Housing
-    title: "401호 · 지은"
+    title: "401\uD638 \xB7 \uC9C0\uC740"
     homeId: household-401
     legacyZone: residence
     sceneId: 28
@@ -272,11 +284,11 @@ MonoBehaviour:
       width: 18
       height: 12
     family: 0
-  - roomId: apt-402
     floorPlan: {fileID: 11300, guid: 2539b904faef4aea875bf133b1b81019, type: 3}
-    keepsake: {fileID: 21300000, guid: 00723423c4ef4bdea9b8374f3e70fa34, type: 3}
+    keepsake: {fileID: 21300000, guid: 96364769827b4e1c82a97504faea3a16, type: 3}
+  - roomId: apt-402
     sceneName: Resident_Housing
-    title: "402호 · 정호"
+    title: "402\uD638 \xB7 \uC815\uD638"
     homeId: household-402
     legacyZone: residence
     sceneId: 28
@@ -288,11 +300,11 @@ MonoBehaviour:
       width: 18
       height: 12
     family: 0
+    floorPlan: {fileID: 11300, guid: 2539b904faef4aea875bf133b1b81019, type: 3}
+    keepsake: {fileID: 21300000, guid: 00723423c4ef4bdea9b8374f3e70fa34, type: 3}
   - roomId: apt-403
-    floorPlan: {fileID: 11392, guid: 398f2ab9885a44b191a53e322d4faffa, type: 3}
-    keepsake: {fileID: 21300000, guid: 994aa4bc37be42b4b3b54663d4e4467c, type: 3}
     sceneName: Resident_Housing
-    title: "403호 · 서윤"
+    title: "403\uD638 \xB7 \uC11C\uC724"
     homeId: household-403
     legacyZone: residence
     sceneId: 28
@@ -304,11 +316,11 @@ MonoBehaviour:
       width: 18
       height: 12
     family: 0
+    floorPlan: {fileID: 11392, guid: 398f2ab9885a44b191a53e322d4faffa, type: 3}
+    keepsake: {fileID: 21300000, guid: 994aa4bc37be42b4b3b54663d4e4467c, type: 3}
   - roomId: apt-501
-    floorPlan: {fileID: 11300, guid: 2539b904faef4aea875bf133b1b81019, type: 3}
-    keepsake: {fileID: 21300000, guid: 00723423c4ef4bdea9b8374f3e70fa34, type: 3}
     sceneName: Resident_Housing
-    title: "501호 · 영호"
+    title: "501\uD638 \xB7 \uC601\uD638"
     homeId: household-501
     legacyZone: residence
     sceneId: 28
@@ -320,6 +332,8 @@ MonoBehaviour:
       width: 18
       height: 12
     family: 0
+    floorPlan: {fileID: 11300, guid: 2539b904faef4aea875bf133b1b81019, type: 3}
+    keepsake: {fileID: 21300000, guid: 00723423c4ef4bdea9b8374f3e70fa34, type: 3}
   - roomId: office-bathroom
     sceneName: Workspace_Bathroom
     title: "\uC0AC\uBB34\uC2E4 \uD654\uC7A5\uC2E4"
@@ -334,6 +348,8 @@ MonoBehaviour:
       width: 7
       height: 7
     family: 0
+    floorPlan: {fileID: 0}
+    keepsake: {fileID: 0}
   - roomId: finance
     sceneName: StockMarket_Interior
     title: "\uC774\uC548 \uC99D\uAD8C"
@@ -348,6 +364,8 @@ MonoBehaviour:
       width: 12
       height: 10
     family: 0
+    floorPlan: {fileID: 0}
+    keepsake: {fileID: 0}
   - roomId: realestate
     sceneName: RealEstate_Office
     title: "\uC774\uC548 \uBD80\uB3D9\uC0B0"
@@ -362,6 +380,8 @@ MonoBehaviour:
       width: 12
       height: 10
     family: 0
+    floorPlan: {fileID: 0}
+    keepsake: {fileID: 0}
   - roomId: family-parents-bedroom
     sceneName: FamilyHome_ParentsBedroom
     title: "\uBD80\uBAA8\uB2D8 \uCE68\uC2E4"
@@ -376,6 +396,8 @@ MonoBehaviour:
       width: 8
       height: 8
     family: 1
+    floorPlan: {fileID: 0}
+    keepsake: {fileID: 0}
   - roomId: family-ian-bedroom
     sceneName: FamilyHome_IanBedroom
     title: "\uC774\uC548\uC758 \uBC29"
@@ -390,6 +412,8 @@ MonoBehaviour:
       width: 8
       height: 8
     family: 1
+    floorPlan: {fileID: 0}
+    keepsake: {fileID: 0}
   - roomId: family-bathroom
     sceneName: FamilyHome_Bathroom
     title: "\uAC00\uC871 \uC695\uC2E4"
@@ -404,6 +428,8 @@ MonoBehaviour:
       width: 8
       height: 8
     family: 1
+    floorPlan: {fileID: 0}
+    keepsake: {fileID: 0}
   - roomId: family-living
     sceneName: FamilyHome_LivingRoom
     title: "\uAC70\uC2E4"
@@ -418,6 +444,8 @@ MonoBehaviour:
       width: 12
       height: 10
     family: 1
+    floorPlan: {fileID: 0}
+    keepsake: {fileID: 0}
   - roomId: family-kitchen
     sceneName: FamilyHome_Kitchen
     title: "\uC8FC\uBC29 \xB7 \uAC00\uC871 \uC2DD\uC0AC"
@@ -432,6 +460,40 @@ MonoBehaviour:
       width: 12
       height: 10
     family: 1
+    floorPlan: {fileID: 0}
+    keepsake: {fileID: 0}
+  - roomId: station-alley
+    sceneName: Station_Alley
+    title: "\uC8FC\uAC70\uC9C0\uC5ED\uC5ED"
+    homeId: 
+    legacyZone: station-alley
+    sceneId: 29
+    legacyOffset: {x: 0, y: 0}
+    legacyBounds:
+      serializedVersion: 2
+      x: -3.5
+      y: -3.5
+      width: 7
+      height: 7
+    family: 0
+    floorPlan: {fileID: 0}
+    keepsake: {fileID: 0}
+  - roomId: station-city
+    sceneName: Station_City
+    title: "\uB3C4\uC2EC\uC5ED"
+    homeId: 
+    legacyZone: station-city
+    sceneId: 30
+    legacyOffset: {x: 0, y: 0}
+    legacyBounds:
+      serializedVersion: 2
+      x: -3.5
+      y: -3.5
+      width: 7
+      height: 7
+    family: 0
+    floorPlan: {fileID: 0}
+    keepsake: {fileID: 0}
   portals:
   - doorId: front-door
     sourceRoom: home
@@ -756,4 +818,64 @@ MonoBehaviour:
     destinationRoom: family-living
     destinationEntryId: family-kitchen-front/arrival
     arrival: {x: 3.3, y: 2.55}
+    facing: {x: 0, y: -1}
+  - doorId: station-exit
+    sourceRoom: station-alley
+    destinationRoom: alley
+    destinationEntryId: subway-entrance/arrival
+    arrival: {x: 7, y: -5.5}
+    facing: {x: 0, y: -1}
+  - doorId: platform
+    sourceRoom: station-alley
+    destinationRoom: station-city
+    destinationEntryId: platform/arrival
+    arrival: {x: 0, y: 0.25}
+    facing: {x: 0, y: -1}
+  - doorId: station-exit
+    sourceRoom: station-city
+    destinationRoom: city
+    destinationEntryId: subway-entrance/arrival
+    arrival: {x: -11.199997, y: -7.4999995}
+    facing: {x: 0, y: -1}
+  - doorId: platform
+    sourceRoom: station-city
+    destinationRoom: station-alley
+    destinationEntryId: platform/arrival
+    arrival: {x: 0, y: 0.25}
+    facing: {x: 0, y: -1}
+  - doorId: subway-entrance
+    sourceRoom: alley
+    destinationRoom: station-alley
+    destinationEntryId: street/arrival
+    arrival: {x: 0, y: -2}
+    facing: {x: 0, y: 1}
+  - doorId: subway-entrance
+    sourceRoom: city
+    destinationRoom: station-city
+    destinationEntryId: street/arrival
+    arrival: {x: 0, y: -2}
+    facing: {x: 0, y: 1}
+  - doorId: bus-stop
+    sourceRoom: city
+    destinationRoom: alley
+    destinationEntryId: bus-stop/arrival
+    arrival: {x: 1.4000015, y: -0.25}
+    facing: {x: 0, y: -1}
+  - doorId: taxi-rank
+    sourceRoom: city
+    destinationRoom: alley
+    destinationEntryId: taxi-rank/arrival
+    arrival: {x: -3.4000015, y: -0.1}
+    facing: {x: 0, y: -1}
+  - doorId: bus-stop
+    sourceRoom: alley
+    destinationRoom: city
+    destinationEntryId: bus-stop/arrival
+    arrival: {x: 8.600006, y: -1.1}
+    facing: {x: 0, y: -1}
+  - doorId: taxi-rank
+    sourceRoom: alley
+    destinationRoom: city
+    destinationEntryId: taxi-rank/arrival
+    arrival: {x: 3.100006, y: 1.12}
     facing: {x: 0, y: -1}

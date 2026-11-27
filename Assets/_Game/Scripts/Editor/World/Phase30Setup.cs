@@ -103,11 +103,7 @@ namespace IanGame.Editor
 
             Directory.CreateDirectory(Data);
             BuildSurfaces();
-            BuildAge("Ian_MiddleAge", VisualGrowthStage.MiddleAge, 30, 59, 1.74f);
-            BuildAge("Ian_Elder", VisualGrowthStage.Elder, 60, int.MaxValue, 1.56f);
-            var cat = GrowthVisualSetup.Catalog;
-            cat.profiles.First(p => p.stage == VisualGrowthStage.Adult).maxAge = 29;
-            EditorUtility.SetDirty(cat);
+            IanGaitImport.Apply();
             AssetDatabase.SaveAssets();
             foreach (var file in new[] { "Ian_MiddleAge", "Ian_Elder", "InteriorSurfaces_Source" })
             {
@@ -115,110 +111,6 @@ namespace IanGame.Editor
                 i.isReadable = false;
                 i.SaveAndReimport();
             }
-        }
-
-        static void BuildAge(string name, VisualGrowthStage stage, int min, int max, float height)
-        {
-            var t = Read(name);
-            var cat = GrowthVisualSetup.Catalog;
-            var sample = Opaque(t, Cell(t, 0, 0));
-            float ppu = sample.height * .8f / height;
-            var sprites = new Sprite[8, 8];
-            for (int y = 0; y < 8; y++)
-            {
-                for (int x = 0; x < 8; x++)
-                {
-                    sprites[y, x] = Slice(t, name + "_" + y + "_" + x, Opaque(t, Cell(t, y, x)), ppu, y == 4 && x < 2);
-                }
-            }
-
-            var clips = new List<ActorSpriteClip>();
-            void Clip(
-                ActorMotion motion,
-                int row,
-                int start,
-                int count,
-                bool loop,
-                ActorDirection direction = ActorDirection.Down
-            )
-            {
-                clips.Add(
-                    new ActorSpriteClip
-                    {
-                        motion = motion,
-                        direction = direction,
-                        frames = Enumerable.Range(start, count).Select(x => sprites[row, x]).ToArray(),
-                        loop = loop,
-                        framesPerSecond = motion == ActorMotion.Idle ? 2 : 6,
-                        strideLength = height * 1.2f,
-                    }
-                );
-            }
-
-            for (int d = 0; d < 4; d++)
-            {
-                Clip(ActorMotion.Idle, d, 0, 2, true, (ActorDirection)d);
-                Clip(ActorMotion.Walk, d, 2, 3, true, (ActorDirection)d);
-                Clip(ActorMotion.Run, d, 5, 3, true, (ActorDirection)d);
-                Clip(ActorMotion.Turn, d, 0, 2, false, (ActorDirection)d);
-                Clip(ActorMotion.Stop, d, 0, 2, false, (ActorDirection)d);
-            }
-
-            Clip(ActorMotion.Sleep, 4, 0, 2, true);
-            Clip(ActorMotion.WakeUp, 4, 2, 2, false);
-            Clip(ActorMotion.SitDown, 4, 4, 2, true);
-            Clip(ActorMotion.StandUp, 4, 6, 2, false);
-            var motions = new[]
-            {
-                ActorMotion.Eat,
-                ActorMotion.Drink,
-                ActorMotion.WashFace,
-                ActorMotion.Shower,
-                ActorMotion.Study,
-                ActorMotion.UseComputer,
-                ActorMotion.OpenDoor,
-                ActorMotion.PickUpItem,
-                ActorMotion.Tired,
-                ActorMotion.Talk,
-                ActorMotion.UsePhone,
-                ActorMotion.Interact,
-            };
-            for (int a = 0; a < motions.Length; a++)
-            {
-                Clip(motions[a], 5 + a / 4, (a % 4) * 2, 2, true);
-            }
-
-            // Explicit aliases share authored art; not claimed as separate new motions.
-            Clip(ActorMotion.Work, 6, 2, 2, true);
-            Clip(ActorMotion.PutDownItem, 6, 6, 2, false);
-            var bank = ScriptableObject.CreateInstance<ActorAnimationSet>();
-            bank.ageScoped = true;
-            bank.clips = clips.ToArray();
-            bank = Save(bank, name + "_Animations");
-            var profile = new GrowthVisualProfile
-            {
-                stage = stage,
-                id = stage.ToString(),
-                minAge = min,
-                maxAge = max,
-                height = height,
-                colliderRadius = .21f,
-                speedFactor = 1,
-                stride = height * 1.2f,
-                hand = Vector2.up * height * .45f,
-                eye = Vector2.up * height * .82f,
-                animations = bank,
-                idlePreview = sprites[0, 0],
-                sleepHorizontal = true,
-                artNotes =
-                    "Phase30 original generated age atlas. Four-way Idle/Walk/FastWalk; actions authored Down only. Turn/Stop reuse idle, Work uses typing, PutDown uses pickup. No new gameplay unlocks.",
-            };
-            cat.profiles = cat
-                .profiles.Where(p => p.stage != stage)
-                .Concat(new[] { profile })
-                .OrderBy(p => p.minAge)
-                .ToArray();
-            EditorUtility.SetDirty(cat);
         }
 
         static void BuildSurfaces()

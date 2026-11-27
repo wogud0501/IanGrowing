@@ -257,35 +257,28 @@ namespace IanGame
             manualText = ui.ScrollText(manual.transform, new Vector2(.05f, .18f), new Vector2(.95f, .86f));
         }
 
-        void OpenManual()
+        public void OpenManual()
         {
-            var entries = new List<string>();
-            foreach (GuideLesson lesson in Enum.GetValues(typeof(GuideLesson)))
+            string[] entries =
             {
-                if (CanRead(lesson))
-                {
-                    entries.Add(LessonNames[(int)lesson] + "\n" + LessonText(lesson));
-                }
-            }
-
+                "이동\n걷기를 배우면 방향키·WASD 또는 화면 왼쪽 패드로 걸어요.",
+                "상호작용\n물건이나 사람 가까이에서 E 또는 사용을 누르세요.",
+                "수면\n침대 옆에서 잠들면 시간이 흐르고 체력을 회복해요. 영아는 보호자의 돌봄을 받아요.",
+                "경제\n가계 명세서에서 잔액·수입·지출을 확인해요. 금융 계약은 19세부터 가능해요.",
+                "직업\n19세부터 회사에서 채용 공고를 보고 지원할 수 있어요.",
+                "주거\n19세부터 집 관리에서 독립을 선택하고 내 집에 가구를 배치해요.",
+                "친구와 NPC\n상대가 있는 곳에서 대화를 선택해요. 시간에 따라 만날 수 있는 장소가 달라요.",
+                "학교\n학교에 다니는 동안 교실 책상에서 공부하거나 책을 읽을 수 있어요.",
+                "교통수단\n도심과 주거지역 경계에서 도보·지하철·택시를 선택해요. 도보는 무료예요.",
+                "지하철\n역에서 개찰구를 지나 승강장으로 가세요. 승차 전에 운임과 목적역을 확인해요.",
+                "식사와 수분\n어릴 때는 가족에게 돌봄을 받고, 자라면 식탁과 냉장고를 이용해요.",
+                "인벤토리와 장비\n아이템 메뉴에서 가진 물건을 확인하고 헤드폰·장비를 착용해요.",
+                "급여·세금·부채\n금융 메뉴에서 급여 내역, 납부 기한과 대출 상환액을 확인해요.",
+                "주식과 뽑기\n투자센터에서 종목을 살펴봐요. 뽑기 화면에서는 비용과 등급별 확률을 확인할 수 있어요.",
+                "게임 설정\n메뉴 → 설정에서 화면·조작 옵션을 바꿀 수 있어요."
+            };
             manualText.text = string.Join("\n\n", entries);
             Open(manual);
-        }
-
-        bool CanRead(GuideLesson lesson)
-        {
-            return lesson switch
-            {
-                GuideLesson.Walk or GuideLesson.Interact => game.growth.WalkingUnlocked,
-                GuideLesson.Visit or GuideLesson.Outside or GuideLesson.Social => GrowthAccess.Independent(game),
-                GuideLesson.School => GrowthAccess.Zone(game, "school", out _),
-                GuideLesson.Inventory => game.items.Inventory.Entries.Any(e => e.count > 0) || game.items.Unlocked,
-                GuideLesson.Equipment or GuideLesson.Headphones or GuideLesson.Gacha => game.items.Unlocked,
-                GuideLesson.Job or GuideLesson.Stocks or GuideLesson.Debt or GuideLesson.Tax or GuideLesson.Salary =>
-                    GrowthAccess.Adult(game),
-                GuideLesson.Independence or GuideLesson.Furniture => new ResidenceAccess(game).IsActiveResidence,
-                _ => true,
-            };
         }
 
         void FollowSuggestion(int index)

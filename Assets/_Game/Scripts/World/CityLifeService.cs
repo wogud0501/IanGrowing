@@ -22,6 +22,8 @@ namespace IanGame
         public List<string> receipts = new List<string>();
         public List<CityCounter> counters = new List<CityCounter>();
         public string destination = "";
+        public int lastEncounterDay;
+        public string lastEncounter;
         public bool suggestionsHidden;
         public bool followingFirstFriend;
     }

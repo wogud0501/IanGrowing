@@ -23,6 +23,8 @@ namespace IanGame
             || Application.isEditor;
 #endif
 
+        public static bool CanExitGame => DesktopExit || Application.platform == RuntimePlatform.Android;
+
         SessionPreferences titlePreferences;
         GameObject sessionDialog;
         TMP_Text dialogHeading;
@@ -64,8 +66,8 @@ namespace IanGame
             pauseBuilt = true;
             var card = MenuSurface("Pause", 555, out pausePanel);
             LifeRecordUI.Label(card, SessionFont, "일시정지", 32, LifeRecordUI.Heading, .07f, .855f, .94f, .97f);
-            float step = DesktopExit ? .123f : .163f;
-            float rowHeight = DesktopExit ? .105f : .145f;
+            float step = CanExitGame ? .123f : .163f;
+            float rowHeight = CanExitGame ? .105f : .145f;
             void Choice(string label, int row, float left, float right, Action action)
             {
                 float top = .84f - step * row;
@@ -101,7 +103,7 @@ namespace IanGame
             }
 
             Choice("메인 메뉴로", 3, .07f, .93f, RequestTitle);
-            if (DesktopExit)
+            if (CanExitGame)
             {
                 Choice("저장 후 종료", 4, .07f, .93f, RequestQuit);
             }
@@ -154,7 +156,7 @@ namespace IanGame
 
         public void RequestQuit()
         {
-            if (!DesktopExit || saving || GameContext.Instance.transitions.IsTransitioning)
+            if (!CanExitGame || saving || GameContext.Instance.transitions.IsTransitioning)
             {
                 return;
             }

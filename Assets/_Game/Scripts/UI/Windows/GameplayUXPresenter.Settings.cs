@@ -143,6 +143,11 @@ namespace IanGame
                     )
                 );
                 actions.Add(("자동 활동 설정", openIdle));
+                actions.Add(("이동 연출 · " + GameplayUXPresenter.CutLabel, () =>
+                {
+                    GameplayUXPresenter.CycleCutLength();
+                    RefreshPreferences();
+                }));
             }
             else if (preferenceTab == 1)
             {

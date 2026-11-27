@@ -602,7 +602,8 @@ namespace IanGame
         public bool SaveAutomaticCheckpoint(out string message)
         {
             missionCheckpointPending = false;
-            if (State == GameState.Starting || State == GameState.Resolving)
+            if (State == GameState.Starting || State == GameState.Resolving
+                || GameContext.Instance?.transitions?.IsTransitioning == true)
             {
                 message = "활동 처리 중";
                 return false;
@@ -715,6 +716,11 @@ namespace IanGame
             }
 
             economy.SettleDay(day);
+            if (LifeMode && missions.FreeLifeMode)
+            {
+                return;
+            }
+
             float chance = balance.eventChance * (LifeMode ? survival.EventChanceMultiplier : 1);
             var result = lifeEvents.TryEvent(stats, chance);
             if (result != null)
@@ -725,7 +731,8 @@ namespace IanGame
 
         void SaveQuietly()
         {
-            if (saves == null || State == GameState.Starting || missions != null && missions.IsBusy)
+            if (saves == null || State == GameState.Starting || missions != null && missions.IsBusy
+                || GameContext.Instance?.transitions?.IsTransitioning == true)
             {
                 return;
             }

@@ -43,10 +43,18 @@ namespace IanGame.Editor
             busy = true;
             try
             {
-                output = await AndroidQATool.Run(command, Device, values);
+                if (command == "export")
+                {
+                    output = await AndroidQATool.Run(command, Device, values, Filters[filter], session);
+                }
+                else
+                {
+                    output = await AndroidQATool.Run(command, Device, values);
+                }
                 if (command == "start")
                 {
                     session = Path.GetFileName(output);
+                    paused = false;
                     clearTime = 0;
                 }
                 if (command == "end")
@@ -113,7 +121,14 @@ namespace IanGame.Editor
         {
             page = EditorGUILayout.BeginScrollView(page);
             EditorGUILayout.LabelField("Android physical device", EditorStyles.boldLabel);
-            selected = EditorGUILayout.Popup("Target", selected, labels);
+            int choice = EditorGUILayout.Popup("Target", selected, labels);
+            if (choice != selected)
+            {
+                selected = choice;
+                session = null;
+                lines = "";
+                counts = "";
+            }
             using (new EditorGUI.DisabledScope(busy))
             {
                 EditorGUILayout.BeginHorizontal();
@@ -129,10 +144,16 @@ namespace IanGame.Editor
                     SessionState.SetString("ian.androidQA.buildTarget", Device);
                     SessionState.SetBool("ian.androidQA.installAfterBuild", true);
                 }
+                if (GUILayout.Button("Patch via Build Profiles…"))
+                {
+                    EditorApplication.ExecuteMenuItem("File/Build Profiles");
+                }
                 Button("Install update", "install");
                 EditorGUILayout.EndHorizontal();
                 EditorGUILayout.BeginHorizontal();
-                Button("Launch", "launch"); Button("Stop", "stop"); Button("Restart", "restart");
+                Button("Launch", "launch");
+                Button("Stop", "stop");
+                Button("Restart", "restart");
                 EditorGUILayout.EndHorizontal();
                 EditorGUILayout.BeginHorizontal();
                 if (GUILayout.Button("Start Logcat")) { paused = false; InvokeQA("start"); }
@@ -141,16 +162,23 @@ namespace IanGame.Editor
                 if (GUILayout.Button("Profiler")) EditorApplication.ExecuteMenuItem("Window/Analysis/Profiler");
                 EditorGUILayout.EndHorizontal();
                 EditorGUILayout.BeginHorizontal();
-                Button("PNG", "screenshot"); Button("Record 10s", "record"); Button("Mirror", "mirror"); Button("Screen info", "screen");
+                Button("PNG", "screenshot");
+                Button("Record 10s", "record");
+                Button("Mirror", "mirror");
+                Button("Screen info", "screen");
                 EditorGUILayout.EndHorizontal();
                 touch = EditorGUILayout.Vector2Field("Touch (0–1)", touch);
                 if (GUILayout.Button("Tap game"))
                     InvokeQA("tap", touch.x.ToString(CultureInfo.InvariantCulture), touch.y.ToString(CultureInfo.InvariantCulture));
                 EditorGUILayout.BeginHorizontal();
-                Button("Smoke", "smoke"); Button("Regression", "regression"); Button("Performance", "performance");
+                Button("Smoke", "smoke");
+                Button("Regression", "regression");
+                Button("Performance", "performance");
                 EditorGUILayout.EndHorizontal();
                 EditorGUILayout.BeginHorizontal();
-                Button("Crash", "crash"); Button("Stack trace", "stack"); Button("QA report", "report");
+                Button("Crash", "crash");
+                Button("Stack trace", "stack");
+                Button("QA report", "report");
                 EditorGUILayout.EndHorizontal();
             }
             EditorGUILayout.HelpBox(output, MessageType.None);
@@ -165,6 +193,13 @@ namespace IanGame.Editor
                 lines = "";
             }
             EditorGUILayout.EndHorizontal();
+            using (new EditorGUI.DisabledScope(busy || string.IsNullOrEmpty(session)))
+            {
+                if (GUILayout.Button("Export filtered log"))
+                {
+                    InvokeQA("export", search);
+                }
+            }
             EditorGUILayout.LabelField(counts);
             scroll = EditorGUILayout.BeginScrollView(scroll, GUILayout.MinHeight(160));
             EditorGUILayout.TextArea(lines);

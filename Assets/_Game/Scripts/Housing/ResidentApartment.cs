@@ -19,7 +19,7 @@ namespace IanGame
             }
 
             var fixtures = new List<WorldInteractable>(world.objects);
-            var people = world.Room.rules.npcs.Where(n => !n.ambient && n.homeZone == unit.roomId)
+            var people = world.Room.rules.npcs.Where(n => !string.IsNullOrEmpty(n.residentBedId) && n.homeZone == unit.roomId)
                 .ToDictionary(n => n.homePlace);
 
             foreach (var item in fixtures)

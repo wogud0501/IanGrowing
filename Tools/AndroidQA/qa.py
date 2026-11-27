@@ -22,7 +22,7 @@ CHECKS = ("First launch", "Update and launch", "Main menu", "Terms and privacy",
           "Animation", "Furniture interaction", "Scene transition", "Mission progress", "Mission completed",
           "Reward claim after update", "No duplicate reward", "UI navigation", "Safe Area", "Fold/unfold",
           "Background and resume", "Force stop and relaunch", "Memory", "Unity frame time", "Crash", "ANR")
-ACTIONS = "devices info status reconnect install launch stop restart screenshot record mirror tap swipe long-press key screen performance start end tail watch search errors crash stack export report smoke regression mark diagnostics pair connect".split()
+ACTIONS = "devices info status reconnect install launch stop restart screenshot record mirror tap swipe long-press key screen performance start end tail watch search errors crash stack export report smoke regression mark diagnostics reward-check background-resume pair connect".split()
 
 
 def save(path, value):
@@ -154,6 +154,10 @@ def perform(a):
         if not (addr.is_private or addr.is_link_local) or not 1 <= int(port) <= 65535:
             raise ValueError("Use the phone's private wireless debugging address and port.")
         return subprocess.run([ADB, action, a.values[0]], check=True).returncode
+    if action == "reconnect" and a.device:
+        if not any(r["target"] == a.device and not r["emulator"] and r["state"] in ("device", "offline") for r in devices()):
+            raise ValueError("Selected transport is unavailable. Reattach the cable and list devices.")
+        return run([ADB, "-t", a.device, "reconnect"])
     offline = ("tail", "search", "errors", "crash", "stack", "export", "report", "mark", "end", "watch")
     phone = None if a.session and action in offline else Phone(a.device)
     if action == "status":
@@ -161,7 +165,16 @@ def perform(a):
     if action == "info":
         return phone.info()
     if action == "install":
-        return phone.install()
+        was_installed = phone.installed()
+        result = phone.install()
+        if was_installed:
+            try:
+                current = folder_for(phone)
+            except ValueError:
+                current = None
+            if current and alive(current):
+                save(current / "update-checkpoint.json", {"device_epoch": int(phone.shell("date", "+%s"))})
+        return result
     if action == "reconnect":
         return run(phone.base + ["reconnect"])
     if action in ("launch", "stop", "restart"):
@@ -221,6 +234,31 @@ def perform(a):
         return phone.capture(folder / "screenshots" / (stamp() + "-" + secrets.token_hex(2) + ".png"))
     if action in ("mirror", "record"):
         return visual(phone, folder, action == "record", min(120, max(1, int(a.values[0]) if a.values else 10)))
+    if action == "reward-check":
+        if len(a.values) != 1 or not re.fullmatch(r"M[0-9]+", a.values[0]):
+            raise ValueError("Specify the pending mission ID, e.g. M001.")
+        checkpoint = folder / "update-checkpoint.json"
+        if not checkpoint.is_file():
+            raise ValueError("Start recording before the APK update to verify a post-update claim.")
+        since = json.loads(checkpoint.read_text())["device_epoch"]
+        claimed = query(folder, "Quest", "[REWARD] Claimed ", 200, since=since)
+        hits = [row for row in claimed if row.endswith("Claimed " + a.values[0])]
+        result = "FAIL" if len(hits) > 1 else "PASS" if hits else "NOT TESTED"
+        memo(folder, "Reward claim after update", f"{result} · {a.values[0]} committed {len(hits)} time(s) since install")
+        if len(hits) > 1:
+            memo(folder, "No duplicate reward", "FAIL · repeated mission claim in recorded update scenario")
+        return report(folder)
+    if action == "background-resume":
+        phone.guard()
+        prior = phone.shell("pidof", "-s", PACKAGE)
+        phone.shell("input", "keyevent", "KEYCODE_HOME")
+        time.sleep(1)
+        left = not phone.active()
+        phone.launch()
+        wait_active(phone)
+        same = phone.shell("pidof", "-s", PACKAGE) == prior
+        memo(folder, "Background and resume", ("PASS" if left and same else "FAIL") + " · foreground transition and PID")
+        return report(folder)
     if action == "performance":
         stats = phone.performance()
         save(folder / "performance.json", stats)
@@ -232,8 +270,13 @@ def perform(a):
         valid = sorted(n for n in names if re.fullmatch(r"ERR-[0-9]{8}-[0-9]{6}-[0-9a-f]{32}", n))
         if not valid:
             return "No local error reports"
-        dest = folder / "diagnostic.txt"
-        dest.write_text(clean_report(phone.shell("cat", base + "/" + valid[-1] + "/report.txt")))
+        if a.values == ["list"]:
+            return valid
+        name = a.values[0] if a.values else valid[-1]
+        if name not in valid or len(a.values) > 1:
+            raise ValueError("Unknown diagnostic report ID.")
+        dest = folder / ("diagnostic-" + name + ".txt")
+        dest.write_text(clean_report(phone.shell("cat", base + "/" + name + "/report.txt")))
         return str(dest)
     if action in ("smoke", "regression"):
         phone.launch()
@@ -242,6 +285,8 @@ def perform(a):
         phone.capture(folder / "screenshots" / (stamp() + "-launch.png"))
         perf = phone.performance()
         save(folder / "performance.json", perf)
+        if perf["unity_surface_intervals"]:
+            memo(folder, "Unity frame time", f"PASS · SurfaceView present intervals, p95 {perf['present_ms_p95']} ms")
         if perf["pss_kib"]:
             memo(folder, "Memory", "PASS · " + str(perf["pss_kib"]) + " KiB PSS")
         if action == "regression":
@@ -262,7 +307,11 @@ def perform(a):
 
 
 def clean_report(body):
-    return "\n".join(clean(line) for line in body.splitlines()) + "\n"
+    def scrub(line):
+        if re.fullmatch(r"Report ID: ERR-[0-9]{8}-[0-9]{6}-[0-9a-f]{32}", line):
+            return line
+        return clean(line)
+    return "\n".join(scrub(line) for line in body.splitlines()) + "\n"
 
 
 if __name__ == "__main__":

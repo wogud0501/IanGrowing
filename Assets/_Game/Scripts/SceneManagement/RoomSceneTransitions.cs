@@ -62,7 +62,7 @@ namespace IanGame
             return true;
         }
 
-        public bool NavigateRoom(string roomId, Vector2 arrival, Vector2 facing, string entryId = "")
+        public bool NavigateRoom(string roomId, Vector2 arrival, Vector2 facing, string entryId = "", CityTravelMode mode = CityTravelMode.Walk)
         {
             if (IsTransitioning || roomCatalog == null)
             {
@@ -74,6 +74,28 @@ namespace IanGame
             if (game == null || room == null || !GrowthAccess.Zone(game, roomId, out var denied))
             {
                 Fail(room == null ? "등록되지 않은 공간입니다." : "이 성장 단계에서는 출입할 수 없습니다.");
+                return false;
+            }
+
+            int fare = 0;
+            string origin = game.world.Host ? game.world.Host.Room?.roomId : null;
+            if (mode == CityTravelMode.Subway && ((origin == "station-alley" && roomId == "station-city")
+                || (origin == "station-city" && roomId == "station-alley")))
+            {
+                fare = GameplayUXPresenter.SubwayFare;
+            }
+            else if ((mode == CityTravelMode.Taxi || mode == CityTravelMode.Bus) && ((origin == "alley" && roomId == "city")
+                || (origin == "city" && roomId == "alley")))
+            {
+                fare = mode == CityTravelMode.Bus ? GameplayUXPresenter.BusFare : GameplayUXPresenter.TaxiFare;
+            }
+            else if (mode != CityTravelMode.Walk)
+            {
+                return false;
+            }
+
+            if (game.economy.Cash < fare)
+            {
                 return false;
             }
 
@@ -107,11 +129,11 @@ namespace IanGame
             LegacyTesting = false;
             LastError = null;
             IsTransitioning = true;
-            StartCoroutine(LoadRoom(room, arrival, facing, entryId));
+            StartCoroutine(LoadRoom(room, arrival, facing, entryId, fare, mode));
             return true;
         }
 
-        IEnumerator LoadRoom(RoomSceneDefinition room, Vector2 arrival, Vector2 facing, string entryId)
+        IEnumerator LoadRoom(RoomSceneDefinition room, Vector2 arrival, Vector2 facing, string entryId, int fare, CityTravelMode mode)
         {
             var game = GameContext.Instance.game;
             var source = game.world.Host;
@@ -210,6 +232,7 @@ namespace IanGame
                 || !destination.isLoaded
                 || game.world.Host == null
                 || game.world.Host.gameObject.scene != destination
+                || (fare > 0 && !game.economy.TrySpend(fare, "교통비"))
             )
             {
                 foreach (var root in roots)
@@ -230,6 +253,11 @@ namespace IanGame
 
                 Finish(game, running);
                 yield break;
+            }
+
+            if (mode == CityTravelMode.Subway)
+            {
+                game.stats.ApplyCore(new StatDelta { mental = -2 });
             }
 
             SceneManager.SetActiveScene(destination);

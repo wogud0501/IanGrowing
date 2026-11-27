@@ -39,6 +39,7 @@ namespace IanGame
         Vector2 input;
         Vector2 velocity;
         Vector2 observedPosition;
+        Vector2 observedDirection;
         float actualSpeed;
         float pendingDistance;
         bool observed;
@@ -224,9 +225,9 @@ namespace IanGame
                 input = Vector2.ClampMagnitude(traversalTarget - Position, 1);
             }
 
-            if (actualSpeed > .03f && velocity.sqrMagnitude > .0001f)
+            if (actualSpeed > .03f && observedDirection.sqrMagnitude > 0)
             {
-                Facing = velocity.normalized;
+                Facing = observedDirection;
             }
 
             bool moving = actualSpeed > .06f;
@@ -268,11 +269,16 @@ namespace IanGame
                 TraversalSeconds += Time.fixedDeltaTime;
             }
 
-            float distance = observed ? Vector2.Distance(observedPosition, body.position) : 0;
+            Vector2 step = observed ? body.position - observedPosition : Vector2.zero;
+            float distance = step.magnitude;
             observedPosition = body.position;
             observed = true;
-            actualSpeed = distance / Time.fixedDeltaTime;
             float maximum = world.Service.rules.moveSpeed * runMultiplier * Time.fixedDeltaTime * 2;
+            actualSpeed = distance < maximum ? distance / Time.fixedDeltaTime : 0;
+            if (actualSpeed > .03f)
+            {
+                observedDirection = step / distance;
+            }
             if (distance < maximum)
             {
                 pendingDistance += distance;

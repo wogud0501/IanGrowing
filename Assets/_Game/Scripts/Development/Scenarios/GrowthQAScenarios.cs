@@ -2,6 +2,7 @@
 using System;
 using System.Linq;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace IanGame
@@ -36,6 +37,46 @@ namespace IanGame
             );
         }
 
+        public static SortedSet<int> SampleAges(GrowthVisualCatalog catalog)
+        {
+            var starts = new SortedSet<int>(catalog.profiles.Select(p => p.minAge))
+            {
+                LifeProgression.WalkingAge, LifeProgression.IndependentOutdoorAge, MissionService.FreeLifeAge
+            };
+            foreach (LifeStage stage in Enum.GetValues(typeof(LifeStage)))
+            {
+                int low = 0, high = int.MaxValue;
+                while (low < high)
+                {
+                    int middle = low + (high - low) / 2;
+                    if (LifeProgression.StageAtAge(middle) < stage)
+                    {
+                        low = middle + 1;
+                    }
+                    else
+                    {
+                        high = middle;
+                    }
+                }
+                starts.Add(low);
+            }
+            var samples = new SortedSet<int>(starts);
+            foreach (var profile in catalog.profiles)
+            {
+                samples.Add(profile.maxAge);
+                if (profile.maxAge != int.MaxValue)
+                {
+                    samples.Add(profile.minAge + (profile.maxAge - profile.minAge) / 2);
+                }
+            }
+            foreach (int start in starts.Where(a => a > 0))
+            {
+                samples.Add(start - 1);
+                samples.Add(start + 1);
+            }
+            return samples;
+        }
+
         static IEnumerator Boundaries(QAScenarioContext c)
         {
             var w = c.Game.world.Host;
@@ -49,7 +90,7 @@ namespace IanGame
                 ),
                 "모든 카탈로그 프로필에 해당하는 외형 프리셋"
             );
-            foreach (int age in new[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 10, 11, 13, 14, 16, 17, 18, 19, 29, 30, 59, 60 })
+            foreach (int age in SampleAges(catalog))
             {
                 c.Commands.SetAge(age);
                 yield return null;
@@ -72,8 +113,9 @@ namespace IanGame
             }
 
             c.Check(
-                catalog.profiles.Select(p => p.idlePreview.texture).Distinct().Count() == catalog.profiles.Length,
-                "모든 성장 단계에 고유한 외형 텍스처"
+                catalog.growthSheet && catalog.profiles.Select(p => p.idlePreview).Distinct().Count() == 20
+                    && catalog.profiles.Select(p => p.animations).Distinct().Count() == 20,
+                "공식 성장 20단계 연결"
             );
         }
     }

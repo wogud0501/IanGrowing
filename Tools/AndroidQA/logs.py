@@ -1,21 +1,17 @@
 """Only package UID records and correlated system crash evidence enter the session files."""
-import datetime as dt
 import json
-import os
+import time
 import queue
 import re
 import subprocess
 import threading
-import time
 from collections import deque
-from pathlib import Path
 
-from device import ART, PACKAGE, STATE, clean
+from device import ART, PACKAGE, clean
 
 PRESETS = ("Live", "Debug", "Warning", "Error", "Crash", "Quest", "Save", "UI", "Network", "Performance", "Legal")
 FORMAT = re.compile(r"^\s*(\d+\.\d+)\s+(\d+)\s+(\d+)\s+([VDIWEF])\s+([^:]+?)\s*:\s?(.*)$")
-CRASH = re.compile(r"FATAL EXCEPTION|Fatal signal|SIGSEGV|SIGABRT|OutOfMemoryError|ANR in |am_anr|native crash", re.I)
-LEVEL = "VDIWEF"
+CRASH = re.compile(r"FATAL EXCEPTION|Fatal signal|SIGSEGV|SIGABRT|OutOfMemoryError|ANR in |am_anr|am_crash|native crash|Unity native exception", re.I)
 
 
 def matches(line, preset):
@@ -32,7 +28,7 @@ def matches(line, preset):
     if preset == "Crash":
         return bool(CRASH.search(msg) or tag.strip() == "IanCrash" or priority == "F")
     patterns = {"Quest": r"\[IAN\]\[(QUEST|REWARD)\]", "Save": r"\[IAN\]\[SAVE\]",
-                "UI": r"\[IAN\]\[(UI|INPUT)\]", "Legal": r"\[IAN\]\[LEGAL\]",
+                "UI": r"\[IAN\]\[(UI|INPUT)\]|\[IAN\]\[CORE\] Interaction(?:Started|Ended)", "Legal": r"\[IAN\]\[LEGAL\]",
                 "Network": r"UnityWebRequest|UnknownHostException|SocketException|ConnectException",
                 "Performance": r"\b(?:Skipped \d+ frames|GC freed|FrameTiming|Choreographer)\b"}
     return bool(re.search(patterns[preset], msg + " " + tag))
@@ -66,6 +62,17 @@ def prune():
             used += size
 
 
+def system_crash_record(owners, now, writer, tid, tag, msg):
+    key = (writer, tid)
+    if ">>>" in msg or "*** ***" in msg:
+        owners.pop(key, None)
+    named = bool(re.search(r"(?<![\w.])" + re.escape(PACKAGE) + r"(?![\w.])", msg))
+    if named and tag == "DEBUG" and ">>>" in msg:
+        owners[key] = now
+    frame = now - owners.get(key, -1000) < 8 and re.search(r"^\s*(#\d+ pc|signal \d+|backtrace:)", msg)
+    return bool((named and (CRASH.search(msg) or tag in ("am_anr", "am_crash") or ">>>" in msg)) or frame)
+
+
 def capture(phone, folder):
     uid = phone.uid()
     started = phone.shell("date", "+%s")
@@ -82,8 +89,14 @@ def capture(phone, folder):
                 messages.put((source, line.rstrip()))
         threading.Thread(target=read, daemon=True).start()
 
+    def counts():
+        temporary = folder / "counts.tmp"
+        temporary.write_text(json.dumps(dict(errors=errors, warnings=warnings, repeats=repeats)))
+        temporary.replace(folder / "counts.json")
+
     recent = {}
     trace_owner = {}
+    java_crash = {}
     pid = None
     previous_screen = None
     next_poll = 0
@@ -92,7 +105,7 @@ def capture(phone, folder):
     try:
         stream("app", ["-b", "main", "-b", "system", "-b", "crash", "--uid=" + uid, "*:V"])
         stream("system", ["-b", "crash", "-b", "system", "-b", "events", "-b", "main",
-                          "AndroidRuntime:E", "ActivityManager:E", "ActivityTaskManager:E", "am_anr:I",
+                          "AndroidRuntime:E", "ActivityManager:E", "ActivityTaskManager:E", "am_anr:I", "am_crash:I",
                           "DEBUG:F", "libc:F", "*:S"])
         while not (folder / ".stop").exists():
             now = time.monotonic()
@@ -106,7 +119,7 @@ def capture(phone, folder):
                     put(folder / "screen.log", f"{time.time():.3f} " + json.dumps(screen))
                     previous_screen = screen
                 folder.joinpath(".heartbeat").touch()
-                (folder / "counts.json").write_text(json.dumps(dict(errors=errors, warnings=warnings, repeats=repeats)))
+                counts()
                 if any(p.poll() is not None for p in jobs):
                     raise RuntimeError("ADB log stream ended; reconnect and start a new session.")
                 next_poll = time.monotonic() + 1.5
@@ -122,20 +135,18 @@ def capture(phone, folder):
             if source == "system":
                 # Tombstones come from crash_dump, not the dead app PID. Only admit frames
                 # after its explicit package marker, on that writer/TID, for this tombstone.
-                key = (writer, tid)
-                if ">>>" in msg or "*** ***" in msg:
-                    trace_owner.pop(key, None)
-                owned = bool(re.search(r"(?<![\w.])" + re.escape(PACKAGE) + r"(?![\w.])", msg))
-                if owned and tag == "DEBUG" and ">>>" in msg:
-                    trace_owner[key] = now
-                frame = now - trace_owner.get(key, -1000) < 8 and re.search(r"^\s*(#\d+ pc|signal \d+|backtrace:)", msg)
-                if not ((owned and (CRASH.search(msg) or tag == "am_anr" or ">>>" in msg)) or frame):
+                if not system_crash_record(trace_owner, now, writer, tid, tag, msg):
                     continue
                 tag = "IanCrash"
-            safe = clean(msg)
+            if source == "app" and tag == "AndroidRuntime" and "FATAL EXCEPTION" in msg:
+                java_crash[(writer, tid)] = now
+            java_frame = source == "app" and tag == "AndroidRuntime" and now - java_crash.get((writer, tid), -1000) < 8
+            serial = phone.row["_serial"]
+            tag = clean(tag.replace(serial, "[device]"))
+            safe = clean(msg.replace(serial, "[device]"))
             # Exact repeats in a short window; keep separate frames of a stack.
             signature = (source, writer, priority, tag, safe)
-            if abs(float(stamp) - recent.get(signature, 0)) < 1:
+            if "[IAN][REWARD]" not in safe and abs(float(stamp) - recent.get(signature, 0)) < 1:
                 repeats += 1
                 continue
             if len(recent) >= 512:
@@ -148,7 +159,7 @@ def capture(phone, folder):
                 put(folder / "errors.log", line)
             if priority == "W":
                 warnings += 1
-            if matches(line, "Crash"):
+            if matches(line, "Crash") or java_frame:
                 put(folder / "crash.log", line)
     finally:
         for proc in jobs:
@@ -157,7 +168,7 @@ def capture(phone, folder):
                 proc.wait(timeout=2)
             except subprocess.TimeoutExpired:
                 proc.kill()
-        (folder / "counts.json").write_text(json.dumps(dict(errors=errors, warnings=warnings, repeats=repeats)))
+        counts()
         (folder / ".heartbeat").unlink(missing_ok=True)
 
 
@@ -174,7 +185,7 @@ def query(folder, kind, term="", limit=30, since=None, until=None):
                 if kind == "Stack":
                     if not re.search(r"\(at |\.cs:\d+|Exception|\bat [\w.]+\(|#\d+ pc", line):
                         continue
-                elif not matches(line, kind):
+                elif kind != "Crash" and not matches(line, kind):
                     continue
                 stamp = float(line.split()[0])
                 if since is not None and stamp < since or until is not None and stamp > until:

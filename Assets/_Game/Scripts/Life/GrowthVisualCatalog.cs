@@ -49,6 +49,7 @@ namespace IanGame
     [CreateAssetMenu(menuName = "Ian/Growth/Visual catalog")]
     public sealed class GrowthVisualCatalog : ScriptableObject
     {
+        public Texture2D growthSheet;
         public GrowthVisualProfile[] profiles = Array.Empty<GrowthVisualProfile>();
         public Sprite emptyCrib;
         public Sprite cribFront;

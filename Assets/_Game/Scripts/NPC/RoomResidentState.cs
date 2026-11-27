@@ -87,7 +87,7 @@ namespace IanGame
                 var observed = Host?.Room?.roomId;
                 n.passingRoom =
                     !materialize
-                    && !d.ambient
+                    && (!d.ambient || !string.IsNullOrEmpty(d.residentBedId))
                     && observed != null
                     && n.zone != observed
                     && n.zone != target.zone

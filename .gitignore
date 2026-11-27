@@ -51,3 +51,7 @@
 # Local physical-device QA sessions and captures
 /QAArtifacts/
 /Tools/AndroidQA/__pycache__/
+/Tools/CloudErrors/**/__pycache__/
+!/Tools/CloudErrors/tests/JournalHarness.csproj
+/Tools/CloudErrors/tests/bin/
+/Tools/CloudErrors/tests/obj/

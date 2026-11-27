@@ -58,6 +58,10 @@ namespace IanGame.Editor
                                 {
                                     problems.Add($"{world.Room.roomId} overlapping beds {beds[i].id} and {other.id}");
                                 }
+                                if (Vector2.Distance(beds[i].Point, other.Point) < NPCCrowdSpace.Clearance)
+                                {
+                                    problems.Add($"{world.Room.roomId} shared bedside clearance {beds[i].id} and {other.id}");
+                                }
                             }
                         }
 
@@ -169,7 +173,7 @@ namespace IanGame.Editor
 
         static void ValidateApartment(LifeWorldController world, RoomSceneDefinition room, HashSet<string> problems)
         {
-            var members = world.Room.rules.npcs.Where(n => !n.ambient && n.homeZone == room.roomId).ToArray();
+            var members = world.Room.rules.npcs.Where(n => !string.IsNullOrEmpty(n.residentBedId) && n.homeZone == room.roomId).ToArray();
             var beds = world.objects.Where(o => o.kind == WorldInteractionKind.Sleep).ToArray();
             var origin = world.Room.rules.Zone(room.roomId).origin;
             if (beds.Length != members.Length || !room.floorPlan.doorways.Any())

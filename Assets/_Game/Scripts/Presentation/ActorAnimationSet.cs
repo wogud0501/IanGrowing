@@ -70,6 +70,9 @@ namespace IanGame
         public ActorMotion motion;
         public ActorDirection direction;
         public Sprite[] frames = Array.Empty<Sprite>();
+        public Sprite[] diagonalLeft;
+        public Sprite[] diagonalRight;
+        public bool mirrorDiagonalRight;
         public bool loop;
         public bool mirror;
         public int loopFrom;
@@ -83,6 +86,7 @@ namespace IanGame
     {
         [Range(0, 3)]
         public int sleepwearColumn;
+        public bool turnaroundDirections;
         public bool ageScoped;
         public ActorSpriteClip[] clips = Array.Empty<ActorSpriteClip>();
 

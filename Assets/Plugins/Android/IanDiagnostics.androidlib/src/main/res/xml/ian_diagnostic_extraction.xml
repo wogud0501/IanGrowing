@@ -1,8 +1,10 @@
 <data-extraction-rules>
     <cloud-backup>
         <exclude domain="external" path="Diagnostics/" />
+        <exclude domain="external" path="IanCloudDiagnostics/" />
     </cloud-backup>
     <device-transfer>
         <exclude domain="external" path="Diagnostics/" />
+        <exclude domain="external" path="IanCloudDiagnostics/" />
     </device-transfer>
 </data-extraction-rules>

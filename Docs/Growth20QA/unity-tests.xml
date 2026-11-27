@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="6" result="Passed" total="6" passed="6" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-11-26 11:43:12Z" end-time="2026-11-26 11:43:12Z" duration="0.2378785">
+  <test-suite type="TestSuite" id="1036" name="Ian Growth Baseline QA" fullname="Ian Growth Baseline QA" runstate="Runnable" testcasecount="23" result="Passed" start-time="2026-11-26 11:43:12Z" end-time="2026-11-26 11:43:12Z" duration="0.237879" total="6" passed="6" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="PlayMode" />
+    </properties>
+    <test-suite type="Assembly" id="1066" name="Ian.DeveloperQA.PlayModeTests.dll" fullname="/Users/hyunwol/IanGrowing/Library/TitleQA/WindowsProject/Library/ScriptAssemblies/Ian.DeveloperQA.PlayModeTests.dll" runstate="Runnable" testcasecount="23" result="Passed" start-time="2026-11-26 11:43:12Z" end-time="2026-11-26 11:43:12Z" duration="0.234624" total="6" passed="6" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="18761" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="PlayMode" />
+        <property name="EditorOnly" value="False" />
+      </properties>
+      <test-suite type="TestSuite" id="1067" name="IanQA" fullname="IanQA" runstate="Runnable" testcasecount="23" result="Passed" start-time="2026-11-26 11:43:12Z" end-time="2026-11-26 11:43:12Z" duration="0.218365" total="6" passed="6" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1068" name="Tests" fullname="IanQA.Tests" runstate="Runnable" testcasecount="23" result="Passed" start-time="2026-11-26 11:43:12Z" end-time="2026-11-26 11:43:12Z" duration="0.201697" total="6" passed="6" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestFixture" id="1058" name="GrowthVisualCatalogTests" fullname="IanQA.Tests.GrowthVisualCatalogTests" classname="IanQA.Tests.GrowthVisualCatalogTests" runstate="Runnable" testcasecount="6" result="Passed" start-time="2026-11-26 11:43:12Z" end-time="2026-11-26 11:43:12Z" duration="0.184645" total="6" passed="6" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1065" name="AllPosesBelongToTheSelectedAgeAndOnlyMobileStagesHaveGait" fullname="IanQA.Tests.GrowthVisualCatalogTests.AllPosesBelongToTheSelectedAgeAndOnlyMobileStagesHaveGait" methodname="AllPosesBelongToTheSelectedAgeAndOnlyMobileStagesHaveGait" classname="IanQA.Tests.GrowthVisualCatalogTests" runstate="Runnable" seed="1314472491" result="Passed" start-time="2026-11-26 11:43:12Z" end-time="2026-11-26 11:43:12Z" duration="0.099448" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1059" name="EveryAgeSelectsOneOfficialStageAndItsOwnAnimationBank" fullname="IanQA.Tests.GrowthVisualCatalogTests.EveryAgeSelectsOneOfficialStageAndItsOwnAnimationBank" methodname="EveryAgeSelectsOneOfficialStageAndItsOwnAnimationBank" classname="IanQA.Tests.GrowthVisualCatalogTests" runstate="Runnable" seed="1188705749" result="Passed" start-time="2026-11-26 11:43:12Z" end-time="2026-11-26 11:43:12Z" duration="0.001692" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1064" name="LocomotionPreservesCrownHeightAndSolePivotAcrossDirections" fullname="IanQA.Tests.GrowthVisualCatalogTests.LocomotionPreservesCrownHeightAndSolePivotAcrossDirections" methodname="LocomotionPreservesCrownHeightAndSolePivotAcrossDirections" classname="IanQA.Tests.GrowthVisualCatalogTests" runstate="Runnable" seed="1565373039" result="Passed" start-time="2026-11-26 11:43:12Z" end-time="2026-11-26 11:43:12Z" duration="0.012398" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-suite type="ParameterizedMethod" id="1063" name="ResidentialClothingSurvivesTheWorldAlphaCut" fullname="IanQA.Tests.GrowthVisualCatalogTests.ResidentialClothingSurvivesTheWorldAlphaCut" classname="IanQA.Tests.GrowthVisualCatalogTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-11-26 11:43:12Z" end-time="2026-11-26 11:43:12Z" duration="0.046722" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1061" name="ResidentialClothingSurvivesTheWorldAlphaCut(&quot;ResidentSleepwear&quot;,6,5)" fullname="IanQA.Tests.GrowthVisualCatalogTests.ResidentialClothingSurvivesTheWorldAlphaCut(&quot;ResidentSleepwear&quot;,6,5)" methodname="ResidentialClothingSurvivesTheWorldAlphaCut" classname="IanQA.Tests.GrowthVisualCatalogTests" runstate="Runnable" seed="374995893" result="Passed" start-time="2026-11-26 11:43:12Z" end-time="2026-11-26 11:43:12Z" duration="0.009736" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1062" name="ResidentialClothingSurvivesTheWorldAlphaCut(&quot;ResidentHomewear&quot;,16,8)" fullname="IanQA.Tests.GrowthVisualCatalogTests.ResidentialClothingSurvivesTheWorldAlphaCut(&quot;ResidentHomewear&quot;,16,8)" methodname="ResidentialClothingSurvivesTheWorldAlphaCut" classname="IanQA.Tests.GrowthVisualCatalogTests" runstate="Runnable" seed="7030343" result="Passed" start-time="2026-11-26 11:43:12Z" end-time="2026-11-26 11:43:12Z" duration="0.034903" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-case id="1060" name="SleepwearAndQuiltRetainTheirAuthoredPixelFrames" fullname="IanQA.Tests.GrowthVisualCatalogTests.SleepwearAndQuiltRetainTheirAuthoredPixelFrames" methodname="SleepwearAndQuiltRetainTheirAuthoredPixelFrames" classname="IanQA.Tests.GrowthVisualCatalogTests" runstate="Runnable" seed="1053655622" result="Passed" start-time="2026-11-26 11:43:12Z" end-time="2026-11-26 11:43:12Z" duration="0.004679" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[<b><color=#2EA3FF>MCP-FOR-UNITY</color></b>: [TestRunnerNoThrottle] Restored Interaction Mode after test run.
+Saving results to: /Users/hyunwol/Library/Application Support/Ian QA/Ian Growth Baseline QA/TestResults.xml
+]]></output>
+            </test-case>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

@@ -85,33 +85,51 @@ namespace IanGame
             seat.standUpAnchor = seat.standUpAnchor ? seat.standUpAnchor : standUp;
             seat.ConfigureSeat(anchor ? (Vector2)anchor.position : obj.Point,
                 approach ? (Vector2)approach.position : obj.Point, facing, seat.Surface ? seat.Surface : obj.visual);
-            if (mode == LifeActionVisual.Seat && seat.Surface)
+            if (chair && !seat.soleAnchor)
+            {
+                // A desk has a separate rendered chair. Use its upholstered seat
+                // and feet for contact, independent of the player's standing height.
+                var bounds = chair.bounds;
+                var hip = new Vector2(bounds.center.x, bounds.min.y + bounds.size.y * .49f);
+                seat.SetSeatContacts(hip, new Vector2(hip.x, bounds.min.y));
+                seat.Surface = chair;
+            }
+            else if (mode == LifeActionVisual.Seat && seat.Surface)
             {
                 FurnitureSeatPose.BindFrontChair(this, seat, seat.Surface);
             }
+        }
+
+        public WorldActivitySlot NearestSeat(Vector2 from)
+        {
+            if (sharedSeats == null)
+            {
+                return seat;
+            }
+
+            WorldActivitySlot selected = null;
+            float nearest = float.PositiveInfinity;
+            foreach (var candidate in sharedSeats)
+            {
+                if (!candidate || !candidate.Allows("player") || !string.IsNullOrEmpty(candidate.Occupant))
+                {
+                    continue;
+                }
+                float distance = (candidate.ApproachPoint - from).sqrMagnitude;
+                if (distance < nearest)
+                {
+                    nearest = distance;
+                    selected = candidate;
+                }
+            }
+            return selected;
         }
 
         bool SelectSeat()
         {
             if (sharedSeats != null)
             {
-                seat = null;
-                float nearest = float.PositiveInfinity;
-                foreach (var candidate in sharedSeats)
-                {
-                    if (!candidate || !candidate.Allows("player") || !string.IsNullOrEmpty(candidate.Occupant))
-                    {
-                        continue;
-                    }
-
-                    float distance = (candidate.ApproachPoint - actor.Position).sqrMagnitude;
-                    if (distance < nearest)
-                    {
-                        nearest = distance;
-                        seat = candidate;
-                    }
-                }
-
+                seat = NearestSeat(actor.Position);
                 if (!seat)
                 {
                     return false;

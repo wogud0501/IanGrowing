@@ -104,8 +104,16 @@ namespace IanGame
         public bool IsBusy => busy || suspended;
         public bool Ready => provider != null && catalog != null;
         public bool EnabledForLife => game != null && game.LifeMode && catalog != null;
+        public const string FinalGrowthMission = "M030";
+        public const int FreeLifeAge = 20;
+        public const int DaysPerFreeLifeYear = 7;
+        public bool FreeLifeMode => game && (game.growth.Age >= FreeLifeAge
+            || state.completedMissionIds.Contains(FinalGrowthMission)
+            || state.claimedMissionIds.Contains(FinalGrowthMission));
+        public MissionData UnclaimedReward => !Ready ? null : catalog.missions.FirstOrDefault(m =>
+            m && state.completedMissionIds.Contains(m.Id) && !Claimed(m.Id));
         public MissionData ActiveMission =>
-            !Ready ? null : catalog.missions.FirstOrDefault(m => m != null && !state.claimedMissionIds.Contains(m.Id));
+            !Ready || FreeLifeMode ? null : catalog.missions.FirstOrDefault(m => m && m.number <= 30 && !Claimed(m.Id));
         public MissionSnapshot State => Capture();
 
         public event Action Changed;
@@ -124,6 +132,7 @@ namespace IanGame
             {
                 game.stats.Changed += Refresh;
                 game.clock.DayChanged += OnDay;
+                game.clock.DayAdvanced += OnFreeLifeDay;
                 game.growth.Changed += Refresh;
                 game.growth.AgeChanged += OnAge;
                 game.economy.Changed += Refresh;
@@ -139,6 +148,7 @@ namespace IanGame
 
             game.stats.Changed -= Refresh;
             game.clock.DayChanged -= OnDay;
+            game.clock.DayAdvanced -= OnFreeLifeDay;
             game.growth.Changed -= Refresh;
             game.growth.AgeChanged -= OnAge;
             game.economy.Changed -= Refresh;
@@ -150,6 +160,20 @@ namespace IanGame
             foreach (var source in sources)
             {
                 source.ActivityProduced -= OnSourceSignal;
+            }
+        }
+
+        void OnFreeLifeDay(int day)
+        {
+            if (!suspended && EnabledForLife && FreeLifeMode)
+            {
+                state.freeLifeDays++;
+                if (state.freeLifeDays >= DaysPerFreeLifeYear)
+                {
+                    state.freeLifeDays = 0;
+                    game.growth.AdvanceFreeLifeYear();
+                }
+                CheckpointRequested?.Invoke();
             }
         }
 
@@ -452,7 +476,7 @@ namespace IanGame
             {
                 status = MissionState.Planned;
             }
-            else if (Prerequisites(mission))
+            else if (!FreeLifeMode && mission.number <= 30 && Prerequisites(mission))
             {
                 status = ActiveMission == mission ? MissionState.InProgress : MissionState.Available;
             }
@@ -552,7 +576,11 @@ namespace IanGame
             Changed?.Invoke();
         }
 
-        public bool ClaimActive() => ActiveMission != null && Claim(ActiveMission.Id);
+        public bool ClaimActive()
+        {
+            var mission = ActiveMission ?? UnclaimedReward;
+            return mission != null && Claim(mission.Id);
+        }
 
         public bool Claim(string id)
         {

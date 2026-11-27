@@ -59,11 +59,11 @@ namespace IanGame
             origin = growth.motor.Position;
             elapsed = 0;
             PlayedCount++;
-            ghost.sprite = prior.idlePreview;
+            ghost.sprite = prior.idlePreview != next.idlePreview ? prior.idlePreview : null;
             ghost.transform.position = (Vector3)origin;
             ghost.transform.localScale = Vector3.one * growth.motor.visualScale;
             ghost.sortingOrder = growth.motor.sprite.sortingOrder - 1;
-            ghost.enabled = true;
+            ghost.enabled = ghost.sprite != null;
             foreach (var mote in motes)
             {
                 mote.enabled = true;
@@ -82,7 +82,7 @@ namespace IanGame
             elapsed += Time.unscaledDeltaTime;
             float f = Mathf.Clamp01(elapsed / .55f);
             ghost.color = new Color(.72f, .81f, .9f, (1 - f) * .4f);
-            ghost.enabled = f < .7f;
+            ghost.enabled = ghost.sprite && f < .7f;
             for (int i = 0; i < motes.Length; i++)
             {
                 float angle = i * Mathf.PI * 2 / motes.Length;

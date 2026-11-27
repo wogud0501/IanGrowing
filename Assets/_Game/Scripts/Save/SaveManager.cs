@@ -776,7 +776,10 @@ namespace IanGame
                     if (header.version == 3)
                     {
                         value.version = 4;
-                        value.missions = new MissionSnapshot { startDay = value.day };
+                        if (!Regex.IsMatch(json, "\"missions\"\\s*:") || value.missions == null)
+                        {
+                            value.missions = new MissionSnapshot { startDay = value.day };
+                        }
                     }
                     else
                     {

@@ -88,7 +88,8 @@ namespace IanGame
                 return;
             }
 
-            if (player.growthVisual != null && player.growthVisual.InBed
+            if (player.growthVisual && player.growthVisual.catalog && player.growthVisual.catalog.growthSheet
+                || player.growthVisual != null && player.growthVisual.InBed
                 && player.growthVisual.ActivePose is "Sit" or "Lie Down" or "Sleep" or "Wake Up")
             {
                 headphone.enabled = false;

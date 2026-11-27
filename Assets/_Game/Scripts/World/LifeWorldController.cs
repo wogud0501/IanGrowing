@@ -318,6 +318,15 @@ namespace IanGame
                         return true;
                     }
 
+                    if (Room && o.id is "city-path" or "alley-path" or "platform" or "bus-stop" or "taxi-rank")
+                    {
+                        var travel = hud.GetComponent<GameplayUXPresenter>();
+                        if (travel && travel.OfferTransport(o))
+                        {
+                            return true;
+                        }
+                    }
+
                     StartCoroutine(DoorTravel(o));
                     return true;
                 case WorldInteractionKind.Fridge:
@@ -1030,6 +1039,49 @@ namespace IanGame
             }
         }
 
+        public IEnumerator WalkToTransit(WorldInteractable stop)
+        {
+            if (!CanControl || !stop || stop.zone != Room.roomId)
+            {
+                yield break;
+            }
+            int generation = restoreGeneration;
+            travelling = true;
+            try
+            {
+                var path = new WorldNPCNavigation().Find(this, Room.roomId, Player.Position, stop.Point);
+                foreach (var waypoint in path)
+                {
+                    if (restoreGeneration != generation || Service.Game.State != GameState.Playing)
+                    {
+                        yield break;
+                    }
+                    yield return StepTo(waypoint);
+                    if (Vector2.Distance(Player.Position, waypoint) > .25f)
+                    {
+                        yield break;
+                    }
+                }
+            }
+            finally
+            {
+                if (generation == restoreGeneration)
+                {
+                    Player.CancelTraversal();
+                    travelling = false;
+                }
+            }
+        }
+
+        public void WalkThrough(WorldInteractable entrance)
+        {
+            if (entrance && CanControl && IsInReach(entrance) && !Busy
+                && (entrance.id == "city-path" || entrance.id == "alley-path"))
+            {
+                StartCoroutine(DoorTravel(entrance));
+            }
+        }
+
         IEnumerator DoorTravel(WorldInteractable portal, string apartment = null)
         {
             travelling = true;
@@ -1121,7 +1173,7 @@ namespace IanGame
                         apartment ?? portal.targetZone,
                         portal.arrival,
                         Player.Facing,
-                        Room.catalog.portals.FirstOrDefault(p => p.doorId == portal.id)?.destinationEntryId ?? ""
+                        Room.catalog.portals.FirstOrDefault(p => p.sourceRoom == portal.zone && p.doorId == portal.id)?.destinationEntryId ?? ""
                     );
                     if (accepted)
                     {

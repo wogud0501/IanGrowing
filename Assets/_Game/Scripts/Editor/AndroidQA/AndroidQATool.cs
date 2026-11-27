@@ -24,13 +24,21 @@ namespace IanGame.Editor
         }
 
         static readonly HashSet<string> Commands = new HashSet<string>(
-            "devices info status reconnect install launch stop restart screenshot record tap swipe long-press key screen performance start end tail search errors crash stack export report smoke regression diagnostics mirror".Split(' '));
+            "devices info status reconnect install launch stop restart screenshot record tap swipe long-press key screen performance start end tail search errors crash stack export report smoke regression diagnostics reward-check background-resume mirror".Split(' '));
 
         public static async Task<object> HandleCommand(JObject parameters)
         {
             try
             {
                 var p = parameters.ToObject<Parameters>();
+                if (p.action == "preflight")
+                {
+                    if (EditorApplication.isCompiling || EditorApplication.isUpdating || EditorUtility.scriptCompilationFailed)
+                    {
+                        throw new InvalidOperationException("Wait for successful script compilation before deploying.");
+                    }
+                    return new { success = true, result = "Editor scripts compiled" };
+                }
                 if (p.action == "build")
                 {
                     AndroidQABuild.Queue();

@@ -18,6 +18,24 @@ namespace IanGame
             sceneScoped
             && residents.Any(r => r.definition.npcId == id && r.actor != null && r.actor.zone == world.Room.roomId);
 
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+        internal string JourneyTrace(string id)
+        {
+            var r = residents.FirstOrDefault(n => n.definition.npcId == id);
+            if (r == null || !r.actor)
+            {
+                return "offscreen";
+            }
+            Vector2 here = r.actor.transform.position;
+            Vector2 goal = r.portal && r.door ? r.door.CrossPoint : r.nextPortal ? r.nextPortal.Point : Destination(r);
+            Vector2 next = r.waypoint < r.path.Count ? r.path[r.waypoint] : goal;
+            var obstacle = WorldNPCNavigation.Obstacle(here, next);
+            string neighbors = string.Join(", ", crowd.Nearby(here).Where(n => n.id != id)
+                .Select(n => n.id + " " + n.position + " " + residents.FirstOrDefault(other => other.definition.npcId == n.id)?.target?.objectId));
+            return $"{Time.unscaledTime:F2}\t{here}\t{r.action}\t{r.target.zone}\t{r.nextPortal?.id}\t{r.portal?.id}\t{r.door?.State}\t{goal}\t{next}\t{r.waypoint}/{r.path.Count}\t{obstacle?.name}\t{r.leavingBed?.id}\t{r.departureSlot?.name}\t{r.interiorDoor?.name}\t{r.blockedSince:F1}\t{neighbors}\t{r.entryDoor?.State} {r.entryDoor?.portal.Point}\t{r.atActivity} {r.target.objectId} {r.anchor?.id}\t{r.active} {world.Busy} {r.pendingAbstract}";
+        }
+#endif
+
         void StartScoped()
         {
             street = world.GetComponentInChildren<WorldStreetLife>();

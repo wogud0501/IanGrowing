@@ -131,7 +131,7 @@ namespace IanGame
             }
 
             int minute = (int)(Game.clock.SubDaySeconds / 60);
-            if (minute != hintMinute && service.GetProgress(service.ActiveMission).state == MissionState.InProgress)
+            if (minute != hintMinute && service.ActiveMission && service.GetProgress(service.ActiveMission).state == MissionState.InProgress)
             {
                 hintMinute = minute;
                 conditionText.text = Game.phase23.Social.IntroductionHint();
@@ -221,11 +221,22 @@ namespace IanGame
                 return;
             }
 
-            var data = service.ActiveMission;
+            if (listPanel && listPanel.activeInHierarchy)
+            {
+                RefreshRows();
+            }
+            if (listButton)
+            {
+                listButton.GetComponentInChildren<TMP_Text>().text = "성장 기록";
+            }
+            var data = service.ActiveMission ?? service.UnclaimedReward;
             if (data == null)
             {
                 showingIntroduction = false;
-                missionTitle.text = "등록된 미션 종료";
+                missionTitle.text = "자유 생활";
+                chapterText.text = "성장 기록";
+                conditionText.text = "성장 미션을 모두 마쳤습니다.";
+                progressText.text = rewardText.text = nextText.text = "";
                 DrawChapter(chapterMarks.Count, chapterMarks.Count);
                 claimButton.interactable = false;
                 actionButton.interactable = false;
@@ -263,7 +274,7 @@ namespace IanGame
             }
 
             var next = service.catalog.missions.FirstOrDefault(m => m.number == data.number + 1);
-            nextText.text = next == null ? "다음: 생애 평가 연동 대기" : "다음: " + next.Id + " " + next.title;
+            nextText.text = next == null || data.number >= 30 ? "자유 생활" : "다음: " + next.Id + " " + next.title;
             claimButton.interactable =
                 p.state == MissionState.Completed && Game != null && Game.State == GameState.Playing && !service.IsBusy;
             bool canAction =
@@ -275,7 +286,7 @@ namespace IanGame
                     : SceneId.School;
             bool travel = GameContext.Instance != null && data.suggestedAction >= 7 && CurrentLocation != destination;
             actionButton.interactable =
-                canAction
+                !service.FreeLifeMode && canAction
                 && Game != null
                 && Game.State == GameState.Playing
                 && (travel || Game.CanPerformAction(data.suggestedAction, out reason));
@@ -314,7 +325,18 @@ namespace IanGame
                         : "할 일을 선택해 준비 조건과 보상을 확인하세요.";
             }
 
-            if (rows.Count != service.catalog.missions.Length && rowPrefab != null && rowContainer != null)
+        }
+
+        void RefreshRows()
+        {
+            if (service == null || !service.Ready)
+            {
+                return;
+            }
+
+            var visible = service.catalog.missions.Where(m => m && (m.number <= 30 || service.Claimed(m.Id)
+                || service.GetProgress(m).state == MissionState.Completed)).ToArray();
+            if (rows.Count != visible.Length && rowPrefab != null && rowContainer != null)
             {
                 foreach (var r in rows)
                 {
@@ -325,7 +347,7 @@ namespace IanGame
                 }
 
                 rows.Clear();
-                foreach (var mission in service.catalog.missions)
+                foreach (var mission in visible)
                 {
                     var r = Instantiate(rowPrefab, rowContainer);
                     r.gameObject.SetActive(true);
@@ -335,7 +357,7 @@ namespace IanGame
 
             for (int i = 0; i < rows.Count; i++)
             {
-                rows[i].Render(service.catalog.missions[i], service.GetProgress(service.catalog.missions[i]), service);
+                rows[i].Render(visible[i], service.GetProgress(visible[i]), service);
             }
         }
 
@@ -343,7 +365,11 @@ namespace IanGame
         {
             if (service != null)
             {
-                service.ClaimActive();
+                var reward = service.ActiveMission ?? service.UnclaimedReward;
+                if (reward)
+                {
+                    service.Claim(reward.Id);
+                }
             }
         }
 
@@ -393,6 +419,11 @@ namespace IanGame
 
         void OnComplete(MissionData data)
         {
+            if (data.Id == MissionService.FinalGrowthMission)
+            {
+                Game.Notifications.Publish("성장 미션을 모두 마쳤습니다. 이제 원하는 대로 살아가세요.", NotificationKind.Info);
+                return;
+            }
             if (Game != null && Game.world != null && Game.world.Active)
             {
                 Game.Notifications.Publish(
@@ -430,7 +461,7 @@ namespace IanGame
 
         public void OpenList()
         {
-            Refresh();
+            RefreshRows();
             var shell = UIShell.For(this);
             if (shell != null)
             {

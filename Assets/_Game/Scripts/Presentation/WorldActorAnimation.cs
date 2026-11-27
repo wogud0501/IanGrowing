@@ -21,6 +21,7 @@ namespace IanGame
         float entered;
         bool finished;
         ActorSpriteClip active;
+        int angle;
 
         public void Face(Vector2 direction)
         {
@@ -30,6 +31,14 @@ namespace IanGame
         public void Play(ActorMotion motion, Vector2 facing, bool restart = false)
         {
             var direction = ActorAnimationSet.Direction(facing, Direction);
+            float ax = Mathf.Abs(facing.x);
+            float ay = Mathf.Abs(facing.y);
+            bool angled = library && library.turnaroundDirections && Mathf.Min(ax, ay) > .4142f * Mathf.Max(ax, ay);
+            angle = angled ? (facing.x < 0 ? -1 : 1) : 0;
+            if (angled)
+            {
+                direction = facing.y < 0 ? ActorDirection.Down : ActorDirection.Up;
+            }
             if (!restart && Motion == motion && Direction == direction && active != null)
             {
                 return;
@@ -90,8 +99,10 @@ namespace IanGame
             }
 
             Frame = index;
-            visual.sprite = active.frames[index];
-            visual.flipX = active.mirror;
+            bool mirrorAngle = angle > 0 && active.mirrorDiagonalRight;
+            var frames = angle < 0 || mirrorAngle ? active.diagonalLeft : angle > 0 ? active.diagonalRight : null;
+            visual.sprite = frames != null && frames.Length == count ? frames[index] : active.frames[index];
+            visual.flipX = active.mirror ^ mirrorAngle;
             return true;
         }
 

@@ -1,0 +1,7 @@
+Environment	Build or editor	Build verification	Player execution	Evidence
+Unity Game View	6000.6.8f1	PASS	PASS	editor-world-results.tsv.gz, editor-fares.tsv
+Android physical	SM-F976N; Android 17; Development APK	PASS	PASS	Android build report: 0 errors; device installed identical APK SHA-256 518806798a5e69f87522ca967090aa34905e350b7ba943c83a4deea72cd54599; android-resume-log.tsv
+macOS native	Apple Silicon; Development player	PASS	PASS	mac-world-results.tsv.gz, mac-fares.tsv
+iOS simulator	iPhone 17; iOS 27.2; arm64 simulator player	PASS	PASS	Xcode build succeeded; ios-world-results.tsv.gz, ios-fares.tsv
+Windows x64	Development player; cross-build on macOS	PASS	NOT VERIFIED	Unity build report succeeded; no Windows runtime available
+iPhone physical	No connected physical iPhone	NOT VERIFIED	BLOCKED	Physical iPhone unavailable

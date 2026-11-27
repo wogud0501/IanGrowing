@@ -66,8 +66,8 @@ namespace IanGame.Editor
             check(W.Room.roomId == "family-ian-bedroom", "Actual newborn begins in separate family nursery");
             var catalog = W.Player.growthVisual?.catalog;
             check(
-                catalog != null && catalog.profiles.Length == 9,
-                "Nine authored visual profiles bound to real player"
+                catalog != null && catalog.profiles.Length == 20,
+                "Every authored visual stage is bound to the player"
             );
             if (mode == "roomVisualGrowthCare")
             {
@@ -121,8 +121,7 @@ namespace IanGame.Editor
             float constantScale = W.Player.visualScale;
             var rows = new List<string>();
             var textures = new HashSet<Texture2D>();
-            int[] ages = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 10, 11, 13, 14, 16, 17, 18, 19 };
-            foreach (int age in ages)
+            foreach (int age in GrowthQAScenarios.SampleAges(catalog))
             {
                 yield return Age(g, age);
                 var p = W.Player.growthVisual.Current;
@@ -148,8 +147,8 @@ namespace IanGame.Editor
                 check(
                     W.Player.sprite.enabled
                         && W.Player.sprite.sprite != null
-                        && W.Player.sprite.sprite.texture == p.idlePreview.texture,
-                    "Real player renders this age's own texture " + age
+                        && W.Player.advanced.library == p.animations,
+                    "Real player uses the official bank for age " + age
                 );
                 check(!new ResidenceAccess(g).IsActiveResidence, "No forced independence even at age " + age);
                 textures.Add(p.idlePreview.texture);
@@ -167,9 +166,8 @@ namespace IanGame.Editor
                 if (age == 0)
                 {
                     check(
-                        p.animations.Find(ActorMotion.Walk, ActorDirection.Down, false) == null
-                            && !W.Player.MovementAllowed,
-                        "Newborn has no authored adult walk"
+                        !W.Player.MovementAllowed && W.Player.advanced.Motion != ActorMotion.Walk,
+                        "Newborn cannot walk"
                     );
                     var at = W.Player.Position;
                     W.Player.BeginTraversal(at + Vector2.right);
@@ -203,9 +201,9 @@ namespace IanGame.Editor
                 yield return Shot("Age-" + age.ToString("00") + "-" + p.id);
             }
 
-            check(textures.Count == 9, "Nine distinct texture sources, adult source retained");
+            check(textures.Count == catalog.profiles.Length, "Official Ian art at all ages");
             File.WriteAllLines("Docs/AgeGrowth/AGE_METRICS.txt", rows);
-            foreach (int age in new[] { 1, 3, 5, 8, 11, 14, 17, 19 })
+            foreach (int age in catalog.profiles.Select(profile => profile.minAge).Where(a => a >= LifeProgression.WalkingAge))
             {
                 yield return Age(g, age);
                 var actor = W.Player;
@@ -311,14 +309,19 @@ namespace IanGame.Editor
             var root = new GameObject("QA-only age comparison");
             var center = (Vector2)W.follow.target.transform.position;
             var font = W.hud.GetComponentsInChildren<TMPro.TMP_Text>(true).First(t => t.font != null).font;
-            var previews = new List<Sprite>();
             var previewMaterials = new List<Material>();
             var game = GameContext.Instance.game;
             var originalGrowth = game.growth.Capture();
             bool shadow = W.Player.contactShadow.enabled;
             try
             {
-                for (int i = 0; i < 9; i++)
+                const int columns = 5;
+                int rows = Mathf.CeilToInt(catalog.profiles.Length / (float)columns);
+                float viewport = W.follow.target.orthographicSize * 2;
+                float cellHeight = viewport * .84f / rows;
+                float cellWidth = viewport * W.follow.target.aspect * .9f / columns;
+                float display = Mathf.Min(1f, cellHeight * .78f / catalog.profiles.Max(p => p.height));
+                for (int i = 0; i < catalog.profiles.Length; i++)
                 {
                     var p = catalog.profiles[i];
                     yield return Age(game, p.minAge);
@@ -328,7 +331,8 @@ namespace IanGame.Editor
                     var original = W.Player.sprite;
                     var o = new GameObject(p.id, typeof(SpriteRenderer));
                     o.transform.SetParent(root.transform);
-                    o.transform.position = center + new Vector2(-4 + i, 0);
+                    o.transform.position = center + new Vector2((i % columns - (columns - 1) * .5f) * cellWidth,
+                        ((rows - 1) * .5f - i / columns - .32f) * cellHeight);
                     var s = o.GetComponent<SpriteRenderer>();
                     s.sprite = original.sprite;
                     var material = new Material(original.sharedMaterial);
@@ -339,7 +343,7 @@ namespace IanGame.Editor
                     s.flipY = original.flipY;
                     s.color = original.color;
                     s.sortingOrder = 3000 + i;
-                    o.transform.localScale = original.transform.lossyScale;
+                    o.transform.localScale = original.transform.lossyScale * display;
                     var label = new GameObject("Age label", typeof(TMPro.TextMeshPro));
                     label.transform.SetParent(root.transform);
                     label.transform.position = o.transform.position + Vector3.down * .32f;
@@ -350,8 +354,8 @@ namespace IanGame.Editor
                     text.text =
                         p.minAge
                         + (
-                            i == 8 ? "+"
-                            : i == 0 ? ""
+                            p.maxAge == int.MaxValue ? "+"
+                            : p.minAge == p.maxAge ? ""
                             : "–" + p.maxAge
                         );
                     text.GetComponent<MeshRenderer>().sortingOrder = 3001;
@@ -359,18 +363,13 @@ namespace IanGame.Editor
 
                 W.Player.sprite.enabled = false;
                 W.Player.contactShadow.enabled = false;
-                yield return Shot("Nine-stage-live-preview");
+                yield return Shot("Official-growth-live-preview");
             }
             finally
             {
                 W.Player.sprite.enabled = true;
                 W.Player.contactShadow.enabled = shadow;
                 UnityEngine.Object.Destroy(root);
-                foreach (var sprite in previews)
-                {
-                    UnityEngine.Object.Destroy(sprite);
-                }
-
                 foreach (var material in previewMaterials)
                 {
                     UnityEngine.Object.Destroy(material);
@@ -434,7 +433,7 @@ namespace IanGame.Editor
                 check(
                     !W.Busy
                         && own
-                        && frames.Count == 2
+                        && frames.Count >= 2
                         && (age == 0 ? g.stats.Hunger : g.stats.Thirst) > 40
                         && W.CanControl,
                     "Correct own-age care frames, actual stat effect and input restored " + age
@@ -497,7 +496,7 @@ namespace IanGame.Editor
                             own &=
                                 W.Player.sprite.enabled
                                 && !a.overlay.enabled
-                                && W.Player.sprite.sprite.texture == W.Player.growthVisual.Current.idlePreview.texture;
+                                && W.Player.advanced.library == W.Player.growthVisual.Current.animations;
                             if (frames.Count == 2)
                             {
                                 yield return Shot("Sleep-" + age);
@@ -755,7 +754,7 @@ namespace IanGame.Editor
                             own &=
                                 W.Player.sprite.enabled
                                 && !a.overlay.enabled
-                                && W.Player.sprite.sprite.texture == W.Player.growthVisual.Current.idlePreview.texture;
+                                && W.Player.advanced.library == W.Player.growthVisual.Current.animations;
                         }
 
                         if (!shot && W.Player.advanced.Frame == 1)

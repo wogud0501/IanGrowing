@@ -110,6 +110,18 @@ namespace IanGame
             Changed?.Invoke();
         }
 
+        internal void AdvanceFreeLifeYear()
+        {
+            if (Age == int.MaxValue)
+            {
+                return;
+            }
+            int previous = Age;
+            state.age++;
+            NotifyAge(previous);
+            Changed?.Invoke();
+        }
+
         public void ResetLife()
         {
             Restore(new ProgressSnapshot());

@@ -24,6 +24,9 @@ namespace IanGame
         SpriteRenderer rightHand;
         WorldPlayerMotor player;
         Transform bedside;
+        Vector3 standingPosition;
+        Quaternion standingRotation;
+        Vector3 standingScale;
         float entry;
         float recline;
         float coverage;
@@ -53,6 +56,13 @@ namespace IanGame
 
         public void PlayerPose(WorldPlayerMotor motor, Transform sit, float lean, float approach, bool asleep)
         {
+            if (player != motor)
+            {
+                var visual = motor.sprite.transform;
+                standingPosition = visual.localPosition;
+                standingRotation = visual.localRotation;
+                standingScale = visual.localScale;
+            }
             player = motor;
             sleeper = motor.sprite;
             bedside = sit;
@@ -89,6 +99,10 @@ namespace IanGame
             }
             if (player)
             {
+                var visual = player.sprite.transform;
+                visual.localPosition = standingPosition;
+                visual.localRotation = standingRotation;
+                visual.localScale = standingScale;
                 player.bodyVisual.localPosition = Vector3.zero;
                 player.bodyVisual.localRotation = Quaternion.identity;
                 player.bodyVisual.localScale = Vector3.one * player.visualScale;
@@ -164,10 +178,13 @@ namespace IanGame
                     sleeper.forceRenderingOff = true;
                     Place(body, SleepwearFrames.ResidentPose(residentColumn, pose), residentHeight, bounds, foot);
                 }
-                else if (player && player.growthVisual.Current.stage != VisualGrowthStage.Newborn)
+                else if (player && player.growthVisual.Current != null)
                 {
                     var profile = player.growthVisual.Current;
-                    Place(body, SleepwearFrames.Pose(profile.stage, pose), profile.height * .9f, bounds, foot);
+                    var clip = profile.animations.Find(ActorMotion.LieDown, ActorDirection.Down);
+                    int phase = recline < .30f ? 0 : recline < .74f ? 1 : 2;
+                    var frame = clip.frames[Mathf.Min(clip.frames.Length - 1, phase)];
+                    Place(body, frame, profile.height * .9f, bounds, foot);
                 }
 
                 var torso = body.sprite.bounds;
@@ -191,7 +208,10 @@ namespace IanGame
                 ? Mathf.Max(mattress.sortingOrder + 3, sleeper.sortingOrder + 2)
                 : mattress.sortingOrder + 1;
             cloth.color = mattress.color;
-            Hands(occupied && coverage > .008f && coverage < .995f, bounds, top, width);
+            float reach = Mathf.SmoothStep(0, 1, Mathf.InverseLerp(.76f, 1, recline));
+            float release = Mathf.SmoothStep(0, 1, Mathf.InverseLerp(.82f, 1, coverage));
+            Hands(occupied && reach > .001f && release < .999f, bounds,
+                Mathf.Lerp(folded + (chest - folded) * .7f, top, reach), width, reach * (1 - release));
         }
 
         void Place(SpriteRenderer body, Sprite sprite, float height, Bounds bed, float foot)
@@ -216,7 +236,8 @@ namespace IanGame
 
             var pillow = pillowAnchor ? mattress.transform.InverseTransformPoint(pillowAnchor.position)
                 : new Vector3(bed.center.x, bed.min.y + bed.size.y * .84f, 0);
-            var lying = pillow - Vector3.up * (h / Mathf.Abs(mattress.transform.lossyScale.y));
+            float headAbovePivot = (sprite.bounds.max.y - sprite.bounds.size.y * .10f) * factor;
+            var lying = pillow - Vector3.up * (headAbovePivot / Mathf.Abs(mattress.transform.lossyScale.y));
             if (atRest)
             {
                 lying.y += Mathf.Sin(Time.time * 1.64f) * bed.size.y * .002f;
@@ -227,7 +248,7 @@ namespace IanGame
             body.transform.position = Vector3.Lerp(start, contact, entry);
         }
 
-        void Hands(bool gripping, Bounds bed, float hem, float width)
+        void Hands(bool gripping, Bounds bed, float hem, float width, float grip)
         {
             if (gripping && !leftHand)
             {
@@ -252,7 +273,9 @@ namespace IanGame
                 rightHand.transform.localPosition = new Vector3(bed.center.x + spread, hem, 0);
                 leftHand.transform.localScale = rightHand.transform.localScale = Vector3.one * width * .095f;
                 leftHand.sortingOrder = rightHand.sortingOrder = cloth.sortingOrder + 1;
-                leftHand.color = rightHand.color = mattress.color;
+                var tint = mattress.color;
+                tint.a *= grip;
+                leftHand.color = rightHand.color = tint;
             }
         }
 

@@ -33,7 +33,8 @@ namespace IanGame
             bool familyRoom = FamilyLife.Parent(resident.npcId) && entry.zone.StartsWith("family-");
             if (RequiresAnchor(entry.action) && string.IsNullOrEmpty(entry.objectId))
             {
-                return resident.ambient && atHome && entry.action == NPCDailyAction.Sleep;
+                return resident.ambient && string.IsNullOrEmpty(resident.residentBedId)
+                    && atHome && entry.action == NPCDailyAction.Sleep;
             }
 
             return entry.action switch

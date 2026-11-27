@@ -17,25 +17,28 @@ namespace IanQA.Tests
         static object Field(object o, string name) => o.GetType().GetField(name).GetValue(o);
 
         [Test]
-        public void EveryAgeHasExactlyOneVisualProfileAndOriginalAdultRemainsDistinct()
+        public void EveryAgeSelectsOneOfficialStageAndItsOwnAnimationBank()
         {
             var catalog = Catalog;
-            Assert.NotNull(catalog);
             var profiles = ((IEnumerable)Field(catalog, "profiles")).Cast<object>().ToArray();
-            Assert.AreEqual(11, profiles.Length);
-            for (int age = 0; age <= 120; age++)
+            int[] starts = { 0, 1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 22, 26, 30, 35, 40, 45, 50, 55, 65 };
+            Assert.AreEqual(starts.Length, profiles.Length);
+            Assert.NotNull(Field(catalog, "growthSheet"));
+            Assert.AreEqual(profiles.Length, profiles.Select(p => Field(p, "animations")).Distinct().Count());
+            for (int i = 0; i < starts.Length; i++)
             {
-                var matches = profiles
-                    .Where(p => age >= (int)Field(p, "minAge") && age <= (int)Field(p, "maxAge"))
-                    .ToArray();
-                Assert.AreEqual(1, matches.Length, "Age " + age);
-                Assert.AreSame(matches[0], catalog.GetType().GetMethod("AtAge").Invoke(catalog, new object[] { age }));
+                var profile = profiles[i];
+                string id = $"S{i + 1:D2}";
+                int max = i == starts.Length - 1 ? int.MaxValue : starts[i + 1] - 1;
+                Assert.AreEqual(starts[i], Field(profile, "minAge"));
+                Assert.AreEqual(max, Field(profile, "maxAge"));
+                Assert.AreEqual(id, Field(profile, "id"));
+                Assert.AreEqual("Ian_" + id, ((Sprite)Field(profile, "idlePreview")).name);
+                foreach (int age in new[] { starts[i], starts[i] + (max - starts[i]) / 2, max })
+                {
+                    Assert.AreSame(profile, catalog.GetType().GetMethod("AtAge").Invoke(catalog, new object[] { age }));
+                }
             }
-
-            Assert.AreEqual(11, profiles.Select(p => ((Sprite)Field(p, "idlePreview")).texture).Distinct().Count());
-            Assert.AreEqual(19, (int)Field(profiles[8], "minAge"));
-            Assert.AreEqual(30, (int)Field(profiles[9], "minAge"));
-            Assert.AreEqual(60, (int)Field(profiles[10], "minAge"));
         }
 
         [Test]
@@ -103,33 +106,56 @@ namespace IanQA.Tests
         }
 
         [Test]
-        public void InfantNeverContainsLocomotionAndAllAgeBanksHaveRealFrames()
+        public void LocomotionPreservesCrownHeightAndSolePivotAcrossDirections()
         {
-            var profiles = ((IEnumerable)Field(Catalog, "profiles")).Cast<object>().ToArray();
-            for (int i = 0; i < profiles.Length; i++)
+            foreach (object profile in ((IEnumerable)Field(Catalog, "profiles")).Cast<object>())
             {
-                var bank = Field(profiles[i], "animations");
-                var clips = ((IEnumerable)Field(bank, "clips")).Cast<object>().ToArray();
+                var preview = (Sprite)Field(profile, "idlePreview");
+                var clips = ((IEnumerable)Field(Field(profile, "animations"), "clips")).Cast<object>();
+                foreach (object clip in clips)
+                {
+                    string motion = Field(clip, "motion").ToString();
+                    if (motion is not ("Idle" or "Walk" or "Run" or "Turn" or "Stop"))
+                    {
+                        continue;
+                    }
+                    var frames = (Sprite[])Field(clip, "frames");
+                    Assert.AreEqual(motion is "Walk" or "Run" ? 6 : 2, frames.Length);
+                    var left = (Sprite[])Field(clip, "diagonalLeft") ?? Array.Empty<Sprite>();
+                    var right = (Sprite[])Field(clip, "diagonalRight") ?? Array.Empty<Sprite>();
+                    foreach (var sprite in frames.Concat(left).Concat(right))
+                    {
+                        Assert.IsTrue(sprite == preview || sprite.texture.name == preview.name + "_Motion", sprite.name);
+                        Assert.AreEqual(preview.rect.height, sprite.rect.height, sprite.name);
+                        Assert.AreEqual(preview.pixelsPerUnit, sprite.pixelsPerUnit, sprite.name);
+                        Assert.AreEqual(preview.pivot.y, sprite.pivot.y, .01f, sprite.name);
+                    }
+                }
+            }
+        }
+
+        [Test]
+        public void AllPosesBelongToTheSelectedAgeAndOnlyMobileStagesHaveGait()
+        {
+            foreach (var profile in ((IEnumerable)Field(Catalog, "profiles")).Cast<object>())
+            {
+                var idle = (Sprite)Field(profile, "idlePreview");
+                var clips = ((IEnumerable)Field(Field(profile, "animations"), "clips")).Cast<object>().ToArray();
                 foreach (var clip in clips)
                 {
                     var frames = (Sprite[])Field(clip, "frames");
-                    Assert.Greater(frames.Length, 1);
-                    Assert.IsTrue(frames.All(s => s != null));
+                    Assert.That(frames.Length, Is.GreaterThan(1));
+                    Assert.IsTrue(frames.All(s => s && (s == idle || s.texture.name == idle.name + "_Motion")));
                 }
-
-                if (i == 0)
+                var walks = clips.Where(c => Field(c, "motion").ToString() == "Walk").ToArray();
+                Assert.AreEqual((int)Field(profile, "minAge") == 0 ? 0 : 4, walks.Length);
+                foreach (var walk in walks)
                 {
-                    Assert.IsFalse(clips.Any(c => new[] { "Walk", "Run" }.Contains(Field(c, "motion").ToString())));
-                }
-                else
-                {
-                    foreach (string direction in new[] { "Down", "Up", "Left", "Right" })
+                    Assert.AreEqual(6, ((Sprite[])Field(walk, "frames")).Distinct().Count());
+                    if (Field(walk, "direction").ToString() is "Down" or "Up")
                     {
-                        Assert.IsTrue(
-                            clips.Any(c =>
-                                Field(c, "motion").ToString() == "Walk" && Field(c, "direction").ToString() == direction
-                            )
-                        );
+                        Assert.AreEqual(6, ((Sprite[])Field(walk, "diagonalLeft")).Distinct().Count());
+                        Assert.IsTrue((bool)Field(walk, "mirrorDiagonalRight"));
                     }
                 }
             }

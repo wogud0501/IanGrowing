@@ -34,6 +34,8 @@ namespace IanGame
         RoomFinance,
         RoomRealEstate,
         RoomResidence,
+        RoomStationAlley,
+        RoomStationCity,
     }
 
     [Serializable]

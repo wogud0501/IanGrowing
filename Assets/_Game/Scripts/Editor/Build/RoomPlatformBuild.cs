@@ -58,15 +58,7 @@ namespace IanGame.Editor
                 Directory.CreateDirectory("Builds/SceneArchitecture");
                 try
                 {
-                    var result = BuildPipeline.BuildPlayer(
-                        new BuildPlayerOptions
-                        {
-                            scenes = EditorBuildSettings.scenes.Where(s => s.enabled).Select(s => s.path).ToArray(),
-                            locationPathName = "Builds/SceneArchitecture/Ian-Rooms-Development.apk",
-                            target = BuildTarget.Android,
-                            options = BuildOptions.Development | BuildOptions.CompressWithLz4,
-                        }
-                    );
+                    var result = BuildDevelopmentApk("Builds/SceneArchitecture/Ian-Rooms-Development.apk");
                     File.WriteAllText(
                         "Docs/SceneArchitecture/ANDROID_BUILD.txt",
                         $"UTC {DateTime.UtcNow:O}\nResult {result.summary.result}\nErrors {result.summary.totalErrors}\nWarnings {result.summary.totalWarnings}\nBytes {result.summary.totalSize}\nDuration {result.summary.totalTime}\nScenes {EditorBuildSettings.scenes.Count(s => s.enabled)}\n"
@@ -91,6 +83,17 @@ namespace IanGame.Editor
                     "Editor target restored: " + EditorUserBuildSettings.activeBuildTarget + "\n"
                 );
             }
+        }
+
+        internal static BuildReport BuildDevelopmentApk(string output, BuildOptions additional = BuildOptions.None)
+        {
+            return BuildPipeline.BuildPlayer(new BuildPlayerOptions
+            {
+                target = BuildTarget.Android,
+                scenes = EditorBuildSettings.scenes.Where(scene => scene.enabled).Select(scene => scene.path).ToArray(),
+                locationPathName = output,
+                options = BuildOptions.Development | BuildOptions.CompressWithLz4 | additional
+            });
         }
 
         static void Restore()

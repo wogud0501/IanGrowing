@@ -172,9 +172,14 @@ namespace IanGame
         {
             if (definition.ambient && world.Room.roomId == definition.homeZone)
             {
-                return false;
+                return !string.IsNullOrEmpty(definition.residentBedId);
             }
 
+            if (definition.ambient && !string.IsNullOrEmpty(definition.residentBedId)
+                && world.Service.State.residents.Exists(r => r.id == definition.npcId && r.passingRoom == world.Room.roomId))
+            {
+                return true;
+            }
             return !definition.ambient || lifeProfile == null || admittedAmbient.Contains(definition.npcId);
         }
 

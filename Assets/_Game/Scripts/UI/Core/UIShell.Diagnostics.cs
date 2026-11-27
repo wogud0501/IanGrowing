@@ -130,7 +130,7 @@ namespace IanGame
         {
             reports = Recorder.Store.List();
             diagnosticStatus.text = status ?? Recorder.Store.Failure ??
-                ("오류 기록은 이 기기에 저장되며 개발사로 자동 전송되지 않습니다.\n최근 보고서 " + reports.Count + "개");
+                ((IanCloudErrorReporter.Active ? "등록된 내부 개발 기기입니다. 실행 오류는 개발자 비공개 저장소에 전송됩니다." : "오류 기록은 이 기기에 저장되며 개발사로 자동 전송되지 않습니다.") + "\n최근 보고서 " + reports.Count + "개");
             diagnosticPage = Mathf.Clamp(diagnosticPage, 0, Mathf.Max(0, (reports.Count - 1) / diagnosticRows.Length));
             previousReports.interactable = diagnosticPage > 0;
             nextReports.interactable = (diagnosticPage + 1) * diagnosticRows.Length < reports.Count;
